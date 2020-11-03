@@ -1,0 +1,77 @@
+
+executing thomas_crazy_program
+================================
+checking block list definition...
+--------------------------------
+ok
+
+program validity...
+--------------------------------
+ok
+ - 0.707 s - 
+
+typechecking...
+--------------------------------
+ok
+ - 0.272 s - 
+
+state checking/generation...
+--------------------------------
+ok
+ - 0.030 s - 
+
+executing...
+--------------------------------
+input validation starts
+done
+
+preprocessing starts
+done
+ - 1.131 s - 
+
+execution starts
+!!!!!!!!!!!!!!!!!!!!done
+done
+ - 9.824 s - 
+
+reversing observations
+done
+ok
+ exec total: - 10.965 s - 
+
+
+================================
+result:
+================================
+
+
+ol = []
+
+n = 18
+
+s2 = <|bst_pc := <|bpc_label := BL_Address (Imm32 4352w); bpc_index := 3|>;
+  bst_environ :=
+    BEnv
+      (λy. NONE)⦇
+        "state.alice.step" ↦ SOME (BVal_Imm (Imm32 1w));
+        "state.alice.hunger" ↦ SOME (BVal_Imm (Imm32 26w));
+        "state.alice.stamina" ↦ SOME (BVal_Imm (Imm32 20w));
+        "state.bob.fun" ↦ SOME (BVal_Imm (Imm32 0w));
+        "state.bob.stamina" ↦ SOME (BVal_Imm (Imm32 0w));
+        "state.bob.step" ↦ SOME (BVal_Imm (Imm32 0w));
+        "state.alice.hunger" ↦ SOME (BVal_Imm (Imm32 24w));
+        "state.alice.stamina" ↦ SOME (BVal_Imm (Imm32 0w));
+        "state.alice.step" ↦ SOME (BVal_Imm (Imm32 0w));
+        "oracle" ↦ SOME (BVal_Imm (Imm32 0w));
+        "state.bob.fun" ↦ SOME (BVal_Imm (Imm32 0w));
+        "state.bob.stamina" ↦ SOME (BVal_Imm (Imm32 0w));
+        "state.bob.step" ↦ SOME (BVal_Imm (Imm32 0w));
+        "state.alice.hunger" ↦ SOME (BVal_Imm (Imm32 0w));
+        "state.alice.stamina" ↦ SOME (BVal_Imm (Imm32 0w));
+        "state.alice.step" ↦ SOME (BVal_Imm (Imm32 0w))
+      ⦈; bst_status := BST_Halted (BVal_Imm (Imm32 0w))|>
+
+================================
+done
+================================
+

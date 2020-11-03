@@ -1,0 +1,45 @@
+digraph {
+    # Nodes
+    {
+        ## theory
+        node[style="filled" fillcolor="#ffddaa"];
+        theory_bir[label="theory/bir"];
+        theory_bir_support[label="theory/bir-support"];
+
+        theory_wp[label="theory/tools/wp"];
+        theory_models[label="theory/models"];
+        theory_lifter[label="theory/tools/lifter"];
+
+        ## Tools
+        node[style="filled" fillcolor="#ccccff"];
+        wp[label="tools/wp"];
+        exec[label="tools/exec"];
+        lifter[label="tools/lifter"];
+        cfg[label="tools/cfg"];
+        pass[label="tools/pass"];
+        scamv[label="tools/scamv"];
+    }
+
+    ## We should not create other nodes after here
+    node[style="filled,bold" fillcolor="red"];
+
+    # SML/HOL4 dependencies
+    {
+        edge[dir="back" color="darkblue"];
+
+        ## theory
+        theory_bir -> theory_bir_support;
+        theory_models -> theory_lifter;
+        theory_bir_support -> theory_models;
+        theory_bir_support -> theory_wp;
+
+        ## Tools
+        theory_lifter -> lifter;
+        theory_bir_support -> exec;
+        theory_bir_support -> cfg;
+        theory_bir_support -> pass;
+        theory_wp -> wp;
+        exec -> scamv;
+        lifter -> scamv;
+    }
+}
