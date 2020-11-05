@@ -8,19 +8,27 @@ in (* outermost local *)
 
 (*open bir_envTheory;
 open bir_valuesTheory;*)
-     
+  (*Define Crypto Term*)   
 datatype crypto_term =
+(*Base Type*)
 	 BT of (term) |
+(*Names*)
 	 NM of (string) |
+(*Constructs a variable of given name and crypto term*)
 	 MK of (string * crypto_term) |
+(*Crypto values*)
 	 Cval of (term) |
+(*Crypto variable*)
 	 Cvar of (crypto_term);(* |
          SCT of (term Redblackset.set) |
 	 Var of (bir_var_t) |
 	 Val of (bir_val_t);*)
-	 
+
+(*Check equality of crypto terms*)
 fun fast_term_eq (t1:crypto_term) (t2:crypto_term) = Portable.pointer_eq (t1,t2);
 
+
+(*Compare two crypto terms but it is not consider all cases yet*)   
 fun compare (p as (t1,t2)) =
     if fast_term_eq t1 t2 then EQUAL else
     case p of
@@ -49,7 +57,7 @@ fun compare (p as (t1,t2)) =
     | (Abs _, _)             => GREATER;*)
 
 
-(* symbolic values *)
+(* symbolic values that give crypto term to Redblackset*)
 datatype symb_value =
     SymbValBE       of (term * crypto_term Redblackset.set)
   | SymbValInterval of ((term * term) * crypto_term Redblackset.set)
@@ -104,13 +112,14 @@ fun symbv_to_string symbv = symbv_to_string_raw symbvdebugOn symbv;
 datatype symb_state =
   SymbState of {
       SYST_pc     : term,
+      (*Change environment with crypto terms*)	 
       SYST_env    : (crypto_term, crypto_term) Redblackmap.dict,
       SYST_status : term,
       (* symbolic observation list: id, condition, value list, aggregation function *)
       SYST_obss   : (Arbnum.num * term * term list * term) list,
       (* path condition conjuncts *)
       SYST_pred   : crypto_term list,
-      (* abstracted symbolic values for some "fresh" variables *)
+      (* abstracted symbolic values for some "fresh" crypto variables *)
       SYST_vals   : (crypto_term, symb_value) Redblackmap.dict
     };
 
@@ -189,25 +198,26 @@ fun SYST_update_vals vals' (SymbState systr) =
 fun state_is_running syst =
     identical (SYST_get_status syst) BST_Running_tm;
     
-(*dest_BVar for crypto term*) 
+(*dest_BVar for crypto term that I am not sure about definition because did not find origin definition of dest_BVar *)
 fun dest_BVar_Crypto ct = let
   val (ct1:crypto_term) = ct;
 in
   (ct1, ct1)
 end;
 		       
+(*Convert crypto term to string*)
 fun crypto2string (NM v) = v
   | crypto2string _ = raise ERR "crypto2string" "not a string";
 		       
 	      
-(*dest_BVar_string for crypto term*)
+(*dest_BVar_string for crypto term that I found its definition from related files*)
 fun dest_BVar_string_Crypto tm = let
   val (ntm:crypto_term, ty_tm:crypto_term) = dest_BVar_Crypto tm;
 in
   (crypto2string ntm, ty_tm)
 end;
 
-
+(*Constructs a variable of given name and crypto term*)
 val mk_BVar_string_Crypto = MK;   
 
 (* fresh variables and initial state variables *)
@@ -264,10 +274,12 @@ in
                 | 16 => BType_Imm16_tm
                 | 32 => BType_Imm32_tm
                 | _  => raise ERR "get_symbv_bexp_free_sz" ("cannot handle size " ^ (Int.toString ty_sz));
+(*Convert term value ty to crypto term value ty1*)
       val ty1 = Cval ty;
       val bv_fr = get_bvar_fresh (mk_BVar_string_Crypto (varstr, ty1));
       val deps = Redblackset.add (symbvalbe_dep_empty, bv_fr);
-	  val Cbden = Cvar;
+(*Consider crypto variables by Cbden*)
+      val Cbden = Cvar;
     in
       (Cbden (bv_fr), deps)
     end;
