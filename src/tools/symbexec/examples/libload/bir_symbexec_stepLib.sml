@@ -12,12 +12,28 @@ in (* outermost local *)
 (* execution of a basic statement *)
 local
   (* basic statement execution functions *)
-  (*
-  val syst = init_state prog_vars;
+(* val prog_vars =
+   [“BVar "R11" (BType_Imm Bit32)”, “BVar "R10" (BType_Imm Bit32)”,
+    “BVar "tmp_PSR_C" BType_Bool”, “BVar "R12" (BType_Imm Bit32)”,
+    “BVar "R9" (BType_Imm Bit32)”, “BVar "R8" (BType_Imm Bit32)”,
+    “BVar "R6" (BType_Imm Bit32)”, “BVar "tmp_R1" (BType_Imm Bit32)”,
+    “BVar "R5" (BType_Imm Bit32)”, “BVar "tmp_PC" (BType_Imm Bit32)”,
+    “BVar "ModeHandler" BType_Bool”, “BVar "tmp_R3" (BType_Imm Bit32)”,
+    “BVar "tmp_R2" (BType_Imm Bit32)”, “BVar "R3" (BType_Imm Bit32)”,
+    “BVar "R2" (BType_Imm Bit32)”, “BVar "R1" (BType_Imm Bit32)”,
+    “BVar "R0" (BType_Imm Bit32)”, “BVar "PSR_V" BType_Bool”,
+    “BVar "PSR_C" BType_Bool”, “BVar "PSR_Z" BType_Bool”,
+    “BVar "PSR_N" BType_Bool”, “BVar "LR" (BType_Imm Bit32)”,
+    “BVar "R7" (BType_Imm Bit32)”, “BVar "R4" (BType_Imm Bit32)”,
+    “BVar "MEM" (BType_Mem Bit32 Bit8)”,
+    “BVar "tmp_SP_process" (BType_Imm Bit32)”,
+    “BVar "SP_process" (BType_Imm Bit32)”, “BVar "countw" (BType_Imm Bit64)”];
+  val lbl_tm = “BL_Address (Imm32 3076w)”;
+  val syst = init_state lbl_tm prog_vars;
   val SymbState systr = syst;
   val s = ``BStmt_Assign (BVar "R5" (BType_Imm Bit32)) (BExp_Den (BVar "R4" (BType_Imm Bit32)))``;
-  val (bv, be) = dest_BStmt_Assign s
-  *)
+  val (bv, be) = dest_BStmt_Assign s;*)
+  
   (* TODO: this branching can be considered a hack because of
            the way that countw is assigned to for conditional branches *)
   val bv_countw = bir_envSyntax.mk_BVar_string ("countw", ``(BType_Imm Bit64)``);
@@ -104,18 +120,36 @@ end (* local *)
 
 (* execution of an end statement *)
 local
-  val jmp_label_match_tm = ``BStmt_Jmp (BLE_Label xyz)``;
-  fun state_exec_try_jmp_label est syst =
+  (*  val est = `` BStmt_Jmp (BLE_Label (BL_Address (Imm32 3080w)))``;*)
+    val jmp_label_match_tm = ``BStmt_Jmp (BLE_Label xyz)``;
+    fun state_exec_try_jmp_label est syst =
     SOME (
     let
+	(*old code*)
       val (vs, _) = hol88Lib.match jmp_label_match_tm est;
-      val tgt     = (fst o hd) vs;
+      val tgt1     = (fst o hd) vs;
+	(*adversary code*)
+      val pc = SYST_get_pc syst;
+      val wpc = (bir_immSyntax.dest_Imm32 o dest_BL_Address) pc;
+      val incpc = (rhs o concl o EVAL o wordsSyntax.mk_word_add) (wpc,``4w:word32``);
+      val tgt2 = (mk_BL_Address o bir_immSyntax.mk_Imm32) incpc;
     in
-      [SYST_update_pc tgt syst]
+	 if false then
+	    [SYST_update_pc tgt1 syst] 
+	  else
+	    [SYST_update_pc tgt2 syst]
     end
     )
     handle HOL_ERR _ => NONE;
-
+ (* val est = ``BStmt_CJmp
+                    (BExp_BinExp BIExp_Or
+                       (BExp_UnaryExp BIExp_Not
+                          (BExp_BinPred BIExp_Equal
+                             (BExp_Den (BVar "PSR_N" BType_Bool))
+                             (BExp_Den (BVar "PSR_V" BType_Bool))))
+                       (BExp_Den (BVar "PSR_Z" BType_Bool)))
+                    (BLE_Label (BL_Address (Imm32 12232w)))
+                    (BLE_Label (BL_Address (Imm32 12228w)))``;*)
   val cjmp_label_match_tm = ``BStmt_CJmp xyzc (BLE_Label xyz1) (BLE_Label xyz2)``;
   fun state_exec_try_cjmp_label est syst =
     SOME (
@@ -161,8 +195,11 @@ local
          syst
     end
     )
-    handle HOL_ERR _ => NONE;
-
+      handle HOL_ERR _ => NONE;
+ (*val est = ``BStmt_Jmp
+                    (BLE_Exp
+                       (BExp_BinExp BIExp_Plus (BExp_Const (Imm32 1092w))
+                          (BExp_Const (Imm32 10524w))))``;   *)
   val jmp_exp_var_match_tm = ``BStmt_Jmp (BLE_Exp x)``;
   exception state_exec_try_jmp_exp_var_exn;
   fun state_exec_try_jmp_exp_var est syst =
@@ -241,7 +278,7 @@ local
   val symb_exec_to_stop_last_print = ref (NONE : Time.time option);
 in (* local *)
   (* execution of a whole block *)
-  fun symb_exec_block abpfun n_dict bl_dict syst =
+    fun symb_exec_block abpfun n_dict bl_dict syst =
     let val lbl_tm = SYST_get_pc syst; in
     let
       val bl = (valOf o (lookup_block_dict bl_dict)) lbl_tm;
