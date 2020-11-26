@@ -12,7 +12,7 @@ in (* outermost local *)
 (* execution of a basic statement *)
 local
   (* basic statement execution functions *)
-(* val prog_vars =
+(*val prog_vars =
    [“BVar "R11" (BType_Imm Bit32)”, “BVar "R10" (BType_Imm Bit32)”,
     “BVar "tmp_PSR_C" BType_Bool”, “BVar "R12" (BType_Imm Bit32)”,
     “BVar "R9" (BType_Imm Bit32)”, “BVar "R8" (BType_Imm Bit32)”,
@@ -30,6 +30,8 @@ local
     “BVar "SP_process" (BType_Imm Bit32)”, “BVar "countw" (BType_Imm Bit64)”];
   val lbl_tm = “BL_Address (Imm32 3076w)”;
   val syst = init_state lbl_tm prog_vars;
+  val bv_countw = bir_envSyntax.mk_BVar_string ("countw", ``(BType_Imm Bit64)``);
+  val syst = state_make_interval bv_countw syst;
   val SymbState systr = syst;
   val s = ``BStmt_Assign (BVar "R5" (BType_Imm Bit32)) (BExp_Den (BVar "R4" (BType_Imm Bit32)))``;
   val (bv, be) = dest_BStmt_Assign s;*)
@@ -120,7 +122,7 @@ end (* local *)
 
 (* execution of an end statement *)
 local
-  (*  val est = `` BStmt_Jmp (BLE_Label (BL_Address (Imm32 3080w)))``;*)
+  (*val est = `` BStmt_Jmp (BLE_Label (BL_Address (Imm32 3080w)))``;*)
     val jmp_label_match_tm = ``BStmt_Jmp (BLE_Label xyz)``;
     fun state_exec_try_jmp_label est syst =
     SOME (
@@ -128,11 +130,17 @@ local
 	(*old code*)
       val (vs, _) = hol88Lib.match jmp_label_match_tm est;
       val tgt1     = (fst o hd) vs;
-	(*adversary code*)
+      (*adversary code*)
+      (*Increase program counter*)
       val pc = SYST_get_pc syst;
       val wpc = (bir_immSyntax.dest_Imm32 o dest_BL_Address) pc;
       val incpc = (rhs o concl o EVAL o wordsSyntax.mk_word_add) (wpc,``4w:word32``);
       val tgt2 = (mk_BL_Address o bir_immSyntax.mk_Imm32) incpc;
+      (*Add fresh variable*)
+      val bv_fresh = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Adv", “BType_Imm Bit32”));
+      val deps = Redblackset.add (symbvalbe_dep_empty, bv_fresh);
+      val symbv = SymbValBE (bv_fresh,deps);
+      val syst = bir_symbexec_stateLib.insert_symbval bv_fresh symbv syst;
     in
 	 if false then
 	    [SYST_update_pc tgt1 syst] 
@@ -141,7 +149,7 @@ local
     end
     )
     handle HOL_ERR _ => NONE;
- (* val est = ``BStmt_CJmp
+ (*val est = ``BStmt_CJmp
                     (BExp_BinExp BIExp_Or
                        (BExp_UnaryExp BIExp_Not
                           (BExp_BinPred BIExp_Equal
@@ -243,11 +251,11 @@ local
                        cfg_node_type_eq (n_type, CFGNT_Jump) then () else
                     raise ERR "symb_exec_endstmt" ("can only handle a call or a jump here, problem at " ^ (term_to_string lbl_tm));
       val n_targets  = #CFGN_targets n;
-      val lbl_tms = n_targets
+      val lbl_tms = n_targets;
     in
       List.map (fn t => SYST_update_pc t syst) lbl_tms
     end;
-
+      
 in (* local *)
   fun symb_exec_endstmt n_dict lbl_tm est syst = (
     (* no update if state is not running *)
@@ -286,7 +294,35 @@ in (* local *)
       val _ = if true then () else
               print_term (lbl_block_tm);
 
-      val s_tms = (fst o listSyntax.dest_list) stmts;
+(*Map label to type of code*)
+
+      fun fun_oracle_type_label label =
+              let
+		  val lbl = case label of
+                  0 => "Normal"
+                | 4 => "Normal"
+                | 8 => "Normal"
+                | 12 => "Normal"
+		| 16 => "Normal"
+		| 20 => "Normal"
+		| 24 => "Normal"
+		| 28 => "Normal"
+		| 32 => "Normal"
+		| 108 => "Adversary"
+		| 136 => "Library"
+		| 164 => "Library"
+                | _  => raise ERR "fun_oracle_type_label" ("cannot handle label " ^ (Int.toString label));
+	      in
+		  lbl
+	      end;
+	         
+val target_label = (dest_BLE_Label o dest_BStmt_Jmp) est;
+val target_label_num = (wordsSyntax.dest_word_literal o bir_immSyntax.dest_Imm32 o dest_BL_Address) target_label;
+val label_type = fun_oracle_type_label (Arbnum.toInt target_label_num);
+val _ = print ("\n\n Target label  " ^ (term_to_string (target_label)) ^ "  has type  " ^ label_type ^ "\n\n");	  
+(*------*)
+
+val s_tms = (fst o listSyntax.dest_list) stmts;
 
       val debugOn = false;
       val _ = if not debugOn then () else
@@ -308,7 +344,7 @@ in (* local *)
     | symb_exec_to_stop abpfun n_dict bl_dict (exec_st::exec_sts) stop_lbl_tms acc =
         let
           val lastTime = !symb_exec_to_stop_last_print;
-          val timeToPrint = (Time.fromReal o LargeReal.-) (Time.toReal(Time.now()), LargeReal.fromInt 5)
+          val timeToPrint = (Time.fromReal o LargeReal.-) (Time.toReal(Time.now()), LargeReal.fromInt 5);
           val _ = if not(isSome lastTime) orelse
                      Time.<(valOf lastTime, timeToPrint) then (
                     symb_exec_to_stop_last_print := SOME (Time.now());
@@ -318,7 +354,7 @@ in (* local *)
           fun is_state_stopped syst =
             (List.exists (fn x => identical (SYST_get_pc syst) x) stop_lbl_tms) orelse
             (not o state_is_running) syst;
-
+	      
           val exec_stopped = is_state_stopped exec_st;
 
           val _ = if (not exec_stopped) orelse true then () else

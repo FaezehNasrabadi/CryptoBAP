@@ -14,6 +14,8 @@ local
 
   (* simple helpers *)
   val BVarLR32_tm = ``BVar "LR" (BType_Imm Bit32)``;
+val tm = ``BStmt_Assign (BVar "R30" (BType_Imm Bit32))
+              (BExp_Const (Imm32 12w))``;
   fun is_Assign_LR tm =
     if is_BStmt_Assign tm then
       identical ((fst o dest_BStmt_Assign) tm) BVarLR32_tm

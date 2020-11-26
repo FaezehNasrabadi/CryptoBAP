@@ -19,7 +19,7 @@ local
   val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_driverLib"
   val wrap_exn = Feedback.wrap_exn   "bir_symbexec_driverLib"
 in (* outermost local *)
-
+val entry_label = "motor_prep_input";
   (* helpers for dealing with functions in the binary *)
   (* ================================================================== *)
   fun find_func_lbl_tm entry_label =

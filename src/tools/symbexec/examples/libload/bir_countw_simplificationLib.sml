@@ -139,13 +139,12 @@ fun expand_bv_in_syst bv syst =
 fun eval_exp_in_syst exp syst =
   let
     val vals = (SYST_get_vals syst);
-
     (*
     val pred = (SYST_get_pred syst);
     val env  = (SYST_get_env  syst);
     val benv = mk_BEnv (simple_pred_to_benvmap pred benvmap_empty);
     *)
-
+(*val exp = ``BExp_Den (BVar "PSR_N" BType_Bool)``;*)
     open bir_symbexec_coreLib;
     val symbv = compute_valbe exp syst;
     val exp_ = expand_exp_symbv vals symbv;
