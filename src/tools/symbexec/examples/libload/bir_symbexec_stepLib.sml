@@ -279,21 +279,6 @@ in (* local *)
      raise wrap_exn (term_to_string lbl_tm) e;;
 end (* local *)
 
-
-local
-  open bir_block_collectionLib;
-
-  val symb_exec_to_stop_last_print = ref (NONE : Time.time option);
-in (* local *)
-  (* execution of a whole block *)
-    fun symb_exec_block abpfun n_dict bl_dict syst =
-    let val lbl_tm = SYST_get_pc syst; in
-    let
-      val bl = (valOf o (lookup_block_dict bl_dict)) lbl_tm;
-      val (lbl_block_tm, stmts, est) = dest_bir_block bl;
-      val _ = if true then () else
-              print_term (lbl_block_tm);
-
 (*Map label to type of code*)
 
       fun fun_oracle_type_label label =
@@ -315,21 +300,38 @@ in (* local *)
 	      in
 		  lbl
 	      end;
-	         
-val target_label = (dest_BLE_Label o dest_BStmt_Jmp) est;
-val target_label_num = (wordsSyntax.dest_word_literal o bir_immSyntax.dest_Imm32 o dest_BL_Address) target_label;
-val label_type = fun_oracle_type_label (Arbnum.toInt target_label_num);
-val _ = print ("\n\n Target label  " ^ (term_to_string (target_label)) ^ "  has type  " ^ label_type ^ "\n\n");	  
-(*------*)
 
-val s_tms = (fst o listSyntax.dest_list) stmts;
+      fun fun_orcle est =
+	  let
+	      val target_label = (dest_BLE_Label o dest_BStmt_Jmp) est;
+	      val target_label_num = (wordsSyntax.dest_word_literal o bir_immSyntax.dest_Imm32 o dest_BL_Address) target_label;
+	      val label_type = fun_oracle_type_label (Arbnum.toInt target_label_num);
+	  in
+	      print ("\n\n Target label  " ^ (term_to_string (target_label)) ^ "  has type  " ^ label_type ^ "\n\n")
+	  end;
+local
+  open bir_block_collectionLib;
+
+  val symb_exec_to_stop_last_print = ref (NONE : Time.time option);
+in (* local *)
+  (* execution of a whole block *)
+    fun symb_exec_block abpfun n_dict bl_dict syst =
+    let val lbl_tm = SYST_get_pc syst; in
+    let
+      val bl = (valOf o (lookup_block_dict bl_dict)) lbl_tm;
+      val (lbl_block_tm, stmts, est) = dest_bir_block bl;
+      val _ = if true then () else
+              print_term (lbl_block_tm);
+      val _ = if false then fun_orcle est
+	             else ();
+      val s_tms = (fst o listSyntax.dest_list) stmts;
 
       val debugOn = false;
       val _ = if not debugOn then () else
               (print_term bl; print "\n ==================== \n\n");
 
       val systs2 = List.foldl (fn (s, systs) => List.concat(List.map (fn x => symb_exec_stmt (s,x)) systs)) [syst] s_tms;
-
+     
       (* generate list of states from end statement *)
       val systs = List.concat(List.map (symb_exec_endstmt n_dict lbl_tm est) systs2);
       val systs_processed = abpfun systs;
