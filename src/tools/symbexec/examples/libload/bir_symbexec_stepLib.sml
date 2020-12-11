@@ -127,25 +127,12 @@ local
     fun state_exec_try_jmp_label est syst =
     SOME (
     let
-	(*old code*)
+
       val (vs, _) = hol88Lib.match jmp_label_match_tm est;
-      val tgt1     = (fst o hd) vs;
-      (*adversary code*)
-      (*Increase program counter*)
-      val pc = SYST_get_pc syst;
-      val wpc = (bir_immSyntax.dest_Imm32 o dest_BL_Address) pc;
-      val incpc = (rhs o concl o EVAL o wordsSyntax.mk_word_add) (wpc,``4w:word32``);
-      val tgt2 = (mk_BL_Address o bir_immSyntax.mk_Imm32) incpc;
-      (*Add fresh variable*)
-      val bv_fresh = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Adv", “BType_Imm Bit32”));
-      val deps = Redblackset.add (symbvalbe_dep_empty, bv_fresh);
-      val symbv = SymbValBE (bv_fresh,deps);
-      val syst = bir_symbexec_stateLib.insert_symbval bv_fresh symbv syst;
+      val tgt = (fst o hd) vs;
+     
     in
-	 if false then
-	    [SYST_update_pc tgt1 syst] 
-	  else
-	    [SYST_update_pc tgt2 syst]
+	    [SYST_update_pc tgt syst] 
     end
     )
     handle HOL_ERR _ => NONE;
@@ -207,7 +194,8 @@ local
  (*val est = ``BStmt_Jmp
                     (BLE_Exp
                        (BExp_BinExp BIExp_Plus (BExp_Const (Imm32 1092w))
-                          (BExp_Const (Imm32 10524w))))``;   *)
+				    (BExp_Const (Imm32 10524w))))``;   *)
+      
   val jmp_exp_var_match_tm = ``BStmt_Jmp (BLE_Exp x)``;
   exception state_exec_try_jmp_exp_var_exn;
   fun state_exec_try_jmp_exp_var est syst =
@@ -279,66 +267,62 @@ in (* local *)
      raise wrap_exn (term_to_string lbl_tm) e;;
 end (* local *)
 
-(*Map label to type of code*)
-
-      fun fun_oracle_type_label label =
-              let
-		  val lbl = case label of
-                  0 => "Normal"
-                | 4 => "Normal"
-                | 8 => "Normal"
-                | 12 => "Normal"
-		| 16 => "Normal"
-		| 20 => "Normal"
-		| 24 => "Normal"
-		| 28 => "Normal"
-		| 32 => "Normal"
-		| 108 => "Adversary"
-		| 136 => "Library"
-		| 164 => "Library"
-                | _  => raise ERR "fun_oracle_type_label" ("cannot handle label " ^ (Int.toString label));
-	      in
-		  lbl
-	      end;
-
-      fun fun_orcle est =
-	  let
-	      val target_label = (dest_BLE_Label o dest_BStmt_Jmp) est;
-	      val target_label_num = (wordsSyntax.dest_word_literal o bir_immSyntax.dest_Imm32 o dest_BL_Address) target_label;
-	      val label_type = fun_oracle_type_label (Arbnum.toInt target_label_num);
-	  in
-	      print ("\n\n Target label  " ^ (term_to_string (target_label)) ^ "  has type  " ^ label_type ^ "\n\n")
-	  end;
 local
   open bir_block_collectionLib;
 
   val symb_exec_to_stop_last_print = ref (NONE : Time.time option);
 in (* local *)
-  (* execution of a whole block *)
-    fun symb_exec_block abpfun n_dict bl_dict syst =
-    let val lbl_tm = SYST_get_pc syst; in
+ (* handle adversary code *)
+fun symb_exec_adversary_block syst lbl_tm =
     let
-      val bl = (valOf o (lookup_block_dict bl_dict)) lbl_tm;
-      val (lbl_block_tm, stmts, est) = dest_bir_block bl;
-      val _ = if true then () else
-              print_term (lbl_block_tm);
-      val _ = if false then fun_orcle est
-	             else ();
-      val s_tms = (fst o listSyntax.dest_list) stmts;
-
-      val debugOn = false;
-      val _ = if not debugOn then () else
-              (print_term bl; print "\n ==================== \n\n");
-
-      val systs2 = List.foldl (fn (s, systs) => List.concat(List.map (fn x => symb_exec_stmt (s,x)) systs)) [syst] s_tms;
-     
-      (* generate list of states from end statement *)
-      val systs = List.concat(List.map (symb_exec_endstmt n_dict lbl_tm est) systs2);
-      val systs_processed = abpfun systs;
+      (* Increase program counter *)
+      val wpc = (bir_immSyntax.dest_Imm32 o dest_BL_Address) lbl_tm;
+      val incpc = (rhs o concl o EVAL o wordsSyntax.mk_word_add) (wpc,``2w:word32``);
+      val tgt = (mk_BL_Address o bir_immSyntax.mk_Imm32) incpc;
+      (* Add fresh variable *)
+      val bv_fresh = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Adv", “BType_Imm Bit32”)); (* generate a fresh variable *)
+      val deps = Redblackset.add (symbvalbe_dep_empty, bv_fresh); (* add the fresh variable to Redblackset.set *)
+      val symbv = SymbValBE (bv_fresh,deps); (* generate a fresh symbolic value from the fresh variable and Redblackset.set *)
+      val syst = bir_symbexec_stateLib.insert_symbval bv_fresh symbv syst;(* state update with symbolic fresh variable *)
     in
-      systs_processed
-    end
-    handle e => raise wrap_exn ("symb_exec_block::" ^ term_to_string lbl_tm) e end;
+	[SYST_update_pc tgt syst]
+    end;
+   
+(* function for run a normal symbolic execution block *)
+fun symb_exec_normal_block abpfun n_dict bl_dict syst lbl_tm =
+	let val bl = (valOf o (lookup_block_dict bl_dict)) lbl_tm; in
+	 let  
+		val (lbl_block_tm, stmts, est) = dest_bir_block bl;
+		val _ = if true then () else
+			print_term (lbl_block_tm);
+		
+		val s_tms = (fst o listSyntax.dest_list) stmts;
+
+		val debugOn = false;
+		val _ = if not debugOn then () else
+			(print_term bl; print "\n ==================== \n\n");
+
+		val systs2 = List.foldl (fn (s, systs) => List.concat(List.map (fn x => symb_exec_stmt (s,x)) systs)) [syst] s_tms;
+		    
+		(* generate list of states from end statement *)
+		val systs = List.concat(List.map (symb_exec_endstmt n_dict lbl_tm est) systs2);
+		val systs_processed = abpfun systs;
+	    in
+		systs_processed
+	    end
+    handle e => raise wrap_exn ("symb_exec__normal_block::" ^ term_to_string bl) e end;
+
+(* execution of a whole block *)
+    fun symb_exec_block abpfun n_dict bl_dict syst =
+	let val lbl_tm = SYST_get_pc syst; in
+	    let
+		val pc_type = bir_symbexec_oracleLib.fun_oracle lbl_tm;
+	    in
+		if (pc_type = "Adversary") then symb_exec_adversary_block syst lbl_tm
+		else if (pc_type = "Library") then symb_exec_normal_block abpfun n_dict bl_dict syst lbl_tm
+		else symb_exec_normal_block abpfun n_dict bl_dict syst lbl_tm
+	    end
+	    handle e => raise wrap_exn ("symb_exec_block::" ^ term_to_string lbl_tm) e end;
 
   (* execution of blocks until not running anymore or end label set is reached *)
   fun symb_exec_to_stop _      _      _       []                  _            acc =

@@ -215,7 +215,6 @@ fun find_node n_dict lbl_tm =
   valOf (lookup_block_dict n_dict lbl_tm)
   handle Option => raise ERR "find_node" ("couldn't find node " ^ (term_to_string lbl_tm));
 
-
 fun get_fun_cfg_walk_succ (n: cfg_node) =
   let
     val lbl_tm    = #CFGN_lbl_tm n;
