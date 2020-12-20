@@ -18,6 +18,7 @@ open binariesDefsLib;
 open bir_cfgLib;
 open bir_cfg_m0Lib;
 open bir_symbexec_driverLib;
+open Redblackmap;
      
 val prog = ``BirProgram
       [<|bb_label :=

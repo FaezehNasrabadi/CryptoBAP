@@ -287,7 +287,19 @@ fun symb_exec_adversary_block syst lbl_tm =
     in
 	[SYST_update_pc tgt syst]
     end;
-   
+
+ (* handle library code *)
+fun symb_exec_library_block syst lbl_tm =
+    let val stmts = bir_symbexec_funcLib.all_func lbl_tm; in 
+	 let  
+		val s_tms = [stmts];
+
+		val systs2 = List.foldl (fn (s, systs) => List.concat(List.map (fn x => symb_exec_stmt (s,x)) systs)) [syst] s_tms;
+	    in
+		systs2
+	    end
+    handle e => raise wrap_exn ("symb_exec_library_block::" ^ term_to_string stmts) e end;
+
 (* function for run a normal symbolic execution block *)
 fun symb_exec_normal_block abpfun n_dict bl_dict syst lbl_tm =
 	let val bl = (valOf o (lookup_block_dict bl_dict)) lbl_tm; in
@@ -310,7 +322,7 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst lbl_tm =
 	    in
 		systs_processed
 	    end
-    handle e => raise wrap_exn ("symb_exec__normal_block::" ^ term_to_string bl) e end;
+    handle e => raise wrap_exn ("symb_exec_normal_block::" ^ term_to_string bl) e end;
 
 (* execution of a whole block *)
     fun symb_exec_block abpfun n_dict bl_dict syst =
@@ -319,7 +331,7 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst lbl_tm =
 		val pc_type = bir_symbexec_oracleLib.fun_oracle lbl_tm;
 	    in
 		if (pc_type = "Adversary") then symb_exec_adversary_block syst lbl_tm
-		else if (pc_type = "Library") then symb_exec_normal_block abpfun n_dict bl_dict syst lbl_tm
+		else if (pc_type = "Library") then symb_exec_library_block syst lbl_tm
 		else symb_exec_normal_block abpfun n_dict bl_dict syst lbl_tm
 	    end
 	    handle e => raise wrap_exn ("symb_exec_block::" ^ term_to_string lbl_tm) e end;

@@ -30,10 +30,10 @@ fun fun_oracle_type_label label =
 	    if (in_range (0,2000) label) then
 		"Adversary"
 	    (*part of memory that library function exist*)
-	    else if (in_range (2001,3000) label) then
+	    else if (in_range (2001,2800) label) then
 		"Library"
 	    (*jump to other part of memory is normal*)
-	    else if (in_range (3000,268439552) label) then
+	    else if (in_range (2801,268439552) label) then
 		"Normal"
 	    else
 		raise ERR "fun_oracle_type_label" ("cannot handle label " ^ (term_to_string label));
@@ -44,7 +44,7 @@ fun fun_oracle_type_label label =
 (*val lbl_tm = “BL_Address (Imm32 3076w)”;*)
 fun fun_oracle lbl_tm =
     let
-	      val pc_type = (fun_oracle_type_label o (bir_immSyntax.dest_Imm32 o dest_BL_Address) lbl_tm;
+	      val pc_type = (fun_oracle_type_label o bir_immSyntax.dest_Imm32 o dest_BL_Address) lbl_tm;
 
 	  in
 	      pc_type
