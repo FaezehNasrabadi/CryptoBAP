@@ -13,21 +13,7 @@ in (* outermost local *)
 local
   (* basic statement execution functions *)
 (*val prog_vars =
-   [“BVar "R11" (BType_Imm Bit32)”, “BVar "R10" (BType_Imm Bit32)”,
-    “BVar "tmp_PSR_C" BType_Bool”, “BVar "R12" (BType_Imm Bit32)”,
-    “BVar "R9" (BType_Imm Bit32)”, “BVar "R8" (BType_Imm Bit32)”,
-    “BVar "R6" (BType_Imm Bit32)”, “BVar "tmp_R1" (BType_Imm Bit32)”,
-    “BVar "R5" (BType_Imm Bit32)”, “BVar "tmp_PC" (BType_Imm Bit32)”,
-    “BVar "ModeHandler" BType_Bool”, “BVar "tmp_R3" (BType_Imm Bit32)”,
-    “BVar "tmp_R2" (BType_Imm Bit32)”, “BVar "R3" (BType_Imm Bit32)”,
-    “BVar "R2" (BType_Imm Bit32)”, “BVar "R1" (BType_Imm Bit32)”,
-    “BVar "R0" (BType_Imm Bit32)”, “BVar "PSR_V" BType_Bool”,
-    “BVar "PSR_C" BType_Bool”, “BVar "PSR_Z" BType_Bool”,
-    “BVar "PSR_N" BType_Bool”, “BVar "LR" (BType_Imm Bit32)”,
-    “BVar "R7" (BType_Imm Bit32)”, “BVar "R4" (BType_Imm Bit32)”,
-    “BVar "MEM" (BType_Mem Bit32 Bit8)”,
-    “BVar "tmp_SP_process" (BType_Imm Bit32)”,
-    “BVar "SP_process" (BType_Imm Bit32)”, “BVar "countw" (BType_Imm Bit64)”];
+   [“BVar "R11" (BType_Imm Bit32)”, “BVar "R10" (BType_Imm Bit32)”];
   val lbl_tm = “BL_Address (Imm32 3076w)”;
   val syst = init_state lbl_tm prog_vars;
   val bv_countw = bir_envSyntax.mk_BVar_string ("countw", ``(BType_Imm Bit64)``);
@@ -273,32 +259,57 @@ local
   val symb_exec_to_stop_last_print = ref (NONE : Time.time option);
 in (* local *)
  (* handle adversary code *)
-fun symb_exec_adversary_block syst lbl_tm =
-    let
-      (* Increase program counter *)
-      val wpc = (bir_immSyntax.dest_Imm32 o dest_BL_Address) lbl_tm;
-      val incpc = (rhs o concl o EVAL o wordsSyntax.mk_word_add) (wpc,``2w:word32``);
-      val tgt = (mk_BL_Address o bir_immSyntax.mk_Imm32) incpc;
-      (* Add fresh variable *)
-      val bv_fresh = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Adv", “BType_Imm Bit32”)); (* generate a fresh variable *)
-      val deps = Redblackset.add (symbvalbe_dep_empty, bv_fresh); (* add the fresh variable to Redblackset.set *)
-      val symbv = SymbValBE (bv_fresh,deps); (* generate a fresh symbolic value from the fresh variable and Redblackset.set *)
-      val syst = bir_symbexec_stateLib.insert_symbval bv_fresh symbv syst;(* state update with symbolic fresh variable *)
-    in
-	[SYST_update_pc tgt syst]
-    end;
+fun symb_exec_adversary_block abpfun n_dict bl_dict syst lbl_tm =
+    let val bl = (valOf o (lookup_block_dict bl_dict)) lbl_tm; in 
+	let
+	    val (_, _, est) = dest_bir_block bl;
 
- (* handle library code *)
-fun symb_exec_library_block syst lbl_tm =
-    let val stmts = bir_symbexec_funcLib.all_func lbl_tm; in 
-	 let  
-		val s_tms = [stmts];
+	    (* Add fresh variable *)
+	    val bv_fresh = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Adv", “BType_Imm Bit32”)); (* generate a fresh variable *)
+	    val deps = Redblackset.add (symbvalbe_dep_empty, bv_fresh); (* add the fresh variable to Redblackset.set *)
+	    val symbv = SymbValBE (bv_fresh,deps); (* generate a fresh symbolic value from the fresh variable and Redblackset.set *)
+	    val syst = bir_symbexec_stateLib.insert_symbval bv_fresh symbv syst;(* state update with symbolic fresh variable *)
+		    
+	    val systs = List.concat(List.map (symb_exec_endstmt n_dict lbl_tm est) [syst]);
+	    val systs_processed = abpfun systs;
+	in
+	    systs_processed
+	end
+	handle e => raise wrap_exn ("symb_exec_adversary_block::" ^ term_to_string bl) e end;
 
-		val systs2 = List.foldl (fn (s, systs) => List.concat(List.map (fn x => symb_exec_stmt (s,x)) systs)) [syst] s_tms;
-	    in
-		systs2
-	    end
-    handle e => raise wrap_exn ("symb_exec_library_block::" ^ term_to_string stmts) e end;
+(* handle library code *)
+fun symb_exec_library_block abpfun n_dict bl_dict syst lbl_tm =
+    let val bl = (valOf o (lookup_block_dict bl_dict)) lbl_tm; in 
+	let
+	    val (_, _, est) = dest_bir_block bl;
+	    val stmts = bir_symbexec_funcLib.all_func lbl_tm; (* statement of library call *)
+	   
+	    (* detect and may use random key *)
+	    val lib_type = bir_symbexec_oracleLib.lib_oracle lbl_tm;
+	    val syst = if (lib_type = "Encryption") then bir_symbexec_funcLib.random_key syst
+		       else if (lib_type = "Decryption") then syst
+		       else
+			   raise ERR "random_key" ("cannot handle" ^ (lib_type));
+	    val _ = if true then () else
+			print ("lib_type: " ^ (lib_type) ^ "\n");
+
+	    (* update environment *)
+	    val (bv, be) = dest_BStmt_Assign stmts; (* extract bir variable *)
+	    val bv_fresh = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Env", “BType_Imm Bit32”)); (* generate a fresh variable *)
+	    val env = SYST_get_env  syst; (* current environment *)
+	    val env'= Redblackmap.insert (env, bv, bv_fresh); (* insert bir variable and fresh variable to current environment *)
+	    val syst = (SYST_update_env env') syst; (* update state by new environment *)
+
+	    val s_tms = [stmts];
+
+	    val systs2 = List.foldl (fn (s, systs) => List.concat(List.map (fn x => symb_exec_stmt (s,x)) systs)) [syst] s_tms;
+		    
+	    val systs = List.concat(List.map (symb_exec_endstmt n_dict lbl_tm est) systs2);
+	    val systs_processed = abpfun systs;
+	in
+	    systs_processed
+	end
+	handle e => raise wrap_exn ("symb_exec_library_block::" ^ term_to_string bl) e end;
 
 (* function for run a normal symbolic execution block *)
 fun symb_exec_normal_block abpfun n_dict bl_dict syst lbl_tm =
@@ -329,9 +340,11 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst lbl_tm =
 	let val lbl_tm = SYST_get_pc syst; in
 	    let
 		val pc_type = bir_symbexec_oracleLib.fun_oracle lbl_tm;
+		    val _ = if true then () else
+			print ("pc_type: " ^ (pc_type) ^ "\n");
 	    in
-		if (pc_type = "Adversary") then symb_exec_adversary_block syst lbl_tm
-		else if (pc_type = "Library") then symb_exec_library_block syst lbl_tm
+		if (pc_type = "Adversary") then symb_exec_adversary_block abpfun n_dict bl_dict syst lbl_tm
+		else if (pc_type = "Library") then symb_exec_library_block abpfun n_dict bl_dict syst lbl_tm
 		else symb_exec_normal_block abpfun n_dict bl_dict syst lbl_tm
 	    end
 	    handle e => raise wrap_exn ("symb_exec_block::" ^ term_to_string lbl_tm) e end;

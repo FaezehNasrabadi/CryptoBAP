@@ -9,12 +9,12 @@ local
   val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_funcLib"
 in
 
-val func_table  = Redblackmap.insert(Redblackmap.mkDict Term.compare,``(BL_Address (Imm32 2002w))``, ``(BStmt_Assign (BVar "R0" (BType_Imm Bit32)) (BExp_Const (Imm32 (0w :word32))) :α bir_stmt_basic_t)``);
+val func_table  = Redblackmap.insert(Redblackmap.mkDict Term.compare,``(BL_Address (Imm32 2002w))``, ``(BStmt_Assign (BVar "R0" (BType_Imm Bit32)) (BExp_Const (Imm32 (4w :word32))) :α bir_stmt_basic_t)``);
 
    (* listItems func_table;*)
 
-val func_table  = Redblackmap.insert(func_table, ``(BL_Address (Imm32 2004w))``, ``(BStmt_Assign (BVar "R0" (BType_Imm Bit32)) (BExp_Const (Imm32 (4w :word32))))``);
-
+val func_table  = Redblackmap.insert(func_table, ``(BL_Address (Imm32 2004w))``, ``(BStmt_Assign (BVar "R0" (BType_Imm Bit32)) (BExp_Const (Imm32 (36w :word32))))``);
+val func_table  = Redblackmap.insert(func_table, ``(BL_Address (Imm32 2006w))``, ``(BStmt_Assign (BVar "R0" (BType_Imm Bit32)) (BExp_Const (Imm32 (0w :word32))))``);
 (*listItems func_table;
 val lbl_tm = ``(BL_Address (Imm32 2004w))``;*)
 
@@ -39,7 +39,9 @@ fun random_key syst =
 	syst
     end;   
 (*
-val _ = Parse.type_abbrev("AES", ``:word32 -> word32 -> word32``); 
+val _ = Parse.type_abbrev("Senc", ``:word32 -> word32 -> word32 -> word32``); 
+
+val _ = Parse.type_abbrev("Sdec", ``:word32 -> word32 -> word32 -> word32``);
 
 fun senc m k n =
     let

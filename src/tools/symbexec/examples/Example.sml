@@ -39,15 +39,19 @@ val prog = ``BirProgram
          bb_statements :=
            [BStmt_Assign (BVar "R30" (BType_Imm Bit32))
               (BExp_Const (Imm32 12w))];
-         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 136w)))|>;
-       <|bb_label := BL_Address_HC (Imm32 12w) "2A0003E2 (mov w2, w0)";
+         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2002w)))|>;
+       <|bb_label := BL_Address_HC (Imm32 2002w) "hc_NewKey";
+         bb_statements :=
+           [BStmt_Assign (BVar "R0" (BType_Imm Bit32)) (BExp_Const (Imm32 (4w :word32)))];
+         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 12w)))|>;
+	<|bb_label := BL_Address_HC (Imm32 12w) "2A0003E2 (mov w2, w0)";
          bb_statements :=
            [BStmt_Assign (BVar "R2" (BType_Imm Bit32))
               (BExp_Cast BIExp_UnsignedCast
                  (BExp_Cast BIExp_LowCast
                     (BExp_Den (BVar "R0" (BType_Imm Bit32))) Bit32) Bit32)];
          bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 16w)))|>;
-       <|bb_label :=
+	<|bb_label :=
            BL_Address_HC (Imm32 16w)
              "52800121 (mov w1, #0x9                    // #9)";
          bb_statements :=
@@ -59,7 +63,11 @@ val prog = ``BirProgram
          bb_statements :=
            [BStmt_Assign (BVar "R30" (BType_Imm Bit32))
               (BExp_Const (Imm32 24w))];
-         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 164w)))|>;
+         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2004w)))|>;
+       <|bb_label := BL_Address_HC (Imm32 2004w) "hc_Enc(k,m)";
+         bb_statements :=
+           [BStmt_Assign (BVar "R0" (BType_Imm Bit32)) (BExp_Const (Imm32 (36w :word32)))];
+         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 24w)))|>;
        <|bb_label := BL_Address_HC (Imm32 24w) "2A0003E3 (mov w3, w0)";
          bb_statements :=
            [BStmt_Assign (BVar "R3" (BType_Imm Bit32))
@@ -72,7 +80,12 @@ val prog = ``BirProgram
          bb_statements :=
            [BStmt_Assign (BVar "R30" (BType_Imm Bit32))
               (BExp_Const (Imm32 32w))];
-         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 108w)))|>;
+         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2006w)))|>;
+	<|bb_label := BL_Address_HC (Imm32 2006w) "hc_Adv(c)";
+         bb_statements :=
+           [BStmt_Assign (BVar "R0" (BType_Imm Bit32)) (BExp_Const (Imm32 (0w :word32)))];
+         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 32w)))|>;
+
       ]``;
  
 val bl_dict  = bir_block_collectionLib.gen_block_dict prog;
@@ -114,3 +127,4 @@ val (systs_noassertfailed, systs_assertfailed) =
   List.partition (fn syst => not (identical (SYST_get_status syst) BST_AssertionViolated_tm)) systs;
 val _ = print ("number of \"no assert failed\" paths found: " ^ (Int.toString (length systs_noassertfailed)));
 val _ = print "\n\n";
+(*Redblackmap.listItems bl_dict;*)

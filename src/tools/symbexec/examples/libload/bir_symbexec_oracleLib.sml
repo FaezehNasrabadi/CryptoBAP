@@ -29,7 +29,7 @@ fun fun_oracle_type_label label =
 	    (*critical section that no one must not jump to it*)
 	    if (in_range (0,2000) label) then
 		"Adversary"
-	    (*part of memory that library function exist*)
+	    (*part of memory that library functions exist*)
 	    else if (in_range (2001,2800) label) then
 		"Library"
 	    (*jump to other part of memory is normal*)
@@ -50,6 +50,30 @@ fun fun_oracle lbl_tm =
 	      pc_type
     end;
     
+(*val label = “2002w”;*)    
+fun lib_oracle_type_label label =
+    let
+	val lbl = 
+	     (*part of memory that encryption functions exist*)
+	    if (in_range (2001,2400) label) then
+		"Encryption"
+	    (*part of memory that decryption functions exist*)
+	    else if (in_range (2401,2800) label) then
+		"Decryption"
+	    else
+		raise ERR "lib_oracle_type_label" ("cannot handle label " ^ (term_to_string label));
+    in
+	lbl
+    end;
+    
+(*val lbl_tm = “BL_Address (Imm32 2002w)”;*)
+fun lib_oracle lbl_tm =
+    let
+	      val pc_type = (lib_oracle_type_label o bir_immSyntax.dest_Imm32 o dest_BL_Address) lbl_tm;
+
+	  in
+	      pc_type
+    end;    
 end(*local*)
 
 end (* struct *)
