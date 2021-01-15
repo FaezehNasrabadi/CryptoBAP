@@ -22,78 +22,67 @@ open Redblackmap;
      
 val prog = ``BirProgram
       [<|bb_label :=
-           BL_Address_HC (Imm32 0w)
+           BL_Address_HC (Imm32 2802w)
              "52800000 (mov w0, #0x0                    // #0)";
          bb_statements :=
            [BStmt_Assign (BVar "R0" (BType_Imm Bit32))
               (BExp_Const (Imm32 0w))];
-         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 4w)))|>;
-       <|bb_label := BL_Address_HC (Imm32 4w) "11000400 (add w0, w0, #0x1)";
+         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2804w)))|>;
+        <|bb_label := BL_Address_HC (Imm32 2804w) "11000400 (add w0, w0, #0x1)";
          bb_statements :=
            [BStmt_Assign (BVar "R0" (BType_Imm Bit32))
                      (BExp_BinExp BIExp_Plus
                         (BExp_Den (BVar "R0" (BType_Imm Bit32)))
                         (BExp_Const (Imm32 1w)))];
-         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 8w)))|>;
-       <|bb_label := BL_Address_HC (Imm32 8w) "94000020 (bl 88 <.text+0x88>)";
+         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2808w)))|>;
+       <|bb_label := BL_Address_HC (Imm32 2808w) "94000020 (bl 88 <.text+0x88>)";
          bb_statements :=
            [BStmt_Assign (BVar "R30" (BType_Imm Bit32))
-              (BExp_Const (Imm32 12w))];
+              (BExp_Const (Imm32 2812w))];
          bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2002w)))|>;
-       <|bb_label := BL_Address_HC (Imm32 2002w) "hc_NewKey";
-         bb_statements :=
-           [BStmt_Assign (BVar "R0" (BType_Imm Bit32)) (BExp_Const (Imm32 (4w :word32)))];
-         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 12w)))|>;
-	<|bb_label := BL_Address_HC (Imm32 12w) "2A0003E2 (mov w2, w0)";
+	<|bb_label := BL_Address_HC (Imm32 2812w) "2A0003E2 (mov w2, w0)";
          bb_statements :=
            [BStmt_Assign (BVar "R2" (BType_Imm Bit32))
               (BExp_Cast BIExp_UnsignedCast
                  (BExp_Cast BIExp_LowCast
                     (BExp_Den (BVar "R0" (BType_Imm Bit32))) Bit32) Bit32)];
-         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 16w)))|>;
+         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2816w)))|>;
 	<|bb_label :=
-           BL_Address_HC (Imm32 16w)
+           BL_Address_HC (Imm32 2816w)
              "52800121 (mov w1, #0x9                    // #9)";
          bb_statements :=
            [BStmt_Assign (BVar "R1" (BType_Imm Bit32))
               (BExp_Const (Imm32 9w))];
-         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 20w)))|>;
+         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2820w)))|>;
        <|bb_label :=
-           BL_Address_HC (Imm32 20w) "94000024 (bl a4 <.text+0xa4>)";
+           BL_Address_HC (Imm32 2820w) "94000024 (bl a4 <.text+0xa4>)";
          bb_statements :=
            [BStmt_Assign (BVar "R30" (BType_Imm Bit32))
-              (BExp_Const (Imm32 24w))];
-         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2004w)))|>;
-       <|bb_label := BL_Address_HC (Imm32 2004w) "hc_Enc(k,m)";
-         bb_statements :=
-           [BStmt_Assign (BVar "R0" (BType_Imm Bit32)) (BExp_Const (Imm32 (36w :word32)))];
-         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 24w)))|>;
-       <|bb_label := BL_Address_HC (Imm32 24w) "2A0003E3 (mov w3, w0)";
+              (BExp_Const (Imm32 2824w))];
+         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2202w)))|>;
+       <|bb_label := BL_Address_HC (Imm32 2824w) "2A0003E3 (mov w3, w0)";
          bb_statements :=
            [BStmt_Assign (BVar "R3" (BType_Imm Bit32))
               (BExp_Cast BIExp_UnsignedCast
                  (BExp_Cast BIExp_LowCast
                     (BExp_Den (BVar "R0" (BType_Imm Bit32))) Bit32) Bit32)];
-         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 28w)))|>;
+         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2828w)))|>;
 	<|bb_label :=
-           BL_Address_HC (Imm32 28w) "94000028 (bl 72 <.text+0x72>)";
+           BL_Address_HC (Imm32 2828w) "94000028 (bl 72 <.text+0x72>)";
          bb_statements :=
            [BStmt_Assign (BVar "R30" (BType_Imm Bit32))
-              (BExp_Const (Imm32 32w))];
-         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2006w)))|>;
-	<|bb_label := BL_Address_HC (Imm32 2006w) "hc_Adv(c)";
-         bb_statements :=
-           [BStmt_Assign (BVar "R0" (BType_Imm Bit32)) (BExp_Const (Imm32 (0w :word32)))];
-         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 32w)))|>;
+              (BExp_Const (Imm32 2832w))];
+         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2w)))|>;
 
       ]``;
  
 val bl_dict  = bir_block_collectionLib.gen_block_dict prog;
 val prog_lbl_tms = bir_block_collectionLib.get_block_dict_keys bl_dict;
-val prog_lbl_tms_0 = List.nth (prog_lbl_tms, 0);
+(*val prog_lbl_tms_0 = List.nth (prog_lbl_tms, 0);*)
+val prog_lbl_tms_0 = “BL_Address (Imm32 2802w)”;
 val prog_vars = bir_exec_typingLib.gen_vars_of_prog prog;
 val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict prog_lbl_tms;
-val stop_lbl_tms = [“BL_Address (Imm32 16w)”];
+val stop_lbl_tms = [“BL_Address (Imm32 2816w)”];
 (*val stop_lbl_tms = find_func_ends n_dict entry_label;
 val stop_lbl_tms = (List.map #CFGN_lbl_tm o
                           List.filter (fn n => node_to_rel_symbol n = entry_label andalso
@@ -116,7 +105,7 @@ val _ = print "finished exploration of all paths.\n";
 val _ = print ("number of paths found: " ^ (Int.toString (length systs)));
 val _ = print "\n\n";
 
-val stop_lbl_tms = [“BL_Address (Imm32 32w)”];
+val stop_lbl_tms = [“BL_Address (Imm32 2832w)”];
 val systs = symb_exec_to_stop (commonBalrobScriptLib.abpfun cfb) n_dict bl_dict [syst] stop_lbl_tms systs;
 val _ = print "finished exploration of all paths.\n";
 val _ = print ("number of paths found: " ^ (Int.toString (length systs)));

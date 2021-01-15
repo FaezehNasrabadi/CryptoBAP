@@ -9,14 +9,33 @@ local
   val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_funcLib"
 in
 
-val func_table  = Redblackmap.insert(Redblackmap.mkDict Term.compare,``(BL_Address (Imm32 2002w))``, ``(BStmt_Assign (BVar "R0" (BType_Imm Bit32)) (BExp_Const (Imm32 (4w :word32))) :α bir_stmt_basic_t)``);
+val _ = Parse.type_abbrev("key", ``:bir_var_t -> bir_imm_t``);
+    
+val _ = Parse.type_abbrev("enc", ``:bir_var_t -> bir_var_t -> bir_var_t -> bir_exp_t``); 
 
-   (* listItems func_table;*)
+val _ = Parse.type_abbrev("dec", ``:bir_var_t -> bir_var_t -> bir_var_t -> bir_exp_t``);
+	      
+(* NewKey = key(R1) *)
+val func_table  = Redblackmap.insert(Redblackmap.mkDict Term.compare,``(BL_Address (Imm32 2002w))``, ``(BStmt_Assign (BVar "R0" (BType_Imm Bit32)) (BExp_Const (key (BVar "R1" (BType_Imm Bit32)))) :α bir_stmt_basic_t)``);
 
-val func_table  = Redblackmap.insert(func_table, ``(BL_Address (Imm32 2004w))``, ``(BStmt_Assign (BVar "R0" (BType_Imm Bit32)) (BExp_Const (Imm32 (36w :word32))))``);
-val func_table  = Redblackmap.insert(func_table, ``(BL_Address (Imm32 2006w))``, ``(BStmt_Assign (BVar "R0" (BType_Imm Bit32)) (BExp_Const (Imm32 (0w :word32))))``);
+(* Enc(k,m) = enc(k,n,m) = enc(R0,R1,R2) *)    
+val func_table  = Redblackmap.insert(func_table, ``(BL_Address (Imm32 2202w))``,
+				     ``(BStmt_Assign (BVar "R0" (BType_Imm Bit32))
+						     (enc
+							  (BVar "R0" (BType_Imm Bit32))
+							  (BVar "R1" (BType_Imm Bit32))
+							  (BVar "R2" (BType_Imm Bit32))))``);
+
+(* Dec(k,m) = dec(k,n,m) = dec(R0,R1,R2) *) 
+val func_table  = Redblackmap.insert(func_table, ``(BL_Address (Imm32 2502w))``,
+				     ``(BStmt_Assign (BVar "R0" (BType_Imm Bit32))
+						     (dec
+							  (BVar "R0" (BType_Imm Bit32))
+							  (BVar "R1" (BType_Imm Bit32))
+							  (BVar "R2" (BType_Imm Bit32))))``);
+
 (*listItems func_table;
-val lbl_tm = ``(BL_Address (Imm32 2004w))``;*)
+val lbl_tm = ``(BL_Address (Imm32 2002w))``;*)
 
 fun all_func lbl_tm =
     let
@@ -27,38 +46,59 @@ fun all_func lbl_tm =
 
 (*val prog_vars =
    [“BVar "R11" (BType_Imm Bit32)”, “BVar "R10" (BType_Imm Bit32)”];
-  val lbl_tm = “BL_Address (Imm32 3076w)”;
-  val syst = init_state lbl_tm prog_vars;*)
+  val lbl_tm = “BL_Address (Imm32 2502w)”;
+  val syst = init_state lbl_tm prog_vars;
+  val stmts = all_func lbl_tm;
+      listItems env';
+*)
 
-fun random_key syst =
-     let    
-	 val bv_fresh = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Key", “BType_Imm Bit32”)); (* generate a fresh variable *)
+fun new_key stmts syst =
+    let
+	(* update path condition *)
+	val bv_fresh = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Key", “BType_Imm Bit32”)); (* generate a fresh variable *)
 	 val pred = SYST_get_pred syst; (* get current path condition *)
 	 val syst = SYST_update_pred ((bv_fresh)::(pred)) syst;(* add the fresh variable to path condition and update state*)
+	 (* update environment *)
+	 val (bv, _) = dest_BStmt_Assign stmts; (* extract bir variable *)
+	 val env = SYST_get_env  syst; (* current environment *)
+	 val env'= Redblackmap.insert (env, bv, bv_fresh); (* insert bir variable and fresh variable to current environment *)
+	 val syst = (SYST_update_env env') syst; (* update state by new environment *)
     in
 	syst
     end;   
-(*
-val _ = Parse.type_abbrev("Senc", ``:word32 -> word32 -> word32 -> word32``); 
 
-val _ = Parse.type_abbrev("Sdec", ``:word32 -> word32 -> word32 -> word32``);
-
-fun senc m k n =
+fun Encryption stmts syst =
     let
-	val b = AES k n;
-	val c = b xor m;
+	(* update path condition *)
+	 val (bv, be) = dest_BStmt_Assign stmts; (* extract bir variable and bir expression *)
+	 val pred = SYST_get_pred syst; (* get current path condition *)
+	 val syst = SYST_update_pred ((be)::(pred)) syst;(* add passed commands to path condition and update state*)
+	 
+	 (* update environment *)
+	 val bv_fresh = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Enc", “BType_Imm Bit32”)); (* generate a fresh variable *)
+	 val env = SYST_get_env syst; (* current environment *)
+	 val env'= Redblackmap.insert (env, bv, bv_fresh); (* insert bir variable and fresh variable to current environment *)
+	 val syst = (SYST_update_env env') syst; (* update state by new environment *)
     in
-	c
+	syst
     end;
 
-fun sdec c k n =
+fun Decryption stmts syst =
     let
-	val b = AES k n;
-	val m = b xor c; 
+	(* update path condition *)
+	 val (bv, be) = dest_BStmt_Assign stmts; (* extract bir variable and bir expression *)
+	 val pred = SYST_get_pred syst; (* get current path condition *)
+	 val syst = SYST_update_pred ((be)::(pred)) syst;(* add passed commands to path condition and update state*)
+	 
+	 (* update environment *)
+	 val bv_fresh = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Dec", “BType_Imm Bit32”)); (* generate a fresh variable *)
+	 val env = SYST_get_env syst; (* current environment *)
+	 val env'= Redblackmap.insert (env, bv, bv_fresh); (* insert bir variable and fresh variable to current environment *)
+	 val syst = (SYST_update_env env') syst; (* update state by new environment *)
     in
-	m
+	syst
     end;
-*)    
+  
 end(*local*)
 
 end (* struct *)
