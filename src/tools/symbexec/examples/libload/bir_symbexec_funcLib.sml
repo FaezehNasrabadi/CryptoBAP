@@ -8,7 +8,38 @@ local
   open Redblackmap;
   val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_funcLib"
 in
-
+(*val prog_vars =
+   [“BVar "R11" (BType_Imm Bit32)”, “BVar "R10" (BType_Imm Bit32)”,
+    “BVar "tmp_PSR_C" BType_Bool”, “BVar "R12" (BType_Imm Bit32)”,
+    “BVar "R9" (BType_Imm Bit32)”, “BVar "R8" (BType_Imm Bit32)”,
+    “BVar "R6" (BType_Imm Bit32)”, “BVar "tmp_R1" (BType_Imm Bit32)”,
+    “BVar "R5" (BType_Imm Bit32)”, “BVar "tmp_PC" (BType_Imm Bit32)”,
+    “BVar "ModeHandler" BType_Bool”, “BVar "tmp_R3" (BType_Imm Bit32)”,
+    “BVar "tmp_R2" (BType_Imm Bit32)”, “BVar "R3" (BType_Imm Bit32)”,
+    “BVar "R2" (BType_Imm Bit32)”, “BVar "R1" (BType_Imm Bit32)”,
+    “BVar "R0" (BType_Imm Bit32)”, “BVar "PSR_V" BType_Bool”,
+    “BVar "PSR_C" BType_Bool”, “BVar "PSR_Z" BType_Bool”,
+    “BVar "PSR_N" BType_Bool”, “BVar "LR" (BType_Imm Bit32)”,
+    “BVar "R7" (BType_Imm Bit32)”, “BVar "R4" (BType_Imm Bit32)”,
+    “BVar "MEM" (BType_Mem Bit32 Bit8)”,
+    “BVar "tmp_SP_process" (BType_Imm Bit32)”,
+    “BVar "SP_process" (BType_Imm Bit32)”, “BVar "countw" (BType_Imm Bit64)”];
+  val lbl_tm = “BL_Address (Imm32 2820w)”;
+  val syst = init_state lbl_tm prog_vars;
+  val bv_countw = bir_envSyntax.mk_BVar_string ("countw", ``(BType_Imm Bit64)``);
+  val syst = state_make_interval bv_countw syst;
+  val SymbState systr = syst;
+  val s = ``BStmt_Assign (BVar "R5" (BType_Imm Bit32)) (BExp_Den (BVar "R4" (BType_Imm Bit32)))``;
+  val (bv, be) = dest_BStmt_Assign s;
+val prog = ``BirProgram
+      [<|bb_label :=
+           BL_Address_HC (Imm32 2820w) "94000024 (bl a4 <.text+0xa4>)";
+         bb_statements :=
+           [BStmt_Assign (BVar "R30" (BType_Imm Bit32))
+              (BExp_Const (Imm32 2824w))];
+         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2202w)))|>;]``;
+val bl_dict  = bir_block_collectionLib.gen_block_dict prog;
+*)
 val _ = Parse.type_abbrev("key", ``:bir_var_t -> bir_imm_t``);
     
 val _ = Parse.type_abbrev("enc", ``:bir_var_t -> bir_var_t -> bir_var_t -> bir_exp_t``); 
@@ -46,7 +77,7 @@ fun all_func lbl_tm =
 
 (*val prog_vars =
    [“BVar "R11" (BType_Imm Bit32)”, “BVar "R10" (BType_Imm Bit32)”];
-  val lbl_tm = “BL_Address (Imm32 2502w)”;
+  val lbl_tm = “BL_Address (Imm32 2202w)”;
   val syst = init_state lbl_tm prog_vars;
   val stmts = all_func lbl_tm;
       listItems env';

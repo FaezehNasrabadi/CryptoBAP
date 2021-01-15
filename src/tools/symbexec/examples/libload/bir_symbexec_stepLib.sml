@@ -305,9 +305,8 @@ fun symb_exec_adversary_block abpfun n_dict bl_dict syst =
 		    
 		val systs = List.map (SYST_update_pc tgt) [syst];(* update symb_state list with new pc *)
 
-		val systs_processed = abpfun systs;
 	    in
-		systs_processed
+		systs
 	    end
 	    handle e => raise wrap_exn ("symb_exec_adversary_block::" ^ term_to_string lbl_tm) e end;
 
@@ -342,9 +341,8 @@ fun symb_exec_library_block abpfun n_dict bl_dict syst =
 		    
 		val systs = List.map (SYST_update_pc tgt) [syst];(* update symb_state list with new pc *)
 
-		val systs_processed = abpfun systs;
 	    in
-		systs_processed
+		systs
 	    end
 	    handle e => raise wrap_exn ("symb_exec_library_block::" ^ term_to_string lbl_tm) e end;
 
@@ -367,9 +365,9 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 		    
 		(* generate list of states from end statement *)
 		val systs = List.concat(List.map (symb_exec_endstmt n_dict lbl_tm est) systs2);
-		val systs_processed = abpfun systs;
+		(*val systs_processed = abpfun systs;*) (*we need to fix it later*)
 	    in
-		systs_processed
+		systs(*_processed*)
 	    end
     handle e => raise wrap_exn ("symb_exec_normal_block::" ^ term_to_string lbl_tm) e end;
 
