@@ -293,6 +293,10 @@ fun symb_exec_adversary_block abpfun n_dict bl_dict syst =
 		(* Add fresh variable *)
 		val bv = “BVar "R0" (BType_Imm Bit32)”;
 		val bv_fresh = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Adv_K", “BType_Imm Bit32”)); (* generate a fresh variable *)
+		(* update path condition *)
+		val pred = SYST_get_pred syst; (* get current path condition *)
+		val syst = SYST_update_pred ((bv_fresh)::(pred)) syst;(* add the fresh variable to path condition and update state*)
+		(* update environment *)
 		val env = SYST_get_env syst; (* current environment *)
 		val env'= Redblackmap.insert (env, bv, bv_fresh); (* insert bir variable and fresh variable to current environment *)
 		val syst = (SYST_update_env env') syst; (* update state by new environment *)	    
