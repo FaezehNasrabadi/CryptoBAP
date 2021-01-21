@@ -43,9 +43,9 @@ val bl_dict  = bir_block_collectionLib.gen_block_dict prog;
 
 val _ = Parse.type_abbrev("key", ``:bir_exp_t -> bir_exp_t``);
     
-val _ = Parse.type_abbrev("enc", ``:bir_var_t -> bir_var_t -> bir_var_t -> bir_exp_t``); 
+val _ = Parse.type_abbrev("enc", ``:bir_exp_t -> bir_exp_t -> bir_exp_t -> bir_exp_t``); 
 
-val _ = Parse.type_abbrev("dec", ``:bir_var_t -> bir_var_t -> bir_var_t -> bir_exp_t``);
+val _ = Parse.type_abbrev("dec", ``:bir_exp_t -> bir_exp_t -> bir_exp_t -> bir_exp_t``);
 	      
 (* NewKey = key(R1) *)
 val func_table  = Redblackmap.insert(Redblackmap.mkDict Term.compare,``(BL_Address (Imm32 2002w))``,
