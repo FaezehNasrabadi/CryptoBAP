@@ -291,19 +291,18 @@ fun symb_exec_adversary_block abpfun n_dict bl_dict syst =
 		val (lbl_block_tm, bl_stmts, est) = dest_bir_block bl;
 
 		(* generate a fresh variable *)
-		val bv_str = "Adv";
-		val bv = bir_envSyntax.mk_BVar_string (bv_str, bir_valuesSyntax.BType_Bool_tm);
-		val bv_fresh = get_bvar_fresh bv;
+	
+		val bv_fresh = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Adv", “BType_Imm Bit32”));
 
 		val exp = ``BExp_BinPred BIExp_NotEqual
 					  (BExp_Den (bv_fresh))
-					  (BExp_Den (BVar "R0" BType_Bool))``;
+					  (BExp_Den (BVar "R0" (BType_Imm Bit32)))``;
 		(* update path condition *)
 		val pred = SYST_get_pred syst; (* get current path condition *)
 		val syst = SYST_update_pred ((exp)::(pred)) syst;(* add bir expression to path condition and update state*)
 
 		(* update environment *)
-		val bv = ``BVar "R0" BType_Bool``;
+		val bv = ``BVar "R0" (BType_Imm Bit32)``;
 		val env = SYST_get_env syst; (* current environment *)
 		val env'= Redblackmap.insert (env, bv, bv_fresh); (* insert bir variable and fresh variable to current environment *)
 		val syst = (SYST_update_env env') syst; (* update state by new environment *)	    
