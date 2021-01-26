@@ -129,17 +129,18 @@ fun Encryption syst =
 	(* update path condition *)
 	val biv = Fr iv;
 	val syst = SYST_update_pred ((biv)::(SYST_get_pred syst)) syst;
-	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit32))
+
+	val senc = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Enc", “BType_Imm Bit32”));
+	val stmt = ``BStmt_Assign (senc)
 			(enc
 			     (BVar "R0" (BType_Imm Bit32))
 			     (iv)
 			     (BVar "R1" (BType_Imm Bit32)))``;
 
-	val (bv, be) = dest_BStmt_Assign stmt; (* extract bir variable and bir expression *)
-
 	(* update environment *)
+	val bv = ``BVar "R0" (BType_Imm Bit32)``;
 	val env   = SYST_get_env syst;
-	val env'  = Redblackmap.insert (env, bv, be);
+	val env'  = Redblackmap.insert (env, bv, senc);
 	val syst = (SYST_update_env env') syst;
 
     in
@@ -155,17 +156,17 @@ fun Decryption syst =
 
 	val iv = rev_Fr last_pred_bv;
 
-	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit32))
+	val sdec = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Dec", “BType_Imm Bit32”));
+	val stmt = ``BStmt_Assign (sdec)
 			(dec
 			     (BVar "R0" (BType_Imm Bit32))
 			     (iv)
 			     (BVar "R1" (BType_Imm Bit32)))``;
 
-	val (bv, be) = dest_BStmt_Assign stmt; (* extract bir variable and bir expression *)
-
 	(* update environment *)
+	val bv = ``BVar "R0" (BType_Imm Bit32)``;
 	val env   = SYST_get_env syst;
-	val env'  = Redblackmap.insert (env, bv, be);
+	val env'  = Redblackmap.insert (env, bv, sdec);
 	val syst = (SYST_update_env env') syst;
 
 	(* update path condition *)
