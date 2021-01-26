@@ -41,8 +41,17 @@ val prog = ``BirProgram
          bb_statements :=
            [BStmt_Assign (BVar "R30" (BType_Imm Bit32))
               (BExp_Const (Imm32 2824w))];
-         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2202w)))|>;]``;
+         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2202w)))|>;
+<|bb_label := BL_Address_HC (Imm32 2824w) "2A0003E3 (mov w3, w0)";
+         bb_statements :=
+           [BStmt_Assign (BVar "R3" (BType_Imm Bit32))
+              (BExp_Cast BIExp_UnsignedCast
+                 (BExp_Cast BIExp_LowCast
+                    (BExp_Den (BVar "R0" (BType_Imm Bit32))) Bit32) Bit32)];
+         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2828w)))|>;]``;
 val bl_dict  = bir_block_collectionLib.gen_block_dict prog;
+val prog_lbl_tms = bir_block_collectionLib.get_block_dict_keys bl_dict;
+val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict prog_lbl_tms;
 *)
   
   (* TODO: this branching can be considered a hack because of
@@ -305,6 +314,7 @@ fun symb_exec_adversary_block abpfun n_dict bl_dict syst =
 		val bv = ``BVar "R0" (BType_Imm Bit32)``;
 		val env = SYST_get_env syst; (* current environment *)
 		val env'= Redblackmap.insert (env, bv, bv_fresh); (* insert bir variable and fresh variable to current environment *)
+		    (*Redblackmap.listItems env';*)
 		val syst = (SYST_update_env env') syst; (* update state by new environment *)	    
 
 		(* update pc *)
@@ -329,17 +339,13 @@ fun symb_exec_library_block abpfun n_dict bl_dict syst =
 		val (lbl_block_tm, bl_stmts, est) = dest_bir_block bl;
 		
 		val lib_type = bir_symbexec_oracleLib.lib_oracle est syst; (* detect type of library call *)
-		
-		val lib_lbl = bir_symbexec_oracleLib.fun_oracle_Address est syst; (* detect Address of library call *)
-		
-		val lib_stmts = bir_symbexec_funcLib.all_func lib_lbl; (* statements of library call *) 
 
 		val _ = if false then () else
 			print ("lib_type: " ^ (lib_type) ^ "\n");
 
-		val syst = if (lib_type = "NewKey") then bir_symbexec_funcLib.new_key lib_stmts syst
-			   else if (lib_type = "Encryption") then bir_symbexec_funcLib.Encryption lib_stmts syst
-			   else if (lib_type = "Decryption") then bir_symbexec_funcLib.Decryption lib_stmts syst
+		val syst = if (lib_type = "NewKey") then bir_symbexec_funcLib.new_key syst
+			   else if (lib_type = "Encryption") then bir_symbexec_funcLib.Encryption syst
+			   else if (lib_type = "Decryption") then bir_symbexec_funcLib.Decryption syst
 			   else
 			       raise ERR "funcLib" ("cannot handle" ^ (lib_type));
 

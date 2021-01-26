@@ -24,7 +24,7 @@ in
     “BVar "MEM" (BType_Mem Bit32 Bit8)”,
     “BVar "tmp_SP_process" (BType_Imm Bit32)”,
     “BVar "SP_process" (BType_Imm Bit32)”, “BVar "countw" (BType_Imm Bit64)”];
-  val lbl_tm = “BL_Address (Imm32 2820w)”;
+  val lbl_tm = “BL_Address (Imm32 2808w)”;
   val syst = init_state lbl_tm prog_vars;
   val bv_countw = bir_envSyntax.mk_BVar_string ("countw", ``(BType_Imm Bit64)``);
   val syst = state_make_interval bv_countw syst;
@@ -41,25 +41,25 @@ val prog = ``BirProgram
 val bl_dict  = bir_block_collectionLib.gen_block_dict prog;
 *)
 
-val _ = Parse.type_abbrev("key", ``:bir_exp_t -> bir_exp_t``);
+(*val _ = Parse.type_abbrev("key", ``:bir_exp_t -> bir_exp_t``);*)
     
-val _ = Parse.type_abbrev("enc", ``:bir_exp_t -> bir_exp_t -> bir_exp_t -> bir_exp_t``); 
+val _ = Parse.type_abbrev("enc", ``:bir_var_t -> bir_var_t -> bir_var_t -> bir_exp_t``); 
 
-val _ = Parse.type_abbrev("dec", ``:bir_exp_t -> bir_exp_t -> bir_exp_t -> bir_exp_t``);
+val _ = Parse.type_abbrev("dec", ``:bir_var_t -> bir_var_t -> bir_var_t -> bir_exp_t``);
 	      
-(* NewKey = key(R1) *)
+(* NewKey = key(R1) 
 val func_table  = Redblackmap.insert(Redblackmap.mkDict Term.compare,``(BL_Address (Imm32 2002w))``,
 				     ``(BStmt_Assign (BVar "R0" (BType_Imm Bit32))
 						     (key
 							  (BExp_Den (BVar "R1" (BType_Imm Bit32)))):α bir_stmt_basic_t)``);
 
-(* Enc(k,m) = enc(k,n,m) = enc(R1,R2,R3) *)     
-val func_table  = Redblackmap.insert(func_table, ``(BL_Address (Imm32 2202w))``,
-						   ``(BStmt_Assign (BVar "R0" (BType_Imm Bit32))
+(* Enc(k,m) = enc(k,n,m) = enc(R1,R2,R3) *)
+val func_table  = Redblackmap.insert(Redblackmap.mkDict Term.compare,``(BL_Address (Imm32 2002w))``,
+				     ``(BStmt_Assign (BVar "R0" (BType_Imm Bit32))
 								   (enc
-									(BExp_Den (BVar "R1" (BType_Imm Bit32)))
-									(BExp_Den (BVar "R2" (BType_Imm Bit32)))
-									(BExp_Den (BVar "R3" (BType_Imm Bit32)))))``);
+									(BExp_Den (BVar "R0" (BType_Imm Bit32)))
+									(BExp_Den (BVar "iv" (BType_Imm Bit32)))
+									(BExp_Den (BVar "R1" (BType_Imm Bit32)))):α bir_stmt_basic_t)``);    
 
 (* Dec(k,m) = dec(k,n,m) = dec(R1,R2,R3) *) 
 val func_table  = Redblackmap.insert(func_table, ``(BL_Address (Imm32 2502w))``,
@@ -67,89 +67,112 @@ val func_table  = Redblackmap.insert(func_table, ``(BL_Address (Imm32 2502w))``,
 								   (dec
 									(BExp_Den (BVar "R1" (BType_Imm Bit32)))
 									(BExp_Den (BVar "R2" (BType_Imm Bit32)))
-									(BExp_Den (BVar "R3" (BType_Imm Bit32)))))``);
+									(BExp_Den (BVar "R3" (BType_Imm Bit32)))))``);*)
 
 (*listItems func_table;
 val lbl_tm = ``(BL_Address (Imm32 2002w))``;*)
-
+(*
 fun all_func lbl_tm =
     let
 	val stmts = (valOf o (lookup_block_dict func_table)) lbl_tm;
     in
 	stmts
     end;
-
+*)
 (*val prog_vars =
    [“BVar "R11" (BType_Imm Bit32)”, “BVar "R10" (BType_Imm Bit32)”];
   val lbl_tm = “BL_Address (Imm32 2202w)”;
   val syst = init_state lbl_tm prog_vars;
   val stmts = all_func lbl_tm;
       listItems env';
-*)
- 
-fun new_key stmts syst =
+ *)
+    
+fun Fr var =
     let
-	val (bv, be) = dest_BStmt_Assign stmts; (* extract bir variable and bir expression *)
+	 val (bv_str, _) = bir_envSyntax.dest_BVar_string var;
+	 val bv =  bir_envSyntax.mk_BVar_string (bv_str, bir_valuesSyntax.BType_Bool_tm);
+    in
+	bv
+    end;
 
-	val exp = ``BExp_BinPred BIExp_Equal
-		    (BExp_Den (be))
-		    (BExp_Den (BVar "R0" (BType_Imm Bit32)))``;
+fun rev_Fr bv =
+    let
+	 val (bv_str, _) = bir_envSyntax.dest_BVar_string bv;
+	 val var =  bir_envSyntax.mk_BVar_string (bv_str, “BType_Imm Bit32”);
+    in
+	var
+    end;
+    
+fun new_key syst =
+    let
+	(* generate a fresh variable *)
+	val vn = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Key", “BType_Imm Bit32”));
+
+	(* update environment *)
+	val bv = ``BVar "R0" (BType_Imm Bit32)``;
+	val env   = SYST_get_env syst;
+	val env'  = Redblackmap.insert (env, bv, vn);
+	val syst = (SYST_update_env env') syst;
 
 	(* update path condition *)
-	val syst = SYST_update_pred ((exp)::(SYST_get_pred syst)) syst;
-
-	(* generate a fresh variable *)
-	val bv_fresh = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Key", “BType_Imm Bit32”));
-	    
-	(* update environment *)
-	val env   = SYST_get_env  syst;
-	val env'  = Redblackmap.insert (env, bv, bv_fresh);
-	val syst = (SYST_update_env env') syst;
-	
+	val Fr_vn = Fr vn;
+	val syst = SYST_update_pred ((Fr_vn)::(SYST_get_pred syst)) syst;
     in
 	syst
     end;   
 
-fun Encryption stmts syst =
+fun Encryption syst =
     let
-	val (bv, be) = dest_BStmt_Assign stmts; (* extract bir variable and bir expression *)
-
-	val exp = ``BExp_BinPred BIExp_Equal
-		    (BExp_Den (be))
-		    (BExp_Den (BVar "R0" (BType_Imm Bit32)))``;
+	(* generate a fresh variable *)
+	val iv = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("iv", “BType_Imm Bit32”));
 
 	(* update path condition *)
-	val syst = SYST_update_pred ((exp)::(SYST_get_pred syst)) syst;
+	val biv = Fr iv;
+	val syst = SYST_update_pred ((biv)::(SYST_get_pred syst)) syst;
+	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit32))
+			(enc
+			     (BVar "R0" (BType_Imm Bit32))
+			     (iv)
+			     (BVar "R1" (BType_Imm Bit32)))``;
 
-	(* generate a fresh variable *)
-	val bv_fresh = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Enc", “BType_Imm Bit32”));
-	    
+	val (bv, be) = dest_BStmt_Assign stmt; (* extract bir variable and bir expression *)
+
 	(* update environment *)
-	val env   = SYST_get_env  syst;
-	val env'  = Redblackmap.insert (env, bv, bv_fresh);
+	val env   = SYST_get_env syst;
+	val env'  = Redblackmap.insert (env, bv, be);
 	val syst = (SYST_update_env env') syst;
+
     in
 	syst
     end;
-
-fun Decryption stmts syst =
+ 
+fun Decryption syst =
     let
-	val (bv, be) = dest_BStmt_Assign stmts; (* extract bir variable and bir expression *)
+	val pred = SYST_get_pred syst;
+	val (pred_y, pred_n) =  List.partition (String.isSuffix "_iv" o fst o bir_envSyntax.dest_BVar_string) pred;
+	val last_pred_bv = hd pred_y
+            handle Empty => raise ERR "Decryption" "pred is empty!";
 
-	val exp = ``BExp_BinPred BIExp_Equal
-		    (BExp_Den (be))
-		    (BExp_Den (BVar "R0" (BType_Imm Bit32)))``;
+	val iv = rev_Fr last_pred_bv;
+
+	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit32))
+			(dec
+			     (BVar "R0" (BType_Imm Bit32))
+			     (iv)
+			     (BVar "R1" (BType_Imm Bit32)))``;
+
+	val (bv, be) = dest_BStmt_Assign stmt; (* extract bir variable and bir expression *)
+
+	(* update environment *)
+	val env   = SYST_get_env syst;
+	val env'  = Redblackmap.insert (env, bv, be);
+	val syst = (SYST_update_env env') syst;
 
 	(* update path condition *)
-	val syst = SYST_update_pred ((exp)::(SYST_get_pred syst)) syst;
-
-	(* generate a fresh variable *)
-	val bv_fresh = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Dec", “BType_Imm Bit32”));
+	val (bv_str, _) = bir_envSyntax.dest_BVar_string last_pred_bv;
+	val (pred_keep, _) =  List.partition (not o String.isSuffix bv_str o fst o bir_envSyntax.dest_BVar_string) pred;
+	val syst = SYST_update_pred pred_keep syst;
 	    
-	(* update environment *)
-	val env   = SYST_get_env  syst;
-	val env'  = Redblackmap.insert (env, bv, bv_fresh);
-	val syst = (SYST_update_env env') syst;
     in
 	syst
     end;
