@@ -9,21 +9,7 @@ local
   val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_funcLib"
 in
 (*val prog_vars =
-   [“BVar "R11" (BType_Imm Bit32)”, “BVar "R10" (BType_Imm Bit32)”,
-    “BVar "tmp_PSR_C" BType_Bool”, “BVar "R12" (BType_Imm Bit32)”,
-    “BVar "R9" (BType_Imm Bit32)”, “BVar "R8" (BType_Imm Bit32)”,
-    “BVar "R6" (BType_Imm Bit32)”, “BVar "tmp_R1" (BType_Imm Bit32)”,
-    “BVar "R5" (BType_Imm Bit32)”, “BVar "tmp_PC" (BType_Imm Bit32)”,
-    “BVar "ModeHandler" BType_Bool”, “BVar "tmp_R3" (BType_Imm Bit32)”,
-    “BVar "tmp_R2" (BType_Imm Bit32)”, “BVar "R3" (BType_Imm Bit32)”,
-    “BVar "R2" (BType_Imm Bit32)”, “BVar "R1" (BType_Imm Bit32)”,
-    “BVar "R0" (BType_Imm Bit32)”, “BVar "PSR_V" BType_Bool”,
-    “BVar "PSR_C" BType_Bool”, “BVar "PSR_Z" BType_Bool”,
-    “BVar "PSR_N" BType_Bool”, “BVar "LR" (BType_Imm Bit32)”,
-    “BVar "R7" (BType_Imm Bit32)”, “BVar "R4" (BType_Imm Bit32)”,
-    “BVar "MEM" (BType_Mem Bit32 Bit8)”,
-    “BVar "tmp_SP_process" (BType_Imm Bit32)”,
-    “BVar "SP_process" (BType_Imm Bit32)”, “BVar "countw" (BType_Imm Bit64)”];
+   [];
   val lbl_tm = “BL_Address (Imm32 2808w)”;
   val syst = init_state lbl_tm prog_vars;
   val bv_countw = bir_envSyntax.mk_BVar_string ("countw", ``(BType_Imm Bit64)``);
@@ -102,7 +88,33 @@ fun rev_Fr bv =
     in
 	var
     end;
-    
+
+fun enc iv =
+    let
+	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit32))
+			(enc
+			     (BVar "R0" (BType_Imm Bit32))
+			     (iv)
+			     (BVar "R1" (BType_Imm Bit32)))``;
+	val (bv, _) = dest_BStmt_Assign stmt;
+
+    in
+	bv
+    end;
+
+fun dec iv =
+    let
+	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit32))
+			(dec
+			     (BVar "R0" (BType_Imm Bit32))
+			     (iv)
+			     (BVar "R2" (BType_Imm Bit32)))``;
+	val (bv, _) = dest_BStmt_Assign stmt;
+
+    in
+	bv
+    end;
+
 fun new_key syst =
     let
 	(* generate a fresh variable *)
@@ -113,7 +125,7 @@ fun new_key syst =
 	val env   = SYST_get_env syst;
 	val env'  = Redblackmap.insert (env, bv, vn);
 	val syst = (SYST_update_env env') syst;
-
+	    
 	(* update path condition *)
 	val Fr_vn = Fr vn;
 	val syst = SYST_update_pred ((Fr_vn)::(SYST_get_pred syst)) syst;
@@ -123,24 +135,23 @@ fun new_key syst =
 
 fun Encryption syst =
     let
-	(* generate a fresh variable *)
-	val iv = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("iv", “BType_Imm Bit32”));
+	
+	val iv = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("iv", “BType_Imm Bit32”)); (* generate a fresh iv *)
 
 	(* update path condition *)
 	val biv = Fr iv;
 	val syst = SYST_update_pred ((biv)::(SYST_get_pred syst)) syst;
 
-	val senc = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Enc", “BType_Imm Bit32”));
-	val stmt = ``BStmt_Assign (senc)
-			(enc
-			     (BVar "R0" (BType_Imm Bit32))
-			     (iv)
-			     (BVar "R1" (BType_Imm Bit32)))``;
+	val Cipher = enc iv; (* encrypt with iv *)
+
+	val Fr_Enc = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Enc", “BType_Imm Bit32”)); (* generate a fresh variable *)
+
+	val stmt = ``BStmt_Assign (Fr_Enc) (Cipher)``; (* assign value of R0 to the fresh variable *)
 
 	(* update environment *)
 	val bv = ``BVar "R0" (BType_Imm Bit32)``;
 	val env   = SYST_get_env syst;
-	val env'  = Redblackmap.insert (env, bv, senc);
+	val env'  = Redblackmap.insert (env, bv, Fr_Enc);
 	val syst = (SYST_update_env env') syst;
 
     in
@@ -149,30 +160,20 @@ fun Encryption syst =
  
 fun Decryption syst =
     let
-	val pred = SYST_get_pred syst;
-	val (pred_y, pred_n) =  List.partition (String.isSuffix "_iv" o fst o bir_envSyntax.dest_BVar_string) pred;
-	val last_pred_bv = hd pred_y
-            handle Empty => raise ERR "Decryption" "pred is empty!";
 
-	val iv = rev_Fr last_pred_bv;
+	val iv = ``BVar "R1" (BType_Imm Bit32)``; (* input from user *)
 
-	val sdec = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Dec", “BType_Imm Bit32”));
-	val stmt = ``BStmt_Assign (sdec)
-			(dec
-			     (BVar "R0" (BType_Imm Bit32))
-			     (iv)
-			     (BVar "R1" (BType_Imm Bit32)))``;
+	val Msg = dec iv; (* decrypt with iv *)
+
+	val Fr_Dec = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Dec", “BType_Imm Bit32”)); (* generate a fresh variable *)
+
+	val stmt = ``BStmt_Assign (Fr_Dec) (Msg)``; (* assign value of R0 to the fresh variable *)
 
 	(* update environment *)
 	val bv = ``BVar "R0" (BType_Imm Bit32)``;
 	val env   = SYST_get_env syst;
-	val env'  = Redblackmap.insert (env, bv, sdec);
+	val env'  = Redblackmap.insert (env, bv, Fr_Dec);
 	val syst = (SYST_update_env env') syst;
-
-	(* update path condition *)
-	val (bv_str, _) = bir_envSyntax.dest_BVar_string last_pred_bv;
-	val (pred_keep, _) =  List.partition (not o String.isSuffix bv_str o fst o bir_envSyntax.dest_BVar_string) pred;
-	val syst = SYST_update_pred pred_keep syst;
 	    
     in
 	syst
