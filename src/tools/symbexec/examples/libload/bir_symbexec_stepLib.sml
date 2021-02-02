@@ -339,6 +339,8 @@ fun symb_exec_adversary_block abpfun n_dict bl_dict syst =
 
 		val (lbl_block_tm, bl_stmts, est) = dest_bir_block bl;
 
+		val syst = bir_symbexec_funcLib.store_link bl_stmts syst; (* store link register *)
+
 		val bv_fresh = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Adv", “BType_Imm Bit32”)); (* generate a fresh variable *)
 
 		val stmt = ``BStmt_Assign (BVar "R0" BType_Bool)
@@ -353,9 +355,11 @@ fun symb_exec_adversary_block abpfun n_dict bl_dict syst =
 	    
 		val syst =  update_envvar bv bv_fresh syst; (* update environment *)
 
-		val syst = bir_symbexec_funcLib.update_symbval bv_fresh bv syst; (* update symbolic value *)
+		val Fr_bv = get_bvar_fresh bv;
 		    
-		val systs = bir_symbexec_funcLib.update_pc bl_stmts syst;(* update symb_state with new pc *)
+		val syst = bir_symbexec_funcLib.update_symbval bv_fresh Fr_bv syst; (* update symbolic value *)
+		    
+		val systs = bir_symbexec_funcLib.update_pc syst;(* update symb_state with new pc *)
 
 		val systs_processed = abpfun systs; 
 	    in
@@ -370,7 +374,9 @@ fun symb_exec_library_block abpfun n_dict bl_dict syst =
 		val bl = (valOf o (lookup_block_dict bl_dict)) lbl_tm;
 
 		val (lbl_block_tm, bl_stmts, est) = dest_bir_block bl;
-		
+
+		val syst = bir_symbexec_funcLib.store_link bl_stmts syst; (* store link register *)
+		    	
 		val lib_type = bir_symbexec_oracleLib.lib_oracle est syst; (* detect type of library call *)
 
 		val _ = if false then () else
@@ -382,7 +388,7 @@ fun symb_exec_library_block abpfun n_dict bl_dict syst =
 			   else
 			       raise ERR "funcLib" ("cannot handle" ^ (lib_type));
 
-		val systs = bir_symbexec_funcLib.update_pc bl_stmts syst;(* update symb_state with new pc *)
+		val systs = bir_symbexec_funcLib.update_pc syst;(* update symb_state with new pc *)
 
 		val systs_processed = abpfun systs; 
 	    in

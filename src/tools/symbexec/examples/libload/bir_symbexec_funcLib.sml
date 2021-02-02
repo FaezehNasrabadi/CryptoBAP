@@ -10,7 +10,7 @@ local
 in
 (*
  val prog_vars =
-   [``BVar "R1" (BType_Imm Bit32)``, ``BVar "R0" (BType_Imm Bit32)``, ``BVar "R2" (BType_Imm Bit32)``];
+   [``BVar "R1" (BType_Imm Bit32)``, ``BVar "R0" (BType_Imm Bit32)``, ``BVar "R2" (BType_Imm Bit32)``, “BVar "R30" (BType_Imm Bit32)”];
   val lbl_tm = “BL_Address (Imm32 2802w)”;
   val syst = init_state lbl_tm prog_vars;
   val bv = ``BVar "R0" (BType_Imm Bit32)``;
@@ -66,22 +66,47 @@ fun decrypt bv_r0 iv bv_r2 =
 	dest_BStmt_Assign stmt
     end;
 
-fun update_symbval new_symbval bv syst =
+fun symbval_bexp symbv =
     let
-	val vals  = SYST_get_vals syst;
-	val deps = deps_find_symbval "deps of symbv" vals bv;
-	val symbv' = SymbValBE (new_symbval,deps);   
-	val vals' = Redblackmap.insert (vals, bv, symbv');
+	val bexp =
+	    case symbv of
+		SymbValBE (exp,_) => exp
+              | SymbValInterval ((exp1,exp2), _) => exp1 (* we need to fix it later*)
+              | SymbValMem (exp, _, _, _) => exp (* we need to fix it later*)
+	      | _ => raise ERR "symbval_bexp" "cannot handle symbolic value type";
+    in
+	bexp
+    end;
+
+fun update_symbval new_symbval Fr_bv syst =
+    let
+	val symbv' = SymbValBE (new_symbval,symbvalbe_dep_empty);
+	val syst = insert_symbval Fr_bv symbv' syst;
 
     in
-	(SYST_update_vals vals') syst
+	syst
     end;
-    
-fun update_pc bl_stmts syst =
+  
+fun store_link bl_stmts syst =
     let
 	val s_tm = (fst o listSyntax.dest_list) bl_stmts;
 	val s_tm_0 = List.nth (s_tm, 0);
-	val (_, be) = dest_BStmt_Assign s_tm_0; (* extract bir expression *)
+	val (bv, be) = dest_BStmt_Assign s_tm_0; (* extract bir expression *)
+	val Fr_bv = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("R30", “BType_Imm Bit32”)); (* generate a fresh iv *)
+	val syst =  update_envvar bv Fr_bv syst; (* update environment *)
+	val syst = update_symbval be Fr_bv syst; (* update symbolic value *)
+    in
+	syst
+    end;
+
+fun update_pc syst =
+    let
+	val bv = ``BVar "R30" (BType_Imm Bit32)``;
+
+	val symbv = get_state_symbv "symbv not found" bv syst;
+
+	val be = symbval_bexp symbv; (* extract bir expression *) 
+
 	val tgt = (mk_BL_Address o bir_expSyntax.dest_BExp_Const) be; (* make next address *)
 	    
 	val systs = List.map (SYST_update_pc tgt) [syst];(* update symb_state list with new pc *)
@@ -97,7 +122,8 @@ fun new_key syst =
 
 	val bv = ``BVar "R0" (BType_Imm Bit32)``;
 	val syst =  update_envvar bv vn syst; (* update environment *)
-	val syst = update_symbval vn bv syst; (* update symbolic value *)
+	val Fr_bv = get_bvar_fresh bv;	    
+	val syst = update_symbval vn Fr_bv syst; (* update symbolic value *)
 	    
 	(* update path condition *)
 	val Fr_vn = Fr vn;
@@ -130,7 +156,8 @@ fun Encryption syst =
 	val bv = ``BVar "R0" (BType_Imm Bit32)``;
 	    
 	val syst =  update_envvar bv Fr_Enc syst; (* update environment *)
-	val syst = update_symbval C_be bv syst; (* update symbolic value *)
+	val Fr_bv = get_bvar_fresh bv;
+	val syst = update_symbval C_be Fr_bv syst; (* update symbolic value *)
 	    	     
     in
 	syst
@@ -154,7 +181,8 @@ fun Decryption syst =
 	val bv = ``BVar "R0" (BType_Imm Bit32)``;
 	    
 	val syst =  update_envvar bv Fr_Dec syst; (* update environment *)
-	val syst = update_symbval M_be bv syst; (* update symbolic value *)
+	val Fr_bv = get_bvar_fresh bv;
+	val syst = update_symbval M_be Fr_bv syst; (* update symbolic value *)
 			    
     in
 	syst
