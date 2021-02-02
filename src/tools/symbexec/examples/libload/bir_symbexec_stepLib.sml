@@ -12,46 +12,86 @@ in (* outermost local *)
 (* execution of a basic statement *)
 local
   (* basic statement execution functions *)
-(*val prog_vars =
-   [“BVar "R11" (BType_Imm Bit32)”, “BVar "R10" (BType_Imm Bit32)”,
-    “BVar "tmp_PSR_C" BType_Bool”, “BVar "R12" (BType_Imm Bit32)”,
-    “BVar "R9" (BType_Imm Bit32)”, “BVar "R8" (BType_Imm Bit32)”,
-    “BVar "R6" (BType_Imm Bit32)”, “BVar "tmp_R1" (BType_Imm Bit32)”,
-    “BVar "R5" (BType_Imm Bit32)”, “BVar "tmp_PC" (BType_Imm Bit32)”,
-    “BVar "ModeHandler" BType_Bool”, “BVar "tmp_R3" (BType_Imm Bit32)”,
-    “BVar "tmp_R2" (BType_Imm Bit32)”, “BVar "R3" (BType_Imm Bit32)”,
-    “BVar "R2" (BType_Imm Bit32)”, “BVar "R1" (BType_Imm Bit32)”,
-    “BVar "R0" (BType_Imm Bit32)”, “BVar "PSR_V" BType_Bool”,
-    “BVar "PSR_C" BType_Bool”, “BVar "PSR_Z" BType_Bool”,
-    “BVar "PSR_N" BType_Bool”, “BVar "LR" (BType_Imm Bit32)”,
-    “BVar "R7" (BType_Imm Bit32)”, “BVar "R4" (BType_Imm Bit32)”,
-    “BVar "MEM" (BType_Mem Bit32 Bit8)”,
-    “BVar "tmp_SP_process" (BType_Imm Bit32)”,
-    “BVar "SP_process" (BType_Imm Bit32)”, “BVar "countw" (BType_Imm Bit64)”];
-  val lbl_tm = “BL_Address (Imm32 2820w)”;
-  val syst = init_state lbl_tm prog_vars;
-  val bv_countw = bir_envSyntax.mk_BVar_string ("countw", ``(BType_Imm Bit64)``);
-  val syst = state_make_interval bv_countw syst;
-  val SymbState systr = syst;
-  val s = ``BStmt_Assign (BVar "R5" (BType_Imm Bit32)) (BExp_Den (BVar "R4" (BType_Imm Bit32)))``;
-  val (bv, be) = dest_BStmt_Assign s;
-val prog = ``BirProgram
+(*val prog = ``BirProgram
       [<|bb_label :=
+           BL_Address_HC (Imm32 2802w)
+             "52800000 (mov w0, #0x0                    // #0)";
+         bb_statements :=
+           [BStmt_Assign (BVar "R0" (BType_Imm Bit32))
+              (BExp_Const (Imm32 0w))];
+         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2804w)))|>;
+        <|bb_label := BL_Address_HC (Imm32 2804w) "11000400 (add w0, w0, #0x1)";
+         bb_statements :=
+           [BStmt_Assign (BVar "R0" (BType_Imm Bit32))
+                     (BExp_BinExp BIExp_Plus
+                        (BExp_Den (BVar "R0" (BType_Imm Bit32)))
+                        (BExp_Const (Imm32 1w)))];
+         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2808w)))|>;
+       <|bb_label := BL_Address_HC (Imm32 2808w) "94000020 (bl 88 <.text+0x88>)";
+         bb_statements :=
+           [BStmt_Assign (BVar "R30" (BType_Imm Bit32))
+              (BExp_Const (Imm32 2812w))];
+         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2002w)))|>;
+	<|bb_label := BL_Address_HC (Imm32 2812w) "2A0003E2 (mov w2, w0)";
+         bb_statements :=
+           [BStmt_Assign (BVar "R2" (BType_Imm Bit32))
+              (BExp_Cast BIExp_UnsignedCast
+                 (BExp_Cast BIExp_LowCast
+                    (BExp_Den (BVar "R0" (BType_Imm Bit32))) Bit32) Bit32)];
+         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2816w)))|>;
+	<|bb_label :=
+           BL_Address_HC (Imm32 2816w)
+             "52800121 (mov w1, #0x9                    // #9)";
+         bb_statements :=
+           [BStmt_Assign (BVar "R1" (BType_Imm Bit32))
+              (BExp_Const (Imm32 9w))];
+         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2820w)))|>;
+       <|bb_label :=
            BL_Address_HC (Imm32 2820w) "94000024 (bl a4 <.text+0xa4>)";
          bb_statements :=
            [BStmt_Assign (BVar "R30" (BType_Imm Bit32))
               (BExp_Const (Imm32 2824w))];
          bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2202w)))|>;
-<|bb_label := BL_Address_HC (Imm32 2824w) "2A0003E3 (mov w3, w0)";
+       <|bb_label := BL_Address_HC (Imm32 2824w) "2A0003E3 (mov w3, w0)";
          bb_statements :=
            [BStmt_Assign (BVar "R3" (BType_Imm Bit32))
               (BExp_Cast BIExp_UnsignedCast
                  (BExp_Cast BIExp_LowCast
                     (BExp_Den (BVar "R0" (BType_Imm Bit32))) Bit32) Bit32)];
-         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2828w)))|>;]``;
+         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2828w)))|>;
+	<|bb_label :=
+           BL_Address_HC (Imm32 2828w) "94000028 (bl 72 <.text+0x72>)";
+         bb_statements :=
+           [BStmt_Assign (BVar "R30" (BType_Imm Bit32))
+              (BExp_Const (Imm32 2832w))];
+         bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2w)))|>;
+
+      ]``;
+ 
 val bl_dict  = bir_block_collectionLib.gen_block_dict prog;
 val prog_lbl_tms = bir_block_collectionLib.get_block_dict_keys bl_dict;
+val prog_lbl_tms_0 = “BL_Address (Imm32 2802w)”;
+val prog_vars = bir_exec_typingLib.gen_vars_of_prog prog;
 val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict prog_lbl_tms;
+val stop_lbl_tms = [“BL_Address (Imm32 2816w)”];
+    
+val syst = init_state prog_lbl_tms_0 prog_vars;
+
+val Fr_bv = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("init", “BType_Imm Bit32”));
+val bv = ``BVar "R0" (BType_Imm Bit32)``;
+val deps = Redblackset.add (symbvalbe_dep_empty, bv);
+val symbv = SymbValBE (Fr_bv,deps);
+val syst = bir_symbexec_stateLib.insert_symbval bv symbv syst;
+
+val pred_conjs =
+   [``BExp_BinPred BIExp_Equal
+                        (BExp_Den (BVar "R0" (BType_Imm Bit32)))
+                        (BExp_Const (Imm32 0w))``];
+
+val syst = state_add_preds "init_pred" pred_conjs syst;
+val _ = print "initial state created.\n\n";
+
+val cfb = false;
 *)
   
   (* TODO: this branching can be considered a hack because of
@@ -299,34 +339,27 @@ fun symb_exec_adversary_block abpfun n_dict bl_dict syst =
 
 		val (lbl_block_tm, bl_stmts, est) = dest_bir_block bl;
 
-		(* generate a fresh variable *)
-	
-		val bv_fresh = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Adv", “BType_Imm Bit32”));
+		val bv_fresh = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Adv", “BType_Imm Bit32”)); (* generate a fresh variable *)
 
-		val exp = ``BExp_BinPred BIExp_NotEqual
-					  (BExp_Den (bv_fresh))
-					  (BExp_Den (BVar "R0" (BType_Imm Bit32)))``;
-		(* update path condition *)
-		val pred = SYST_get_pred syst; (* get current path condition *)
-		val syst = SYST_update_pred ((exp)::(pred)) syst;(* add bir expression to path condition and update state*)
+		val stmt = ``BStmt_Assign (BVar "R0" BType_Bool)
+					  (BExp_BinPred BIExp_NotEqual
+							(BExp_Den (bv_fresh))
+							(BExp_Den (BVar "R0" (BType_Imm Bit32))))``;
+		val (A_bv, _) = dest_BStmt_Assign stmt;
 
-		(* update environment *)
+		val syst = SYST_update_pred ((A_bv)::(SYST_get_pred syst)) syst;(* add bool value to path condition and update state*)   
+
 		val bv = ``BVar "R0" (BType_Imm Bit32)``;
-		val env = SYST_get_env syst; (* current environment *)
-		val env'= Redblackmap.insert (env, bv, bv_fresh); (* insert bir variable and fresh variable to current environment *)
-		    (*Redblackmap.listItems env';*)
-		val syst = (SYST_update_env env') syst; (* update state by new environment *)	    
+	    
+		val syst =  update_envvar bv bv_fresh syst; (* update environment *)
 
-		(* update pc *)
-		val s_tm = (fst o listSyntax.dest_list) bl_stmts;
-		val s_tm_0 = List.nth (s_tm, 0);
-		val (_, be) = dest_BStmt_Assign s_tm_0; (* extract bir expression *)
-		val tgt = (mk_BL_Address o bir_expSyntax.dest_BExp_Const) be; (* make next address *)
+		val syst = bir_symbexec_funcLib.update_symbval bv_fresh bv syst; (* update symbolic value *)
 		    
-		val systs = List.map (SYST_update_pc tgt) [syst];(* update symb_state list with new pc *)
+		val systs = bir_symbexec_funcLib.update_pc bl_stmts syst;(* update symb_state with new pc *)
 
+		val systs_processed = abpfun systs; 
 	    in
-		systs
+		systs_processed
 	    end
 	    handle e => raise wrap_exn ("symb_exec_adversary_block::" ^ term_to_string lbl_tm) e end;
 
@@ -349,16 +382,11 @@ fun symb_exec_library_block abpfun n_dict bl_dict syst =
 			   else
 			       raise ERR "funcLib" ("cannot handle" ^ (lib_type));
 
-		(* update pc *)
-		val s_tm = (fst o listSyntax.dest_list) bl_stmts;
-		val s_tm_0 = List.nth (s_tm, 0);
-		val (_, be) = dest_BStmt_Assign s_tm_0; (* extract bir expression *)
-		val tgt = (mk_BL_Address o bir_expSyntax.dest_BExp_Const) be; (* make next address *)
-		    
-		val systs = List.map (SYST_update_pc tgt) [syst];(* update symb_state list with new pc *)
+		val systs = bir_symbexec_funcLib.update_pc bl_stmts syst;(* update symb_state with new pc *)
 
+		val systs_processed = abpfun systs; 
 	    in
-		systs
+		systs_processed
 	    end
 	    handle e => raise wrap_exn ("symb_exec_library_block::" ^ term_to_string lbl_tm) e end;
 
@@ -381,9 +409,9 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 		    
 		(* generate list of states from end statement *)
 		val systs = List.concat(List.map (symb_exec_endstmt n_dict lbl_tm est) systs2);
-		(*val systs_processed = abpfun systs;*) (*we need to fix it later*)
+		val systs_processed = abpfun systs; 
 	    in
-		systs(*_processed*)
+		systs_processed
 	    end
     handle e => raise wrap_exn ("symb_exec_normal_block::" ^ term_to_string lbl_tm) e end;
 
