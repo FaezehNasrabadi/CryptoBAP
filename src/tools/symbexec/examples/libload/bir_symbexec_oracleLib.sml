@@ -7,42 +7,9 @@ local
 
   val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_oracleLib"
 in
-(*val prog_vars =
-   [“BVar "R11" (BType_Imm Bit32)”, “BVar "R10" (BType_Imm Bit32)”,
-    “BVar "tmp_PSR_C" BType_Bool”, “BVar "R12" (BType_Imm Bit32)”,
-    “BVar "R9" (BType_Imm Bit32)”, “BVar "R8" (BType_Imm Bit32)”,
-    “BVar "R6" (BType_Imm Bit32)”, “BVar "tmp_R1" (BType_Imm Bit32)”,
-    “BVar "R5" (BType_Imm Bit32)”, “BVar "tmp_PC" (BType_Imm Bit32)”,
-    “BVar "ModeHandler" BType_Bool”, “BVar "tmp_R3" (BType_Imm Bit32)”,
-    “BVar "tmp_R2" (BType_Imm Bit32)”, “BVar "R3" (BType_Imm Bit32)”,
-    “BVar "R2" (BType_Imm Bit32)”, “BVar "R1" (BType_Imm Bit32)”,
-    “BVar "R0" (BType_Imm Bit32)”, “BVar "PSR_V" BType_Bool”,
-    “BVar "PSR_C" BType_Bool”, “BVar "PSR_Z" BType_Bool”,
-    “BVar "PSR_N" BType_Bool”, “BVar "LR" (BType_Imm Bit32)”,
-    “BVar "R7" (BType_Imm Bit32)”, “BVar "R4" (BType_Imm Bit32)”,
-    “BVar "MEM" (BType_Mem Bit32 Bit8)”,
-    “BVar "tmp_SP_process" (BType_Imm Bit32)”,
-    “BVar "SP_process" (BType_Imm Bit32)”, “BVar "countw" (BType_Imm Bit64)”];
-  val lbl_tm = “BL_Address (Imm32 3076w)”;
-  val syst = init_state lbl_tm prog_vars;
-      val bv_countw = bir_envSyntax.mk_BVar_string ("countw", ``(BType_Imm Bit64)``);
-  val syst = state_make_interval bv_countw syst;
-  val pred_conjs =
-   [``BExp_Cast BIExp_UnsignedCast
-                 (BExp_Cast BIExp_LowCast
-			    (BExp_Den (BVar "PSR_N" BType_Bool)) Bit32) Bit32``, ``BExp_Const (Imm32 136w)``];
-  val syst = state_add_preds "init_pred" pred_conjs syst;*)
-
-
-(*val est = ``BStmt_CJmp
-                    (BExp_BinExp BIExp_Or
-                       (BExp_UnaryExp BIExp_Not
-                          (BExp_BinPred BIExp_Equal
-                             (BExp_Den (BVar "PSR_N" BType_Bool))
-                             (BExp_Den (BVar "PSR_V" BType_Bool))))
-                       (BExp_Den (BVar "PSR_Z" BType_Bool)))
-                    (BLE_Label (BL_Address (Imm32 12232w)))
-                    (BLE_Label (BL_Address (Imm32 12228w)))``;*)
+(*val est = ``BStmt_CJmp (BExp_Den (BVar "ProcState_Z" BType_Bool))
+			     (BLE_Label (BL_Address (Imm32 2844w)))
+			     (BLE_Label (BL_Address (Imm32 2836w)))``;*)
 fun state_exec_try_cjmp_label_out est syst =
      let
 	 val cjmp_label_match_tm = ``BStmt_CJmp xyzc (BLE_Label xyz1) (BLE_Label xyz2)``;
@@ -51,46 +18,21 @@ fun state_exec_try_cjmp_label_out est syst =
 	 val tgt1    = fst (List.nth (vs, 1));
 	 val tgt2    = fst (List.nth (vs, 2));
 
-	 (* see whether the latest addition to the path condition
-		matches the unnegated or negated branch condition *)
-	 val pred = SYST_get_pred syst;
-	 val vals = SYST_get_vals syst;
-	 val last_pred_bv = hd pred
-             handle Empty => raise ERR "symb_exec_endstmt" "oh no, pred is empty!";
-val _ = print_term last_pred_bv;
-	 val last_pred_symbv = find_bv_val "symb_exec_endstmt" vals last_pred_bv;
-	 val last_pred_exp =
-             case last_pred_symbv of
-		 SymbValBE (x,_) => x
-               | _ => raise ERR "symb_exec_endstmt" "cannot handle symbolic value type for last pred exp";
-
-	 (* get branch condition *)
+	 (* get branch condition 
 	 val cnd_exp =
              case compute_valbe cnd syst of
 		 SymbValBE (x,_) => x
-               | _ => raise ERR "symb_exec_endstmt" "cannot handle symbolic value type for conditions";
+               | _ => raise ERR "symb_exec_endstmt" "cannot handle symbolic value type for conditions";*)
+
+	 val cnd_exp_bool = bir_expSyntax.dest_BExp_Den cnd;
      in
-	 (* does unnegated condition match? *)
-	 if identical cnd_exp last_pred_exp then
+	 if bir_bool_expSyntax.is_bir_exp_true cnd_exp_bool then
              tgt1
-	 (* does negated condition match? *)
-	 else if identical (bslSyntax.bnot cnd_exp) last_pred_exp then
+	 else 
              tgt2
-	     
-	 (* no match *)
-	 else
-	     tgt1
-     (*we need to fix it later*)
+
      end;
 	  
-    (*  state_branch_simp
-         "cjmp"
-         cnd
-         (SYST_update_pc tgt1)
-         (SYST_update_pc tgt2)
-         syst
-    end
-   *)
 
 
 
