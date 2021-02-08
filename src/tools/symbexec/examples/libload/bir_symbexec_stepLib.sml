@@ -14,10 +14,31 @@ local
   (* basic statement execution functions *)
 (*val prog = ``BirProgram
       [<|bb_label :=
+		  BL_Address_HC (Imm32 2824w) "940000C0 (bl 318 <.text+0x318>)";
+		  bb_statements :=
+		  [BStmt_Assign (BVar "R30" (BType_Imm Bit32))
+				(BExp_Const (Imm32 2828w))];
+		  bb_last_statement :=
+		  BStmt_Jmp (BLE_Label (BL_Address (Imm32 02w)))|>;
+			    <|bb_label := BL_Address_HC (Imm32 2828w) "7100001F (cmp w0, #0x0)";
+		  bb_statements :=
+		  [BStmt_Assign (BVar "ProcState_C" BType_Bool) bir_exp_true;
+		   BStmt_Assign (BVar "ProcState_N" BType_Bool)
+				(BExp_MSB Bit32
+					  (BExp_Cast BIExp_LowCast
+						     (BExp_Den (BVar "R0" (BType_Imm Bit32))) Bit32));
+		   BStmt_Assign (BVar "ProcState_V" BType_Bool) bir_exp_false;
+		   BStmt_Assign (BVar "ProcState_Z" BType_Bool)
+				(BExp_BinPred BIExp_Equal
+					      (BExp_Cast BIExp_LowCast
+							 (BExp_Den (BVar "R0" (BType_Imm Bit32))) Bit32)
+					      (BExp_Const (Imm32 0w)))];
+		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2832w)))|>;
+						 <|bb_label :=
 		  BL_Address_HC (Imm32 2832w)
 				"54000060 (b.eq 2c <.text+0x2c> // b.none)";
-       bb_statements := [];
-       bb_last_statement :=
+		  bb_statements := [];
+		  bb_last_statement :=
 		  BStmt_CJmp (BExp_Den (BVar "ProcState_Z" BType_Bool))
 			     (BLE_Label (BL_Address (Imm32 2844w)))
 			     (BLE_Label (BL_Address (Imm32 2836w)))|>;
@@ -26,7 +47,7 @@ local
  
 val bl_dict  = bir_block_collectionLib.gen_block_dict prog;
 val prog_lbl_tms = bir_block_collectionLib.get_block_dict_keys bl_dict;
-val prog_lbl_tms_0 = “BL_Address (Imm32 2832w)”;
+val prog_lbl_tms_0 = “BL_Address (Imm32 2824w)”;
 val prog_vars = bir_exec_typingLib.gen_vars_of_prog prog;
 val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict prog_lbl_tms;
 
@@ -34,15 +55,17 @@ val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict prog_lbl_tms;
 val syst = init_state prog_lbl_tms_0 prog_vars;
 
 val Fr_bv = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("init", “BType_Imm Bit32”));
-val bv = ``BVar "R0" (BType_Imm Bit32)``;
-val deps = Redblackset.add (symbvalbe_dep_empty, bv);
-val symbv = SymbValBE (Fr_bv,deps);
-val syst = bir_symbexec_stateLib.insert_symbval bv symbv syst;
+val bv0 = ``BVar "R0" (BType_Imm Bit32)``;
+val bv1 = ``BVar "R1" (BType_Imm Bit32)``;
+val deps0 = Redblackset.add (symbvalbe_dep_empty, bv0);
+val symbv0 = SymbValBE (Fr_bv,deps0);
+val syst = bir_symbexec_stateLib.insert_symbval bv0 symbv0 syst;
+val deps1 = Redblackset.add (symbvalbe_dep_empty, bv1);
+val symbv1 = SymbValBE (Fr_bv,deps1);
+val syst = bir_symbexec_stateLib.insert_symbval bv1 symbv1 syst;
 
-val pred_conjs =
-   [``BExp_BinPred BIExp_Equal
-                        (BExp_Den (BVar "ProcState_Z" BType_Bool))
-                        (BExp_Const (Imm32 0w))``];
+
+val pred_conjs = [];
 
 val syst = state_add_preds "init_pred" pred_conjs syst;
 val _ = print "initial state created.\n\n";
@@ -160,15 +183,11 @@ local
 
       (*see whether the latest addition to the path condition
             matches the unnegated or negated branch condition *)
-
-
-(*
       val pred = SYST_get_pred syst;
       val vals = SYST_get_vals syst;
       val last_pred_bv = hd pred
                       handle Empty => raise ERR "symb_exec_endstmt" "oh no, pred is empty!";
       val last_pred_symbv = find_bv_val "symb_exec_endstmt" vals last_pred_bv;
-      val last_pred_symbv = find_bv_val "symb_exec_endstmt" vals cnd_exp_bool;
       val last_pred_exp =
          case last_pred_symbv of
             SymbValBE (x,_) => x
@@ -178,11 +197,11 @@ local
       val cnd_exp =
          case compute_valbe cnd syst of
             SymbValBE (x,_) => x
-          | _ => raise ERR "symb_exec_endstmt" "cannot handle symbolic value type for conditions";*)
+          | _ => raise ERR "symb_exec_endstmt" "cannot handle symbolic value type for conditions";
 
     in
       (* does unnegated condition match? *)
-      (*if identical cnd_exp last_pred_exp then
+      if identical cnd_exp last_pred_exp then
         [(SYST_update_pc tgt1
          ) syst]
       (* does negated condition match? *)
@@ -196,16 +215,7 @@ local
          cnd
          (SYST_update_pc tgt1)
          (SYST_update_pc tgt2)
-         syst*)
-
-state_branch_simp
-         "cjmp"
-         cnd
-         (SYST_update_pc tgt1)
-         (SYST_update_pc tgt2)
          syst
-
-
     end
     )
     handle state_exec_try_cjmp_exn => NONE;
@@ -299,21 +309,7 @@ fun symb_exec_adversary_block abpfun n_dict bl_dict syst =
 
 		val bv_fresh = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Adv", “BType_Imm Bit32”)); (* generate a fresh variable *)
 
-		val stmt = ``BStmt_Assign (BVar "R0" BType_Bool)
-					  (BExp_BinPred BIExp_NotEqual
-							(BExp_Den (bv_fresh))
-							(BExp_Den (BVar "R0" (BType_Imm Bit32))))``;
-		val (A_bv, _) = dest_BStmt_Assign stmt;
-
-		val syst = SYST_update_pred ((A_bv)::(SYST_get_pred syst)) syst;(* add bool value to path condition and update state*)   
-
-		val bv = ``BVar "R0" (BType_Imm Bit32)``;
-	    
-		val syst =  update_envvar bv bv_fresh syst; (* update environment *)
-
-		val Fr_bv = get_bvar_fresh bv;
-		    
-		val syst = bir_symbexec_funcLib.update_symbval bv_fresh Fr_bv syst; (* update symbolic value *)
+		val syst = bir_symbexec_funcLib.Adv bv_fresh syst; (* update env, vals & pred *)
 		    
 		val systs = bir_symbexec_funcLib.update_pc syst;(* update symb_state with new pc *)
 
@@ -330,7 +326,7 @@ fun symb_exec_library_block abpfun n_dict bl_dict syst =
 		val bl = (valOf o (lookup_block_dict bl_dict)) lbl_tm;
 
 		val (lbl_block_tm, bl_stmts, est) = dest_bir_block bl;
-
+open bir_symbexec_funcLib;
 		val syst = bir_symbexec_funcLib.store_link bl_stmts syst; (* store link register *)
 		    	
 		val lib_type = bir_symbexec_oracleLib.lib_oracle est syst; (* detect type of library call *)
@@ -345,6 +341,7 @@ fun symb_exec_library_block abpfun n_dict bl_dict syst =
 			       raise ERR "funcLib" ("cannot handle" ^ (lib_type));
 
 		val systs = bir_symbexec_funcLib.update_pc syst;(* update symb_state with new pc *)
+		    
 
 		val systs_processed = abpfun systs; 
 	    in

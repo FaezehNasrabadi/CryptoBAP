@@ -49,10 +49,17 @@ val prog = ``BirProgram
 		  BL_Address_HC (Imm32 2812w) "94000040 (bl 10c <.text+0x10c>)";
 		  bb_statements :=
 		  [BStmt_Assign (BVar "R30" (BType_Imm Bit32))
-				(BExp_Const (Imm32 2816w))];
+				(BExp_Const (Imm32 2814w))];
 		  bb_last_statement :=
 		  BStmt_Jmp (BLE_Label (BL_Address (Imm32 2002w)))|>;
-			    <|bb_label :=
+<|bb_label := BL_Address_HC (Imm32 2814w) "2A0003E2 (mov w2, w0)";
+         bb_statements :=
+           [BStmt_Assign (BVar "R6" (BType_Imm Bit32))
+              (BExp_Cast BIExp_UnsignedCast
+                 (BExp_Cast BIExp_LowCast
+                    (BExp_Den (BVar "R0" (BType_Imm Bit32))) Bit32) Bit32)];
+		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2816w)))|>;
+						 <|bb_label :=
 		  BL_Address_HC (Imm32 2816w)
 				"52800121 (mov w1, #0x9// #9)";
 		  bb_statements :=
@@ -63,9 +70,17 @@ val prog = ``BirProgram
 		  BL_Address_HC (Imm32 2820w) "94000080 (bl 214 <.text+0x214>)";
 		  bb_statements :=
 		  [BStmt_Assign (BVar "R30" (BType_Imm Bit32))
-				(BExp_Const (Imm32 2824w))];
+				(BExp_Const (Imm32 2822w))];
 		  bb_last_statement :=
 		  BStmt_Jmp (BLE_Label (BL_Address (Imm32 2202w)))|>;
+<|bb_label := BL_Address_HC (Imm32 2822w) "2A0003E2 (mov w2, w0)";
+         bb_statements :=
+           [BStmt_Assign (BVar "R8" (BType_Imm Bit32))
+              (BExp_Cast BIExp_UnsignedCast
+                 (BExp_Cast BIExp_LowCast
+                    (BExp_Den (BVar "R0" (BType_Imm Bit32))) Bit32) Bit32)];
+		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2824w)))|>;
+
 			    <|bb_label :=
 		  BL_Address_HC (Imm32 2824w) "940000C0 (bl 318 <.text+0x318>)";
 		  bb_statements :=
@@ -128,7 +143,7 @@ val prog_vars = bir_exec_typingLib.gen_vars_of_prog prog;
 val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict prog_lbl_tms;
 val stop_lbl_tms = [“BL_Address (Imm32 2824w)”];
     
-val syst = init_state prog_lbl_tms_0 prog_vars;
+val syst = init_state prog_lbl_tms_0 (``BVar "R7" (BType_Imm Bit32)``::prog_vars);
 
 val Fr_bval = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("init", “BType_Imm Bit32”));
 val bv = ``BVar "R0" (BType_Imm Bit32)``;
@@ -145,8 +160,8 @@ val _ = print "initial state created.\n\n";
 val cfb = false;
 
 val systs = symb_exec_to_stop (commonBalrobScriptLib.abpfun cfb) n_dict bl_dict [syst] stop_lbl_tms [];
-          listItems(SYST_get_env (hd systs));
-      listItems(SYST_get_vals (hd systs));
+    (*listItems(SYST_get_env (hd systs));
+      listItems(SYST_get_vals (hd systs));*)
 val _ = print "finished exploration of all paths.\n";
 val _ = print ("number of paths found: " ^ (Int.toString (length systs)));
 val _ = print "\n\n";
@@ -156,10 +171,13 @@ val systs = symb_exec_to_stop (commonBalrobScriptLib.abpfun cfb) n_dict bl_dict 
 val _ = print "finished exploration of all paths.\n";
 val _ = print ("number of paths found: " ^ (Int.toString (length systs)));
 val _ = print "\n\n";
-
+ (* listItems(SYST_get_env (hd systs));
+    listItems(SYST_get_vals (hd systs));
+    listItems(SYST_get_env ((hd o tl) systs));
+    listItems(SYST_get_vals ((hd o tl) systs));*)
     
 val (systs_noassertfailed, systs_assertfailed) =
   List.partition (fn syst => not (identical (SYST_get_status syst) BST_AssertionViolated_tm)) systs;
 val _ = print ("number of \"no assert failed\" paths found: " ^ (Int.toString (length systs_noassertfailed)));
 val _ = print "\n\n";
-(*Redblackmap.listItems bl_dict;*)
+

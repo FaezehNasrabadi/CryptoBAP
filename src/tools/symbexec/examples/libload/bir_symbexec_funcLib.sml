@@ -42,6 +42,16 @@ fun rev_Fr bv =
 	var
     end;
 
+fun deduce bv_fresh bv_r0 =
+    let
+	val stmt = ``BStmt_Assign (BVar "R0" BType_Bool)
+		     (BExp_BinPred BIExp_NotEqual
+				   (BExp_Den (bv_fresh))
+				   (BExp_Den (bv_r0)))``;
+    in
+	dest_BStmt_Assign stmt
+    end;
+    
 fun encrypt bv_r0 iv bv_r1 =
     let
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit32))
@@ -54,13 +64,13 @@ fun encrypt bv_r0 iv bv_r1 =
 	dest_BStmt_Assign stmt
     end;
 
-fun decrypt bv_r2 iv bv_r3 =
+fun decrypt bv_r6 bv_r7 bv_r8 =
     let
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit32))
 			(dec
-			     (bv_r2)
-			     (iv)
-			     (bv_r3))``;
+			     (bv_r6)
+			     (bv_r7)
+			     (bv_r8))``;
 
     in
 	dest_BStmt_Assign stmt
@@ -114,7 +124,31 @@ fun update_pc syst =
     in
 	systs
     end;
-    
+
+fun Adv bv_fresh syst =
+    let
+	(* get value from environment *)
+	val env   = SYST_get_env syst;
+
+	val bv_r0 = find_bv_val "bv_r0 not found" env ``BVar "R0" (BType_Imm Bit32)``;
+
+	val (A_bv, A_be) = deduce bv_fresh bv_r0;
+
+	val syst = SYST_update_pred ((A_bv)::(SYST_get_pred syst)) syst;(* add bool value to path condition and update state*)   
+
+	val bv = ``BVar "R0" (BType_Imm Bit32)``;
+		 
+	val syst =  update_envvar bv bv_fresh syst; (* update environment *)
+
+	val Fr_bv = get_bvar_fresh bv;
+	    
+	val syst = update_symbval bv_fresh Fr_bv syst; (* update symbolic value *)
+	val syst = update_symbval A_be A_bv syst; (* update symbolic value for deduction *)
+	    
+    in
+	syst
+    end;
+        
 fun new_key syst =
     let
 	(* generate a fresh variable *)
@@ -155,16 +189,16 @@ fun Encryption syst =
 	    
 	(* update environment *)
 	val bv0 = ``BVar "R0" (BType_Imm Bit32)``;
-	val bv1 = ``BVar "R1" (BType_Imm Bit32)``;
+	val bv7 = ``BVar "R7" (BType_Imm Bit32)``;
 	    
 	val syst =  update_envvar bv0 Fr_Enc syst;
-	val syst =  update_envvar bv1 iv syst; 
+	val syst =  update_envvar bv7 iv syst; 
 
 	(* update symbolic value *)
 	val Fr_bv0 = get_bvar_fresh bv0;
 	val syst = update_symbval C_be Fr_bv0 syst;
-	val Fr_bv1 = get_bvar_fresh bv1;
-	val syst = update_symbval iv Fr_bv1 syst;     
+	val Fr_bv7 = get_bvar_fresh bv7;
+	val syst = update_symbval iv Fr_bv7 syst;     
 	    	     
     in
 	syst
@@ -175,11 +209,11 @@ fun Decryption syst =
 	(* get value from environment *)
 	val env   = SYST_get_env syst;
 
-	val iv = find_bv_val "bv_r1 not found" env ``BVar "R1" (BType_Imm Bit32)``;
-	val bv_r2 = find_bv_val "bv_r2 not found" env ``BVar "R2" (BType_Imm Bit32)``;
-	val bv_r3 = find_bv_val "bv_r3 not found" env ``BVar "R3" (BType_Imm Bit32)``;
+	val bv_r6 = find_bv_val "bv_r6 not found" env ``BVar "R6" (BType_Imm Bit32)``;
+	val bv_r7 = find_bv_val "bv_r7 not found" env ``BVar "R7" (BType_Imm Bit32)``;
+	val bv_r8 = find_bv_val "bv_r8 not found" env ``BVar "R8" (BType_Imm Bit32)``;
 
-	val (M_bv, M_be) = decrypt bv_r2 iv bv_r3; (* decrypt with iv *)
+	val (M_bv, M_be) = decrypt bv_r6 bv_r7 bv_r8; (* decrypt with iv *)
 
 	val Fr_Dec = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Dec", “BType_Imm Bit32”)); (* generate a fresh variable *)
 
