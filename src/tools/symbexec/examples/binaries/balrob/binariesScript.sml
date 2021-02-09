@@ -17,7 +17,8 @@ fun lift_da_file_to_thm (prog_id, (da_file_lift, da_file_mem, mem_file), thm_nam
 
     val (region_map, sections) = read_disassembly_file_regions_filter symb_filter_lift da_file_lift;
 
-    val (thm, errors) = bmil_m0_mod_LittleEnd_Process.bir_lift_prog_gen prog_range sections;
+    (* val (thm, errors) = bmil_m0_mod_LittleEnd_Process.bir_lift_prog_gen prog_range sections; *)
+    val (thm, errors) = bmil_arm8.bir_lift_prog_gen prog_range sections;
 
     val _ = save_thm (thm_name, thm);
   in

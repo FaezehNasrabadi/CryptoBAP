@@ -1,0 +1,697 @@
+
+pkcs11_guest.o:     file format elf64-littleaarch64
+
+
+Disassembly of section .text:
+
+0000000000000000 <increment_iv>:
+   0:	d10083ff 	sub	sp, sp, #0x20
+   4:	f90007e0 	str	x0, [sp, #8]
+   8:	528001e0 	mov	w0, #0xf                   	// #15
+   c:	b9001fe0 	str	w0, [sp, #28]
+  10:	1400001e 	b	88 <increment_iv+0x88>
+  14:	b9801fe0 	ldrsw	x0, [sp, #28]
+  18:	f94007e1 	ldr	x1, [sp, #8]
+  1c:	8b000020 	add	x0, x1, x0
+  20:	39400000 	ldrb	w0, [x0]
+  24:	7103fc1f 	cmp	w0, #0xff
+  28:	540001a1 	b.ne	5c <increment_iv+0x5c>  // b.any
+  2c:	b9401fe0 	ldr	w0, [sp, #28]
+  30:	7100001f 	cmp	w0, #0x0
+  34:	54000041 	b.ne	3c <increment_iv+0x3c>  // b.any
+  38:	14000000 	b	38 <increment_iv+0x38>
+  3c:	b9801fe0 	ldrsw	x0, [sp, #28]
+  40:	f94007e1 	ldr	x1, [sp, #8]
+  44:	8b000020 	add	x0, x1, x0
+  48:	3900001f 	strb	wzr, [x0]
+  4c:	b9401fe0 	ldr	w0, [sp, #28]
+  50:	51000400 	sub	w0, w0, #0x1
+  54:	b9001fe0 	str	w0, [sp, #28]
+  58:	1400000c 	b	88 <increment_iv+0x88>
+  5c:	b9801fe0 	ldrsw	x0, [sp, #28]
+  60:	f94007e1 	ldr	x1, [sp, #8]
+  64:	8b000020 	add	x0, x1, x0
+  68:	39400001 	ldrb	w1, [x0]
+  6c:	b9801fe0 	ldrsw	x0, [sp, #28]
+  70:	f94007e2 	ldr	x2, [sp, #8]
+  74:	8b000040 	add	x0, x2, x0
+  78:	11000421 	add	w1, w1, #0x1
+  7c:	12001c21 	and	w1, w1, #0xff
+  80:	39000001 	strb	w1, [x0]
+  84:	14000004 	b	94 <increment_iv+0x94>
+  88:	b9401fe0 	ldr	w0, [sp, #28]
+  8c:	7100001f 	cmp	w0, #0x0
+  90:	54fffc2a 	b.ge	14 <increment_iv+0x14>  // b.tcont
+  94:	d503201f 	nop
+  98:	910083ff 	add	sp, sp, #0x20
+  9c:	d65f03c0 	ret
+
+00000000000000a0 <PKCS11_initialize>:
+  a0:	a9bb7bfd 	stp	x29, x30, [sp, #-80]!
+  a4:	910003fd 	mov	x29, sp
+  a8:	f9000fe0 	str	x0, [sp, #24]
+  ac:	f9000be1 	str	x1, [sp, #16]
+  b0:	90000000 	adrp	x0, 0 <increment_iv>
+  b4:	91000000 	add	x0, x0, #0x0
+  b8:	94000000 	bl	0 <puts>
+  bc:	f9400fe0 	ldr	x0, [sp, #24]
+  c0:	f100001f 	cmp	x0, #0x0
+  c4:	54000060 	b.eq	d0 <PKCS11_initialize+0x30>  // b.none
+  c8:	d2803220 	mov	x0, #0x191                 	// #401
+  cc:	14000038 	b	1ac <PKCS11_initialize+0x10c>
+  d0:	d2800800 	mov	x0, #0x40                  	// #64
+  d4:	94000000 	bl	0 <malloc>
+  d8:	f9000fe0 	str	x0, [sp, #24]
+  dc:	f9400fe0 	ldr	x0, [sp, #24]
+  e0:	f100001f 	cmp	x0, #0x0
+  e4:	54000061 	b.ne	f0 <PKCS11_initialize+0x50>  // b.any
+  e8:	d2800620 	mov	x0, #0x31                  	// #49
+  ec:	14000030 	b	1ac <PKCS11_initialize+0x10c>
+  f0:	d2800200 	mov	x0, #0x10                  	// #16
+  f4:	94000000 	bl	0 <malloc>
+  f8:	aa0003e1 	mov	x1, x0
+  fc:	f9400fe0 	ldr	x0, [sp, #24]
+ 100:	f9001c01 	str	x1, [x0, #56]
+ 104:	f9400fe0 	ldr	x0, [sp, #24]
+ 108:	f9401c00 	ldr	x0, [x0, #56]
+ 10c:	f100001f 	cmp	x0, #0x0
+ 110:	54000061 	b.ne	11c <PKCS11_initialize+0x7c>  // b.any
+ 114:	d2800620 	mov	x0, #0x31                  	// #49
+ 118:	14000025 	b	1ac <PKCS11_initialize+0x10c>
+ 11c:	f9400fe0 	ldr	x0, [sp, #24]
+ 120:	f9401c00 	ldr	x0, [x0, #56]
+ 124:	d2800202 	mov	x2, #0x10                  	// #16
+ 128:	52800001 	mov	w1, #0x0                   	// #0
+ 12c:	94000000 	bl	0 <memset>
+ 130:	f9400fe0 	ldr	x0, [sp, #24]
+ 134:	f900101f 	str	xzr, [x0, #32]
+ 138:	f9400be0 	ldr	x0, [sp, #16]
+ 13c:	f9400000 	ldr	x0, [x0]
+ 140:	910083e2 	add	x2, sp, #0x20
+ 144:	aa0003e3 	mov	x3, x0
+ 148:	a9400460 	ldp	x0, x1, [x3]
+ 14c:	a9000440 	stp	x0, x1, [x2]
+ 150:	a9410460 	ldp	x0, x1, [x3, #16]
+ 154:	a9010440 	stp	x0, x1, [x2, #16]
+ 158:	f9400fe0 	ldr	x0, [sp, #24]
+ 15c:	91002000 	add	x0, x0, #0x8
+ 160:	910083e1 	add	x1, sp, #0x20
+ 164:	94000000 	bl	0 <ctr_drbg_instantiate>
+ 168:	b9004fe0 	str	w0, [sp, #76]
+ 16c:	b9404fe0 	ldr	w0, [sp, #76]
+ 170:	7100001f 	cmp	w0, #0x0
+ 174:	540000a0 	b.eq	188 <PKCS11_initialize+0xe8>  // b.none
+ 178:	d2800600 	mov	x0, #0x30                  	// #48
+ 17c:	f90023e0 	str	x0, [sp, #64]
+ 180:	f94023e0 	ldr	x0, [sp, #64]
+ 184:	1400000a 	b	1ac <PKCS11_initialize+0x10c>
+ 188:	f9400fe0 	ldr	x0, [sp, #24]
+ 18c:	f900141f 	str	xzr, [x0, #40]
+ 190:	f9400fe0 	ldr	x0, [sp, #24]
+ 194:	52800021 	mov	w1, #0x1                   	// #1
+ 198:	39000001 	strb	w1, [x0]
+ 19c:	f9400fe0 	ldr	x0, [sp, #24]
+ 1a0:	91002000 	add	x0, x0, #0x8
+ 1a4:	94000000 	bl	0 <dump_drbg_state>
+ 1a8:	d2800000 	mov	x0, #0x0                   	// #0
+ 1ac:	a8c57bfd 	ldp	x29, x30, [sp], #80
+ 1b0:	d65f03c0 	ret
+
+00000000000001b4 <PKCS11_generate_key>:
+ 1b4:	a9bc7bfd 	stp	x29, x30, [sp, #-64]!
+ 1b8:	910003fd 	mov	x29, sp
+ 1bc:	f9000fe0 	str	x0, [sp, #24]
+ 1c0:	f9000be1 	str	x1, [sp, #16]
+ 1c4:	f9400fe0 	ldr	x0, [sp, #24]
+ 1c8:	f100001f 	cmp	x0, #0x0
+ 1cc:	540000a0 	b.eq	1e0 <PKCS11_generate_key+0x2c>  // b.none
+ 1d0:	f9400fe0 	ldr	x0, [sp, #24]
+ 1d4:	39400000 	ldrb	w0, [x0]
+ 1d8:	7100001f 	cmp	w0, #0x0
+ 1dc:	54000061 	b.ne	1e8 <PKCS11_generate_key+0x34>  // b.any
+ 1e0:	d2803200 	mov	x0, #0x190                 	// #400
+ 1e4:	14000024 	b	274 <PKCS11_generate_key+0xc0>
+ 1e8:	d2800200 	mov	x0, #0x10                  	// #16
+ 1ec:	94000000 	bl	0 <malloc>
+ 1f0:	f9001fe0 	str	x0, [sp, #56]
+ 1f4:	f9401fe0 	ldr	x0, [sp, #56]
+ 1f8:	f100001f 	cmp	x0, #0x0
+ 1fc:	540000a1 	b.ne	210 <PKCS11_generate_key+0x5c>  // b.any
+ 200:	d2800620 	mov	x0, #0x31                  	// #49
+ 204:	f9001be0 	str	x0, [sp, #48]
+ 208:	f9401be0 	ldr	x0, [sp, #48]
+ 20c:	1400001a 	b	274 <PKCS11_generate_key+0xc0>
+ 210:	f9400fe0 	ldr	x0, [sp, #24]
+ 214:	91002000 	add	x0, x0, #0x8
+ 218:	f9401fe1 	ldr	x1, [sp, #56]
+ 21c:	94000000 	bl	0 <ctr_drbg_generate>
+ 220:	b9002fe0 	str	w0, [sp, #44]
+ 224:	b9402fe0 	ldr	w0, [sp, #44]
+ 228:	7100001f 	cmp	w0, #0x0
+ 22c:	540000a0 	b.eq	240 <PKCS11_generate_key+0x8c>  // b.none
+ 230:	d2800600 	mov	x0, #0x30                  	// #48
+ 234:	f9001be0 	str	x0, [sp, #48]
+ 238:	f9401be0 	ldr	x0, [sp, #48]
+ 23c:	1400000e 	b	274 <PKCS11_generate_key+0xc0>
+ 240:	f9400be0 	ldr	x0, [sp, #16]
+ 244:	f9400000 	ldr	x0, [x0]
+ 248:	aa0003e2 	mov	x2, x0
+ 24c:	f9401fe1 	ldr	x1, [sp, #56]
+ 250:	f9400fe0 	ldr	x0, [sp, #24]
+ 254:	94000000 	bl	0 <insert_object>
+ 258:	93407c00 	sxtw	x0, w0
+ 25c:	f90013e0 	str	x0, [sp, #32]
+ 260:	f9400be0 	ldr	x0, [sp, #16]
+ 264:	f9400400 	ldr	x0, [x0, #8]
+ 268:	f94013e1 	ldr	x1, [sp, #32]
+ 26c:	f9000001 	str	x1, [x0]
+ 270:	d2800000 	mov	x0, #0x0                   	// #0
+ 274:	a8c47bfd 	ldp	x29, x30, [sp], #64
+ 278:	d65f03c0 	ret
+
+000000000000027c <PKCS11_wrap_key>:
+ 27c:	a9ae7bfd 	stp	x29, x30, [sp, #-288]!
+ 280:	910003fd 	mov	x29, sp
+ 284:	f9000fe0 	str	x0, [sp, #24]
+ 288:	f9000be1 	str	x1, [sp, #16]
+ 28c:	f9400fe0 	ldr	x0, [sp, #24]
+ 290:	f100001f 	cmp	x0, #0x0
+ 294:	540000a0 	b.eq	2a8 <PKCS11_wrap_key+0x2c>  // b.none
+ 298:	f9400fe0 	ldr	x0, [sp, #24]
+ 29c:	39400000 	ldrb	w0, [x0]
+ 2a0:	7100001f 	cmp	w0, #0x0
+ 2a4:	54000061 	b.ne	2b0 <PKCS11_wrap_key+0x34>  // b.any
+ 2a8:	d2803200 	mov	x0, #0x190                 	// #400
+ 2ac:	14000037 	b	388 <PKCS11_wrap_key+0x10c>
+ 2b0:	f9400be0 	ldr	x0, [sp, #16]
+ 2b4:	f9400000 	ldr	x0, [x0]
+ 2b8:	aa0003e1 	mov	x1, x0
+ 2bc:	f9400fe0 	ldr	x0, [sp, #24]
+ 2c0:	94000000 	bl	512 <find_object>
+ 2c4:	f9008fe0 	str	x0, [sp, #280]
+ 2c8:	f9400be0 	ldr	x0, [sp, #16]
+ 2cc:	f9400400 	ldr	x0, [x0, #8]
+ 2d0:	aa0003e1 	mov	x1, x0
+ 2d4:	f9400fe0 	ldr	x0, [sp, #24]
+ 2d8:	94000000 	bl	512 <find_object>
+ 2dc:	f9008be0 	str	x0, [sp, #272]
+ 2e0:	f9408fe0 	ldr	x0, [sp, #280]
+ 2e4:	f100001f 	cmp	x0, #0x0
+ 2e8:	54000080 	b.eq	2f8 <PKCS11_wrap_key+0x7c>  // b.none
+ 2ec:	f9408be0 	ldr	x0, [sp, #272]
+ 2f0:	f100001f 	cmp	x0, #0x0
+ 2f4:	540000a1 	b.ne	308 <PKCS11_wrap_key+0x8c>  // b.any
+ 2f8:	d28000e0 	mov	x0, #0x7                   	// #7
+ 2fc:	f90087e0 	str	x0, [sp, #264]
+ 300:	f94087e0 	ldr	x0, [sp, #264]
+ 304:	14000021 	b	388 <PKCS11_wrap_key+0x10c>
+ 308:	f9408fe0 	ldr	x0, [sp, #280]
+ 30c:	f9400400 	ldr	x0, [x0, #8]
+ 310:	f100001f 	cmp	x0, #0x0
+ 314:	540000a0 	b.eq	328 <PKCS11_wrap_key+0xac>  // b.none
+ 318:	d2802260 	mov	x0, #0x113                 	// #275
+ 31c:	f90087e0 	str	x0, [sp, #264]
+ 320:	f94087e0 	ldr	x0, [sp, #264]
+ 324:	14000019 	b	388 <PKCS11_wrap_key+0x10c>
+ 328:	f9408fe0 	ldr	x0, [sp, #280]
+ 32c:	f9400800 	ldr	x0, [x0, #16]
+ 330:	f90083e0 	str	x0, [sp, #256]
+ 334:	f9408be0 	ldr	x0, [sp, #272]
+ 338:	f9400800 	ldr	x0, [x0, #16]
+ 33c:	f9007fe0 	str	x0, [sp, #248]
+ 340:	f9407fe0 	ldr	x0, [sp, #248]
+ 344:	a9400400 	ldp	x0, x1, [x0]
+ 348:	a90e87e0 	stp	x0, x1, [sp, #232]
+ 34c:	9100a3e0 	add	x0, sp, #0x28
+ 350:	f94083e1 	ldr	x1, [sp, #256]
+ 354:	94000000 	bl	1088 <AES_init_ctx>
+ 358:	9103a3e1 	add	x1, sp, #0xe8
+ 35c:	9100a3e0 	add	x0, sp, #0x28
+ 360:	94000000 	bl	1024 <AES_ECB_encrypt>
+ 364:	f9400be0 	ldr	x0, [sp, #16]
+ 368:	f9400802 	ldr	x2, [x0, #16]
+ 36c:	a94e87e0 	ldp	x0, x1, [sp, #232]
+ 370:	a9000440 	stp	x0, x1, [x2]
+ 374:	f9400be0 	ldr	x0, [sp, #16]
+ 378:	f9400c00 	ldr	x0, [x0, #24]
+ 37c:	d2800201 	mov	x1, #0x10                  	// #16
+ 380:	f9000001 	str	x1, [x0]
+ 384:	d2800000 	mov	x0, #0x0                   	// #0
+ 388:	a8d27bfd 	ldp	x29, x30, [sp], #288
+ 38c:	d65f03c0 	ret
+
+0000000000000390 <PKCS11_unwrap_key>:
+ 390:	a9ad7bfd 	stp	x29, x30, [sp, #-304]!
+ 394:	910003fd 	mov	x29, sp
+ 398:	f9000fe0 	str	x0, [sp, #24]
+ 39c:	f9000be1 	str	x1, [sp, #16]
+ 3a0:	f9400fe0 	ldr	x0, [sp, #24]
+ 3a4:	f100001f 	cmp	x0, #0x0
+ 3a8:	540000a0 	b.eq	3bc <PKCS11_unwrap_key+0x2c>  // b.none
+ 3ac:	f9400fe0 	ldr	x0, [sp, #24]
+ 3b0:	39400000 	ldrb	w0, [x0]
+ 3b4:	7100001f 	cmp	w0, #0x0
+ 3b8:	54000061 	b.ne	3c4 <PKCS11_unwrap_key+0x34>  // b.any
+ 3bc:	d2803200 	mov	x0, #0x190                 	// #400
+ 3c0:	14000044 	b	4d0 <PKCS11_unwrap_key+0x140>
+ 3c4:	f9400be0 	ldr	x0, [sp, #16]
+ 3c8:	f9400000 	ldr	x0, [x0]
+ 3cc:	aa0003e1 	mov	x1, x0
+ 3d0:	f9400fe0 	ldr	x0, [sp, #24]
+ 3d4:	94000000 	bl	0 <find_object>
+ 3d8:	f90097e0 	str	x0, [sp, #296]
+ 3dc:	f94097e0 	ldr	x0, [sp, #296]
+ 3e0:	f100001f 	cmp	x0, #0x0
+ 3e4:	540000a0 	b.eq	3f8 <PKCS11_unwrap_key+0x68>  // b.none
+ 3e8:	f94097e0 	ldr	x0, [sp, #296]
+ 3ec:	f9400400 	ldr	x0, [x0, #8]
+ 3f0:	f100001f 	cmp	x0, #0x0
+ 3f4:	540000a0 	b.eq	408 <PKCS11_unwrap_key+0x78>  // b.none
+ 3f8:	d2801e00 	mov	x0, #0xf0                  	// #240
+ 3fc:	f9008fe0 	str	x0, [sp, #280]
+ 400:	f9408fe0 	ldr	x0, [sp, #280]
+ 404:	14000033 	b	4d0 <PKCS11_unwrap_key+0x140>
+ 408:	f9400be0 	ldr	x0, [sp, #16]
+ 40c:	f9400800 	ldr	x0, [x0, #16]
+ 410:	94000000 	bl	0 <malloc>
+ 414:	f90093e0 	str	x0, [sp, #288]
+ 418:	f94093e0 	ldr	x0, [sp, #288]
+ 41c:	f100001f 	cmp	x0, #0x0
+ 420:	540000a1 	b.ne	434 <PKCS11_unwrap_key+0xa4>  // b.any
+ 424:	d2800620 	mov	x0, #0x31                  	// #49
+ 428:	f9008fe0 	str	x0, [sp, #280]
+ 42c:	f9408fe0 	ldr	x0, [sp, #280]
+ 430:	14000028 	b	4d0 <PKCS11_unwrap_key+0x140>
+ 434:	d2800200 	mov	x0, #0x10                  	// #16
+ 438:	94000000 	bl	0 <malloc>
+ 43c:	f9008be0 	str	x0, [sp, #272]
+ 440:	f9408be0 	ldr	x0, [sp, #272]
+ 444:	f100001f 	cmp	x0, #0x0
+ 448:	54000061 	b.ne	454 <PKCS11_unwrap_key+0xc4>  // b.any
+ 44c:	d2800620 	mov	x0, #0x31                  	// #49
+ 450:	14000020 	b	4d0 <PKCS11_unwrap_key+0x140>
+ 454:	f9400be0 	ldr	x0, [sp, #16]
+ 458:	f9400400 	ldr	x0, [x0, #8]
+ 45c:	a9400400 	ldp	x0, x1, [x0]
+ 460:	a90e87e0 	stp	x0, x1, [sp, #232]
+ 464:	f94097e0 	ldr	x0, [sp, #296]
+ 468:	f9400800 	ldr	x0, [x0, #16]
+ 46c:	52800201 	mov	w1, #0x10                  	// #16
+ 470:	94000000 	bl	0 <print_hex>
+ 474:	f94097e0 	ldr	x0, [sp, #296]
+ 478:	f9400801 	ldr	x1, [x0, #16]
+ 47c:	9100a3e0 	add	x0, sp, #0x28
+ 480:	94000000 	bl	0 <AES_init_ctx>
+ 484:	9103a3e1 	add	x1, sp, #0xe8
+ 488:	9100a3e0 	add	x0, sp, #0x28
+ 48c:	94000000 	bl	0 <AES_ECB_decrypt>
+ 490:	a94e87e0 	ldp	x0, x1, [sp, #232]
+ 494:	f9408be2 	ldr	x2, [sp, #272]
+ 498:	a9000440 	stp	x0, x1, [x2]
+ 49c:	f9400be0 	ldr	x0, [sp, #16]
+ 4a0:	f9400c00 	ldr	x0, [x0, #24]
+ 4a4:	aa0003e2 	mov	x2, x0
+ 4a8:	f9408be1 	ldr	x1, [sp, #272]
+ 4ac:	f9400fe0 	ldr	x0, [sp, #24]
+ 4b0:	94000000 	bl	0 <insert_object>
+ 4b4:	93407c00 	sxtw	x0, w0
+ 4b8:	f90087e0 	str	x0, [sp, #264]
+ 4bc:	f9400be0 	ldr	x0, [sp, #16]
+ 4c0:	f9401000 	ldr	x0, [x0, #32]
+ 4c4:	f94087e1 	ldr	x1, [sp, #264]
+ 4c8:	f9000001 	str	x1, [x0]
+ 4cc:	d2800000 	mov	x0, #0x0                   	// #0
+ 4d0:	a8d37bfd 	ldp	x29, x30, [sp], #304
+ 4d4:	d65f03c0 	ret
+
+00000000000004d8 <PKCS11_encrypt_init>:
+ 4d8:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+ 4dc:	910003fd 	mov	x29, sp
+ 4e0:	f9000fe0 	str	x0, [sp, #24]
+ 4e4:	f9000be1 	str	x1, [sp, #16]
+ 4e8:	f9400fe0 	ldr	x0, [sp, #24]
+ 4ec:	f100001f 	cmp	x0, #0x0
+ 4f0:	540000a0 	b.eq	504 <PKCS11_encrypt_init+0x2c>  // b.none
+ 4f4:	f9400fe0 	ldr	x0, [sp, #24]
+ 4f8:	39400000 	ldrb	w0, [x0]
+ 4fc:	7100001f 	cmp	w0, #0x0
+ 500:	54000061 	b.ne	50c <PKCS11_encrypt_init+0x34>  // b.any
+ 504:	d2803200 	mov	x0, #0x190                 	// #400
+ 508:	1400001c 	b	578 <PKCS11_encrypt_init+0xa0>
+ 50c:	f9400be0 	ldr	x0, [sp, #16]
+ 510:	f9400000 	ldr	x0, [x0]
+ 514:	aa0003e1 	mov	x1, x0
+ 518:	f9400fe0 	ldr	x0, [sp, #24]
+ 51c:	94000000 	bl	0 <find_object>
+ 520:	f90017e0 	str	x0, [sp, #40]
+ 524:	f94017e0 	ldr	x0, [sp, #40]
+ 528:	f100001f 	cmp	x0, #0x0
+ 52c:	540000a1 	b.ne	540 <PKCS11_encrypt_init+0x68>  // b.any
+ 530:	d2800c00 	mov	x0, #0x60                  	// #96
+ 534:	f90013e0 	str	x0, [sp, #32]
+ 538:	f94013e0 	ldr	x0, [sp, #32]
+ 53c:	1400000f 	b	578 <PKCS11_encrypt_init+0xa0>
+ 540:	f9400fe0 	ldr	x0, [sp, #24]
+ 544:	d2800021 	mov	x1, #0x1                   	// #1
+ 548:	f9001401 	str	x1, [x0, #40]
+ 54c:	f9400fe0 	ldr	x0, [sp, #24]
+ 550:	f9401c02 	ldr	x2, [x0, #56]
+ 554:	f9400be0 	ldr	x0, [sp, #16]
+ 558:	91002000 	add	x0, x0, #0x8
+ 55c:	a9400400 	ldp	x0, x1, [x0]
+ 560:	a9000440 	stp	x0, x1, [x2]
+ 564:	f94017e0 	ldr	x0, [sp, #40]
+ 568:	f9400001 	ldr	x1, [x0]
+ 56c:	f9400fe0 	ldr	x0, [sp, #24]
+ 570:	f9001801 	str	x1, [x0, #48]
+ 574:	d2800000 	mov	x0, #0x0                   	// #0
+ 578:	a8c37bfd 	ldp	x29, x30, [sp], #48
+ 57c:	d65f03c0 	ret
+
+0000000000000580 <PKCS11_decrypt_init>:
+ 580:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+ 584:	910003fd 	mov	x29, sp
+ 588:	f9000fe0 	str	x0, [sp, #24]
+ 58c:	f9000be1 	str	x1, [sp, #16]
+ 590:	f9400fe0 	ldr	x0, [sp, #24]
+ 594:	f100001f 	cmp	x0, #0x0
+ 598:	540000a0 	b.eq	5ac <PKCS11_decrypt_init+0x2c>  // b.none
+ 59c:	f9400fe0 	ldr	x0, [sp, #24]
+ 5a0:	39400000 	ldrb	w0, [x0]
+ 5a4:	7100001f 	cmp	w0, #0x0
+ 5a8:	54000061 	b.ne	5b4 <PKCS11_decrypt_init+0x34>  // b.any
+ 5ac:	d2803200 	mov	x0, #0x190                 	// #400
+ 5b0:	14000016 	b	608 <PKCS11_decrypt_init+0x88>
+ 5b4:	f9400be0 	ldr	x0, [sp, #16]
+ 5b8:	f9400000 	ldr	x0, [x0]
+ 5bc:	aa0003e1 	mov	x1, x0
+ 5c0:	f9400fe0 	ldr	x0, [sp, #24]
+ 5c4:	94000000 	bl	0 <find_object>
+ 5c8:	f90017e0 	str	x0, [sp, #40]
+ 5cc:	f94017e0 	ldr	x0, [sp, #40]
+ 5d0:	f100001f 	cmp	x0, #0x0
+ 5d4:	540000a1 	b.ne	5e8 <PKCS11_decrypt_init+0x68>  // b.any
+ 5d8:	d2800c00 	mov	x0, #0x60                  	// #96
+ 5dc:	f90013e0 	str	x0, [sp, #32]
+ 5e0:	f94013e0 	ldr	x0, [sp, #32]
+ 5e4:	14000009 	b	608 <PKCS11_decrypt_init+0x88>
+ 5e8:	f9400fe0 	ldr	x0, [sp, #24]
+ 5ec:	d2800041 	mov	x1, #0x2                   	// #2
+ 5f0:	f9001401 	str	x1, [x0, #40]
+ 5f4:	f94017e0 	ldr	x0, [sp, #40]
+ 5f8:	f9400001 	ldr	x1, [x0]
+ 5fc:	f9400fe0 	ldr	x0, [sp, #24]
+ 600:	f9001801 	str	x1, [x0, #48]
+ 604:	d2800000 	mov	x0, #0x0                   	// #0
+ 608:	a8c37bfd 	ldp	x29, x30, [sp], #48
+ 60c:	d65f03c0 	ret
+
+0000000000000610 <PKCS11_encrypt>:
+ 610:	a9bb7bfd 	stp	x29, x30, [sp, #-80]!
+ 614:	910003fd 	mov	x29, sp
+ 618:	f9000bf3 	str	x19, [sp, #16]
+ 61c:	f90017a0 	str	x0, [x29, #40]
+ 620:	f90013a1 	str	x1, [x29, #32]
+ 624:	910003e0 	mov	x0, sp
+ 628:	aa0003f3 	mov	x19, x0
+ 62c:	f94013a0 	ldr	x0, [x29, #32]
+ 630:	f9400400 	ldr	x0, [x0, #8]
+ 634:	aa0003e1 	mov	x1, x0
+ 638:	d1000421 	sub	x1, x1, #0x1
+ 63c:	f90027a1 	str	x1, [x29, #72]
+ 640:	aa0003e8 	mov	x8, x0
+ 644:	d2800009 	mov	x9, #0x0                   	// #0
+ 648:	d37dfd01 	lsr	x1, x8, #61
+ 64c:	d37df125 	lsl	x5, x9, #3
+ 650:	aa050025 	orr	x5, x1, x5
+ 654:	d37df104 	lsl	x4, x8, #3
+ 658:	aa0003e6 	mov	x6, x0
+ 65c:	d2800007 	mov	x7, #0x0                   	// #0
+ 660:	d37dfcc1 	lsr	x1, x6, #61
+ 664:	d37df0e3 	lsl	x3, x7, #3
+ 668:	aa030023 	orr	x3, x1, x3
+ 66c:	d37df0c2 	lsl	x2, x6, #3
+ 670:	91003c00 	add	x0, x0, #0xf
+ 674:	d344fc00 	lsr	x0, x0, #4
+ 678:	d37cec00 	lsl	x0, x0, #4
+ 67c:	cb2063ff 	sub	sp, sp, x0
+ 680:	910003e0 	mov	x0, sp
+ 684:	91000000 	add	x0, x0, #0x0
+ 688:	f90023a0 	str	x0, [x29, #64]
+ 68c:	f94017a0 	ldr	x0, [x29, #40]
+ 690:	f100001f 	cmp	x0, #0x0
+ 694:	540000a0 	b.eq	6a8 <PKCS11_encrypt+0x98>  // b.none
+ 698:	f94017a0 	ldr	x0, [x29, #40]
+ 69c:	39400000 	ldrb	w0, [x0]
+ 6a0:	7100001f 	cmp	w0, #0x0
+ 6a4:	54000061 	b.ne	6b0 <PKCS11_encrypt+0xa0>  // b.any
+ 6a8:	d2803200 	mov	x0, #0x190                 	// #400
+ 6ac:	1400003d 	b	7a0 <PKCS11_encrypt+0x190>
+ 6b0:	f94017a0 	ldr	x0, [x29, #40]
+ 6b4:	f9401400 	ldr	x0, [x0, #40]
+ 6b8:	f100041f 	cmp	x0, #0x1
+ 6bc:	54000060 	b.eq	6c8 <PKCS11_encrypt+0xb8>  // b.none
+ 6c0:	d2801220 	mov	x0, #0x91                  	// #145
+ 6c4:	14000037 	b	7a0 <PKCS11_encrypt+0x190>
+ 6c8:	f94013a0 	ldr	x0, [x29, #32]
+ 6cc:	f9400400 	ldr	x0, [x0, #8]
+ 6d0:	92400c00 	and	x0, x0, #0xf
+ 6d4:	f100001f 	cmp	x0, #0x0
+ 6d8:	54000060 	b.eq	6e4 <PKCS11_encrypt+0xd4>  // b.none
+ 6dc:	d2800420 	mov	x0, #0x21                  	// #33
+ 6e0:	14000030 	b	7a0 <PKCS11_encrypt+0x190>
+ 6e4:	f94017a0 	ldr	x0, [x29, #40]
+ 6e8:	f9401800 	ldr	x0, [x0, #48]
+ 6ec:	aa0003e1 	mov	x1, x0
+ 6f0:	f94017a0 	ldr	x0, [x29, #40]
+ 6f4:	94000000 	bl	0 <find_object>
+ 6f8:	f9001fa0 	str	x0, [x29, #56]
+ 6fc:	f9401fa0 	ldr	x0, [x29, #56]
+ 700:	f100001f 	cmp	x0, #0x0
+ 704:	540000a1 	b.ne	718 <PKCS11_encrypt+0x108>  // b.any
+ 708:	d2800c00 	mov	x0, #0x60                  	// #96
+ 70c:	f9001ba0 	str	x0, [x29, #48]
+ 710:	f9401ba0 	ldr	x0, [x29, #48]
+ 714:	14000023 	b	7a0 <PKCS11_encrypt+0x190>
+ 718:	f94013a0 	ldr	x0, [x29, #32]
+ 71c:	f9400802 	ldr	x2, [x0, #16]
+ 720:	f94017a0 	ldr	x0, [x29, #40]
+ 724:	f9401c00 	ldr	x0, [x0, #56]
+ 728:	a9400400 	ldp	x0, x1, [x0]
+ 72c:	a9000440 	stp	x0, x1, [x2]
+ 730:	f9401fa0 	ldr	x0, [x29, #56]
+ 734:	f9400805 	ldr	x5, [x0, #16]
+ 738:	f94017a0 	ldr	x0, [x29, #40]
+ 73c:	f9401c01 	ldr	x1, [x0, #56]
+ 740:	f94013a0 	ldr	x0, [x29, #32]
+ 744:	f9400002 	ldr	x2, [x0]
+ 748:	f94013a0 	ldr	x0, [x29, #32]
+ 74c:	f9400800 	ldr	x0, [x0, #16]
+ 750:	91004003 	add	x3, x0, #0x10
+ 754:	f94013a0 	ldr	x0, [x29, #32]
+ 758:	f9400400 	ldr	x0, [x0, #8]
+ 75c:	aa0003e4 	mov	x4, x0
+ 760:	aa0503e0 	mov	x0, x5
+ 764:	94000000 	bl	0 <AES_CTR_buffer>
+ 768:	f94013a0 	ldr	x0, [x29, #32]
+ 76c:	f9400401 	ldr	x1, [x0, #8]
+ 770:	f94013a0 	ldr	x0, [x29, #32]
+ 774:	f9400c00 	ldr	x0, [x0, #24]
+ 778:	91004021 	add	x1, x1, #0x10
+ 77c:	f9000001 	str	x1, [x0]
+ 780:	f94017a0 	ldr	x0, [x29, #40]
+ 784:	f900141f 	str	xzr, [x0, #40]
+ 788:	f94017a0 	ldr	x0, [x29, #40]
+ 78c:	f9401c00 	ldr	x0, [x0, #56]
+ 790:	d2800202 	mov	x2, #0x10                  	// #16
+ 794:	52800001 	mov	w1, #0x0                   	// #0
+ 798:	94000000 	bl	0 <memset>
+ 79c:	d2800000 	mov	x0, #0x0                   	// #0
+ 7a0:	9100027f 	mov	sp, x19
+ 7a4:	910003bf 	mov	sp, x29
+ 7a8:	f9400bf3 	ldr	x19, [sp, #16]
+ 7ac:	a8c57bfd 	ldp	x29, x30, [sp], #80
+ 7b0:	d65f03c0 	ret
+
+00000000000007b4 <PKCS11_decrypt>:
+ 7b4:	a9ae7bfd 	stp	x29, x30, [sp, #-288]!
+ 7b8:	910003fd 	mov	x29, sp
+ 7bc:	f9000bf3 	str	x19, [sp, #16]
+ 7c0:	f90017a0 	str	x0, [x29, #40]
+ 7c4:	f90013a1 	str	x1, [x29, #32]
+ 7c8:	910003e0 	mov	x0, sp
+ 7cc:	aa0003f3 	mov	x19, x0
+ 7d0:	f94013a0 	ldr	x0, [x29, #32]
+ 7d4:	f9400400 	ldr	x0, [x0, #8]
+ 7d8:	d1004000 	sub	x0, x0, #0x10
+ 7dc:	aa0003e1 	mov	x1, x0
+ 7e0:	d1000421 	sub	x1, x1, #0x1
+ 7e4:	f9008fa1 	str	x1, [x29, #280]
+ 7e8:	aa0003e8 	mov	x8, x0
+ 7ec:	d2800009 	mov	x9, #0x0                   	// #0
+ 7f0:	d37dfd01 	lsr	x1, x8, #61
+ 7f4:	d37df125 	lsl	x5, x9, #3
+ 7f8:	aa050025 	orr	x5, x1, x5
+ 7fc:	d37df104 	lsl	x4, x8, #3
+ 800:	aa0003e6 	mov	x6, x0
+ 804:	d2800007 	mov	x7, #0x0                   	// #0
+ 808:	d37dfcc1 	lsr	x1, x6, #61
+ 80c:	d37df0e3 	lsl	x3, x7, #3
+ 810:	aa030023 	orr	x3, x1, x3
+ 814:	d37df0c2 	lsl	x2, x6, #3
+ 818:	91003c00 	add	x0, x0, #0xf
+ 81c:	d344fc00 	lsr	x0, x0, #4
+ 820:	d37cec00 	lsl	x0, x0, #4
+ 824:	cb2063ff 	sub	sp, sp, x0
+ 828:	910003e0 	mov	x0, sp
+ 82c:	91000000 	add	x0, x0, #0x0
+ 830:	f9008ba0 	str	x0, [x29, #272]
+ 834:	f94017a0 	ldr	x0, [x29, #40]
+ 838:	f100001f 	cmp	x0, #0x0
+ 83c:	540000a0 	b.eq	850 <PKCS11_decrypt+0x9c>  // b.none
+ 840:	f94017a0 	ldr	x0, [x29, #40]
+ 844:	39400000 	ldrb	w0, [x0]
+ 848:	7100001f 	cmp	w0, #0x0
+ 84c:	54000061 	b.ne	858 <PKCS11_decrypt+0xa4>  // b.any
+ 850:	d2803200 	mov	x0, #0x190                 	// #400
+ 854:	1400005a 	b	9bc <PKCS11_decrypt+0x208>
+ 858:	f94017a0 	ldr	x0, [x29, #40]
+ 85c:	f9401400 	ldr	x0, [x0, #40]
+ 860:	f100081f 	cmp	x0, #0x2
+ 864:	54000060 	b.eq	870 <PKCS11_decrypt+0xbc>  // b.none
+ 868:	d2801220 	mov	x0, #0x91                  	// #145
+ 86c:	14000054 	b	9bc <PKCS11_decrypt+0x208>
+ 870:	f94013a0 	ldr	x0, [x29, #32]
+ 874:	f9400400 	ldr	x0, [x0, #8]
+ 878:	f1007c1f 	cmp	x0, #0x1f
+ 87c:	540000a8 	b.hi	890 <PKCS11_decrypt+0xdc>  // b.pmore
+ 880:	d2800820 	mov	x0, #0x41                  	// #65
+ 884:	f90087a0 	str	x0, [x29, #264]
+ 888:	f94087a0 	ldr	x0, [x29, #264]
+ 88c:	1400004c 	b	9bc <PKCS11_decrypt+0x208>
+ 890:	f94017a0 	ldr	x0, [x29, #40]
+ 894:	f9401800 	ldr	x0, [x0, #48]
+ 898:	aa0003e1 	mov	x1, x0
+ 89c:	f94017a0 	ldr	x0, [x29, #40]
+ 8a0:	94000000 	bl	0 <find_object>
+ 8a4:	f90083a0 	str	x0, [x29, #256]
+ 8a8:	f94083a0 	ldr	x0, [x29, #256]
+ 8ac:	f100001f 	cmp	x0, #0x0
+ 8b0:	540000a1 	b.ne	8c4 <PKCS11_decrypt+0x110>  // b.any
+ 8b4:	d2800c00 	mov	x0, #0x60                  	// #96
+ 8b8:	f90087a0 	str	x0, [x29, #264]
+ 8bc:	f94087a0 	ldr	x0, [x29, #264]
+ 8c0:	1400003f 	b	9bc <PKCS11_decrypt+0x208>
+ 8c4:	f94013a0 	ldr	x0, [x29, #32]
+ 8c8:	f9400000 	ldr	x0, [x0]
+ 8cc:	a9400400 	ldp	x0, x1, [x0]
+ 8d0:	a90f07a0 	stp	x0, x1, [x29, #240]
+ 8d4:	f9408ba3 	ldr	x3, [x29, #272]
+ 8d8:	f94013a0 	ldr	x0, [x29, #32]
+ 8dc:	f9400000 	ldr	x0, [x0]
+ 8e0:	91004001 	add	x1, x0, #0x10
+ 8e4:	f94013a0 	ldr	x0, [x29, #32]
+ 8e8:	f9400400 	ldr	x0, [x0, #8]
+ 8ec:	d1004000 	sub	x0, x0, #0x10
+ 8f0:	aa0003e2 	mov	x2, x0
+ 8f4:	aa0303e0 	mov	x0, x3
+ 8f8:	94000000 	bl	0 <memcpy>
+ 8fc:	90000000 	adrp	x0, 0 <increment_iv>
+ 900:	91000000 	add	x0, x0, #0x0
+ 904:	94000000 	bl	0 <puts>
+ 908:	9103c3a0 	add	x0, x29, #0xf0
+ 90c:	52800201 	mov	w1, #0x10                  	// #16
+ 910:	94000000 	bl	0 <print_hex>
+ 914:	90000000 	adrp	x0, 0 <increment_iv>
+ 918:	91000000 	add	x0, x0, #0x0
+ 91c:	94000000 	bl	0 <puts>
+ 920:	f9408ba0 	ldr	x0, [x29, #272]
+ 924:	52800361 	mov	w1, #0x1b                  	// #27
+ 928:	94000000 	bl	0 <print_hex>
+ 92c:	f94083a0 	ldr	x0, [x29, #256]
+ 930:	f9400801 	ldr	x1, [x0, #16]
+ 934:	9103c3a2 	add	x2, x29, #0xf0
+ 938:	9100c3a0 	add	x0, x29, #0x30
+ 93c:	94000000 	bl	0 <AES_init_ctx_iv>
+ 940:	f9408ba1 	ldr	x1, [x29, #272]
+ 944:	f94013a0 	ldr	x0, [x29, #32]
+ 948:	f9400400 	ldr	x0, [x0, #8]
+ 94c:	51004002 	sub	w2, w0, #0x10
+ 950:	9100c3a0 	add	x0, x29, #0x30
+ 954:	94000000 	bl	0 <AES_CTR_xcrypt_buffer>
+ 958:	f94013a0 	ldr	x0, [x29, #32]
+ 95c:	f9400803 	ldr	x3, [x0, #16]
+ 960:	f9408ba1 	ldr	x1, [x29, #272]
+ 964:	f94013a0 	ldr	x0, [x29, #32]
+ 968:	f9400400 	ldr	x0, [x0, #8]
+ 96c:	d1004000 	sub	x0, x0, #0x10
+ 970:	aa0003e2 	mov	x2, x0
+ 974:	aa0303e0 	mov	x0, x3
+ 978:	94000000 	bl	0 <memcpy>
+ 97c:	f94013a0 	ldr	x0, [x29, #32]
+ 980:	f9400400 	ldr	x0, [x0, #8]
+ 984:	12001c01 	and	w1, w0, #0xff
+ 988:	f94013a0 	ldr	x0, [x29, #32]
+ 98c:	f9400c00 	ldr	x0, [x0, #24]
+ 990:	51004021 	sub	w1, w1, #0x10
+ 994:	12001c21 	and	w1, w1, #0xff
+ 998:	39000001 	strb	w1, [x0]
+ 99c:	f94017a0 	ldr	x0, [x29, #40]
+ 9a0:	f900141f 	str	xzr, [x0, #40]
+ 9a4:	f94017a0 	ldr	x0, [x29, #40]
+ 9a8:	f9401c00 	ldr	x0, [x0, #56]
+ 9ac:	d2800202 	mov	x2, #0x10                  	// #16
+ 9b0:	52800001 	mov	w1, #0x0                   	// #0
+ 9b4:	94000000 	bl	0 <memset>
+ 9b8:	d2800000 	mov	x0, #0x0                   	// #0
+ 9bc:	9100027f 	mov	sp, x19
+ 9c0:	910003bf 	mov	sp, x29
+ 9c4:	f9400bf3 	ldr	x19, [sp, #16]
+ 9c8:	a8d27bfd 	ldp	x29, x30, [sp], #288
+ 9cc:	d65f03c0 	ret
+
+00000000000009d0 <add_key>:
+ 9d0:	a9bb7bfd 	stp	x29, x30, [sp, #-80]!
+ 9d4:	910003fd 	mov	x29, sp
+ 9d8:	f90017e0 	str	x0, [sp, #40]
+ 9dc:	f90013e1 	str	x1, [sp, #32]
+ 9e0:	f9000fe2 	str	x2, [sp, #24]
+ 9e4:	d2801000 	mov	x0, #0x80                  	// #128
+ 9e8:	94000000 	bl	0 <malloc>
+ 9ec:	f90027e0 	str	x0, [sp, #72]
+ 9f0:	f94013e0 	ldr	x0, [sp, #32]
+ 9f4:	a9400400 	ldp	x0, x1, [x0]
+ 9f8:	f94027e2 	ldr	x2, [sp, #72]
+ 9fc:	a9000440 	stp	x0, x1, [x2]
+ a00:	d2800002 	mov	x2, #0x0                   	// #0
+ a04:	f94027e1 	ldr	x1, [sp, #72]
+ a08:	f94017e0 	ldr	x0, [sp, #40]
+ a0c:	94000000 	bl	0 <insert_object>
+ a10:	b90047e0 	str	w0, [sp, #68]
+ a14:	b98047e0 	ldrsw	x0, [sp, #68]
+ a18:	aa0003e1 	mov	x1, x0
+ a1c:	f94017e0 	ldr	x0, [sp, #40]
+ a20:	94000000 	bl	0 <find_object>
+ a24:	f9001fe0 	str	x0, [sp, #56]
+ a28:	f9401fe0 	ldr	x0, [sp, #56]
+ a2c:	f9400fe1 	ldr	x1, [sp, #24]
+ a30:	f9000001 	str	x1, [x0]
+ a34:	f94017e0 	ldr	x0, [sp, #40]
+ a38:	f9401000 	ldr	x0, [x0, #32]
+ a3c:	94000000 	bl	0 <dump_object_map>
+ a40:	d503201f 	nop
+ a44:	a8c57bfd 	ldp	x29, x30, [sp], #80
+ a48:	d65f03c0 	ret
+
+0000000000000a4c <set_iv>:
+ a4c:	d10043ff 	sub	sp, sp, #0x10
+ a50:	f90007e0 	str	x0, [sp, #8]
+ a54:	f90003e1 	str	x1, [sp]
+ a58:	f94007e0 	ldr	x0, [sp, #8]
+ a5c:	f9401c02 	ldr	x2, [x0, #56]
+ a60:	f94003e0 	ldr	x0, [sp]
+ a64:	a9400400 	ldp	x0, x1, [x0]
+ a68:	a9000440 	stp	x0, x1, [x2]
+ a6c:	d503201f 	nop
+ a70:	910043ff 	add	sp, sp, #0x10
+ a74:	d65f03c0 	ret
