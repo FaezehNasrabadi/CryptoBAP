@@ -187,13 +187,13 @@ Disassembly of section .text:
  2b4:	f9400000 	ldr	x0, [x0]
  2b8:	aa0003e1 	mov	x1, x0
  2bc:	f9400fe0 	ldr	x0, [sp, #24]
- 2c0:	94000000 	bl	512 <find_object>
+ 2c0:	9400023d 	bl	0 <find_object>
  2c4:	f9008fe0 	str	x0, [sp, #280]
  2c8:	f9400be0 	ldr	x0, [sp, #16]
  2cc:	f9400400 	ldr	x0, [x0, #8]
  2d0:	aa0003e1 	mov	x1, x0
  2d4:	f9400fe0 	ldr	x0, [sp, #24]
- 2d8:	94000000 	bl	512 <find_object>
+ 2d8:	9400023d 	bl	0 <find_object>
  2dc:	f9008be0 	str	x0, [sp, #272]
  2e0:	f9408fe0 	ldr	x0, [sp, #280]
  2e4:	f100001f 	cmp	x0, #0x0
@@ -224,10 +224,10 @@ Disassembly of section .text:
  348:	a90e87e0 	stp	x0, x1, [sp, #232]
  34c:	9100a3e0 	add	x0, sp, #0x28
  350:	f94083e1 	ldr	x1, [sp, #256]
- 354:	94000000 	bl	1088 <AES_init_ctx>
+ 354:	97fffa12 	bl	0 <AES_init_ctx>
  358:	9103a3e1 	add	x1, sp, #0xe8
  35c:	9100a3e0 	add	x0, sp, #0x28
- 360:	94000000 	bl	1024 <AES_ECB_encrypt>
+ 360:	97fffe59 	bl	0 <AES_ECB_encrypt>
  364:	f9400be0 	ldr	x0, [sp, #16]
  368:	f9400802 	ldr	x2, [x0, #16]
  36c:	a94e87e0 	ldp	x0, x1, [sp, #232]
