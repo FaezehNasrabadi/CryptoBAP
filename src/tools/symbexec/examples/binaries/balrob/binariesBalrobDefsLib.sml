@@ -40,7 +40,7 @@ val symbs_sec_text = [
     ];
     
 val arch_str         = "arm8";
-val prog_range       = ((Arbnum.fromInt 0), (Arbnum.fromInt 0x8000));
+val prog_range       = ((Arbnum.fromInt 0xd0000000), (Arbnum.fromInt 0xd0004dac));
 
 (* val configs          = [("balrob", *)
 (*                            ("balrob.elf.da", "balrob/balrob.elf.da.plus", "balrob/balrob.elf.mem"), *)
@@ -66,7 +66,7 @@ val prog_range       = ((Arbnum.fromInt 0), (Arbnum.fromInt 0x8000));
 val configs              = [ ("pkcs11",
                            ("pkcs11_guest.da", "balrob/pkcs11_guest.elf.da.plus", "balrob/pkcs11_guest.elf.mem"),
                            "pkcs11_THM",
-                           ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0x00000a74),
+                           ((Arbnum.fromInt 0xd0000000, Arbnum.fromInt 0xd0004dac),
                             (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 			     ) ];   
