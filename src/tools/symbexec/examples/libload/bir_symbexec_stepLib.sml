@@ -11,68 +11,7 @@ in (* outermost local *)
 
 (* execution of a basic statement *)
 local
-  (* basic statement execution functions *)
-(*val prog = ``BirProgram
-      [<|bb_label :=
-		  BL_Address_HC (Imm32 2824w) "940000C0 (bl 318 <.text+0x318>)";
-		  bb_statements :=
-		  [BStmt_Assign (BVar "R30" (BType_Imm Bit32))
-				(BExp_Const (Imm32 2828w))];
-		  bb_last_statement :=
-		  BStmt_Jmp (BLE_Label (BL_Address (Imm32 02w)))|>;
-			    <|bb_label := BL_Address_HC (Imm32 2828w) "7100001F (cmp w0, #0x0)";
-		  bb_statements :=
-		  [BStmt_Assign (BVar "ProcState_C" BType_Bool) bir_exp_true;
-		   BStmt_Assign (BVar "ProcState_N" BType_Bool)
-				(BExp_MSB Bit32
-					  (BExp_Cast BIExp_LowCast
-						     (BExp_Den (BVar "R0" (BType_Imm Bit32))) Bit32));
-		   BStmt_Assign (BVar "ProcState_V" BType_Bool) bir_exp_false;
-		   BStmt_Assign (BVar "ProcState_Z" BType_Bool)
-				(BExp_BinPred BIExp_Equal
-					      (BExp_Cast BIExp_LowCast
-							 (BExp_Den (BVar "R0" (BType_Imm Bit32))) Bit32)
-					      (BExp_Const (Imm32 0w)))];
-		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm32 2832w)))|>;
-						 <|bb_label :=
-		  BL_Address_HC (Imm32 2832w)
-				"54000060 (b.eq 2c <.text+0x2c> // b.none)";
-		  bb_statements := [];
-		  bb_last_statement :=
-		  BStmt_CJmp (BExp_Den (BVar "ProcState_Z" BType_Bool))
-			     (BLE_Label (BL_Address (Imm32 2844w)))
-			     (BLE_Label (BL_Address (Imm32 2836w)))|>;
-
-      ]``;
- 
-val bl_dict  = bir_block_collectionLib.gen_block_dict prog;
-val prog_lbl_tms = bir_block_collectionLib.get_block_dict_keys bl_dict;
-val prog_lbl_tms_0 = “BL_Address (Imm32 2824w)”;
-val prog_vars = bir_exec_typingLib.gen_vars_of_prog prog;
-val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict prog_lbl_tms;
-
-    
-val syst = init_state prog_lbl_tms_0 prog_vars;
-
-val Fr_bv = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("init", “BType_Imm Bit32”));
-val bv0 = ``BVar "R0" (BType_Imm Bit32)``;
-val bv1 = ``BVar "R1" (BType_Imm Bit32)``;
-val deps0 = Redblackset.add (symbvalbe_dep_empty, bv0);
-val symbv0 = SymbValBE (Fr_bv,deps0);
-val syst = bir_symbexec_stateLib.insert_symbval bv0 symbv0 syst;
-val deps1 = Redblackset.add (symbvalbe_dep_empty, bv1);
-val symbv1 = SymbValBE (Fr_bv,deps1);
-val syst = bir_symbexec_stateLib.insert_symbval bv1 symbv1 syst;
-
-
-val pred_conjs = [];
-
-val syst = state_add_preds "init_pred" pred_conjs syst;
-val _ = print "initial state created.\n\n";
-
-
-*)
-  
+  (* basic statement execution functions *) 
   (* TODO: this branching can be considered a hack because of
            the way that countw is assigned to for conditional branches *)
   val bv_countw = bir_envSyntax.mk_BVar_string ("countw", ``(BType_Imm Bit64)``);
@@ -307,7 +246,7 @@ fun symb_exec_adversary_block abpfun n_dict bl_dict syst =
 
 		val syst = bir_symbexec_funcLib.store_link bl_stmts syst; (* store link register *)
 
-		val bv_fresh = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Adv", “BType_Imm Bit32”)); (* generate a fresh variable *)
+		val bv_fresh = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Adv", “BType_Imm Bit64”)); (* generate a fresh variable *)
 
 		val syst = bir_symbexec_funcLib.Adv bv_fresh syst; (* update env, vals & pred *)
 		    
@@ -326,7 +265,7 @@ fun symb_exec_library_block abpfun n_dict bl_dict syst =
 		val bl = (valOf o (lookup_block_dict bl_dict)) lbl_tm;
 
 		val (lbl_block_tm, bl_stmts, est) = dest_bir_block bl;
-open bir_symbexec_funcLib;
+
 		val syst = bir_symbexec_funcLib.store_link bl_stmts syst; (* store link register *)
 		    	
 		val lib_type = bir_symbexec_oracleLib.lib_oracle est syst; (* detect type of library call *)
@@ -334,7 +273,8 @@ open bir_symbexec_funcLib;
 		val _ = if false then () else
 			print ("lib_type: " ^ (lib_type) ^ "\n");
 
-		val syst = if (lib_type = "NewKey") then bir_symbexec_funcLib.new_key syst
+		val syst = if (lib_type = "C_Lib") then syst
+			   else if (lib_type = "NewKey") then bir_symbexec_funcLib.new_key syst
 			   else if (lib_type = "Encryption") then bir_symbexec_funcLib.Encryption syst
 			   else if (lib_type = "Decryption") then bir_symbexec_funcLib.Decryption syst
 			   else
@@ -355,7 +295,11 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 	 let  
 	     val bl = (valOf o (lookup_block_dict bl_dict)) lbl_tm;
 	     val (lbl_block_tm, stmts, est) = dest_bir_block bl;
-		val _ = if true then () else
+
+	     val _ = if true then () else
+		     print_term (SYST_get_status syst);
+
+	     val _ = if true then () else
 			print_term (lbl_block_tm);
 		
 		val s_tms = (fst o listSyntax.dest_list) stmts;

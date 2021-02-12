@@ -22,12 +22,20 @@ open bir_symbexec_driverLib;
 open Redblackmap;
 open bir_symbexec_oracleLib;
 open bir_symbexec_oracleLib;
-						 
-val lbl_tm = ``BL_Address (Imm64 636w)``;
 
-val stop_lbl_tms = [``BL_Address (Imm64 908w)``];
+(* wrap function *)
+   
+val lbl_tm = ``BL_Address (Imm64 3489667800w)``;
 
-val syst = init_state lbl_tm prog_vars;
+val stop_lbl_tms = [``BL_Address (Imm64 3489668080w)``];
+
+(* unwrap function *)
+ (*     
+val lbl_tm = ``BL_Address (Imm64 3489668084w)``;
+
+val stop_lbl_tms = [``BL_Address (Imm64 3489668420w)``];
+*)    
+val syst = init_state lbl_tm (``BVar "R7" (BType_Imm Bit64)``::prog_vars);
 
 val pred_conjs = [``bir_exp_true``];
     
@@ -37,23 +45,31 @@ val _ = print "initial state created.\n\n";
 
 val cfb = false;
 val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
-listItems(SYST_get_vals syst);
+
 val systs = symb_exec_to_stop (abpfun cfb) n_dict bl_dict_ [syst] stop_lbl_tms [];
 val _ = print "finished exploration of all paths.\n";
 val _ = print ("number of paths found: " ^ (Int.toString (length systs)));
 val _ = print "\n\n";
 
-
+(*    listItems(SYST_get_env (hd systs));
+      listItems(SYST_get_vals syst);
+      listItems(SYST_get_env ((hd o tl) systs));
+      listItems(SYST_get_vals ((hd o tl) systs));
+ *)
+    
 val (systs_noassertfailed, systs_assertfailed) =
   List.partition (fn syst => not (identical (SYST_get_status syst) BST_AssertionViolated_tm)) systs;
 val _ = print ("number of \"no assert failed\" paths found: " ^ (Int.toString (length systs_noassertfailed)));
 val _ = print "\n\n";
-
+(*
+commented because of HolBA/src/shared/bir_smtLib.sml raised HOL_ERR {message = "address type other than 32bits cannot be handled currently"}
 val systs_feasible = List.filter check_feasible systs_noassertfailed;
 val _ = print ("number of feasible paths found: " ^ (Int.toString (length systs_feasible)));
 val _ = print "\n\n";
-
 val systs_tidiedup = List.map tidyup_state_vals systs_feasible;
+*)
+val systs_tidiedup = List.map tidyup_state_vals systs_noassertfailed;
 val _ = print "finished tidying up all paths.\n\n";
-
+val _ = print ("number of tidied up paths found: " ^ (Int.toString (length systs_tidiedup)));
+val _ = print "\n\n";
 

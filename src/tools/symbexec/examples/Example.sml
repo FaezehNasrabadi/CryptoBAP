@@ -1,6 +1,7 @@
 open HolKernel Parse
 
 open binariesLib;
+     open binariesTheory;
 open binariesCfgLib;
 open binariesMemLib;
 open bir_symbexec_stateLib;
