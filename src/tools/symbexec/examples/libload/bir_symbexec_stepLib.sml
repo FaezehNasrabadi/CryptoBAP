@@ -246,9 +246,9 @@ fun symb_exec_adversary_block abpfun n_dict bl_dict syst =
 
 		val syst = bir_symbexec_funcLib.store_link bl_stmts syst; (* store link register *)
 
-		val bv_fresh = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Adv", “BType_Imm Bit64”)); (* generate a fresh variable *)
+		val av = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Adv", “BType_Imm Bit64”)); (* generate a fresh variable *)
 
-		val syst = bir_symbexec_funcLib.Adv bv_fresh syst; (* update env, vals & pred *)
+		val syst = bir_symbexec_funcLib.Adv av syst; (* update env, vals & pred *)
 		    
 		val systs = bir_symbexec_funcLib.update_pc syst;(* update symb_state with new pc *)
 
