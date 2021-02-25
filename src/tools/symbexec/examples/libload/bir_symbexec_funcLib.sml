@@ -2,160 +2,41 @@ structure bir_symbexec_funcLib =
 struct
 
 local
-  open bir_symbexec_stateLib;
-  open bir_symbexec_coreLib;
-  open bir_block_collectionLib;
-  open Redblackmap;
+    open bir_symbexec_stateLib;
+    open bir_symbexec_coreLib;
+    open bir_block_collectionLib;
+    open bir_envSyntax;
+    open bir_expSyntax;
+    open Redblackmap;
   val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_funcLib"
 in
-(*
-val prog = ``BirProgram
-		 [<|bb_label :=
-		  BL_Address_HC (Imm64 2802w)
-				"52800000 (mov w0, #0x0 // #0)";
-		  bb_statements :=
-		  [BStmt_Assign (BVar "R0" (BType_Imm Bit64))
-				(BExp_Const (Imm64 0w))];
-		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm64 2804w)))|>;
-						 <|bb_label :=
-		  BL_Address_HC (Imm64 2804w) "11000400 (add w0, w0, #0x1)";
-		  bb_statements :=
-		  [BStmt_Assign (BVar "R0" (BType_Imm Bit64))
-				(BExp_Cast BIExp_UnsignedCast
-					   (BExp_BinExp BIExp_Plus
-							(BExp_Cast BIExp_LowCast
-								   (BExp_Den (BVar "R0" (BType_Imm Bit64)))Bit64)
-							(BExp_Const (Imm64 1w)))Bit64)];
-		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm64 2808w)))|>;
-						 <|bb_label := BL_Address_HC (Imm64 2808w) "2A0003E5 (mov w5, w0)";
-		  bb_statements :=
-		  [BStmt_Assign (BVar "R5" (BType_Imm Bit64))
-				(BExp_Cast BIExp_UnsignedCast
-					   (BExp_Cast BIExp_LowCast
-						      (BExp_Den (BVar "R0" (BType_Imm Bit64)))Bit64)Bit64)];
-		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm64 2812w)))|>;
-						 <|bb_label :=
-		  BL_Address_HC (Imm64 2812w) "94000040 (bl 10c <.text+0x10c>)";
-		  bb_statements :=
-		  [BStmt_Assign (BVar "R30" (BType_Imm Bit64))
-				(BExp_Const (Imm64 2814w))];
-		  bb_last_statement :=
-		  BStmt_Jmp (BLE_Label (BL_Address (Imm64 2002w)))|>;
-<|bb_label := BL_Address_HC (Imm64 2814w) "2A0003E2 (mov w2, w0)";
-         bb_statements :=
-           [BStmt_Assign (BVar "R6" (BType_Imm Bit64))
-              (BExp_Cast BIExp_UnsignedCast
-                 (BExp_Cast BIExp_LowCast
-                    (BExp_Den (BVar "R0" (BType_Imm Bit64)))Bit64)Bit64)];
-		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm64 2816w)))|>;
-						 <|bb_label :=
-		  BL_Address_HC (Imm64 2816w)
-				"52800121 (mov w1, #0x9// #9)";
-		  bb_statements :=
-		  [BStmt_Assign (BVar "R1" (BType_Imm Bit64))
-				(BExp_Const (Imm64 9w))];
-		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm64 2820w)))|>;
-						 <|bb_label :=
-		  BL_Address_HC (Imm64 2820w) "94000080 (bl 214 <.text+0x214>)";
-		  bb_statements :=
-		  [BStmt_Assign (BVar "R30" (BType_Imm Bit64))
-				(BExp_Const (Imm64 2822w))];
-		  bb_last_statement :=
-		  BStmt_Jmp (BLE_Label (BL_Address (Imm64 2202w)))|>;
-<|bb_label := BL_Address_HC (Imm64 2822w) "2A0003E2 (mov w2, w0)";
-         bb_statements :=
-           [BStmt_Assign (BVar "R8" (BType_Imm Bit64))
-              (BExp_Cast BIExp_UnsignedCast
-                 (BExp_Cast BIExp_LowCast
-                    (BExp_Den (BVar "R0" (BType_Imm Bit64)))Bit64)Bit64)];
-		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm64 2824w)))|>;
 
-			    <|bb_label :=
-		  BL_Address_HC (Imm64 2824w) "940000C0 (bl 318 <.text+0x318>)";
-		  bb_statements :=
-		  [BStmt_Assign (BVar "R30" (BType_Imm Bit64))
-				(BExp_Const (Imm64 2828w))];
-		  bb_last_statement :=
-		  BStmt_Jmp (BLE_Label (BL_Address (Imm64 02w)))|>;
-			    <|bb_label := BL_Address_HC (Imm64 2828w) "7100001F (cmp w0, #0x0)";
-		  bb_statements :=
-		  [BStmt_Assign (BVar "ProcState_C" BType_Bool) bir_exp_true;
-		   BStmt_Assign (BVar "ProcState_N" BType_Bool)
-				(BExp_MSBBit64
-					  (BExp_Cast BIExp_LowCast
-						     (BExp_Den (BVar "R0" (BType_Imm Bit64)))Bit64));
-		   BStmt_Assign (BVar "ProcState_V" BType_Bool) bir_exp_false;
-		   BStmt_Assign (BVar "ProcState_Z" BType_Bool)
-				(BExp_BinPred BIExp_Equal
-					      (BExp_Cast BIExp_LowCast
-							 (BExp_Den (BVar "R0" (BType_Imm Bit64)))Bit64)
-					      (BExp_Const (Imm64 0w)))];
-		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm64 2832w)))|>;
-						 <|bb_label :=
-		  BL_Address_HC (Imm64 2832w)
-				"54000060 (b.eq 2c <.text+0x2c> // b.none)";
-		  bb_statements := [];
-		  bb_last_statement :=
-		  BStmt_CJmp (BExp_Den (BVar "ProcState_Z" BType_Bool))
-			     (BLE_Label (BL_Address (Imm64 2844w)))
-			     (BLE_Label (BL_Address (Imm64 2836w)))|>;
-			     <|bb_label := BL_Address_HC (Imm64 2836w) "110008A5 (add w5, w5, #0x2)";
-		  bb_statements :=
-		  [BStmt_Assign (BVar "R5" (BType_Imm Bit64))
-				(BExp_Cast BIExp_UnsignedCast
-					   (BExp_BinExp BIExp_Plus
-							(BExp_Cast BIExp_LowCast
-								   (BExp_Den (BVar "R5" (BType_Imm Bit64)))Bit64)
-							(BExp_Const (Imm64 2w)))Bit64)];
-		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm64 2840w)))|>;
-						 <|bb_label :=
-		  BL_Address_HC (Imm64 2840w) "14000002 (b 30 <.text+0x30>)";
-		  bb_statements := [];
-		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm64 2848w)))|>;
-						 <|bb_label := BL_Address_HC (Imm64 2844w) "110004A5 (add w5, w5, #0x1)";
-		  bb_statements :=
-		  [BStmt_Assign (BVar "R5" (BType_Imm Bit64))
-				(BExp_Cast BIExp_UnsignedCast
-					   (BExp_BinExp BIExp_Plus
-							(BExp_Cast BIExp_LowCast
-								   (BExp_Den (BVar "R5" (BType_Imm Bit64)))Bit64)
-							(BExp_Const (Imm64 1w)))Bit64)];
-		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm64 2848w)))|>;
-						 <|bb_label := BL_Address (Imm64 2848w); bb_statements := [];
-		  bb_last_statement := BStmt_Halt (BExp_Const (Imm64 0w))|>]``;
+val _ = Parse.type_abbrev("enc", ``:bir_var_t list -> bir_var_t -> bir_exp_t``);
+
+val _ = Parse.type_abbrev("dec", ``:bir_var_t list -> bir_exp_t``);
+
+(* read int from file *)
+fun readint_inputs filename =
+    let
+	val fullfilename = Path.mkAbsolute{path = filename,
+                                        relativeTo = FileSys.getDir()};
+
+        val ins = TextIO.openIn fullfilename;
+	val _ = TextIO.inputN(ins,75);
+
+    fun loop ins =
+
+        case TextIO.scanStream(IntInf.scan StringCvt.DEC) ins of
+
+    SOME int => int :: loop ins
+
+    | NONE => []
+
+          in
+ loop ins before TextIO.closeIn ins
+
+    end;
     
-  
-val bl_dict  = bir_block_collectionLib.gen_block_dict prog;
-val prog_lbl_tms = bir_block_collectionLib.get_block_dict_keys bl_dict;
-val prog_lbl_tms_0 = “BL_Address (Imm64 2802w)”;
-val prog_vars = bir_exec_typingLib.gen_vars_of_prog prog;
-val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict prog_lbl_tms;
-val stop_lbl_tms = [“BL_Address (Imm64 2824w)”];
-    
-val syst = init_state prog_lbl_tms_0 (``BVar "R7" (BType_Imm Bit64)``::prog_vars);
-
-val Fr_bval = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("init", “BType_Imm Bit64”));
-val bv = ``BVar "R0" (BType_Imm Bit64)``;
-val deps = Redblackset.add (symbvalbe_dep_empty, bv);
-val symbv = SymbValBE (Fr_bval,deps);
-val Fr_bv = get_bvar_fresh bv;
-val syst = bir_symbexec_stateLib.insert_symbval Fr_bv symbv syst;
-
-val pred_conjs = [``bir_exp_true``];
-
-val syst = state_add_preds "init_pred" pred_conjs syst;
-
-val cfb = false;
-
-listItems(SYST_get_env syst);
-      listItems(SYST_get_vals syst);
-
-*)
-
-val _ = Parse.type_abbrev("enc", ``:bir_var_t -> bir_var_t -> bir_var_t -> bir_exp_t``); 
-
-val _ = Parse.type_abbrev("dec", ``:bir_var_t -> bir_var_t -> bir_var_t -> bir_exp_t``);
-  
 fun Fr var =
     let
 	 val (bv_str, _) = bir_envSyntax.dest_BVar_string var;
@@ -171,26 +52,23 @@ fun rev_Fr bv =
     in
 	var
     end;
-
-fun encrypt be_r0 iv be_r1 =
+		
+fun encrypt inputs iv =
     let
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
 			(enc
-			     (be_r0)
-			     (iv)
-			     (be_r1))``;
+			     (inputs)
+			     (iv))``;
 
     in
 	dest_BStmt_Assign stmt
     end;
 
-fun decrypt be_r6 be_r7 be_r8 =
+fun decrypt inputs =
     let
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
 			(dec
-			     (be_r6)
-			     (be_r7)
-			     (be_r8))``;
+			     (inputs))``;
 
     in
 	dest_BStmt_Assign stmt
@@ -261,9 +139,24 @@ fun state_add_path bv_str pred syst =
       (SYST_update_pred ((bv_fresh)::(SYST_get_pred syst)) o
        update_symbval pred bv_fresh
       ) syst
-    end;    
+    end;
+    
+fun compute_inputs n syst =
+    let
+	val Rn = ("R" ^ (IntInf.toString n));
+	val be = bir_envSyntax.mk_BVar_string (Rn, ``BType_Imm Bit64``);
+	    
+	val be_r = (symbval_bexp o get_state_symbv " vals not found " be) syst;
 
+	val n = n-1;
+	val inputs = if (n < 0)
+		     then []
+		     else
+			 be_r :: compute_inputs n syst;
+    in
+	inputs
 
+    end;
 fun add_knowledge bv syst =
     let
 	val symbv = get_state_symbv "symbv not found" bv syst;
@@ -275,23 +168,28 @@ fun add_knowledge bv syst =
        syst
     end;
     
-fun add_knowledges_to_adv syst =
+fun add_knowledges_to_adv n syst =
     let
-	val syst =  add_knowledge “BVar "R0" (BType_Imm Bit64)” syst;
-	val syst =  add_knowledge “BVar "R1" (BType_Imm Bit64)” syst;
-(*	val syst =  add_knowledge “BVar "R2" (BType_Imm Bit64)” syst;
-	val syst =  add_knowledge “BVar "R3" (BType_Imm Bit64)” syst;
-	val syst =  add_knowledge “BVar "R4" (BType_Imm Bit64)” syst;*)
-	val syst =  add_knowledge “BVar "R5" (BType_Imm Bit64)” syst;
-	val syst =  add_knowledge “BVar "R6" (BType_Imm Bit64)” syst;
+	val Rn = ("R" ^ (IntInf.toString n));
+	val be = mk_BVar_string (Rn, ``BType_Imm Bit64``);
+	    
+	val syst = add_knowledge be syst;
+
+	val n = n-1;
+	val syst = if (n < 0)
+		     then syst
+		     else
+			 add_knowledges_to_adv n syst;
     in
-       syst
-    end;    
+	syst
+
+    end;  
 
 fun Adv av syst =
     let
+	val n = List.nth (readint_inputs "Adversary-number of inputs", 0);
 
-	val syst =  add_knowledges_to_adv syst;
+	val syst =  add_knowledges_to_adv (n-1) syst;
 	     
 	val syst =  update_envvar ``BVar "R0" (BType_Imm Bit64)`` av syst; (* update environment *)
 
@@ -310,11 +208,9 @@ fun new_key syst =
 	val vn = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Key", “BType_Imm Bit64”));
 
 	(* update environment *)
-	val bv0 = ``BVar "R0" (BType_Imm Bit64)``;
-	val bv6 = ``BVar "R6" (BType_Imm Bit64)``;	  
+	val bv0 = ``BVar "R0" (BType_Imm Bit64)``;	  
 
-	val syst =  update_envvar bv0 vn syst; 
-	val syst =  update_envvar bv6 vn syst;	    
+	val syst =  update_envvar bv0 vn syst; 	    
 
 	val syst = update_symbval vn vn syst; (* update symbolic value *)
 
@@ -327,18 +223,16 @@ fun new_key syst =
 
 fun Encryption syst =
     let
-	
+	val n = List.nth (readint_inputs "Library-number of inputs", 0);
+	val inputs = compute_inputs (n-2) syst;
+	    
 	val iv = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("iv", “BType_Imm Bit64”)); (* generate a fresh iv *)
 
 	(* update path condition *)
 	val Fr_iv = Fr iv;
-	val syst = update_path Fr_iv syst;
+	val syst = update_path Fr_iv syst;    
 
-	(* get value *)
-	val be_r0 = (symbval_bexp o get_state_symbv " vals not found " ``BVar "R0" (BType_Imm Bit64)``) syst;
-	val be_r1 = (symbval_bexp o get_state_symbv " vals not found " ``BVar "R1" (BType_Imm Bit64)``) syst;	    
-
-	val (C_bv, C_be) = encrypt be_r0 iv be_r1; (* encrypt with iv *)
+	val (C_bv, C_be) = encrypt inputs iv; (* encrypt with iv *)
 
 	val Fr_Enc = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Enc", “BType_Imm Bit64”)); (* generate a fresh variable *)
 
@@ -346,17 +240,12 @@ fun Encryption syst =
 	    
 	(* update environment *)
 	val bv0 = ``BVar "R0" (BType_Imm Bit64)``;
-	val bv7 = ``BVar "R7" (BType_Imm Bit64)``;
-	val bv8 = ``BVar "R8" (BType_Imm Bit64)``;
 		  
 	val syst =  update_envvar bv0 Fr_Enc syst;
-	val syst =  update_envvar bv7 iv syst; 
-	val syst =  update_envvar bv8 Fr_Enc syst;
 	    
 	(* update symbolic value *)
-	val syst = update_symbval C_be Fr_Enc syst;
-	val syst = update_symbval iv iv syst;     
- 	     
+	val syst = update_symbval C_be Fr_Enc syst;    
+	
     in
 	syst
     end;
@@ -364,11 +253,10 @@ fun Encryption syst =
 fun Decryption syst =
     let
 	(* get value *)
-	val be_r6 = (symbval_bexp o get_state_symbv " vals not found " ``BVar "R6" (BType_Imm Bit64)``) syst;
-	val be_r7 = (symbval_bexp o get_state_symbv " vals not found " ``BVar "R7" (BType_Imm Bit64)``) syst;
-	val be_r8 = (symbval_bexp o get_state_symbv " vals not found " ``BVar "R8" (BType_Imm Bit64)``) syst;
-	    
-	val (M_bv, M_be) = decrypt be_r6 be_r7 be_r8; (* decrypt with iv *)
+	val n = List.nth (readint_inputs "Library-number of inputs", 0);
+	val inputs = compute_inputs (n-1) syst;
+
+	val (M_bv, M_be) = decrypt inputs; (* decrypt with iv *)
 
 	val Fr_Dec = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Dec", “BType_Imm Bit64”)); (* generate a fresh variable *)
 
@@ -376,11 +264,8 @@ fun Decryption syst =
 
 	(* update environment *)
 	val bv0 = ``BVar "R0" (BType_Imm Bit64)``;
-	val bv1 = ``BVar "R1" (BType_Imm Bit64)``;
 	    
-	val syst =  update_envvar bv0 Fr_Dec syst; 
-	val syst =  update_envvar bv1 Fr_Dec syst;
-	    
+	val syst =  update_envvar bv0 Fr_Dec syst;
 	val syst = update_symbval M_be Fr_Dec syst; (* update symbolic value *)
 		    
     in

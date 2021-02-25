@@ -70,9 +70,9 @@ fun in_range (mn,mx) tm =
     let val v = sint_of_term tm in
       mn <= v andalso v <= mx
     end handle HOL_ERR _ => false | Overflow => false;
-val filename = "Function-Type";
+
 (* read int from file *)
-fun readint filename =
+fun readint_type filename =
     let
 	val fullfilename = Path.mkAbsolute{path = filename,
                                         relativeTo = FileSys.getDir()};
@@ -96,7 +96,7 @@ fun readint filename =
 fun fun_oracle_type_label label =
     let
 	
-	val Int_list = readint "Function-Addresses";
+	val Int_list = readint_type "Function-Addresses";
 	
 	val lbl = 
 	    (*critical section that no one must not jump to it*)
@@ -150,7 +150,7 @@ fun fun_oracle est syst =
 fun lib_oracle_type_label label =
     let
 
-	val Int_list = readint "Library-Addresses";
+	val Int_list = readint_type "Library-Addresses";
 
 	val lbl = 
 	    (*part of memory that new key functions exist*)

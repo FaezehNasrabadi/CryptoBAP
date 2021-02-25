@@ -1,7 +1,6 @@
 open HolKernel Parse
 
 open binariesLib;
-     open binariesTheory;
 open binariesCfgLib;
 open binariesMemLib;
 open bir_symbexec_stateLib;
@@ -51,16 +50,9 @@ val prog = ``BirProgram
 		  BL_Address_HC (Imm64 2812w) "94000040 (bl 10c <.text+0x10c>)";
 		  bb_statements :=
 		  [BStmt_Assign (BVar "R30" (BType_Imm Bit64))
-				(BExp_Const (Imm64 2814w))];
+				(BExp_Const (Imm64 2816w))];
 		  bb_last_statement :=
 		  BStmt_Jmp (BLE_Label (BL_Address (Imm64 2002w)))|>;
-<|bb_label := BL_Address_HC (Imm64 2814w) "2A0003E2 (mov w2, w0)";
-         bb_statements :=
-           [BStmt_Assign (BVar "R6" (BType_Imm Bit64))
-              (BExp_Cast BIExp_UnsignedCast
-                 (BExp_Cast BIExp_LowCast
-                    (BExp_Den (BVar "R0" (BType_Imm Bit64))) Bit64) Bit64)];
-		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm64 2816w)))|>;
 						 <|bb_label :=
 		  BL_Address_HC (Imm64 2816w)
 				"52800121 (mov w1, #0x9// #9)";
@@ -72,16 +64,9 @@ val prog = ``BirProgram
 		  BL_Address_HC (Imm64 2820w) "94000080 (bl 214 <.text+0x214>)";
 		  bb_statements :=
 		  [BStmt_Assign (BVar "R30" (BType_Imm Bit64))
-				(BExp_Const (Imm64 2822w))];
+				(BExp_Const (Imm64 2824w))];
 		  bb_last_statement :=
 		  BStmt_Jmp (BLE_Label (BL_Address (Imm64 2202w)))|>;
-<|bb_label := BL_Address_HC (Imm64 2822w) "2A0003E2 (mov w2, w0)";
-         bb_statements :=
-           [BStmt_Assign (BVar "R8" (BType_Imm Bit64))
-              (BExp_Cast BIExp_UnsignedCast
-                 (BExp_Cast BIExp_LowCast
-                    (BExp_Den (BVar "R0" (BType_Imm Bit64))) Bit64) Bit64)];
-		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm64 2824w)))|>;
 
 			    <|bb_label :=
 		  BL_Address_HC (Imm64 2824w) "940000C0 (bl 318 <.text+0x318>)";
@@ -145,7 +130,7 @@ val prog_vars = bir_exec_typingLib.gen_vars_of_prog prog;
 val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict prog_lbl_tms;
 val stop_lbl_tms = [“BL_Address (Imm64 2824w)”];
     
-val syst = init_state prog_lbl_tms_0 (``BVar "R7" (BType_Imm Bit64)``::prog_vars);
+val syst = init_state prog_lbl_tms_0 prog_vars;
 
 val Fr_bval = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("init", “BType_Imm Bit64”));
 val bv = ``BVar "R0" (BType_Imm Bit64)``;
