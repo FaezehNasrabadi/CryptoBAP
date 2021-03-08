@@ -123,10 +123,10 @@ fun update_pc syst =
 	systs
     end;
 
-fun update_path pred syst =
+fun update_path bv syst =
     let
-	 val syst = SYST_update_pred ((pred)::(SYST_get_pred syst)) syst;
-	 val syst = update_symbval pred pred syst;
+	 val Fr_bv = Fr bv;
+	 val syst = SYST_update_pred ((Fr_bv)::(SYST_get_pred syst)) syst;
     in
 	syst
     end;
@@ -139,6 +139,21 @@ fun state_add_path bv_str pred syst =
       (SYST_update_pred ((bv_fresh)::(SYST_get_pred syst)) o
        update_symbval pred bv_fresh
       ) syst
+    end;
+    
+fun update_lib_syst be Fr_bv syst =
+    let
+	
+	val bv0 = ``BVar "R0" (BType_Imm Bit64)``;
+		  
+	val syst =  update_envvar bv0 Fr_bv syst; (* update environment *)  
+	
+	val syst = update_symbval be Fr_bv syst; (* update symbolic value *)
+	
+	val syst = state_add_path "T" be syst; (* update path condition *)
+
+    in
+	syst
     end;
     
 fun compute_inputs n syst =
@@ -157,6 +172,7 @@ fun compute_inputs n syst =
 	inputs
 
     end;
+
 fun add_knowledge bv syst =
     let
 	val symbv = get_state_symbv "symbv not found" bv syst;
@@ -190,61 +206,50 @@ fun Adv av syst =
 	val n = List.nth (readint_inputs "Adversary-number of inputs", 0);
 
 	val syst =  add_knowledges_to_adv (n-1) syst;
-	     
-	val syst =  update_envvar ``BVar "R0" (BType_Imm Bit64)`` av syst; (* update environment *)
 
-	val syst = update_symbval av av syst; (* update symbolic value *)
+	val syst =  update_envvar ``BVar "R0" (BType_Imm Bit64)`` av syst; (* update environment *) 
 
-	(* update path condition *)
-	val Fr_av = Fr av;
-	val syst = update_path Fr_av syst;	    
+	val Fn_av = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("a", “BType_Imm Bit64”)); (* generate a fresh name *)
+
+	val syst = update_symbval Fn_av av syst; (* update symbolic value *)
+
+	val syst = update_path av syst; (* update path condition *)	    
     in
 	syst
     end;
         
 fun new_key syst =
     let
-	(* generate a fresh variable *)
-	val vn = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Key", “BType_Imm Bit64”));
 
-	(* update environment *)
-	val bv0 = ``BVar "R0" (BType_Imm Bit64)``;	  
+	val vn = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Key", “BType_Imm Bit64”)); (* generate a fresh variable *)	    	
+	
+	val syst = update_path vn syst; (* update path condition *)
 
-	val syst =  update_envvar bv0 vn syst; 	    
-
-	val syst = update_symbval vn vn syst; (* update symbolic value *)
-
-	(* update path condition *)
-	val Fr_vn = Fr vn;
-	val syst = update_path Fr_vn syst;
+	val Fn_vn = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("k", “BType_Imm Bit64”)); (* generate a fresh name *)
+	    
+	val syst = update_lib_syst Fn_vn vn syst; (* update syst *)
+	    
     in
 	syst
     end;   
 
 fun Encryption syst =
     let
+	
 	val n = List.nth (readint_inputs "Library-number of inputs", 0);
-	val inputs = compute_inputs (n-2) syst;
+	val inputs = compute_inputs (n-2) syst; (* get values *)
 	    
 	val iv = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("iv", “BType_Imm Bit64”)); (* generate a fresh iv *)
-
-	(* update path condition *)
-	val Fr_iv = Fr iv;
-	val syst = update_path Fr_iv syst;    
+	
+	val syst = update_path iv syst; (* update path condition *)  
 
 	val (C_bv, C_be) = encrypt inputs iv; (* encrypt with iv *)
 
 	val Fr_Enc = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Enc", “BType_Imm Bit64”)); (* generate a fresh variable *)
 
 	val stmt = ``BStmt_Assign (Fr_Enc) (C_bv)``; (* assign value of R0 to the fresh variable *)
-	    
-	(* update environment *)
-	val bv0 = ``BVar "R0" (BType_Imm Bit64)``;
-		  
-	val syst =  update_envvar bv0 Fr_Enc syst;
-	    
-	(* update symbolic value *)
-	val syst = update_symbval C_be Fr_Enc syst;    
+	
+	val syst = update_lib_syst C_be Fr_Enc syst; (* update syst *)
 	
     in
 	syst
@@ -252,22 +257,18 @@ fun Encryption syst =
  
 fun Decryption syst =
     let
-	(* get value *)
+	
 	val n = List.nth (readint_inputs "Library-number of inputs", 0);
-	val inputs = compute_inputs (n-1) syst;
+	val inputs = compute_inputs (n-1) syst; (* get values *)
 
 	val (M_bv, M_be) = decrypt inputs; (* decrypt with iv *)
 
 	val Fr_Dec = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Dec", “BType_Imm Bit64”)); (* generate a fresh variable *)
 
 	val stmt = ``BStmt_Assign (Fr_Dec) (M_bv)``; (* assign value of R0 to the fresh variable *)
-
-	(* update environment *)
-	val bv0 = ``BVar "R0" (BType_Imm Bit64)``;
 	    
-	val syst =  update_envvar bv0 Fr_Dec syst;
-	val syst = update_symbval M_be Fr_Dec syst; (* update symbolic value *)
-		    
+	val syst = update_lib_syst M_be Fr_Dec syst; (* update syst *)
+	    		    
     in
 	syst
     end;

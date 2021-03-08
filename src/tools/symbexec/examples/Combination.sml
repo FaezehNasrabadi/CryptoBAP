@@ -30,11 +30,11 @@ val lbl_tm = ``BL_Address (Imm64 3489667800w)``;
 val stop_lbl_tms = [``BL_Address (Imm64 3489668080w)``];
 
 (* unwrap function *)
-(*        
+  (*      
 val lbl_tm = ``BL_Address (Imm64 3489668084w)``;
 
 val stop_lbl_tms = [``BL_Address (Imm64 3489668420w)``];
-*)   
+ *)  
 val syst = init_state lbl_tm prog_vars;
 
 val pred_conjs = [``bir_exp_true``];
@@ -73,6 +73,7 @@ val _ = print "finished tidying up all paths.\n\n";
 val _ = print ("number of tidied up paths found: " ^ (Int.toString (length systs_tidiedup)));
 val _ = print "\n\n";
 (*
-    listItems(SYST_get_env (List.nth (systs, 44)));
+    listItems(SYST_get_vals (List.nth (systs, 44)));
 
-    “BVar "fr_175_iv" BType_Bool”, “BVar "fr_169_Key" BType_Bool”*)
+    “BVar "fr_175_iv" BType_Bool”, “BVar "fr_169_Key" BType_Bool”,
+“BVar "fr_170_T" BType_Bool, “BVar "fr_176_T" BType_Bool*)

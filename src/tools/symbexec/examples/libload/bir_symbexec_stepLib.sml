@@ -120,35 +120,7 @@ local
       val tgt1    = fst (List.nth (vs, 1));
       val tgt2    = fst (List.nth (vs, 2));
 
-      (*see whether the latest addition to the path condition
-            matches the unnegated or negated branch condition *)
-      val pred = SYST_get_pred syst;
-      val vals = SYST_get_vals syst;
-      val last_pred_bv = hd pred
-                      handle Empty => raise ERR "symb_exec_endstmt" "oh no, pred is empty!";
-      val last_pred_symbv = find_bv_val "symb_exec_endstmt" vals last_pred_bv;
-      val last_pred_exp =
-         case last_pred_symbv of
-            SymbValBE (x,_) => x
-          | _ => raise ERR "symb_exec_endstmt" "cannot handle symbolic value type for last pred exp";
-
-      (* get branch condition *)
-      val cnd_exp =
-         case compute_valbe cnd syst of
-            SymbValBE (x,_) => x
-          | _ => raise ERR "symb_exec_endstmt" "cannot handle symbolic value type for conditions";
-
     in
-      (* does unnegated condition match? *)
-      if identical cnd_exp last_pred_exp then
-        [(SYST_update_pc tgt1
-         ) syst]
-      (* does negated condition match? *)
-      else if identical (bslSyntax.bnot cnd_exp) last_pred_exp then
-        [(SYST_update_pc tgt2
-         ) syst]
-      (* no match *)
-      else
       state_branch_simp
          "cjmp"
          cnd
