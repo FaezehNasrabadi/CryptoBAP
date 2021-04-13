@@ -278,12 +278,13 @@ end (* local *)
 (* primitives for branching states based on a boolean condition expression *)
   fun state_branch str_prefix cnd f_bt f_bf syst =
     let
-      val bv_str = str_prefix ^ "_cnd";
+	val bv_str_t = str_prefix ^ "_true_cnd";
+	val bv_str_f = str_prefix ^ "_false_cnd";
 
       val debugOn = debugPaths;
 
-      val systs1 = (f_bt o state_add_pred bv_str cnd) syst;
-      val systs2 = (f_bf o state_add_pred bv_str (bslSyntax.bnot cnd)) syst;
+      val systs1 = (f_bt o state_add_pred bv_str_t cnd) syst;
+      val systs2 = (f_bf o state_add_pred bv_str_f (bslSyntax.bnot cnd)) syst;
     in
       if not debugOn then
         systs1@systs2

@@ -160,8 +160,6 @@ val _ = print "finished exploration of all paths.\n";
 val _ = print ("number of paths found: " ^ (Int.toString (length systs)));
 val _ = print "\n\n";
  (* listItems(SYST_get_env (hd systs));
-    listItems(SYST_get_vals (hd systs));
-    listItems(SYST_get_env ((hd o tl) systs));
     listItems(SYST_get_vals ((hd o tl) systs));*)
     
 val (systs_noassertfailed, systs_assertfailed) =
@@ -169,3 +167,7 @@ val (systs_noassertfailed, systs_assertfailed) =
 val _ = print ("number of \"no assert failed\" paths found: " ^ (Int.toString (length systs_noassertfailed)));
 val _ = print "\n\n";
 
+val Acts = bir_symbexec_treeLib.symb_exec_to_tree (rev systs) [];
+val _ = print "finished traversing the tree.\n\n";
+val _ = print ("Tree of Symbolic Execution Output: \n\n" ^ (List.foldr (fn (x,s) => s ^ "\n" ^ (x)) "" (rev Acts)));
+    

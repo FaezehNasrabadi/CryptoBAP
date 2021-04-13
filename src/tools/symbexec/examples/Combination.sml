@@ -47,7 +47,8 @@ val cfb = false;
 val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
 
 val systs = symb_exec_to_stop (abpfun cfb) n_dict bl_dict_ [syst] stop_lbl_tms [];
-val _ = print "finished exploration of all paths.\n";
+val _ = print "\n\n";
+val _ = print "finished exploration of all paths.\n\n";
 val _ = print ("number of paths found: " ^ (Int.toString (length systs)));
 val _ = print "\n\n";
 
@@ -56,10 +57,12 @@ val _ = print "\n\n";
       listItems(SYST_get_env ((hd o tl) systs));
       listItems(SYST_get_vals ((hd o tl) systs));
  *)
-    
+     
 val (systs_noassertfailed, systs_assertfailed) =
   List.partition (fn syst => not (identical (SYST_get_status syst) BST_AssertionViolated_tm)) systs;
 val _ = print ("number of \"no assert failed\" paths found: " ^ (Int.toString (length systs_noassertfailed)));
+val _ = print "\n\n";
+val _ = print ("number of \"assert failed\" paths found: " ^ (Int.toString (length systs_assertfailed)));
 val _ = print "\n\n";
 (*
 commented because of HolBA/src/shared/bir_smtLib.sml raised HOL_ERR {message = "address type other than 32bits cannot be handled currently"}
@@ -74,6 +77,10 @@ val _ = print ("number of tidied up paths found: " ^ (Int.toString (length systs
 val _ = print "\n\n";
 (*
     listItems(SYST_get_vals (List.nth (systs, 44)));
+*)
 
-    “BVar "fr_175_iv" BType_Bool”, “BVar "fr_169_Key" BType_Bool”,
-“BVar "fr_170_T" BType_Bool, “BVar "fr_176_T" BType_Bool*)
+
+val Acts = bir_symbexec_treeLib.symb_exec_to_tree  (rev systs_tidiedup) [];
+val _ = print "finished traversing the tree.\n\n";
+val _ = print ("Tree of Symbolic Execution Output: \n\n" ^ (List.foldr (fn (x,s) => s ^ "\n" ^ (x)) "" (rev Acts)));
+
