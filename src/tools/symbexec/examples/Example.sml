@@ -167,7 +167,8 @@ val (systs_noassertfailed, systs_assertfailed) =
 val _ = print ("number of \"no assert failed\" paths found: " ^ (Int.toString (length systs_noassertfailed)));
 val _ = print "\n\n";
 
-val Acts = bir_symbexec_treeLib.symb_exec_to_tree (rev systs) [];
-val _ = print "finished traversing the tree.\n\n";
-val _ = print ("Tree of Symbolic Execution Output: \n\n" ^ (List.foldr (fn (x,s) => s ^ "\n" ^ (x)) "" (rev Acts)));
-    
+val _ = bir_symbexec_treeLib.symb_exec_to_tree (rev systs);
+(*val _ = print "finished traversing the tree.\n\n";
+val _ = print ("Tree of Symbolic Execution Output: \n\n" ^ (List.foldr (fn (x,s) => s ^ "\n" ^ (x)) "" (rev Acts)));*)
+val _ = print "\n\n";    
+

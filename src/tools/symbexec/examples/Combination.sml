@@ -30,11 +30,11 @@ val lbl_tm = ``BL_Address (Imm64 3489667800w)``;
 val stop_lbl_tms = [``BL_Address (Imm64 3489668080w)``];
 
 (* unwrap function *)
-  (*      
+(*      
 val lbl_tm = ``BL_Address (Imm64 3489668084w)``;
 
 val stop_lbl_tms = [``BL_Address (Imm64 3489668420w)``];
- *)  
+  *)
 val syst = init_state lbl_tm prog_vars;
 
 val pred_conjs = [``bir_exp_true``];
@@ -52,7 +52,7 @@ val _ = print "finished exploration of all paths.\n\n";
 val _ = print ("number of paths found: " ^ (Int.toString (length systs)));
 val _ = print "\n\n";
 
-(*    listItems(SYST_get_env (hd systs));
+(*    listItems(SYST_get_pred (hd systs_noassertfailed));
       listItems(SYST_get_vals syst);
       listItems(SYST_get_env ((hd o tl) systs));
       listItems(SYST_get_vals ((hd o tl) systs));
@@ -77,10 +77,9 @@ val _ = print ("number of tidied up paths found: " ^ (Int.toString (length systs
 val _ = print "\n\n";
 (*
     listItems(SYST_get_vals (List.nth (systs, 44)));
-*)
+ *)
 
-
-val Acts = bir_symbexec_treeLib.symb_exec_to_tree  (rev systs_tidiedup) [];
-val _ = print "finished traversing the tree.\n\n";
-val _ = print ("Tree of Symbolic Execution Output: \n\n" ^ (List.foldr (fn (x,s) => s ^ "\n" ^ (x)) "" (rev Acts)));
-
+val _ = bir_symbexec_treeLib.symb_exec_to_tree  (rev systs_tidiedup);
+(*val _ = print "finished traversing the tree.\n\n";
+val _ = print ("Tree of Symbolic Execution Output: \n\n" ^ (List.foldr (fn (x,s) => s ^ "\n" ^ (x)) "" (rev Acts)));*)
+val _ = print "\n\n";
