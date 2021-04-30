@@ -99,26 +99,20 @@ val prog = ``BirProgram
 			     (BLE_Label (BL_Address (Imm64 2836w)))|>;
 			     <|bb_label := BL_Address_HC (Imm64 2836w) "110008A5 (add w5, w5, #0x2)";
 		  bb_statements :=
-		  [BStmt_Assign (BVar "R5" (BType_Imm Bit64))
-				(BExp_Cast BIExp_UnsignedCast
-					   (BExp_BinExp BIExp_Plus
-							(BExp_Cast BIExp_LowCast
-								   (BExp_Den (BVar "R5" (BType_Imm Bit64))) Bit64)
-							(BExp_Const (Imm64 2w))) Bit64)];
-		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm64 2840w)))|>;
+		  [BStmt_Assign (BVar "R30" (BType_Imm Bit64))
+				(BExp_Const (Imm64 2840w))];
+		  bb_last_statement :=
+		  BStmt_Jmp (BLE_Label (BL_Address (Imm64 04w)))|>;
 						 <|bb_label :=
 		  BL_Address_HC (Imm64 2840w) "14000002 (b 30 <.text+0x30>)";
 		  bb_statements := [];
 		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm64 2848w)))|>;
 						 <|bb_label := BL_Address_HC (Imm64 2844w) "110004A5 (add w5, w5, #0x1)";
 		  bb_statements :=
-		  [BStmt_Assign (BVar "R5" (BType_Imm Bit64))
-				(BExp_Cast BIExp_UnsignedCast
-					   (BExp_BinExp BIExp_Plus
-							(BExp_Cast BIExp_LowCast
-								   (BExp_Den (BVar "R5" (BType_Imm Bit64))) Bit64)
-							(BExp_Const (Imm64 1w))) Bit64)];
-		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm64 2848w)))|>;
+		  [BStmt_Assign (BVar "R30" (BType_Imm Bit64))
+				(BExp_Const (Imm64 2848w))];
+		  bb_last_statement :=
+		  BStmt_Jmp (BLE_Label (BL_Address (Imm64 2002w)))|>;
 						 <|bb_label := BL_Address (Imm64 2848w); bb_statements := [];
 		  bb_last_statement := BStmt_Halt (BExp_Const (Imm64 0w))|>]``;
     
@@ -128,7 +122,7 @@ val prog_lbl_tms = bir_block_collectionLib.get_block_dict_keys bl_dict;
 val prog_lbl_tms_0 = “BL_Address (Imm64 2802w)”;
 val prog_vars = bir_exec_typingLib.gen_vars_of_prog prog;
 val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict prog_lbl_tms;
-val stop_lbl_tms = [“BL_Address (Imm64 2824w)”];
+
     
 val syst = init_state prog_lbl_tms_0 prog_vars;
 
@@ -146,7 +140,7 @@ val _ = print "initial state created.\n\n";
 
 
 val cfb = false;
-
+val stop_lbl_tms = [“BL_Address (Imm64 2848w)”];
 val systs = symb_exec_to_stop (commonBalrobScriptLib.abpfun cfb) n_dict bl_dict [syst] stop_lbl_tms [];
     (*listItems(SYST_get_env (hd systs));
       listItems(SYST_get_vals (hd systs));*)
@@ -154,8 +148,8 @@ val _ = print "finished exploration of all paths.\n";
 val _ = print ("number of paths found: " ^ (Int.toString (length systs)));
 val _ = print "\n\n";
 
-val stop_lbl_tms = [“BL_Address (Imm64 2848w)”];
-val systs = symb_exec_to_stop (commonBalrobScriptLib.abpfun cfb) n_dict bl_dict [syst] stop_lbl_tms systs;
+(*
+val systs = symb_exec_to_stop (commonBalrobScriptLib.abpfun cfb) n_dict bl_dict [syst] stop_lbl_tms systs;*)
 val _ = print "finished exploration of all paths.\n";
 val _ = print ("number of paths found: " ^ (Int.toString (length systs)));
 val _ = print "\n\n";
@@ -166,9 +160,13 @@ val (systs_noassertfailed, systs_assertfailed) =
   List.partition (fn syst => not (identical (SYST_get_status syst) BST_AssertionViolated_tm)) systs;
 val _ = print ("number of \"no assert failed\" paths found: " ^ (Int.toString (length systs_noassertfailed)));
 val _ = print "\n\n";
-
+(*
 val _ = bir_symbexec_treeLib.symb_exec_to_tree (rev systs);
-(*val _ = print "finished traversing the tree.\n\n";
+val _ = print "finished traversing the tree.\n\n";
 val _ = print ("Tree of Symbolic Execution Output: \n\n" ^ (List.foldr (fn (x,s) => s ^ "\n" ^ (x)) "" (rev Acts)));*)
-val _ = print "\n\n";    
+   
 
+ val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs;
+(*val _ = print "finished traversing the tree.\n\n";
+val _ = print ("Tree of Symbolic Execution Output: \n\n" ^ (List.foldr (fn (x,s) => s ^ "\n" ^ (x)) "" (Acts)));*)
+val _ = print "();\n\n";

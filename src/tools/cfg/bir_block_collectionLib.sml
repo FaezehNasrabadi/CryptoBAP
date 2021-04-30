@@ -8,7 +8,6 @@ local
   open bir_immSyntax;
 
 in
-
   fun gen_block_dict prog_tm =
     let
       val prog_bls = (fst o dest_list o dest_BirProgram) prog_tm;

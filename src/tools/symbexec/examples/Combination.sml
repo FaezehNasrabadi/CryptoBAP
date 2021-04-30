@@ -79,7 +79,7 @@ val _ = print "\n\n";
     listItems(SYST_get_vals (List.nth (systs, 44)));
  *)
 
-val _ = bir_symbexec_treeLib.symb_exec_to_tree  (rev systs_tidiedup);
+ val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs;
 (*val _ = print "finished traversing the tree.\n\n";
-val _ = print ("Tree of Symbolic Execution Output: \n\n" ^ (List.foldr (fn (x,s) => s ^ "\n" ^ (x)) "" (rev Acts)));*)
-val _ = print "\n\n";
+val _ = print ("Tree of Symbolic Execution Output: \n\n" ^ (List.foldr (fn (x,s) => s ^ "\n" ^ (x)) "" (Acts)));*)
+val _ = print "();\n\n";

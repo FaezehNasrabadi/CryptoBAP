@@ -157,7 +157,8 @@ in
   fun get_bvar_fresh bv =
     let
       val (s, bty) = dest_BVar_string bv;
-      val new_s = "fr_" ^ (Int.toString (get_fresh_var_counter ())) ^ "_" ^ s;
+     (* val new_s = "fr_" ^ (Int.toString (get_fresh_var_counter ())) ^ "_" ^ s;*)
+      val new_s = (Int.toString (get_fresh_var_counter ())) ^ "_" ^ s;
     in
       mk_BVar_string (new_s, bty)
     end;
