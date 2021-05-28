@@ -54,7 +54,7 @@ val _ = print "\n\n";
 
 (*    listItems(SYST_get_pred (hd systs_noassertfailed));
       listItems(SYST_get_vals syst);
-      listItems(SYST_get_env ((hd o tl) systs));
+      listItems(SYST_get_pred (hd systs));
       listItems(SYST_get_vals ((hd o tl) systs));
  *)
      
