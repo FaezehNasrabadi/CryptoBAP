@@ -1,13 +1,14 @@
 structure imlLib =
 struct
 
+local
 open HolKernel Parse boolLib bossLib;
 open bitstringSyntax stringSyntax;
 open listSyntax boolSyntax String;
 open List;
 val ERR = Feedback.mk_HOL_ERR "imlLib";
      
- 
+in 
 datatype ITerm =
 	 N     of int
        | Len   of (bool list)	     
@@ -95,4 +96,5 @@ fun iml_to_string (p : iml) = (List.map (fn x => (to_string (x))) (p));
 fun iml_subset vs vs' p = (List.map (fn y => (subset vs y p)) (vs'));     
 *)
 
+end (* local *)
 end (* struct *)

@@ -60,6 +60,5 @@ config.env.sh
 # binary files compiled for analysis
 *.elf
 *.o
-# generally all .da files
-*.da
+
 

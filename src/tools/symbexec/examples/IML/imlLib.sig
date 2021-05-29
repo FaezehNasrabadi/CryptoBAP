@@ -1,9 +1,9 @@
 signature imlLib =
 sig
     include Abbrev
-    type ITerm
-    type IExp
-    type IML_Stmt
+    type ITerm;
+    type IExp;
+    type IML_Stmt;
 
     val ITerm_to_string     : ITerm -> string
     val IExp_to_string      : IExp -> string
