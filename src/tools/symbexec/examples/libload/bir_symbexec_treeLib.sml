@@ -6,10 +6,14 @@ local
 		   pairTheory numTheory prim_recTheory arithmeticTheory
 		   realTheory Ho_Rewrite jrhUtils Canon_Port AC numSyntax Arbint;
     open String;
+    open boolSyntax;
     open bitstringSyntax;
     open imlLib;
     open List;
+    open bir_envSyntax;
     open bir_immSyntax;
+    open bir_expSyntax;
+    open bir_exp_immSyntax;
     open bir_symbexec_stepLib;
     open commonBalrobScriptLib;
     open bir_symbexec_oracleLib;
@@ -143,7 +147,7 @@ val _ = print "initial state created.\n\n";
 
 val cfb = false;
 val stop_lbl_tms = [“BL_Address (Imm64 2848w)”];
-val systs = symb_exec_to_stop (commonBalrobScriptLib.abpfun cfb) n_dict bl_dict [syst] stop_lbl_tms [];*)
+val exec_sts = symb_exec_to_stop (commonBalrobScriptLib.abpfun cfb) n_dict bl_dict [syst] stop_lbl_tms [];*)
 
 
 (*Collect path names*)
@@ -189,6 +193,23 @@ fun Remove_Repeated_preds (pred::[]) No_Repeat =
 
 
 (*Sort and refine path names*)
+(*
+val all_preds =
+   ["2_init_pred", "37_Key", "39_T", "42_iv", "44_T", "47_K", "46_Adv",
+    "53_cjmp_true_cnd", "56_Key", "58_T", "2_init_pred", "37_Key", "39_T",
+    "42_iv", "44_T", "47_K", "46_Adv", "54_cjmp_false_cnd", "61_K", "60_Adv"];
+
+val sort_preds =
+   ["2_init_pred", "2_init_pred", "37_Key", "37_Key", "39_T", "39_T",
+    "42_iv", "42_iv", "44_T", "44_T", "46_Adv", "46_Adv", "47_K", "47_K",
+    "53_cjmp_true_cnd", "54_cjmp_false_cnd", "56_Key", "58_T", "60_Adv",
+    "61_K"];
+
+val refine_preds =
+   ["61_K", "60_Adv", "58_T", "56_Key", "54_cjmp_false_cnd",
+    "53_cjmp_true_cnd", "47_K", "46_Adv", "44_T", "42_iv", "39_T", "37_Key",
+    "2_init_pred"];
+*)
 fun get_refine_preds_list exec_sts =
     let
 	val all_preds = symb_execs_preds exec_sts [];
@@ -240,6 +261,31 @@ fun find_latest_T exec_sts preds =
     end;
     
 (*Translate knowledge to IML out*)
+(*
+val All_preds =
+   ["2_init_pred", "37_Key", "39_T", "42_iv", "44_T", "46_Adv", "47_K",
+    "53_cjmp_true_cnd", "54_cjmp_false_cnd", "56_Key", "58_T", "60_Adv",
+    "61_K"];
+-----------
+val pred = "47_K";
+val preds = ["53_cjmp_true_cnd", "54_cjmp_false_cnd", "56_Key", "58_T", "60_Adv",
+    "61_K"];
+val t_pred = "44_T";
+val t_term = “BVar "44_T" BType_Bool”;
+val t_be = “enc inputs iv”;
+val pred_term = “BVar "47_K" BType_Bool”;
+val k_be = “enc inputs iv”;
+val result = out(c, enc inputs iv);
+-------
+val pred = "61_K";
+val preds = [];
+val t_pred = "58_T";
+val t_term = “BVar "58_T" BType_Bool”;
+val t_be = “BVar "57_k" (BType_Imm Bit64)”;
+val pred_term = “BVar "61_K" BType_Bool”;
+val k_be = “BVar "48_a" (BType_Imm Bit64)”;
+val result = ();
+*)
 fun K_to_Out exec_sts pred preds =
     let
 	val t_pred = find_latest_T exec_sts preds;
@@ -271,17 +317,151 @@ fun Fr_to_New pred_name = (I_New (pred_name, N(64)));
 fun Br_True pred_name = (I_True (Var pred_name));
 
 (*Translate assume to IML event*)
-fun assume_to_event pred_name = (I_Event pred_name);    
+fun assume_to_event pred_name = (I_Event pred_name);
 
+   
+(*Translate BIR expressions to IML expressions*)
+(*
+val pred_be = “BExp_Const (Imm64 2840w)”; val result = "2840";
+val pred_be = “BExp_Den (BVar "22_ProcState_Z" BType_Bool)”;
+val pred_be = ``BExp_Cast BIExp_LowCast
+                        (BExp_Den (BVar "R0" (BType_Imm Bit64))) Bit32``;
+val pred_be = ``BExp_UnaryExp BIExp_Not
+                       (BExp_Den (BVar "ProcState_C" BType_Bool))``;
+val pred_be = “BExp_BinPred BIExp_Equal
+          (BExp_Cast BIExp_LowCast
+             (BExp_Den (BVar "16_Adv" (BType_Imm Bit64))) Bit64)
+          (BExp_Const (Imm64 0w))”;
+val pred_be = ``BExp_BinExp BIExp_And
+		       (BExp_BinPred BIExp_LessOrEqual
+ (BExp_BinExp BIExp_Plus
+  (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+(BExp_Const (Imm64 24w)))
+(BExp_Const (Imm64 18446744073709551607w)))
+(BExp_BinExp BIExp_Or
+(BExp_BinPred BIExp_NotEqual
+(BExp_BinExp BIExp_Minus
+(BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+(BExp_Const (Imm64 24w)))
+(BExp_Const (Imm64 3489660928w)))
+(BExp_BinPred BIExp_LessThan
+(BExp_BinExp BIExp_Mult
+(BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+(BExp_Const (Imm64 24w)))
+(BExp_Const (Imm64 3489660928w))))``;
+*)
+fun BExp_to_IMLExp exec_sts pred_be =
+    let
+	val result = if (is_BExp_Const pred_be) then
+			 (if (is_Imm64 o dest_BExp_Const) pred_be then
+			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm64 o dest_BExp_Const) pred_be)
+			  else if (is_Imm32 o dest_BExp_Const) pred_be then
+			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm32 o dest_BExp_Const) pred_be)
+			  else raise ERR "BExp_to_IMLExp" "this should not happen")
+		     else if (is_BExp_Den pred_be) then
+			 (if identical “BType_Bool” ((snd o dest_BVar o dest_BExp_Den) pred_be) then
+			      let
+				  val vals_list = symb_execs_vals_term exec_sts [];
+				  val pred_be_bool = symbval_bexp (find_be_val vals_list (dest_BExp_Den pred_be));
+				      
+			      in
+				  BExp_to_IMLExp exec_sts pred_be_bool
+			      end
+			  else ((fst o dest_BVar_string o dest_BExp_Den) pred_be))
+		     else if (is_BExp_Cast pred_be) then
+			 let
+			     val (castt, subexp, sz) = (dest_BExp_Cast) pred_be;
+			 in
+			     BExp_to_IMLExp exec_sts subexp
+			 end
+		     else if (is_BExp_UnaryExp pred_be) then
+			 let
+			     val (uop, subexp) = (dest_BExp_UnaryExp) pred_be;
+			     val res = if identical uop BIExp_Not_tm then
+					   ("¬")
+				       else raise ERR "BExp_to_IMLExp" "this should not happen"
+			 in
+			     "("^res^(BExp_to_IMLExp exec_sts subexp)^")"
+			 end
+		     else if (is_BExp_BinExp pred_be) then
+			 let
+			     val (bop, subexp1, subexp2) = (dest_BExp_BinExp) pred_be;
+			     val res = if identical bop BIExp_And_tm then ("∧")
+				       else if identical bop BIExp_Or_tm then ("∨")
+				       else if identical bop BIExp_Plus_tm then ("+")
+				       else if identical bop BIExp_Minus_tm then ("-")
+				       else if identical bop BIExp_Mult_tm then ("*")
+				       else raise ERR "BExp_to_IMLExp" "this should not happen"
+			 in
+			     "("^(BExp_to_IMLExp exec_sts subexp1)^res^(BExp_to_IMLExp exec_sts subexp2)^")"
+			 end
+		     else if (is_BExp_BinPred pred_be) then
+			 let
+			     val (bop, subexp1, subexp2) = (dest_BExp_BinPred) pred_be;
+			     val res = if identical bop BIExp_Equal_tm then ("=")
+				       else if identical bop BIExp_NotEqual_tm then ("≠")
+				       else if identical bop BIExp_LessThan_tm then ("<")
+				       else if identical bop BIExp_LessOrEqual_tm then ("")
+				       else raise ERR "BExp_to_IMLExp" "this should not happen" 
+			 in
+			     if identical bop BIExp_LessOrEqual_tm then
+				 ("(("^(BExp_to_IMLExp exec_sts subexp1)^"<"^(BExp_to_IMLExp exec_sts subexp2)^")"^"∨"^"("^(BExp_to_IMLExp exec_sts subexp1)^"="^(BExp_to_IMLExp exec_sts subexp2)^"))")
+			     else
+				 ("("^(BExp_to_IMLExp exec_sts subexp1)^res^(BExp_to_IMLExp exec_sts subexp2)^")")
+			 end
+		     else if (is_BExp_IfThenElse pred_be) then raise ERR "BExp_to_IMLExp" "this should not happen"
+		     else if (is_BExp_MemConst pred_be) then raise ERR "BExp_to_IMLExp" "this should not happen"
+		     else if (is_BExp_MemEq pred_be) then raise ERR "BExp_to_IMLExp" "this should not happen"
+		     else if (is_BExp_Load pred_be) then raise ERR "BExp_to_IMLExp" "this should not happen"
+		     else if (is_BExp_Store pred_be) then raise ERR "BExp_to_IMLExp" "this should not happen"
+		     else raise ERR "BExp_to_IMLExp" "this should not happen";
+
+    in
+	result
+    end;
+
+(*Extract BIR expressions from pred name*)
+(*
+val pred = "23_cjmp_true_cnd";
+val pred_term = “BVar "23_cjmp_true_cnd" BType_Bool”;
+val pred_be = “BExp_Den (BVar "22_ProcState_Z" BType_Bool)”;
+*)
+    
+fun IMLExp_from_pred exec_sts pred =
+    let
+
+	val vals_list = symb_execs_vals_term exec_sts [];
+
+	val pred_term = bir_envSyntax.mk_BVar_string(pred, “BType_Bool”);
+	    
+	val pred_be = symbval_bexp (find_be_val vals_list pred_term);
+
+	val pred_IML_Exp = BExp_to_IMLExp exec_sts pred_be;
+
+    in
+	pred_IML_Exp
+    end;
+    
 (*Translate paths to IML*)
+(*
+val pred = "37_Key";
+val preds = ["39_T", "42_iv", "44_T", "46_Adv", "47_K",
+    "53_cjmp_true_cnd", "54_cjmp_false_cnd", "56_Key", "58_T", "60_Adv",
+    "61_K"];
+val Act = new 37_Key: 64;
+
+val pred = "60_Adv";
+val preds = ["61_K"];
+val Act = in(c, 60_Adv);
+*)
 fun path_of_tree exec_sts [] =
     ()
   | path_of_tree exec_sts (pred::preds) =
     let
 
 	val Act = if (String.isSuffix "assert_true_cnd" pred) then ()
-		  else if (String.isSuffix "cjmp_true_cnd" pred) then (((to_string o Br_True) pred); (path_of_tree exec_sts [((hd o tl) preds)]); (to_string (I_False ())))
-		  else if (String.isSuffix "assert_false_cnd" pred) then (((to_string o Br_True) pred); ((to_string o assume_to_event) "bad"); (to_string (I_False ())))
+		  else if (String.isSuffix "cjmp_true_cnd" pred) then (((to_string o Br_True) (IMLExp_from_pred exec_sts pred)); (path_of_tree exec_sts [((hd o tl) preds)]); (to_string (I_False ())))
+		  else if (String.isSuffix "assert_false_cnd" pred) then (((to_string o Br_True) (IMLExp_from_pred exec_sts pred)); ((to_string o assume_to_event) "bad"); (to_string (I_False ())))
 		  else if (String.isSuffix "cjmp_false_cnd" pred) then ()
 		  else if (String.isSuffix "Key" pred) then (to_string o Fr_to_New) pred
 		  else if (String.isSuffix "iv" pred) then (to_string o Fr_to_New) pred
@@ -297,6 +477,21 @@ fun path_of_tree exec_sts [] =
 
 
 (*Translate symbolic execution states to IML*)
+(*
+ val refine_preds =
+     ["61_K", "60_Adv", "58_T", "56_Key", "54_cjmp_false_cnd",
+      "53_cjmp_true_cnd", "47_K", "46_Adv", "44_T", "42_iv", "39_T", "37_Key",
+      "2_init_pred"];
+    
+ Final Output:
+     new 37_Key: 64;
+     new 42_iv: 64;
+in(c, 46_Adv);
+  out(c, enc inputs iv);
+  if 53_cjmp_true_cnd then
+      new 56_Key: 64;
+  else in(c, 60_Adv);
+*)
 fun sym_exe_to_IML exec_sts =
     let
 	val refine_preds = get_refine_preds_list exec_sts;

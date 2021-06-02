@@ -24,17 +24,17 @@ open bir_symbexec_oracleLib;
 open bir_symbexec_oracleLib;
 
 (* wrap function *)
-
+(*
 val lbl_tm = ``BL_Address (Imm64 3489667800w)``;
 
 val stop_lbl_tms = [``BL_Address (Imm64 3489668080w)``];
-
+*)
 (* unwrap function *)
-(*      
+     
 val lbl_tm = ``BL_Address (Imm64 3489668084w)``;
 
 val stop_lbl_tms = [``BL_Address (Imm64 3489668420w)``];
-  *)
+  
 val syst = init_state lbl_tm prog_vars;
 
 val pred_conjs = [``bir_exp_true``];
@@ -76,10 +76,11 @@ val _ = print "finished tidying up all paths.\n\n";
 val _ = print ("number of tidied up paths found: " ^ (Int.toString (length systs_tidiedup)));
 val _ = print "\n\n";
 (*
-    listItems(SYST_get_vals (List.nth (systs, 44)));
+    listItems(SYST_get_env (List.nth (systs, 44)));
  *)
 
- val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs;
+val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs;
+   
 (*val _ = print "finished traversing the tree.\n\n";
 val _ = print ("Tree of Symbolic Execution Output: \n\n" ^ (List.foldr (fn (x,s) => s ^ "\n" ^ (x)) "" (Acts)));*)
-val _ = print "();\n\n";
+
