@@ -1,0 +1,2600 @@
+
+output/client.elf:     file format elf64-littleaarch64
+
+
+Disassembly of section .text:
+
+0000000000000000 <SystemCoreClockUpdate-0x1700>:
+       0:	ffffffff 	.inst	0xffffffff ; undefined
+       4:	ffffffff 	.inst	0xffffffff ; undefined
+       8:	ffffffff 	.inst	0xffffffff ; undefined
+       c:	ffffffff 	.inst	0xffffffff ; undefined
+      10:	ffffffff 	.inst	0xffffffff ; undefined
+      14:	ffffffff 	.inst	0xffffffff ; undefined
+      18:	ffffffff 	.inst	0xffffffff ; undefined
+      1c:	ffffffff 	.inst	0xffffffff ; undefined
+      20:	ffffffff 	.inst	0xffffffff ; undefined
+      24:	ffffffff 	.inst	0xffffffff ; undefined
+      28:	ffffffff 	.inst	0xffffffff ; undefined
+      2c:	ffffffff 	.inst	0xffffffff ; undefined
+      30:	ffffffff 	.inst	0xffffffff ; undefined
+      34:	ffffffff 	.inst	0xffffffff ; undefined
+      38:	ffffffff 	.inst	0xffffffff ; undefined
+      3c:	ffffffff 	.inst	0xffffffff ; undefined
+      40:	ffffffff 	.inst	0xffffffff ; undefined
+      44:	ffffffff 	.inst	0xffffffff ; undefined
+      48:	ffffffff 	.inst	0xffffffff ; undefined
+      4c:	ffffffff 	.inst	0xffffffff ; undefined
+      50:	ffffffff 	.inst	0xffffffff ; undefined
+      54:	ffffffff 	.inst	0xffffffff ; undefined
+      58:	ffffffff 	.inst	0xffffffff ; undefined
+      5c:	ffffffff 	.inst	0xffffffff ; undefined
+      60:	ffffffff 	.inst	0xffffffff ; undefined
+      64:	ffffffff 	.inst	0xffffffff ; undefined
+      68:	ffffffff 	.inst	0xffffffff ; undefined
+      6c:	ffffffff 	.inst	0xffffffff ; undefined
+      70:	ffffffff 	.inst	0xffffffff ; undefined
+      74:	ffffffff 	.inst	0xffffffff ; undefined
+      78:	ffffffff 	.inst	0xffffffff ; undefined
+      7c:	ffffffff 	.inst	0xffffffff ; undefined
+      80:	ffffffff 	.inst	0xffffffff ; undefined
+      84:	ffffffff 	.inst	0xffffffff ; undefined
+      88:	ffffffff 	.inst	0xffffffff ; undefined
+      8c:	ffffffff 	.inst	0xffffffff ; undefined
+      90:	ffffffff 	.inst	0xffffffff ; undefined
+      94:	ffffffff 	.inst	0xffffffff ; undefined
+      98:	ffffffff 	.inst	0xffffffff ; undefined
+      9c:	ffffffff 	.inst	0xffffffff ; undefined
+      a0:	ffffffff 	.inst	0xffffffff ; undefined
+      a4:	ffffffff 	.inst	0xffffffff ; undefined
+      a8:	ffffffff 	.inst	0xffffffff ; undefined
+      ac:	ffffffff 	.inst	0xffffffff ; undefined
+      b0:	ffffffff 	.inst	0xffffffff ; undefined
+      b4:	ffffffff 	.inst	0xffffffff ; undefined
+      b8:	ffffffff 	.inst	0xffffffff ; undefined
+      bc:	ffffffff 	.inst	0xffffffff ; undefined
+      c0:	ffffffff 	.inst	0xffffffff ; undefined
+      c4:	ffffffff 	.inst	0xffffffff ; undefined
+      c8:	ffffffff 	.inst	0xffffffff ; undefined
+      cc:	ffffffff 	.inst	0xffffffff ; undefined
+      d0:	ffffffff 	.inst	0xffffffff ; undefined
+      d4:	ffffffff 	.inst	0xffffffff ; undefined
+      d8:	ffffffff 	.inst	0xffffffff ; undefined
+      dc:	ffffffff 	.inst	0xffffffff ; undefined
+      e0:	ffffffff 	.inst	0xffffffff ; undefined
+      e4:	ffffffff 	.inst	0xffffffff ; undefined
+      e8:	ffffffff 	.inst	0xffffffff ; undefined
+      ec:	ffffffff 	.inst	0xffffffff ; undefined
+      f0:	ffffffff 	.inst	0xffffffff ; undefined
+      f4:	ffffffff 	.inst	0xffffffff ; undefined
+      f8:	ffffffff 	.inst	0xffffffff ; undefined
+      fc:	ffffffff 	.inst	0xffffffff ; undefined
+     100:	ffffffff 	.inst	0xffffffff ; undefined
+     104:	ffffffff 	.inst	0xffffffff ; undefined
+     108:	ffffffff 	.inst	0xffffffff ; undefined
+     10c:	ffffffff 	.inst	0xffffffff ; undefined
+     110:	ffffffff 	.inst	0xffffffff ; undefined
+     114:	ffffffff 	.inst	0xffffffff ; undefined
+     118:	ffffffff 	.inst	0xffffffff ; undefined
+     11c:	ffffffff 	.inst	0xffffffff ; undefined
+     120:	ffffffff 	.inst	0xffffffff ; undefined
+     124:	ffffffff 	.inst	0xffffffff ; undefined
+     128:	ffffffff 	.inst	0xffffffff ; undefined
+     12c:	ffffffff 	.inst	0xffffffff ; undefined
+     130:	ffffffff 	.inst	0xffffffff ; undefined
+     134:	ffffffff 	.inst	0xffffffff ; undefined
+     138:	ffffffff 	.inst	0xffffffff ; undefined
+     13c:	ffffffff 	.inst	0xffffffff ; undefined
+     140:	ffffffff 	.inst	0xffffffff ; undefined
+     144:	ffffffff 	.inst	0xffffffff ; undefined
+     148:	ffffffff 	.inst	0xffffffff ; undefined
+     14c:	ffffffff 	.inst	0xffffffff ; undefined
+     150:	ffffffff 	.inst	0xffffffff ; undefined
+     154:	ffffffff 	.inst	0xffffffff ; undefined
+     158:	ffffffff 	.inst	0xffffffff ; undefined
+     15c:	ffffffff 	.inst	0xffffffff ; undefined
+     160:	ffffffff 	.inst	0xffffffff ; undefined
+     164:	ffffffff 	.inst	0xffffffff ; undefined
+     168:	ffffffff 	.inst	0xffffffff ; undefined
+     16c:	ffffffff 	.inst	0xffffffff ; undefined
+     170:	ffffffff 	.inst	0xffffffff ; undefined
+     174:	ffffffff 	.inst	0xffffffff ; undefined
+     178:	ffffffff 	.inst	0xffffffff ; undefined
+     17c:	ffffffff 	.inst	0xffffffff ; undefined
+     180:	ffffffff 	.inst	0xffffffff ; undefined
+     184:	ffffffff 	.inst	0xffffffff ; undefined
+     188:	ffffffff 	.inst	0xffffffff ; undefined
+     18c:	ffffffff 	.inst	0xffffffff ; undefined
+     190:	ffffffff 	.inst	0xffffffff ; undefined
+     194:	ffffffff 	.inst	0xffffffff ; undefined
+     198:	ffffffff 	.inst	0xffffffff ; undefined
+     19c:	ffffffff 	.inst	0xffffffff ; undefined
+     1a0:	ffffffff 	.inst	0xffffffff ; undefined
+     1a4:	ffffffff 	.inst	0xffffffff ; undefined
+     1a8:	ffffffff 	.inst	0xffffffff ; undefined
+     1ac:	ffffffff 	.inst	0xffffffff ; undefined
+     1b0:	ffffffff 	.inst	0xffffffff ; undefined
+     1b4:	ffffffff 	.inst	0xffffffff ; undefined
+     1b8:	ffffffff 	.inst	0xffffffff ; undefined
+     1bc:	ffffffff 	.inst	0xffffffff ; undefined
+     1c0:	ffffffff 	.inst	0xffffffff ; undefined
+     1c4:	ffffffff 	.inst	0xffffffff ; undefined
+     1c8:	ffffffff 	.inst	0xffffffff ; undefined
+     1cc:	ffffffff 	.inst	0xffffffff ; undefined
+     1d0:	ffffffff 	.inst	0xffffffff ; undefined
+     1d4:	ffffffff 	.inst	0xffffffff ; undefined
+     1d8:	ffffffff 	.inst	0xffffffff ; undefined
+     1dc:	ffffffff 	.inst	0xffffffff ; undefined
+     1e0:	ffffffff 	.inst	0xffffffff ; undefined
+     1e4:	ffffffff 	.inst	0xffffffff ; undefined
+     1e8:	ffffffff 	.inst	0xffffffff ; undefined
+     1ec:	ffffffff 	.inst	0xffffffff ; undefined
+     1f0:	ffffffff 	.inst	0xffffffff ; undefined
+     1f4:	ffffffff 	.inst	0xffffffff ; undefined
+     1f8:	ffffffff 	.inst	0xffffffff ; undefined
+     1fc:	ffffffff 	.inst	0xffffffff ; undefined
+     200:	ffffffff 	.inst	0xffffffff ; undefined
+     204:	ffffffff 	.inst	0xffffffff ; undefined
+     208:	ffffffff 	.inst	0xffffffff ; undefined
+     20c:	ffffffff 	.inst	0xffffffff ; undefined
+     210:	ffffffff 	.inst	0xffffffff ; undefined
+     214:	ffffffff 	.inst	0xffffffff ; undefined
+     218:	ffffffff 	.inst	0xffffffff ; undefined
+     21c:	ffffffff 	.inst	0xffffffff ; undefined
+     220:	ffffffff 	.inst	0xffffffff ; undefined
+     224:	ffffffff 	.inst	0xffffffff ; undefined
+     228:	ffffffff 	.inst	0xffffffff ; undefined
+     22c:	ffffffff 	.inst	0xffffffff ; undefined
+     230:	ffffffff 	.inst	0xffffffff ; undefined
+     234:	ffffffff 	.inst	0xffffffff ; undefined
+     238:	ffffffff 	.inst	0xffffffff ; undefined
+     23c:	ffffffff 	.inst	0xffffffff ; undefined
+     240:	ffffffff 	.inst	0xffffffff ; undefined
+     244:	ffffffff 	.inst	0xffffffff ; undefined
+     248:	ffffffff 	.inst	0xffffffff ; undefined
+     24c:	ffffffff 	.inst	0xffffffff ; undefined
+     250:	ffffffff 	.inst	0xffffffff ; undefined
+     254:	ffffffff 	.inst	0xffffffff ; undefined
+     258:	ffffffff 	.inst	0xffffffff ; undefined
+     25c:	ffffffff 	.inst	0xffffffff ; undefined
+     260:	ffffffff 	.inst	0xffffffff ; undefined
+     264:	ffffffff 	.inst	0xffffffff ; undefined
+     268:	ffffffff 	.inst	0xffffffff ; undefined
+     26c:	ffffffff 	.inst	0xffffffff ; undefined
+     270:	ffffffff 	.inst	0xffffffff ; undefined
+     274:	ffffffff 	.inst	0xffffffff ; undefined
+     278:	ffffffff 	.inst	0xffffffff ; undefined
+     27c:	ffffffff 	.inst	0xffffffff ; undefined
+     280:	ffffffff 	.inst	0xffffffff ; undefined
+     284:	ffffffff 	.inst	0xffffffff ; undefined
+     288:	ffffffff 	.inst	0xffffffff ; undefined
+     28c:	ffffffff 	.inst	0xffffffff ; undefined
+     290:	ffffffff 	.inst	0xffffffff ; undefined
+     294:	ffffffff 	.inst	0xffffffff ; undefined
+     298:	ffffffff 	.inst	0xffffffff ; undefined
+     29c:	ffffffff 	.inst	0xffffffff ; undefined
+     2a0:	ffffffff 	.inst	0xffffffff ; undefined
+     2a4:	ffffffff 	.inst	0xffffffff ; undefined
+     2a8:	ffffffff 	.inst	0xffffffff ; undefined
+     2ac:	ffffffff 	.inst	0xffffffff ; undefined
+     2b0:	ffffffff 	.inst	0xffffffff ; undefined
+     2b4:	ffffffff 	.inst	0xffffffff ; undefined
+     2b8:	ffffffff 	.inst	0xffffffff ; undefined
+     2bc:	ffffffff 	.inst	0xffffffff ; undefined
+     2c0:	ffffffff 	.inst	0xffffffff ; undefined
+     2c4:	ffffffff 	.inst	0xffffffff ; undefined
+     2c8:	ffffffff 	.inst	0xffffffff ; undefined
+     2cc:	ffffffff 	.inst	0xffffffff ; undefined
+     2d0:	ffffffff 	.inst	0xffffffff ; undefined
+     2d4:	ffffffff 	.inst	0xffffffff ; undefined
+     2d8:	ffffffff 	.inst	0xffffffff ; undefined
+     2dc:	ffffffff 	.inst	0xffffffff ; undefined
+     2e0:	ffffffff 	.inst	0xffffffff ; undefined
+     2e4:	ffffffff 	.inst	0xffffffff ; undefined
+     2e8:	ffffffff 	.inst	0xffffffff ; undefined
+     2ec:	ffffffff 	.inst	0xffffffff ; undefined
+     2f0:	ffffffff 	.inst	0xffffffff ; undefined
+     2f4:	ffffffff 	.inst	0xffffffff ; undefined
+     2f8:	ffffffff 	.inst	0xffffffff ; undefined
+     2fc:	ffffffff 	.inst	0xffffffff ; undefined
+     300:	ffffffff 	.inst	0xffffffff ; undefined
+     304:	ffffffff 	.inst	0xffffffff ; undefined
+     308:	ffffffff 	.inst	0xffffffff ; undefined
+     30c:	ffffffff 	.inst	0xffffffff ; undefined
+     310:	ffffffff 	.inst	0xffffffff ; undefined
+     314:	ffffffff 	.inst	0xffffffff ; undefined
+     318:	ffffffff 	.inst	0xffffffff ; undefined
+     31c:	ffffffff 	.inst	0xffffffff ; undefined
+     320:	ffffffff 	.inst	0xffffffff ; undefined
+     324:	ffffffff 	.inst	0xffffffff ; undefined
+     328:	ffffffff 	.inst	0xffffffff ; undefined
+     32c:	ffffffff 	.inst	0xffffffff ; undefined
+     330:	ffffffff 	.inst	0xffffffff ; undefined
+     334:	ffffffff 	.inst	0xffffffff ; undefined
+     338:	ffffffff 	.inst	0xffffffff ; undefined
+     33c:	ffffffff 	.inst	0xffffffff ; undefined
+     340:	ffffffff 	.inst	0xffffffff ; undefined
+     344:	ffffffff 	.inst	0xffffffff ; undefined
+     348:	ffffffff 	.inst	0xffffffff ; undefined
+     34c:	ffffffff 	.inst	0xffffffff ; undefined
+     350:	ffffffff 	.inst	0xffffffff ; undefined
+     354:	ffffffff 	.inst	0xffffffff ; undefined
+     358:	ffffffff 	.inst	0xffffffff ; undefined
+     35c:	ffffffff 	.inst	0xffffffff ; undefined
+     360:	ffffffff 	.inst	0xffffffff ; undefined
+     364:	ffffffff 	.inst	0xffffffff ; undefined
+     368:	ffffffff 	.inst	0xffffffff ; undefined
+     36c:	ffffffff 	.inst	0xffffffff ; undefined
+     370:	ffffffff 	.inst	0xffffffff ; undefined
+     374:	ffffffff 	.inst	0xffffffff ; undefined
+     378:	ffffffff 	.inst	0xffffffff ; undefined
+     37c:	ffffffff 	.inst	0xffffffff ; undefined
+     380:	ffffffff 	.inst	0xffffffff ; undefined
+     384:	ffffffff 	.inst	0xffffffff ; undefined
+     388:	ffffffff 	.inst	0xffffffff ; undefined
+     38c:	ffffffff 	.inst	0xffffffff ; undefined
+     390:	ffffffff 	.inst	0xffffffff ; undefined
+     394:	ffffffff 	.inst	0xffffffff ; undefined
+     398:	ffffffff 	.inst	0xffffffff ; undefined
+     39c:	ffffffff 	.inst	0xffffffff ; undefined
+     3a0:	ffffffff 	.inst	0xffffffff ; undefined
+     3a4:	ffffffff 	.inst	0xffffffff ; undefined
+     3a8:	ffffffff 	.inst	0xffffffff ; undefined
+     3ac:	ffffffff 	.inst	0xffffffff ; undefined
+     3b0:	ffffffff 	.inst	0xffffffff ; undefined
+     3b4:	ffffffff 	.inst	0xffffffff ; undefined
+     3b8:	ffffffff 	.inst	0xffffffff ; undefined
+     3bc:	ffffffff 	.inst	0xffffffff ; undefined
+     3c0:	ffffffff 	.inst	0xffffffff ; undefined
+     3c4:	ffffffff 	.inst	0xffffffff ; undefined
+     3c8:	ffffffff 	.inst	0xffffffff ; undefined
+     3cc:	ffffffff 	.inst	0xffffffff ; undefined
+     3d0:	ffffffff 	.inst	0xffffffff ; undefined
+     3d4:	ffffffff 	.inst	0xffffffff ; undefined
+     3d8:	ffffffff 	.inst	0xffffffff ; undefined
+     3dc:	ffffffff 	.inst	0xffffffff ; undefined
+     3e0:	ffffffff 	.inst	0xffffffff ; undefined
+     3e4:	ffffffff 	.inst	0xffffffff ; undefined
+     3e8:	ffffffff 	.inst	0xffffffff ; undefined
+     3ec:	ffffffff 	.inst	0xffffffff ; undefined
+     3f0:	ffffffff 	.inst	0xffffffff ; undefined
+     3f4:	ffffffff 	.inst	0xffffffff ; undefined
+     3f8:	ffffffff 	.inst	0xffffffff ; undefined
+     3fc:	ffffffff 	.inst	0xffffffff ; undefined
+     400:	ffffffff 	.inst	0xffffffff ; undefined
+     404:	ffffffff 	.inst	0xffffffff ; undefined
+     408:	ffffffff 	.inst	0xffffffff ; undefined
+     40c:	ffffffff 	.inst	0xffffffff ; undefined
+     410:	ffffffff 	.inst	0xffffffff ; undefined
+     414:	ffffffff 	.inst	0xffffffff ; undefined
+     418:	ffffffff 	.inst	0xffffffff ; undefined
+     41c:	ffffffff 	.inst	0xffffffff ; undefined
+     420:	ffffffff 	.inst	0xffffffff ; undefined
+     424:	ffffffff 	.inst	0xffffffff ; undefined
+     428:	ffffffff 	.inst	0xffffffff ; undefined
+     42c:	ffffffff 	.inst	0xffffffff ; undefined
+     430:	ffffffff 	.inst	0xffffffff ; undefined
+     434:	ffffffff 	.inst	0xffffffff ; undefined
+     438:	ffffffff 	.inst	0xffffffff ; undefined
+     43c:	ffffffff 	.inst	0xffffffff ; undefined
+     440:	ffffffff 	.inst	0xffffffff ; undefined
+     444:	ffffffff 	.inst	0xffffffff ; undefined
+     448:	ffffffff 	.inst	0xffffffff ; undefined
+     44c:	ffffffff 	.inst	0xffffffff ; undefined
+     450:	ffffffff 	.inst	0xffffffff ; undefined
+     454:	ffffffff 	.inst	0xffffffff ; undefined
+     458:	ffffffff 	.inst	0xffffffff ; undefined
+     45c:	ffffffff 	.inst	0xffffffff ; undefined
+     460:	ffffffff 	.inst	0xffffffff ; undefined
+     464:	ffffffff 	.inst	0xffffffff ; undefined
+     468:	ffffffff 	.inst	0xffffffff ; undefined
+     46c:	ffffffff 	.inst	0xffffffff ; undefined
+     470:	ffffffff 	.inst	0xffffffff ; undefined
+     474:	ffffffff 	.inst	0xffffffff ; undefined
+     478:	ffffffff 	.inst	0xffffffff ; undefined
+     47c:	ffffffff 	.inst	0xffffffff ; undefined
+     480:	ffffffff 	.inst	0xffffffff ; undefined
+     484:	ffffffff 	.inst	0xffffffff ; undefined
+     488:	ffffffff 	.inst	0xffffffff ; undefined
+     48c:	ffffffff 	.inst	0xffffffff ; undefined
+     490:	ffffffff 	.inst	0xffffffff ; undefined
+     494:	ffffffff 	.inst	0xffffffff ; undefined
+     498:	ffffffff 	.inst	0xffffffff ; undefined
+     49c:	ffffffff 	.inst	0xffffffff ; undefined
+     4a0:	ffffffff 	.inst	0xffffffff ; undefined
+     4a4:	ffffffff 	.inst	0xffffffff ; undefined
+     4a8:	ffffffff 	.inst	0xffffffff ; undefined
+     4ac:	ffffffff 	.inst	0xffffffff ; undefined
+     4b0:	ffffffff 	.inst	0xffffffff ; undefined
+     4b4:	ffffffff 	.inst	0xffffffff ; undefined
+     4b8:	ffffffff 	.inst	0xffffffff ; undefined
+     4bc:	ffffffff 	.inst	0xffffffff ; undefined
+     4c0:	ffffffff 	.inst	0xffffffff ; undefined
+     4c4:	ffffffff 	.inst	0xffffffff ; undefined
+     4c8:	ffffffff 	.inst	0xffffffff ; undefined
+     4cc:	ffffffff 	.inst	0xffffffff ; undefined
+     4d0:	ffffffff 	.inst	0xffffffff ; undefined
+     4d4:	ffffffff 	.inst	0xffffffff ; undefined
+     4d8:	ffffffff 	.inst	0xffffffff ; undefined
+     4dc:	ffffffff 	.inst	0xffffffff ; undefined
+     4e0:	ffffffff 	.inst	0xffffffff ; undefined
+     4e4:	ffffffff 	.inst	0xffffffff ; undefined
+     4e8:	ffffffff 	.inst	0xffffffff ; undefined
+     4ec:	ffffffff 	.inst	0xffffffff ; undefined
+     4f0:	ffffffff 	.inst	0xffffffff ; undefined
+     4f4:	ffffffff 	.inst	0xffffffff ; undefined
+     4f8:	ffffffff 	.inst	0xffffffff ; undefined
+     4fc:	ffffffff 	.inst	0xffffffff ; undefined
+     500:	ffffffff 	.inst	0xffffffff ; undefined
+     504:	ffffffff 	.inst	0xffffffff ; undefined
+     508:	ffffffff 	.inst	0xffffffff ; undefined
+     50c:	ffffffff 	.inst	0xffffffff ; undefined
+     510:	ffffffff 	.inst	0xffffffff ; undefined
+     514:	ffffffff 	.inst	0xffffffff ; undefined
+     518:	ffffffff 	.inst	0xffffffff ; undefined
+     51c:	ffffffff 	.inst	0xffffffff ; undefined
+     520:	ffffffff 	.inst	0xffffffff ; undefined
+     524:	ffffffff 	.inst	0xffffffff ; undefined
+     528:	ffffffff 	.inst	0xffffffff ; undefined
+     52c:	ffffffff 	.inst	0xffffffff ; undefined
+     530:	ffffffff 	.inst	0xffffffff ; undefined
+     534:	ffffffff 	.inst	0xffffffff ; undefined
+     538:	ffffffff 	.inst	0xffffffff ; undefined
+     53c:	ffffffff 	.inst	0xffffffff ; undefined
+     540:	ffffffff 	.inst	0xffffffff ; undefined
+     544:	ffffffff 	.inst	0xffffffff ; undefined
+     548:	ffffffff 	.inst	0xffffffff ; undefined
+     54c:	ffffffff 	.inst	0xffffffff ; undefined
+     550:	ffffffff 	.inst	0xffffffff ; undefined
+     554:	ffffffff 	.inst	0xffffffff ; undefined
+     558:	ffffffff 	.inst	0xffffffff ; undefined
+     55c:	ffffffff 	.inst	0xffffffff ; undefined
+     560:	ffffffff 	.inst	0xffffffff ; undefined
+     564:	ffffffff 	.inst	0xffffffff ; undefined
+     568:	ffffffff 	.inst	0xffffffff ; undefined
+     56c:	ffffffff 	.inst	0xffffffff ; undefined
+     570:	ffffffff 	.inst	0xffffffff ; undefined
+     574:	ffffffff 	.inst	0xffffffff ; undefined
+     578:	ffffffff 	.inst	0xffffffff ; undefined
+     57c:	ffffffff 	.inst	0xffffffff ; undefined
+     580:	ffffffff 	.inst	0xffffffff ; undefined
+     584:	ffffffff 	.inst	0xffffffff ; undefined
+     588:	ffffffff 	.inst	0xffffffff ; undefined
+     58c:	ffffffff 	.inst	0xffffffff ; undefined
+     590:	ffffffff 	.inst	0xffffffff ; undefined
+     594:	ffffffff 	.inst	0xffffffff ; undefined
+     598:	ffffffff 	.inst	0xffffffff ; undefined
+     59c:	ffffffff 	.inst	0xffffffff ; undefined
+     5a0:	ffffffff 	.inst	0xffffffff ; undefined
+     5a4:	ffffffff 	.inst	0xffffffff ; undefined
+     5a8:	ffffffff 	.inst	0xffffffff ; undefined
+     5ac:	ffffffff 	.inst	0xffffffff ; undefined
+     5b0:	ffffffff 	.inst	0xffffffff ; undefined
+     5b4:	ffffffff 	.inst	0xffffffff ; undefined
+     5b8:	ffffffff 	.inst	0xffffffff ; undefined
+     5bc:	ffffffff 	.inst	0xffffffff ; undefined
+     5c0:	ffffffff 	.inst	0xffffffff ; undefined
+     5c4:	ffffffff 	.inst	0xffffffff ; undefined
+     5c8:	ffffffff 	.inst	0xffffffff ; undefined
+     5cc:	ffffffff 	.inst	0xffffffff ; undefined
+     5d0:	ffffffff 	.inst	0xffffffff ; undefined
+     5d4:	ffffffff 	.inst	0xffffffff ; undefined
+     5d8:	ffffffff 	.inst	0xffffffff ; undefined
+     5dc:	ffffffff 	.inst	0xffffffff ; undefined
+     5e0:	ffffffff 	.inst	0xffffffff ; undefined
+     5e4:	ffffffff 	.inst	0xffffffff ; undefined
+     5e8:	ffffffff 	.inst	0xffffffff ; undefined
+     5ec:	ffffffff 	.inst	0xffffffff ; undefined
+     5f0:	ffffffff 	.inst	0xffffffff ; undefined
+     5f4:	ffffffff 	.inst	0xffffffff ; undefined
+     5f8:	ffffffff 	.inst	0xffffffff ; undefined
+     5fc:	ffffffff 	.inst	0xffffffff ; undefined
+     600:	ffffffff 	.inst	0xffffffff ; undefined
+     604:	ffffffff 	.inst	0xffffffff ; undefined
+     608:	ffffffff 	.inst	0xffffffff ; undefined
+     60c:	ffffffff 	.inst	0xffffffff ; undefined
+     610:	ffffffff 	.inst	0xffffffff ; undefined
+     614:	ffffffff 	.inst	0xffffffff ; undefined
+     618:	ffffffff 	.inst	0xffffffff ; undefined
+     61c:	ffffffff 	.inst	0xffffffff ; undefined
+     620:	ffffffff 	.inst	0xffffffff ; undefined
+     624:	ffffffff 	.inst	0xffffffff ; undefined
+     628:	ffffffff 	.inst	0xffffffff ; undefined
+     62c:	ffffffff 	.inst	0xffffffff ; undefined
+     630:	ffffffff 	.inst	0xffffffff ; undefined
+     634:	ffffffff 	.inst	0xffffffff ; undefined
+     638:	ffffffff 	.inst	0xffffffff ; undefined
+     63c:	ffffffff 	.inst	0xffffffff ; undefined
+     640:	ffffffff 	.inst	0xffffffff ; undefined
+     644:	ffffffff 	.inst	0xffffffff ; undefined
+     648:	ffffffff 	.inst	0xffffffff ; undefined
+     64c:	ffffffff 	.inst	0xffffffff ; undefined
+     650:	ffffffff 	.inst	0xffffffff ; undefined
+     654:	ffffffff 	.inst	0xffffffff ; undefined
+     658:	ffffffff 	.inst	0xffffffff ; undefined
+     65c:	ffffffff 	.inst	0xffffffff ; undefined
+     660:	ffffffff 	.inst	0xffffffff ; undefined
+     664:	ffffffff 	.inst	0xffffffff ; undefined
+     668:	ffffffff 	.inst	0xffffffff ; undefined
+     66c:	ffffffff 	.inst	0xffffffff ; undefined
+     670:	ffffffff 	.inst	0xffffffff ; undefined
+     674:	ffffffff 	.inst	0xffffffff ; undefined
+     678:	ffffffff 	.inst	0xffffffff ; undefined
+     67c:	ffffffff 	.inst	0xffffffff ; undefined
+     680:	ffffffff 	.inst	0xffffffff ; undefined
+     684:	ffffffff 	.inst	0xffffffff ; undefined
+     688:	ffffffff 	.inst	0xffffffff ; undefined
+     68c:	ffffffff 	.inst	0xffffffff ; undefined
+     690:	ffffffff 	.inst	0xffffffff ; undefined
+     694:	ffffffff 	.inst	0xffffffff ; undefined
+     698:	ffffffff 	.inst	0xffffffff ; undefined
+     69c:	ffffffff 	.inst	0xffffffff ; undefined
+     6a0:	ffffffff 	.inst	0xffffffff ; undefined
+     6a4:	ffffffff 	.inst	0xffffffff ; undefined
+     6a8:	ffffffff 	.inst	0xffffffff ; undefined
+     6ac:	ffffffff 	.inst	0xffffffff ; undefined
+     6b0:	ffffffff 	.inst	0xffffffff ; undefined
+     6b4:	ffffffff 	.inst	0xffffffff ; undefined
+     6b8:	ffffffff 	.inst	0xffffffff ; undefined
+     6bc:	ffffffff 	.inst	0xffffffff ; undefined
+     6c0:	ffffffff 	.inst	0xffffffff ; undefined
+     6c4:	ffffffff 	.inst	0xffffffff ; undefined
+     6c8:	ffffffff 	.inst	0xffffffff ; undefined
+     6cc:	ffffffff 	.inst	0xffffffff ; undefined
+     6d0:	ffffffff 	.inst	0xffffffff ; undefined
+     6d4:	ffffffff 	.inst	0xffffffff ; undefined
+     6d8:	ffffffff 	.inst	0xffffffff ; undefined
+     6dc:	ffffffff 	.inst	0xffffffff ; undefined
+     6e0:	ffffffff 	.inst	0xffffffff ; undefined
+     6e4:	ffffffff 	.inst	0xffffffff ; undefined
+     6e8:	ffffffff 	.inst	0xffffffff ; undefined
+     6ec:	ffffffff 	.inst	0xffffffff ; undefined
+     6f0:	ffffffff 	.inst	0xffffffff ; undefined
+     6f4:	ffffffff 	.inst	0xffffffff ; undefined
+     6f8:	ffffffff 	.inst	0xffffffff ; undefined
+     6fc:	ffffffff 	.inst	0xffffffff ; undefined
+     700:	ffffffff 	.inst	0xffffffff ; undefined
+     704:	ffffffff 	.inst	0xffffffff ; undefined
+     708:	ffffffff 	.inst	0xffffffff ; undefined
+     70c:	ffffffff 	.inst	0xffffffff ; undefined
+     710:	ffffffff 	.inst	0xffffffff ; undefined
+     714:	ffffffff 	.inst	0xffffffff ; undefined
+     718:	ffffffff 	.inst	0xffffffff ; undefined
+     71c:	ffffffff 	.inst	0xffffffff ; undefined
+     720:	ffffffff 	.inst	0xffffffff ; undefined
+     724:	ffffffff 	.inst	0xffffffff ; undefined
+     728:	ffffffff 	.inst	0xffffffff ; undefined
+     72c:	ffffffff 	.inst	0xffffffff ; undefined
+     730:	ffffffff 	.inst	0xffffffff ; undefined
+     734:	ffffffff 	.inst	0xffffffff ; undefined
+     738:	ffffffff 	.inst	0xffffffff ; undefined
+     73c:	ffffffff 	.inst	0xffffffff ; undefined
+     740:	ffffffff 	.inst	0xffffffff ; undefined
+     744:	ffffffff 	.inst	0xffffffff ; undefined
+     748:	ffffffff 	.inst	0xffffffff ; undefined
+     74c:	ffffffff 	.inst	0xffffffff ; undefined
+     750:	ffffffff 	.inst	0xffffffff ; undefined
+     754:	ffffffff 	.inst	0xffffffff ; undefined
+     758:	ffffffff 	.inst	0xffffffff ; undefined
+     75c:	ffffffff 	.inst	0xffffffff ; undefined
+     760:	ffffffff 	.inst	0xffffffff ; undefined
+     764:	ffffffff 	.inst	0xffffffff ; undefined
+     768:	ffffffff 	.inst	0xffffffff ; undefined
+     76c:	ffffffff 	.inst	0xffffffff ; undefined
+     770:	ffffffff 	.inst	0xffffffff ; undefined
+     774:	ffffffff 	.inst	0xffffffff ; undefined
+     778:	ffffffff 	.inst	0xffffffff ; undefined
+     77c:	ffffffff 	.inst	0xffffffff ; undefined
+     780:	ffffffff 	.inst	0xffffffff ; undefined
+     784:	ffffffff 	.inst	0xffffffff ; undefined
+     788:	ffffffff 	.inst	0xffffffff ; undefined
+     78c:	ffffffff 	.inst	0xffffffff ; undefined
+     790:	ffffffff 	.inst	0xffffffff ; undefined
+     794:	ffffffff 	.inst	0xffffffff ; undefined
+     798:	ffffffff 	.inst	0xffffffff ; undefined
+     79c:	ffffffff 	.inst	0xffffffff ; undefined
+     7a0:	ffffffff 	.inst	0xffffffff ; undefined
+     7a4:	ffffffff 	.inst	0xffffffff ; undefined
+     7a8:	ffffffff 	.inst	0xffffffff ; undefined
+     7ac:	ffffffff 	.inst	0xffffffff ; undefined
+     7b0:	ffffffff 	.inst	0xffffffff ; undefined
+     7b4:	ffffffff 	.inst	0xffffffff ; undefined
+     7b8:	ffffffff 	.inst	0xffffffff ; undefined
+     7bc:	ffffffff 	.inst	0xffffffff ; undefined
+     7c0:	ffffffff 	.inst	0xffffffff ; undefined
+     7c4:	ffffffff 	.inst	0xffffffff ; undefined
+     7c8:	ffffffff 	.inst	0xffffffff ; undefined
+     7cc:	ffffffff 	.inst	0xffffffff ; undefined
+     7d0:	ffffffff 	.inst	0xffffffff ; undefined
+     7d4:	ffffffff 	.inst	0xffffffff ; undefined
+     7d8:	ffffffff 	.inst	0xffffffff ; undefined
+     7dc:	ffffffff 	.inst	0xffffffff ; undefined
+     7e0:	ffffffff 	.inst	0xffffffff ; undefined
+     7e4:	ffffffff 	.inst	0xffffffff ; undefined
+     7e8:	ffffffff 	.inst	0xffffffff ; undefined
+     7ec:	ffffffff 	.inst	0xffffffff ; undefined
+     7f0:	ffffffff 	.inst	0xffffffff ; undefined
+     7f4:	ffffffff 	.inst	0xffffffff ; undefined
+     7f8:	ffffffff 	.inst	0xffffffff ; undefined
+     7fc:	ffffffff 	.inst	0xffffffff ; undefined
+     800:	ffffffff 	.inst	0xffffffff ; undefined
+     804:	ffffffff 	.inst	0xffffffff ; undefined
+     808:	ffffffff 	.inst	0xffffffff ; undefined
+     80c:	ffffffff 	.inst	0xffffffff ; undefined
+     810:	ffffffff 	.inst	0xffffffff ; undefined
+     814:	ffffffff 	.inst	0xffffffff ; undefined
+     818:	ffffffff 	.inst	0xffffffff ; undefined
+     81c:	ffffffff 	.inst	0xffffffff ; undefined
+     820:	ffffffff 	.inst	0xffffffff ; undefined
+     824:	ffffffff 	.inst	0xffffffff ; undefined
+     828:	ffffffff 	.inst	0xffffffff ; undefined
+     82c:	ffffffff 	.inst	0xffffffff ; undefined
+     830:	ffffffff 	.inst	0xffffffff ; undefined
+     834:	ffffffff 	.inst	0xffffffff ; undefined
+     838:	ffffffff 	.inst	0xffffffff ; undefined
+     83c:	ffffffff 	.inst	0xffffffff ; undefined
+     840:	ffffffff 	.inst	0xffffffff ; undefined
+     844:	ffffffff 	.inst	0xffffffff ; undefined
+     848:	ffffffff 	.inst	0xffffffff ; undefined
+     84c:	ffffffff 	.inst	0xffffffff ; undefined
+     850:	ffffffff 	.inst	0xffffffff ; undefined
+     854:	ffffffff 	.inst	0xffffffff ; undefined
+     858:	ffffffff 	.inst	0xffffffff ; undefined
+     85c:	ffffffff 	.inst	0xffffffff ; undefined
+     860:	ffffffff 	.inst	0xffffffff ; undefined
+     864:	ffffffff 	.inst	0xffffffff ; undefined
+     868:	ffffffff 	.inst	0xffffffff ; undefined
+     86c:	ffffffff 	.inst	0xffffffff ; undefined
+     870:	ffffffff 	.inst	0xffffffff ; undefined
+     874:	ffffffff 	.inst	0xffffffff ; undefined
+     878:	ffffffff 	.inst	0xffffffff ; undefined
+     87c:	ffffffff 	.inst	0xffffffff ; undefined
+     880:	ffffffff 	.inst	0xffffffff ; undefined
+     884:	ffffffff 	.inst	0xffffffff ; undefined
+     888:	ffffffff 	.inst	0xffffffff ; undefined
+     88c:	ffffffff 	.inst	0xffffffff ; undefined
+     890:	ffffffff 	.inst	0xffffffff ; undefined
+     894:	ffffffff 	.inst	0xffffffff ; undefined
+     898:	ffffffff 	.inst	0xffffffff ; undefined
+     89c:	ffffffff 	.inst	0xffffffff ; undefined
+     8a0:	ffffffff 	.inst	0xffffffff ; undefined
+     8a4:	ffffffff 	.inst	0xffffffff ; undefined
+     8a8:	ffffffff 	.inst	0xffffffff ; undefined
+     8ac:	ffffffff 	.inst	0xffffffff ; undefined
+     8b0:	ffffffff 	.inst	0xffffffff ; undefined
+     8b4:	ffffffff 	.inst	0xffffffff ; undefined
+     8b8:	ffffffff 	.inst	0xffffffff ; undefined
+     8bc:	ffffffff 	.inst	0xffffffff ; undefined
+     8c0:	ffffffff 	.inst	0xffffffff ; undefined
+     8c4:	ffffffff 	.inst	0xffffffff ; undefined
+     8c8:	ffffffff 	.inst	0xffffffff ; undefined
+     8cc:	ffffffff 	.inst	0xffffffff ; undefined
+     8d0:	ffffffff 	.inst	0xffffffff ; undefined
+     8d4:	ffffffff 	.inst	0xffffffff ; undefined
+     8d8:	ffffffff 	.inst	0xffffffff ; undefined
+     8dc:	ffffffff 	.inst	0xffffffff ; undefined
+     8e0:	ffffffff 	.inst	0xffffffff ; undefined
+     8e4:	ffffffff 	.inst	0xffffffff ; undefined
+     8e8:	ffffffff 	.inst	0xffffffff ; undefined
+     8ec:	ffffffff 	.inst	0xffffffff ; undefined
+     8f0:	ffffffff 	.inst	0xffffffff ; undefined
+     8f4:	ffffffff 	.inst	0xffffffff ; undefined
+     8f8:	ffffffff 	.inst	0xffffffff ; undefined
+     8fc:	ffffffff 	.inst	0xffffffff ; undefined
+     900:	ffffffff 	.inst	0xffffffff ; undefined
+     904:	ffffffff 	.inst	0xffffffff ; undefined
+     908:	ffffffff 	.inst	0xffffffff ; undefined
+     90c:	ffffffff 	.inst	0xffffffff ; undefined
+     910:	ffffffff 	.inst	0xffffffff ; undefined
+     914:	ffffffff 	.inst	0xffffffff ; undefined
+     918:	ffffffff 	.inst	0xffffffff ; undefined
+     91c:	ffffffff 	.inst	0xffffffff ; undefined
+     920:	ffffffff 	.inst	0xffffffff ; undefined
+     924:	ffffffff 	.inst	0xffffffff ; undefined
+     928:	ffffffff 	.inst	0xffffffff ; undefined
+     92c:	ffffffff 	.inst	0xffffffff ; undefined
+     930:	ffffffff 	.inst	0xffffffff ; undefined
+     934:	ffffffff 	.inst	0xffffffff ; undefined
+     938:	ffffffff 	.inst	0xffffffff ; undefined
+     93c:	ffffffff 	.inst	0xffffffff ; undefined
+     940:	ffffffff 	.inst	0xffffffff ; undefined
+     944:	ffffffff 	.inst	0xffffffff ; undefined
+     948:	ffffffff 	.inst	0xffffffff ; undefined
+     94c:	ffffffff 	.inst	0xffffffff ; undefined
+     950:	ffffffff 	.inst	0xffffffff ; undefined
+     954:	ffffffff 	.inst	0xffffffff ; undefined
+     958:	ffffffff 	.inst	0xffffffff ; undefined
+     95c:	ffffffff 	.inst	0xffffffff ; undefined
+     960:	ffffffff 	.inst	0xffffffff ; undefined
+     964:	ffffffff 	.inst	0xffffffff ; undefined
+     968:	ffffffff 	.inst	0xffffffff ; undefined
+     96c:	ffffffff 	.inst	0xffffffff ; undefined
+     970:	ffffffff 	.inst	0xffffffff ; undefined
+     974:	ffffffff 	.inst	0xffffffff ; undefined
+     978:	ffffffff 	.inst	0xffffffff ; undefined
+     97c:	ffffffff 	.inst	0xffffffff ; undefined
+     980:	ffffffff 	.inst	0xffffffff ; undefined
+     984:	ffffffff 	.inst	0xffffffff ; undefined
+     988:	ffffffff 	.inst	0xffffffff ; undefined
+     98c:	ffffffff 	.inst	0xffffffff ; undefined
+     990:	ffffffff 	.inst	0xffffffff ; undefined
+     994:	ffffffff 	.inst	0xffffffff ; undefined
+     998:	ffffffff 	.inst	0xffffffff ; undefined
+     99c:	ffffffff 	.inst	0xffffffff ; undefined
+     9a0:	ffffffff 	.inst	0xffffffff ; undefined
+     9a4:	ffffffff 	.inst	0xffffffff ; undefined
+     9a8:	ffffffff 	.inst	0xffffffff ; undefined
+     9ac:	ffffffff 	.inst	0xffffffff ; undefined
+     9b0:	ffffffff 	.inst	0xffffffff ; undefined
+     9b4:	ffffffff 	.inst	0xffffffff ; undefined
+     9b8:	ffffffff 	.inst	0xffffffff ; undefined
+     9bc:	ffffffff 	.inst	0xffffffff ; undefined
+     9c0:	ffffffff 	.inst	0xffffffff ; undefined
+     9c4:	ffffffff 	.inst	0xffffffff ; undefined
+     9c8:	ffffffff 	.inst	0xffffffff ; undefined
+     9cc:	ffffffff 	.inst	0xffffffff ; undefined
+     9d0:	ffffffff 	.inst	0xffffffff ; undefined
+     9d4:	ffffffff 	.inst	0xffffffff ; undefined
+     9d8:	ffffffff 	.inst	0xffffffff ; undefined
+     9dc:	ffffffff 	.inst	0xffffffff ; undefined
+     9e0:	ffffffff 	.inst	0xffffffff ; undefined
+     9e4:	ffffffff 	.inst	0xffffffff ; undefined
+     9e8:	ffffffff 	.inst	0xffffffff ; undefined
+     9ec:	ffffffff 	.inst	0xffffffff ; undefined
+     9f0:	ffffffff 	.inst	0xffffffff ; undefined
+     9f4:	ffffffff 	.inst	0xffffffff ; undefined
+     9f8:	ffffffff 	.inst	0xffffffff ; undefined
+     9fc:	ffffffff 	.inst	0xffffffff ; undefined
+     a00:	ffffffff 	.inst	0xffffffff ; undefined
+     a04:	ffffffff 	.inst	0xffffffff ; undefined
+     a08:	ffffffff 	.inst	0xffffffff ; undefined
+     a0c:	ffffffff 	.inst	0xffffffff ; undefined
+     a10:	ffffffff 	.inst	0xffffffff ; undefined
+     a14:	ffffffff 	.inst	0xffffffff ; undefined
+     a18:	ffffffff 	.inst	0xffffffff ; undefined
+     a1c:	ffffffff 	.inst	0xffffffff ; undefined
+     a20:	ffffffff 	.inst	0xffffffff ; undefined
+     a24:	ffffffff 	.inst	0xffffffff ; undefined
+     a28:	ffffffff 	.inst	0xffffffff ; undefined
+     a2c:	ffffffff 	.inst	0xffffffff ; undefined
+     a30:	ffffffff 	.inst	0xffffffff ; undefined
+     a34:	ffffffff 	.inst	0xffffffff ; undefined
+     a38:	ffffffff 	.inst	0xffffffff ; undefined
+     a3c:	ffffffff 	.inst	0xffffffff ; undefined
+     a40:	ffffffff 	.inst	0xffffffff ; undefined
+     a44:	ffffffff 	.inst	0xffffffff ; undefined
+     a48:	ffffffff 	.inst	0xffffffff ; undefined
+     a4c:	ffffffff 	.inst	0xffffffff ; undefined
+     a50:	ffffffff 	.inst	0xffffffff ; undefined
+     a54:	ffffffff 	.inst	0xffffffff ; undefined
+     a58:	ffffffff 	.inst	0xffffffff ; undefined
+     a5c:	ffffffff 	.inst	0xffffffff ; undefined
+     a60:	ffffffff 	.inst	0xffffffff ; undefined
+     a64:	ffffffff 	.inst	0xffffffff ; undefined
+     a68:	ffffffff 	.inst	0xffffffff ; undefined
+     a6c:	ffffffff 	.inst	0xffffffff ; undefined
+     a70:	ffffffff 	.inst	0xffffffff ; undefined
+     a74:	ffffffff 	.inst	0xffffffff ; undefined
+     a78:	ffffffff 	.inst	0xffffffff ; undefined
+     a7c:	ffffffff 	.inst	0xffffffff ; undefined
+     a80:	ffffffff 	.inst	0xffffffff ; undefined
+     a84:	ffffffff 	.inst	0xffffffff ; undefined
+     a88:	ffffffff 	.inst	0xffffffff ; undefined
+     a8c:	ffffffff 	.inst	0xffffffff ; undefined
+     a90:	ffffffff 	.inst	0xffffffff ; undefined
+     a94:	ffffffff 	.inst	0xffffffff ; undefined
+     a98:	ffffffff 	.inst	0xffffffff ; undefined
+     a9c:	ffffffff 	.inst	0xffffffff ; undefined
+     aa0:	ffffffff 	.inst	0xffffffff ; undefined
+     aa4:	ffffffff 	.inst	0xffffffff ; undefined
+     aa8:	ffffffff 	.inst	0xffffffff ; undefined
+     aac:	ffffffff 	.inst	0xffffffff ; undefined
+     ab0:	ffffffff 	.inst	0xffffffff ; undefined
+     ab4:	ffffffff 	.inst	0xffffffff ; undefined
+     ab8:	ffffffff 	.inst	0xffffffff ; undefined
+     abc:	ffffffff 	.inst	0xffffffff ; undefined
+     ac0:	ffffffff 	.inst	0xffffffff ; undefined
+     ac4:	ffffffff 	.inst	0xffffffff ; undefined
+     ac8:	ffffffff 	.inst	0xffffffff ; undefined
+     acc:	ffffffff 	.inst	0xffffffff ; undefined
+     ad0:	ffffffff 	.inst	0xffffffff ; undefined
+     ad4:	ffffffff 	.inst	0xffffffff ; undefined
+     ad8:	ffffffff 	.inst	0xffffffff ; undefined
+     adc:	ffffffff 	.inst	0xffffffff ; undefined
+     ae0:	ffffffff 	.inst	0xffffffff ; undefined
+     ae4:	ffffffff 	.inst	0xffffffff ; undefined
+     ae8:	ffffffff 	.inst	0xffffffff ; undefined
+     aec:	ffffffff 	.inst	0xffffffff ; undefined
+     af0:	ffffffff 	.inst	0xffffffff ; undefined
+     af4:	ffffffff 	.inst	0xffffffff ; undefined
+     af8:	ffffffff 	.inst	0xffffffff ; undefined
+     afc:	ffffffff 	.inst	0xffffffff ; undefined
+     b00:	ffffffff 	.inst	0xffffffff ; undefined
+     b04:	ffffffff 	.inst	0xffffffff ; undefined
+     b08:	ffffffff 	.inst	0xffffffff ; undefined
+     b0c:	ffffffff 	.inst	0xffffffff ; undefined
+     b10:	ffffffff 	.inst	0xffffffff ; undefined
+     b14:	ffffffff 	.inst	0xffffffff ; undefined
+     b18:	ffffffff 	.inst	0xffffffff ; undefined
+     b1c:	ffffffff 	.inst	0xffffffff ; undefined
+     b20:	ffffffff 	.inst	0xffffffff ; undefined
+     b24:	ffffffff 	.inst	0xffffffff ; undefined
+     b28:	ffffffff 	.inst	0xffffffff ; undefined
+     b2c:	ffffffff 	.inst	0xffffffff ; undefined
+     b30:	ffffffff 	.inst	0xffffffff ; undefined
+     b34:	ffffffff 	.inst	0xffffffff ; undefined
+     b38:	ffffffff 	.inst	0xffffffff ; undefined
+     b3c:	ffffffff 	.inst	0xffffffff ; undefined
+     b40:	ffffffff 	.inst	0xffffffff ; undefined
+     b44:	ffffffff 	.inst	0xffffffff ; undefined
+     b48:	ffffffff 	.inst	0xffffffff ; undefined
+     b4c:	ffffffff 	.inst	0xffffffff ; undefined
+     b50:	ffffffff 	.inst	0xffffffff ; undefined
+     b54:	ffffffff 	.inst	0xffffffff ; undefined
+     b58:	ffffffff 	.inst	0xffffffff ; undefined
+     b5c:	ffffffff 	.inst	0xffffffff ; undefined
+     b60:	ffffffff 	.inst	0xffffffff ; undefined
+     b64:	ffffffff 	.inst	0xffffffff ; undefined
+     b68:	ffffffff 	.inst	0xffffffff ; undefined
+     b6c:	ffffffff 	.inst	0xffffffff ; undefined
+     b70:	ffffffff 	.inst	0xffffffff ; undefined
+     b74:	ffffffff 	.inst	0xffffffff ; undefined
+     b78:	ffffffff 	.inst	0xffffffff ; undefined
+     b7c:	ffffffff 	.inst	0xffffffff ; undefined
+     b80:	ffffffff 	.inst	0xffffffff ; undefined
+     b84:	ffffffff 	.inst	0xffffffff ; undefined
+     b88:	ffffffff 	.inst	0xffffffff ; undefined
+     b8c:	ffffffff 	.inst	0xffffffff ; undefined
+     b90:	ffffffff 	.inst	0xffffffff ; undefined
+     b94:	ffffffff 	.inst	0xffffffff ; undefined
+     b98:	ffffffff 	.inst	0xffffffff ; undefined
+     b9c:	ffffffff 	.inst	0xffffffff ; undefined
+     ba0:	ffffffff 	.inst	0xffffffff ; undefined
+     ba4:	ffffffff 	.inst	0xffffffff ; undefined
+     ba8:	ffffffff 	.inst	0xffffffff ; undefined
+     bac:	ffffffff 	.inst	0xffffffff ; undefined
+     bb0:	ffffffff 	.inst	0xffffffff ; undefined
+     bb4:	ffffffff 	.inst	0xffffffff ; undefined
+     bb8:	ffffffff 	.inst	0xffffffff ; undefined
+     bbc:	ffffffff 	.inst	0xffffffff ; undefined
+     bc0:	ffffffff 	.inst	0xffffffff ; undefined
+     bc4:	ffffffff 	.inst	0xffffffff ; undefined
+     bc8:	ffffffff 	.inst	0xffffffff ; undefined
+     bcc:	ffffffff 	.inst	0xffffffff ; undefined
+     bd0:	ffffffff 	.inst	0xffffffff ; undefined
+     bd4:	ffffffff 	.inst	0xffffffff ; undefined
+     bd8:	ffffffff 	.inst	0xffffffff ; undefined
+     bdc:	ffffffff 	.inst	0xffffffff ; undefined
+     be0:	ffffffff 	.inst	0xffffffff ; undefined
+     be4:	ffffffff 	.inst	0xffffffff ; undefined
+     be8:	ffffffff 	.inst	0xffffffff ; undefined
+     bec:	ffffffff 	.inst	0xffffffff ; undefined
+     bf0:	ffffffff 	.inst	0xffffffff ; undefined
+     bf4:	ffffffff 	.inst	0xffffffff ; undefined
+     bf8:	ffffffff 	.inst	0xffffffff ; undefined
+     bfc:	ffffffff 	.inst	0xffffffff ; undefined
+     c00:	ffffffff 	.inst	0xffffffff ; undefined
+     c04:	ffffffff 	.inst	0xffffffff ; undefined
+     c08:	ffffffff 	.inst	0xffffffff ; undefined
+     c0c:	ffffffff 	.inst	0xffffffff ; undefined
+     c10:	ffffffff 	.inst	0xffffffff ; undefined
+     c14:	ffffffff 	.inst	0xffffffff ; undefined
+     c18:	ffffffff 	.inst	0xffffffff ; undefined
+     c1c:	ffffffff 	.inst	0xffffffff ; undefined
+     c20:	ffffffff 	.inst	0xffffffff ; undefined
+     c24:	ffffffff 	.inst	0xffffffff ; undefined
+     c28:	ffffffff 	.inst	0xffffffff ; undefined
+     c2c:	ffffffff 	.inst	0xffffffff ; undefined
+     c30:	ffffffff 	.inst	0xffffffff ; undefined
+     c34:	ffffffff 	.inst	0xffffffff ; undefined
+     c38:	ffffffff 	.inst	0xffffffff ; undefined
+     c3c:	ffffffff 	.inst	0xffffffff ; undefined
+     c40:	ffffffff 	.inst	0xffffffff ; undefined
+     c44:	ffffffff 	.inst	0xffffffff ; undefined
+     c48:	ffffffff 	.inst	0xffffffff ; undefined
+     c4c:	ffffffff 	.inst	0xffffffff ; undefined
+     c50:	ffffffff 	.inst	0xffffffff ; undefined
+     c54:	ffffffff 	.inst	0xffffffff ; undefined
+     c58:	ffffffff 	.inst	0xffffffff ; undefined
+     c5c:	ffffffff 	.inst	0xffffffff ; undefined
+     c60:	ffffffff 	.inst	0xffffffff ; undefined
+     c64:	ffffffff 	.inst	0xffffffff ; undefined
+     c68:	ffffffff 	.inst	0xffffffff ; undefined
+     c6c:	ffffffff 	.inst	0xffffffff ; undefined
+     c70:	ffffffff 	.inst	0xffffffff ; undefined
+     c74:	ffffffff 	.inst	0xffffffff ; undefined
+     c78:	ffffffff 	.inst	0xffffffff ; undefined
+     c7c:	ffffffff 	.inst	0xffffffff ; undefined
+     c80:	ffffffff 	.inst	0xffffffff ; undefined
+     c84:	ffffffff 	.inst	0xffffffff ; undefined
+     c88:	ffffffff 	.inst	0xffffffff ; undefined
+     c8c:	ffffffff 	.inst	0xffffffff ; undefined
+     c90:	ffffffff 	.inst	0xffffffff ; undefined
+     c94:	ffffffff 	.inst	0xffffffff ; undefined
+     c98:	ffffffff 	.inst	0xffffffff ; undefined
+     c9c:	ffffffff 	.inst	0xffffffff ; undefined
+     ca0:	ffffffff 	.inst	0xffffffff ; undefined
+     ca4:	ffffffff 	.inst	0xffffffff ; undefined
+     ca8:	ffffffff 	.inst	0xffffffff ; undefined
+     cac:	ffffffff 	.inst	0xffffffff ; undefined
+     cb0:	ffffffff 	.inst	0xffffffff ; undefined
+     cb4:	ffffffff 	.inst	0xffffffff ; undefined
+     cb8:	ffffffff 	.inst	0xffffffff ; undefined
+     cbc:	ffffffff 	.inst	0xffffffff ; undefined
+     cc0:	ffffffff 	.inst	0xffffffff ; undefined
+     cc4:	ffffffff 	.inst	0xffffffff ; undefined
+     cc8:	ffffffff 	.inst	0xffffffff ; undefined
+     ccc:	ffffffff 	.inst	0xffffffff ; undefined
+     cd0:	ffffffff 	.inst	0xffffffff ; undefined
+     cd4:	ffffffff 	.inst	0xffffffff ; undefined
+     cd8:	ffffffff 	.inst	0xffffffff ; undefined
+     cdc:	ffffffff 	.inst	0xffffffff ; undefined
+     ce0:	ffffffff 	.inst	0xffffffff ; undefined
+     ce4:	ffffffff 	.inst	0xffffffff ; undefined
+     ce8:	ffffffff 	.inst	0xffffffff ; undefined
+     cec:	ffffffff 	.inst	0xffffffff ; undefined
+     cf0:	ffffffff 	.inst	0xffffffff ; undefined
+     cf4:	ffffffff 	.inst	0xffffffff ; undefined
+     cf8:	ffffffff 	.inst	0xffffffff ; undefined
+     cfc:	ffffffff 	.inst	0xffffffff ; undefined
+     d00:	ffffffff 	.inst	0xffffffff ; undefined
+     d04:	ffffffff 	.inst	0xffffffff ; undefined
+     d08:	ffffffff 	.inst	0xffffffff ; undefined
+     d0c:	ffffffff 	.inst	0xffffffff ; undefined
+     d10:	ffffffff 	.inst	0xffffffff ; undefined
+     d14:	ffffffff 	.inst	0xffffffff ; undefined
+     d18:	ffffffff 	.inst	0xffffffff ; undefined
+     d1c:	ffffffff 	.inst	0xffffffff ; undefined
+     d20:	ffffffff 	.inst	0xffffffff ; undefined
+     d24:	ffffffff 	.inst	0xffffffff ; undefined
+     d28:	ffffffff 	.inst	0xffffffff ; undefined
+     d2c:	ffffffff 	.inst	0xffffffff ; undefined
+     d30:	ffffffff 	.inst	0xffffffff ; undefined
+     d34:	ffffffff 	.inst	0xffffffff ; undefined
+     d38:	ffffffff 	.inst	0xffffffff ; undefined
+     d3c:	ffffffff 	.inst	0xffffffff ; undefined
+     d40:	ffffffff 	.inst	0xffffffff ; undefined
+     d44:	ffffffff 	.inst	0xffffffff ; undefined
+     d48:	ffffffff 	.inst	0xffffffff ; undefined
+     d4c:	ffffffff 	.inst	0xffffffff ; undefined
+     d50:	ffffffff 	.inst	0xffffffff ; undefined
+     d54:	ffffffff 	.inst	0xffffffff ; undefined
+     d58:	ffffffff 	.inst	0xffffffff ; undefined
+     d5c:	ffffffff 	.inst	0xffffffff ; undefined
+     d60:	ffffffff 	.inst	0xffffffff ; undefined
+     d64:	ffffffff 	.inst	0xffffffff ; undefined
+     d68:	ffffffff 	.inst	0xffffffff ; undefined
+     d6c:	ffffffff 	.inst	0xffffffff ; undefined
+     d70:	ffffffff 	.inst	0xffffffff ; undefined
+     d74:	ffffffff 	.inst	0xffffffff ; undefined
+     d78:	ffffffff 	.inst	0xffffffff ; undefined
+     d7c:	ffffffff 	.inst	0xffffffff ; undefined
+     d80:	ffffffff 	.inst	0xffffffff ; undefined
+     d84:	ffffffff 	.inst	0xffffffff ; undefined
+     d88:	ffffffff 	.inst	0xffffffff ; undefined
+     d8c:	ffffffff 	.inst	0xffffffff ; undefined
+     d90:	ffffffff 	.inst	0xffffffff ; undefined
+     d94:	ffffffff 	.inst	0xffffffff ; undefined
+     d98:	ffffffff 	.inst	0xffffffff ; undefined
+     d9c:	ffffffff 	.inst	0xffffffff ; undefined
+     da0:	ffffffff 	.inst	0xffffffff ; undefined
+     da4:	ffffffff 	.inst	0xffffffff ; undefined
+     da8:	ffffffff 	.inst	0xffffffff ; undefined
+     dac:	ffffffff 	.inst	0xffffffff ; undefined
+     db0:	ffffffff 	.inst	0xffffffff ; undefined
+     db4:	ffffffff 	.inst	0xffffffff ; undefined
+     db8:	ffffffff 	.inst	0xffffffff ; undefined
+     dbc:	ffffffff 	.inst	0xffffffff ; undefined
+     dc0:	ffffffff 	.inst	0xffffffff ; undefined
+     dc4:	ffffffff 	.inst	0xffffffff ; undefined
+     dc8:	ffffffff 	.inst	0xffffffff ; undefined
+     dcc:	ffffffff 	.inst	0xffffffff ; undefined
+     dd0:	ffffffff 	.inst	0xffffffff ; undefined
+     dd4:	ffffffff 	.inst	0xffffffff ; undefined
+     dd8:	ffffffff 	.inst	0xffffffff ; undefined
+     ddc:	ffffffff 	.inst	0xffffffff ; undefined
+     de0:	ffffffff 	.inst	0xffffffff ; undefined
+     de4:	ffffffff 	.inst	0xffffffff ; undefined
+     de8:	ffffffff 	.inst	0xffffffff ; undefined
+     dec:	ffffffff 	.inst	0xffffffff ; undefined
+     df0:	ffffffff 	.inst	0xffffffff ; undefined
+     df4:	ffffffff 	.inst	0xffffffff ; undefined
+     df8:	ffffffff 	.inst	0xffffffff ; undefined
+     dfc:	ffffffff 	.inst	0xffffffff ; undefined
+     e00:	ffffffff 	.inst	0xffffffff ; undefined
+     e04:	ffffffff 	.inst	0xffffffff ; undefined
+     e08:	ffffffff 	.inst	0xffffffff ; undefined
+     e0c:	ffffffff 	.inst	0xffffffff ; undefined
+     e10:	ffffffff 	.inst	0xffffffff ; undefined
+     e14:	ffffffff 	.inst	0xffffffff ; undefined
+     e18:	ffffffff 	.inst	0xffffffff ; undefined
+     e1c:	ffffffff 	.inst	0xffffffff ; undefined
+     e20:	ffffffff 	.inst	0xffffffff ; undefined
+     e24:	ffffffff 	.inst	0xffffffff ; undefined
+     e28:	ffffffff 	.inst	0xffffffff ; undefined
+     e2c:	ffffffff 	.inst	0xffffffff ; undefined
+     e30:	ffffffff 	.inst	0xffffffff ; undefined
+     e34:	ffffffff 	.inst	0xffffffff ; undefined
+     e38:	ffffffff 	.inst	0xffffffff ; undefined
+     e3c:	ffffffff 	.inst	0xffffffff ; undefined
+     e40:	ffffffff 	.inst	0xffffffff ; undefined
+     e44:	ffffffff 	.inst	0xffffffff ; undefined
+     e48:	ffffffff 	.inst	0xffffffff ; undefined
+     e4c:	ffffffff 	.inst	0xffffffff ; undefined
+     e50:	ffffffff 	.inst	0xffffffff ; undefined
+     e54:	ffffffff 	.inst	0xffffffff ; undefined
+     e58:	ffffffff 	.inst	0xffffffff ; undefined
+     e5c:	ffffffff 	.inst	0xffffffff ; undefined
+     e60:	ffffffff 	.inst	0xffffffff ; undefined
+     e64:	ffffffff 	.inst	0xffffffff ; undefined
+     e68:	ffffffff 	.inst	0xffffffff ; undefined
+     e6c:	ffffffff 	.inst	0xffffffff ; undefined
+     e70:	ffffffff 	.inst	0xffffffff ; undefined
+     e74:	ffffffff 	.inst	0xffffffff ; undefined
+     e78:	ffffffff 	.inst	0xffffffff ; undefined
+     e7c:	ffffffff 	.inst	0xffffffff ; undefined
+     e80:	ffffffff 	.inst	0xffffffff ; undefined
+     e84:	ffffffff 	.inst	0xffffffff ; undefined
+     e88:	ffffffff 	.inst	0xffffffff ; undefined
+     e8c:	ffffffff 	.inst	0xffffffff ; undefined
+     e90:	ffffffff 	.inst	0xffffffff ; undefined
+     e94:	ffffffff 	.inst	0xffffffff ; undefined
+     e98:	ffffffff 	.inst	0xffffffff ; undefined
+     e9c:	ffffffff 	.inst	0xffffffff ; undefined
+     ea0:	ffffffff 	.inst	0xffffffff ; undefined
+     ea4:	ffffffff 	.inst	0xffffffff ; undefined
+     ea8:	ffffffff 	.inst	0xffffffff ; undefined
+     eac:	ffffffff 	.inst	0xffffffff ; undefined
+     eb0:	ffffffff 	.inst	0xffffffff ; undefined
+     eb4:	ffffffff 	.inst	0xffffffff ; undefined
+     eb8:	ffffffff 	.inst	0xffffffff ; undefined
+     ebc:	ffffffff 	.inst	0xffffffff ; undefined
+     ec0:	ffffffff 	.inst	0xffffffff ; undefined
+     ec4:	ffffffff 	.inst	0xffffffff ; undefined
+     ec8:	ffffffff 	.inst	0xffffffff ; undefined
+     ecc:	ffffffff 	.inst	0xffffffff ; undefined
+     ed0:	ffffffff 	.inst	0xffffffff ; undefined
+     ed4:	ffffffff 	.inst	0xffffffff ; undefined
+     ed8:	ffffffff 	.inst	0xffffffff ; undefined
+     edc:	ffffffff 	.inst	0xffffffff ; undefined
+     ee0:	ffffffff 	.inst	0xffffffff ; undefined
+     ee4:	ffffffff 	.inst	0xffffffff ; undefined
+     ee8:	ffffffff 	.inst	0xffffffff ; undefined
+     eec:	ffffffff 	.inst	0xffffffff ; undefined
+     ef0:	ffffffff 	.inst	0xffffffff ; undefined
+     ef4:	ffffffff 	.inst	0xffffffff ; undefined
+     ef8:	ffffffff 	.inst	0xffffffff ; undefined
+     efc:	ffffffff 	.inst	0xffffffff ; undefined
+     f00:	ffffffff 	.inst	0xffffffff ; undefined
+     f04:	ffffffff 	.inst	0xffffffff ; undefined
+     f08:	ffffffff 	.inst	0xffffffff ; undefined
+     f0c:	ffffffff 	.inst	0xffffffff ; undefined
+     f10:	ffffffff 	.inst	0xffffffff ; undefined
+     f14:	ffffffff 	.inst	0xffffffff ; undefined
+     f18:	ffffffff 	.inst	0xffffffff ; undefined
+     f1c:	ffffffff 	.inst	0xffffffff ; undefined
+     f20:	ffffffff 	.inst	0xffffffff ; undefined
+     f24:	ffffffff 	.inst	0xffffffff ; undefined
+     f28:	ffffffff 	.inst	0xffffffff ; undefined
+     f2c:	ffffffff 	.inst	0xffffffff ; undefined
+     f30:	ffffffff 	.inst	0xffffffff ; undefined
+     f34:	ffffffff 	.inst	0xffffffff ; undefined
+     f38:	ffffffff 	.inst	0xffffffff ; undefined
+     f3c:	ffffffff 	.inst	0xffffffff ; undefined
+     f40:	ffffffff 	.inst	0xffffffff ; undefined
+     f44:	ffffffff 	.inst	0xffffffff ; undefined
+     f48:	ffffffff 	.inst	0xffffffff ; undefined
+     f4c:	ffffffff 	.inst	0xffffffff ; undefined
+     f50:	ffffffff 	.inst	0xffffffff ; undefined
+     f54:	ffffffff 	.inst	0xffffffff ; undefined
+     f58:	ffffffff 	.inst	0xffffffff ; undefined
+     f5c:	ffffffff 	.inst	0xffffffff ; undefined
+     f60:	ffffffff 	.inst	0xffffffff ; undefined
+     f64:	ffffffff 	.inst	0xffffffff ; undefined
+     f68:	ffffffff 	.inst	0xffffffff ; undefined
+     f6c:	ffffffff 	.inst	0xffffffff ; undefined
+     f70:	ffffffff 	.inst	0xffffffff ; undefined
+     f74:	ffffffff 	.inst	0xffffffff ; undefined
+     f78:	ffffffff 	.inst	0xffffffff ; undefined
+     f7c:	ffffffff 	.inst	0xffffffff ; undefined
+     f80:	ffffffff 	.inst	0xffffffff ; undefined
+     f84:	ffffffff 	.inst	0xffffffff ; undefined
+     f88:	ffffffff 	.inst	0xffffffff ; undefined
+     f8c:	ffffffff 	.inst	0xffffffff ; undefined
+     f90:	ffffffff 	.inst	0xffffffff ; undefined
+     f94:	ffffffff 	.inst	0xffffffff ; undefined
+     f98:	ffffffff 	.inst	0xffffffff ; undefined
+     f9c:	ffffffff 	.inst	0xffffffff ; undefined
+     fa0:	ffffffff 	.inst	0xffffffff ; undefined
+     fa4:	ffffffff 	.inst	0xffffffff ; undefined
+     fa8:	ffffffff 	.inst	0xffffffff ; undefined
+     fac:	ffffffff 	.inst	0xffffffff ; undefined
+     fb0:	ffffffff 	.inst	0xffffffff ; undefined
+     fb4:	ffffffff 	.inst	0xffffffff ; undefined
+     fb8:	ffffffff 	.inst	0xffffffff ; undefined
+     fbc:	ffffffff 	.inst	0xffffffff ; undefined
+     fc0:	ffffffff 	.inst	0xffffffff ; undefined
+     fc4:	ffffffff 	.inst	0xffffffff ; undefined
+     fc8:	ffffffff 	.inst	0xffffffff ; undefined
+     fcc:	ffffffff 	.inst	0xffffffff ; undefined
+     fd0:	ffffffff 	.inst	0xffffffff ; undefined
+     fd4:	ffffffff 	.inst	0xffffffff ; undefined
+     fd8:	ffffffff 	.inst	0xffffffff ; undefined
+     fdc:	ffffffff 	.inst	0xffffffff ; undefined
+     fe0:	ffffffff 	.inst	0xffffffff ; undefined
+     fe4:	ffffffff 	.inst	0xffffffff ; undefined
+     fe8:	ffffffff 	.inst	0xffffffff ; undefined
+     fec:	ffffffff 	.inst	0xffffffff ; undefined
+     ff0:	ffffffff 	.inst	0xffffffff ; undefined
+     ff4:	ffffffff 	.inst	0xffffffff ; undefined
+     ff8:	ffffffff 	.inst	0xffffffff ; undefined
+     ffc:	ffffffff 	.inst	0xffffffff ; undefined
+    1000:	ffffffff 	.inst	0xffffffff ; undefined
+    1004:	ffffffff 	.inst	0xffffffff ; undefined
+    1008:	ffffffff 	.inst	0xffffffff ; undefined
+    100c:	ffffffff 	.inst	0xffffffff ; undefined
+    1010:	ffffffff 	.inst	0xffffffff ; undefined
+    1014:	ffffffff 	.inst	0xffffffff ; undefined
+    1018:	ffffffff 	.inst	0xffffffff ; undefined
+    101c:	ffffffff 	.inst	0xffffffff ; undefined
+    1020:	ffffffff 	.inst	0xffffffff ; undefined
+    1024:	ffffffff 	.inst	0xffffffff ; undefined
+    1028:	ffffffff 	.inst	0xffffffff ; undefined
+    102c:	ffffffff 	.inst	0xffffffff ; undefined
+    1030:	ffffffff 	.inst	0xffffffff ; undefined
+    1034:	ffffffff 	.inst	0xffffffff ; undefined
+    1038:	ffffffff 	.inst	0xffffffff ; undefined
+    103c:	ffffffff 	.inst	0xffffffff ; undefined
+    1040:	ffffffff 	.inst	0xffffffff ; undefined
+    1044:	ffffffff 	.inst	0xffffffff ; undefined
+    1048:	ffffffff 	.inst	0xffffffff ; undefined
+    104c:	ffffffff 	.inst	0xffffffff ; undefined
+    1050:	ffffffff 	.inst	0xffffffff ; undefined
+    1054:	ffffffff 	.inst	0xffffffff ; undefined
+    1058:	ffffffff 	.inst	0xffffffff ; undefined
+    105c:	ffffffff 	.inst	0xffffffff ; undefined
+    1060:	ffffffff 	.inst	0xffffffff ; undefined
+    1064:	ffffffff 	.inst	0xffffffff ; undefined
+    1068:	ffffffff 	.inst	0xffffffff ; undefined
+    106c:	ffffffff 	.inst	0xffffffff ; undefined
+    1070:	ffffffff 	.inst	0xffffffff ; undefined
+    1074:	ffffffff 	.inst	0xffffffff ; undefined
+    1078:	ffffffff 	.inst	0xffffffff ; undefined
+    107c:	ffffffff 	.inst	0xffffffff ; undefined
+    1080:	ffffffff 	.inst	0xffffffff ; undefined
+    1084:	ffffffff 	.inst	0xffffffff ; undefined
+    1088:	ffffffff 	.inst	0xffffffff ; undefined
+    108c:	ffffffff 	.inst	0xffffffff ; undefined
+    1090:	ffffffff 	.inst	0xffffffff ; undefined
+    1094:	ffffffff 	.inst	0xffffffff ; undefined
+    1098:	ffffffff 	.inst	0xffffffff ; undefined
+    109c:	ffffffff 	.inst	0xffffffff ; undefined
+    10a0:	ffffffff 	.inst	0xffffffff ; undefined
+    10a4:	ffffffff 	.inst	0xffffffff ; undefined
+    10a8:	ffffffff 	.inst	0xffffffff ; undefined
+    10ac:	ffffffff 	.inst	0xffffffff ; undefined
+    10b0:	ffffffff 	.inst	0xffffffff ; undefined
+    10b4:	ffffffff 	.inst	0xffffffff ; undefined
+    10b8:	ffffffff 	.inst	0xffffffff ; undefined
+    10bc:	ffffffff 	.inst	0xffffffff ; undefined
+    10c0:	ffffffff 	.inst	0xffffffff ; undefined
+    10c4:	ffffffff 	.inst	0xffffffff ; undefined
+    10c8:	ffffffff 	.inst	0xffffffff ; undefined
+    10cc:	ffffffff 	.inst	0xffffffff ; undefined
+    10d0:	ffffffff 	.inst	0xffffffff ; undefined
+    10d4:	ffffffff 	.inst	0xffffffff ; undefined
+    10d8:	ffffffff 	.inst	0xffffffff ; undefined
+    10dc:	ffffffff 	.inst	0xffffffff ; undefined
+    10e0:	ffffffff 	.inst	0xffffffff ; undefined
+    10e4:	ffffffff 	.inst	0xffffffff ; undefined
+    10e8:	ffffffff 	.inst	0xffffffff ; undefined
+    10ec:	ffffffff 	.inst	0xffffffff ; undefined
+    10f0:	ffffffff 	.inst	0xffffffff ; undefined
+    10f4:	ffffffff 	.inst	0xffffffff ; undefined
+    10f8:	ffffffff 	.inst	0xffffffff ; undefined
+    10fc:	ffffffff 	.inst	0xffffffff ; undefined
+    1100:	ffffffff 	.inst	0xffffffff ; undefined
+    1104:	ffffffff 	.inst	0xffffffff ; undefined
+    1108:	ffffffff 	.inst	0xffffffff ; undefined
+    110c:	ffffffff 	.inst	0xffffffff ; undefined
+    1110:	ffffffff 	.inst	0xffffffff ; undefined
+    1114:	ffffffff 	.inst	0xffffffff ; undefined
+    1118:	ffffffff 	.inst	0xffffffff ; undefined
+    111c:	ffffffff 	.inst	0xffffffff ; undefined
+    1120:	ffffffff 	.inst	0xffffffff ; undefined
+    1124:	ffffffff 	.inst	0xffffffff ; undefined
+    1128:	ffffffff 	.inst	0xffffffff ; undefined
+    112c:	ffffffff 	.inst	0xffffffff ; undefined
+    1130:	ffffffff 	.inst	0xffffffff ; undefined
+    1134:	ffffffff 	.inst	0xffffffff ; undefined
+    1138:	ffffffff 	.inst	0xffffffff ; undefined
+    113c:	ffffffff 	.inst	0xffffffff ; undefined
+    1140:	ffffffff 	.inst	0xffffffff ; undefined
+    1144:	ffffffff 	.inst	0xffffffff ; undefined
+    1148:	ffffffff 	.inst	0xffffffff ; undefined
+    114c:	ffffffff 	.inst	0xffffffff ; undefined
+    1150:	ffffffff 	.inst	0xffffffff ; undefined
+    1154:	ffffffff 	.inst	0xffffffff ; undefined
+    1158:	ffffffff 	.inst	0xffffffff ; undefined
+    115c:	ffffffff 	.inst	0xffffffff ; undefined
+    1160:	ffffffff 	.inst	0xffffffff ; undefined
+    1164:	ffffffff 	.inst	0xffffffff ; undefined
+    1168:	ffffffff 	.inst	0xffffffff ; undefined
+    116c:	ffffffff 	.inst	0xffffffff ; undefined
+    1170:	ffffffff 	.inst	0xffffffff ; undefined
+    1174:	ffffffff 	.inst	0xffffffff ; undefined
+    1178:	ffffffff 	.inst	0xffffffff ; undefined
+    117c:	ffffffff 	.inst	0xffffffff ; undefined
+    1180:	ffffffff 	.inst	0xffffffff ; undefined
+    1184:	ffffffff 	.inst	0xffffffff ; undefined
+    1188:	ffffffff 	.inst	0xffffffff ; undefined
+    118c:	ffffffff 	.inst	0xffffffff ; undefined
+    1190:	ffffffff 	.inst	0xffffffff ; undefined
+    1194:	ffffffff 	.inst	0xffffffff ; undefined
+    1198:	ffffffff 	.inst	0xffffffff ; undefined
+    119c:	ffffffff 	.inst	0xffffffff ; undefined
+    11a0:	ffffffff 	.inst	0xffffffff ; undefined
+    11a4:	ffffffff 	.inst	0xffffffff ; undefined
+    11a8:	ffffffff 	.inst	0xffffffff ; undefined
+    11ac:	ffffffff 	.inst	0xffffffff ; undefined
+    11b0:	ffffffff 	.inst	0xffffffff ; undefined
+    11b4:	ffffffff 	.inst	0xffffffff ; undefined
+    11b8:	ffffffff 	.inst	0xffffffff ; undefined
+    11bc:	ffffffff 	.inst	0xffffffff ; undefined
+    11c0:	ffffffff 	.inst	0xffffffff ; undefined
+    11c4:	ffffffff 	.inst	0xffffffff ; undefined
+    11c8:	ffffffff 	.inst	0xffffffff ; undefined
+    11cc:	ffffffff 	.inst	0xffffffff ; undefined
+    11d0:	ffffffff 	.inst	0xffffffff ; undefined
+    11d4:	ffffffff 	.inst	0xffffffff ; undefined
+    11d8:	ffffffff 	.inst	0xffffffff ; undefined
+    11dc:	ffffffff 	.inst	0xffffffff ; undefined
+    11e0:	ffffffff 	.inst	0xffffffff ; undefined
+    11e4:	ffffffff 	.inst	0xffffffff ; undefined
+    11e8:	ffffffff 	.inst	0xffffffff ; undefined
+    11ec:	ffffffff 	.inst	0xffffffff ; undefined
+    11f0:	ffffffff 	.inst	0xffffffff ; undefined
+    11f4:	ffffffff 	.inst	0xffffffff ; undefined
+    11f8:	ffffffff 	.inst	0xffffffff ; undefined
+    11fc:	ffffffff 	.inst	0xffffffff ; undefined
+    1200:	ffffffff 	.inst	0xffffffff ; undefined
+    1204:	ffffffff 	.inst	0xffffffff ; undefined
+    1208:	ffffffff 	.inst	0xffffffff ; undefined
+    120c:	ffffffff 	.inst	0xffffffff ; undefined
+    1210:	ffffffff 	.inst	0xffffffff ; undefined
+    1214:	ffffffff 	.inst	0xffffffff ; undefined
+    1218:	ffffffff 	.inst	0xffffffff ; undefined
+    121c:	ffffffff 	.inst	0xffffffff ; undefined
+    1220:	ffffffff 	.inst	0xffffffff ; undefined
+    1224:	ffffffff 	.inst	0xffffffff ; undefined
+    1228:	ffffffff 	.inst	0xffffffff ; undefined
+    122c:	ffffffff 	.inst	0xffffffff ; undefined
+    1230:	ffffffff 	.inst	0xffffffff ; undefined
+    1234:	ffffffff 	.inst	0xffffffff ; undefined
+    1238:	ffffffff 	.inst	0xffffffff ; undefined
+    123c:	ffffffff 	.inst	0xffffffff ; undefined
+    1240:	ffffffff 	.inst	0xffffffff ; undefined
+    1244:	ffffffff 	.inst	0xffffffff ; undefined
+    1248:	ffffffff 	.inst	0xffffffff ; undefined
+    124c:	ffffffff 	.inst	0xffffffff ; undefined
+    1250:	ffffffff 	.inst	0xffffffff ; undefined
+    1254:	ffffffff 	.inst	0xffffffff ; undefined
+    1258:	ffffffff 	.inst	0xffffffff ; undefined
+    125c:	ffffffff 	.inst	0xffffffff ; undefined
+    1260:	ffffffff 	.inst	0xffffffff ; undefined
+    1264:	ffffffff 	.inst	0xffffffff ; undefined
+    1268:	ffffffff 	.inst	0xffffffff ; undefined
+    126c:	ffffffff 	.inst	0xffffffff ; undefined
+    1270:	ffffffff 	.inst	0xffffffff ; undefined
+    1274:	ffffffff 	.inst	0xffffffff ; undefined
+    1278:	ffffffff 	.inst	0xffffffff ; undefined
+    127c:	ffffffff 	.inst	0xffffffff ; undefined
+    1280:	ffffffff 	.inst	0xffffffff ; undefined
+    1284:	ffffffff 	.inst	0xffffffff ; undefined
+    1288:	ffffffff 	.inst	0xffffffff ; undefined
+    128c:	ffffffff 	.inst	0xffffffff ; undefined
+    1290:	ffffffff 	.inst	0xffffffff ; undefined
+    1294:	ffffffff 	.inst	0xffffffff ; undefined
+    1298:	ffffffff 	.inst	0xffffffff ; undefined
+    129c:	ffffffff 	.inst	0xffffffff ; undefined
+    12a0:	ffffffff 	.inst	0xffffffff ; undefined
+    12a4:	ffffffff 	.inst	0xffffffff ; undefined
+    12a8:	ffffffff 	.inst	0xffffffff ; undefined
+    12ac:	ffffffff 	.inst	0xffffffff ; undefined
+    12b0:	ffffffff 	.inst	0xffffffff ; undefined
+    12b4:	ffffffff 	.inst	0xffffffff ; undefined
+    12b8:	ffffffff 	.inst	0xffffffff ; undefined
+    12bc:	ffffffff 	.inst	0xffffffff ; undefined
+    12c0:	ffffffff 	.inst	0xffffffff ; undefined
+    12c4:	ffffffff 	.inst	0xffffffff ; undefined
+    12c8:	ffffffff 	.inst	0xffffffff ; undefined
+    12cc:	ffffffff 	.inst	0xffffffff ; undefined
+    12d0:	ffffffff 	.inst	0xffffffff ; undefined
+    12d4:	ffffffff 	.inst	0xffffffff ; undefined
+    12d8:	ffffffff 	.inst	0xffffffff ; undefined
+    12dc:	ffffffff 	.inst	0xffffffff ; undefined
+    12e0:	ffffffff 	.inst	0xffffffff ; undefined
+    12e4:	ffffffff 	.inst	0xffffffff ; undefined
+    12e8:	ffffffff 	.inst	0xffffffff ; undefined
+    12ec:	ffffffff 	.inst	0xffffffff ; undefined
+    12f0:	ffffffff 	.inst	0xffffffff ; undefined
+    12f4:	ffffffff 	.inst	0xffffffff ; undefined
+    12f8:	ffffffff 	.inst	0xffffffff ; undefined
+    12fc:	ffffffff 	.inst	0xffffffff ; undefined
+    1300:	ffffffff 	.inst	0xffffffff ; undefined
+    1304:	ffffffff 	.inst	0xffffffff ; undefined
+    1308:	ffffffff 	.inst	0xffffffff ; undefined
+    130c:	ffffffff 	.inst	0xffffffff ; undefined
+    1310:	ffffffff 	.inst	0xffffffff ; undefined
+    1314:	ffffffff 	.inst	0xffffffff ; undefined
+    1318:	ffffffff 	.inst	0xffffffff ; undefined
+    131c:	ffffffff 	.inst	0xffffffff ; undefined
+    1320:	ffffffff 	.inst	0xffffffff ; undefined
+    1324:	ffffffff 	.inst	0xffffffff ; undefined
+    1328:	ffffffff 	.inst	0xffffffff ; undefined
+    132c:	ffffffff 	.inst	0xffffffff ; undefined
+    1330:	ffffffff 	.inst	0xffffffff ; undefined
+    1334:	ffffffff 	.inst	0xffffffff ; undefined
+    1338:	ffffffff 	.inst	0xffffffff ; undefined
+    133c:	ffffffff 	.inst	0xffffffff ; undefined
+    1340:	ffffffff 	.inst	0xffffffff ; undefined
+    1344:	ffffffff 	.inst	0xffffffff ; undefined
+    1348:	ffffffff 	.inst	0xffffffff ; undefined
+    134c:	ffffffff 	.inst	0xffffffff ; undefined
+    1350:	ffffffff 	.inst	0xffffffff ; undefined
+    1354:	ffffffff 	.inst	0xffffffff ; undefined
+    1358:	ffffffff 	.inst	0xffffffff ; undefined
+    135c:	ffffffff 	.inst	0xffffffff ; undefined
+    1360:	ffffffff 	.inst	0xffffffff ; undefined
+    1364:	ffffffff 	.inst	0xffffffff ; undefined
+    1368:	ffffffff 	.inst	0xffffffff ; undefined
+    136c:	ffffffff 	.inst	0xffffffff ; undefined
+    1370:	ffffffff 	.inst	0xffffffff ; undefined
+    1374:	ffffffff 	.inst	0xffffffff ; undefined
+    1378:	ffffffff 	.inst	0xffffffff ; undefined
+    137c:	ffffffff 	.inst	0xffffffff ; undefined
+    1380:	ffffffff 	.inst	0xffffffff ; undefined
+    1384:	ffffffff 	.inst	0xffffffff ; undefined
+    1388:	ffffffff 	.inst	0xffffffff ; undefined
+    138c:	ffffffff 	.inst	0xffffffff ; undefined
+    1390:	ffffffff 	.inst	0xffffffff ; undefined
+    1394:	ffffffff 	.inst	0xffffffff ; undefined
+    1398:	ffffffff 	.inst	0xffffffff ; undefined
+    139c:	ffffffff 	.inst	0xffffffff ; undefined
+    13a0:	ffffffff 	.inst	0xffffffff ; undefined
+    13a4:	ffffffff 	.inst	0xffffffff ; undefined
+    13a8:	ffffffff 	.inst	0xffffffff ; undefined
+    13ac:	ffffffff 	.inst	0xffffffff ; undefined
+    13b0:	ffffffff 	.inst	0xffffffff ; undefined
+    13b4:	ffffffff 	.inst	0xffffffff ; undefined
+    13b8:	ffffffff 	.inst	0xffffffff ; undefined
+    13bc:	ffffffff 	.inst	0xffffffff ; undefined
+    13c0:	ffffffff 	.inst	0xffffffff ; undefined
+    13c4:	ffffffff 	.inst	0xffffffff ; undefined
+    13c8:	ffffffff 	.inst	0xffffffff ; undefined
+    13cc:	ffffffff 	.inst	0xffffffff ; undefined
+    13d0:	ffffffff 	.inst	0xffffffff ; undefined
+    13d4:	ffffffff 	.inst	0xffffffff ; undefined
+    13d8:	ffffffff 	.inst	0xffffffff ; undefined
+    13dc:	ffffffff 	.inst	0xffffffff ; undefined
+    13e0:	ffffffff 	.inst	0xffffffff ; undefined
+    13e4:	ffffffff 	.inst	0xffffffff ; undefined
+    13e8:	ffffffff 	.inst	0xffffffff ; undefined
+    13ec:	ffffffff 	.inst	0xffffffff ; undefined
+    13f0:	ffffffff 	.inst	0xffffffff ; undefined
+    13f4:	ffffffff 	.inst	0xffffffff ; undefined
+    13f8:	ffffffff 	.inst	0xffffffff ; undefined
+    13fc:	ffffffff 	.inst	0xffffffff ; undefined
+    1400:	ffffffff 	.inst	0xffffffff ; undefined
+    1404:	ffffffff 	.inst	0xffffffff ; undefined
+    1408:	ffffffff 	.inst	0xffffffff ; undefined
+    140c:	ffffffff 	.inst	0xffffffff ; undefined
+    1410:	ffffffff 	.inst	0xffffffff ; undefined
+    1414:	ffffffff 	.inst	0xffffffff ; undefined
+    1418:	ffffffff 	.inst	0xffffffff ; undefined
+    141c:	ffffffff 	.inst	0xffffffff ; undefined
+    1420:	ffffffff 	.inst	0xffffffff ; undefined
+    1424:	ffffffff 	.inst	0xffffffff ; undefined
+    1428:	ffffffff 	.inst	0xffffffff ; undefined
+    142c:	ffffffff 	.inst	0xffffffff ; undefined
+    1430:	ffffffff 	.inst	0xffffffff ; undefined
+    1434:	ffffffff 	.inst	0xffffffff ; undefined
+    1438:	ffffffff 	.inst	0xffffffff ; undefined
+    143c:	ffffffff 	.inst	0xffffffff ; undefined
+    1440:	ffffffff 	.inst	0xffffffff ; undefined
+    1444:	ffffffff 	.inst	0xffffffff ; undefined
+    1448:	ffffffff 	.inst	0xffffffff ; undefined
+    144c:	ffffffff 	.inst	0xffffffff ; undefined
+    1450:	ffffffff 	.inst	0xffffffff ; undefined
+    1454:	ffffffff 	.inst	0xffffffff ; undefined
+    1458:	ffffffff 	.inst	0xffffffff ; undefined
+    145c:	ffffffff 	.inst	0xffffffff ; undefined
+    1460:	ffffffff 	.inst	0xffffffff ; undefined
+    1464:	ffffffff 	.inst	0xffffffff ; undefined
+    1468:	ffffffff 	.inst	0xffffffff ; undefined
+    146c:	ffffffff 	.inst	0xffffffff ; undefined
+    1470:	ffffffff 	.inst	0xffffffff ; undefined
+    1474:	ffffffff 	.inst	0xffffffff ; undefined
+    1478:	ffffffff 	.inst	0xffffffff ; undefined
+    147c:	ffffffff 	.inst	0xffffffff ; undefined
+    1480:	ffffffff 	.inst	0xffffffff ; undefined
+    1484:	ffffffff 	.inst	0xffffffff ; undefined
+    1488:	ffffffff 	.inst	0xffffffff ; undefined
+    148c:	ffffffff 	.inst	0xffffffff ; undefined
+    1490:	ffffffff 	.inst	0xffffffff ; undefined
+    1494:	ffffffff 	.inst	0xffffffff ; undefined
+    1498:	ffffffff 	.inst	0xffffffff ; undefined
+    149c:	ffffffff 	.inst	0xffffffff ; undefined
+    14a0:	ffffffff 	.inst	0xffffffff ; undefined
+    14a4:	ffffffff 	.inst	0xffffffff ; undefined
+    14a8:	ffffffff 	.inst	0xffffffff ; undefined
+    14ac:	ffffffff 	.inst	0xffffffff ; undefined
+    14b0:	ffffffff 	.inst	0xffffffff ; undefined
+    14b4:	ffffffff 	.inst	0xffffffff ; undefined
+    14b8:	ffffffff 	.inst	0xffffffff ; undefined
+    14bc:	ffffffff 	.inst	0xffffffff ; undefined
+    14c0:	ffffffff 	.inst	0xffffffff ; undefined
+    14c4:	ffffffff 	.inst	0xffffffff ; undefined
+    14c8:	ffffffff 	.inst	0xffffffff ; undefined
+    14cc:	ffffffff 	.inst	0xffffffff ; undefined
+    14d0:	ffffffff 	.inst	0xffffffff ; undefined
+    14d4:	ffffffff 	.inst	0xffffffff ; undefined
+    14d8:	ffffffff 	.inst	0xffffffff ; undefined
+    14dc:	ffffffff 	.inst	0xffffffff ; undefined
+    14e0:	ffffffff 	.inst	0xffffffff ; undefined
+    14e4:	ffffffff 	.inst	0xffffffff ; undefined
+    14e8:	ffffffff 	.inst	0xffffffff ; undefined
+    14ec:	ffffffff 	.inst	0xffffffff ; undefined
+    14f0:	ffffffff 	.inst	0xffffffff ; undefined
+    14f4:	ffffffff 	.inst	0xffffffff ; undefined
+    14f8:	ffffffff 	.inst	0xffffffff ; undefined
+    14fc:	ffffffff 	.inst	0xffffffff ; undefined
+    1500:	ffffffff 	.inst	0xffffffff ; undefined
+    1504:	ffffffff 	.inst	0xffffffff ; undefined
+    1508:	ffffffff 	.inst	0xffffffff ; undefined
+    150c:	ffffffff 	.inst	0xffffffff ; undefined
+    1510:	ffffffff 	.inst	0xffffffff ; undefined
+    1514:	ffffffff 	.inst	0xffffffff ; undefined
+    1518:	ffffffff 	.inst	0xffffffff ; undefined
+    151c:	ffffffff 	.inst	0xffffffff ; undefined
+    1520:	ffffffff 	.inst	0xffffffff ; undefined
+    1524:	ffffffff 	.inst	0xffffffff ; undefined
+    1528:	ffffffff 	.inst	0xffffffff ; undefined
+    152c:	ffffffff 	.inst	0xffffffff ; undefined
+    1530:	ffffffff 	.inst	0xffffffff ; undefined
+    1534:	ffffffff 	.inst	0xffffffff ; undefined
+    1538:	ffffffff 	.inst	0xffffffff ; undefined
+    153c:	ffffffff 	.inst	0xffffffff ; undefined
+    1540:	ffffffff 	.inst	0xffffffff ; undefined
+    1544:	ffffffff 	.inst	0xffffffff ; undefined
+    1548:	ffffffff 	.inst	0xffffffff ; undefined
+    154c:	ffffffff 	.inst	0xffffffff ; undefined
+    1550:	ffffffff 	.inst	0xffffffff ; undefined
+    1554:	ffffffff 	.inst	0xffffffff ; undefined
+    1558:	ffffffff 	.inst	0xffffffff ; undefined
+    155c:	ffffffff 	.inst	0xffffffff ; undefined
+    1560:	ffffffff 	.inst	0xffffffff ; undefined
+    1564:	ffffffff 	.inst	0xffffffff ; undefined
+    1568:	ffffffff 	.inst	0xffffffff ; undefined
+    156c:	ffffffff 	.inst	0xffffffff ; undefined
+    1570:	ffffffff 	.inst	0xffffffff ; undefined
+    1574:	ffffffff 	.inst	0xffffffff ; undefined
+    1578:	ffffffff 	.inst	0xffffffff ; undefined
+    157c:	ffffffff 	.inst	0xffffffff ; undefined
+    1580:	ffffffff 	.inst	0xffffffff ; undefined
+    1584:	ffffffff 	.inst	0xffffffff ; undefined
+    1588:	ffffffff 	.inst	0xffffffff ; undefined
+    158c:	ffffffff 	.inst	0xffffffff ; undefined
+    1590:	ffffffff 	.inst	0xffffffff ; undefined
+    1594:	ffffffff 	.inst	0xffffffff ; undefined
+    1598:	ffffffff 	.inst	0xffffffff ; undefined
+    159c:	ffffffff 	.inst	0xffffffff ; undefined
+    15a0:	ffffffff 	.inst	0xffffffff ; undefined
+    15a4:	ffffffff 	.inst	0xffffffff ; undefined
+    15a8:	ffffffff 	.inst	0xffffffff ; undefined
+    15ac:	ffffffff 	.inst	0xffffffff ; undefined
+    15b0:	ffffffff 	.inst	0xffffffff ; undefined
+    15b4:	ffffffff 	.inst	0xffffffff ; undefined
+    15b8:	ffffffff 	.inst	0xffffffff ; undefined
+    15bc:	ffffffff 	.inst	0xffffffff ; undefined
+    15c0:	ffffffff 	.inst	0xffffffff ; undefined
+    15c4:	ffffffff 	.inst	0xffffffff ; undefined
+    15c8:	ffffffff 	.inst	0xffffffff ; undefined
+    15cc:	ffffffff 	.inst	0xffffffff ; undefined
+    15d0:	ffffffff 	.inst	0xffffffff ; undefined
+    15d4:	ffffffff 	.inst	0xffffffff ; undefined
+    15d8:	ffffffff 	.inst	0xffffffff ; undefined
+    15dc:	ffffffff 	.inst	0xffffffff ; undefined
+    15e0:	ffffffff 	.inst	0xffffffff ; undefined
+    15e4:	ffffffff 	.inst	0xffffffff ; undefined
+    15e8:	ffffffff 	.inst	0xffffffff ; undefined
+    15ec:	ffffffff 	.inst	0xffffffff ; undefined
+    15f0:	ffffffff 	.inst	0xffffffff ; undefined
+    15f4:	ffffffff 	.inst	0xffffffff ; undefined
+    15f8:	ffffffff 	.inst	0xffffffff ; undefined
+    15fc:	ffffffff 	.inst	0xffffffff ; undefined
+    1600:	ffffffff 	.inst	0xffffffff ; undefined
+    1604:	ffffffff 	.inst	0xffffffff ; undefined
+    1608:	ffffffff 	.inst	0xffffffff ; undefined
+    160c:	ffffffff 	.inst	0xffffffff ; undefined
+    1610:	ffffffff 	.inst	0xffffffff ; undefined
+    1614:	ffffffff 	.inst	0xffffffff ; undefined
+    1618:	ffffffff 	.inst	0xffffffff ; undefined
+    161c:	ffffffff 	.inst	0xffffffff ; undefined
+    1620:	ffffffff 	.inst	0xffffffff ; undefined
+    1624:	ffffffff 	.inst	0xffffffff ; undefined
+    1628:	ffffffff 	.inst	0xffffffff ; undefined
+    162c:	ffffffff 	.inst	0xffffffff ; undefined
+    1630:	ffffffff 	.inst	0xffffffff ; undefined
+    1634:	ffffffff 	.inst	0xffffffff ; undefined
+    1638:	ffffffff 	.inst	0xffffffff ; undefined
+    163c:	ffffffff 	.inst	0xffffffff ; undefined
+    1640:	ffffffff 	.inst	0xffffffff ; undefined
+    1644:	ffffffff 	.inst	0xffffffff ; undefined
+    1648:	ffffffff 	.inst	0xffffffff ; undefined
+    164c:	ffffffff 	.inst	0xffffffff ; undefined
+    1650:	ffffffff 	.inst	0xffffffff ; undefined
+    1654:	ffffffff 	.inst	0xffffffff ; undefined
+    1658:	ffffffff 	.inst	0xffffffff ; undefined
+    165c:	ffffffff 	.inst	0xffffffff ; undefined
+    1660:	ffffffff 	.inst	0xffffffff ; undefined
+    1664:	ffffffff 	.inst	0xffffffff ; undefined
+    1668:	ffffffff 	.inst	0xffffffff ; undefined
+    166c:	ffffffff 	.inst	0xffffffff ; undefined
+    1670:	ffffffff 	.inst	0xffffffff ; undefined
+    1674:	ffffffff 	.inst	0xffffffff ; undefined
+    1678:	ffffffff 	.inst	0xffffffff ; undefined
+    167c:	ffffffff 	.inst	0xffffffff ; undefined
+    1680:	ffffffff 	.inst	0xffffffff ; undefined
+    1684:	ffffffff 	.inst	0xffffffff ; undefined
+    1688:	ffffffff 	.inst	0xffffffff ; undefined
+    168c:	ffffffff 	.inst	0xffffffff ; undefined
+    1690:	ffffffff 	.inst	0xffffffff ; undefined
+    1694:	ffffffff 	.inst	0xffffffff ; undefined
+    1698:	ffffffff 	.inst	0xffffffff ; undefined
+    169c:	ffffffff 	.inst	0xffffffff ; undefined
+    16a0:	ffffffff 	.inst	0xffffffff ; undefined
+    16a4:	ffffffff 	.inst	0xffffffff ; undefined
+    16a8:	ffffffff 	.inst	0xffffffff ; undefined
+    16ac:	ffffffff 	.inst	0xffffffff ; undefined
+    16b0:	ffffffff 	.inst	0xffffffff ; undefined
+    16b4:	ffffffff 	.inst	0xffffffff ; undefined
+    16b8:	ffffffff 	.inst	0xffffffff ; undefined
+    16bc:	ffffffff 	.inst	0xffffffff ; undefined
+    16c0:	ffffffff 	.inst	0xffffffff ; undefined
+    16c4:	ffffffff 	.inst	0xffffffff ; undefined
+    16c8:	ffffffff 	.inst	0xffffffff ; undefined
+    16cc:	ffffffff 	.inst	0xffffffff ; undefined
+    16d0:	ffffffff 	.inst	0xffffffff ; undefined
+    16d4:	ffffffff 	.inst	0xffffffff ; undefined
+    16d8:	ffffffff 	.inst	0xffffffff ; undefined
+    16dc:	ffffffff 	.inst	0xffffffff ; undefined
+    16e0:	ffffffff 	.inst	0xffffffff ; undefined
+    16e4:	ffffffff 	.inst	0xffffffff ; undefined
+    16e8:	ffffffff 	.inst	0xffffffff ; undefined
+    16ec:	ffffffff 	.inst	0xffffffff ; undefined
+    16f0:	ffffffff 	.inst	0xffffffff ; undefined
+    16f4:	ffffffff 	.inst	0xffffffff ; undefined
+    16f8:	ffffffff 	.inst	0xffffffff ; undefined
+    16fc:	ffffffff 	.inst	0xffffffff ; undefined
+
+0000000000001700 <SystemCoreClockUpdate>:
+    1700:	d10043ff 	sub	sp, sp, #0x10
+    1704:	b9000fff 	str	wzr, [sp, #12]
+    1708:	d2900000 	mov	x0, #0x8000                	// #32768
+    170c:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1710:	b9402400 	ldr	w0, [x0, #36]
+    1714:	53057c00 	lsr	w0, w0, #5
+    1718:	12000c00 	and	w0, w0, #0xf
+    171c:	71003c1f 	cmp	w0, #0xf
+    1720:	54000f00 	b.eq	1900 <SystemCoreClockUpdate+0x200>  // b.none
+    1724:	71003c1f 	cmp	w0, #0xf
+    1728:	54000f48 	b.hi	1910 <SystemCoreClockUpdate+0x210>  // b.pmore
+    172c:	7100381f 	cmp	w0, #0xe
+    1730:	54000e00 	b.eq	18f0 <SystemCoreClockUpdate+0x1f0>  // b.none
+    1734:	7100381f 	cmp	w0, #0xe
+    1738:	54000ec8 	b.hi	1910 <SystemCoreClockUpdate+0x210>  // b.pmore
+    173c:	7100341f 	cmp	w0, #0xd
+    1740:	54000d00 	b.eq	18e0 <SystemCoreClockUpdate+0x1e0>  // b.none
+    1744:	7100341f 	cmp	w0, #0xd
+    1748:	54000e48 	b.hi	1910 <SystemCoreClockUpdate+0x210>  // b.pmore
+    174c:	7100301f 	cmp	w0, #0xc
+    1750:	54000c00 	b.eq	18d0 <SystemCoreClockUpdate+0x1d0>  // b.none
+    1754:	7100301f 	cmp	w0, #0xc
+    1758:	54000dc8 	b.hi	1910 <SystemCoreClockUpdate+0x210>  // b.pmore
+    175c:	71002c1f 	cmp	w0, #0xb
+    1760:	54000b00 	b.eq	18c0 <SystemCoreClockUpdate+0x1c0>  // b.none
+    1764:	71002c1f 	cmp	w0, #0xb
+    1768:	54000d48 	b.hi	1910 <SystemCoreClockUpdate+0x210>  // b.pmore
+    176c:	7100281f 	cmp	w0, #0xa
+    1770:	54000a00 	b.eq	18b0 <SystemCoreClockUpdate+0x1b0>  // b.none
+    1774:	7100281f 	cmp	w0, #0xa
+    1778:	54000cc8 	b.hi	1910 <SystemCoreClockUpdate+0x210>  // b.pmore
+    177c:	7100241f 	cmp	w0, #0x9
+    1780:	54000900 	b.eq	18a0 <SystemCoreClockUpdate+0x1a0>  // b.none
+    1784:	7100241f 	cmp	w0, #0x9
+    1788:	54000c48 	b.hi	1910 <SystemCoreClockUpdate+0x210>  // b.pmore
+    178c:	7100201f 	cmp	w0, #0x8
+    1790:	54000800 	b.eq	1890 <SystemCoreClockUpdate+0x190>  // b.none
+    1794:	7100201f 	cmp	w0, #0x8
+    1798:	54000bc8 	b.hi	1910 <SystemCoreClockUpdate+0x210>  // b.pmore
+    179c:	71001c1f 	cmp	w0, #0x7
+    17a0:	54000700 	b.eq	1880 <SystemCoreClockUpdate+0x180>  // b.none
+    17a4:	71001c1f 	cmp	w0, #0x7
+    17a8:	54000b48 	b.hi	1910 <SystemCoreClockUpdate+0x210>  // b.pmore
+    17ac:	7100181f 	cmp	w0, #0x6
+    17b0:	54000600 	b.eq	1870 <SystemCoreClockUpdate+0x170>  // b.none
+    17b4:	7100181f 	cmp	w0, #0x6
+    17b8:	54000ac8 	b.hi	1910 <SystemCoreClockUpdate+0x210>  // b.pmore
+    17bc:	7100141f 	cmp	w0, #0x5
+    17c0:	54000500 	b.eq	1860 <SystemCoreClockUpdate+0x160>  // b.none
+    17c4:	7100141f 	cmp	w0, #0x5
+    17c8:	54000a48 	b.hi	1910 <SystemCoreClockUpdate+0x210>  // b.pmore
+    17cc:	7100101f 	cmp	w0, #0x4
+    17d0:	54000400 	b.eq	1850 <SystemCoreClockUpdate+0x150>  // b.none
+    17d4:	7100101f 	cmp	w0, #0x4
+    17d8:	540009c8 	b.hi	1910 <SystemCoreClockUpdate+0x210>  // b.pmore
+    17dc:	71000c1f 	cmp	w0, #0x3
+    17e0:	54000300 	b.eq	1840 <SystemCoreClockUpdate+0x140>  // b.none
+    17e4:	71000c1f 	cmp	w0, #0x3
+    17e8:	54000948 	b.hi	1910 <SystemCoreClockUpdate+0x210>  // b.pmore
+    17ec:	7100081f 	cmp	w0, #0x2
+    17f0:	54000200 	b.eq	1830 <SystemCoreClockUpdate+0x130>  // b.none
+    17f4:	7100081f 	cmp	w0, #0x2
+    17f8:	540008c8 	b.hi	1910 <SystemCoreClockUpdate+0x210>  // b.pmore
+    17fc:	7100001f 	cmp	w0, #0x0
+    1800:	54000080 	b.eq	1810 <SystemCoreClockUpdate+0x110>  // b.none
+    1804:	7100041f 	cmp	w0, #0x1
+    1808:	540000c0 	b.eq	1820 <SystemCoreClockUpdate+0x120>  // b.none
+    180c:	14000041 	b	1910 <SystemCoreClockUpdate+0x210>
+    1810:	52835000 	mov	w0, #0x1a80                	// #6784
+    1814:	72a000c0 	movk	w0, #0x6, lsl #16
+    1818:	b9000fe0 	str	w0, [sp, #12]
+    181c:	1400003d 	b	1910 <SystemCoreClockUpdate+0x210>
+    1820:	52942400 	mov	w0, #0xa120                	// #41248
+    1824:	72a000e0 	movk	w0, #0x7, lsl #16
+    1828:	b9000fe0 	str	w0, [sp, #12]
+    182c:	14000039 	b	1910 <SystemCoreClockUpdate+0x210>
+    1830:	5286a000 	mov	w0, #0x3500                	// #13568
+    1834:	72a00180 	movk	w0, #0xc, lsl #16
+    1838:	b9000fe0 	str	w0, [sp, #12]
+    183c:	14000035 	b	1910 <SystemCoreClockUpdate+0x210>
+    1840:	52991c00 	mov	w0, #0xc8e0                	// #51424
+    1844:	72a00200 	movk	w0, #0x10, lsl #16
+    1848:	b9000fe0 	str	w0, [sp, #12]
+    184c:	14000031 	b	1910 <SystemCoreClockUpdate+0x210>
+    1850:	528b9800 	mov	w0, #0x5cc0                	// #23744
+    1854:	72a002a0 	movk	w0, #0x15, lsl #16
+    1858:	b9000fe0 	str	w0, [sp, #12]
+    185c:	1400002d 	b	1910 <SystemCoreClockUpdate+0x210>
+    1860:	528d4000 	mov	w0, #0x6a00                	// #27136
+    1864:	72a00300 	movk	w0, #0x18, lsl #16
+    1868:	b9000fe0 	str	w0, [sp, #12]
+    186c:	14000029 	b	1910 <SystemCoreClockUpdate+0x210>
+    1870:	528ee800 	mov	w0, #0x7740                	// #30528
+    1874:	72a00360 	movk	w0, #0x1b, lsl #16
+    1878:	b9000fe0 	str	w0, [sp, #12]
+    187c:	14000025 	b	1910 <SystemCoreClockUpdate+0x210>
+    1880:	52909000 	mov	w0, #0x8480                	// #33920
+    1884:	72a003c0 	movk	w0, #0x1e, lsl #16
+    1888:	b9000fe0 	str	w0, [sp, #12]
+    188c:	14000021 	b	1910 <SystemCoreClockUpdate+0x210>
+    1890:	52923800 	mov	w0, #0x91c0                	// #37312
+    1894:	72a00420 	movk	w0, #0x21, lsl #16
+    1898:	b9000fe0 	str	w0, [sp, #12]
+    189c:	1400001d 	b	1910 <SystemCoreClockUpdate+0x210>
+    18a0:	5293e000 	mov	w0, #0x9f00                	// #40704
+    18a4:	72a00480 	movk	w0, #0x24, lsl #16
+    18a8:	b9000fe0 	str	w0, [sp, #12]
+    18ac:	14000019 	b	1910 <SystemCoreClockUpdate+0x210>
+    18b0:	52958800 	mov	w0, #0xac40                	// #44096
+    18b4:	72a004e0 	movk	w0, #0x27, lsl #16
+    18b8:	b9000fe0 	str	w0, [sp, #12]
+    18bc:	14000015 	b	1910 <SystemCoreClockUpdate+0x210>
+    18c0:	52865c00 	mov	w0, #0x32e0                	// #13024
+    18c4:	72a00520 	movk	w0, #0x29, lsl #16
+    18c8:	b9000fe0 	str	w0, [sp, #12]
+    18cc:	14000011 	b	1910 <SystemCoreClockUpdate+0x210>
+    18d0:	52880400 	mov	w0, #0x4020                	// #16416
+    18d4:	72a00580 	movk	w0, #0x2c, lsl #16
+    18d8:	b9000fe0 	str	w0, [sp, #12]
+    18dc:	1400000d 	b	1910 <SystemCoreClockUpdate+0x210>
+    18e0:	5289ac00 	mov	w0, #0x4d60                	// #19808
+    18e4:	72a005e0 	movk	w0, #0x2f, lsl #16
+    18e8:	b9000fe0 	str	w0, [sp, #12]
+    18ec:	14000009 	b	1910 <SystemCoreClockUpdate+0x210>
+    18f0:	529a8000 	mov	w0, #0xd400                	// #54272
+    18f4:	72a00600 	movk	w0, #0x30, lsl #16
+    18f8:	b9000fe0 	str	w0, [sp, #12]
+    18fc:	14000005 	b	1910 <SystemCoreClockUpdate+0x210>
+    1900:	529c2800 	mov	w0, #0xe140                	// #57664
+    1904:	72a00660 	movk	w0, #0x33, lsl #16
+    1908:	b9000fe0 	str	w0, [sp, #12]
+    190c:	d503201f 	nop
+    1910:	d2900000 	mov	x0, #0x8000                	// #32768
+    1914:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1918:	b9402400 	ldr	w0, [x0, #36]
+    191c:	0b000000 	add	w0, w0, w0
+    1920:	121f1000 	and	w0, w0, #0x3e
+    1924:	11000800 	add	w0, w0, #0x2
+    1928:	b9400fe1 	ldr	w1, [sp, #12]
+    192c:	1ac00820 	udiv	w0, w1, w0
+    1930:	b9000fe0 	str	w0, [sp, #12]
+    1934:	d2900000 	mov	x0, #0x8000                	// #32768
+    1938:	f2a80080 	movk	x0, #0x4004, lsl #16
+    193c:	b9407000 	ldr	w0, [x0, #112]
+    1940:	12000400 	and	w0, w0, #0x3
+    1944:	71000c1f 	cmp	w0, #0x3
+    1948:	540007c0 	b.eq	1a40 <SystemCoreClockUpdate+0x340>  // b.none
+    194c:	71000c1f 	cmp	w0, #0x3
+    1950:	54001368 	b.hi	1bbc <SystemCoreClockUpdate+0x4bc>  // b.pmore
+    1954:	7100081f 	cmp	w0, #0x2
+    1958:	540006a0 	b.eq	1a2c <SystemCoreClockUpdate+0x32c>  // b.none
+    195c:	7100081f 	cmp	w0, #0x2
+    1960:	540012e8 	b.hi	1bbc <SystemCoreClockUpdate+0x4bc>  // b.pmore
+    1964:	7100001f 	cmp	w0, #0x0
+    1968:	54000080 	b.eq	1978 <SystemCoreClockUpdate+0x278>  // b.none
+    196c:	7100041f 	cmp	w0, #0x1
+    1970:	54000100 	b.eq	1990 <SystemCoreClockUpdate+0x290>  // b.none
+    1974:	14000092 	b	1bbc <SystemCoreClockUpdate+0x4bc>
+    1978:	90080000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    197c:	f9465000 	ldr	x0, [x0, #3232]
+    1980:	52836001 	mov	w1, #0x1b00                	// #6912
+    1984:	72a016e1 	movk	w1, #0xb7, lsl #16
+    1988:	b9000001 	str	w1, [x0]
+    198c:	1400008c 	b	1bbc <SystemCoreClockUpdate+0x4bc>
+    1990:	d2900000 	mov	x0, #0x8000                	// #32768
+    1994:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1998:	b9404000 	ldr	w0, [x0, #64]
+    199c:	12000400 	and	w0, w0, #0x3
+    19a0:	71000c1f 	cmp	w0, #0x3
+    19a4:	540003a0 	b.eq	1a18 <SystemCoreClockUpdate+0x318>  // b.none
+    19a8:	71000c1f 	cmp	w0, #0x3
+    19ac:	54001028 	b.hi	1bb0 <SystemCoreClockUpdate+0x4b0>  // b.pmore
+    19b0:	7100081f 	cmp	w0, #0x2
+    19b4:	54000280 	b.eq	1a04 <SystemCoreClockUpdate+0x304>  // b.none
+    19b8:	7100081f 	cmp	w0, #0x2
+    19bc:	54000fa8 	b.hi	1bb0 <SystemCoreClockUpdate+0x4b0>  // b.pmore
+    19c0:	7100001f 	cmp	w0, #0x0
+    19c4:	54000080 	b.eq	19d4 <SystemCoreClockUpdate+0x2d4>  // b.none
+    19c8:	7100041f 	cmp	w0, #0x1
+    19cc:	54000100 	b.eq	19ec <SystemCoreClockUpdate+0x2ec>  // b.none
+    19d0:	14000078 	b	1bb0 <SystemCoreClockUpdate+0x4b0>
+    19d4:	90080000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    19d8:	f9465000 	ldr	x0, [x0, #3232]
+    19dc:	52836001 	mov	w1, #0x1b00                	// #6912
+    19e0:	72a016e1 	movk	w1, #0xb7, lsl #16
+    19e4:	b9000001 	str	w1, [x0]
+    19e8:	14000010 	b	1a28 <SystemCoreClockUpdate+0x328>
+    19ec:	90080000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    19f0:	f9465000 	ldr	x0, [x0, #3232]
+    19f4:	52836001 	mov	w1, #0x1b00                	// #6912
+    19f8:	72a016e1 	movk	w1, #0xb7, lsl #16
+    19fc:	b9000001 	str	w1, [x0]
+    1a00:	1400000a 	b	1a28 <SystemCoreClockUpdate+0x328>
+    1a04:	90080000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    1a08:	f9465000 	ldr	x0, [x0, #3232]
+    1a0c:	b9400fe1 	ldr	w1, [sp, #12]
+    1a10:	b9000001 	str	w1, [x0]
+    1a14:	14000005 	b	1a28 <SystemCoreClockUpdate+0x328>
+    1a18:	90080000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    1a1c:	f9465000 	ldr	x0, [x0, #3232]
+    1a20:	b900001f 	str	wzr, [x0]
+    1a24:	d503201f 	nop
+    1a28:	14000062 	b	1bb0 <SystemCoreClockUpdate+0x4b0>
+    1a2c:	90080000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    1a30:	f9465000 	ldr	x0, [x0, #3232]
+    1a34:	b9400fe1 	ldr	w1, [sp, #12]
+    1a38:	b9000001 	str	w1, [x0]
+    1a3c:	14000060 	b	1bbc <SystemCoreClockUpdate+0x4bc>
+    1a40:	d2900000 	mov	x0, #0x8000                	// #32768
+    1a44:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1a48:	b9404000 	ldr	w0, [x0, #64]
+    1a4c:	12000400 	and	w0, w0, #0x3
+    1a50:	71000c1f 	cmp	w0, #0x3
+    1a54:	54000a40 	b.eq	1b9c <SystemCoreClockUpdate+0x49c>  // b.none
+    1a58:	71000c1f 	cmp	w0, #0x3
+    1a5c:	54000ae8 	b.hi	1bb8 <SystemCoreClockUpdate+0x4b8>  // b.pmore
+    1a60:	7100081f 	cmp	w0, #0x2
+    1a64:	54000700 	b.eq	1b44 <SystemCoreClockUpdate+0x444>  // b.none
+    1a68:	7100081f 	cmp	w0, #0x2
+    1a6c:	54000a68 	b.hi	1bb8 <SystemCoreClockUpdate+0x4b8>  // b.pmore
+    1a70:	7100001f 	cmp	w0, #0x0
+    1a74:	54000080 	b.eq	1a84 <SystemCoreClockUpdate+0x384>  // b.none
+    1a78:	7100041f 	cmp	w0, #0x1
+    1a7c:	54000340 	b.eq	1ae4 <SystemCoreClockUpdate+0x3e4>  // b.none
+    1a80:	1400004e 	b	1bb8 <SystemCoreClockUpdate+0x4b8>
+    1a84:	d2900000 	mov	x0, #0x8000                	// #32768
+    1a88:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1a8c:	b9400800 	ldr	w0, [x0, #8]
+    1a90:	12190400 	and	w0, w0, #0x180
+    1a94:	7100001f 	cmp	w0, #0x0
+    1a98:	540000e0 	b.eq	1ab4 <SystemCoreClockUpdate+0x3b4>  // b.none
+    1a9c:	90080000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    1aa0:	f9465000 	ldr	x0, [x0, #3232]
+    1aa4:	52836001 	mov	w1, #0x1b00                	// #6912
+    1aa8:	72a016e1 	movk	w1, #0xb7, lsl #16
+    1aac:	b9000001 	str	w1, [x0]
+    1ab0:	1400003f 	b	1bac <SystemCoreClockUpdate+0x4ac>
+    1ab4:	d2900000 	mov	x0, #0x8000                	// #32768
+    1ab8:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1abc:	b9400800 	ldr	w0, [x0, #8]
+    1ac0:	12001000 	and	w0, w0, #0x1f
+    1ac4:	11000401 	add	w1, w0, #0x1
+    1ac8:	52836000 	mov	w0, #0x1b00                	// #6912
+    1acc:	72a016e0 	movk	w0, #0xb7, lsl #16
+    1ad0:	1b007c21 	mul	w1, w1, w0
+    1ad4:	90080000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    1ad8:	f9465000 	ldr	x0, [x0, #3232]
+    1adc:	b9000001 	str	w1, [x0]
+    1ae0:	14000033 	b	1bac <SystemCoreClockUpdate+0x4ac>
+    1ae4:	d2900000 	mov	x0, #0x8000                	// #32768
+    1ae8:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1aec:	b9400800 	ldr	w0, [x0, #8]
+    1af0:	12190400 	and	w0, w0, #0x180
+    1af4:	7100001f 	cmp	w0, #0x0
+    1af8:	540000e0 	b.eq	1b14 <SystemCoreClockUpdate+0x414>  // b.none
+    1afc:	90080000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    1b00:	f9465000 	ldr	x0, [x0, #3232]
+    1b04:	52836001 	mov	w1, #0x1b00                	// #6912
+    1b08:	72a016e1 	movk	w1, #0xb7, lsl #16
+    1b0c:	b9000001 	str	w1, [x0]
+    1b10:	14000027 	b	1bac <SystemCoreClockUpdate+0x4ac>
+    1b14:	d2900000 	mov	x0, #0x8000                	// #32768
+    1b18:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1b1c:	b9400800 	ldr	w0, [x0, #8]
+    1b20:	12001000 	and	w0, w0, #0x1f
+    1b24:	11000401 	add	w1, w0, #0x1
+    1b28:	52836000 	mov	w0, #0x1b00                	// #6912
+    1b2c:	72a016e0 	movk	w0, #0xb7, lsl #16
+    1b30:	1b007c21 	mul	w1, w1, w0
+    1b34:	90080000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    1b38:	f9465000 	ldr	x0, [x0, #3232]
+    1b3c:	b9000001 	str	w1, [x0]
+    1b40:	1400001b 	b	1bac <SystemCoreClockUpdate+0x4ac>
+    1b44:	d2900000 	mov	x0, #0x8000                	// #32768
+    1b48:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1b4c:	b9400800 	ldr	w0, [x0, #8]
+    1b50:	12190400 	and	w0, w0, #0x180
+    1b54:	7100001f 	cmp	w0, #0x0
+    1b58:	540000c0 	b.eq	1b70 <SystemCoreClockUpdate+0x470>  // b.none
+    1b5c:	90080000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    1b60:	f9465000 	ldr	x0, [x0, #3232]
+    1b64:	b9400fe1 	ldr	w1, [sp, #12]
+    1b68:	b9000001 	str	w1, [x0]
+    1b6c:	14000010 	b	1bac <SystemCoreClockUpdate+0x4ac>
+    1b70:	d2900000 	mov	x0, #0x8000                	// #32768
+    1b74:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1b78:	b9400800 	ldr	w0, [x0, #8]
+    1b7c:	12001000 	and	w0, w0, #0x1f
+    1b80:	11000401 	add	w1, w0, #0x1
+    1b84:	b9400fe0 	ldr	w0, [sp, #12]
+    1b88:	1b007c21 	mul	w1, w1, w0
+    1b8c:	90080000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    1b90:	f9465000 	ldr	x0, [x0, #3232]
+    1b94:	b9000001 	str	w1, [x0]
+    1b98:	14000005 	b	1bac <SystemCoreClockUpdate+0x4ac>
+    1b9c:	90080000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    1ba0:	f9465000 	ldr	x0, [x0, #3232]
+    1ba4:	b900001f 	str	wzr, [x0]
+    1ba8:	d503201f 	nop
+    1bac:	14000003 	b	1bb8 <SystemCoreClockUpdate+0x4b8>
+    1bb0:	d503201f 	nop
+    1bb4:	14000002 	b	1bbc <SystemCoreClockUpdate+0x4bc>
+    1bb8:	d503201f 	nop
+    1bbc:	d2900000 	mov	x0, #0x8000                	// #32768
+    1bc0:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1bc4:	b9407800 	ldr	w0, [x0, #120]
+    1bc8:	90080001 	adrp	x1, 10001000 <wait_close+0x7a0>
+    1bcc:	f9465021 	ldr	x1, [x1, #3232]
+    1bd0:	b9400021 	ldr	w1, [x1]
+    1bd4:	1ac00821 	udiv	w1, w1, w0
+    1bd8:	90080000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    1bdc:	f9465000 	ldr	x0, [x0, #3232]
+    1be0:	b9000001 	str	w1, [x0]
+    1be4:	d503201f 	nop
+    1be8:	910043ff 	add	sp, sp, #0x10
+    1bec:	d65f03c0 	ret
+
+0000000000001bf0 <SystemInit>:
+    1bf0:	d10043ff 	sub	sp, sp, #0x10
+    1bf4:	d2900000 	mov	x0, #0x8000                	// #32768
+    1bf8:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1bfc:	b9423801 	ldr	w1, [x0, #568]
+    1c00:	d2900000 	mov	x0, #0x8000                	// #32768
+    1c04:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1c08:	121a7821 	and	w1, w1, #0xffffffdf
+    1c0c:	b9023801 	str	w1, [x0, #568]
+    1c10:	d2900000 	mov	x0, #0x8000                	// #32768
+    1c14:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1c18:	b900201f 	str	wzr, [x0, #32]
+    1c1c:	b9000fff 	str	wzr, [sp, #12]
+    1c20:	14000006 	b	1c38 <SystemInit+0x48>
+    1c24:	d503201f 	nop
+    1c28:	d503201f 	nop
+    1c2c:	b9400fe0 	ldr	w0, [sp, #12]
+    1c30:	11000400 	add	w0, w0, #0x1
+    1c34:	b9000fe0 	str	w0, [sp, #12]
+    1c38:	b9400fe0 	ldr	w0, [sp, #12]
+    1c3c:	71031c1f 	cmp	w0, #0xc7
+    1c40:	54ffff29 	b.ls	1c24 <SystemInit+0x34>  // b.plast
+    1c44:	d2900000 	mov	x0, #0x8000                	// #32768
+    1c48:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1c4c:	52800021 	mov	w1, #0x1                   	// #1
+    1c50:	b9004001 	str	w1, [x0, #64]
+    1c54:	d2900000 	mov	x0, #0x8000                	// #32768
+    1c58:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1c5c:	52800021 	mov	w1, #0x1                   	// #1
+    1c60:	b9004401 	str	w1, [x0, #68]
+    1c64:	d2900000 	mov	x0, #0x8000                	// #32768
+    1c68:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1c6c:	b900441f 	str	wzr, [x0, #68]
+    1c70:	d2900000 	mov	x0, #0x8000                	// #32768
+    1c74:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1c78:	52800021 	mov	w1, #0x1                   	// #1
+    1c7c:	b9004401 	str	w1, [x0, #68]
+    1c80:	d503201f 	nop
+    1c84:	d2900000 	mov	x0, #0x8000                	// #32768
+    1c88:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1c8c:	b9404400 	ldr	w0, [x0, #68]
+    1c90:	12000000 	and	w0, w0, #0x1
+    1c94:	7100001f 	cmp	w0, #0x0
+    1c98:	54ffff60 	b.eq	1c84 <SystemInit+0x94>  // b.none
+    1c9c:	d2900000 	mov	x0, #0x8000                	// #32768
+    1ca0:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1ca4:	52800461 	mov	w1, #0x23                  	// #35
+    1ca8:	b9000801 	str	w1, [x0, #8]
+    1cac:	d2900000 	mov	x0, #0x8000                	// #32768
+    1cb0:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1cb4:	b9423801 	ldr	w1, [x0, #568]
+    1cb8:	d2900000 	mov	x0, #0x8000                	// #32768
+    1cbc:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1cc0:	12187821 	and	w1, w1, #0xffffff7f
+    1cc4:	b9023801 	str	w1, [x0, #568]
+    1cc8:	d503201f 	nop
+    1ccc:	d2900000 	mov	x0, #0x8000                	// #32768
+    1cd0:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1cd4:	b9400c00 	ldr	w0, [x0, #12]
+    1cd8:	12000000 	and	w0, w0, #0x1
+    1cdc:	7100001f 	cmp	w0, #0x0
+    1ce0:	54ffff60 	b.eq	1ccc <SystemInit+0xdc>  // b.none
+    1ce4:	d2900000 	mov	x0, #0x8000                	// #32768
+    1ce8:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1cec:	52800061 	mov	w1, #0x3                   	// #3
+    1cf0:	b9007001 	str	w1, [x0, #112]
+    1cf4:	d2900000 	mov	x0, #0x8000                	// #32768
+    1cf8:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1cfc:	52800021 	mov	w1, #0x1                   	// #1
+    1d00:	b9007401 	str	w1, [x0, #116]
+    1d04:	d2900000 	mov	x0, #0x8000                	// #32768
+    1d08:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1d0c:	b900741f 	str	wzr, [x0, #116]
+    1d10:	d2900000 	mov	x0, #0x8000                	// #32768
+    1d14:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1d18:	52800021 	mov	w1, #0x1                   	// #1
+    1d1c:	b9007401 	str	w1, [x0, #116]
+    1d20:	d503201f 	nop
+    1d24:	d2900000 	mov	x0, #0x8000                	// #32768
+    1d28:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1d2c:	b9407400 	ldr	w0, [x0, #116]
+    1d30:	12000000 	and	w0, w0, #0x1
+    1d34:	7100001f 	cmp	w0, #0x0
+    1d38:	54ffff60 	b.eq	1d24 <SystemInit+0x134>  // b.none
+    1d3c:	d2900000 	mov	x0, #0x8000                	// #32768
+    1d40:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1d44:	52800021 	mov	w1, #0x1                   	// #1
+    1d48:	b9007801 	str	w1, [x0, #120]
+    1d4c:	d2900000 	mov	x0, #0x8000                	// #32768
+    1d50:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1d54:	52800be1 	mov	w1, #0x5f                  	// #95
+    1d58:	72a00021 	movk	w1, #0x1, lsl #16
+    1d5c:	b9008001 	str	w1, [x0, #128]
+    1d60:	d2900000 	mov	x0, #0x8000                	// #32768
+    1d64:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1d68:	52800021 	mov	w1, #0x1                   	// #1
+    1d6c:	b9009401 	str	w1, [x0, #148]
+    1d70:	d2900000 	mov	x0, #0x8000                	// #32768
+    1d74:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1d78:	52800021 	mov	w1, #0x1                   	// #1
+    1d7c:	b9009801 	str	w1, [x0, #152]
+    1d80:	d2900000 	mov	x0, #0x8000                	// #32768
+    1d84:	f2a80080 	movk	x0, #0x4004, lsl #16
+    1d88:	52800021 	mov	w1, #0x1                   	// #1
+    1d8c:	b9009c01 	str	w1, [x0, #156]
+    1d90:	d503201f 	nop
+    1d94:	910043ff 	add	sp, sp, #0x10
+    1d98:	d65f03c0 	ret
+    1d9c:	ffffffff 	.inst	0xffffffff ; undefined
+
+0000000000001da0 <payload>:
+    1da0:	6c6c6548 6f77206f 00646c72 ffffffff     Hello world.....
+
+0000000000001db0 <key>:
+    1db0:	72636553 6b207465 ff007965 ffffffff     Secret key......
+    1dc0:	ffff000a ffffffff 2e373231 2e302e30     ........127.0.0.
+    1dd0:	32313a31 00003433 6f727245 4e203a72     1:1234..Error: N
+    1de0:	6f777465 65206b72 726f7272 6e692820     etwork error (in
+    1df0:	73696c20 286e6574 0a2e2929 00000000      listen())......
+    1e00:	6f727245 4e203a72 6f777465 65206b72     Error: Network e
+    1e10:	726f7272 6e692820 6e6f6320 7463656e     rror (in connect
+    1e20:	2e292928 0000000a 6f727245 4e203a72     ()).....Error: N
+    1e30:	6f777465 65206b72 726f7272 6e692820     etwork error (in
+    1e40:	6e657320 29292864 00000a2e 00000000      send())........
+    1e50:	6f727245 4e203a72 6f777465 65206b72     Error: Network e
+    1e60:	726f7272 6e692820 63657220 29292876     rror (in recv())
+    1e70:	ff000a2e ffffffff 65696c43 203a746e     ........Client: 
+    1e80:	6c796170 2064616f 206f6f74 676e6f6c     payload too long
+    1e90:	0000002e 00000000 65696c43 203a746e     ........Client: 
+    1ea0:	2079656b 206f6f74 676e6f6c ffff002e     key too long....
+
+Disassembly of section .plt:
+
+0000000000001eb0 <.plt>:
+    1eb0:	a9bf7bf0 	stp	x16, x30, [sp, #-16]!
+    1eb4:	90080010 	adrp	x16, 10001000 <wait_close+0x7a0>
+    1eb8:	f9466a11 	ldr	x17, [x16, #3280]
+    1ebc:	91334210 	add	x16, x16, #0xcd0
+    1ec0:	d61f0220 	br	x17
+    1ec4:	d503201f 	nop
+    1ec8:	d503201f 	nop
+    1ecc:	d503201f 	nop
+    1ed0:	90080010 	adrp	x16, 10001000 <wait_close+0x7a0>
+    1ed4:	f9466e11 	ldr	x17, [x16, #3288]
+    1ed8:	91336210 	add	x16, x16, #0xcd8
+    1edc:	d61f0220 	br	x17
+    1ee0:	90080010 	adrp	x16, 10001000 <wait_close+0x7a0>
+    1ee4:	f9467211 	ldr	x17, [x16, #3296]
+    1ee8:	91338210 	add	x16, x16, #0xce0
+    1eec:	d61f0220 	br	x17
+    1ef0:	90080010 	adrp	x16, 10001000 <wait_close+0x7a0>
+    1ef4:	f9467611 	ldr	x17, [x16, #3304]
+    1ef8:	9133a210 	add	x16, x16, #0xce8
+    1efc:	d61f0220 	br	x17
+    1f00:	90080010 	adrp	x16, 10001000 <wait_close+0x7a0>
+    1f04:	f9467a11 	ldr	x17, [x16, #3312]
+    1f08:	9133c210 	add	x16, x16, #0xcf0
+    1f0c:	d61f0220 	br	x17
+    1f10:	90080010 	adrp	x16, 10001000 <wait_close+0x7a0>
+    1f14:	f9467e11 	ldr	x17, [x16, #3320]
+    1f18:	9133e210 	add	x16, x16, #0xcf8
+    1f1c:	d61f0220 	br	x17
+    1f20:	90080010 	adrp	x16, 10001000 <wait_close+0x7a0>
+    1f24:	f9468211 	ldr	x17, [x16, #3328]
+    1f28:	91340210 	add	x16, x16, #0xd00
+    1f2c:	d61f0220 	br	x17
+    1f30:	90080010 	adrp	x16, 10001000 <wait_close+0x7a0>
+    1f34:	f9468611 	ldr	x17, [x16, #3336]
+    1f38:	91342210 	add	x16, x16, #0xd08
+    1f3c:	d61f0220 	br	x17
+    1f40:	90080010 	adrp	x16, 10001000 <wait_close+0x7a0>
+    1f44:	f9468a11 	ldr	x17, [x16, #3344]
+    1f48:	91344210 	add	x16, x16, #0xd10
+    1f4c:	d61f0220 	br	x17
+    1f50:	90080010 	adrp	x16, 10001000 <wait_close+0x7a0>
+    1f54:	f9468e11 	ldr	x17, [x16, #3352]
+    1f58:	91346210 	add	x16, x16, #0xd18
+    1f5c:	d61f0220 	br	x17
+    1f60:	90080010 	adrp	x16, 10001000 <wait_close+0x7a0>
+    1f64:	f9469211 	ldr	x17, [x16, #3360]
+    1f68:	91348210 	add	x16, x16, #0xd20
+    1f6c:	d61f0220 	br	x17
+    1f70:	90080010 	adrp	x16, 10001000 <wait_close+0x7a0>
+    1f74:	f9469611 	ldr	x17, [x16, #3368]
+    1f78:	9134a210 	add	x16, x16, #0xd28
+    1f7c:	d61f0220 	br	x17
+    1f80:	90080010 	adrp	x16, 10001000 <wait_close+0x7a0>
+    1f84:	f9469a11 	ldr	x17, [x16, #3376]
+    1f88:	9134c210 	add	x16, x16, #0xd30
+    1f8c:	d61f0220 	br	x17
+    1f90:	90080010 	adrp	x16, 10001000 <wait_close+0x7a0>
+    1f94:	f9469e11 	ldr	x17, [x16, #3384]
+    1f98:	9134e210 	add	x16, x16, #0xd38
+    1f9c:	d61f0220 	br	x17
+    1fa0:	90080010 	adrp	x16, 10001000 <wait_close+0x7a0>
+    1fa4:	f946a211 	ldr	x17, [x16, #3392]
+    1fa8:	91350210 	add	x16, x16, #0xd40
+    1fac:	d61f0220 	br	x17
+    1fb0:	90080010 	adrp	x16, 10001000 <wait_close+0x7a0>
+    1fb4:	f946a611 	ldr	x17, [x16, #3400]
+    1fb8:	91352210 	add	x16, x16, #0xd48
+    1fbc:	d61f0220 	br	x17
+    1fc0:	90080010 	adrp	x16, 10001000 <wait_close+0x7a0>
+    1fc4:	f946aa11 	ldr	x17, [x16, #3408]
+    1fc8:	91354210 	add	x16, x16, #0xd50
+    1fcc:	d61f0220 	br	x17
+    1fd0:	90080010 	adrp	x16, 10001000 <wait_close+0x7a0>
+    1fd4:	f946ae11 	ldr	x17, [x16, #3416]
+    1fd8:	91356210 	add	x16, x16, #0xd58
+    1fdc:	d61f0220 	br	x17
+    1fe0:	90080010 	adrp	x16, 10001000 <wait_close+0x7a0>
+    1fe4:	f946b211 	ldr	x17, [x16, #3424]
+    1fe8:	91358210 	add	x16, x16, #0xd60
+    1fec:	d61f0220 	br	x17
+    1ff0:	90080010 	adrp	x16, 10001000 <wait_close+0x7a0>
+    1ff4:	f946b611 	ldr	x17, [x16, #3432]
+    1ff8:	9135a210 	add	x16, x16, #0xd68
+    1ffc:	d61f0220 	br	x17
+    2000:	f007fff0 	adrp	x16, 10001000 <wait_close+0x7a0>
+    2004:	f946ba11 	ldr	x17, [x16, #3440]
+    2008:	9135c210 	add	x16, x16, #0xd70
+    200c:	d61f0220 	br	x17
+    2010:	f007fff0 	adrp	x16, 10001000 <wait_close+0x7a0>
+    2014:	f946be11 	ldr	x17, [x16, #3448]
+    2018:	9135e210 	add	x16, x16, #0xd78
+    201c:	d61f0220 	br	x17
+    2020:	f007fff0 	adrp	x16, 10001000 <wait_close+0x7a0>
+    2024:	f946c211 	ldr	x17, [x16, #3456]
+    2028:	91360210 	add	x16, x16, #0xd80
+    202c:	d61f0220 	br	x17
+
+Disassembly of section .reloadtext:
+
+0000000010000000 <__get_payload_veneer-0x8>:
+    10000000:	14000086 	b	10000218 <client>
+    10000004:	d503201f 	nop
+
+0000000010000008 <__get_payload_veneer>:
+    10000008:	b0f80010 	adrp	x16, 1000 <SystemCoreClockUpdate-0x700>
+    1000000c:	913cc210 	add	x16, x16, #0xf30
+    10000010:	d61f0200 	br	x16
+    10000014:	00000000 	.inst	0x00000000 ; undefined
+
+0000000010000018 <__client_veneer>:
+    10000018:	b0f80010 	adrp	x16, 1000 <SystemCoreClockUpdate-0x700>
+    1000001c:	913f0210 	add	x16, x16, #0xfc0
+    10000020:	d61f0200 	br	x16
+    10000024:	00000000 	.inst	0x00000000 ; undefined
+
+0000000010000028 <__BIO_read_veneer>:
+    10000028:	b0f80010 	adrp	x16, 1000 <SystemCoreClockUpdate-0x700>
+    1000002c:	913f4210 	add	x16, x16, #0xfd0
+    10000030:	d61f0200 	br	x16
+    10000034:	00000000 	.inst	0x00000000 ; undefined
+
+0000000010000038 <__get_key_veneer>:
+    10000038:	d0f80010 	adrp	x16, 2000 <.plt+0x150>
+    1000003c:	91004210 	add	x16, x16, #0x10
+    10000040:	d61f0200 	br	x16
+    10000044:	00000000 	.inst	0x00000000 ; undefined
+
+0000000010000048 <__vfprintf_veneer>:
+    10000048:	d0f80010 	adrp	x16, 2000 <.plt+0x150>
+    1000004c:	91008210 	add	x16, x16, #0x20
+    10000050:	d61f0200 	br	x16
+    10000054:	00000000 	.inst	0x00000000 ; undefined
+
+0000000010000058 <__BIO_ctrl_veneer>:
+    10000058:	b0f80010 	adrp	x16, 1000 <SystemCoreClockUpdate-0x700>
+    1000005c:	913dc210 	add	x16, x16, #0xf70
+    10000060:	d61f0200 	br	x16
+    10000064:	00000000 	.inst	0x00000000 ; undefined
+
+0000000010000068 <__memcpy_veneer>:
+    10000068:	b0f80010 	adrp	x16, 1000 <SystemCoreClockUpdate-0x700>
+    1000006c:	913bc210 	add	x16, x16, #0xef0
+    10000070:	d61f0200 	br	x16
+    10000074:	00000000 	.inst	0x00000000 ; undefined
+
+0000000010000078 <__BIO_new_accept_veneer>:
+    10000078:	b0f80010 	adrp	x16, 1000 <SystemCoreClockUpdate-0x700>
+    1000007c:	913c0210 	add	x16, x16, #0xf00
+    10000080:	d61f0200 	br	x16
+    10000084:	00000000 	.inst	0x00000000 ; undefined
+
+0000000010000088 <__fprintf_veneer>:
+    10000088:	b0f80010 	adrp	x16, 1000 <SystemCoreClockUpdate-0x700>
+    1000008c:	913e0210 	add	x16, x16, #0xf80
+    10000090:	d61f0200 	br	x16
+    10000094:	00000000 	.inst	0x00000000 ; undefined
+
+0000000010000098 <__socket_connect_veneer>:
+    10000098:	b0f80010 	adrp	x16, 1000 <SystemCoreClockUpdate-0x700>
+    1000009c:	913f8210 	add	x16, x16, #0xfe0
+    100000a0:	d61f0200 	br	x16
+    100000a4:	00000000 	.inst	0x00000000 ; undefined
+
+00000000100000a8 <__fail_veneer>:
+    100000a8:	b0f80010 	adrp	x16, 1000 <SystemCoreClockUpdate-0x700>
+    100000ac:	913b4210 	add	x16, x16, #0xed0
+    100000b0:	d61f0200 	br	x16
+    100000b4:	00000000 	.inst	0x00000000 ; undefined
+
+00000000100000b8 <__ERR_print_errors_fp_veneer>:
+    100000b8:	b0f80010 	adrp	x16, 1000 <SystemCoreClockUpdate-0x700>
+    100000bc:	913e8210 	add	x16, x16, #0xfa0
+    100000c0:	d61f0200 	br	x16
+    100000c4:	00000000 	.inst	0x00000000 ; undefined
+
+00000000100000c8 <__EVP_sha1_veneer>:
+    100000c8:	b0f80010 	adrp	x16, 1000 <SystemCoreClockUpdate-0x700>
+    100000cc:	913d8210 	add	x16, x16, #0xf60
+    100000d0:	d61f0200 	br	x16
+    100000d4:	00000000 	.inst	0x00000000 ; undefined
+
+00000000100000d8 <__BIO_write_veneer>:
+    100000d8:	b0f80010 	adrp	x16, 1000 <SystemCoreClockUpdate-0x700>
+    100000dc:	913e4210 	add	x16, x16, #0xf90
+    100000e0:	d61f0200 	br	x16
+    100000e4:	00000000 	.inst	0x00000000 ; undefined
+
+00000000100000e8 <__strlen_veneer>:
+    100000e8:	d0f80010 	adrp	x16, 2000 <.plt+0x150>
+    100000ec:	91000210 	add	x16, x16, #0x0
+    100000f0:	d61f0200 	br	x16
+    100000f4:	00000000 	.inst	0x00000000 ; undefined
+
+00000000100000f8 <__BIO_free_veneer>:
+    100000f8:	b0f80010 	adrp	x16, 1000 <SystemCoreClockUpdate-0x700>
+    100000fc:	913d4210 	add	x16, x16, #0xf50
+    10000100:	d61f0200 	br	x16
+    10000104:	00000000 	.inst	0x00000000 ; undefined
+
+0000000010000108 <__exit_veneer>:
+    10000108:	b0f80010 	adrp	x16, 1000 <SystemCoreClockUpdate-0x700>
+    1000010c:	913fc210 	add	x16, x16, #0xff0
+    10000110:	d61f0200 	br	x16
+    10000114:	00000000 	.inst	0x00000000 ; undefined
+
+0000000010000118 <__HMAC_veneer>:
+    10000118:	b0f80010 	adrp	x16, 1000 <SystemCoreClockUpdate-0x700>
+    1000011c:	913c8210 	add	x16, x16, #0xf20
+    10000120:	d61f0200 	br	x16
+    10000124:	00000000 	.inst	0x00000000 ; undefined
+
+0000000010000128 <__BIO_pop_veneer>:
+    10000128:	b0f80010 	adrp	x16, 1000 <SystemCoreClockUpdate-0x700>
+    1000012c:	913ec210 	add	x16, x16, #0xfb0
+    10000130:	d61f0200 	br	x16
+    10000134:	00000000 	.inst	0x00000000 ; undefined
+
+0000000010000138 <__BIO_new_connect_veneer>:
+    10000138:	b0f80010 	adrp	x16, 1000 <SystemCoreClockUpdate-0x700>
+    1000013c:	913b8210 	add	x16, x16, #0xee0
+    10000140:	d61f0200 	br	x16
+    10000144:	00000000 	.inst	0x00000000 ; undefined
+
+0000000010000148 <__send_veneer>:
+    10000148:	b0f80010 	adrp	x16, 1000 <SystemCoreClockUpdate-0x700>
+    1000014c:	913d0210 	add	x16, x16, #0xf40
+    10000150:	d61f0200 	br	x16
+    10000154:	00000000 	.inst	0x00000000 ; undefined
+
+0000000010000158 <__malloc_veneer>:
+    10000158:	b0f80010 	adrp	x16, 1000 <SystemCoreClockUpdate-0x700>
+    1000015c:	913c4210 	add	x16, x16, #0xf10
+    10000160:	d61f0200 	br	x16
+	...
+
+0000000010000218 <client>:
+    10000218:	a9b97bfd 	stp	x29, x30, [sp, #-112]!
+    1000021c:	910003fd 	mov	x29, sp
+    10000220:	f90017e0 	str	x0, [sp, #40]
+    10000224:	f90013e1 	str	x1, [sp, #32]
+    10000228:	f9000fe2 	str	x2, [sp, #24]
+    1000022c:	f9000be3 	str	x3, [sp, #16]
+    10000230:	f94013e0 	ldr	x0, [sp, #32]
+    10000234:	f10fa01f 	cmp	x0, #0x3e8
+    10000238:	54000089 	b.ls	10000248 <client+0x30>  // b.plast
+    1000023c:	b0f80000 	adrp	x0, 1000 <SystemCoreClockUpdate-0x700>
+    10000240:	9139e000 	add	x0, x0, #0xe78
+    10000244:	97ffff99 	bl	100000a8 <__fail_veneer>
+    10000248:	f9400be0 	ldr	x0, [sp, #16]
+    1000024c:	f10fa01f 	cmp	x0, #0x3e8
+    10000250:	54000089 	b.ls	10000260 <client+0x48>  // b.plast
+    10000254:	b0f80000 	adrp	x0, 1000 <SystemCoreClockUpdate-0x700>
+    10000258:	913a6000 	add	x0, x0, #0xe98
+    1000025c:	97ffff93 	bl	100000a8 <__fail_veneer>
+    10000260:	f94013e0 	ldr	x0, [sp, #32]
+    10000264:	91002400 	add	x0, x0, #0x9
+    10000268:	f90037e0 	str	x0, [sp, #104]
+    1000026c:	f94037e0 	ldr	x0, [sp, #104]
+    10000270:	91005000 	add	x0, x0, #0x14
+    10000274:	f90023e0 	str	x0, [sp, #64]
+    10000278:	f94023e0 	ldr	x0, [sp, #64]
+    1000027c:	97ffffb7 	bl	10000158 <__malloc_veneer>
+    10000280:	f90033e0 	str	x0, [sp, #96]
+    10000284:	f94033e0 	ldr	x0, [sp, #96]
+    10000288:	f9002fe0 	str	x0, [sp, #88]
+    1000028c:	f9402fe0 	ldr	x0, [sp, #88]
+    10000290:	f94013e1 	ldr	x1, [sp, #32]
+    10000294:	f9000001 	str	x1, [x0]
+    10000298:	f9402fe0 	ldr	x0, [sp, #88]
+    1000029c:	91002000 	add	x0, x0, #0x8
+    100002a0:	f9002fe0 	str	x0, [sp, #88]
+    100002a4:	f9402fe0 	ldr	x0, [sp, #88]
+    100002a8:	f9002be0 	str	x0, [sp, #80]
+    100002ac:	f9402fe0 	ldr	x0, [sp, #88]
+    100002b0:	91000401 	add	x1, x0, #0x1
+    100002b4:	f9002fe1 	str	x1, [sp, #88]
+    100002b8:	52800021 	mov	w1, #0x1                   	// #1
+    100002bc:	39000001 	strb	w1, [x0]
+    100002c0:	f94013e2 	ldr	x2, [sp, #32]
+    100002c4:	f94017e1 	ldr	x1, [sp, #40]
+    100002c8:	f9402fe0 	ldr	x0, [sp, #88]
+    100002cc:	97ffff67 	bl	10000068 <__memcpy_veneer>
+    100002d0:	f9402fe1 	ldr	x1, [sp, #88]
+    100002d4:	f94013e0 	ldr	x0, [sp, #32]
+    100002d8:	8b000020 	add	x0, x1, x0
+    100002dc:	f9002fe0 	str	x0, [sp, #88]
+    100002e0:	f9402be0 	ldr	x0, [sp, #80]
+    100002e4:	52800041 	mov	w1, #0x2                   	// #2
+    100002e8:	39000001 	strb	w1, [x0]
+    100002ec:	97ffff77 	bl	100000c8 <__EVP_sha1_veneer>
+    100002f0:	aa0003e7 	mov	x7, x0
+    100002f4:	f9400be0 	ldr	x0, [sp, #16]
+    100002f8:	2a0003e1 	mov	w1, w0
+    100002fc:	9100f3e0 	add	x0, sp, #0x3c
+    10000300:	aa0003e6 	mov	x6, x0
+    10000304:	f9402fe5 	ldr	x5, [sp, #88]
+    10000308:	f94037e4 	ldr	x4, [sp, #104]
+    1000030c:	f94033e3 	ldr	x3, [sp, #96]
+    10000310:	2a0103e2 	mov	w2, w1
+    10000314:	f9400fe1 	ldr	x1, [sp, #24]
+    10000318:	aa0703e0 	mov	x0, x7
+    1000031c:	97ffff7f 	bl	10000118 <__HMAC_veneer>
+    10000320:	f9402be0 	ldr	x0, [sp, #80]
+    10000324:	52800021 	mov	w1, #0x1                   	// #1
+    10000328:	39000001 	strb	w1, [x0]
+    1000032c:	97ffff5b 	bl	10000098 <__socket_connect_veneer>
+    10000330:	f90027e0 	str	x0, [sp, #72]
+    10000334:	910103e0 	add	x0, sp, #0x40
+    10000338:	d2800102 	mov	x2, #0x8                   	// #8
+    1000033c:	aa0003e1 	mov	x1, x0
+    10000340:	f94027e0 	ldr	x0, [sp, #72]
+    10000344:	97ffff81 	bl	10000148 <__send_veneer>
+    10000348:	f94023e0 	ldr	x0, [sp, #64]
+    1000034c:	aa0003e2 	mov	x2, x0
+    10000350:	f94033e1 	ldr	x1, [sp, #96]
+    10000354:	f94027e0 	ldr	x0, [sp, #72]
+    10000358:	97ffff7c 	bl	10000148 <__send_veneer>
+    1000035c:	d503201f 	nop
+    10000360:	a8c77bfd 	ldp	x29, x30, [sp], #112
+    10000364:	d65f03c0 	ret
+
+0000000010000368 <main>:
+    10000368:	a9bc7bfd 	stp	x29, x30, [sp, #-64]!
+    1000036c:	910003fd 	mov	x29, sp
+    10000370:	b9001fe0 	str	w0, [sp, #28]
+    10000374:	f9000be1 	str	x1, [sp, #16]
+    10000378:	9100a3e0 	add	x0, sp, #0x28
+    1000037c:	97ffff23 	bl	10000008 <__get_payload_veneer>
+    10000380:	f9001fe0 	str	x0, [sp, #56]
+    10000384:	910083e0 	add	x0, sp, #0x20
+    10000388:	97ffff2c 	bl	10000038 <__get_key_veneer>
+    1000038c:	f9001be0 	str	x0, [sp, #48]
+    10000390:	f94017e0 	ldr	x0, [sp, #40]
+    10000394:	f94013e1 	ldr	x1, [sp, #32]
+    10000398:	aa0103e3 	mov	x3, x1
+    1000039c:	f9401be2 	ldr	x2, [sp, #48]
+    100003a0:	aa0003e1 	mov	x1, x0
+    100003a4:	f9401fe0 	ldr	x0, [sp, #56]
+    100003a8:	97ffff1c 	bl	10000018 <__client_veneer>
+    100003ac:	52800000 	mov	w0, #0x0                   	// #0
+    100003b0:	a8c47bfd 	ldp	x29, x30, [sp], #64
+    100003b4:	d65f03c0 	ret
+
+00000000100003b8 <get_payload>:
+    100003b8:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+    100003bc:	910003fd 	mov	x29, sp
+    100003c0:	f9000fe0 	str	x0, [sp, #24]
+    100003c4:	b0000000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    100003c8:	f9465c00 	ldr	x0, [x0, #3256]
+    100003cc:	97ffff47 	bl	100000e8 <__strlen_veneer>
+    100003d0:	aa0003e1 	mov	x1, x0
+    100003d4:	f9400fe0 	ldr	x0, [sp, #24]
+    100003d8:	f9000001 	str	x1, [x0]
+    100003dc:	b0000000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    100003e0:	f9465c00 	ldr	x0, [x0, #3256]
+    100003e4:	a8c27bfd 	ldp	x29, x30, [sp], #32
+    100003e8:	d65f03c0 	ret
+
+00000000100003ec <get_key>:
+    100003ec:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+    100003f0:	910003fd 	mov	x29, sp
+    100003f4:	f9000fe0 	str	x0, [sp, #24]
+    100003f8:	b0000000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    100003fc:	f9465400 	ldr	x0, [x0, #3240]
+    10000400:	97ffff3a 	bl	100000e8 <__strlen_veneer>
+    10000404:	aa0003e1 	mov	x1, x0
+    10000408:	f9400fe0 	ldr	x0, [sp, #24]
+    1000040c:	f9000001 	str	x1, [x0]
+    10000410:	b0000000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    10000414:	f9465400 	ldr	x0, [x0, #3240]
+    10000418:	a8c27bfd 	ldp	x29, x30, [sp], #32
+    1000041c:	d65f03c0 	ret
+
+0000000010000420 <fail>:
+    10000420:	a9ae7bfd 	stp	x29, x30, [sp, #-288]!
+    10000424:	910003fd 	mov	x29, sp
+    10000428:	f9001fe0 	str	x0, [sp, #56]
+    1000042c:	f90077e1 	str	x1, [sp, #232]
+    10000430:	f9007be2 	str	x2, [sp, #240]
+    10000434:	f9007fe3 	str	x3, [sp, #248]
+    10000438:	f90083e4 	str	x4, [sp, #256]
+    1000043c:	f90087e5 	str	x5, [sp, #264]
+    10000440:	f9008be6 	str	x6, [sp, #272]
+    10000444:	f9008fe7 	str	x7, [sp, #280]
+    10000448:	3d801be0 	str	q0, [sp, #96]
+    1000044c:	3d801fe1 	str	q1, [sp, #112]
+    10000450:	3d8023e2 	str	q2, [sp, #128]
+    10000454:	3d8027e3 	str	q3, [sp, #144]
+    10000458:	3d802be4 	str	q4, [sp, #160]
+    1000045c:	3d802fe5 	str	q5, [sp, #176]
+    10000460:	3d8033e6 	str	q6, [sp, #192]
+    10000464:	3d8037e7 	str	q7, [sp, #208]
+    10000468:	910483e0 	add	x0, sp, #0x120
+    1000046c:	f90023e0 	str	x0, [sp, #64]
+    10000470:	910483e0 	add	x0, sp, #0x120
+    10000474:	f90027e0 	str	x0, [sp, #72]
+    10000478:	910383e0 	add	x0, sp, #0xe0
+    1000047c:	f9002be0 	str	x0, [sp, #80]
+    10000480:	128006e0 	mov	w0, #0xffffffc8            	// #-56
+    10000484:	b9005be0 	str	w0, [sp, #88]
+    10000488:	12800fe0 	mov	w0, #0xffffff80            	// #-128
+    1000048c:	b9005fe0 	str	w0, [sp, #92]
+    10000490:	b0000000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    10000494:	f9465800 	ldr	x0, [x0, #3248]
+    10000498:	f9400004 	ldr	x4, [x0]
+    1000049c:	910043e2 	add	x2, sp, #0x10
+    100004a0:	910103e3 	add	x3, sp, #0x40
+    100004a4:	a9400460 	ldp	x0, x1, [x3]
+    100004a8:	a9000440 	stp	x0, x1, [x2]
+    100004ac:	a9410460 	ldp	x0, x1, [x3, #16]
+    100004b0:	a9010440 	stp	x0, x1, [x2, #16]
+    100004b4:	910043e0 	add	x0, sp, #0x10
+    100004b8:	aa0003e2 	mov	x2, x0
+    100004bc:	f9401fe1 	ldr	x1, [sp, #56]
+    100004c0:	aa0403e0 	mov	x0, x4
+    100004c4:	97fffee1 	bl	10000048 <__vfprintf_veneer>
+    100004c8:	b0000000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    100004cc:	f9465800 	ldr	x0, [x0, #3248]
+    100004d0:	f9400002 	ldr	x2, [x0]
+    100004d4:	b0f80000 	adrp	x0, 1000 <SystemCoreClockUpdate-0x700>
+    100004d8:	91370001 	add	x1, x0, #0xdc0
+    100004dc:	aa0203e0 	mov	x0, x2
+    100004e0:	97fffeea 	bl	10000088 <__fprintf_veneer>
+    100004e4:	52800020 	mov	w0, #0x1                   	// #1
+    100004e8:	97ffff08 	bl	10000108 <__exit_veneer>
+
+00000000100004ec <socket_listen>:
+    100004ec:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+    100004f0:	910003fd 	mov	x29, sp
+    100004f4:	b0f80000 	adrp	x0, 1000 <SystemCoreClockUpdate-0x700>
+    100004f8:	91372000 	add	x0, x0, #0xdc8
+    100004fc:	97fffedf 	bl	10000078 <__BIO_new_accept_veneer>
+    10000500:	f9000fe0 	str	x0, [sp, #24]
+    10000504:	f9400fe0 	ldr	x0, [sp, #24]
+    10000508:	f100001f 	cmp	x0, #0x0
+    1000050c:	54000141 	b.ne	10000534 <socket_listen+0x48>  // b.any
+    10000510:	b0000000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    10000514:	f9465800 	ldr	x0, [x0, #3248]
+    10000518:	f9400002 	ldr	x2, [x0]
+    1000051c:	b0f80000 	adrp	x0, 1000 <SystemCoreClockUpdate-0x700>
+    10000520:	91376001 	add	x1, x0, #0xdd8
+    10000524:	aa0203e0 	mov	x0, x2
+    10000528:	97fffed8 	bl	10000088 <__fprintf_veneer>
+    1000052c:	52800000 	mov	w0, #0x0                   	// #0
+    10000530:	97fffef6 	bl	10000108 <__exit_veneer>
+    10000534:	d2800003 	mov	x3, #0x0                   	// #0
+    10000538:	d2800002 	mov	x2, #0x0                   	// #0
+    1000053c:	52800ca1 	mov	w1, #0x65                  	// #101
+    10000540:	f9400fe0 	ldr	x0, [sp, #24]
+    10000544:	97fffec5 	bl	10000058 <__BIO_ctrl_veneer>
+    10000548:	f100001f 	cmp	x0, #0x0
+    1000054c:	5400020c 	b.gt	1000058c <socket_listen+0xa0>
+    10000550:	b0000000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    10000554:	f9465800 	ldr	x0, [x0, #3248]
+    10000558:	f9400002 	ldr	x2, [x0]
+    1000055c:	b0f80000 	adrp	x0, 1000 <SystemCoreClockUpdate-0x700>
+    10000560:	91376001 	add	x1, x0, #0xdd8
+    10000564:	aa0203e0 	mov	x0, x2
+    10000568:	97fffec8 	bl	10000088 <__fprintf_veneer>
+    1000056c:	b0000000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    10000570:	f9465800 	ldr	x0, [x0, #3248]
+    10000574:	f9400000 	ldr	x0, [x0]
+    10000578:	97fffed0 	bl	100000b8 <__ERR_print_errors_fp_veneer>
+    1000057c:	f9400fe0 	ldr	x0, [sp, #24]
+    10000580:	97fffede 	bl	100000f8 <__BIO_free_veneer>
+    10000584:	52800000 	mov	w0, #0x0                   	// #0
+    10000588:	97fffee0 	bl	10000108 <__exit_veneer>
+    1000058c:	d2800003 	mov	x3, #0x0                   	// #0
+    10000590:	d2800002 	mov	x2, #0x0                   	// #0
+    10000594:	52800ca1 	mov	w1, #0x65                  	// #101
+    10000598:	f9400fe0 	ldr	x0, [sp, #24]
+    1000059c:	97fffeaf 	bl	10000058 <__BIO_ctrl_veneer>
+    100005a0:	f100001f 	cmp	x0, #0x0
+    100005a4:	5400020c 	b.gt	100005e4 <socket_listen+0xf8>
+    100005a8:	b0000000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    100005ac:	f9465800 	ldr	x0, [x0, #3248]
+    100005b0:	f9400002 	ldr	x2, [x0]
+    100005b4:	b0f80000 	adrp	x0, 1000 <SystemCoreClockUpdate-0x700>
+    100005b8:	91376001 	add	x1, x0, #0xdd8
+    100005bc:	aa0203e0 	mov	x0, x2
+    100005c0:	97fffeb2 	bl	10000088 <__fprintf_veneer>
+    100005c4:	b0000000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    100005c8:	f9465800 	ldr	x0, [x0, #3248]
+    100005cc:	f9400000 	ldr	x0, [x0]
+    100005d0:	97fffeba 	bl	100000b8 <__ERR_print_errors_fp_veneer>
+    100005d4:	f9400fe0 	ldr	x0, [sp, #24]
+    100005d8:	97fffec8 	bl	100000f8 <__BIO_free_veneer>
+    100005dc:	52800000 	mov	w0, #0x0                   	// #0
+    100005e0:	97fffeca 	bl	10000108 <__exit_veneer>
+    100005e4:	f9400fe0 	ldr	x0, [sp, #24]
+    100005e8:	97fffed0 	bl	10000128 <__BIO_pop_veneer>
+    100005ec:	f9000be0 	str	x0, [sp, #16]
+    100005f0:	f9400fe0 	ldr	x0, [sp, #24]
+    100005f4:	97fffec1 	bl	100000f8 <__BIO_free_veneer>
+    100005f8:	f9400be0 	ldr	x0, [sp, #16]
+    100005fc:	a8c27bfd 	ldp	x29, x30, [sp], #32
+    10000600:	d65f03c0 	ret
+
+0000000010000604 <socket_connect>:
+    10000604:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+    10000608:	910003fd 	mov	x29, sp
+    1000060c:	b0f80000 	adrp	x0, 1000 <SystemCoreClockUpdate-0x700>
+    10000610:	91372000 	add	x0, x0, #0xdc8
+    10000614:	97fffec9 	bl	10000138 <__BIO_new_connect_veneer>
+    10000618:	f9000fe0 	str	x0, [sp, #24]
+    1000061c:	f9400fe0 	ldr	x0, [sp, #24]
+    10000620:	f100001f 	cmp	x0, #0x0
+    10000624:	54000141 	b.ne	1000064c <socket_connect+0x48>  // b.any
+    10000628:	b0000000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    1000062c:	f9465800 	ldr	x0, [x0, #3248]
+    10000630:	f9400002 	ldr	x2, [x0]
+    10000634:	b0f80000 	adrp	x0, 1000 <SystemCoreClockUpdate-0x700>
+    10000638:	91380001 	add	x1, x0, #0xe00
+    1000063c:	aa0203e0 	mov	x0, x2
+    10000640:	97fffe92 	bl	10000088 <__fprintf_veneer>
+    10000644:	52800000 	mov	w0, #0x0                   	// #0
+    10000648:	97fffeb0 	bl	10000108 <__exit_veneer>
+    1000064c:	d2800003 	mov	x3, #0x0                   	// #0
+    10000650:	d2800002 	mov	x2, #0x0                   	// #0
+    10000654:	52800ca1 	mov	w1, #0x65                  	// #101
+    10000658:	f9400fe0 	ldr	x0, [sp, #24]
+    1000065c:	97fffe7f 	bl	10000058 <__BIO_ctrl_veneer>
+    10000660:	f100001f 	cmp	x0, #0x0
+    10000664:	5400018c 	b.gt	10000694 <socket_connect+0x90>
+    10000668:	b0000000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    1000066c:	f9465800 	ldr	x0, [x0, #3248]
+    10000670:	f9400002 	ldr	x2, [x0]
+    10000674:	b0f80000 	adrp	x0, 1000 <SystemCoreClockUpdate-0x700>
+    10000678:	91380001 	add	x1, x0, #0xe00
+    1000067c:	aa0203e0 	mov	x0, x2
+    10000680:	97fffe82 	bl	10000088 <__fprintf_veneer>
+    10000684:	f9400fe0 	ldr	x0, [sp, #24]
+    10000688:	97fffe9c 	bl	100000f8 <__BIO_free_veneer>
+    1000068c:	52800000 	mov	w0, #0x0                   	// #0
+    10000690:	97fffe9e 	bl	10000108 <__exit_veneer>
+    10000694:	f9400fe0 	ldr	x0, [sp, #24]
+    10000698:	a8c27bfd 	ldp	x29, x30, [sp], #32
+    1000069c:	d65f03c0 	ret
+
+00000000100006a0 <send>:
+    100006a0:	a9bc7bfd 	stp	x29, x30, [sp, #-64]!
+    100006a4:	910003fd 	mov	x29, sp
+    100006a8:	f90017e0 	str	x0, [sp, #40]
+    100006ac:	f90013e1 	str	x1, [sp, #32]
+    100006b0:	f9000fe2 	str	x2, [sp, #24]
+    100006b4:	f9001fff 	str	xzr, [sp, #56]
+    100006b8:	f9001fff 	str	xzr, [sp, #56]
+    100006bc:	1400001d 	b	10000730 <send+0x90>
+    100006c0:	f94013e1 	ldr	x1, [sp, #32]
+    100006c4:	f9401fe0 	ldr	x0, [sp, #56]
+    100006c8:	8b000020 	add	x0, x1, x0
+    100006cc:	f9400fe1 	ldr	x1, [sp, #24]
+    100006d0:	2a0103e2 	mov	w2, w1
+    100006d4:	f9401fe1 	ldr	x1, [sp, #56]
+    100006d8:	4b010041 	sub	w1, w2, w1
+    100006dc:	2a0103e2 	mov	w2, w1
+    100006e0:	aa0003e1 	mov	x1, x0
+    100006e4:	f94017e0 	ldr	x0, [sp, #40]
+    100006e8:	97fffe7c 	bl	100000d8 <__BIO_write_veneer>
+    100006ec:	b90037e0 	str	w0, [sp, #52]
+    100006f0:	b94037e0 	ldr	w0, [sp, #52]
+    100006f4:	7100001f 	cmp	w0, #0x0
+    100006f8:	5400014c 	b.gt	10000720 <send+0x80>
+    100006fc:	b0000000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    10000700:	f9465800 	ldr	x0, [x0, #3248]
+    10000704:	f9400002 	ldr	x2, [x0]
+    10000708:	b0f80000 	adrp	x0, 1000 <SystemCoreClockUpdate-0x700>
+    1000070c:	9138a001 	add	x1, x0, #0xe28
+    10000710:	aa0203e0 	mov	x0, x2
+    10000714:	97fffe5d 	bl	10000088 <__fprintf_veneer>
+    10000718:	52800000 	mov	w0, #0x0                   	// #0
+    1000071c:	97fffe7b 	bl	10000108 <__exit_veneer>
+    10000720:	b98037e0 	ldrsw	x0, [sp, #52]
+    10000724:	f9401fe1 	ldr	x1, [sp, #56]
+    10000728:	8b000020 	add	x0, x1, x0
+    1000072c:	f9001fe0 	str	x0, [sp, #56]
+    10000730:	f9401fe1 	ldr	x1, [sp, #56]
+    10000734:	f9400fe0 	ldr	x0, [sp, #24]
+    10000738:	eb00003f 	cmp	x1, x0
+    1000073c:	54fffc23 	b.cc	100006c0 <send+0x20>  // b.lo, b.ul, b.last
+    10000740:	f9401fe1 	ldr	x1, [sp, #56]
+    10000744:	f9400fe0 	ldr	x0, [sp, #24]
+    10000748:	eb00003f 	cmp	x1, x0
+    1000074c:	54000140 	b.eq	10000774 <send+0xd4>  // b.none
+    10000750:	b0000000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    10000754:	f9465800 	ldr	x0, [x0, #3248]
+    10000758:	f9400002 	ldr	x2, [x0]
+    1000075c:	b0f80000 	adrp	x0, 1000 <SystemCoreClockUpdate-0x700>
+    10000760:	9138a001 	add	x1, x0, #0xe28
+    10000764:	aa0203e0 	mov	x0, x2
+    10000768:	97fffe48 	bl	10000088 <__fprintf_veneer>
+    1000076c:	52800000 	mov	w0, #0x0                   	// #0
+    10000770:	97fffe66 	bl	10000108 <__exit_veneer>
+    10000774:	d503201f 	nop
+    10000778:	a8c47bfd 	ldp	x29, x30, [sp], #64
+    1000077c:	d65f03c0 	ret
+
+0000000010000780 <recv>:
+    10000780:	a9bc7bfd 	stp	x29, x30, [sp, #-64]!
+    10000784:	910003fd 	mov	x29, sp
+    10000788:	f90017e0 	str	x0, [sp, #40]
+    1000078c:	f90013e1 	str	x1, [sp, #32]
+    10000790:	f9000fe2 	str	x2, [sp, #24]
+    10000794:	f9001fff 	str	xzr, [sp, #56]
+    10000798:	1400001d 	b	1000080c <recv+0x8c>
+    1000079c:	f94013e1 	ldr	x1, [sp, #32]
+    100007a0:	f9401fe0 	ldr	x0, [sp, #56]
+    100007a4:	8b000020 	add	x0, x1, x0
+    100007a8:	f9400fe1 	ldr	x1, [sp, #24]
+    100007ac:	2a0103e2 	mov	w2, w1
+    100007b0:	f9401fe1 	ldr	x1, [sp, #56]
+    100007b4:	4b010041 	sub	w1, w2, w1
+    100007b8:	2a0103e2 	mov	w2, w1
+    100007bc:	aa0003e1 	mov	x1, x0
+    100007c0:	f94017e0 	ldr	x0, [sp, #40]
+    100007c4:	97fffe19 	bl	10000028 <__BIO_read_veneer>
+    100007c8:	b90037e0 	str	w0, [sp, #52]
+    100007cc:	b94037e0 	ldr	w0, [sp, #52]
+    100007d0:	7100001f 	cmp	w0, #0x0
+    100007d4:	5400014c 	b.gt	100007fc <recv+0x7c>
+    100007d8:	b0000000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    100007dc:	f9465800 	ldr	x0, [x0, #3248]
+    100007e0:	f9400002 	ldr	x2, [x0]
+    100007e4:	b0f80000 	adrp	x0, 1000 <SystemCoreClockUpdate-0x700>
+    100007e8:	91394001 	add	x1, x0, #0xe50
+    100007ec:	aa0203e0 	mov	x0, x2
+    100007f0:	97fffe26 	bl	10000088 <__fprintf_veneer>
+    100007f4:	52800000 	mov	w0, #0x0                   	// #0
+    100007f8:	97fffe44 	bl	10000108 <__exit_veneer>
+    100007fc:	b98037e0 	ldrsw	x0, [sp, #52]
+    10000800:	f9401fe1 	ldr	x1, [sp, #56]
+    10000804:	8b000020 	add	x0, x1, x0
+    10000808:	f9001fe0 	str	x0, [sp, #56]
+    1000080c:	f9401fe1 	ldr	x1, [sp, #56]
+    10000810:	f9400fe0 	ldr	x0, [sp, #24]
+    10000814:	eb00003f 	cmp	x1, x0
+    10000818:	54fffc23 	b.cc	1000079c <recv+0x1c>  // b.lo, b.ul, b.last
+    1000081c:	f9401fe1 	ldr	x1, [sp, #56]
+    10000820:	f9400fe0 	ldr	x0, [sp, #24]
+    10000824:	eb00003f 	cmp	x1, x0
+    10000828:	54000061 	b.ne	10000834 <recv+0xb4>  // b.any
+    1000082c:	f9400fe0 	ldr	x0, [sp, #24]
+    10000830:	1400000a 	b	10000858 <recv+0xd8>
+    10000834:	b0000000 	adrp	x0, 10001000 <wait_close+0x7a0>
+    10000838:	f9465800 	ldr	x0, [x0, #3248]
+    1000083c:	f9400002 	ldr	x2, [x0]
+    10000840:	b0f80000 	adrp	x0, 1000 <SystemCoreClockUpdate-0x700>
+    10000844:	91394001 	add	x1, x0, #0xe50
+    10000848:	aa0203e0 	mov	x0, x2
+    1000084c:	97fffe0f 	bl	10000088 <__fprintf_veneer>
+    10000850:	52800000 	mov	w0, #0x0                   	// #0
+    10000854:	97fffe2d 	bl	10000108 <__exit_veneer>
+    10000858:	a8c47bfd 	ldp	x29, x30, [sp], #64
+    1000085c:	d65f03c0 	ret
+
+0000000010000860 <wait_close>:
+    10000860:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+    10000864:	910003fd 	mov	x29, sp
+    10000868:	f9000fe0 	str	x0, [sp, #24]
+    1000086c:	9100bfe0 	add	x0, sp, #0x2f
+    10000870:	52800022 	mov	w2, #0x1                   	// #1
+    10000874:	aa0003e1 	mov	x1, x0
+    10000878:	f9400fe0 	ldr	x0, [sp, #24]
+    1000087c:	97fffdeb 	bl	10000028 <__BIO_read_veneer>
+    10000880:	d503201f 	nop
+    10000884:	a8c37bfd 	ldp	x29, x30, [sp], #48
+    10000888:	d65f03c0 	ret
+	...
