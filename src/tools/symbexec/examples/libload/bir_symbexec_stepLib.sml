@@ -119,6 +119,9 @@ local
       val cnd     = fst (List.nth (vs, 0));
       val tgt1    = fst (List.nth (vs, 1));
       val tgt2    = fst (List.nth (vs, 2));
+      (*val _ = if false then ()
+	      else
+		  print ("True Address" ^ (term_to_string tgt1) ^ "\n" ^ "False Address" ^ (term_to_string tgt2) ^ "\n");*)
 
     in
       state_branch_simp
@@ -245,12 +248,15 @@ fun symb_exec_library_block abpfun n_dict bl_dict syst =
 		val _ = if true then () else
 			print ("lib_type: " ^ (lib_type) ^ "\n");
 
-		val syst = if (lib_type = "C_Lib") then syst
+		val syst = if (lib_type = "HMAC") then bir_symbexec_funcLib.HMAC syst
+			   else syst;
+
+		(*val syst = if (lib_type = "C_Lib") then syst
 			   else if (lib_type = "NewKey") then bir_symbexec_funcLib.new_key syst
 			   else if (lib_type = "Encryption") then bir_symbexec_funcLib.Encryption syst
 			   else if (lib_type = "Decryption") then bir_symbexec_funcLib.Decryption syst
 			   else
-			       raise ERR "funcLib" ("cannot handle" ^ (lib_type));
+			       raise ERR "funcLib" ("cannot handle" ^ (lib_type));*)
 
 		val systs = bir_symbexec_funcLib.update_pc syst;(* update symb_state with new pc *)
 		    

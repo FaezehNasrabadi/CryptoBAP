@@ -11,6 +11,8 @@ local
   val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_funcLib"
 in
 
+val _ = Parse.type_abbrev("hmac", ``:bir_var_t list -> bir_exp_t``);
+
 val _ = Parse.type_abbrev("enc", ``:bir_var_t list -> bir_var_t -> bir_exp_t``);
 
 val _ = Parse.type_abbrev("dec", ``:bir_var_t list -> bir_exp_t``);
@@ -22,7 +24,7 @@ fun readint_inputs filename =
                                         relativeTo = FileSys.getDir()};
 
         val ins = TextIO.openIn fullfilename;
-	val _ = TextIO.inputN(ins,75);
+	val _ = TextIO.inputN(ins,52);
 
     fun loop ins =
 
@@ -74,6 +76,15 @@ fun decrypt inputs =
 	dest_BStmt_Assign stmt
     end;
 
+fun HMac inputs =
+    let
+	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
+			(hmac
+			     (inputs))``;
+
+    in
+	dest_BStmt_Assign stmt
+    end;
 fun symbval_bexp symbv =
     let
 	val bexp =
@@ -112,7 +123,7 @@ fun update_pc syst =
 	val bv = ``BVar "R30" (BType_Imm Bit64)``;
 
 	val symbv = get_state_symbv "symbv not found" bv syst;
-
+  
 	val be = symbval_bexp symbv; (* extract bir expression *) 
 
 	val tgt = (mk_BL_Address o bir_expSyntax.dest_BExp_Const) be; (* make next address *)
@@ -159,6 +170,7 @@ fun update_lib_syst be Fr_bv syst =
 fun compute_inputs n syst =
     let
 	val Rn = ("R" ^ (IntInf.toString n));
+
 	val be = bir_envSyntax.mk_BVar_string (Rn, ``BType_Imm Bit64``);
 	    
 	val be_r = (symbval_bexp o get_state_symbv " vals not found " be) syst;
@@ -268,6 +280,26 @@ fun Decryption syst =
 	val stmt = ``BStmt_Assign (Fr_Dec) (M_bv)``; (* assign value of R0 to the fresh variable *)
 	    
 	val syst = update_lib_syst M_be Fr_Dec syst; (* update syst *)
+	    		    
+    in
+	syst
+    end;
+
+fun HMAC syst =
+    let
+	val n = List.nth (readint_inputs "Library-number of inputs", 0);
+
+	val syst = new_key syst;
+	    
+	val inputs = compute_inputs (n-1) syst; (* get values *)
+	
+	val (M_bv, M_be) = HMac inputs; (* decrypt with iv *)
+
+	val Fr_Hmac = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("HMAC", “BType_Imm Bit64”)); (* generate a fresh variable *)
+
+	val stmt = ``BStmt_Assign (Fr_Hmac) (M_bv)``; (* assign value of R0 to the fresh variable *)
+	    
+	val syst = update_lib_syst M_be Fr_Hmac syst; (* update syst *)
 	    		    
     in
 	syst
