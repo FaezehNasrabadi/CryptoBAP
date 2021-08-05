@@ -1,0 +1,8 @@
+The function names are as follows:
+__send_veneer
+__EVP_sha1_veneer
+__fail_veneer
+__memcpy_veneer
+__HMAC_veneer
+__socket_connect_veneer
+__malloc_veneer

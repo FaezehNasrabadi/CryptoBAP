@@ -1,14 +1,14 @@
 # includes
 # ----------------------------------
-DEPENDENCIES   = ../IML ../PreProcess
+DEPENDENCIES   =
 
 
 # configuration
 # ----------------------------------
 HOLHEAP        = ../binaries/HolBATools_SymbExec_ExampleBinaries-heap
-NEWHOLHEAP     = HolBATools_SymbExec_ExampleLibload-heap
+NEWHOLHEAP     = HolBATools_SymbExec_PreProcess-heap
 
-HEAPINC_EXTRA  =
+HEAPINC_EXTRA  = 
 
 
 # included lines follow

@@ -249,14 +249,10 @@ fun symb_exec_library_block abpfun n_dict bl_dict syst =
 			print ("lib_type: " ^ (lib_type) ^ "\n");
 
 		val syst = if (lib_type = "HMAC") then bir_symbexec_funcLib.HMAC syst
-			   else syst;
-
-		(*val syst = if (lib_type = "C_Lib") then syst
 			   else if (lib_type = "NewKey") then bir_symbexec_funcLib.new_key syst
 			   else if (lib_type = "Encryption") then bir_symbexec_funcLib.Encryption syst
 			   else if (lib_type = "Decryption") then bir_symbexec_funcLib.Decryption syst
-			   else
-			       raise ERR "funcLib" ("cannot handle" ^ (lib_type));*)
+			   else syst;
 
 		val systs = bir_symbexec_funcLib.update_pc syst;(* update symb_state with new pc *)
 		    

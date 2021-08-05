@@ -43,7 +43,7 @@ val _ = print "initial state created.\n\n";
 
 val cfb = false;
 val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
-
+  
 val systs = symb_exec_to_stop (abpfun cfb) n_dict bl_dict_ [syst] stop_lbl_tms [];
 val _ = print "\n\n";
 val _ = print "finished exploration of all paths.\n\n";
@@ -54,7 +54,7 @@ val _ = print "\n\n";
       listItems(SYST_get_vals syst);
       listItems(SYST_get_pred (hd systs));
       listItems(SYST_get_vals ((hd o tl) systs));
-      listItems(n_dict);
+      listItems(adr_dict);
 
      
 val (systs_noassertfailed, systs_assertfailed) =

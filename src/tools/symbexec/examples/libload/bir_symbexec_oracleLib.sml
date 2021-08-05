@@ -2,12 +2,16 @@ structure bir_symbexec_oracleLib =
 struct
 
 local
-  open bir_symbexec_stateLib;
-  open bir_symbexec_coreLib;
-  open IntInf;
-  open TextIO;
+    open binariesLib;
+    open bir_symbexec_stateLib;
+    open bir_symbexec_coreLib;
+    open IntInf;
+    open TextIO;
+    open Redblackmap;
+    open List;
 
-  val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_oracleLib"
+
+    val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_oracleLib"
 in
 (*val est = ``BStmt_CJmp (BExp_Den (BVar "ProcState_Z" BType_Bool))
 			     (BLE_Label (BL_Address (Imm64 2844w)))
@@ -63,16 +67,17 @@ fun sint_of_term tm =
        | HOL_ERR _ => raise ERR "sint_of_term"
                        ("could not convert ``" ^ term_to_string tm ^
                         "`` to an integer");
-fun in_range (mn,mx) tm =
+
+fun in_range (mn:int,mx:int) tm =
     let val v = sint_of_term tm in
-      mn <= v andalso v <= mx
+	mn <= v andalso v <= mx
     end handle HOL_ERR _ => false | Overflow => false;
 
 fun equal_address address tm =
     let val v = sint_of_term tm in
      address <= v andalso v <= address
     end handle HOL_ERR _ => false | Overflow => false;
-    
+     
 (* read int from file *)
 fun readint_type filename =
     let
@@ -94,18 +99,49 @@ fun readint_type filename =
  loop ins before TextIO.closeIn ins
 
   end;
-    
+
+(* read function names from file *)
+fun read_fun_names filename =
+    let
+	val fullfilename = Path.mkAbsolute{path = filename,
+                                        relativeTo = FileSys.getDir()};
+
+        val ins = TextIO.openIn fullfilename;
+	val _ = TextIO.inputLine ins;
+
+    fun loop ins =
+
+        case TextIO.inputLine ins of
+
+    SOME name => (implode o fst o (bir_auxiliaryLib.list_split_pred #"\n") o explode) name :: loop ins
+
+    | NONE => []
+
+          in
+ loop ins before TextIO.closeIn ins
+
+    end;
+		
+fun exist_in_dict fun_name =
+    let
+	val Names_list = read_fun_names "Function-Names";
+    in
+	(List.exists (fn x => x=fun_name) Names_list)
+    end;	    
+
 fun fun_oracle_type_label label =
     let
-	
-	val Int_list = readint_type "Function-Addresses";
-	
+	val adr_dict = bir_symbexec_PreprocessLib.fun_addresses_dict bl_dict_ prog_lbl_tms_;
+	    
 	val lbl = 
 	    (*critical section that no one must not jump to it*)
-	    if (in_range((List.nth (Int_list, 0)),(List.nth (Int_list, 1))) label) then
+	    if (in_range (0, 2000) label) then
 		"Adversary"
 	    (*part of memory that library functions exist*)
-	    else if ((equal_address (List.nth (Int_list, 2)) label) orelse (equal_address (List.nth (Int_list, 3)) label) orelse (equal_address (List.nth (Int_list, 4)) label) orelse (equal_address (List.nth (Int_list, 5)) label) orelse (equal_address (List.nth (Int_list, 6)) label) orelse (equal_address (List.nth (Int_list, 7)) label) orelse (equal_address (List.nth (Int_list, 8)) label) orelse (equal_address (List.nth (Int_list, 9)) label) orelse (equal_address (List.nth (Int_list, 10)) label)) then
+	    else if (exist_in_dict(case Redblackmap.peek(adr_dict, label) of
+					SOME x => x
+				      | NONE => ""))
+	    then
 		"Library"
 	    (*jump to other part of memory is normal*)
 	    else 
@@ -125,71 +161,45 @@ fun fun_oracle_Address est syst =
     in
 	      target_label
 	  end;
-(*
-val est = `` BStmt_Jmp (BLE_Label (BL_Address (Imm64 2886w)))``;
-val est = ``BStmt_Halt (BExp_Const (Imm64 136w))``;
-*)
+
 fun fun_oracle est syst =
     let
 	      val target_label = fun_oracle_Address est syst;
-		  val _ = if true then () else
-		     print_term (target_label);
-	      val target_label_type =
-		  if is_BL_Address target_label
-		  then (fun_oracle_type_label o bir_immSyntax.dest_Imm64 o dest_BL_Address) target_label
-		  else if is_BL_Label target_label
-		  then (term_to_string o dest_BL_Label) target_label
-		  else if bir_immSyntax.is_Imm64 target_label
-		  then (fun_oracle_type_label o bir_immSyntax.dest_Imm64) target_label
-		  else raise ERR "fun_orcle" ("cannot handle target label num " ^ (term_to_string target_label));
-
 	  in
-	      target_label_type
+	      (fun_oracle_type_label target_label)
 	  end;
 
-(*val label = “2002w”;*)    
 fun lib_oracle_type_label label =
     let
 
-	val Int_list = readint_type "Library-Addresses";
-
+	val C_fun_names = read_fun_names "Cryptographic-Functions-Names";
+	val adr_dict = bir_symbexec_PreprocessLib.fun_addresses_dict bl_dict_ prog_lbl_tms_;
+	    
 	val lbl = 
-	    (*part of memory that message exist*)
-	    if (equal_address (List.nth (Int_list, 0)) label) then
-		"Message"
 	    (*part of memory that new key functions exist*)
-	    else if (equal_address (List.nth (Int_list, 1)) label) then
+	    if ((Redblackmap.find(adr_dict, label)) = (List.nth (C_fun_names, 0))) then
 		"NewKey"
-	    (*part of memory that SHA1 functions exist*)
-	    else if (equal_address (List.nth (Int_list, 2)) label) then
-		"SHA1"
+	    (*part of memory that encryption functions exist*)
+	    else if ((Redblackmap.find(adr_dict, label)) = (List.nth (C_fun_names, 1))) then
+		"Encryption"
+	    (*part of memory that decryption functions exist*)
+	    else if ((Redblackmap.find(adr_dict, label)) = (List.nth (C_fun_names, 2))) then
+		"Decryption"
 	    (*part of memory that HMAC functions exist*)
-	    else if (equal_address (List.nth (Int_list, 3)) label) then
+	    else if ((Redblackmap.find(adr_dict, label)) = (List.nth (C_fun_names, 3))) then
 		"HMAC"
 	    else
-		"C_Lib"
+		"C_Lib";
 	    
     in
 	lbl
     end;
-    
-(*val lbl_tm = “BL_Address (Imm64 2002w)”;*)
 
 fun lib_oracle est syst =
     let
 	      val target_label = fun_oracle_Address est syst;
-		       
-	      val lib_type =
-		  if is_BL_Address target_label
-		  then (lib_oracle_type_label o bir_immSyntax.dest_Imm64 o dest_BL_Address) target_label
-		  else if is_BL_Label target_label
-		  then (term_to_string o dest_BL_Label) target_label
-		  else if bir_immSyntax.is_Imm64 target_label
-		  then (lib_oracle_type_label o bir_immSyntax.dest_Imm64) target_label
-		  else raise ERR "lib_orcle" ("cannot handle target label num " ^ (term_to_string target_label));
-
 	  in
-	      lib_type
+	      (lib_oracle_type_label target_label)
 	  end;    
     
 end(*local*)
