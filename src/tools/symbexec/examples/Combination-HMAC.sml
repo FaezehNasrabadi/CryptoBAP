@@ -29,9 +29,9 @@ val lbl_tm = ``BL_Address (Imm64 268436328w)``;
 val stop_lbl_tms = [``BL_Address (Imm64 268436404w)``];
  *)
 (*Client*)     
-val lbl_tm = ``BL_Address (Imm64 268435992w)``;
+val lbl_tm = ``BL_Address (Imm64 4203840w)``;
 
-val stop_lbl_tms = [``BL_Address (Imm64 268436324w)``];
+val stop_lbl_tms = [``BL_Address (Imm64 4204220w)``];
     
 val syst = init_state lbl_tm prog_vars;
 
@@ -55,7 +55,12 @@ val _ = print "\n\n";
       listItems(SYST_get_pred (hd systs));
       listItems(SYST_get_vals ((hd o tl) systs));
       listItems(adr_dict);
-
+val be_tgt = ``BExp_Den (BVar "R17" (BType_Imm Bit64))``;
+ open bir_countw_simplificationLib;
+	 val bvalo = List.map (fn t => eval_exp_in_syst be_tgt t) systs;
+val b  = (List.length(rev bvalo));
+open Term;
+open List;
      
 val (systs_noassertfailed, systs_assertfailed) =
   List.partition (fn syst => not (identical (SYST_get_status syst) BST_AssertionViolated_tm)) systs;

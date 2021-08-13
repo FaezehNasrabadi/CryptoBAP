@@ -19,16 +19,24 @@ val entry_labels = ["motor_prep_input",
                     (*"pid_msg_write",*)
                     "timer_read"];
 
+(*val name = "client";
+    val stop_lbl_tms = [``BL_Address (Imm64 4204220w)``];
+    val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
+	  Redblackmap.listItems(SYST_get_env syst);
+  Redblackmap.listItems(SYST_get_vals syst);
+ val bv_countw = “BVar "tmp_R1" (BType_Imm Bit64)”;
+val bv_sp = “BVar "tmp_SP_EL0" (BType_Imm Bit64)”;
+val pred_conjs = [``bir_exp_true``];
+*) 
+val _ = List.map (fn entry_label => let 
+ val name   = entry_label; 
 
-val _ = List.map (fn entry_label => let
-  val name   = entry_label;
+val _ = print "\n\n>>>>>>>>>>>>>>>>>>>>>>>>>\n"; 
+val _ = print ("funname = " ^ (name) ^ "\n"); 
 
-  val _ = print "\n\n>>>>>>>>>>>>>>>>>>>>>>>>>\n";
-  val _ = print ("funname = " ^ (name) ^ "\n");
+val lbl_tm = (mk_lbl_tm o valOf o mem_find_symbol_addr_) name; 
 
-  val lbl_tm = (mk_lbl_tm o valOf o mem_find_symbol_addr_) name;
-
-  local
+(*   local *)
     open bir_cfgLib;
   in
     val stop_lbl_tms = (List.map #CFGN_lbl_tm o

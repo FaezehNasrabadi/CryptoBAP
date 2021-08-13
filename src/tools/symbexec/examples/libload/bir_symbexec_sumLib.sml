@@ -134,8 +134,8 @@ in (* local *)
       (* check that SPs match *)
       val _ = if Redblackset.member (env_idents, bv_sp) then () else (
         print "........................\n\n";
-        is_symbv_bexp_appfun (fn e => (print_term e; false)) env  vals  ``BVar "SP_process" (BType_Imm Bit32)``;
-        is_symbv_bexp_appfun (fn e => (print_term e; false)) env2 vals2 ``BVar "SP_process" (BType_Imm Bit32)``;
+        is_symbv_bexp_appfun (fn e => (print_term e; false)) env  vals  ``BVar "SP_process" (BType_Imm Bit64)``;
+        is_symbv_bexp_appfun (fn e => (print_term e; false)) env2 vals2 ``BVar "SP_process" (BType_Imm Bit64)``;
         print "\n........................\n";
         raise ERR "merge_states_vartointerval" "stack pointers are not equal!"
        );
@@ -353,10 +353,10 @@ fun subst_in_symbv_interval (vals, varsubstmap) ((be1, be2), deps) =
     symbv
   end;
 
-val sy_sp_var = ``BVar "sy_SP_process" (BType_Imm Bit32)``;
+val sy_sp_var = ``BVar "sy_SP_process" (BType_Imm Bit64)``;
 val sy_sp_minus_zero_exp =
   ``BExp_BinExp BIExp_Minus (BExp_Den ^sy_sp_var)
-          (BExp_Const (Imm32 0w))``;
+          (BExp_Const (Imm64 0w))``;
 fun subst_in_symbv_mem (vals, varsubstmap) mem =
   let
     val debugOn = false;

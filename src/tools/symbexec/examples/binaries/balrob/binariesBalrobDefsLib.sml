@@ -118,29 +118,36 @@ val symbs_sec_text = [
 ];
  *)
 val symbs_sec_text = [
-    "__get_payload_veneer-0x8",
-    "__get_payload_veneer",
-    "__client_veneer",
-    "__BIO_read_veneer",
-    "__get_key_veneer",
-    "__vfprintf_veneer",
-    "__BIO_ctrl_veneer",
-    "__memcpy_veneer",
-    "__BIO_new_accept_veneer",
-    "__fprintf_veneer",
-    "__socket_connect_veneer",
-    "__fail_veneer",
-    "__ERR_print_errors_fp_veneer",
-    "__EVP_sha1_veneer",
-    "__BIO_write_veneer",
-    "__strlen_veneer",
-    "__BIO_free_veneer",
-    "__exit_veneer",
-    "__HMAC_veneer",
-    "__BIO_pop_veneer",
-    "__BIO_new_connect_veneer",
-    "__send_veneer",
-    "__malloc_veneer",
+    "_IO_puts",
+    "strlen",
+    "__lll_lock_wait_private",
+    "__overflow",
+    "_Unwind_Resume",
+    "BIO_new_connect",
+    "BIO_new_accept",
+    "malloc",
+    "HMAC",
+    "my_load_buf",
+    "my_LoadBuf",
+    "my_store_buf",
+    "my_StoreBuf",
+    "load_buf",
+    "BIO_free",
+    "EVP_sha1",
+    "BIO_ctrl",
+    "fprintf",
+    "BIO_write",
+    "ERR_print_errors_f",
+    "BIO_pop",
+    "client",
+    "BIO_read",
+    "socket_connect",
+    "store_buf",
+    "exit",
+    "strlen",
+    "get_key",
+    "vfprintf",
+    "my_memcpy_proxy",
     "client",
     "main",
     "get_payload",
@@ -150,7 +157,9 @@ val symbs_sec_text = [
     "socket_connect",
     "send",
     "recv",
-    "wait_close"
+    "wait_close",
+    "SystemCoreClockUpdate",
+    "SystemInit"
 ];
 val arch_str         = "arm8";
 val prog_range       = ((Arbnum.fromInt 0x00000000), (Arbnum.fromInt 0xffffffff));
@@ -185,7 +194,7 @@ val prog_range       = ((Arbnum.fromInt 0x00000000), (Arbnum.fromInt 0xffffffff)
 			     ) ];*)   
 
 val configs              = [ ("client",
-                           ("client.elf.da", "balrob/client.elf.da.plus", "balrob/client.elf.mem"),
+                           ("client.da", "balrob/client.da.plus", "balrob/client.mem"),
                            "client_THM",
                            ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0xffffffff),
                             (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
@@ -193,7 +202,7 @@ val configs              = [ ("client",
 			     ) ];      
 val symb_filter_lift = fn secname =>
   case secname of
-      ".reloadtext" => (fn symbname => List.exists (fn x => x = symbname) symbs_sec_text)
+      ".text" => (fn symbname => List.exists (fn x => x = symbname) symbs_sec_text)
     | _       => (K false);
 
 

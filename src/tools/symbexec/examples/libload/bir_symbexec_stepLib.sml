@@ -225,7 +225,7 @@ fun symb_exec_adversary_block abpfun n_dict bl_dict syst =
 
 		val syst = bir_symbexec_funcLib.Adv av syst; (* update env, vals & pred *)
 		    
-		val systs = bir_symbexec_funcLib.update_pc syst;(* update symb_state with new pc *)
+		val systs = [bir_symbexec_funcLib.update_pc syst];(* update symb_state with new pc *)
 
 		val systs_processed = abpfun systs; 
 	    in
@@ -254,7 +254,13 @@ fun symb_exec_library_block abpfun n_dict bl_dict syst =
 			   else if (lib_type = "Decryption") then bir_symbexec_funcLib.Decryption syst
 			   else syst;
 
-		val systs = bir_symbexec_funcLib.update_pc syst;(* update symb_state with new pc *)
+		val systs = if (lib_type = "MEMcpy")
+			    then let
+				    val systs = bir_symbexec_funcLib.New_memcpy syst;
+				in
+				    (List.map (fn x => bir_symbexec_funcLib.update_pc x) systs)
+				end
+			    else [bir_symbexec_funcLib.update_pc syst];(* update symb_state with new pc *)
 		    
 
 		val systs_processed = abpfun systs; 
@@ -275,7 +281,9 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 
 	     val _ = if true then () else
 			print_term (lbl_block_tm);
-		
+
+		 val _ = if true then () else
+			print_term (est);
 		val s_tms = (fst o listSyntax.dest_list) stmts;
 
 		val debugOn = false;
@@ -299,7 +307,10 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 		val bl = (valOf o (lookup_block_dict bl_dict)) lbl_tm;
 		val (lbl_block_tm, stmts, est) = dest_bir_block bl;
 		val pc_type = bir_symbexec_oracleLib.fun_oracle est syst;
-		    val _ = if true then () else
+
+		val _ = if true then () else
+			print_term (est);
+		val _ = if true then () else
 			print ("pc_type: " ^ (pc_type) ^ "\n");
 	    in
 		if (pc_type = "Adversary") then symb_exec_adversary_block abpfun n_dict bl_dict syst

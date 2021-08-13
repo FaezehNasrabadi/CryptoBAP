@@ -27,127 +27,49 @@ local
 
 in
 (*
-val prog = ``BirProgram
-		 [<|bb_label :=
-		  BL_Address_HC (Imm64 2802w)
-				"52800000 (mov w0, #0x0 // #0)";
-		  bb_statements :=
-		  [BStmt_Assign (BVar "R0" (BType_Imm Bit64))
-				(BExp_Const (Imm64 0w))];
-		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm64 2804w)))|>;
-						 <|bb_label :=
-		  BL_Address_HC (Imm64 2804w) "11000400 (add w0, w0, #0x1)";
-		  bb_statements :=
-		  [BStmt_Assign (BVar "R0" (BType_Imm Bit64))
-				(BExp_Cast BIExp_UnsignedCast
-					   (BExp_BinExp BIExp_Plus
-							(BExp_Cast BIExp_LowCast
-								   (BExp_Den (BVar "R0" (BType_Imm Bit64))) Bit64)
-							(BExp_Const (Imm64 1w))) Bit64)];
-		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm64 2808w)))|>;
-						 <|bb_label := BL_Address_HC (Imm64 2808w) "2A0003E5 (mov w5, w0)";
-		  bb_statements :=
-		  [BStmt_Assign (BVar "R5" (BType_Imm Bit64))
-				(BExp_Cast BIExp_UnsignedCast
-					   (BExp_Cast BIExp_LowCast
-						      (BExp_Den (BVar "R0" (BType_Imm Bit64))) Bit64) Bit64)];
-		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm64 2812w)))|>;
-						 <|bb_label :=
-		  BL_Address_HC (Imm64 2812w) "94000040 (bl 10c <.text+0x10c>)";
-		  bb_statements :=
-		  [BStmt_Assign (BVar "R30" (BType_Imm Bit64))
-				(BExp_Const (Imm64 2816w))];
-		  bb_last_statement :=
-		  BStmt_Jmp (BLE_Label (BL_Address (Imm64 2002w)))|>;
-						 <|bb_label :=
-		  BL_Address_HC (Imm64 2816w)
-				"52800121 (mov w1, #0x9// #9)";
-		  bb_statements :=
-		  [BStmt_Assign (BVar "R1" (BType_Imm Bit64))
-				(BExp_Const (Imm64 9w))];
-		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm64 2820w)))|>;
-						 <|bb_label :=
-		  BL_Address_HC (Imm64 2820w) "94000080 (bl 214 <.text+0x214>)";
-		  bb_statements :=
-		  [BStmt_Assign (BVar "R30" (BType_Imm Bit64))
-				(BExp_Const (Imm64 2824w))];
-		  bb_last_statement :=
-		  BStmt_Jmp (BLE_Label (BL_Address (Imm64 2202w)))|>;
 
-			    <|bb_label :=
-		  BL_Address_HC (Imm64 2824w) "940000C0 (bl 318 <.text+0x318>)";
-		  bb_statements :=
-		  [BStmt_Assign (BVar "R30" (BType_Imm Bit64))
-				(BExp_Const (Imm64 2828w))];
-		  bb_last_statement :=
-		  BStmt_Jmp (BLE_Label (BL_Address (Imm64 02w)))|>;
-			    <|bb_label := BL_Address_HC (Imm64 2828w) "7100001F (cmp w0, #0x0)";
-		  bb_statements :=
-		  [BStmt_Assign (BVar "ProcState_C" BType_Bool) bir_exp_true;
-		   BStmt_Assign (BVar "ProcState_N" BType_Bool)
-				(BExp_MSB Bit64
-					  (BExp_Cast BIExp_LowCast
-						     (BExp_Den (BVar "R0" (BType_Imm Bit64))) Bit64));
-		   BStmt_Assign (BVar "ProcState_V" BType_Bool) bir_exp_false;
-		   BStmt_Assign (BVar "ProcState_Z" BType_Bool)
-				(BExp_BinPred BIExp_Equal
-					      (BExp_Cast BIExp_LowCast
-							 (BExp_Den (BVar "R0" (BType_Imm Bit64))) Bit64)
-					      (BExp_Const (Imm64 0w)))];
-		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm64 2832w)))|>;
-						 <|bb_label :=
-		  BL_Address_HC (Imm64 2832w)
-				"54000060 (b.eq 2c <.text+0x2c> // b.none)";
-		  bb_statements := [];
-		  bb_last_statement :=
-		  BStmt_CJmp (BExp_Den (BVar "ProcState_Z" BType_Bool))
-			     (BLE_Label (BL_Address (Imm64 2844w)))
-			     (BLE_Label (BL_Address (Imm64 2836w)))|>;
-			     <|bb_label := BL_Address_HC (Imm64 2836w) "110008A5 (add w5, w5, #0x2)";
-		  bb_statements :=
-		  [BStmt_Assign (BVar "R30" (BType_Imm Bit64))
-				(BExp_Const (Imm64 2840w))];
-		  bb_last_statement :=
-		  BStmt_Jmp (BLE_Label (BL_Address (Imm64 04w)))|>;
-						 <|bb_label :=
-		  BL_Address_HC (Imm64 2840w) "14000002 (b 30 <.text+0x30>)";
-		  bb_statements := [];
-		  bb_last_statement := BStmt_Jmp (BLE_Label (BL_Address (Imm64 2848w)))|>;
-						 <|bb_label := BL_Address_HC (Imm64 2844w) "110004A5 (add w5, w5, #0x1)";
-		  bb_statements :=
-		  [BStmt_Assign (BVar "R30" (BType_Imm Bit64))
-				(BExp_Const (Imm64 2848w))];
-		  bb_last_statement :=
-		  BStmt_Jmp (BLE_Label (BL_Address (Imm64 2002w)))|>;
-						 <|bb_label := BL_Address (Imm64 2848w); bb_statements := [];
-		  bb_last_statement := BStmt_Halt (BExp_Const (Imm64 0w))|>]``;
+open HolKernel Parse
+
+open binariesLib;
+open binariesTheory;
+open binariesCfgLib;
+open binariesMemLib;
+open bir_symbexec_stateLib;
+open bir_symbexec_coreLib;
+open bir_symbexec_stepLib;
+open bir_symbexec_sumLib;
+open bir_countw_simplificationLib;
+open bir_block_collectionLib;
+open bir_programSyntax;
+open bir_valuesSyntax;
+open bir_immSyntax;
+open bir_exec_typingLib;
+open commonBalrobScriptLib;
+open binariesDefsLib;
+open bir_cfgLib;
+open bir_cfg_m0Lib;
+open bir_symbexec_driverLib;
+open Redblackmap;
+open bir_symbexec_oracleLib;
+
+val lbl_tm = ``BL_Address (Imm64 4203840w)``;
+
+val stop_lbl_tms = [``BL_Address (Imm64 4204220w)``];
     
-  
-val bl_dict  = bir_block_collectionLib.gen_block_dict prog;
-val prog_lbl_tms = bir_block_collectionLib.get_block_dict_keys bl_dict;
-val prog_lbl_tms_0 = “BL_Address (Imm64 2802w)”;
-val prog_vars = bir_exec_typingLib.gen_vars_of_prog prog;
-val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict prog_lbl_tms;
-
-    
-val syst = init_state prog_lbl_tms_0 prog_vars;
-
-val Fr_bval = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("init", “BType_Imm Bit64”));
-val bv = ``BVar "R0" (BType_Imm Bit64)``;
-val deps = Redblackset.add (symbvalbe_dep_empty, bv);
-val symbv = SymbValBE (Fr_bval,deps);
-val Fr_bv = get_bvar_fresh bv;
-val syst = bir_symbexec_stateLib.insert_symbval Fr_bv symbv syst;
+val syst = init_state lbl_tm prog_vars;
 
 val pred_conjs = [``bir_exp_true``];
-
+    
 val syst = state_add_preds "init_pred" pred_conjs syst;
+
 val _ = print "initial state created.\n\n";
 
-
 val cfb = false;
-val stop_lbl_tms = [“BL_Address (Imm64 2848w)”];
-val exec_sts = symb_exec_to_stop (commonBalrobScriptLib.abpfun cfb) n_dict bl_dict [syst] stop_lbl_tms [];*)
+val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
+  
+val systs = symb_exec_to_stop (abpfun cfb) n_dict bl_dict_ [syst] stop_lbl_tms [];
+
+*)
 
 
 (*Collect path names*)
@@ -353,17 +275,25 @@ val pred_be = ``BExp_BinExp BIExp_And
 fun BExp_to_IMLExp exec_sts pred_be =
     let
 	val result = if (is_BExp_Const pred_be) then
-			 (if (is_Imm64 o dest_BExp_Const) pred_be then
+			 (if (is_Imm128 o dest_BExp_Const) pred_be then
+			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm128 o dest_BExp_Const) pred_be)
+			  else if (is_Imm64 o dest_BExp_Const) pred_be then
 			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm64 o dest_BExp_Const) pred_be)
 			  else if (is_Imm32 o dest_BExp_Const) pred_be then
 			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm32 o dest_BExp_Const) pred_be)
-			  else raise ERR "BExp_to_IMLExp" "this should not happen")
+			  else if (is_Imm16 o dest_BExp_Const) pred_be then
+			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm16 o dest_BExp_Const) pred_be)
+			  else if (is_Imm8 o dest_BExp_Const) pred_be then
+			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm8 o dest_BExp_Const) pred_be)
+			  else if (is_Imm1 o dest_BExp_Const) pred_be then
+			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm1 o dest_BExp_Const) pred_be)
+			  else raise ERR "BExp_Const:BExp_to_IMLExp" "this should not happen")
 		     else if (is_BExp_Den pred_be) then
 			 (if identical “BType_Bool” ((snd o dest_BVar o dest_BExp_Den) pred_be) then
 			      let
 				  val vals_list = symb_execs_vals_term exec_sts [];
 				  val pred_be_bool = symbval_bexp (find_be_val vals_list (dest_BExp_Den pred_be));
-				      
+				  
 			      in
 				  BExp_to_IMLExp exec_sts pred_be_bool
 			      end
@@ -379,7 +309,7 @@ fun BExp_to_IMLExp exec_sts pred_be =
 			     val (uop, subexp) = (dest_BExp_UnaryExp) pred_be;
 			     val res = if identical uop BIExp_Not_tm then
 					   ("¬")
-				       else raise ERR "BExp_to_IMLExp" "this should not happen"
+				       else raise ERR "BExp_UnaryExp:BExp_to_IMLExp" "this should not happen"
 			 in
 			     "("^res^(BExp_to_IMLExp exec_sts subexp)^")"
 			 end
@@ -391,7 +321,7 @@ fun BExp_to_IMLExp exec_sts pred_be =
 				       else if identical bop BIExp_Plus_tm then ("+")
 				       else if identical bop BIExp_Minus_tm then ("-")
 				       else if identical bop BIExp_Mult_tm then ("*")
-				       else raise ERR "BExp_to_IMLExp" "this should not happen"
+				       else raise ERR "BExp_BinExp:BExp_to_IMLExp" "this should not happen"
 			 in
 			     "("^(BExp_to_IMLExp exec_sts subexp1)^res^(BExp_to_IMLExp exec_sts subexp2)^")"
 			 end
@@ -402,18 +332,18 @@ fun BExp_to_IMLExp exec_sts pred_be =
 				       else if identical bop BIExp_NotEqual_tm then ("≠")
 				       else if identical bop BIExp_LessThan_tm then ("<")
 				       else if identical bop BIExp_LessOrEqual_tm then ("")
-				       else raise ERR "BExp_to_IMLExp" "this should not happen" 
+				       else raise ERR "BExp_BinPred:BExp_to_IMLExp" "this should not happen" 
 			 in
 			     if identical bop BIExp_LessOrEqual_tm then
 				 ("(("^(BExp_to_IMLExp exec_sts subexp1)^"<"^(BExp_to_IMLExp exec_sts subexp2)^")"^"∨"^"("^(BExp_to_IMLExp exec_sts subexp1)^"="^(BExp_to_IMLExp exec_sts subexp2)^"))")
 			     else
 				 ("("^(BExp_to_IMLExp exec_sts subexp1)^res^(BExp_to_IMLExp exec_sts subexp2)^")")
 			 end
-		     else if (is_BExp_IfThenElse pred_be) then raise ERR "BExp_to_IMLExp" "this should not happen"
-		     else if (is_BExp_MemConst pred_be) then raise ERR "BExp_to_IMLExp" "this should not happen"
-		     else if (is_BExp_MemEq pred_be) then raise ERR "BExp_to_IMLExp" "this should not happen"
-		     else if (is_BExp_Load pred_be) then raise ERR "BExp_to_IMLExp" "this should not happen"
-		     else if (is_BExp_Store pred_be) then raise ERR "BExp_to_IMLExp" "this should not happen"
+		     else if (is_BExp_IfThenElse pred_be) then raise ERR "BExp_IfThenElse:BExp_to_IMLExp" "this should not happen"
+		     else if (is_BExp_MemConst pred_be) then raise ERR "BExp_MemConst:BExp_to_IMLExp" "this should not happen"
+		     else if (is_BExp_MemEq pred_be) then raise ERR "BExp_MemEq:BExp_to_IMLExp" "this should not happen"
+		     else if (is_BExp_Load pred_be) then raise ERR "BExp_Load:BExp_to_IMLExp" "this should not happen"
+		     else if (is_BExp_Store pred_be) then raise ERR "BExp_Store:BExp_to_IMLExp" "this should not happen"
 		     else raise ERR "BExp_to_IMLExp" "this should not happen";
 
     in
@@ -426,7 +356,7 @@ val pred = "23_cjmp_true_cnd";
 val pred_term = “BVar "23_cjmp_true_cnd" BType_Bool”;
 val pred_be = “BExp_Den (BVar "22_ProcState_Z" BType_Bool)”;
 *)
-    
+   
 fun IMLExp_from_pred exec_sts pred =
     let
 
@@ -453,14 +383,15 @@ val Act = new 37_Key: 64;
 val pred = "60_Adv";
 val preds = ["61_K"];
 val Act = in(c, 60_Adv);
-*)
+ *)
+
 fun path_of_tree exec_sts [] =
     ()
   | path_of_tree exec_sts (pred::preds) =
     let
 
 	val Act = if (String.isSuffix "assert_true_cnd" pred) then ()
-		  else if (String.isSuffix "cjmp_true_cnd" pred) then (((to_string o Br_True) (IMLExp_from_pred exec_sts pred)); (path_of_tree exec_sts [((hd o tl) preds)]); (to_string (I_False ())))
+		  else if (String.isSuffix "cjmp_true_cnd" pred) then (((to_string o Br_True) (IMLExp_from_pred exec_sts pred)); (if (List.length preds = 1) then () else ((path_of_tree exec_sts [((hd o tl) preds)]); (to_string (I_False ())))))
 		  else if (String.isSuffix "assert_false_cnd" pred) then (((to_string o Br_True) (IMLExp_from_pred exec_sts pred)); ((to_string o assume_to_event) "bad"); (to_string (I_False ())))
 		  else if (String.isSuffix "cjmp_false_cnd" pred) then ()
 		  else if (String.isSuffix "Key" pred) then (to_string o Fr_to_New) pred
@@ -470,7 +401,7 @@ fun path_of_tree exec_sts [] =
 		  else ();
 	    
     in
-	if (String.isSuffix "cjmp_false_cnd" pred)
+	if (String.isSuffix "cjmp_false_cnd" pred andalso ((not o List.null) preds))
 	then path_of_tree exec_sts (tl preds)
 	else path_of_tree exec_sts preds
     end;
@@ -491,7 +422,9 @@ in(c, 46_Adv);
   if 53_cjmp_true_cnd then
       new 56_Key: 64;
   else in(c, 60_Adv);
-*)
+
+val exec_sts = systs;
+*) 
 fun sym_exe_to_IML exec_sts =
     let
 	val refine_preds = get_refine_preds_list exec_sts;

@@ -96,15 +96,15 @@ open bir_gcc_dataLib;
 in (* local *)
 
 (*
-val lbl_tm = ``BL_Address (Imm32 440w)``;
+val lbl_tm = ``BL_Address (Imm64 440w)``;
 val addr = Arbnumcore.fromInt 440;
 *)
 
 fun mk_lbl_tm addr =
-  (mk_BL_Address o mk_Imm32 o mk_word) (addr, Arbnum.fromInt 32);
+  (mk_BL_Address o mk_Imm64 o mk_word) (addr, Arbnum.fromInt 64);
 
 fun dest_lbl_tm lbl_tm =
-  (dest_word_literal o dest_Imm32 o dest_BL_Address o snd o dest_eq o concl o EVAL) lbl_tm
+  (dest_word_literal o dest_Imm64 o dest_BL_Address o snd o dest_eq o concl o EVAL) lbl_tm
 
 val prog_vars = prog_vars;
 val prog_var_types = List.map (fn t =>

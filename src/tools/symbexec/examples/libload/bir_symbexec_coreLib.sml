@@ -75,16 +75,16 @@ local
 
   val sp_align_sub_const_match_tm = ``
         (BExp_BinExp BIExp_Minus
-          (BExp_Align Bit32 2 (BExp_Den (BVar "SP_process" (BType_Imm Bit32))))
+          (BExp_Align Bit64 2 (BExp_Den (BVar "SP_process" (BType_Imm Bit64))))
           (BExp_Const y))``;
 
   val sp_align_add_const_match_tm = ``
         (BExp_BinExp BIExp_Plus
-          (BExp_Align Bit32 2 (BExp_Den (BVar "SP_process" (BType_Imm Bit32))))
+          (BExp_Align Bit64 2 (BExp_Den (BVar "SP_process" (BType_Imm Bit64))))
           (BExp_Const y))``;
 
   val sp_align_r7_match_tm = ``
-        (BExp_Align Bit32 2 (BExp_Den (BVar "R7" (BType_Imm Bit32))))``;
+        (BExp_Align Bit64 2 (BExp_Den (BVar "R7" (BType_Imm Bit64))))``;
 
   fun simplify_be be syst =
     let
@@ -93,7 +93,7 @@ local
 
       val replacewith_tm = ``
         (BExp_BinExp BIExp_Minus
-          (BExp_Den (BVar "SP_process" (BType_Imm Bit32)))
+          (BExp_Den (BVar "SP_process" (BType_Imm Bit64)))
           (BExp_Const ^imm_val))``;
 
       val _ = if not debugAssignments then () else
@@ -110,7 +110,7 @@ local
 
       val replacewith_tm = ``
         (BExp_BinExp BIExp_Plus
-          (BExp_Den (BVar "SP_process" (BType_Imm Bit32)))
+          (BExp_Den (BVar "SP_process" (BType_Imm Bit64)))
           (BExp_Const ^imm_val))``;
 
       val _ = if not debugAssignments then () else
@@ -125,7 +125,7 @@ local
       val (vs, _) = hol88Lib.match sp_align_r7_match_tm be;
 
       val replacewith_tm = ``
-        BExp_Den (BVar "R7" (BType_Imm Bit32))``;
+        BExp_Den (BVar "R7" (BType_Imm Bit64))``;
 
       val _ = if not debugAssignments then () else
               (print "- replace r7 :");
