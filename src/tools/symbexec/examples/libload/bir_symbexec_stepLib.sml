@@ -252,15 +252,10 @@ fun symb_exec_library_block abpfun n_dict bl_dict syst =
 			   else if (lib_type = "NewKey") then bir_symbexec_funcLib.new_key syst
 			   else if (lib_type = "Encryption") then bir_symbexec_funcLib.Encryption syst
 			   else if (lib_type = "Decryption") then bir_symbexec_funcLib.Decryption syst
+			   else if (lib_type = "MEMcpy") then bir_symbexec_funcLib.New_memcpy syst
 			   else syst;
 
-		val systs = if (lib_type = "MEMcpy")
-			    then let
-				    val systs = bir_symbexec_funcLib.New_memcpy syst;
-				in
-				    (List.map (fn x => bir_symbexec_funcLib.update_pc x) systs)
-				end
-			    else [bir_symbexec_funcLib.update_pc syst];(* update symb_state with new pc *)
+		val systs = [bir_symbexec_funcLib.update_pc syst];(* update symb_state with new pc *)
 		    
 
 		val systs_processed = abpfun systs; 

@@ -1180,23 +1180,7 @@ fun HMAC syst =
     end;
 
 
-fun check_length syst =
-    let
-	val be_r2 = (symbval_bexp o get_state_symbv " New_memcpy::vals not found " “BVar "R0" (BType_Imm Bit64)”) syst;
-
-	val (expm, expad, endi, sz) = (dest_BExp_Load) be_r2;
-
-	val assert_cnd = mk_BExp_BinPred (``BIExp_NotEqual``, expad,``BExp_Const (Imm64 0w)``);
-
-	val systs1 = ((I) o state_add_path "assert_true_cnd" assert_cnd) syst;
-	val systs2 = ((SYST_update_status BST_AssumptionViolated_tm) o state_add_path "assert_false_cnd" (bslSyntax.bnot assert_cnd)) syst;
-    in
-        [systs1]@[systs2]
-    end;
-
-
-
-fun copy_to_mem syst =
+fun New_memcpy syst =
     let
 	
 	val bv_mem = find_bv_val ("New_memcpy::bv in env not found") (SYST_get_env syst) “BVar "MEM" (BType_Mem Bit64 Bit8)”;
@@ -1205,9 +1189,9 @@ fun copy_to_mem syst =
 
 	val be_r0 = (symbval_bexp o get_state_symbv " New_memcpy::vals not found " “BVar "R0" (BType_Imm Bit64)”) syst;
 
-	val (expm, expad, endi, sz) = (dest_BExp_Load) be_r0;
+	val endi = “BEnd_LittleEndian”;
 	    
-	val be = (mk_BExp_Store (mk_BExp_Den(bv_mem), expad, endi, mk_BExp_Den(bv_r1)));
+	val be = (mk_BExp_Store (mk_BExp_Den(bv_mem), be_r0, endi, mk_BExp_Den(bv_r1)));
 
 	val Fr_mem = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("MEM", “BType_Mem Bit64 Bit8”));
 
@@ -1219,15 +1203,6 @@ fun copy_to_mem syst =
     end;
 
 
-fun New_memcpy syst =
-    let
-	val systs = check_length syst;
-
-	val systs = (List.map (fn x => copy_to_mem x) systs);
-    in
-	systs
-    end;
-    
     
 end(*local*)
 
