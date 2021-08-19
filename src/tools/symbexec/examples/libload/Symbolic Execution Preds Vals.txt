@@ -1,0 +1,2862 @@
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And (BExp_Den (BVar "sy_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Minus
+           (BExp_Den (BVar "sy_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 112w)))
+        (BExp_Const (Imm64 18446744073709551599w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Minus
+                 (BExp_Den (BVar "sy_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 112w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 16w))
+                 (BExp_BinExp BIExp_Minus
+                    (BExp_Den (BVar "sy_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 112w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Minus
+                 (BExp_Den (BVar "sy_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 112w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Minus
+                 (BExp_Den (BVar "sy_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 112w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 40w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 40w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 40w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 40w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 40w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 32w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 32w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 32w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 32w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 32w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 24w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 24w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 24w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 24w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 24w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 16w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 16w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 16w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 16w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 16w)))))))
+ ----------------- 
+BExp_Const (Imm1 0w)
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 104w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 104w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 104w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 104w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 104w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_BinExp BIExp_And (BExp_Den (BVar "41_ProcState_C" BType_Bool))
+  (BExp_UnaryExp BIExp_Not (BExp_Den (BVar "44_ProcState_Z" BType_Bool)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_BinExp BIExp_And (BExp_Den (BVar "53_ProcState_C" BType_Bool))
+  (BExp_UnaryExp BIExp_Not (BExp_Den (BVar "56_ProcState_Z" BType_Bool)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 64w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 64w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 64w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 64w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 64w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 56w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 56w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 56w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 56w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 56w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 72w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 72w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 72w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 72w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 72w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 80w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 80w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And (BExp_Den (BVar "99_R0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_Den (BVar "99_R0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_Den (BVar "99_R0" (BType_Imm Bit64))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_Den (BVar "99_R0" (BType_Imm Bit64))))
+              (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_Den (BVar "99_R0" (BType_Imm Bit64)))
+              (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_Den (BVar "99_R0" (BType_Imm Bit64)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 80w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 80w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 88w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 88w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 88w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 88w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 88w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 80w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 80w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_Den (BVar "127_R0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 18446744073709551614w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_Den (BVar "127_R0" (BType_Imm Bit64))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 1w))
+                 (BExp_Den (BVar "127_R0" (BType_Imm Bit64))))
+              (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_Den (BVar "127_R0" (BType_Imm Bit64)))
+              (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_Den (BVar "127_R0" (BType_Imm Bit64)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 80w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 80w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_Den (BVar "163_R0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 18446744073709551614w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_Den (BVar "163_R0" (BType_Imm Bit64))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 1w))
+                 (BExp_Den (BVar "163_R0" (BType_Imm Bit64))))
+              (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_Den (BVar "163_R0" (BType_Imm Bit64)))
+              (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_Den (BVar "163_R0" (BType_Imm Bit64)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_Den (BVar "195_R0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 18446744073709551614w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_Den (BVar "195_R0" (BType_Imm Bit64))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 1w))
+                 (BExp_Den (BVar "195_R0" (BType_Imm Bit64))))
+              (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_Den (BVar "195_R0" (BType_Imm Bit64)))
+              (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_Den (BVar "195_R0" (BType_Imm Bit64)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 96w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 96w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 96w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 96w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 96w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_Const (Imm1 0w)
+ ----------------- 
+BExp_Den (BVar "234_ProcState_Z" BType_Bool)
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 64w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 64w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 64w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 64w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 64w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 56w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 56w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 56w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 56w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 56w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 72w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 72w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 72w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 72w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 72w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 80w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 80w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And (BExp_Den (BVar "275_R0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_Den (BVar "275_R0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_Den (BVar "275_R0" (BType_Imm Bit64))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_Den (BVar "275_R0" (BType_Imm Bit64))))
+              (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_Den (BVar "275_R0" (BType_Imm Bit64)))
+              (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_Den (BVar "275_R0" (BType_Imm Bit64)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 80w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 80w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 88w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 88w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 88w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 88w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 88w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 80w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 80w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_Den (BVar "303_R0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 18446744073709551614w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_Den (BVar "303_R0" (BType_Imm Bit64))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 1w))
+                 (BExp_Den (BVar "303_R0" (BType_Imm Bit64))))
+              (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_Den (BVar "303_R0" (BType_Imm Bit64)))
+              (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_Den (BVar "303_R0" (BType_Imm Bit64)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 80w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 80w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_Den (BVar "339_R0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 18446744073709551614w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_Den (BVar "339_R0" (BType_Imm Bit64))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 1w))
+                 (BExp_Den (BVar "339_R0" (BType_Imm Bit64))))
+              (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_Den (BVar "339_R0" (BType_Imm Bit64)))
+              (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_Den (BVar "339_R0" (BType_Imm Bit64)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_Den (BVar "371_R0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 18446744073709551614w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_Den (BVar "371_R0" (BType_Imm Bit64))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 1w))
+                 (BExp_Den (BVar "371_R0" (BType_Imm Bit64))))
+              (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_Den (BVar "371_R0" (BType_Imm Bit64)))
+              (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_Den (BVar "371_R0" (BType_Imm Bit64)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 96w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 96w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 96w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 96w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 96w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_Const (Imm1 0w)
+ ----------------- 
+BExp_Den (BVar "410_ProcState_Z" BType_Bool)
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_BinExp BIExp_And (BExp_Den (BVar "417_ProcState_C" BType_Bool))
+  (BExp_UnaryExp BIExp_Not (BExp_Den (BVar "420_ProcState_Z" BType_Bool)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 64w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 64w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 64w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 64w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 64w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 56w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 56w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 56w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 56w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 56w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 72w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 72w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 72w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 72w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 72w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 80w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 80w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And (BExp_Den (BVar "463_R0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_Den (BVar "463_R0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_Den (BVar "463_R0" (BType_Imm Bit64))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_Den (BVar "463_R0" (BType_Imm Bit64))))
+              (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_Den (BVar "463_R0" (BType_Imm Bit64)))
+              (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_Den (BVar "463_R0" (BType_Imm Bit64)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 80w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 80w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 88w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 88w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 88w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 88w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 88w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 80w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 80w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_Den (BVar "491_R0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 18446744073709551614w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_Den (BVar "491_R0" (BType_Imm Bit64))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 1w))
+                 (BExp_Den (BVar "491_R0" (BType_Imm Bit64))))
+              (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_Den (BVar "491_R0" (BType_Imm Bit64)))
+              (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_Den (BVar "491_R0" (BType_Imm Bit64)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 80w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 80w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_Den (BVar "527_R0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 18446744073709551614w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_Den (BVar "527_R0" (BType_Imm Bit64))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 1w))
+                 (BExp_Den (BVar "527_R0" (BType_Imm Bit64))))
+              (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_Den (BVar "527_R0" (BType_Imm Bit64)))
+              (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_Den (BVar "527_R0" (BType_Imm Bit64)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_Den (BVar "559_R0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 18446744073709551614w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_Den (BVar "559_R0" (BType_Imm Bit64))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 1w))
+                 (BExp_Den (BVar "559_R0" (BType_Imm Bit64))))
+              (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_Den (BVar "559_R0" (BType_Imm Bit64)))
+              (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_Den (BVar "559_R0" (BType_Imm Bit64)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 96w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 96w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 96w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 96w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 96w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_Const (Imm1 0w)
+ ----------------- 
+BExp_Den (BVar "598_ProcState_Z" BType_Bool)
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 64w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 64w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 64w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 64w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 64w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 56w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 56w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 56w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 56w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 56w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 72w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 72w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 72w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 72w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 72w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 80w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 80w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And (BExp_Den (BVar "639_R0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_Den (BVar "639_R0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_Den (BVar "639_R0" (BType_Imm Bit64))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_Den (BVar "639_R0" (BType_Imm Bit64))))
+              (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_Den (BVar "639_R0" (BType_Imm Bit64)))
+              (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_Den (BVar "639_R0" (BType_Imm Bit64)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 80w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 80w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 88w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 88w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 88w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 88w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 88w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 80w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 80w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_Den (BVar "667_R0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 18446744073709551614w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_Den (BVar "667_R0" (BType_Imm Bit64))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 1w))
+                 (BExp_Den (BVar "667_R0" (BType_Imm Bit64))))
+              (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_Den (BVar "667_R0" (BType_Imm Bit64)))
+              (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_Den (BVar "667_R0" (BType_Imm Bit64)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 80w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 80w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_Den (BVar "703_R0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 18446744073709551614w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_Den (BVar "703_R0" (BType_Imm Bit64))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 1w))
+                 (BExp_Den (BVar "703_R0" (BType_Imm Bit64))))
+              (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_Den (BVar "703_R0" (BType_Imm Bit64)))
+              (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_Den (BVar "703_R0" (BType_Imm Bit64)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_Den (BVar "735_R0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 18446744073709551614w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_Den (BVar "735_R0" (BType_Imm Bit64))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 1w))
+                 (BExp_Den (BVar "735_R0" (BType_Imm Bit64))))
+              (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_Den (BVar "735_R0" (BType_Imm Bit64)))
+              (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_Den (BVar "735_R0" (BType_Imm Bit64)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 96w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 96w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 96w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 96w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 96w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_Const (Imm1 0w)
+ ----------------- 
+BExp_Den (BVar "774_ProcState_Z" BType_Bool)
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And (BExp_Den (BVar "sy_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Minus
+           (BExp_Den (BVar "sy_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 112w)))
+        (BExp_Const (Imm64 18446744073709551599w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Minus
+                 (BExp_Den (BVar "sy_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 112w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 16w))
+                 (BExp_BinExp BIExp_Minus
+                    (BExp_Den (BVar "sy_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 112w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Minus
+                 (BExp_Den (BVar "sy_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 112w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Minus
+                 (BExp_Den (BVar "sy_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 112w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 40w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 40w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 40w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 40w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 40w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 32w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 32w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 32w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 32w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 32w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 24w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 24w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 24w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 24w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 24w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 16w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 16w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 16w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 16w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 16w)))))))
+ ----------------- 
+BExp_Const (Imm1 0w)
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 104w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 104w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 104w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 104w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 104w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_BinExp BIExp_And (BExp_Den (BVar "41_ProcState_C" BType_Bool))
+  (BExp_UnaryExp BIExp_Not (BExp_Den (BVar "44_ProcState_Z" BType_Bool)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_BinExp BIExp_And (BExp_Den (BVar "53_ProcState_C" BType_Bool))
+  (BExp_UnaryExp BIExp_Not (BExp_Den (BVar "56_ProcState_Z" BType_Bool)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 64w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 64w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 64w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 64w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 64w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 56w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 56w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 56w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 56w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 56w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 72w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 72w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 72w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 72w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 72w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_BinExp BIExp_Plus
+           (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+           (BExp_Const (Imm64 80w)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 80w)))) (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w))) (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+                 (BExp_Const (Imm64 80w)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And (BExp_Den (BVar "99_R0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinExp BIExp_And
+     (BExp_BinPred BIExp_LessOrEqual
+        (BExp_Den (BVar "99_R0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 18446744073709551607w)))
+     (BExp_BinExp BIExp_And
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan (BExp_Const (Imm64 0w))
+              (BExp_Den (BVar "99_R0" (BType_Imm Bit64))))
+           (BExp_BinPred BIExp_LessOrEqual
+              (BExp_BinExp BIExp_Plus (BExp_Const (Imm64 8w))
+                 (BExp_Den (BVar "99_R0" (BType_Imm Bit64))))
+              (BExp_Const (Imm64 0w))))
+        (BExp_BinExp BIExp_Or
+           (BExp_BinPred BIExp_LessThan
+              (BExp_Den (BVar "99_R0" (BType_Imm Bit64)))
+              (BExp_Const (Imm64 0w)))
+           (BExp_BinPred BIExp_LessOrEqual (BExp_Const (Imm64 4294967295w))
+              (BExp_Den (BVar "99_R0" (BType_Imm Bit64)))))))
+ ----------------- 
+BExp_UnaryExp BIExp_Not
+  (BExp_BinPred BIExp_Equal
+     (BExp_BinExp BIExp_And
+        (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
+        (BExp_Const (Imm64 7w))) (BExp_Const (Imm64 0w)))
+ ----------------- 

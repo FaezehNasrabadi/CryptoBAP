@@ -22,7 +22,7 @@ datatype IExp =
        | Ops       of (IExp list)	     
        | Enc_BS    of (bool list)
        | Sub_BS    of (string * int)
-       | Concat    of (string * string);	       
+       | Concat    of (IExp * IExp);	       
 
 datatype IML_Stmt =
 	 I_In       of (string list)
@@ -38,17 +38,15 @@ fun ITerm_to_string (N t)    = (int_to_string t)
 
 fun IExp_to_string (Var s)           = s
   | IExp_to_string (BS bs)           = ((binstring_of_term o bitstring_of_bitlist) bs)
-  | IExp_to_string (Ops es)          = ((List.foldr (fn (x,s) => s ^ ", " ^ (IExp_to_string x)) "" (es)))	   
+  | IExp_to_string (Ops es)          = ((IExp_to_string (hd es))^(List.foldr (fn (x,s) => s ^"("^ (IExp_to_string x) ^ ")") "(" (tl es)) ^ ")")	   
   | IExp_to_string (Enc_BS bs)       = ((binstring_of_term o bitstring_of_bitlist) bs)
   | IExp_to_string (Sub_BS (s, _))   = s 
-  | IExp_to_string (Concat (s1, s2)) = (s1^s2);     
+  | IExp_to_string (Concat (s1, s2)) = ((IExp_to_string s1)^(IExp_to_string s2));     
 
-
-    
 fun to_string (I_In [v])        = (let val IFile = TextIO.openAppend "IML_Translation.txt"; in TextIO.output (IFile, "in(c, " ^ v ^ ");\n" ); TextIO.flushOut IFile end)
   | to_string (I_In vs)         = (let val IFile = TextIO.openAppend "IML_Translation.txt"; in TextIO.output (IFile, (List.foldr (fn (x,s) => s ^ ", " ^ "in(c, " ^ x ^ ");\n") "" (vs))); TextIO.flushOut IFile end)
   | to_string (I_True e)        = (let val IFile = TextIO.openAppend "IML_Translation.txt"; in TextIO.output (IFile, "if " ^ (IExp_to_string (e)) ^ " then\n"); TextIO.flushOut IFile end)
-  | to_string (I_False ())      = (let val IFile = TextIO.openAppend "IML_Translation.txt"; in TextIO.output (IFile, "else "); TextIO.flushOut IFile end)
+  | to_string (I_False ())      = (let val IFile = TextIO.openAppend "IML_Translation.txt"; in TextIO.output (IFile, "else\n"); TextIO.flushOut IFile end)
   | to_string (I_Out [e])       = (let val IFile = TextIO.openAppend "IML_Translation.txt"; in TextIO.output (IFile, "out(c, " ^ (IExp_to_string (e)) ^ ");\n"); TextIO.flushOut IFile end)
   | to_string (I_Out es)        = (let val IFile = TextIO.openAppend "IML_Translation.txt"; in TextIO.output (IFile, "out(c, (" ^ (List.foldr (fn (x,s) => s ^ ", " ^ (IExp_to_string x)) "" (es)) ^ "));\n"); TextIO.flushOut IFile end)
   | to_string (I_New (v, t))    = (let val IFile = TextIO.openAppend "IML_Translation.txt"; in TextIO.output (IFile, "new " ^ v ^ ": " ^ (ITerm_to_string t) ^ ";\n"); TextIO.flushOut IFile end)

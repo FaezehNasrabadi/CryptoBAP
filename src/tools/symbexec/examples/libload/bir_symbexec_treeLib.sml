@@ -22,7 +22,8 @@ local
     open bir_symbexec_coreLib;
     open Int;
     open Redblackmap;
-    open Redblackset;	 
+    open Redblackset;
+    open bitstringSyntax;
     val ERR = Feedback.mk_HOL_ERR "bir_symbexec_treeLib"
 
 in
@@ -69,6 +70,7 @@ val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
   
 val systs = symb_exec_to_stop (abpfun cfb) n_dict bl_dict_ [syst] stop_lbl_tms [];
 
+val exec_sts = systs;
 *)
 
 
@@ -245,7 +247,7 @@ fun assume_to_event pred_name = (I_Event pred_name);
 (*Translate BIR expressions to IML expressions*)
 (*
 val pred_be = “BExp_Const (Imm64 2840w)”; val result = "2840";
-val pred_be = “BExp_Den (BVar "22_ProcState_Z" BType_Bool)”;
+val pred_be = “BExp_Den (BVar "88_MEM" (BType_Mem Bit64 Bit8))”;
 val pred_be = ``BExp_Cast BIExp_LowCast
                         (BExp_Den (BVar "R0" (BType_Imm Bit64))) Bit32``;
 val pred_be = ``BExp_UnaryExp BIExp_Not
@@ -276,17 +278,17 @@ fun BExp_to_IMLExp exec_sts pred_be =
     let
 	val result = if (is_BExp_Const pred_be) then
 			 (if (is_Imm128 o dest_BExp_Const) pred_be then
-			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm128 o dest_BExp_Const) pred_be)
+			      IExp_to_string (BS ((num_to_bitlist o wordsSyntax.dest_word_literal o dest_Imm128 o dest_BExp_Const) pred_be))
 			  else if (is_Imm64 o dest_BExp_Const) pred_be then
-			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm64 o dest_BExp_Const) pred_be)
+			      IExp_to_string (BS ((num_to_bitlist o wordsSyntax.dest_word_literal o dest_Imm64 o dest_BExp_Const) pred_be))
 			  else if (is_Imm32 o dest_BExp_Const) pred_be then
-			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm32 o dest_BExp_Const) pred_be)
+			      IExp_to_string (BS ((num_to_bitlist o wordsSyntax.dest_word_literal o dest_Imm32 o dest_BExp_Const) pred_be))
 			  else if (is_Imm16 o dest_BExp_Const) pred_be then
-			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm16 o dest_BExp_Const) pred_be)
+			      IExp_to_string (BS ((num_to_bitlist o wordsSyntax.dest_word_literal o dest_Imm16 o dest_BExp_Const) pred_be))
 			  else if (is_Imm8 o dest_BExp_Const) pred_be then
-			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm8 o dest_BExp_Const) pred_be)
+			      IExp_to_string (BS ((num_to_bitlist o wordsSyntax.dest_word_literal o dest_Imm8 o dest_BExp_Const) pred_be))
 			  else if (is_Imm1 o dest_BExp_Const) pred_be then
-			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm1 o dest_BExp_Const) pred_be)
+			      IExp_to_string (BS ((num_to_bitlist o wordsSyntax.dest_word_literal o dest_Imm1 o dest_BExp_Const) pred_be))
 			  else raise ERR "BExp_Const:BExp_to_IMLExp" "this should not happen")
 		     else if (is_BExp_Den pred_be) then
 			 (if identical “BType_Bool” ((snd o dest_BVar o dest_BExp_Den) pred_be) then
@@ -311,33 +313,30 @@ fun BExp_to_IMLExp exec_sts pred_be =
 					   ("¬")
 				       else raise ERR "BExp_UnaryExp:BExp_to_IMLExp" "this should not happen"
 			 in
-			     "("^res^(BExp_to_IMLExp exec_sts subexp)^")"
+			     (res^"("^(BExp_to_IMLExp exec_sts subexp)^")")
 			 end
 		     else if (is_BExp_BinExp pred_be) then
 			 let
 			     val (bop, subexp1, subexp2) = (dest_BExp_BinExp) pred_be;
-			     val res = if identical bop BIExp_And_tm then ("∧")
-				       else if identical bop BIExp_Or_tm then ("∨")
-				       else if identical bop BIExp_Plus_tm then ("+")
-				       else if identical bop BIExp_Minus_tm then ("-")
-				       else if identical bop BIExp_Mult_tm then ("*")
+			     val res = if identical bop BIExp_And_tm then ("BIExp_And")
+				       else if identical bop BIExp_Or_tm then ("BIExp_Or")
+				       else if identical bop BIExp_Plus_tm then ("BIExp_Plus")
+				       else if identical bop BIExp_Minus_tm then ("BIExp_Minus")
+				       else if identical bop BIExp_Mult_tm then ("BIExp_Mult")
 				       else raise ERR "BExp_BinExp:BExp_to_IMLExp" "this should not happen"
 			 in
-			     "("^(BExp_to_IMLExp exec_sts subexp1)^res^(BExp_to_IMLExp exec_sts subexp2)^")"
+			     IExp_to_string (Ops [(Var res), (Var (BExp_to_IMLExp exec_sts subexp1)), (Var (BExp_to_IMLExp exec_sts subexp2))])
 			 end
 		     else if (is_BExp_BinPred pred_be) then
 			 let
 			     val (bop, subexp1, subexp2) = (dest_BExp_BinPred) pred_be;
-			     val res = if identical bop BIExp_Equal_tm then ("=")
-				       else if identical bop BIExp_NotEqual_tm then ("≠")
-				       else if identical bop BIExp_LessThan_tm then ("<")
-				       else if identical bop BIExp_LessOrEqual_tm then ("")
+			     val res = if identical bop BIExp_Equal_tm then (" = ")
+				       else if identical bop BIExp_NotEqual_tm then (" <> ")
+				       else if identical bop BIExp_LessThan_tm then (" < ")
+				       else if identical bop BIExp_LessOrEqual_tm then (" <= ")
 				       else raise ERR "BExp_BinPred:BExp_to_IMLExp" "this should not happen" 
 			 in
-			     if identical bop BIExp_LessOrEqual_tm then
-				 ("(("^(BExp_to_IMLExp exec_sts subexp1)^"<"^(BExp_to_IMLExp exec_sts subexp2)^")"^"∨"^"("^(BExp_to_IMLExp exec_sts subexp1)^"="^(BExp_to_IMLExp exec_sts subexp2)^"))")
-			     else
-				 ("("^(BExp_to_IMLExp exec_sts subexp1)^res^(BExp_to_IMLExp exec_sts subexp2)^")")
+			     ((BExp_to_IMLExp exec_sts subexp1)^res^(BExp_to_IMLExp exec_sts subexp2))
 			 end
 		     else if (is_BExp_IfThenElse pred_be) then raise ERR "BExp_IfThenElse:BExp_to_IMLExp" "this should not happen"
 		     else if (is_BExp_MemConst pred_be) then raise ERR "BExp_MemConst:BExp_to_IMLExp" "this should not happen"
@@ -352,7 +351,7 @@ fun BExp_to_IMLExp exec_sts pred_be =
 
 (*Extract BIR expressions from pred name*)
 (*
-val pred = "23_cjmp_true_cnd";
+val pred = "165_assert_true_cnd";
 val pred_term = “BVar "23_cjmp_true_cnd" BType_Bool”;
 val pred_be = “BExp_Den (BVar "22_ProcState_Z" BType_Bool)”;
 *)
@@ -365,6 +364,8 @@ fun IMLExp_from_pred exec_sts pred =
 	val pred_term = bir_envSyntax.mk_BVar_string(pred, “BType_Bool”);
 	    
 	val pred_be = symbval_bexp (find_be_val vals_list pred_term);
+
+	(*val _ = let val IFile = TextIO.openAppend "Symbolic Execution Preds Vals.txt"; in TextIO.output (IFile, (term_to_string pred_be) ^ "\n ----------------- \n" ); TextIO.flushOut IFile end;*)
 
 	val pred_IML_Exp = BExp_to_IMLExp exec_sts pred_be;
 
