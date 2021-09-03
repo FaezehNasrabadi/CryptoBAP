@@ -173,6 +173,8 @@ end (* local *)
       val expo = case symbv of
                     SymbValBE (x, _) => SOME x
                   | _ => NONE;
+
+
       val use_expo_var =
             isSome expo andalso
             (bir_expSyntax.is_BExp_Den o valOf) expo;

@@ -4,9 +4,6 @@ __libc_malloc
 EVP_sha1
 HMAC
 socket_connect
-send
-my_load_buf
-my_store_buf
-_IO_puts
 my_memcpy_proxy
 __stack_chk_fail
+get_key

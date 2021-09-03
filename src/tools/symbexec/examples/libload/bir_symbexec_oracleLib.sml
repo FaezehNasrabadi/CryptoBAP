@@ -9,10 +9,31 @@ local
     open TextIO;
     open Redblackmap;
     open List;
-
-
+    open bir_auxiliaryLib;
+    open bir_cfgLib;
+    open bir_cfg_m0Lib;
     val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_oracleLib"
 in
+
+fun is_function_call (n_dict : (term, cfg_node) dict) (lbl_tm : term) =
+    let
+	val n_op = Redblackmap.peek(n_dict, lbl_tm);
+	val exist = if is_none n_op
+		    then false
+		    else
+			let
+			    val n = valOf n_op;
+			    val descr  = (valOf o #CFGN_hc_descr) n;
+			    val instrDes = (snd o (list_split_pred #" ") o explode) descr;
+			in
+			    if String.isPrefix "(bl " (implode instrDes)
+			    then true
+			    else false
+			  end;
+    in
+	exist
+    end;
+
 (*val est = ``BStmt_CJmp (BExp_Den (BVar "ProcState_Z" BType_Bool))
 			     (BLE_Label (BL_Address (Imm64 2844w)))
 			     (BLE_Label (BL_Address (Imm64 2836w)))``;*)
@@ -53,49 +74,12 @@ val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
   
 val systs = bir_symbexec_stepLib.symb_exec_to_stop (abpfun cfb) n_dict bl_dict_ [syst] stop_lbl_tms [];*)
 (*val est = ``BStmt_Jmp
-                    (BLE_Exp (BExp_Den (BVar "R17" (BType_Imm Bit64))))``;*)
+                    (BLE_Exp (BExp_Den (BVar "R30" (BType_Imm Bit64))))``;*)
 
-fun state_exec_try_jmp_exp_var_out est syst =
+fun state_exec_try_jmp_exp_var_out ret_list est syst =
     let
-
-	 val jmp_exp_var_match_tm = ``BStmt_Jmp (BLE_Exp x)``;
-	 val (vs, _) = hol88Lib.match jmp_exp_var_match_tm est;
-
-	 val be_tgt  = (fst o hd) vs;
-
-	 open bir_countw_simplificationLib;
-	 val bvalo = eval_exp_in_syst be_tgt syst;
-    
-
-	 open bir_valuesSyntax;
-	 open optionSyntax;
-	      
-	 val tgt = 
-	     if is_some bvalo then (mk_BL_Address o dest_BVal_Imm o dest_some) bvalo
-	     else ``BL_Address (Imm64 4212w)``;(*we need to fix it later*)
-	 (*
-	val _ = print ("inter\n");
-	 val jmp_exp_var_match_tm = ``BStmt_Jmp (BLE_Exp x)``;
-	val (vs, _) = hol88Lib.match jmp_exp_var_match_tm est
-                    handle _ => (
-                      print ("couldn't match end statement: " ^ (term_to_string est) ^ "\n");
-                      raise ERR "couldn't match" (term_to_string est));
-      val be_tgt  = (fst o hd) vs;
-
-      open bir_countw_simplificationLib;
-      val bvalo = eval_exp_in_syst be_tgt syst;
-
-      open bir_valuesSyntax;
-      open optionSyntax;
-      val tgt = (mk_BL_Address o dest_BVal_Imm o dest_some) bvalo
-                handle _ => (
-                  print ("state_exec_try_jmp_exp_var::no const: " ^
-                         (term_to_string bvalo) ^ " ;; " ^ 
-                         (term_to_string be_tgt) ^ "\n");
-                  raise ERR "state_exec_try_jmp_exp_var_out"
-			    ("target value is no const: " ^ (term_to_string bvalo)));
-	  val _ = print ("exit\n" ^ (term_to_string tgt));*)
-
+	val (be, flag) = hd(ret_list);
+	val tgt = (mk_BL_Address o bir_expSyntax.dest_BExp_Const) be
     in
 	tgt 
     end;
@@ -169,10 +153,8 @@ fun exist_in_dict fun_name file_name =
 	(List.exists (fn x => x=fun_name) Names_list)
     end;
 
-fun fun_oracle_type_label label =
+fun fun_oracle_type_label adr_dict label =
     let
-	val adr_dict = bir_symbexec_PreprocessLib.fun_addresses_dict bl_dict_ prog_lbl_tms_;
-
 	val exist_dict = Redblackmap.peek(adr_dict, label);
 	    
 	val lbl = 
@@ -196,29 +178,29 @@ fun fun_oracle_type_label label =
 	lbl
     end;
 
-fun fun_oracle_Address est syst =
+fun fun_oracle_Address ret_list est syst =
     let
 	val target_label = if is_BStmt_CJmp est then state_exec_try_cjmp_label_out est syst
 			   else if is_BStmt_Halt est then (bir_expSyntax.dest_BExp_Const o dest_BStmt_Halt) est
 			   else if (is_BLE_Label o dest_BStmt_Jmp) est then (dest_BLE_Label o dest_BStmt_Jmp) est
-			   else if (is_BLE_Exp o dest_BStmt_Jmp) est then state_exec_try_jmp_exp_var_out est syst
+			   else if (is_BLE_Exp o dest_BStmt_Jmp) est then state_exec_try_jmp_exp_var_out ret_list est syst
 			   else raise ERR "fun_orcle_Address" ("cannot handle target label " ^ (term_to_string est));
     in
 	target_label
     end;
 
-fun fun_oracle est syst =
+fun fun_oracle adr_dict ret_list est syst =
     let
-	val target_label = fun_oracle_Address est syst;
+	val target_label = fun_oracle_Address ret_list est syst;
     in
-	(fun_oracle_type_label target_label)
+	(fun_oracle_type_label adr_dict target_label)
     end;
 
-fun lib_oracle_type_label label =
+fun lib_oracle_type_label adr_dict label =
     let
 
 	val C_fun_names = read_fun_names "Cryptographic-Functions-Names";
-	val adr_dict = bir_symbexec_PreprocessLib.fun_addresses_dict bl_dict_ prog_lbl_tms_;
+	
 
 	val find_from_dict = Redblackmap.find(adr_dict, label);
 	    
@@ -245,11 +227,11 @@ fun lib_oracle_type_label label =
 	lbl
     end;
 
-fun lib_oracle est syst =
+fun lib_oracle adr_dict ret_list est syst =
     let
-	val target_label = fun_oracle_Address est syst;
+	val target_label = fun_oracle_Address ret_list est syst;
     in
-	(lib_oracle_type_label target_label)
+	(lib_oracle_type_label adr_dict target_label)
     end;    
     
 end(*local*)

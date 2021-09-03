@@ -52,10 +52,11 @@ open bir_cfg_m0Lib;
 open bir_symbexec_driverLib;
 open Redblackmap;
 open bir_symbexec_oracleLib;
+open bir_countw_simplificationLib;
 
-val lbl_tm = ``BL_Address (Imm64 4203840w)``;
+val lbl_tm = ``BL_Address (Imm64 4204228w)``;
 
-val stop_lbl_tms = [``BL_Address (Imm64 4204220w)``];
+val stop_lbl_tms = [``BL_Address (Imm64 4204356w)``];
     
 val syst = init_state lbl_tm prog_vars;
 
@@ -170,7 +171,7 @@ fun find_be_val vals_list bv =
     in
 	(snd o Option.valOf) find_val
     end;
-  
+
 (*Find the latest library output*)
 fun find_latest_T exec_sts preds =
     let
@@ -181,7 +182,9 @@ fun find_latest_T exec_sts preds =
 	val (preds_keep, preds_removed) = List.partition (String.isSuffix "T") previous_preds;
 
     in
-	hd(preds_keep)
+	if List.null preds_keep
+	then NONE
+	else SOME(hd(preds_keep))
     end;
     
 (*Translate knowledge to IML out*)
@@ -209,23 +212,31 @@ val t_be = “BVar "57_k" (BType_Imm Bit64)”;
 val pred_term = “BVar "61_K" BType_Bool”;
 val k_be = “BVar "48_a" (BType_Imm Bit64)”;
 val result = ();
-*)
+ *)
 fun K_to_Out exec_sts pred preds =
     let
-	val t_pred = find_latest_T exec_sts preds;
+	val t_pred_option = find_latest_T exec_sts preds;
 
-	val vals_list = symb_execs_vals_term exec_sts [];
+	val result = if ((not o Option.isSome) t_pred_option)
+		     then ""
+		     else (
+			 let
+			     val vals_list = symb_execs_vals_term exec_sts [];
 
-	val t_term = bir_envSyntax.mk_BVar_string(t_pred, “BType_Bool”);
-	    
-	val t_be = symbval_bexp (find_be_val vals_list t_term);
+			     val t_term = bir_envSyntax.mk_BVar_string((Option.valOf t_pred_option), “BType_Bool”);
+				 
+			     val t_be = symbval_bexp (find_be_val vals_list t_term);
 
-	val pred_term = bir_envSyntax.mk_BVar_string(pred, “BType_Bool”);    
+			     val pred_term = bir_envSyntax.mk_BVar_string(pred, “BType_Bool”);    
 
-	val k_be =  symbval_bexp (find_be_val vals_list pred_term);
+			     val k_be =  symbval_bexp (find_be_val vals_list pred_term);
 
-	val result = if (Term.term_eq t_be k_be) then (to_string (I_Out [(Var (term_to_string k_be))]))
-		     else ();
+			 in
+			     if (Term.term_eq t_be k_be)
+			     then (to_string (I_Out [(Var (term_to_string k_be))]))
+			     else ""
+			 end);
+			 
 
     in
 	result
@@ -278,17 +289,17 @@ fun BExp_to_IMLExp exec_sts pred_be =
     let
 	val result = if (is_BExp_Const pred_be) then
 			 (if (is_Imm128 o dest_BExp_Const) pred_be then
-			      IExp_to_string (BS ((num_to_bitlist o wordsSyntax.dest_word_literal o dest_Imm128 o dest_BExp_Const) pred_be))
+			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm128 o dest_BExp_Const) pred_be)
 			  else if (is_Imm64 o dest_BExp_Const) pred_be then
-			      IExp_to_string (BS ((num_to_bitlist o wordsSyntax.dest_word_literal o dest_Imm64 o dest_BExp_Const) pred_be))
+			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm64 o dest_BExp_Const) pred_be)
 			  else if (is_Imm32 o dest_BExp_Const) pred_be then
-			      IExp_to_string (BS ((num_to_bitlist o wordsSyntax.dest_word_literal o dest_Imm32 o dest_BExp_Const) pred_be))
+			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm32 o dest_BExp_Const) pred_be)
 			  else if (is_Imm16 o dest_BExp_Const) pred_be then
-			      IExp_to_string (BS ((num_to_bitlist o wordsSyntax.dest_word_literal o dest_Imm16 o dest_BExp_Const) pred_be))
+			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm16 o dest_BExp_Const) pred_be)
 			  else if (is_Imm8 o dest_BExp_Const) pred_be then
-			      IExp_to_string (BS ((num_to_bitlist o wordsSyntax.dest_word_literal o dest_Imm8 o dest_BExp_Const) pred_be))
+			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm8 o dest_BExp_Const) pred_be)
 			  else if (is_Imm1 o dest_BExp_Const) pred_be then
-			      IExp_to_string (BS ((num_to_bitlist o wordsSyntax.dest_word_literal o dest_Imm1 o dest_BExp_Const) pred_be))
+			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm1 o dest_BExp_Const) pred_be)
 			  else raise ERR "BExp_Const:BExp_to_IMLExp" "this should not happen")
 		     else if (is_BExp_Den pred_be) then
 			 (if identical “BType_Bool” ((snd o dest_BVar o dest_BExp_Den) pred_be) then
@@ -355,7 +366,8 @@ val pred = "165_assert_true_cnd";
 val pred_term = “BVar "23_cjmp_true_cnd" BType_Bool”;
 val pred_be = “BExp_Den (BVar "22_ProcState_Z" BType_Bool)”;
 *)
-   
+(*val _ = let val IFile = TextIO.openAppend "Symbolic Execution Preds Vals.txt"; in TextIO.output (IFile, (term_to_string pred_be) ^ "\n ----------------- \n" ); TextIO.flushOut IFile end;*)
+    
 fun IMLExp_from_pred exec_sts pred =
     let
 
@@ -364,8 +376,6 @@ fun IMLExp_from_pred exec_sts pred =
 	val pred_term = bir_envSyntax.mk_BVar_string(pred, “BType_Bool”);
 	    
 	val pred_be = symbval_bexp (find_be_val vals_list pred_term);
-
-	(*val _ = let val IFile = TextIO.openAppend "Symbolic Execution Preds Vals.txt"; in TextIO.output (IFile, (term_to_string pred_be) ^ "\n ----------------- \n" ); TextIO.flushOut IFile end;*)
 
 	val pred_IML_Exp = BExp_to_IMLExp exec_sts pred_be;
 
@@ -386,25 +396,39 @@ val preds = ["61_K"];
 val Act = in(c, 60_Adv);
  *)
 
-fun path_of_tree exec_sts [] =
-    ()
-  | path_of_tree exec_sts (pred::preds) =
+fun assert_false_string exec_sts pred =
+    let
+	val assert_if = ((to_string o Br_True) (IMLExp_from_pred exec_sts pred));
+	val assert_event = ((to_string o assume_to_event) "bad");
+	val assert_else = (to_string (I_False ()));
+    in
+	(assert_if^assert_event^assert_else)
+    end;
+    
+	
+fun path_of_tree exec_sts [] str =
+    (str)
+  | path_of_tree exec_sts (pred::preds) str =
     let
 
-	val Act = if (String.isSuffix "assert_true_cnd" pred) then ()
-		  else if (String.isSuffix "cjmp_true_cnd" pred) then (((to_string o Br_True) (IMLExp_from_pred exec_sts pred)); (if (List.length preds = 1) then () else ((path_of_tree exec_sts [((hd o tl) preds)]); (to_string (I_False ())))))
-		  else if (String.isSuffix "assert_false_cnd" pred) then (((to_string o Br_True) (IMLExp_from_pred exec_sts pred)); ((to_string o assume_to_event) "bad"); (to_string (I_False ())))
-		  else if (String.isSuffix "cjmp_false_cnd" pred) then ()
+	val Act = if (String.isSuffix "assert_true_cnd" pred) then ""
+		  else if (String.isSuffix "cjmp_true_cnd" pred) then ((to_string o Br_True) (IMLExp_from_pred exec_sts pred))
+		  else if (String.isSuffix "assert_false_cnd" pred) then (assert_false_string exec_sts pred)
+		  else if (String.isSuffix "cjmp_false_cnd" pred) then ""
 		  else if (String.isSuffix "Key" pred) then (to_string o Fr_to_New) pred
 		  else if (String.isSuffix "iv" pred) then (to_string o Fr_to_New) pred
 		  else if (String.isSuffix "K" pred) then (K_to_Out exec_sts pred preds)
 		  else if (String.isSuffix "Adv" pred) then (to_string o D_to_In) pred
-		  else ();
+		  else "";
+
+	val str = str^Act;
 	    
     in
-	if (String.isSuffix "cjmp_false_cnd" pred andalso ((not o List.null) preds))
-	then path_of_tree exec_sts (tl preds)
-	else path_of_tree exec_sts preds
+	(if (String.isSuffix "cjmp_false_cnd" pred andalso ((not o List.null) preds))
+	   	then (path_of_tree exec_sts (tl preds) str)
+	else if (String.isSuffix "cjmp_true_cnd" pred andalso (List.length preds = 1))
+	then ((path_of_tree exec_sts [((hd o tl) preds)] str)^(to_string (I_False ())))
+	else (path_of_tree exec_sts preds str))
     end;
 
 
@@ -429,12 +453,13 @@ val exec_sts = systs;
 fun sym_exe_to_IML exec_sts =
     let
 	val refine_preds = get_refine_preds_list exec_sts;
+
+	val IML_str = path_of_tree exec_sts (rev refine_preds) "";
     in
-	path_of_tree exec_sts (rev refine_preds)
+	IML_to_file IML_str
     end;
     
 
 end(*local*)
 
 end (* struct *)
-

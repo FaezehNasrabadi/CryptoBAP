@@ -4,11 +4,11 @@ struct
 local
     open HolKernel Parse boolLib bossLib;
     open bitstringSyntax stringSyntax;
-    open listSyntax boolSyntax String;
+    open listSyntax boolSyntax;
+    open String;
     open List;
     open TextIO;
     val ERR = Feedback.mk_HOL_ERR "imlLib";
-    
 in 
 datatype ITerm =
 	 N     of int
@@ -43,14 +43,25 @@ fun IExp_to_string (Var s)           = s
   | IExp_to_string (Sub_BS (s, _))   = s 
   | IExp_to_string (Concat (s1, s2)) = ((IExp_to_string s1)^(IExp_to_string s2));     
 
-fun to_string (I_In [v])        = (let val IFile = TextIO.openAppend "IML_Translation.txt"; in TextIO.output (IFile, "in(c, " ^ v ^ ");\n" ); TextIO.flushOut IFile end)
-  | to_string (I_In vs)         = (let val IFile = TextIO.openAppend "IML_Translation.txt"; in TextIO.output (IFile, (List.foldr (fn (x,s) => s ^ ", " ^ "in(c, " ^ x ^ ");\n") "" (vs))); TextIO.flushOut IFile end)
-  | to_string (I_True e)        = (let val IFile = TextIO.openAppend "IML_Translation.txt"; in TextIO.output (IFile, "if " ^ (IExp_to_string (e)) ^ " then\n"); TextIO.flushOut IFile end)
-  | to_string (I_False ())      = (let val IFile = TextIO.openAppend "IML_Translation.txt"; in TextIO.output (IFile, "else\n"); TextIO.flushOut IFile end)
-  | to_string (I_Out [e])       = (let val IFile = TextIO.openAppend "IML_Translation.txt"; in TextIO.output (IFile, "out(c, " ^ (IExp_to_string (e)) ^ ");\n"); TextIO.flushOut IFile end)
-  | to_string (I_Out es)        = (let val IFile = TextIO.openAppend "IML_Translation.txt"; in TextIO.output (IFile, "out(c, (" ^ (List.foldr (fn (x,s) => s ^ ", " ^ (IExp_to_string x)) "" (es)) ^ "));\n"); TextIO.flushOut IFile end)
-  | to_string (I_New (v, t))    = (let val IFile = TextIO.openAppend "IML_Translation.txt"; in TextIO.output (IFile, "new " ^ v ^ ": " ^ (ITerm_to_string t) ^ ";\n"); TextIO.flushOut IFile end)
-  | to_string (I_Event v)       = (let val IFile = TextIO.openAppend "IML_Translation.txt"; in TextIO.output (IFile, "event (" ^ v ^ ");\n"); TextIO.flushOut IFile end);
+fun to_string (I_In [v])        = "in(c, " ^ v ^ ");\n"
+  | to_string (I_In vs)         = (List.foldr (fn (x,s) => s ^ ", " ^ "in(c, " ^ x ^ ");\n") "" (vs))
+  | to_string (I_True e)        = "if " ^ (IExp_to_string (e)) ^ " then\n"
+  | to_string (I_False ())      = "else\n"
+  | to_string (I_Out [e])       = "out(c, " ^ (IExp_to_string (e)) ^ ");\n"
+  | to_string (I_Out es)        = "out(c, (" ^ (List.foldr (fn (x,s) => s ^ ", " ^ (IExp_to_string x)) "" (es)) ^ "));\n"
+  | to_string (I_New (v, t))    = "new " ^ v ^ ": " ^ (ITerm_to_string t) ^ ";\n"
+  | to_string (I_Event v)       = "event (" ^ v ^ ");\n";
+
+
+fun IML_to_file str =
+    let
+	val IFile = TextIO.openAppend "IML_Translation.txt";
+	    
+    in
+	(TextIO.output (IFile, str); TextIO.flushOut IFile)
+    end;
+	
+    
 
 (*
 fun map_children (I_In _) = []

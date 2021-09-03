@@ -75,11 +75,11 @@ val entry_label = "motor_prep_input";
 
   (* driving and book keeping of symbolic execution *)
   (* ================================================================== *)
-  fun drive_to_raw n_dict bl_dict_ systs_start stop_lbl_tms =
+  fun drive_to_raw n_dict bl_dict_ systs_start stop_lbl_tms adr_dict =
     let
       val cfb = false;
 
-      val systs = symb_exec_to_stop (abpfun cfb) n_dict bl_dict_ systs_start stop_lbl_tms [];
+      val systs = symb_exec_to_stop (abpfun cfb) n_dict bl_dict_ systs_start stop_lbl_tms adr_dict [];
       val _ = print "finished exploration of all paths.\n";
       val _ = print ("number of paths found: " ^ (Int.toString (length systs)));
       val _ = print "\n\n";
@@ -105,9 +105,9 @@ val entry_label = "motor_prep_input";
     end;
 
   (* only keeps running paths and then checks feasibility *)
-  fun drive_to n_dict bl_dict_ systs_start stop_lbl_tms =
+  fun drive_to n_dict bl_dict_ systs_start stop_lbl_tms adr_dict =
     let
-      val systs = drive_to_raw n_dict bl_dict_ systs_start stop_lbl_tms;
+      val systs = drive_to_raw n_dict bl_dict_ systs_start stop_lbl_tms adr_dict;
       val systs_tidiedup = check_feasible_and_tidyup systs;
     in
       systs_tidiedup
@@ -220,11 +220,11 @@ val entry_label = "motor_prep_input";
         eq (x,y) orelse
         mem_eq eq x ys;
 
-  fun drive_through_summaries n_dict bl_dict sums []    end_lbl_tms acc = acc
-    | drive_through_summaries n_dict bl_dict sums systs end_lbl_tms acc =
+  fun drive_through_summaries n_dict bl_dict sums []    end_lbl_tms adr_dict acc = acc
+    | drive_through_summaries n_dict bl_dict sums systs end_lbl_tms adr_dict acc =
     let
       val stop_lbl_tms = end_lbl_tms@(List.map (fn (x,_,_) => x) sums);
-      val systs_after = drive_to n_dict bl_dict systs stop_lbl_tms;
+      val systs_after = drive_to n_dict bl_dict systs stop_lbl_tms adr_dict;
 
       (* filter out ended states *)
       val (systs_noassertfailed, systs_assertfailed) =
@@ -243,10 +243,10 @@ val entry_label = "motor_prep_input";
       (* append ended states *)
       val acc_new = (systs_ended@systs_assertfailed@acc);
     in
-      drive_through_summaries n_dict bl_dict sums systs_new end_lbl_tms acc_new
+      drive_through_summaries n_dict bl_dict sums systs_new end_lbl_tms adr_dict acc_new
     end;
 
-  fun obtain_summary n_dict bl_dict sums lbl_tm end_lbl_tms =
+  fun obtain_summary n_dict bl_dict sums lbl_tm end_lbl_tms adr_dict =
     let
       val syst_start = init_summary lbl_tm;
       val systs = [syst_start];
@@ -268,7 +268,7 @@ val entry_label = "motor_prep_input";
       *)
 
       val timer_meas = timer_start 1;
-      val systs_after = drive_through_summaries n_dict bl_dict sums systs end_lbl_tms [];
+      val systs_after = drive_through_summaries n_dict bl_dict sums systs end_lbl_tms adr_dict [];
       val _ = timer_stop (fn s => print("time to drive symbolic execution: " ^ s ^ "\n")) timer_meas;
 
       val sum = merge_to_summary lbl_tm systs_after;
@@ -279,12 +279,12 @@ val entry_label = "motor_prep_input";
 
   (* creation of summaries for functions *)
   (* ================================================================== *)
-  fun create_func_summary n_dict bl_dict sums entry_label =
+  fun create_func_summary n_dict bl_dict sums entry_label adr_dict =
     let
       val lbl_tm      = find_func_lbl_tm entry_label;
       val end_lbl_tms = find_func_ends n_dict entry_label;
 
-      val sum = obtain_summary n_dict bl_dict sums lbl_tm end_lbl_tms;
+      val sum = obtain_summary n_dict bl_dict sums lbl_tm end_lbl_tms adr_dict;
     in
       sum
     end;

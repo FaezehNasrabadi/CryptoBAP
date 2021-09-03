@@ -5,6 +5,11 @@ local
   open bir_symbexec_stateLib;
   open bir_symbexec_coreLib;
 
+  val ret_list = ref ([] : (term * int) list);
+ (*     ret_list := (``SOME``, 0)::(!ret_list);
+
+  val (a,b) = hd(!ret_list);
+ ret_list := (a, b+1)::(tl(!ret_list));  *) 
   val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_stepLib"
   val wrap_exn = Feedback.wrap_exn   "bir_symbexec_stepLib"
 in (* outermost local *)
@@ -13,7 +18,50 @@ in (* outermost local *)
 local
   (* basic statement execution functions *) 
   (* TODO: this branching can be considered a hack because of
-           the way that countw is assigned to for conditional branches *)
+   the way that countw is assigned to for conditional branches *)
+    (*
+open HolKernel Parse
+
+open binariesLib;
+open binariesTheory;
+open binariesCfgLib;
+open binariesMemLib;
+open bir_symbexec_stateLib;
+open bir_symbexec_coreLib;
+open bir_symbexec_stepLib;
+open bir_symbexec_sumLib;
+open bir_countw_simplificationLib;
+open bir_block_collectionLib;
+open bir_programSyntax;
+open bir_valuesSyntax;
+open bir_immSyntax;
+open bir_exec_typingLib;
+open commonBalrobScriptLib;
+open binariesDefsLib;
+open bir_cfgLib;
+open bir_cfg_m0Lib;
+open bir_symbexec_driverLib;
+open Redblackmap;
+open bir_symbexec_oracleLib;
+open bir_countw_simplificationLib;
+
+val lbl_tm = ``BL_Address (Imm64 4204228w)``;
+
+val stop_lbl_tms = [``BL_Address (Imm64 4204356w)``];
+    
+val syst = init_state lbl_tm prog_vars;
+
+val pred_conjs = [``bir_exp_true``];
+    
+val syst = state_add_preds "init_pred" pred_conjs syst;
+
+val _ = print "initial state created.\n\n";
+
+val cfb = false;
+val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
+  listItems n_dict;
+val systs = symb_exec_to_stop (abpfun cfb) n_dict bl_dict_ [syst] stop_lbl_tms [];
+*)
   val bv_countw = bir_envSyntax.mk_BVar_string ("countw", ``(BType_Imm Bit64)``);
   fun state_exec_assign (bv, be) syst =
     if identical bv bv_countw andalso bir_expSyntax.is_BExp_IfThenElse be then
@@ -98,7 +146,7 @@ end (* local *)
 
 (* execution of an end statement *)
 local
- val jmp_label_match_tm = ``BStmt_Jmp (BLE_Label xyz)``;
+    val jmp_label_match_tm = ``BStmt_Jmp (BLE_Label xyz)``;
   fun state_exec_try_jmp_label est syst =
     SOME (
     let
@@ -115,13 +163,14 @@ local
   fun state_exec_try_cjmp_label est syst =
     SOME (
     let
+	
       val (vs, _) = hol88Lib.match cjmp_label_match_tm est;
       val cnd     = fst (List.nth (vs, 0));
       val tgt1    = fst (List.nth (vs, 1));
       val tgt2    = fst (List.nth (vs, 2));
-      (*val _ = if false then ()
-	      else
-		  print ("True Address" ^ (term_to_string tgt1) ^ "\n" ^ "False Address" ^ (term_to_string tgt2) ^ "\n");*)
+
+      val (be, flag) = hd(!ret_list);
+      val _ = ret_list := (be, flag+1)::(tl(!ret_list));
 
     in
       state_branch_simp
@@ -132,7 +181,7 @@ local
          syst
     end
     )
-    handle state_exec_try_cjmp_exn => NONE;
+    handle HOL_ERR _ => NONE;
 
   val jmp_exp_var_match_tm = ``BStmt_Jmp (BLE_Exp x)``;
   exception state_exec_try_jmp_exp_var_exn;
@@ -143,9 +192,12 @@ local
                     handle _ => (
                       print ("couldn't match end statement: " ^ (term_to_string est) ^ "\n");
                       raise ERR "couldn't match" (term_to_string est));
-      val be_tgt  = (fst o hd) vs;
 
+
+      val be_tgt  = (fst o hd) vs;
+	  
       open bir_countw_simplificationLib;
+	   
       val bvalo = eval_exp_in_syst be_tgt syst
                   handle e => (
                     print ("ooops, something went wrong in evaluation: " ^ (term_to_string be_tgt) ^ "\n");
@@ -155,11 +207,15 @@ local
       open optionSyntax;
       val tgt = (mk_BL_Address o dest_BVal_Imm o dest_some) bvalo
                 handle _ => (
-                  print ("state_exec_try_jmp_exp_var::no const: " ^
-                         (term_to_string bvalo) ^ " ;; " ^ 
-                         (term_to_string be_tgt) ^ "\n");
+                  (*print ("state_exec_try_jmp_exp_var::no const: " ^
+                         (term_to_string bvalo) ^ " ;; \n" ^ 
+                         (term_to_string be_tgt) ^ " ;; \n" ^ 
+                         (term_to_string (SYST_get_pc syst)) ^ "\n");*)
                   raise state_exec_try_jmp_exp_var_exn);(*ERR "state_exec_try_jmp_exp_var"
-                    ("target value is no const: " ^ (term_to_string bvalo)));*)
+                    ("target value is no const: " ^ (term_to_string bvalo));*)
+
+
+      val _ = ret_list := tl(!ret_list);
     in
       [SYST_update_pc tgt syst]
     end
@@ -167,21 +223,38 @@ local
     handle state_exec_try_jmp_exp_var_exn => NONE
          | e => raise wrap_exn ("state_exec_try_jmp_exp_var::") e;
 
-  open bir_cfgLib;
+  
 
+  fun state_exec_try_jmp_exp_var_no_const syst =
+      let
+	  val (be, flag) = hd(!ret_list);
+
+	  val _ = if (flag = 0)
+		  then
+		      ret_list := tl(!ret_list)
+		  else
+		      ret_list := (be, flag-1)::(tl(!ret_list));
+
+	  val tgt = (mk_BL_Address o bir_expSyntax.dest_BExp_Const) be;
+      in
+	  [SYST_update_pc tgt syst]
+      end;
+
+(*
+open bir_cfgLib;
   fun state_exec_from_cfg n_dict lbl_tm syst =
-    let
-      val n:cfg_node = binariesCfgLib.find_node n_dict lbl_tm;
-      val n_type  = #CFGN_type n;
-      val _       = if cfg_nodetype_is_call n_type orelse
-                       cfg_node_type_eq (n_type, CFGNT_Jump) then () else
-                    raise ERR "symb_exec_endstmt" ("can only handle a call or a jump here, problem at " ^ (term_to_string lbl_tm));
-      val n_targets  = #CFGN_targets n;
-      val lbl_tms = n_targets
-    in
-      List.map (fn t => SYST_update_pc t syst) lbl_tms
-    end;
-      
+      let
+	  val n:cfg_node = binariesCfgLib.find_node n_dict lbl_tm;
+	  val n_type  = #CFGN_type n;
+	  val _       = if cfg_nodetype_is_call n_type orelse
+			   cfg_node_type_eq (n_type, CFGNT_Jump) then () else
+			raise ERR "symb_exec_endstmt" ("can only handle a call or a jump here, problem at " ^ (term_to_string lbl_tm));
+	  val n_targets  = #CFGN_targets n;
+	  val lbl_tms = n_targets;
+      in
+	  List.map (fn t => SYST_update_pc t syst) lbl_tms
+      end;
+*)      
 in (* local *)
   fun symb_exec_endstmt n_dict lbl_tm est syst = (
     (* no update if state is not running *)
@@ -195,12 +268,13 @@ in (* local *)
        SOME systs => systs
      | NONE       => (
     (* try to match indirect jump *)
-    case state_exec_try_jmp_exp_var est syst of
+    (*case state_exec_try_jmp_exp_var est syst of
        SOME systs => systs
-     | NONE       => (
+     | NONE       => ( *)
     (* no match, then we have some indirection and need to rely on cfg (or it's another end statement) *)
-    state_exec_from_cfg n_dict lbl_tm syst
-    ))))
+       state_exec_try_jmp_exp_var_no_const syst
+       (*state_exec_from_cfg n_dict lbl_tm syst*)
+    )))
    handle e =>
      raise wrap_exn (term_to_string lbl_tm) e;;
 end (* local *)
@@ -234,16 +308,16 @@ fun symb_exec_adversary_block abpfun n_dict bl_dict syst =
 	    handle e => raise wrap_exn ("symb_exec_adversary_block::" ^ term_to_string lbl_tm) e end;
 
 (* handle library code *)
-fun symb_exec_library_block abpfun n_dict bl_dict syst =
+fun symb_exec_library_block abpfun n_dict bl_dict adr_dict syst =
     let val lbl_tm = SYST_get_pc syst; in
 	    let
 		val bl = (valOf o (lookup_block_dict bl_dict)) lbl_tm;
 
 		val (lbl_block_tm, bl_stmts, est) = dest_bir_block bl;
 
-		val syst = bir_symbexec_funcLib.store_link bl_stmts syst; (* store link register *)
+		val syst = bir_symbexec_funcLib.store_link bl_stmts syst;(* store link register *)
 		    	
-		val lib_type = bir_symbexec_oracleLib.lib_oracle est syst; (* detect type of library call *)
+		val lib_type = bir_symbexec_oracleLib.lib_oracle adr_dict (!ret_list) est syst; (* detect type of library call *)
 
 		val _ = if true then () else
 			print ("lib_type: " ^ (lib_type) ^ "\n");
@@ -257,7 +331,6 @@ fun symb_exec_library_block abpfun n_dict bl_dict syst =
 
 		val systs = [bir_symbexec_funcLib.update_pc syst];(* update symb_state with new pc *)
 		    
-
 		val systs_processed = abpfun systs; 
 	    in
 		systs_processed
@@ -275,33 +348,46 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 		     print_term (SYST_get_status syst);
 
 	     val _ = if true then () else
-			print_term (lbl_block_tm);
+		     print_term (lbl_block_tm);
 
-		 val _ = if true then () else
-			print_term (est);
-		val s_tms = (fst o listSyntax.dest_list) stmts;
+	     val _ = if true then () else
+		     print_term (est);
 
-		val debugOn = false;
-		val _ = if not debugOn then () else
-			(print_term bl; print "\n ==================== \n\n");
+	     val s_tms = (fst o listSyntax.dest_list) stmts;
 
-		val systs2 = List.foldl (fn (s, systs) => List.concat(List.map (fn x => symb_exec_stmt (s,x)) systs)) [syst] s_tms;
-		    
-		(* generate list of states from end statement *)
-		val systs = List.concat(List.map (symb_exec_endstmt n_dict lbl_tm est) systs2);
-		val systs_processed = abpfun systs; 
+
+	     val _ = if bir_symbexec_oracleLib.is_function_call n_dict lbl_tm
+		     then
+			 let
+			     val s_tm_0 = List.nth (s_tms, 0);
+			     val (bv, be) = dest_BStmt_Assign s_tm_0;
+			 in
+			     ret_list := (be, 0)::(!ret_list)
+			 end
+
+		     else ();
+		 
+	     val debugOn = false;
+	     val _ = if not debugOn then () else
+		     (print_term bl; print "\n ==================== \n\n");
+
+	     val systs2 = List.foldl (fn (s, systs) => List.concat(List.map (fn x => symb_exec_stmt (s,x)) systs)) [syst] s_tms;   
+	     (* generate list of states from end statement *)
+	     val systs = List.concat(List.map (symb_exec_endstmt n_dict lbl_tm est) systs2);
+	     val systs_processed = abpfun systs;
+			 
 	    in
 		systs_processed
 	    end
     handle e => raise wrap_exn ("symb_exec_normal_block::" ^ term_to_string lbl_tm) e end;
 
 (* execution of a whole block *)
-    fun symb_exec_block abpfun n_dict bl_dict syst =
+    fun symb_exec_block abpfun n_dict bl_dict adr_dict syst =
 	let val lbl_tm = SYST_get_pc syst; in
 	    let
 		val bl = (valOf o (lookup_block_dict bl_dict)) lbl_tm;
 		val (lbl_block_tm, stmts, est) = dest_bir_block bl;
-		val pc_type = bir_symbexec_oracleLib.fun_oracle est syst;
+		val pc_type = bir_symbexec_oracleLib.fun_oracle adr_dict (!ret_list) est syst;
 
 		val _ = if true then () else
 			print_term (est);
@@ -309,15 +395,15 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 			print ("pc_type: " ^ (pc_type) ^ "\n");
 	    in
 		if (pc_type = "Adversary") then symb_exec_adversary_block abpfun n_dict bl_dict syst
-		else if (pc_type = "Library") then symb_exec_library_block abpfun n_dict bl_dict syst
+		else if (pc_type = "Library") then symb_exec_library_block abpfun n_dict bl_dict adr_dict syst
 		else symb_exec_normal_block abpfun n_dict bl_dict syst
 	    end
 	    handle e => raise wrap_exn ("symb_exec_block::" ^ term_to_string lbl_tm) e end;
 
   (* execution of blocks until not running anymore or end label set is reached *)
-  fun symb_exec_to_stop _      _      _       []                  _            acc =
+  fun symb_exec_to_stop _      _      _       []                  _            _ acc =
         (symb_exec_to_stop_last_print := NONE; acc)
-    | symb_exec_to_stop abpfun n_dict bl_dict (exec_st::exec_sts) stop_lbl_tms acc =
+    | symb_exec_to_stop abpfun n_dict bl_dict (exec_st::exec_sts) stop_lbl_tms adr_dict acc =
         let
           val lastTime = !symb_exec_to_stop_last_print;
           val timeToPrint = (Time.fromReal o LargeReal.-) (Time.toReal(Time.now()), LargeReal.fromInt 5);
@@ -337,7 +423,7 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
                   print ("stops: " ^ (Int.toString ((List.length acc) + 1)) ^ "\n");
 
           val sts = if exec_stopped then [] else
-                    symb_exec_block abpfun n_dict bl_dict exec_st;
+                    symb_exec_block abpfun n_dict bl_dict adr_dict exec_st;
 
           val new_exec_sts = sts@exec_sts;
           val new_acc = if exec_stopped then
@@ -345,7 +431,7 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
                         else
                           acc;
         in
-          symb_exec_to_stop abpfun n_dict bl_dict new_exec_sts stop_lbl_tms new_acc
+          symb_exec_to_stop abpfun n_dict bl_dict new_exec_sts stop_lbl_tms adr_dict new_acc
         end;
 end (* local *)
 
