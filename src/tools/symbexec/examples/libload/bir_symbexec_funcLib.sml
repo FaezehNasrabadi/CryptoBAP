@@ -11,55 +11,6 @@ local
     open Redblackmap;
   val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_funcLib"
 in
-(*
-open HolKernel Parse
-
-open binariesLib;
-open binariesTheory;
-open binariesCfgLib;
-open binariesMemLib;
-open bir_symbexec_stateLib;
-open bir_symbexec_coreLib;
-open bir_symbexec_stepLib;
-open bir_symbexec_sumLib;
-open bir_countw_simplificationLib;
-open bir_block_collectionLib;
-open bir_programSyntax;
-open bir_valuesSyntax;
-open bir_immSyntax;
-open bir_exec_typingLib;
-open commonBalrobScriptLib;
-open binariesDefsLib;
-open bir_cfgLib;
-open bir_cfg_m0Lib;
-open bir_symbexec_driverLib;
-open Redblackmap;
-open bir_symbexec_oracleLib;
-open bir_countw_simplificationLib;
-
-val lbl_tm = ``BL_Address (Imm64 4204228w)``;
-
-val stop_lbl_tms = [``BL_Address (Imm64 4204356w)``];
-    
-val syst = init_state lbl_tm prog_vars;
-
-val pred_conjs = [``bir_exp_true``];
-    
-val syst = state_add_preds "init_pred" pred_conjs syst;
-
-val _ = print "initial state created.\n\n";
-
-val cfb = false;
-val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
-  
-val systs = symb_exec_to_stop (abpfun cfb) n_dict bl_dict_ [syst] stop_lbl_tms [];
-
-val syst = (hd o rev) systs;
-listItems (SYST_get_env syst);
-val vals = listItems (SYST_get_vals syst);
-val pred_term = “BVar "1107_K" BType_Bool”;
-val k_be =  symbval_bexp (bir_symbexec_treeLib.find_be_val vals pred_term);
-*)
 
 val _ = Parse.type_abbrev("hmac", ``:bir_var_t list -> bir_exp_t``);
 
@@ -67,6 +18,7 @@ val _ = Parse.type_abbrev("enc", ``:bir_var_t list -> bir_var_t -> bir_exp_t``);
 
 val _ = Parse.type_abbrev("dec", ``:bir_var_t list -> bir_exp_t``);
 
+    
 (* read int from file *)
 fun readint_inputs filename =
     let
@@ -128,7 +80,7 @@ fun decrypt inputs =
 (*open List;
      open stringSyntax;
      val str = "";
-	 val x = ``BVar "R3" (BType_Imm Bit64)``;
+	 val inputs = ``BVar "R3" (BType_Imm Bit64)``;
 val inputs = [``BVar "R3" (BType_Imm Bit64)``, ``BVar "R1" (BType_Imm Bit64)``, ``BVar "R2" (BType_Imm Bit64)``];
 val str_a = (List.foldr (fn (x,s) => (term_to_string x)^","^s) "" (inputs));
 val b = fromMLstring str_a;
@@ -136,8 +88,10 @@ open Term;
 val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
 			(hmac
 			     ( ^inputs))``;*)
+
 fun HMac inputs =
     let
+
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
 			(hmac
 			     (inputs))``;
@@ -349,7 +303,7 @@ fun Decryption syst =
 	syst
     end;
 
-fun HMAC syst =
+fun HMAC_Send syst =
     let
 	val n = List.nth (readint_inputs "Library-number of inputs", 0);
 	    
@@ -363,13 +317,37 @@ fun HMAC syst =
 	    
 	val syst = update_lib_syst M_be Fr_Hmac syst; (* update syst *)
 
-	val syst = add_knowledges_to_adv 0 syst;
-	    		    
+	val syst = add_knowledges_to_adv 0 syst; (*The adversary has a right to know the output of the hmac function.*)
+
+	val syst = state_add_path "event_send" M_be syst;
+
     in
 	syst
     end;
 
+fun HMAC_Receive syst =
+    let
+	
+	val n = List.nth (readint_inputs "Library-number of inputs", 0);
+ 
+	val inputs = compute_inputs (n-1) syst; (* get values *)
+	
+	val (M_bv, M_be) = HMac inputs; (* HMac with key *)
 
+	val Fr_Hmac = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("HMAC", “BType_Imm Bit64”)); (* generate a fresh variable *)
+
+	val stmt = ``BStmt_Assign (Fr_Hmac) (M_bv)``; (* assign value of R0 to the fresh variable *)
+	    
+	val syst = update_lib_syst M_be Fr_Hmac syst; (* update syst *)
+	
+	val systs = bir_symbexec_treeLib.K_to_Event M_be syst;
+
+
+    in
+	systs
+    end;
+
+    
 fun New_memcpy syst =
     let
 	

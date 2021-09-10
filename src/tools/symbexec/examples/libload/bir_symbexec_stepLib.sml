@@ -319,17 +319,18 @@ fun symb_exec_library_block abpfun n_dict bl_dict adr_dict syst =
 		    	
 		val lib_type = bir_symbexec_oracleLib.lib_oracle adr_dict (!ret_list) est syst; (* detect type of library call *)
 
-		val _ = if true then () else
+		val _ = if false then () else
 			print ("lib_type: " ^ (lib_type) ^ "\n");
 
-		val syst = if (lib_type = "HMAC") then bir_symbexec_funcLib.HMAC syst
-			   else if (lib_type = "NewKey") then bir_symbexec_funcLib.new_key syst
-			   else if (lib_type = "Encryption") then bir_symbexec_funcLib.Encryption syst
-			   else if (lib_type = "Decryption") then bir_symbexec_funcLib.Decryption syst
-			   else if (lib_type = "MEMcpy") then bir_symbexec_funcLib.New_memcpy syst
-			   else syst;
+		val systs = if (lib_type = "HMAC_send") then [bir_symbexec_funcLib.HMAC_Send syst]
+			   else if (lib_type = "HMAC_receive") then bir_symbexec_funcLib.HMAC_Receive syst
+			   else if (lib_type = "NewKey") then [bir_symbexec_funcLib.new_key syst]
+			   else if (lib_type = "Encryption") then [bir_symbexec_funcLib.Encryption syst]
+			   else if (lib_type = "Decryption") then [bir_symbexec_funcLib.Decryption syst]
+			   else if (lib_type = "MEMcpy") then [bir_symbexec_funcLib.New_memcpy syst]
+			   else [syst];
 
-		val systs = [bir_symbexec_funcLib.update_pc syst];(* update symb_state with new pc *)
+		val systs = (List.map (fn x => bir_symbexec_funcLib.update_pc x) systs);(* update symb_state with new pc *)
 		    
 		val systs_processed = abpfun systs; 
 	    in

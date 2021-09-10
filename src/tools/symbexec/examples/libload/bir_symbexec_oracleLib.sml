@@ -214,11 +214,14 @@ fun lib_oracle_type_label adr_dict label =
 	    (*part of memory that decryption functions exist*)
 	    else if (find_from_dict = (List.nth (C_fun_names, 2))) then
 		"Decryption"
-	    (*part of memory that HMAC functions exist*)
+	    (*part of memory that HMAC_send functions exist*)
 	    else if (find_from_dict = (List.nth (C_fun_names, 3))) then
-		"HMAC"
-	    (*part of memory that MEMcpy functions exist*)
+		"HMAC_send"
+	    (*part of memory that HMAC_receive functions exist*)
 	    else if (find_from_dict = (List.nth (C_fun_names, 4))) then
+		"HMAC_receive"
+	    (*part of memory that MEMcpy functions exist*)
+	    else if (find_from_dict = (List.nth (C_fun_names, 5))) then
 		"MEMcpy"
 	    else
 		"C_Lib";

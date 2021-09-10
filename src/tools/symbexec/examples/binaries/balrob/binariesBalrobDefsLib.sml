@@ -77,21 +77,11 @@ val symbs_sec_text = [
 (*
 
 
-val symbs_sec_text = [
-    "server",
-    "fail",
-    "socket_listen",
-    "__stack_chk_fail",
-    "__libc_malloc",
-    "EVP_sha1",
-    "HMAC",
-    "memcpy",
-    "memcmp",
-    "get_key",
-    "main"
-];
 
-*)
+
+
+
+
 val symbs_sec_text = [
     "_IO_puts",
     "strlen",
@@ -133,10 +123,21 @@ val symbs_sec_text = [
     "send",
     "recv",
     "wait_close"
+];*)
+
+val symbs_sec_text = [
+    "server",
+    "fail",
+    "socket_listen",
+    "__stack_chk_fail",
+    "__libc_malloc",
+    "EVP_sha1",
+    "HMAC",
+    "memcpy",
+    "memcmp",
+    "get_key",
+    "main"
 ];
-
-
-
 val arch_str         = "arm8";
 val prog_range       = ((Arbnum.fromInt 0x00000000), (Arbnum.fromInt 0xffffffff));
 
@@ -169,32 +170,34 @@ val prog_range       = ((Arbnum.fromInt 0x00000000), (Arbnum.fromInt 0xffffffff)
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 			     ) ];   
 
- val configs              = [ ("server",
-                           ("server.da", "balrob/server.da.plus", "balrob/server.mem"),
-                           "server_THM",
-                           ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0xffffffff),
-                            (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
-                            (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
-			     ) ];  
-
-
-
-
-
-val configs              = [ ("simple",
-                           ("simple.da", "balrob/simple.da.plus", "balrob/simple.mem"),
-                           "simple_THM",
-                           ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0xffffffff),
-                            (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
-                            (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
-			     ) ];    *)  
-val configs              = [ ("client",
+    val configs              = [ ("client",
                            ("client.da", "balrob/client.da.plus", "balrob/client.mem"),
                            "client_THM",
                            ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0xffffffff),
                             (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 			     ) ];
+ 
+
+ val configs              = [ ("simple",
+                           ("simple.da", "balrob/simple.da.plus", "balrob/simple.mem"),
+                           "simple_THM",
+                           ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0xffffffff),
+                            (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
+                            (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
+			     ) ];  *)  
+    
+
+ val configs              = [ ("server",
+                           ("server.da", "balrob/server.da.plus", "balrob/server.mem"),
+                           "server_THM",
+                           ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0xffffffff),
+                            (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
+                            (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
+			      ) ];
+
+
+
 val symb_filter_lift = fn secname =>
   case secname of
       ".text" => (fn symbname => List.exists (fn x => x = symbname) symbs_sec_text)

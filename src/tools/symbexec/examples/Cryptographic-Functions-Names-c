@@ -2,6 +2,6 @@ The cryptographic functions names are as follows:
 get_key
 
 
-
 HMAC
-memcpy
+
+my_memcpy_proxy

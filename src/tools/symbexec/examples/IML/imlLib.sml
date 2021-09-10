@@ -43,14 +43,14 @@ fun IExp_to_string (Var s)           = s
   | IExp_to_string (Sub_BS (s, _))   = s 
   | IExp_to_string (Concat (s1, s2)) = ((IExp_to_string s1)^(IExp_to_string s2));     
 
-fun to_string (I_In [v])        = "in(c, " ^ v ^ ");\n"
-  | to_string (I_In vs)         = (List.foldr (fn (x,s) => s ^ ", " ^ "in(c, " ^ x ^ ");\n") "" (vs))
+fun to_string (I_In [v])        = "in c, " ^ v ^ " \n"
+  | to_string (I_In vs)         = (List.foldr (fn (x,s) => s ^ ", " ^ "in c, " ^ x ^ " \n") "" (vs))
   | to_string (I_True e)        = "if " ^ (IExp_to_string (e)) ^ " then\n"
   | to_string (I_False ())      = "else\n"
-  | to_string (I_Out [e])       = "out(c, " ^ (IExp_to_string (e)) ^ ");\n"
-  | to_string (I_Out es)        = "out(c, (" ^ (List.foldr (fn (x,s) => s ^ ", " ^ (IExp_to_string x)) "" (es)) ^ "));\n"
-  | to_string (I_New (v, t))    = "new " ^ v ^ ": " ^ (ITerm_to_string t) ^ ";\n"
-  | to_string (I_Event v)       = "event (" ^ v ^ ");\n";
+  | to_string (I_Out [e])       = "out c, " ^ (IExp_to_string (e)) ^ " \n"
+  | to_string (I_Out es)        = "out c, " ^ ((IExp_to_string (hd es))^(List.foldr (fn (x,s) => s ^"("^ (IExp_to_string x) ^ ")") "(" (tl es)) ^ ")") ^ " \n"
+  | to_string (I_New (v, t))    = "new " ^ v ^ " fixed_" ^ (ITerm_to_string t) ^ " \n"
+  | to_string (I_Event v)       = "event " ^ v ^ " \n";
 
 
 fun IML_to_file str =
