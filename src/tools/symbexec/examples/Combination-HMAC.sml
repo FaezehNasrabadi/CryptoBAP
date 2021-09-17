@@ -23,7 +23,6 @@ open Redblackmap;
 open bir_symbexec_oracleLib;
 open bir_symbexec_oracleLib;
 (*
-
 (*Client*)     
 val lbl_tm = ``BL_Address (Imm64 4204228w)``;
 
@@ -51,7 +50,7 @@ val cfb = false;
 val systs = symb_exec_to_stop (abpfun cfb) n_dict bl_dict_ [syst] stop_lbl_tms adr_dict [];
 val _ = print "\n\n";
 val _ = print "finished exploration of all paths.\n\n";
-val _ = print ("number of paths found: " ^ (Int.toString (length systs)));
+val _ = print ("number of symbolic execution states: " ^ (Int.toString (length systs)));
 val _ = print "\n\n";
 
 

@@ -22,6 +22,7 @@ local
     open Redblackmap;
     open Redblackset;
     open bitstringSyntax;
+    open  bir_symbexec_funcLib;
     val ERR = Feedback.mk_HOL_ERR "bir_symbexec_treeLib"
 
 in
@@ -35,7 +36,6 @@ fun rev_name pred_name =
     in
 	rev_pred_name
     end;
-    
 
 (*Collect path names*)
 fun path_to_names [] Pred_Names =
@@ -64,6 +64,55 @@ fun symb_execs_preds [] All_preds =
 	symb_execs_preds exec_sts All_preds
     end;
 
+fun swap(A,i,j) = 
+    let
+        val t = Array.sub(A,i)
+    in
+        Array.update(A,i,Array.sub(A,j));
+        Array.update(A,j,t)
+    end;
+
+fun firstAfter(A,i,f) =
+    if f(Array.sub(A,i)) then i else firstAfter(A,i+1,f);
+
+fun lastBefore(A,j,f) =
+    if f(Array.sub(A,j)) then j else lastBefore(A,j-1,f);
+
+fun partition1(A,lo,hi)=
+    let 
+        fun partition'(A,lo,hi,pivot) = 
+            let 
+                val i = firstAfter(A,lo,fn k => (Option.valOf o Int.fromString)k >= pivot);
+                val j = lastBefore(A,hi,fn k => (Option.valOf o Int.fromString)k <= pivot);
+            in
+                if i >= j then 
+                    j
+                else
+                (
+                    swap(A,i,j);
+                    partition'(A,i+1,j-1,pivot)
+                 )
+             end
+   in
+      partition'(A,lo,hi,(Option.valOf o Int.fromString)(Array.sub(A,lo)))
+    end;
+
+fun quicksort(A,lo,hi) = 
+    if hi <= lo then
+        ()
+    else
+        let
+            val p = partition1(A,lo,hi)
+        in
+            (
+                quicksort(A,lo,p);
+                quicksort(A,p+1,hi)
+             )
+        end;
+
+fun qsort A = quicksort(A,0,Array.length A - 1);
+
+fun arrayToList arr = Array.foldr (op ::) [] arr;    
 
 (*Remove repeated path names*)
 fun Remove_Repeated_preds (pred::[]) No_Repeat =
@@ -96,13 +145,28 @@ val refine_preds =
    ["61_K", "60_Adv", "58_T", "56_Key", "54_cjmp_false_cnd",
     "53_cjmp_true_cnd", "47_K", "46_Adv", "44_T", "42_iv", "39_T", "37_Key",
     "2_init_pred"];
+
+val b = "2_init_pred";
+
+(Option.valOf o Int.fromString) b
+open Array;
+
+val b = (List.map (fn x => (Option.valOf o Int.fromString) x) all_preds);
+val A = Array.fromList all_preds;
+
+val a = qsort A;
+open Vector;
 *)
 fun get_refine_preds_list exec_sts =
     let
 	val all_preds = symb_execs_preds exec_sts [];
 
-	val sort_preds =  sort (fn x => fn y => ((Option.valOf o Int.fromString) x) < ((Option.valOf o Int.fromString) y)) all_preds;
+	val A = Array.fromList all_preds;
 
+	val _ = qsort A;
+
+	val sort_preds = arrayToList A;
+	    
 	val refine_preds = Remove_Repeated_preds sort_preds [hd sort_preds];
   
     in
@@ -132,37 +196,6 @@ fun find_be_val vals_list bv =
 	val find_val = List.find (fn (a,_) => Term.term_eq a bv) vals_list;
     in
 	(snd o Option.valOf) find_val
-    end;
-
-(*Find the latest adversary's knowledge*)
-fun find_latest_K_in_syst syst =
-    let
-
-	val sys_preds = SYST_get_pred syst;
-
-	val pred_names = path_to_names sys_preds [];
-	    
-	val (preds_keep, preds_removed) = List.partition (String.isSuffix "K") pred_names;
-
-    in
-	if List.null preds_keep
-	then NONE
-	else SOME((hd o rev)(preds_keep))
-    end;
-
-
-(*Find the latest library output*)
-fun find_latest_K_in_systs refine_preds exec_sts preds =
-    let
-	
-	val previous_preds = drop(refine_preds, (length preds));
-	    
-	val (preds_keep, preds_removed) = List.partition (String.isSuffix "K") previous_preds;
-
-    in
-	if List.null preds_keep
-	then NONE
-	else SOME(hd(preds_keep))
     end;
 
 (*Find the latest library output*)
@@ -206,66 +239,6 @@ val k_be = “BVar "48_a" (BType_Imm Bit64)”;
 val result = ();
  *)
 
-fun bexp_from_symbv symbv =
-    let
-	val bexp =
-	    case symbv of
-		SymbValBE (exp,_) => exp
-              | SymbValInterval ((exp1,exp2), _) => exp1 (* we need to fix it later*)
-              | SymbValMem (exp, _, _, _) => exp (* we need to fix it later*)
-	      | _ => raise ERR "bexp_from_symbv" "cannot handle symbolic value type";
-    in
-	bexp
-    end;
-
-
-fun update_symbval_with_be new_be Fr_bv syst =
-    let
-	val symbv' = SymbValBE (new_be,symbvalbe_dep_empty);
-	val syst = insert_symbval Fr_bv symbv' syst;
-
-    in
-	syst
-    end;
-    
-fun state_add_paths bv_str pred syst =
-    let
-      val bv = bir_envSyntax.mk_BVar_string (bv_str, bir_valuesSyntax.BType_Bool_tm);
-      val bv_fresh = get_bvar_fresh bv;
-    in
-      (SYST_update_pred ((bv_fresh)::(SYST_get_pred syst)) o
-       update_symbval_with_be pred bv_fresh
-      ) syst
-    end;
-    
-fun K_to_Event M_be syst =
-    let
-
-	val latest_K_option = find_latest_K_in_syst syst;
-
-	val systs = if ((not o Option.isSome) latest_K_option)
-		     then [syst]
-		     else (
-			 let
-			     val sys_vals = (Redblackmap.listItems o SYST_get_vals) syst;
-
-			     val K_bv = bir_envSyntax.mk_BVar_string((Option.valOf latest_K_option), “BType_Bool”);
-				 
-			     val K_be = bexp_from_symbv (find_be_val sys_vals K_bv);
-
-			 (* val cnd = bir_expSyntax.mk_BExp_BinPred (bir_exp_immSyntax.BIExp_Equal_tm, M_be, K_be); *)
-			     val cnd = ``bir_exp_true``;
-			 in
-			     (state_branch_simp
-				 "event"
-				 (cnd)
-				 (I)
-				 (I)
-				 syst)
-			 end);
-    in
-	systs
-    end;
 
 fun K_to_Out refine_preds exec_sts pred preds =
     let
@@ -279,11 +252,11 @@ fun K_to_Out refine_preds exec_sts pred preds =
 
 			     val t_term = bir_envSyntax.mk_BVar_string((Option.valOf t_pred_option), “BType_Bool”);
 				 
-			     val t_be = bexp_from_symbv (find_be_val vals_list t_term);
+			     val t_be = symbval_bexp (find_be_val vals_list t_term);
 
 			     val pred_term = bir_envSyntax.mk_BVar_string(pred, “BType_Bool”);    
 
-			     val k_be =  bexp_from_symbv (find_be_val vals_list pred_term);
+			     val k_be =  symbval_bexp (find_be_val vals_list pred_term);
 
 			     val str_be = term_to_string k_be;
 
@@ -303,35 +276,7 @@ fun K_to_Out refine_preds exec_sts pred preds =
     in
 	result
     end;
-
-fun K_to_event refine_preds exec_sts pred preds =
-    let
-	val Kn_pred_option = find_latest_K_in_systs refine_preds exec_sts preds;
-
-	val result = if ((not o Option.isSome) Kn_pred_option)
-		     then ""
-		     else (
-			 let
-			     val vals_list = symb_execs_vals_term exec_sts [];
-
-			     val Kn_term = bir_envSyntax.mk_BVar_string((Option.valOf Kn_pred_option), “BType_Bool”);
-				 
-			     val Kn_be = bexp_from_symbv (find_be_val vals_list Kn_term);
-
-			     val pred_term = bir_envSyntax.mk_BVar_string(pred, “BType_Bool”);    
-
-			     val k_be =  bexp_from_symbv (find_be_val vals_list pred_term);
-
-			 in
-			     if (Term.term_eq Kn_be k_be)
-			     then (term_to_string k_be)
-			     else ""
-			 end);
-			 
-
-    in
-	result
-    end;    
+    
 (*Translate deduce to IML in*)
 fun D_to_In pred_name = (I_In [(rev_name pred_name)]);
     
@@ -344,13 +289,16 @@ fun Br_True pred_name = (I_True (Var pred_name));
 (*Translate assume to IML event*)
 fun assume_to_event pred_name = (I_Event pred_name);
 
-fun IML_event refine_preds exec_sts pred preds =
+fun IML_event pred =
     let
-	val str_be = "" (*K_to_event refine_preds exec_sts pred preds;*)
 
-	val pred_name = if (String.isSuffix "event_true_cnd" pred) then ("server_recv Hmac" ^ str_be)
-			else if (String.isSuffix "event_send" pred) then ("client_send Hmac" ^ str_be)
-			else if (String.isSuffix "event_false_cnd" pred) then "bad Hmac"
+	val event_names = bir_symbexec_oracleLib.read_fun_names "Event-Names";
+
+	val pred_name = if (String.isSuffix "event_false_cnd" pred) then ("bad"^" "^(hd(event_names)))
+			else if ((String.isSuffix "event_true_cnd" pred) orelse (String.isSuffix "event1" pred))
+			then ((List.nth (event_names, 1))^" "^(hd(event_names)))
+			else if (String.isSuffix "event2" pred)
+			then ((List.nth (event_names, 2))^" "^(hd(event_names)))
 			else raise ERR "IML_event" "cannot handle this pred";
 
     in
@@ -387,9 +335,11 @@ val pred_be = ``BExp_BinExp BIExp_And
 (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
 (BExp_Const (Imm64 24w)))
 (BExp_Const (Imm64 3489660928w))))``;
-*)
-fun BExp_to_IMLExp exec_sts pred_be =
+ *)
+
+fun BExp_to_IMLExp vals_list exec_sts pred_be =
     let
+
 	val result = if (is_BExp_Const pred_be) then
 			 (if (is_Imm128 o dest_BExp_Const) pred_be then
 			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm128 o dest_BExp_Const) pred_be)
@@ -407,18 +357,17 @@ fun BExp_to_IMLExp exec_sts pred_be =
 		     else if (is_BExp_Den pred_be) then
 			 (if identical “BType_Bool” ((snd o dest_BVar o dest_BExp_Den) pred_be) then
 			      let
-				  val vals_list = symb_execs_vals_term exec_sts [];
-				  val pred_be_bool = bexp_from_symbv (find_be_val vals_list (dest_BExp_Den pred_be));
+				  val pred_be_bool = symbval_bexp (find_be_val vals_list (dest_BExp_Den pred_be));
 				  
 			      in
-				  BExp_to_IMLExp exec_sts pred_be_bool
+				  BExp_to_IMLExp vals_list exec_sts pred_be_bool
 			      end
 			  else ((fst o dest_BVar_string o dest_BExp_Den) pred_be))
 		     else if (is_BExp_Cast pred_be) then
 			 let
 			     val (castt, subexp, sz) = (dest_BExp_Cast) pred_be;
 			 in
-			     BExp_to_IMLExp exec_sts subexp
+			     BExp_to_IMLExp vals_list exec_sts subexp
 			 end
 		     else if (is_BExp_UnaryExp pred_be) then
 			 let
@@ -427,30 +376,53 @@ fun BExp_to_IMLExp exec_sts pred_be =
 					   ("¬")
 				       else raise ERR "BExp_UnaryExp:BExp_to_IMLExp" "this should not happen"
 			 in
-			     (res^"("^(BExp_to_IMLExp exec_sts subexp)^")")
+			     (res^(BExp_to_IMLExp vals_list exec_sts subexp))
 			 end
 		     else if (is_BExp_BinExp pred_be) then
 			 let
 			     val (bop, subexp1, subexp2) = (dest_BExp_BinExp) pred_be;
-			     val res = if identical bop BIExp_And_tm then ("BIExp_And")
-				       else if identical bop BIExp_Or_tm then ("BIExp_Or")
-				       else if identical bop BIExp_Plus_tm then ("BIExp_Plus")
-				       else if identical bop BIExp_Minus_tm then ("BIExp_Minus")
-				       else if identical bop BIExp_Mult_tm then ("BIExp_Mult")
-				       else raise ERR "BExp_BinExp:BExp_to_IMLExp" "this should not happen"
+
+			     val flag = if ((is_BExp_Const subexp1) orelse (is_BExp_Const subexp2))
+					then (if ((identical bop BIExp_And_tm) orelse (identical bop BIExp_Xor_tm) orelse (identical bop BIExp_Or_tm))
+					     then true
+					     else false)
+					else false;
+
+
+			     val res = if flag
+				       then
+					   (if identical bop BIExp_And_tm then ("Bitwise_And")
+					    else if identical bop BIExp_Or_tm then ("Bitwise_Or")
+					    else if identical bop BIExp_Xor_tm then ("Bitwise_Xor")
+					    else if identical bop BIExp_Plus_tm then ("Bitwise_Plus")
+					    else if identical bop BIExp_Minus_tm then ("Bitwise_Minus")
+					    else if identical bop BIExp_Mult_tm then ("Bitwise_Mult")
+					    else raise ERR "BExp_BinExp:Bitwise:BExp_to_IMLExp" ((term_to_string bop)^" this should not happen"))
+				       else
+					   (if identical bop BIExp_And_tm then ("∧")
+					    else if identical bop BIExp_Or_tm then ("∨")
+					    else if identical bop BIExp_Plus_tm then ("+")
+					    else if identical bop BIExp_Minus_tm then ("-")
+					    else if identical bop BIExp_Mult_tm then ("*")
+					    else raise ERR "BExp_BinExp:Logical:BExp_to_IMLExp" ((term_to_string bop)^" this should not happen"));
+
 			 in
-			     IExp_to_string (Ops [(Var res), (Var (BExp_to_IMLExp exec_sts subexp1)), (Var (BExp_to_IMLExp exec_sts subexp2))])
+			     if flag
+			     then
+				 IExp_to_string (Ops [(Var res), (Var (BExp_to_IMLExp vals_list exec_sts subexp1)), (Var (BExp_to_IMLExp vals_list exec_sts subexp2))])
+			     else
+				 ("("^(BExp_to_IMLExp vals_list exec_sts subexp1)^res^(BExp_to_IMLExp vals_list exec_sts subexp2)^")")
 			 end
 		     else if (is_BExp_BinPred pred_be) then
 			 let
 			     val (bop, subexp1, subexp2) = (dest_BExp_BinPred) pred_be;
 			     val res = if identical bop BIExp_Equal_tm then ("=")
-				       else if identical bop BIExp_NotEqual_tm then ("<>")
+				       else if identical bop BIExp_NotEqual_tm then ("≠")
 				       else if identical bop BIExp_LessThan_tm then ("<")
 				       else if identical bop BIExp_LessOrEqual_tm then ("<=")
 				       else raise ERR "BExp_BinPred:BExp_to_IMLExp" "this should not happen" 
 			 in
-			     ((BExp_to_IMLExp exec_sts subexp1)^res^(BExp_to_IMLExp exec_sts subexp2))
+			     ("("^(BExp_to_IMLExp vals_list exec_sts subexp1)^res^(BExp_to_IMLExp vals_list exec_sts subexp2)^")")
 			 end
 		     else if (is_BExp_IfThenElse pred_be) then raise ERR "BExp_IfThenElse:BExp_to_IMLExp" "this should not happen"
 		     else if (is_BExp_MemConst pred_be) then raise ERR "BExp_MemConst:BExp_to_IMLExp" "this should not happen"
@@ -471,16 +443,16 @@ val pred_be = “BExp_Den (BVar "22_ProcState_Z" BType_Bool)”;
 *)
 (*val _ = let val IFile = TextIO.openAppend "Symbolic Execution Preds Vals.txt"; in TextIO.output (IFile, (term_to_string pred_be) ^ "\n ----------------- \n" ); TextIO.flushOut IFile end;*)
     
-fun IMLExp_from_pred exec_sts pred =
+fun IMLExp_from_pred vals_list exec_sts pred =
     let
 
-	val vals_list = symb_execs_vals_term exec_sts [];
-
+	(* val _ = print ("\n "^pred); *)
 	val pred_term = bir_envSyntax.mk_BVar_string(pred, “BType_Bool”);
 	    
-	val pred_be = bexp_from_symbv (find_be_val vals_list pred_term);
+	val pred_be = symbval_bexp (find_be_val vals_list pred_term);
 
-	val pred_IML_Exp = BExp_to_IMLExp exec_sts pred_be;
+	(* val _ = print ("\n "^(term_to_string pred_be)); *)
+	val pred_IML_Exp = BExp_to_IMLExp vals_list exec_sts pred_be;
 
     in
 	pred_IML_Exp
@@ -499,9 +471,9 @@ val preds = ["61_K"];
 val Act = in(c, 60_Adv);
  *)
 
-fun assert_false_string exec_sts pred =
+fun assert_false_string vals_list exec_sts pred =
     let
-	val assert_if = ((to_string o Br_True) (IMLExp_from_pred exec_sts pred));
+	val assert_if = ((to_string o Br_True) (IMLExp_from_pred vals_list exec_sts pred));
 	val assert_event = ((to_string o assume_to_event) "bad");
 	val assert_else = (to_string (I_False ()));
     in
@@ -509,33 +481,31 @@ fun assert_false_string exec_sts pred =
     end;
     
 	
-fun path_of_tree refine_preds exec_sts [] str =
+fun path_of_tree vals_list refine_preds exec_sts [] str =
     (str)
-  | path_of_tree refine_preds exec_sts (pred::preds) str =
+  | path_of_tree vals_list refine_preds exec_sts (pred::preds) str =
     let
 
 	val Act = if (String.isSuffix "assert_true_cnd" pred) then ""
-		  else if (String.isSuffix "cjmp_true_cnd" pred) then ((to_string o Br_True) (IMLExp_from_pred exec_sts pred))
-		  else if (String.isSuffix "assert_false_cnd" pred) then "" (* (assert_false_string exec_sts pred) *)
+		  else if (String.isSuffix "cjmp_true_cnd" pred) then ((to_string o Br_True) (IMLExp_from_pred vals_list exec_sts pred))
+		  else if (String.isSuffix "assert_false_cnd" pred) then "" (* (assert_false_string vals_list exec_sts pred) *)
 		  else if (String.isSuffix "cjmp_false_cnd" pred) then ""
 		  else if (String.isSuffix "Key" pred) then (to_string o Fr_to_New) pred
 		  else if (String.isSuffix "iv" pred) then (to_string o Fr_to_New) pred
 		  else if (String.isSuffix "K" pred) then (K_to_Out refine_preds exec_sts pred preds)
 		  else if (String.isSuffix "Adv" pred) then (to_string o D_to_In) pred
-		  else if (String.isSuffix "event_true_cnd" pred) then (IML_event refine_preds exec_sts pred preds)
-		  else if (String.isSuffix "event_send" pred) then (IML_event refine_preds exec_sts pred preds)
-		  else if (String.isSuffix "event_false_cnd" pred) then (IML_event refine_preds exec_sts pred preds)
-							    
+		  else if ((String.isSuffix "event_true_cnd" pred) orelse (String.isSuffix "event1" pred) orelse (String.isSuffix "event2" pred) orelse (String.isSuffix "event_false_cnd" pred))
+		  then (IML_event pred)
 		  else "";
 
 	val str = str^Act;
 	    
     in
 	(if (String.isSuffix "cjmp_false_cnd" pred andalso ((not o List.null) preds))
-	   	then (path_of_tree refine_preds exec_sts (tl preds) str)
+	   	then (path_of_tree vals_list refine_preds exec_sts (tl preds) str)
 	else if (String.isSuffix "cjmp_true_cnd" pred andalso (List.length preds = 1))
-	then ((path_of_tree refine_preds exec_sts [((hd o tl) preds)] str)^(to_string (I_False ())))
-	else (path_of_tree refine_preds exec_sts preds str))
+	then ((path_of_tree vals_list refine_preds exec_sts [((hd o tl) preds)] str)^(to_string (I_False ())))
+	else (path_of_tree vals_list refine_preds exec_sts preds str))
     end;
 
 
@@ -560,9 +530,14 @@ val exec_sts = systs;
 fun sym_exe_to_IML exec_sts =
     let
 
+	val vals_list = symb_execs_vals_term exec_sts [];
+
 	val refine_preds = get_refine_preds_list exec_sts;
 
-	val IML_str = path_of_tree refine_preds exec_sts (rev refine_preds) "";
+	(* val _ = print ("\n number of refine path predicates found: " ^ (Int.toString (length refine_preds))^"\n \n"); *)
+	    
+	val IML_str = path_of_tree vals_list refine_preds exec_sts (rev refine_preds) "";
+	
     in
 	IML_to_file IML_str
     end;

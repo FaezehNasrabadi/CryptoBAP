@@ -248,6 +248,27 @@ fun Adv av syst =
 	syst
     end;
         
+
+fun Event lib_type syst =
+    let
+
+	val event_names = bir_symbexec_oracleLib.read_fun_names "Event-Names";
+
+	val systs = if (hd(event_names) = "HMAC_receive")
+		    then
+			(state_branch_simp
+			 "event"
+			 (``bir_exp_true``)
+			 (I)
+			 (I)
+			 syst)
+		    else
+			[state_add_path lib_type ``bir_exp_true`` syst];
+	    
+    in
+	systs
+    end;   
+
 fun new_key syst =
     let
 
@@ -319,8 +340,6 @@ fun HMAC_Send syst =
 
 	val syst = add_knowledges_to_adv 0 syst; (*The adversary has a right to know the output of the hmac function.*)
 
-	val syst = state_add_path "event_send" M_be syst;
-
     in
 	syst
     end;
@@ -339,12 +358,9 @@ fun HMAC_Receive syst =
 	val stmt = ``BStmt_Assign (Fr_Hmac) (M_bv)``; (* assign value of R0 to the fresh variable *)
 	    
 	val syst = update_lib_syst M_be Fr_Hmac syst; (* update syst *)
-	
-	val systs = bir_symbexec_treeLib.K_to_Event M_be syst;
-
 
     in
-	systs
+	syst
     end;
 
     

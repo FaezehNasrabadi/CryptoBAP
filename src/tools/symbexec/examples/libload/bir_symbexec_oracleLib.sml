@@ -223,6 +223,12 @@ fun lib_oracle_type_label adr_dict label =
 	    (*part of memory that MEMcpy functions exist*)
 	    else if (find_from_dict = (List.nth (C_fun_names, 5))) then
 		"MEMcpy"
+	    (*part of memory that first event function exist*)
+	    else if (find_from_dict = (List.nth (C_fun_names, 6))) then
+		"event1"
+	    (*part of memory that second event function exist*)
+	    else if (find_from_dict = (List.nth (C_fun_names, 7))) then
+		"event2"
 	    else
 		"C_Lib";
 	    
