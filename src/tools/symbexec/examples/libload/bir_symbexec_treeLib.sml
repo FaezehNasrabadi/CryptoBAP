@@ -394,9 +394,6 @@ fun BExp_to_IMLExp vals_list exec_sts pred_be =
 					   (if identical bop BIExp_And_tm then ("Bitwise_And")
 					    else if identical bop BIExp_Or_tm then ("Bitwise_Or")
 					    else if identical bop BIExp_Xor_tm then ("Bitwise_Xor")
-					    else if identical bop BIExp_Plus_tm then ("Bitwise_Plus")
-					    else if identical bop BIExp_Minus_tm then ("Bitwise_Minus")
-					    else if identical bop BIExp_Mult_tm then ("Bitwise_Mult")
 					    else raise ERR "BExp_BinExp:Bitwise:BExp_to_IMLExp" ((term_to_string bop)^" this should not happen"))
 				       else
 					   (if identical bop BIExp_And_tm then ("∧")
