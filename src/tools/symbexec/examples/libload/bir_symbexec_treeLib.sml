@@ -240,7 +240,7 @@ val result = ();
  *)
 
 
-fun K_to_Out refine_preds exec_sts pred preds =
+fun K_to_Out vals_list refine_preds exec_sts pred preds =
     let
 	val t_pred_option = find_latest_T refine_preds exec_sts preds;
 
@@ -248,8 +248,6 @@ fun K_to_Out refine_preds exec_sts pred preds =
 		     then ""
 		     else (
 			 let
-			     val vals_list = symb_execs_vals_term exec_sts [];
-
 			     val t_term = bir_envSyntax.mk_BVar_string((Option.valOf t_pred_option), “BType_Bool”);
 				 
 			     val t_be = symbval_bexp (find_be_val vals_list t_term);
@@ -289,10 +287,8 @@ fun Br_True pred_name = (I_True (Var pred_name));
 (*Translate assume to IML event*)
 fun assume_to_event pred_name = (I_Event pred_name);
 
-fun IML_event pred =
+fun IML_event event_names pred =
     let
-
-	val event_names = bir_symbexec_oracleLib.read_fun_names "Event-Names";
 
 	val pred_name = if (String.isSuffix "event_false_cnd" pred) then ("bad"^" "^(hd(event_names)))
 			else if ((String.isSuffix "event_true_cnd" pred) orelse (String.isSuffix "event1" pred))
@@ -304,8 +300,28 @@ fun IML_event pred =
     in
 	((to_string o I_Event) pred_name)
     end;
-    
-    
+
+(*Translate XOR to IML*)    
+fun Xor_to_IML vals_list pred =
+    let
+	val _ = print " Xor_to_IML ";
+	val pred_term = bir_envSyntax.mk_BVar_string(pred, “BType_Bool”);    
+
+	val x_be =  symbval_bexp (find_be_val vals_list pred_term);
+
+	val str_be = term_to_string x_be;
+
+	val a = (fst o (bir_auxiliaryLib.list_split_pred #" ") o explode) str_be;
+
+	val b = (snd o (bir_auxiliaryLib.list_split_pred #" ") o explode) str_be;
+
+	val fun_str = (implode a)^"("^(implode b)^")";
+
+    in
+	(to_string (I_Out [(Var (fun_str))]))
+
+    end;
+
 (*Translate BIR expressions to IML expressions*)
 (*
 val pred_be = “BExp_Const (Imm64 2840w)”; val result = "2840";
@@ -468,41 +484,42 @@ val preds = ["61_K"];
 val Act = in(c, 60_Adv);
  *)
 
-fun assert_false_string vals_list exec_sts pred =
+fun assert_false_string event_names vals_list exec_sts pred =
     let
 	val assert_if = ((to_string o Br_True) (IMLExp_from_pred vals_list exec_sts pred));
-	val assert_event = ((to_string o assume_to_event) "bad");
+	val assert_event = ((to_string o assume_to_event) ("bad"^" "^(hd(event_names))));
 	val assert_else = (to_string (I_False ()));
     in
 	(assert_if^assert_event^assert_else)
     end;
     
 	
-fun path_of_tree vals_list refine_preds exec_sts [] str =
+fun path_of_tree event_names vals_list refine_preds exec_sts [] str =
     (str)
-  | path_of_tree vals_list refine_preds exec_sts (pred::preds) str =
+  | path_of_tree event_names vals_list refine_preds exec_sts (pred::preds) str =
     let
+
 
 	val Act = if (String.isSuffix "assert_true_cnd" pred) then ""
 		  else if (String.isSuffix "cjmp_true_cnd" pred) then ((to_string o Br_True) (IMLExp_from_pred vals_list exec_sts pred))
-		  else if (String.isSuffix "assert_false_cnd" pred) then "" (* (assert_false_string vals_list exec_sts pred) *)
+		  else if (String.isSuffix "assert_false_cnd" pred) then (assert_false_string event_names vals_list exec_sts pred)
 		  else if (String.isSuffix "cjmp_false_cnd" pred) then ""
-		  else if (String.isSuffix "Key" pred) then (to_string o Fr_to_New) pred
-		  else if (String.isSuffix "iv" pred) then (to_string o Fr_to_New) pred
-		  else if (String.isSuffix "K" pred) then (K_to_Out refine_preds exec_sts pred preds)
+		  else if ((String.isSuffix "Key" pred) orelse (String.isSuffix "iv" pred) orelse (String.isSuffix "RAND_NUM" pred) orelse (String.isSuffix "OTP" pred)) then (to_string o Fr_to_New) pred
+		  else if (String.isSuffix "K" pred) then (K_to_Out vals_list refine_preds exec_sts pred preds)
 		  else if (String.isSuffix "Adv" pred) then (to_string o D_to_In) pred
+		  else if (String.isSuffix "XOR" pred) then (Xor_to_IML vals_list pred)
 		  else if ((String.isSuffix "event_true_cnd" pred) orelse (String.isSuffix "event1" pred) orelse (String.isSuffix "event2" pred) orelse (String.isSuffix "event_false_cnd" pred))
-		  then (IML_event pred)
+		  then (IML_event event_names pred)
 		  else "";
 
 	val str = str^Act;
 	    
     in
 	(if (String.isSuffix "cjmp_false_cnd" pred andalso ((not o List.null) preds))
-	   	then (path_of_tree vals_list refine_preds exec_sts (tl preds) str)
+	   	then (path_of_tree event_names vals_list refine_preds exec_sts (tl preds) str)
 	else if (String.isSuffix "cjmp_true_cnd" pred andalso (List.length preds = 1))
-	then ((path_of_tree vals_list refine_preds exec_sts [((hd o tl) preds)] str)^(to_string (I_False ())))
-	else (path_of_tree vals_list refine_preds exec_sts preds str))
+	then ((path_of_tree event_names vals_list refine_preds exec_sts [((hd o tl) preds)] str)^(to_string (I_False ())))
+	else (path_of_tree event_names vals_list refine_preds exec_sts preds str))
     end;
 
 
@@ -526,6 +543,8 @@ val exec_sts = systs;
 *) 
 fun sym_exe_to_IML exec_sts =
     let
+	
+	val event_names = bir_symbexec_oracleLib.read_fun_names "Event-Names";
 
 	val vals_list = symb_execs_vals_term exec_sts [];
 
@@ -533,8 +552,8 @@ fun sym_exe_to_IML exec_sts =
 
 	(* val _ = print ("\n number of refine path predicates found: " ^ (Int.toString (length refine_preds))^"\n \n"); *)
 	    
-	val IML_str = path_of_tree vals_list refine_preds exec_sts (rev refine_preds) "";
-	
+	val IML_str = path_of_tree event_names vals_list refine_preds exec_sts (rev refine_preds) "";
+    
     in
 	IML_to_file IML_str
     end;

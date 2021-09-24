@@ -5,83 +5,18 @@ local
   open bir_symbexec_stateLib;
   open bir_symbexec_coreLib;
 
-  (* val Pred_list = ref ([] : string list);  *)
   val ret_list = ref ([] : (term * int) list);
 
   val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_stepLib"
   val wrap_exn = Feedback.wrap_exn   "bir_symbexec_stepLib"
 in (* outermost local *)
 
-(*Collect path names*)
-(* fun path_to_names [] = *)
-(*     () *)
-(*   | path_to_names (pred::preds) = *)
-(*     let *)
-(* 	val pred_name = (fst o bir_envSyntax.dest_BVar_string) pred; *)
-
-(* 	val _ = Pred_list := (pred_name)::(!Pred_list); *)
-
-(*     in *)
-(* 	path_to_names preds *)
-(*     end;  *)
 (* execution of a basic statement *)
 local
   (* basic statement execution functions *) 
   (* TODO: this branching can be considered a hack because of
    the way that countw is assigned to for conditional branches *)
-    (*
-open HolKernel Parse
 
-open binariesLib;
-open binariesTheory;
-open binariesCfgLib;
-open binariesMemLib;
-open bir_symbexec_stateLib;
-open bir_symbexec_coreLib;
-open bir_symbexec_stepLib;
-open bir_symbexec_sumLib;
-open bir_countw_simplificationLib;
-open bir_block_collectionLib;
-open bir_programSyntax;
-open bir_valuesSyntax;
-open bir_immSyntax;
-open bir_exec_typingLib;
-open commonBalrobScriptLib;
-open binariesDefsLib;
-open bir_cfgLib;
-open bir_cfg_m0Lib;
-open bir_symbexec_driverLib;
-open Redblackmap;
-open bir_symbexec_oracleLib;
-open bir_symbexec_oracleLib;
-(*
-
-(*Client*)     
-val lbl_tm = ``BL_Address (Imm64 4204228w)``;
-
-val stop_lbl_tms = [``BL_Address (Imm64 4204356w)``]; *)
-(*Server*)     
-val lbl_tm = ``BL_Address (Imm64 4204160w)``;
-
-val stop_lbl_tms = [``BL_Address (Imm64 4204264w)``];
-
-
-val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
-(* val ns = List.map (fn x => snd x)(listItems n_dict);  *)
-(* val _ =  bir_cfg_vizLib.cfg_display_graph_ns ns;  *)
-
-val adr_dict = bir_symbexec_PreprocessLib.fun_addresses_dict bl_dict_ prog_lbl_tms_;
-val syst = init_state lbl_tm prog_vars;
-
-val pred_conjs = [``bir_exp_true``];
-    
-val syst = state_add_preds "init_pred" pred_conjs syst;
-
-val _ = print "initial state created.\n\n";
-
-val cfb = false;
-val systs = symb_exec_to_stop (abpfun cfb) n_dict bl_dict_ [syst] stop_lbl_tms adr_dict [];
-*)
   val bv_countw = bir_envSyntax.mk_BVar_string ("countw", ``(BType_Imm Bit64)``);
   fun state_exec_assign (bv, be) syst =
     if identical bv bv_countw andalso bir_expSyntax.is_BExp_IfThenElse be then
@@ -341,8 +276,8 @@ fun symb_exec_library_block abpfun n_dict bl_dict adr_dict syst =
 		    	
 		val lib_type = bir_symbexec_oracleLib.lib_oracle adr_dict (!ret_list) est syst; (* detect type of library call *)
 
-		val _ = if true then () else
-			print ("" ^ (lib_type) ^ "\n");
+		val _ = if false then () else
+			print ("Lib type: " ^ (lib_type) ^ "\n");
 
 		val systs = if (lib_type = "HMAC_send") then [bir_symbexec_funcLib.HMAC_Send syst]
 			   else if (lib_type = "HMAC_receive") then [bir_symbexec_funcLib.HMAC_Receive syst]
@@ -350,6 +285,10 @@ fun symb_exec_library_block abpfun n_dict bl_dict adr_dict syst =
 			   else if (lib_type = "Encryption") then [bir_symbexec_funcLib.Encryption syst]
 			   else if (lib_type = "Decryption") then [bir_symbexec_funcLib.Decryption syst]
 			   else if (lib_type = "MEMcpy") then [bir_symbexec_funcLib.New_memcpy syst]
+			   else if (lib_type = "OTP") then [bir_symbexec_funcLib.One_Time_Pad syst]
+			   else if (lib_type = "RNG") then [bir_symbexec_funcLib.Random_Number syst]
+			   else if (lib_type = "XOR") then [bir_symbexec_funcLib.Xor syst]
+			   else if (lib_type = "Fail") then [SYST_update_status BST_AssumptionViolated_tm syst]
 			   else if ((lib_type = "event1") orelse (lib_type = "event2")) then (bir_symbexec_funcLib.Event lib_type syst)
 			   else [syst];
 
@@ -426,7 +365,7 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 
   (* execution of blocks until not running anymore or end label set is reached *)
   fun symb_exec_to_stop _      _      _       []                  _            _ acc =
-        (symb_exec_to_stop_last_print := NONE; (* bir_symbexec_treeLib.sym_exe_to_IML (!Pred_list) acc; *) acc)
+        (symb_exec_to_stop_last_print := NONE; acc)
     | symb_exec_to_stop abpfun n_dict bl_dict (exec_st::exec_sts) stop_lbl_tms adr_dict acc =
         let
           val lastTime = !symb_exec_to_stop_last_print;
@@ -448,9 +387,6 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 
           val sts = if exec_stopped then [] else
                     symb_exec_block abpfun n_dict bl_dict adr_dict exec_st;
-
-
-	  (* val _ = (List.map (fn x => (path_to_names o SYST_get_pred) x) sts);(* create tree *) *)
 
 	  val new_exec_sts = sts@exec_sts;
           val new_acc = if exec_stopped then

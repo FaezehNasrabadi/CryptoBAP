@@ -14,6 +14,8 @@ in
 
 val _ = Parse.type_abbrev("hmac", ``:bir_var_t list -> bir_exp_t``);
 
+val _ = Parse.type_abbrev("exclusive_or", ``:bir_var_t list -> bir_exp_t``);
+
 val _ = Parse.type_abbrev("enc", ``:bir_var_t list -> bir_var_t -> bir_exp_t``);
 
 val _ = Parse.type_abbrev("dec", ``:bir_var_t list -> bir_exp_t``);
@@ -73,6 +75,16 @@ fun decrypt inputs =
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
 			(dec
 			     (inputs))``;
+
+    in
+	dest_BStmt_Assign stmt
+    end;
+
+fun XOR inputs =
+    let
+	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
+		     (exclusive_or
+			  (inputs))``;
 
     in
 	dest_BStmt_Assign stmt
@@ -269,6 +281,36 @@ fun Event lib_type syst =
 	systs
     end;   
 
+fun One_Time_Pad syst =
+    let
+
+	val vn = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("OTP", “BType_Imm Bit64”)); (* generate a fresh variable *)	    	
+	
+	val syst = update_path vn syst; (* update path condition *)
+
+	val Fn_vn = mk_BExp_Den(get_bvar_fresh (bir_envSyntax.mk_BVar_string ("otp", “BType_Imm Bit64”))); (* generate a fresh name *)
+	    
+	val syst = update_lib_syst Fn_vn vn syst; (* update syst *)
+	    
+    in
+	syst
+    end; 
+
+fun Random_Number syst =
+    let
+
+	val vn = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("RAND_NUM", “BType_Imm Bit64”)); (* generate a fresh variable *)	    	
+	
+	val syst = update_path vn syst; (* update path condition *)
+
+	val Fn_vn = mk_BExp_Den(get_bvar_fresh (bir_envSyntax.mk_BVar_string ("rand_num", “BType_Imm Bit64”))); (* generate a fresh name *)
+	    
+	val syst = update_lib_syst Fn_vn vn syst; (* update syst *)
+	    
+    in
+	syst
+    end; 
+
 fun new_key syst =
     let
 
@@ -364,6 +406,31 @@ fun HMAC_Receive syst =
     end;
 
     
+fun Xor syst =
+    let
+	
+	val n = List.nth (readint_inputs "Library-number of inputs", 0);
+	val inputs = compute_inputs (n-2) syst; (* get values *) 
+
+	val (x_bv, x_be) = XOR inputs; (* xor inputs *)
+
+	val Fr_Xor = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("XOR", “BType_Imm Bit64”)); (* generate a fresh variable *)
+
+	val stmt = ``BStmt_Assign (Fr_Xor) (x_bv)``; (* assign value of R0 to the fresh variable *)
+
+	val syst = state_add_path "XOR" x_be syst; (* update path condition *)
+
+	val syst = update_lib_syst x_be Fr_Xor syst; (* update syst *)
+
+	
+	
+    in
+	syst
+    end;
+
+
+
+
 fun New_memcpy syst =
     let
 	

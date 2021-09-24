@@ -23,6 +23,7 @@ open Redblackmap;
 open bir_symbexec_oracleLib;
 open bir_symbexec_oracleLib;
 (*
+
 (*Client*)     
 val lbl_tm = ``BL_Address (Imm64 4204228w)``;
 
@@ -56,3 +57,8 @@ val _ = print "\n\n";
 
 val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs;
 
+
+val (systs_noassertfailed, systs_assertfailed) =
+    List.partition (fn syst => not (identical (SYST_get_status syst) BST_AssertionViolated_tm)) systs;
+val _ = print ("number of \"no assert failed\" paths found: " ^ (Int.toString (length systs_noassertfailed)));
+val _ = print "\n";

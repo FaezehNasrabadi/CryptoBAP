@@ -229,6 +229,18 @@ fun lib_oracle_type_label adr_dict label =
 	    (*part of memory that second event function exist*)
 	    else if (find_from_dict = (List.nth (C_fun_names, 7))) then
 		"event2"
+	    (*part of memory that fail function exist*)
+	    else if ((find_from_dict = (List.nth (C_fun_names, 8))) orelse (find_from_dict = (List.nth (C_fun_names, 9)))) then
+		"Fail"
+	    (*part of memory that OTP function exist*)
+	    else if (find_from_dict = (List.nth (C_fun_names, 10))) then
+		"OTP"
+	    (*part of memory that random number generator function exist*)
+	    else if (find_from_dict = (List.nth (C_fun_names, 11))) then
+		"RNG"
+	    (*part of memory that XOR function exist*)
+	    else if (find_from_dict = (List.nth (C_fun_names, 12))) then
+		"XOR"
 	    else
 		"C_Lib";
 	    
