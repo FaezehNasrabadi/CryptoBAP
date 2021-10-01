@@ -1,0 +1,25 @@
+in c, Adv_30 
+new Key_40 fixed_64 
+if BIExp_And((¬(100_R0=1000))(1000<=100_R0)) then
+if BIExp_And((¬(112_R0=1000))(1000<=112_R0)) then
+out c, hmac inputs 
+event client_send Hmac 
+if 289_R0=0 then
+if 310_R1=0 then
+if 343_R1=0 then
+out c, hmac inputs 
+event client_send Hmac 
+if 528_R0=0 then
+if 549_R1=0 then
+if 582_R1=0 then
+if BIExp_And((¬(602_R0=1000))(1000<=602_R0)) then
+out c, hmac inputs 
+event client_send Hmac 
+if 779_R0=0 then
+if 800_R1=0 then
+if 833_R1=0 then
+out c, hmac inputs 
+event client_send Hmac 
+if 1018_R0=0 then
+if 1039_R1=0 then
+if 1072_R1=0 then

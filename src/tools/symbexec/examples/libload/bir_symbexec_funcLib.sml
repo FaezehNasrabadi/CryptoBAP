@@ -125,7 +125,11 @@ fun symbval_bexp symbv =
 
 fun update_symbval new_be Fr_bv syst =
     let
-	val symbv' = SymbValBE (new_be,symbvalbe_dep_empty);
+
+	val deps = Redblackset.add (symbvalbe_dep_empty, Fr_bv);
+
+	val symbv' = SymbValBE (new_be,deps);
+
 	val syst = insert_symbval Fr_bv symbv' syst;
 
     in
@@ -243,6 +247,24 @@ fun add_knowledges_to_adv n syst =
 
     end;  
 
+
+fun update_with_fresh_name be bv syst =
+    let
+	
+	val Fr_bv = Fr bv;
+	    
+	val bv0 = ``BVar "R0" (BType_Imm Bit64)``;
+		  
+	val syst =  update_envvar bv0 Fr_bv syst; (* update environment *)  
+	
+	val syst = update_symbval be Fr_bv syst; (* update symbolic value *)
+	
+	val syst = update_path bv syst; (* update path condition *)
+
+    in
+	syst
+    end;
+    
 fun Adv av syst =
     let
 	val n = List.nth (readint_inputs "Adversary-number of inputs", 0);
@@ -255,7 +277,7 @@ fun Adv av syst =
 
 	val syst = update_symbval Fn_av av syst; (* update symbolic value *)
 
-	val syst = update_path av syst; (* update path condition *)	    
+	val syst = update_with_fresh_name Fn_av av syst;	    
     in
 	syst
     end;
@@ -290,6 +312,8 @@ fun One_Time_Pad syst =
 
 	val Fn_vn = mk_BExp_Den(get_bvar_fresh (bir_envSyntax.mk_BVar_string ("otp", “BType_Imm Bit64”))); (* generate a fresh name *)
 	    
+	val syst = update_with_fresh_name Fn_vn vn syst;
+	    
 	val syst = update_lib_syst Fn_vn vn syst; (* update syst *)
 	    
     in
@@ -305,6 +329,8 @@ fun Random_Number syst =
 
 	val Fn_vn = mk_BExp_Den(get_bvar_fresh (bir_envSyntax.mk_BVar_string ("rand_num", “BType_Imm Bit64”))); (* generate a fresh name *)
 	    
+	val syst = update_with_fresh_name Fn_vn vn syst;
+	    
 	val syst = update_lib_syst Fn_vn vn syst; (* update syst *)
 	    
     in
@@ -315,12 +341,12 @@ fun new_key syst =
     let
 
 	val vn = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Key", “BType_Imm Bit64”)); (* generate a fresh variable *)	    	
-	
-	val syst = update_path vn syst; (* update path condition *)
 
 	val Fn_vn = mk_BExp_Den(get_bvar_fresh (bir_envSyntax.mk_BVar_string ("k", “BType_Imm Bit64”))); (* generate a fresh name *)
 	    
-	val syst = update_lib_syst Fn_vn vn syst; (* update syst *)
+	val syst = update_with_fresh_name Fn_vn vn syst;
+
+	val syst = update_lib_syst Fn_vn vn syst; (* update syst for Libs *)
 	    
     in
 	syst
@@ -343,6 +369,8 @@ fun Encryption syst =
 	val stmt = ``BStmt_Assign (Fr_Enc) (C_bv)``; (* assign value of R0 to the fresh variable *)
 	
 	val syst = update_lib_syst C_be Fr_Enc syst; (* update syst *)
+
+	val syst = add_knowledges_to_adv 0 syst; (*The adversary has a right to know the output of the encryption function.*)
 	
     in
 	syst

@@ -1,9 +1,0 @@
-The function names are as follows:
-__libc_malloc
-memcpy
-otp
-xor
-socket_listen
-consume
-wait_close
-recv

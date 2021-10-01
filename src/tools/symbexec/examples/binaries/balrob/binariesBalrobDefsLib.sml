@@ -139,6 +139,23 @@ val symbs_sec_text = [
     "main"
 ];
 
+
+
+
+
+
+val symbs_sec_text = [
+    "__libc_malloc",
+    "memcpy",
+    "otp",
+    "xor",
+    "socket_listen",
+    "consume",
+    "wait_close",
+    "server",
+    "main"
+];
+
 val symbs_sec_text = [
     "__libc_malloc",
     "memcpy",
@@ -153,17 +170,93 @@ val symbs_sec_text = [
 
 
 
-*)
-
 val symbs_sec_text = [
-    "__libc_malloc",
-    "memcpy",
-    "otp",
-    "xor",
+    "__globinit_client",
+    "__CrestCall",
+    "__CrestLoadStackPtr",
+    "__CrestApply",
+    "__CrestSetPtrStep",
+    "__CrestStore",
+    "__CrestLocation",
+    "__CrestLoadInt",
+    "__CrestBS",
+    "__CrestDone",
+    "malloc_proxy",
+    "__CrestLoadMem",
+    "__CrestLoadChar",
+    "get_host_proxy",
+    "get_xhost_proxy",
+    "get_pkey_proxy",
+    "get_skey_proxy",
+    "lookup_xkey",
+    "__CrestLoadCString",
+    "event2",
+    "memcpy_proxy",
+    "__CrestClear",
+    "nonce_proxy",
+    "encrypt_len",
+    "__CrestTruth",
+    "__CrestBranch",
+    "__CrestMute",
+    "fail",
+    "__CrestUnmute",
+    "encrypt_proxy",
+    "recv",
+    "decrypt_len",
+    "decrypt_proxy",
+    "socket_connect",
+    "exit_proxy",
+    "_IO_puts",
+    "__CrestNondet",
+    "send",
+    "typehint",
+    "__CrestReturn",
+    "__stack_chk_fail",
+    "main"
+];*)
+val symbs_sec_text = [
+    "__globinit_server",
+    "__CrestCall",
+    "__CrestLoadStackPtr",
+    "__CrestApply",
+    "__CrestSetPtrStep",
+    "__CrestStore",
+    "__CrestLocation",
+    "__CrestLoadInt",
+    "__CrestBS",
+    "__CrestDone",
+    "malloc_proxy",
+    "__CrestLoadMem",
+    "__CrestLoadChar",
+    "get_host_proxy",
+    "get_xhost_proxy",
+    "get_pkey_proxy",
+    "get_skey_proxy",
+    "lookup_xkey",
+    "__CrestLoadCString",
+    "event2",
+    "memcpy_proxy",
+    "__CrestClear",
+    "nonce_proxy",
+    "encrypt_len",
+    "__CrestTruth",
+    "__CrestBranch",
+    "__CrestMute",
+    "fail",
+    "__CrestUnmute",
+    "encrypt_proxy",
+    "recv",
+    "decrypt_len",
+    "decrypt_proxy",
     "socket_listen",
-    "consume",
-    "wait_close",
-    "server",
+    "exit_proxy",
+    "_IO_fwrite",
+    "__CrestNondet",
+    "send",
+    "typehint",
+    "__CrestReturn",
+    "__stack_chk_fail",
+    "memcmp_proxy",
     "main"
 ];
 val arch_str         = "arm8";
@@ -197,7 +290,22 @@ val prog_range       = ((Arbnum.fromInt 0x00000000), (Arbnum.fromInt 0xffffffff)
                             (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 			     ) ];   
-    
+val configs              = [ ("client",
+                           ("client_nsl.da", "balrob/client_nsl.da.plus", "balrob/client_nsl.mem"),
+                           "client_THM",
+                           ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0xffffffff),
+                            (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
+                            (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
+			     ) ];    
+
+ val configs              = [ ("server",
+                           ("server_xor.da", "balrob/server_xor.da.plus", "balrob/server_xor.mem"),
+                           "server_THM",
+                           ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0xffffffff),
+                            (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
+                            (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
+			      ) ]; 
+
 val configs              = [ ("client",
                            ("client_xor.da", "balrob/client_xor.da.plus", "balrob/client_xor.mem"),
                            "client_THM",
@@ -206,7 +314,7 @@ val configs              = [ ("client",
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 			     ) ];
 
-    val configs              = [ ("client",
+val configs              = [ ("client",
                            ("client.da", "balrob/client.da.plus", "balrob/client.da.mem"),
                            "client_THM",
                            ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0xffffffff),
@@ -229,15 +337,13 @@ val configs              = [ ("client",
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 			     ) ];  *)  
     
-
  val configs              = [ ("server",
-                           ("server_xor.da", "balrob/server_xor.da.plus", "balrob/server_xor.mem"),
+                           ("server_nsl.da", "balrob/server_nsl.da.plus", "balrob/server_nsl.mem"),
                            "server_THM",
                            ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0xffffffff),
                             (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 			      ) ]; 
-
 
 val symb_filter_lift = fn secname =>
   case secname of

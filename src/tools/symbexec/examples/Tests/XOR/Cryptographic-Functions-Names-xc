@@ -1,0 +1,14 @@
+The cryptographic functions names are as follows:
+
+
+
+
+
+memcpy
+
+
+
+
+otp
+RAND_bytes
+xor

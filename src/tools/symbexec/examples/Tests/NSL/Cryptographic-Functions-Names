@@ -1,0 +1,17 @@
+The cryptographic functions names are as follows:
+lookup_xkey
+encrypt_proxy
+decrypt_proxy
+
+
+memcpy_proxy
+event2
+
+fail
+__stack_chk_fail
+exit_proxy
+
+nonce_proxy
+
+get_pkey_proxy
+get_skey_proxy

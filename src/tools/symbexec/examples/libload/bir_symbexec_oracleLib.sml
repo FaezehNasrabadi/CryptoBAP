@@ -206,7 +206,7 @@ fun lib_oracle_type_label adr_dict label =
 	    
 	val lbl = 
 	    (*part of memory that new key functions exist*)
-	    if (find_from_dict = (List.nth (C_fun_names, 0))) then
+	    if ((find_from_dict = (List.nth (C_fun_names, 0))) orelse (find_from_dict = (List.nth (C_fun_names, 14))) orelse (find_from_dict = (List.nth (C_fun_names, 15)))) then
 		"NewKey"
 	    (*part of memory that encryption functions exist*)
 	    else if (find_from_dict = (List.nth (C_fun_names, 1))) then
@@ -230,16 +230,16 @@ fun lib_oracle_type_label adr_dict label =
 	    else if (find_from_dict = (List.nth (C_fun_names, 7))) then
 		"event2"
 	    (*part of memory that fail function exist*)
-	    else if ((find_from_dict = (List.nth (C_fun_names, 8))) orelse (find_from_dict = (List.nth (C_fun_names, 9)))) then
+	    else if ((find_from_dict = (List.nth (C_fun_names, 8))) orelse (find_from_dict = (List.nth (C_fun_names, 9))) orelse (find_from_dict = (List.nth (C_fun_names, 10)))) then
 		"Fail"
 	    (*part of memory that OTP function exist*)
-	    else if (find_from_dict = (List.nth (C_fun_names, 10))) then
+	    else if (find_from_dict = (List.nth (C_fun_names, 11))) then
 		"OTP"
 	    (*part of memory that random number generator function exist*)
-	    else if (find_from_dict = (List.nth (C_fun_names, 11))) then
+	    else if (find_from_dict = (List.nth (C_fun_names, 12))) then
 		"RNG"
 	    (*part of memory that XOR function exist*)
-	    else if (find_from_dict = (List.nth (C_fun_names, 12))) then
+	    else if (find_from_dict = (List.nth (C_fun_names, 13))) then
 		"XOR"
 	    else
 		"C_Lib";

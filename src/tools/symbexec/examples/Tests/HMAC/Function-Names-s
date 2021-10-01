@@ -1,0 +1,11 @@
+The function names are as follows:
+fail
+socket_listen
+__libc_malloc
+memcpy
+EVP_sha1
+HMAC
+memcmp
+wait_close
+__stack_chk_fail
+get_key

@@ -1,0 +1,10 @@
+The function names are as follows:
+fail
+__libc_malloc
+EVP_sha1
+HMAC
+socket_connect
+my_memcpy_proxy
+__stack_chk_fail
+get_key
+send

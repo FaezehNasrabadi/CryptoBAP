@@ -124,8 +124,15 @@ local
       val tgt1    = fst (List.nth (vs, 1));
       val tgt2    = fst (List.nth (vs, 2));
 
-      val (be, flag) = hd(!ret_list);
-      val _ = ret_list := (be, flag+1)::(tl(!ret_list));
+      val _ = if (null (!ret_list))
+	      then ()
+	      else
+		  let
+		      val (be, flag) = hd(!ret_list);
+
+		  in
+		      ret_list := (be, flag+1)::(tl(!ret_list))
+		  end;
 
     in
       state_branch_simp

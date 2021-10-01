@@ -37,6 +37,26 @@ fun rev_name pred_name =
 	rev_pred_name
     end;
 
+fun Fun_Str str_be =
+    let
+	val a = (fst o (bir_auxiliaryLib.list_split_pred #" ") o explode) str_be;
+
+	val b = (snd o (bir_auxiliaryLib.list_split_pred #" ") o explode) str_be;
+
+	val fun_str = if (List.exists (fn x => x = #" ") b)
+		      then
+			  let
+			      val c = (fst o (bir_auxiliaryLib.list_split_pred #" ")) b;
+
+			      val d = (snd o (bir_auxiliaryLib.list_split_pred #" ")) b;
+			  in
+			      (implode a)^"("^(implode c)^","^(implode d)^")"
+			  end
+		      else
+			  (implode a)^"("^(implode b)^")";
+    in
+	fun_str
+    end;  
 (*Collect path names*)
 fun path_to_names [] Pred_Names =
     (Pred_Names)
@@ -258,11 +278,7 @@ fun K_to_Out vals_list refine_preds exec_sts pred preds =
 
 			     val str_be = term_to_string k_be;
 
-			     val a = (fst o (bir_auxiliaryLib.list_split_pred #" ") o explode) str_be;
-
-			     val b = (snd o (bir_auxiliaryLib.list_split_pred #" ") o explode) str_be;
-
-			     val fun_str = (implode a)^"("^(implode b)^")";
+			     val fun_str = Fun_Str str_be;
 
 			 in
 			     if (Term.term_eq t_be k_be)
@@ -292,9 +308,9 @@ fun IML_event event_names pred =
 
 	val pred_name = if (String.isSuffix "event_false_cnd" pred) then ("bad"^" "^(hd(event_names)))
 			else if ((String.isSuffix "event_true_cnd" pred) orelse (String.isSuffix "event1" pred))
-			then ((List.nth (event_names, 1))^" "^(hd(event_names)))
+			then (List.nth (event_names, 1))
 			else if (String.isSuffix "event2" pred)
-			then ((List.nth (event_names, 2))^" "^(hd(event_names)))
+			then (List.nth (event_names, 2))
 			else raise ERR "IML_event" "cannot handle this pred";
 
     in
@@ -304,7 +320,7 @@ fun IML_event event_names pred =
 (*Translate XOR to IML*)    
 fun Xor_to_IML vals_list pred =
     let
-	val _ = print " Xor_to_IML ";
+	
 	val pred_term = bir_envSyntax.mk_BVar_string(pred, “BType_Bool”);    
 
 	val x_be =  symbval_bexp (find_be_val vals_list pred_term);
