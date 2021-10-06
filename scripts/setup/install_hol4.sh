@@ -17,7 +17,11 @@ source "${SETUP_DIR}/env_config_gen.sh" "${OPT_DIR_PARAM}"
 
 
 # make polyml binaries and libraries available
+<<<<<<< HEAD
 POLY_VERSION="v5.7.1"
+=======
+POLY_VERSION="v5.8.1"
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 # if poly version is specified in the environment, use this
 if [[ ! -z "${HOLBA_POLYML_VERSION}" ]]; then
@@ -30,10 +34,17 @@ export LD_LIBRARY_PATH=${POLY_DIR}/lib:$LD_LIBRARY_PATH
 
 # HOL4 source and branch
 GIT_URL=https://github.com/HOL-Theorem-Prover/HOL.git
+<<<<<<< HEAD
 GIT_BRANCH=kananaskis-13
 GIT_IS_TAG=1
 
 HOL4_DIR=${HOLBA_OPT_DIR}/hol_k13
+=======
+GIT_BRANCH=kananaskis-14
+GIT_IS_TAG=1
+
+HOL4_DIR=${HOLBA_OPT_DIR}/hol_k14
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 
 ##################################################################

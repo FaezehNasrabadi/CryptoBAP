@@ -6,12 +6,24 @@ sig
                       | qc
                       | slice
                       | from_file
+<<<<<<< HEAD
 
     datatype obs_model = cache_tag_index
+=======
+                      | from_list
+
+    datatype obs_model = mem_address_pc
+                       | cache_tag_index
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
                        | cache_tag_only
                        | cache_index_only
                        | cache_tag_index_part
                        | cache_tag_index_part_page
+<<<<<<< HEAD
+=======
+                       | cache_speculation
+                       | cache_speculation_first
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
     datatype hw_obs_model = hw_cache_tag_index
                           | hw_cache_index_numvalid

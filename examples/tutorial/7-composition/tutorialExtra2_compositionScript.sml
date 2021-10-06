@@ -2,8 +2,13 @@ open HolKernel Parse boolLib bossLib;
 open bslSyntax;
 open bir_wm_instTheory;
 
+<<<<<<< HEAD
 open tutorial_compositionLib;
 open tutorial_wpSupportLib;
+=======
+open bir_compositionLib;
+open bir_wp_interfaceLib;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 open birExamples2BinaryTheory;
 open tutorialExtra2_wpTheory;

@@ -1,11 +1,21 @@
 structure bir_symb_execLib :> bir_symb_execLib = 
 struct
 
+<<<<<<< HEAD
+=======
+open HolKernel boolLib liteLib simpLib Parse bossLib;
+open Abbrev;
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 local
 (* 
 app load ["bir_symb_execTheory", "bir_symb_envTheory", "bir_symb_init_envLib"];
 *)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 open HolKernel
 open pairLib
 open bir_symb_execTheory;
@@ -19,6 +29,14 @@ open bir_envSyntax;
 
 val debug_on = false;
 
+<<<<<<< HEAD
+=======
+  (* error handling *)
+  val libname  = "bir_symb_execLib"
+  val ERR      = Feedback.mk_HOL_ERR libname
+  val wrap_exn = Feedback.wrap_exn libname
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 in
 
 (* In order to decide when we want to stop execution, we need 
@@ -52,11 +70,19 @@ fun dest_bir_symb_obs tm =
                (fst o dest_type) ty = "bir_symb_obs_t" andalso
                (length o snd o dest_type) ty = 1
             then () else fail()
+<<<<<<< HEAD
+=======
+    val obs_id = Lib.assoc "obs_id" l
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
     val obs_cond = Lib.assoc "obs_cond" l
     val obs = Lib.assoc "obs" l
     val obs_fun = Lib.assoc "obs_fun" l
   in 
+<<<<<<< HEAD
     (obs_cond, obs, obs_fun)
+=======
+    (obs_id, obs_cond, obs, obs_fun)
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   end handle HOL_ERR _ => raise ERR "dest_bir_symb_obs" ("cannot destruct term \"" ^ (term_to_string tm) ^ "\"");
 (* ------------------------------------------------------------------- *)
 

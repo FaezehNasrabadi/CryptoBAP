@@ -2,9 +2,20 @@ structure bir_symbexec_stateLib =
 struct
 
 local
+<<<<<<< HEAD
   val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_stateLib"
   val wrap_exn = Feedback.wrap_exn   "bir_symbexec_stateLib"
 in (* outermost local *)
+=======
+
+  open HolKernel Parse;
+
+  val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_stateLib"
+  val wrap_exn = Feedback.wrap_exn   "bir_symbexec_stateLib"
+
+in (* outermost local *)
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 (* symbolic values *)
 datatype symb_value =
     SymbValBE       of (term * term Redblackset.set)
@@ -144,7 +155,11 @@ fun SYST_update_vals vals' (SymbState systr) =
 
 fun state_is_running syst =
   identical (SYST_get_status syst) BST_Running_tm;
+<<<<<<< HEAD
 (*val bv = ``BVar "sy_MEM" (BType_Mem Bit32 Bit8)``;*)
+=======
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 (* fresh variables and initial state variables *)
 local
   open bir_envSyntax;
@@ -157,8 +172,12 @@ in
   fun get_bvar_fresh bv =
     let
       val (s, bty) = dest_BVar_string bv;
+<<<<<<< HEAD
      (* val new_s = "fr_" ^ (Int.toString (get_fresh_var_counter ())) ^ "_" ^ s;*)
       val new_s = (Int.toString (get_fresh_var_counter ())) ^ "_" ^ s;
+=======
+      val new_s = "fr_" ^ (Int.toString (get_fresh_var_counter ())) ^ "_" ^ s;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
     in
       mk_BVar_string (new_s, bty)
     end;
@@ -443,4 +462,7 @@ end (* local *)
 end (* outermost local *)
 
 end (* struct *)
+<<<<<<< HEAD
 
+=======
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc

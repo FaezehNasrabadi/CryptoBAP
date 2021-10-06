@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 (* Some code connecting with the GCC tools. *)
 open bir_inst_liftingLibTypes;
 
 signature gcc_supportLib = sig
 
+=======
+signature gcc_supportLib = sig
+
+  (* Parser for GCC and generate structures for lifter. *)
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   (* Parse objdump disassembly. This format contains
 
      - nice section names
@@ -104,17 +111,29 @@ signature gcc_supportLib = sig
     (string -> string -> bool) ->
     (string -> string -> bool) ->
     string ->
+<<<<<<< HEAD
     (string * string * num) list * bir_inst_lifting_mem_region list
+=======
+    (string * string * Arbnum.num) list * bir_inst_liftingLibTypes.bir_inst_lifting_mem_region list
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
   (* Parse file, filter sections and regions and convert to label list and mem regions *)
   val read_disassembly_file_regions_filter :
     (string -> string -> bool) ->
     string ->
+<<<<<<< HEAD
     (string * string * num) list * bir_inst_lifting_mem_region list
+=======
+    (string * string * Arbnum.num) list * bir_inst_liftingLibTypes.bir_inst_lifting_mem_region list
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
   (* Parse file and convert to label list and mem regions *)
   val read_disassembly_file_regions :
     string ->
+<<<<<<< HEAD
     (string * string * num) list * bir_inst_lifting_mem_region list
+=======
+    (string * string * Arbnum.num) list * bir_inst_liftingLibTypes.bir_inst_lifting_mem_region list
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 end

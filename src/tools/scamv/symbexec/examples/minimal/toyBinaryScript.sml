@@ -1,7 +1,16 @@
+<<<<<<< HEAD
 open HolKernel Parse
 
 open bir_inst_liftingLib;
 open gcc_supportLib;
+=======
+open HolKernel Parse;
+open PPBackEnd;
+open bir_inst_liftingHelpersLib;
+
+open bir_inst_liftingLib;
+open gcc_supportLib
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 val _ = Parse.current_backend := PPBackEnd.vt100_terminal
 val _ = set_trace "bir_inst_lifting.DEBUG_LEVEL" 2;

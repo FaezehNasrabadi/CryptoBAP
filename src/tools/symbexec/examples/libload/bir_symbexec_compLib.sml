@@ -2,6 +2,15 @@ structure bir_symbexec_compLib =
 struct
 
 local
+<<<<<<< HEAD
+=======
+
+  open HolKernel Parse;
+  open bossLib;
+  open liteLib;
+  open boolSyntax;
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   open bir_symbexec_stateLib;
 
   open bir_constpropLib;
@@ -226,7 +235,11 @@ in (* outermost local *)
           case addr_ of
              SOME (SymbValBE x) => x
            | NONE => (addr_tm, Redblackset.addList (symbvalbe_dep_empty, addr_tm_vars))
+<<<<<<< HEAD
            | _ => raise ERR "process_addr" "NEEDS TO BE A SYMBOLIC EXPRESSION";
+=======
+           | _ => raise ERR "process_addr" ("NEEDS TO BE A SYMBOLIC EXPRESSION: " ^ (term_to_string addr_tm));
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
       val _ = if not debug_addrOn then () else
               (print ("addr proc: {{{\n"); print_term addr; print "}}}\n\n");
@@ -388,7 +401,11 @@ bir_constpropLib.eval_constprop (bhighcast16 (blowcast8 (bconst32 0x00223344)))
       val offset = sp_offset + suboff;
 
       val (exp, deps) = Redblackmap.find (mem_stack, Arbnum.fromInt offset)
+<<<<<<< HEAD
         handle _ => raise ERR "mem_load_stack" "address is not mapped in global memory";
+=======
+        handle _ => raise ERR "mem_load_stack" "address is not mapped in stack memory";
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 (*
 val suboff = 0;

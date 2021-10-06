@@ -2,10 +2,21 @@ structure bir_symbexec_coreLib =
 struct
 
 local
+<<<<<<< HEAD
   open bir_symbexec_stateLib;
 
   open bir_constpropLib;
   open bir_exp_helperLib;
+=======
+
+  open HolKernel Parse;
+
+  open bir_symbexec_stateLib;
+
+  val libname = "bir_symbexec_coreLib";
+  val ERR = Feedback.mk_HOL_ERR libname;
+  val wrap_exn = Feedback.wrap_exn libname;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
   val debugAssignments = false;
   val debugPaths = false;
@@ -13,6 +24,7 @@ in (* outermost local *)
 
 (* primitive for symbolic/abstract computation for expressions *)
 local
+<<<<<<< HEAD
   open bir_expSyntax;
 
   fun subst_fun env vals (bev, (e, vars)) =
@@ -41,6 +53,11 @@ local
 
   open bir_symbexec_compLib;
 
+=======
+  local
+    open bir_symbexec_compLib;
+  in
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   fun compute_val_try compute_val_and_resolve_deps preds vals (besubst, besubst_vars) deps_l2 =
     let val _ = if not debugAssignments then () else
                 (print "BESUBST: "; print_term besubst); in
@@ -55,7 +72,15 @@ local
       | NONE => (
          compute_val_try_mem compute_val_and_resolve_deps preds vals (besubst, besubst_vars)
     ))) end;
+<<<<<<< HEAD
 
+=======
+  end;
+
+in (* local *)
+
+  (* TODO: think if it makes sense to have this function available outside or if we want another interface for this part *)
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   fun compute_val_and_resolve_deps preds vals (besubst, besubst_vars) =
     let
       val deps_l2 = List.foldr (Redblackset.union)
@@ -73,18 +98,35 @@ local
           end
     end;
 
+<<<<<<< HEAD
   val sp_align_sub_const_match_tm = ``
         (BExp_BinExp BIExp_Minus
           (BExp_Align Bit64 2 (BExp_Den (BVar "SP_process" (BType_Imm Bit64))))
+=======
+end (* local *)
+
+local (* local *)
+  val sp_align_sub_const_match_tm = ``
+        (BExp_BinExp BIExp_Minus
+          (BExp_Align Bit32 2 (BExp_Den (BVar "SP_process" (BType_Imm Bit32))))
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
           (BExp_Const y))``;
 
   val sp_align_add_const_match_tm = ``
         (BExp_BinExp BIExp_Plus
+<<<<<<< HEAD
           (BExp_Align Bit64 2 (BExp_Den (BVar "SP_process" (BType_Imm Bit64))))
           (BExp_Const y))``;
 
   val sp_align_r7_match_tm = ``
         (BExp_Align Bit64 2 (BExp_Den (BVar "R7" (BType_Imm Bit64))))``;
+=======
+          (BExp_Align Bit32 2 (BExp_Den (BVar "SP_process" (BType_Imm Bit32))))
+          (BExp_Const y))``;
+
+  val sp_align_r7_match_tm = ``
+        (BExp_Align Bit32 2 (BExp_Den (BVar "R7" (BType_Imm Bit32))))``;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
   fun simplify_be be syst =
     let
@@ -93,7 +135,11 @@ local
 
       val replacewith_tm = ``
         (BExp_BinExp BIExp_Minus
+<<<<<<< HEAD
           (BExp_Den (BVar "SP_process" (BType_Imm Bit64)))
+=======
+          (BExp_Den (BVar "SP_process" (BType_Imm Bit32)))
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
           (BExp_Const ^imm_val))``;
 
       val _ = if not debugAssignments then () else
@@ -110,7 +156,11 @@ local
 
       val replacewith_tm = ``
         (BExp_BinExp BIExp_Plus
+<<<<<<< HEAD
           (BExp_Den (BVar "SP_process" (BType_Imm Bit64)))
+=======
+          (BExp_Den (BVar "SP_process" (BType_Imm Bit32)))
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
           (BExp_Const ^imm_val))``;
 
       val _ = if not debugAssignments then () else
@@ -125,7 +175,11 @@ local
       val (vs, _) = hol88Lib.match sp_align_r7_match_tm be;
 
       val replacewith_tm = ``
+<<<<<<< HEAD
         BExp_Den (BVar "R7" (BType_Imm Bit64))``;
+=======
+        BExp_Den (BVar "R7" (BType_Imm Bit32))``;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
       val _ = if not debugAssignments then () else
               (print "- replace r7 :");
@@ -136,11 +190,41 @@ local
     end
     handle HOL_ERR _ => be));
 
+<<<<<<< HEAD
 in (* local *)
 
   (* TODO: think if it makes sense to have this function available outside or if we want another interface for this part *)
   val compute_val_and_resolve_deps = compute_val_and_resolve_deps;
 
+=======
+  fun subst_fun env vals (bev, (e, vars)) =
+    let
+      open bir_expSyntax;
+      open bir_constpropLib;
+      val bv_ofvals = find_bv_val "subst_fun" env bev;
+
+      val (exp, vars') =
+        let
+          val symbv = find_bv_val "subst_fun" vals bv_ofvals;
+          val expo = case symbv of
+                       SymbValBE (x, _) => SOME x
+                     | _ => NONE;
+          val use_expo_var =
+            isSome expo andalso
+            (bir_expSyntax.is_BExp_Const o valOf) expo;
+        in
+          if use_expo_var then
+            (valOf expo, vars)
+          else raise ERR "subst_fun" "this is never seen"
+        end
+        handle _ => (mk_BExp_Den bv_ofvals, bv_ofvals::vars);
+    in
+      (subst_exp (bev, exp, e),
+       vars')
+    end;
+
+in (* local *)
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   fun compute_valbe be syst =
     let
       val env   = SYST_get_env  syst;
@@ -150,6 +234,10 @@ in (* local *)
       val be_   = simplify_be be syst;
       (* TODO: we may be left with an expression that fetches a single variable from the environment *)
 
+<<<<<<< HEAD
+=======
+      open bir_exp_helperLib;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
       val be_vars = get_birexp_vars be_;
       val besubst_with_vars = List.foldr (subst_fun env vals) (be_, []) be_vars;
     in
@@ -173,8 +261,11 @@ end (* local *)
       val expo = case symbv of
                     SymbValBE (x, _) => SOME x
                   | _ => NONE;
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
       val use_expo_var =
             isSome expo andalso
             (bir_expSyntax.is_BExp_Den o valOf) expo;
@@ -280,6 +371,7 @@ end (* local *)
 (* primitives for branching states based on a boolean condition expression *)
   fun state_branch str_prefix cnd f_bt f_bf syst =
     let
+<<<<<<< HEAD
 	val bv_str_t = str_prefix ^ "_true_cnd";
 	val bv_str_f = str_prefix ^ "_false_cnd";
 
@@ -287,6 +379,14 @@ end (* local *)
 
       val systs1 = (f_bt o state_add_pred bv_str_t cnd) syst;
       val systs2 = (f_bf o state_add_pred bv_str_f (bslSyntax.bnot cnd)) syst;
+=======
+      val bv_str = str_prefix ^ "_cnd";
+
+      val debugOn = debugPaths;
+
+      val systs1 = (f_bt o state_add_pred bv_str cnd) syst;
+      val systs2 = (f_bf o state_add_pred bv_str (bslSyntax.bnot cnd)) syst;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
     in
       if not debugOn then
         systs1@systs2

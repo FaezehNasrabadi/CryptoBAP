@@ -10,8 +10,11 @@ open bir_symbexec_stepLib;
 open bir_symbexec_sumLib;
 open bir_countw_simplificationLib;
 
+<<<<<<< HEAD
 open commonBalrobScriptLib;
 
+=======
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 val entry_labels = ["motor_prep_input",
                     "__lesf2",
                     "__clzsi2",
@@ -19,6 +22,7 @@ val entry_labels = ["motor_prep_input",
                     (*"pid_msg_write",*)
                     "timer_read"];
 
+<<<<<<< HEAD
 (*val name = "client";
     val stop_lbl_tms = [``BL_Address (Imm64 4204220w)``];
     val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
@@ -37,6 +41,18 @@ val _ = print ("funname = " ^ (name) ^ "\n");
 val lbl_tm = (mk_lbl_tm o valOf o mem_find_symbol_addr_) name; 
 
 (*   local *)
+=======
+
+val _ = List.map (fn entry_label => let
+  val name   = entry_label;
+
+  val _ = print "\n\n>>>>>>>>>>>>>>>>>>>>>>>>>\n";
+  val _ = print ("funname = " ^ (name) ^ "\n");
+
+  val lbl_tm = (mk_lbl_tm o valOf o mem_find_symbol_addr_) name;
+
+  local
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
     open bir_cfgLib;
   in
     val stop_lbl_tms = (List.map #CFGN_lbl_tm o
@@ -49,20 +65,35 @@ val lbl_tm = (mk_lbl_tm o valOf o mem_find_symbol_addr_) name;
 
   val syst = state_make_interval bv_countw syst;
 
+<<<<<<< HEAD
+=======
+  local
+    open commonBalrobScriptLib;
+  in
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   val syst = state_make_mem bv_mem
                             (Arbnum.fromInt mem_sz_const, Arbnum.fromInt mem_sz_globl, Arbnum.fromInt mem_sz_stack)
                             (mem_read_byte binary_mem)
                             bv_sp
                             syst;
 
+<<<<<<< HEAD
   val syst = state_add_preds "init_pred" pred_conjs syst;
+=======
+  val syst = state_add_preds "init_pred" (pred_conjs (get_fun_usage entry_label)) syst;
+  end
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
   val _ = print "initial state created.\n";
 
   (* -------------------------------------------------------------- *)
   val cfb = false;
 
+<<<<<<< HEAD
   val systs = symb_exec_to_stop (abpfun cfb) n_dict bl_dict_ [syst] stop_lbl_tms [];
+=======
+  val systs = symb_exec_to_stop (commonBalrobScriptLib.abpfun cfb) n_dict bl_dict_ [syst] stop_lbl_tms [];
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   val _ = print ("finished exploration of all paths. number = " ^ (Int.toString (length systs)));
   val _ = print "\n";
 
@@ -96,7 +127,11 @@ val lbl_tm = (mk_lbl_tm o valOf o mem_find_symbol_addr_) name;
     case syst_merged_countw of
        SymbValInterval ((min, max), _) =>
           (term_to_string min, term_to_string max)
+<<<<<<< HEAD
      | _ => raise ERR "balrob-test" "should be an interval";
+=======
+     | _ => raise Fail "balrob-test::should be an interval";
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
   (* -------------------------------------------------------------- *)
   val _ = print ("min = " ^ count_min ^ "\n");

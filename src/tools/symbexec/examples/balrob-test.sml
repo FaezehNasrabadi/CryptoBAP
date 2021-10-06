@@ -10,8 +10,11 @@ open bir_symbexec_stepLib;
 open bir_symbexec_sumLib;
 open bir_countw_simplificationLib;
 
+<<<<<<< HEAD
 open commonBalrobScriptLib;
 
+=======
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 val entry_labels = ["motor_prep_input",
                     "__lesf2",
                     "__clzsi2",
@@ -67,6 +70,12 @@ val syst =
   else
     state_make_interval bv_countw syst;
 
+<<<<<<< HEAD
+=======
+local
+  open commonBalrobScriptLib;
+in
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 val syst = if not use_mem_symbolic then syst else
              state_make_mem bv_mem
                           (Arbnum.fromInt mem_sz_const, Arbnum.fromInt mem_sz_globl, Arbnum.fromInt mem_sz_stack)
@@ -74,7 +83,12 @@ val syst = if not use_mem_symbolic then syst else
                           bv_sp
                           syst;
 
+<<<<<<< HEAD
 val syst = state_add_preds "init_pred" pred_conjs syst;
+=======
+val syst = state_add_preds "init_pred" (pred_conjs (get_fun_usage entry_label)) syst;
+end
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 val _ = print "initial state created.\n\n";
 (*
@@ -93,7 +107,11 @@ Redblackmap.peek (SYST_get_vals syst, ``BVar "fr_175_countw" (BType_Imm Bit64)``
 
 val cfb = false;
 
+<<<<<<< HEAD
 val systs = symb_exec_to_stop (abpfun cfb) n_dict bl_dict_ [syst] stop_lbl_tms [];
+=======
+val systs = symb_exec_to_stop (commonBalrobScriptLib.abpfun cfb) n_dict bl_dict_ [syst] stop_lbl_tms [];
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 val _ = print "finished exploration of all paths.\n";
 val _ = print ("number of paths found: " ^ (Int.toString (length systs)));
 val _ = print "\n\n";
@@ -184,7 +202,11 @@ val (count_min, count_max) =
   case syst_merged_countw of
      SymbValInterval ((min, max), _) =>
         (term_to_string min, term_to_string max)
+<<<<<<< HEAD
    | _ => raise ERR "balrob-test" "should be an interval";
+=======
+   | _ => raise Fail "balrob-test::should be an interval";
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 val _ = print "\n\n\n";
 val _ = print ("min = " ^ count_min ^ "\n");
@@ -231,19 +253,34 @@ val stop_lbl_tms = [func_lbl_tm]; (*``BL_Address (Imm32 0xc1cw)``];*)
 
 val syst = init_state lbl_tm prog_vars;
 val syst = state_make_interval bv_countw syst;
+<<<<<<< HEAD
+=======
+local
+  open commonBalrobScriptLib;
+in
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 val syst = state_make_mem bv_mem
                           (Arbnum.fromInt mem_sz_const, Arbnum.fromInt mem_sz_globl, Arbnum.fromInt mem_sz_stack)
                           (mem_read_byte binary_mem)
                           bv_sp
                           syst;
 
+<<<<<<< HEAD
 val syst = state_add_preds "init_pred" pred_conjs syst;
+=======
+val syst = state_add_preds "init_pred" (pred_conjs (get_fun_usage entry_label)) syst;
+end
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 val _ = print "initial state created.\n\n";
 
 val cfb = false;
 
+<<<<<<< HEAD
 val systs = symb_exec_to_stop (abpfun cfb) n_dict bl_dict_ [syst] stop_lbl_tms [];
+=======
+val systs = symb_exec_to_stop (commonBalrobScriptLib.abpfun cfb) n_dict bl_dict_ [syst] stop_lbl_tms [];
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 val _ = print "finished exploration of all paths.\n";
 val _ = print ("number of paths found: " ^ (Int.toString (length systs)));
 val _ = print "\n\n";
@@ -257,7 +294,11 @@ val _ = print "\n\n";
 
 (* now instanciation ... *)
 val syst = if length systs_noassertfailed = 1 then hd systs_noassertfailed else
+<<<<<<< HEAD
            raise ERR "script" "more than one symbolic state in current path/state";
+=======
+           raise Fail "script::more than one symbolic state in current path/state";
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 val systs_inst = instantiate_summaries [syst_summary] [syst];
 
@@ -279,7 +320,11 @@ lookup_block_dict bl_dict_ lbl_tm
 
 val stop_lbl_tms = [``BL_Address (Imm32 0xc74w)``];
 
+<<<<<<< HEAD
 val systs = symb_exec_to_stop (abpfun cfb) n_dict bl_dict_ systs_inst stop_lbl_tms [];
+=======
+val systs = symb_exec_to_stop (commonBalrobScriptLib.abpfun cfb) n_dict bl_dict_ systs_inst stop_lbl_tms [];
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 val (systs_noassertfailed, systs_assertfailed) =
   List.partition (fn syst => not (identical (SYST_get_status syst) BST_AssertionViolated_tm)) systs;
@@ -322,11 +367,18 @@ val (count_min, count_max) =
   case syst_merged_countw of
      SymbValInterval ((min, max), _) =>
         (term_to_string min, term_to_string max)
+<<<<<<< HEAD
    | _ => raise ERR "balrob-test" "should be an interval";
+=======
+   | _ => raise Fail "balrob-test::should be an interval";
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 val _ = print "\n\n\n";
 val _ = print ("min = " ^ count_min ^ "\n");
 val _ = print ("max = " ^ count_max ^ "\n");
+<<<<<<< HEAD
 
 
    
+=======
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc

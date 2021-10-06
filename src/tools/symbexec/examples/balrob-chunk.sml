@@ -12,8 +12,14 @@ open bir_symbexec_driverLib;
 
 val entry_label = "motor_prep_input";
 val lbl_tm      = find_func_lbl_tm entry_label;
+<<<<<<< HEAD
 
 val syst_start  = init_summary lbl_tm;
+=======
+val usage       = commonBalrobScriptLib.get_fun_usage entry_label;
+
+val syst_start  = init_summary lbl_tm usage;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 val systs_start = [syst_start];
 
 val stop_lbl_tms = find_func_ends n_dict entry_label;
@@ -33,8 +39,14 @@ val entry_label = "motor_set_l";
 "c20" return
 *)
 val lbl_tm      = find_func_lbl_tm entry_label;
+<<<<<<< HEAD
 
 val syst_start  = init_summary lbl_tm;
+=======
+val usage       = commonBalrobScriptLib.get_fun_usage entry_label;
+
+val syst_start  = init_summary lbl_tm usage;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 val systs_start = [syst_start];
 
 val stop_lbl_tms = [func_lbl_tm]; (*``BL_Address (Imm32 0xc1cw)``];*)
@@ -55,8 +67,14 @@ val (func_lbl_tm, _, _) = syst_summary;
 
 val entry_label = "motor_set_r";
 val lbl_tm      = find_func_lbl_tm entry_label;
+<<<<<<< HEAD
 
 val syst_start  = init_summary lbl_tm;
+=======
+val usage       = commonBalrobScriptLib.get_fun_usage entry_label;
+
+val syst_start  = init_summary lbl_tm usage;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 val systs_start = [syst_start];
 
 val stop_lbl_tms = [func_lbl_tm];
@@ -77,8 +95,14 @@ val (func_lbl_tm_2, _, _) = syst_summary_2;
 
 val entry_label = "motor_set";
 val lbl_tm      = find_func_lbl_tm entry_label;
+<<<<<<< HEAD
 
 val syst_start  = init_summary lbl_tm;
+=======
+val usage       = commonBalrobScriptLib.get_fun_usage entry_label;
+
+val syst_start  = init_summary lbl_tm usage;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 val systs_start = [syst_start];
 
 val stop_lbl_tms = [func_lbl_tm_1, func_lbl_tm_2];

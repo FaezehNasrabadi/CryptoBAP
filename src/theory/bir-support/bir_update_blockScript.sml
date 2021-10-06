@@ -170,7 +170,11 @@ val bir_update_blockB_desc_OK_CONS = store_thm("bir_update_blockB_desc_OK_CONS",
 )``,
 
 SIMP_TAC (list_ss++boolSimps.EQUIV_EXTRACT_ss) [bir_update_blockB_desc_OK_def,
+<<<<<<< HEAD
   FORALL_AND_THM, EVERY_MEM, MEM_MAP, indexedListsTheory.LT_SUC,
+=======
+  FORALL_AND_THM, EVERY_MEM, MEM_MAP, arithmeticTheory.LT_SUC,
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   RIGHT_AND_OVER_OR, DISJ_IMP_THM, GSYM LEFT_EXISTS_AND_THM, GSYM LEFT_FORALL_IMP_THM,
   LEFT_AND_OVER_OR, GSYM RIGHT_EXISTS_AND_THM, IN_IMAGE] >>
 REPEAT STRIP_TAC >>

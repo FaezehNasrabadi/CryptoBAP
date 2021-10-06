@@ -122,7 +122,11 @@ in
         ("<=", chainable (realSyntax.mk_leq o one_int_to_real)),
         ("<", chainable (realSyntax.mk_less o one_int_to_real)),
         (">=", chainable (realSyntax.mk_geq o one_int_to_real)),
+<<<<<<< HEAD
         (">", chainable (realSyntax.mk_great o one_int_to_real))
+=======
+        (">", chainable (realSyntax.mk_greater o one_int_to_real))
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
       ]]
   end
 

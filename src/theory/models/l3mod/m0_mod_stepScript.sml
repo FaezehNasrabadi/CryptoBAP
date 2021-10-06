@@ -10,7 +10,11 @@ open combinTheory;
 val _ = new_theory "m0_mod_step";
 
 
+<<<<<<< HEAD
 (* modified state with word representation of clock cyckle counter *)
+=======
+(* modified state with word representation of clock cycle counter *)
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 val _ = Datatype `m0_mod_state = <|
   base   : m0_state;
   countw : word64

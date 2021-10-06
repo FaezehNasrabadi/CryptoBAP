@@ -1,10 +1,21 @@
 structure bir_rel_synthLib : bir_rel_synthLib =
 struct
 
+<<<<<<< HEAD
+=======
+open HolKernel boolLib liteLib simpLib Parse bossLib;
+
+  (* error handling *)
+  val libname  = "bir_rel_synthLib"
+  val ERR      = Feedback.mk_HOL_ERR libname
+  val wrap_exn = Feedback.wrap_exn libname
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 local
 open HolKernel Parse boolLib bossLib;
 open stringSyntax;
 open bir_programTheory;
+<<<<<<< HEAD
 
 open bslSyntax;
 in
@@ -16,10 +27,24 @@ datatype cobs_repr = cobs of int * term * term;
 datatype path_repr = path of int * term * (cobs_repr list);
 type path_struct = path_repr list;
 type path_spec = {a_run: int * (bool * int) list, b_run: int * (bool * int) list};
+=======
+open bir_utilLib;
+open scamv_path_structLib;
+open scamv_enumLib;
+
+open bslSyntax;
+open numSyntax;
+in
+
+type exp = term;
+type cobs = term * term * term;
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 datatype enum_strategy = enum_extensional of int list
                        | enum_range of int * int;
 type enum_env = (term * enum_strategy) list;
 
+<<<<<<< HEAD
 fun mapPair f (c, oCobs) = (f c, f oCobs);
 
 fun path_id_of (path (id, _, _)) = id;
@@ -64,10 +89,37 @@ fun primed_vars exp = map (#residue) (primed_subst exp);
 fun primed_term exp =
     let val psub = primed_subst exp
     in subst psub exp
+=======
+exception ListMkBir of string
+
+fun primed_subst exp =
+    let 
+	val (mfvs, rfvs) = List.partition (fn el =>  Term.term_eq el ``"MEM"``)(bir_free_vars exp)
+	val regs =
+	    List.map (fn v =>
+		    let val vp = lift_string string_ty (fromHOLstring v ^ "'")
+		    in
+			``BVar ^v`` |-> ``BVar ^vp`` end) rfvs
+	val mem  = mk_var ("MEM" ,Type`:num |-> num`)
+	val mem' = mk_var ("MEM'",Type`:num |-> num`)
+    in
+	if List.null mfvs
+	then regs
+	else [mem |-> mem']@regs
+    end
+	
+fun primed_vars exp = List.map (#residue) (primed_subst exp);
+
+fun primed_term exp =
+    let val psub = primed_subst exp
+    in
+	subst psub exp
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
     end;
 
 fun primed ys =
     map (fn (x,y) => (primed_term x,
+<<<<<<< HEAD
                       Option.map (map (mapPair primed_term)) y)) ys;
 
 fun primed_obs (cos : cobs_repr list) =
@@ -87,6 +139,16 @@ fun stateful_tabulate f =
         next
     end;
 
+=======
+                      Option.map (List.map (mapPair primed_term)) y)) ys;
+
+fun primed_obs (cos : cobs_repr list) =
+    let fun primed_cobs (cobs (id, oid, c, t)) =
+            cobs (id, oid, primed_term c, primed_term t);
+    in List.map primed_cobs cos
+    end;
+(*
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 val fresh_id =
     stateful_tabulate
         (fn n =>
@@ -102,6 +164,7 @@ val fresh_id =
 
 fun mk_fresh_gen () =
     stateful_tabulate (fn n => n);
+<<<<<<< HEAD
 
 fun todo () = raise ERR "todo" "unimplemented";
 
@@ -117,13 +180,27 @@ fun lookup_path path_id path_struct =
 
 fun lookup_obs obs_id obs_list =
     List.find (fn obs => cobs_id_of obs = obs_id) obs_list;
+=======
+*)
+fun todo () = raise ERR "todo" "unimplemented";
+
+fun split_obs_list n xs =
+    let val (refs, base) = Portable.partition (fn (oid,_) => oid = n) xs;
+    in
+      (List.map snd refs, List.map snd base)
+    end
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 fun triangleWith f xs ys =
 (*  full product: List.concat (map (fn a => map (fn b => f a b) xs) ys);*)
     let fun go g [] _ = []
           | go g _ [] = []
           | go g (x::xs) (y::ys) =
+<<<<<<< HEAD
             (map (fn p => g x p) (y::ys)) @
+=======
+            (List.map (fn p => g x p) (y::ys)) @
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
             go g xs ys
     in
         if length ys < length xs
@@ -137,8 +214,13 @@ fun buildLeavesIds [] = []
   | buildLeavesIds [oid] = [[(true, oid)], [(false,oid)]]
   | buildLeavesIds (oid::rest) =
     let val cobs' = buildLeavesIds rest;
+<<<<<<< HEAD
         val oHolds    = map (fn spec => (true, oid) :: spec) cobs';
         val oNotHolds = map (fn spec => (false, oid) :: spec) cobs';
+=======
+        val oHolds    = List.map (fn spec => (true, oid) :: spec) cobs';
+        val oNotHolds = List.map (fn spec => (false, oid) :: spec) cobs';
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
     in oHolds @ oNotHolds
     end
 
@@ -158,6 +240,7 @@ fun enumerate_domain (a_term, strategy) =
             fun apply_pair v1 v2 =
                 band (beq (a_term, bconst64 v1), beq (b_term, bconst64 v2))
             val prod = triangleWith apply_pair xs xs;
+<<<<<<< HEAD
             val len = length prod;
             fun next_constraint n =
                 SOME (List.nth (prod, n mod len))
@@ -176,6 +259,27 @@ fun enumerate_domains env =
                 handle _ => btrue
             end;
     in (prods, nexts)
+=======
+(*            val len = length prod;
+            fun next_constraint n =
+                SOME (List.nth (prod, n mod len))
+                     handle _ => NONE; *)
+        in (prod, roundrobin_list prod)
+        end;
+
+fun enumerate_domains [] = ([], constant btrue)
+  | enumerate_domains env =
+    let val (prods, enums) = unzip (List.map enumerate_domain env)
+        (* fun nexts () =
+             (*let fun go [] = [] *)
+            (*       | go (NONE :: xs) = go xs *)
+            (*       | go (SOME x :: xs) = x :: (go xs) *)
+            (* in
+            bandl (List.map next enums)
+            handle _ => btrue
+            end; *) *)
+    in (prods, list_reduce bandl enums)
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
     end;
 
 fun enumerate_relation path_dom static_obs_dom dynamic_obs_dom =
@@ -218,21 +322,38 @@ fun enumerate_relation path_dom static_obs_dom dynamic_obs_dom =
                         specs;
 
         (* iterator *)
+<<<<<<< HEAD
         val len = length full_specs;
         fun next_test_case n =
             SOME (List.nth (full_specs, n mod len))
                      handle _ => NONE;
     in
         (full_specs, stateful_tabulate next_test_case)
+=======
+(*        val len = length full_specs;
+        fun next_test_case n =
+            SOME (List.nth (full_specs, n mod len))
+                     handle _ => NONE; *)
+    in
+        (full_specs, roundrobin_list full_specs)
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
     end;
 
 fun trace_cobs_jit [] obs_list = ([],[])
   | trace_cobs_jit ((b,id) :: ids) obs_list  =
+<<<<<<< HEAD
     let val (SOME (cobs (_, cond, obs_term))) = lookup_obs id obs_list;
         val (conds, obs) = trace_cobs_jit ids obs_list;
     in
         if b
         then (cond :: conds, obs_term :: obs)
+=======
+    let val (SOME (cobs (_, oid, cond, obs_term))) = lookup_obs id obs_list;
+        val (conds, obs) = trace_cobs_jit ids obs_list;
+    in
+        if b
+        then (cond :: conds, (int_of_term oid,obs_term) :: obs)
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
         else (bnot cond :: conds, obs)
     end handle Bind =>
                raise ERR "trace_cobs_jit"
@@ -240,10 +361,36 @@ fun trace_cobs_jit [] obs_list = ([],[])
 
 val example_bir_path_struct =
     [path (1, blt (bden (bvarimm64 "A"), bconst64 0),
+<<<<<<< HEAD
            [cobs (2, blt (bden (bvarimm64 "B"), bconst64 64),
                      bden(bvarimm64 "A"))])
            ,path (3, bnot (blt (bden (bvarimm64 "A"), bconst64 0)), [])];
 
+=======
+           [cobs (2, term_of_int 0, blt (bden (bvarimm64 "B"), bconst64 64),
+                     bden(bvarimm64 "A"))])
+           ,path (3, bnot (blt (bden (bvarimm64 "A"), bconst64 0)), [])];
+
+val example_bir_path_struct2 =
+    [path (0, blt (bden (bvarimm64 "A"), bconst64 0),
+           [cobs (1, term_of_int 0, btrue, bden(bvarimm64 "A")),
+            cobs (2, term_of_int 0, btrue, bden(bvarimm64 "B")),
+            cobs (3, term_of_int 0, btrue, bden(bvarimm64 "C"))]),
+     path (4, bge (bden (bvarimm64 "A"), bconst64 0),
+           [cobs (5, term_of_int 0, btrue, bden(bvarimm64 "D")),
+            cobs (6, term_of_int 0, btrue, bden(bvarimm64 "E")),
+            cobs (7, term_of_int 0, btrue, bden(bvarimm64 "F"))])];
+
+val example_bir_path_struct3 =
+    [path (0, blt (bden (bvarimm64 "A"), bconst64 0),
+           [cobs (1, term_of_int 0, btrue, bden(bvarimm64 "A")),
+            cobs (2, term_of_int 0, btrue, bden(bvarimm64 "B"))]),
+     path (4, bge (bden (bvarimm64 "A"), bconst64 0),
+           [cobs (5, term_of_int 0, btrue, bden(bvarimm64 "D")),
+            cobs (6, term_of_int 0, btrue, bden(bvarimm64 "E")),
+            cobs (7, term_of_int 0, btrue, bden(bvarimm64 "F"))])];
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 val example_bir_initial_ps =
     [(blt (bden (bvarimm64 "A"), bconst64 0),
       SOME [(btrue, bden(bvarimm64 "A")),(blt (bden (bvarimm64 "B"), bconst64 64),bden(bvarimm64 "A"))])
@@ -265,12 +412,22 @@ fun mk_bir_list_eq l1 l2 =
          in list_eq l1 l2
          end
 
+<<<<<<< HEAD
 fun op mem (x, xs) =
     is_some (List.find (fn y => x = y) xs);
+=======
+fun op  mem (x, xs) =
+    is_some (List.find (fn y => x = y) xs);
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 infix 5 mem;
 
 fun rel_synth_jit
         (spec as {a_run = (a_path, a_obs_spec), b_run = (b_path, b_obs_spec)})
+<<<<<<< HEAD
+=======
+        obs_projection
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
         path_struct =
     let val SOME (path (_,a_cond,a_obs)) = lookup_path a_path path_struct;
         val SOME (path (_,b_cond_unprimed,b_obs_unprimed)) =
@@ -285,6 +442,13 @@ fun rel_synth_jit
             trace_cobs_jit (project a_obs a_obs_spec) a_obs;
         val (b_obs_cond, b_obs_terms) =
             trace_cobs_jit (project b_obs b_obs_spec) b_obs;
+<<<<<<< HEAD
+=======
+        val (a_obs_terms_refined, a_obs_terms_base) =
+            split_obs_list obs_projection a_obs_terms;
+        val (b_obs_terms_refined, b_obs_terms_base) =
+            split_obs_list obs_projection b_obs_terms;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
         fun bandl' xs =
             case xs of
                 [] => btrue
@@ -293,13 +457,19 @@ fun rel_synth_jit
         band (a_cond,
               band (b_cond,
                     bandl' [bandl' a_obs_cond, bandl' b_obs_cond,
+<<<<<<< HEAD
                             mk_bir_list_eq a_obs_terms b_obs_terms]))
+=======
+                            band (mk_bir_list_eq a_obs_terms_base b_obs_terms_base
+                                 ,bnot (if null a_obs_terms_refined andalso null b_obs_terms_refined then bfalse else mk_bir_list_eq a_obs_terms_refined b_obs_terms_refined))]))
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
     end
     handle Bind =>
            raise ERR "rel_synth_jit"
                  ("invalid id in arg " ^
                   PolyML.makestring spec);
 
+<<<<<<< HEAD
 val example_initial_ps = [(``A``, SOME [(``B``,``C``)]), (``D``,NONE)];
 
 (* input: (bir_exp * (cobs list) option) list *)
@@ -316,6 +486,13 @@ fun preprocess_path_struct ps : (path_struct * term) =
 fun partition_domains (ps : path_struct) : int list * int list =
     let fun partition_obs_list xs =
             List.partition (fn (cobs (id,cond,term)) => identical cond btrue) xs;
+=======
+val example_initial_ps = [(``A``, SOME [(``0``,``B``,``C``)]), (``D``,NONE)];
+
+fun partition_domains (ps : path_struct) : int list * int list =
+    let fun partition_obs_list xs =
+            List.partition (fn (cobs (id,oid,cond,term)) => identical cond btrue) xs;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
         fun go [] = ([],[])
           | go (path (_,_,xs)::ps) =
             let val (static, dyn) = partition_obs_list xs;
@@ -328,6 +505,7 @@ fun partition_domains (ps : path_struct) : int list * int list =
     end;
 
 val max_guard_tries = 10000;
+<<<<<<< HEAD
 
 (* input: (bir_exp * (cobs list) option) list *)
 fun rel_synth_init initial_ps (env : enum_env) =
@@ -384,6 +562,49 @@ fun print_path_struct path_struct =
     in List.app print_path path_struct
     end;
 
+=======
+(* input: path_struct *)
+fun rel_synth_init ps obs_projection (env : enum_env) =
+    let
+      val validity = btrue;
+      val (static_obs_domain, dynamic_obs_domain) = partition_domains ps;
+      val (full_specs, relation) =
+          enumerate_relation (path_domain ps)
+                             static_obs_domain dynamic_obs_domain;
+      val (full_enums, constraints) =
+          enumerate_domains env;
+      fun next_test guard_path_spec =
+          let open bir_expLib;
+              fun try_spec () =
+                  let fun go 0 = raise ERR "next_test" "guard_path_spec failed too many times in a row"
+                        | go n =
+                          let val p = next relation;
+                          in if guard_path_spec p
+                             then (print "\n"; p)
+                             else (print "~"; go (n-1))
+                          end;
+                  in go max_guard_tries
+                  end
+                  handle Bind => raise ERR "next_test" "no next relation found";
+              val spec = try_spec ();
+              val constraint = next constraints;
+              val _ = if not (identical constraint btrue)
+                      then (print ("Selected constraint: ");
+                            bir_exp_pretty_print constraint;
+                            print "\n")
+                      else ();
+          in SOME (spec, band (band (rel_synth_jit spec obs_projection ps, constraint)
+                              ,validity))
+             handle e => (print (PolyML.makestring e ^ "\n");
+                          print (PolyML.makestring spec ^ "\n");
+                          NONE)
+          end
+          handle Bind => NONE;
+    in
+      (full_specs, validity, next_test)
+    end
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 end
 
 end

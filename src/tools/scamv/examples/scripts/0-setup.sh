@@ -4,7 +4,10 @@ set -e
 
 EMBEXP_IDX_PARAM=$1
 OPT_DIR_PARAM=$2
+<<<<<<< HEAD
 # EMBEXP_BOX_DIR=$3
+=======
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 # get scamv examples and holba directory path
 SCAMV_EXAMPLES_DIR=$(dirname "${BASH_SOURCE[0]}")

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 driver-test --max_iter 1000 --prog_size 4 --max_tests 60 --generator qc --generator_param xld --obs_model cache_index_only --hw_obs_model hw_cache_index_numvalid
+=======
+--max_iter 1000 --prog_size 4 --max_tests 60 --generator qc --generator_param xld --obs_model cache_index_only --hw_obs_model hw_cache_index_numvalid
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 
 >>> cav_19_12_03_qc_xld_len4_indexonly

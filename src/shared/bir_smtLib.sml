@@ -256,17 +256,33 @@ in
       val sty = get_smtlib_type_args probfun args;
       fun gen_exp opstr = gen_smtlib_expr opstr args SMTTY_Bool;
     in
+<<<<<<< HEAD
+=======
+    (* simple equality *)
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
     (* TODO: BinPred cannot be applied to memories! *)
     if is_BIExp_Equal bpredop then gen_exp "="
     else if is_BIExp_NotEqual bpredop then apply_smtlib_op (fn s => "(not " ^ s ^ ")")
                                                            (gen_exp "=")
+<<<<<<< HEAD
     (* TODO: BinPred can be applied to Imm1! *)
+=======
+    (* bitvectors *)
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
     else if smt_type_is_bv sty then
       if is_BIExp_LessThan bpredop then gen_exp "bvult"
       else if is_BIExp_SignedLessThan bpredop then gen_exp "bvslt"
       else if is_BIExp_LessOrEqual bpredop then gen_exp "bvule"
       else if is_BIExp_SignedLessOrEqual bpredop then gen_exp "bvsle"
       else problem_gen_sty "bpredop_to_smtlib" bpredop sty
+<<<<<<< HEAD
+=======
+    (* bools *)
+    (* TODO: BinPred can be applied to Imm1, handle remaining cases here! *)
+    else if smt_type_is_bool sty then
+      if is_BIExp_LessOrEqual bpredop then gen_exp "=>"
+      else problem_gen_sty "bpredop_to_smtlib" bpredop sty
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
     else problem_gen_sty "bpredop_to_smtlib" bpredop sty
     end;
 

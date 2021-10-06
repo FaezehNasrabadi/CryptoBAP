@@ -1,6 +1,13 @@
 open HolKernel Parse
+<<<<<<< HEAD
 
 open bir_inst_liftingLib;
+=======
+open PPBackEnd;
+
+open bir_inst_liftingLib;
+open bir_inst_liftingHelpersLib;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 open gcc_supportLib;
 
 open binariesBalrobDefsLib;
@@ -17,8 +24,12 @@ fun lift_da_file_to_thm (prog_id, (da_file_lift, da_file_mem, mem_file), thm_nam
 
     val (region_map, sections) = read_disassembly_file_regions_filter symb_filter_lift da_file_lift;
 
+<<<<<<< HEAD
     (* val (thm, errors) = bmil_m0_mod_LittleEnd_Process.bir_lift_prog_gen prog_range sections; *)
     val (thm, errors) = bmil_arm8.bir_lift_prog_gen prog_range sections;
+=======
+    val (thm, errors) = bmil_m0_mod_LittleEnd_Process.bir_lift_prog_gen prog_range sections;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
     val _ = save_thm (thm_name, thm);
   in

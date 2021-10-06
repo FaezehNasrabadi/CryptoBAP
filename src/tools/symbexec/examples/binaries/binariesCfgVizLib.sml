@@ -43,8 +43,13 @@ fun display_call_graph ci symbs_sec_text =
     val _ = convertAndView file;
   in () end;
 
+<<<<<<< HEAD
 (*fun show_call_graph () =
   display_call_graph ci symbs_sec_text;*)
+=======
+fun show_call_graph () =
+  display_call_graph ci symbs_sec_text;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 fun show_cfg_fun do_walk bl_dict n_dict name =
   let

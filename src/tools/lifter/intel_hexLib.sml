@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 open HolKernel boolLib liteLib;
 
 structure intel_hexLib :> intel_hexLib =
 struct
 
+=======
+structure intel_hexLib :> intel_hexLib =
+struct
+
+  open HolKernel boolLib liteLib;
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   open Arbnum
 
   (*******************)

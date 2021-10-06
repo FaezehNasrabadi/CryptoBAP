@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 open HolKernel Parse;
+=======
+open HolKernel boolLib liteLib simpLib Parse bossLib;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 val _ = new_theory "birExamplesBinary";
 

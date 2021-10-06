@@ -2,6 +2,12 @@ structure bir_symbexec_sumLib =
 struct
 
 local
+<<<<<<< HEAD
+=======
+
+  open HolKernel Parse;
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   open bir_symbexec_stateLib;
 
   val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_sumLib"
@@ -134,8 +140,13 @@ in (* local *)
       (* check that SPs match *)
       val _ = if Redblackset.member (env_idents, bv_sp) then () else (
         print "........................\n\n";
+<<<<<<< HEAD
         is_symbv_bexp_appfun (fn e => (print_term e; false)) env  vals  ``BVar "SP_process" (BType_Imm Bit64)``;
         is_symbv_bexp_appfun (fn e => (print_term e; false)) env2 vals2 ``BVar "SP_process" (BType_Imm Bit64)``;
+=======
+        is_symbv_bexp_appfun (fn e => (print_term e; false)) env  vals  ``BVar "SP_process" (BType_Imm Bit32)``;
+        is_symbv_bexp_appfun (fn e => (print_term e; false)) env2 vals2 ``BVar "SP_process" (BType_Imm Bit32)``;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
         print "\n........................\n";
         raise ERR "merge_states_vartointerval" "stack pointers are not equal!"
        );
@@ -236,7 +247,10 @@ in (* local *)
 
       (* for our application, merging needs to preserve
          at least: pred "prefix", SP, something about MEM *)
+<<<<<<< HEAD
       (* for now, scatch env completely, and use fresh variables *)
+=======
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
       val env_vars = List.map I (Redblackmap.listItems env);
       val env' = Redblackmap.fromList Term.compare (
         List.map (fn (bv, bv_val_) =>
@@ -353,10 +367,17 @@ fun subst_in_symbv_interval (vals, varsubstmap) ((be1, be2), deps) =
     symbv
   end;
 
+<<<<<<< HEAD
 val sy_sp_var = ``BVar "sy_SP_process" (BType_Imm Bit64)``;
 val sy_sp_minus_zero_exp =
   ``BExp_BinExp BIExp_Minus (BExp_Den ^sy_sp_var)
           (BExp_Const (Imm64 0w))``;
+=======
+val sy_sp_var = ``BVar "sy_SP_process" (BType_Imm Bit32)``;
+val sy_sp_minus_zero_exp =
+  ``BExp_BinExp BIExp_Minus (BExp_Den ^sy_sp_var)
+          (BExp_Const (Imm32 0w))``;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 fun subst_in_symbv_mem (vals, varsubstmap) mem =
   let
     val debugOn = false;

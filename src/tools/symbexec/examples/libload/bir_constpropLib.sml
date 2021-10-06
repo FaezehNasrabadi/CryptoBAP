@@ -2,6 +2,13 @@ structure bir_constpropLib =
 struct
 local
 
+<<<<<<< HEAD
+=======
+  open HolKernel Parse;
+  open bossLib;
+  open boolSyntax;
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 val bir_exp_is_const_def = Define `
   (bir_exp_is_const (BExp_Const n) = T) /\
   (bir_exp_is_const _              = F)

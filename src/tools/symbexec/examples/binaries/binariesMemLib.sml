@@ -3,12 +3,24 @@ struct
 
 local
 
+<<<<<<< HEAD
+=======
+  open HolKernel Parse;
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 open binariesDefsLib;
 
 open bir_auxiliaryLib;
 
 open bir_fileLib;
 
+<<<<<<< HEAD
+=======
+  val libname = "binariesMemLib";
+  val ERR = Feedback.mk_HOL_ERR libname;
+  val wrap_exn = Feedback.wrap_exn libname;
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 (* helpers *)
               fun find_two _   _     _ []     = NONE

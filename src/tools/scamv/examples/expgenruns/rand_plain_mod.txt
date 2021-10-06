@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 driver-test --max_iter 3000 --prog_size 5 --max_tests 40 --generator rand --obs_model cache_tag_index --hw_obs_model hw_cache_tag_index
+=======
+--max_iter 3000 --prog_size 5 --max_tests 40 --generator rand --obs_model cache_tag_index --hw_obs_model hw_cache_tag_index
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 
 >>> cav_20-01-23_rand_plain_mod

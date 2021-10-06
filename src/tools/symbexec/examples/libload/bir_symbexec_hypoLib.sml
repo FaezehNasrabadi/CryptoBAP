@@ -2,6 +2,12 @@ structure bir_symbexec_hypoLib =
 struct
 
 local
+<<<<<<< HEAD
+=======
+
+  open HolKernel Parse;
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 (*
   open bir_symbexec_stateLib;
 *)

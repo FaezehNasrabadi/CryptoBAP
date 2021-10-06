@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 (* Type definitions used by bir_inst_liftingLib. For technical reasons
    they need to be in a separate file. *)
 
 signature bir_inst_liftingLibTypes = sig
 
+=======
+signature bir_inst_liftingLibTypes = sig
+
+(* Type definitions used by bir_inst_liftingLib. For technical reasons
+   they need to be in a separate file. *)
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   (******************)
   (* Error messages *)
   (******************)

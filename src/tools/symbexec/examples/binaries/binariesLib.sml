@@ -10,6 +10,10 @@ open bir_block_collectionLib;
 open bir_programSyntax;
 open bir_valuesSyntax;
 open bir_immSyntax;
+<<<<<<< HEAD
+=======
+open bir_inst_liftingHelpersLib;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 open bir_exec_typingLib;
 
@@ -96,15 +100,26 @@ open bir_gcc_dataLib;
 in (* local *)
 
 (*
+<<<<<<< HEAD
 val lbl_tm = ``BL_Address (Imm64 440w)``;
+=======
+val lbl_tm = ``BL_Address (Imm32 440w)``;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 val addr = Arbnumcore.fromInt 440;
 *)
 
 fun mk_lbl_tm addr =
+<<<<<<< HEAD
   (mk_BL_Address o mk_Imm64 o mk_word) (addr, Arbnum.fromInt 64);
 
 fun dest_lbl_tm lbl_tm =
   (dest_word_literal o dest_Imm64 o dest_BL_Address o snd o dest_eq o concl o EVAL) lbl_tm
+=======
+  (mk_BL_Address o mk_Imm32 o mk_word) (addr, Arbnum.fromInt 32);
+
+fun dest_lbl_tm lbl_tm =
+  (dest_word_literal o dest_Imm32 o dest_BL_Address o snd o dest_eq o concl o EVAL) lbl_tm
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 val prog_vars = prog_vars;
 val prog_var_types = List.map (fn t =>

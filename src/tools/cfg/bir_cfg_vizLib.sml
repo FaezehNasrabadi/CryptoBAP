@@ -2,6 +2,12 @@ structure bir_cfg_vizLib =
 struct
 local
 
+<<<<<<< HEAD
+=======
+open HolKernel boolLib liteLib simpLib Parse bossLib;
+open bir_programSyntax;
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   open wordsSyntax;
   open bir_immSyntax;
 
@@ -10,6 +16,14 @@ local
   open bir_fileLib;
   open graphVizLib;
 
+<<<<<<< HEAD
+=======
+  (* error handling *)
+  val libname  = "bir_cfg_vizLib"
+  val ERR      = Feedback.mk_HOL_ERR libname
+  val wrap_exn = Feedback.wrap_exn libname
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   (*
   val i = 0x10000;
   val n = hd (#CFGG_nodes ns_c);

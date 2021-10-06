@@ -161,7 +161,11 @@ local
     (intSyntax.leq_tm, apfst_K "<="),
     (intSyntax.less_tm, apfst_K "<"),
     (intSyntax.geq_tm, apfst_K ">="),
+<<<<<<< HEAD
     (intSyntax.great_tm, apfst_K ">"),
+=======
+    (intSyntax.greater_tm, apfst_K ">"),
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
     (* decimals (excluding 'realSyntax.negate_tm') *)
     (Term.mk_var ("x", realSyntax.real_ty), Lib.apfst (fn tm =>
       if realSyntax.is_real_literal tm andalso not (realSyntax.is_negated tm)
@@ -187,7 +191,11 @@ local
     (realSyntax.leq_tm, apfst_K "<="),
     (realSyntax.less_tm, apfst_K "<"),
     (realSyntax.geq_tm, apfst_K ">="),
+<<<<<<< HEAD
     (realSyntax.great_tm, apfst_K ">"),
+=======
+    (realSyntax.greater_tm, apfst_K ">"),
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
     (intrealSyntax.real_of_int_tm, apfst_K "to_real"),
     (intrealSyntax.INT_FLOOR_tm, apfst_K "to_int"),
     (intrealSyntax.is_int_tm, apfst_K "is_int"),
@@ -381,7 +389,46 @@ local
     (wordsSyntax.word_ge_tm, apfst_fixed_width "bvsge"),
     (* arrays *)
     (smtArraySyntax.store_tm, apfst_K "store"),
+<<<<<<< HEAD
     (smtArraySyntax.select_tm, apfst_K "select")
+=======
+    (smtArraySyntax.select_tm, apfst_K "select"),
+    (smtArraySyntax.const_array_tm, fn (t, ts) =>
+      SmtLib_Theories.one_arg (fn (v) =>
+        let
+          (*
+          "K(BitVec(32), 0)"
+          "(as const (Array (_ BitVec 32) (_ BitVec 8)))"
+          (Term.type_of t)
+          *)
+
+          val map_ty = (List.hd o List.tl o Lib.snd o Type.dest_type o Term.type_of) t;
+          val (ty_i, ty_j) = finite_mapSyntax.dest_fmap_ty map_ty;
+
+          val sz_i = (fcpSyntax.dest_numeric_type o wordsSyntax.dest_word_type) ty_i;
+          val sz_j = (fcpSyntax.dest_numeric_type o wordsSyntax.dest_word_type) ty_j;
+(*
+          val _ = print "\n\n\n======================================1\n\n"
+          val _ = print (Parse.term_to_string t);
+          val _ = print "\n";
+          val _ = print (Parse.type_to_string (Term.type_of t));
+          val _ = print "\n";
+          val _ = print (Parse.type_to_string map_ty)
+          val _ = print "\n";
+          val _ = print (Parse.type_to_string ty_i)
+          val _ = print "\n";
+          val _ = print (Arbnum.toString sz_i)
+          val _ = print "\n";
+          val _ = print (Arbnum.toString sz_j)
+          val _ = print "\n";
+          val _ = print "\n\n======================================\n\n\n"
+*)
+        in
+          ("(as const (Array (_ BitVec " ^ Arbnum.toString sz_i ^
+           ") (_ BitVec " ^ Arbnum.toString sz_j ^ ")))"
+          , [v])
+        end) ts)
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   ]
 
   val translate_type = translate_type_ builtin_types;
@@ -432,7 +479,11 @@ local
           ^ "``: " ^ (Bool.toString tm_has_base_type) ^ "\n")
       else
         ();
+<<<<<<< HEAD
     val tm_is_store = smtArraySyntax.is_store tm
+=======
+    val tm_is_store = smtArraySyntax.is_store tm orelse smtArraySyntax.is_const_array tm;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   in
     (* binders *)
     let
@@ -614,6 +665,10 @@ in
       val INT_ABS = intLib.ARITH_PROVE
                       ``!x. ABS (x:int) = if x < 0i then 0i - x else x``
     in
+<<<<<<< HEAD
+=======
+      SIMP_TAC pureSimps.pure_ss [smtArrayTheory.const_map_to_const_array_REWR] THEN
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
       REPEAT Tactic.GEN_TAC THEN
       (if simp_let then Library.LET_SIMP_TAC else ALL_TAC) THEN
       SIMP_TAC pureSimps.pure_ss
@@ -622,7 +677,13 @@ in
       Library.SET_SIMP_TAC THEN
       Tactic.BETA_TAC THEN
       SIMP_TAC pureSimps.pure_ss
+<<<<<<< HEAD
         [smtArrayTheory.apply_to_select_REWR, smtArrayTheory.update_to_store_REWR]
+=======
+        [smtArrayTheory.apply_to_select_REWR,
+         smtArrayTheory.update_to_store_REWR,
+         smtArrayTheory.const_map_to_const_array_REWR]
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
     end
 
 end  (* local *)

@@ -19,7 +19,11 @@ source "${SETUP_DIR}/env_config_gen.sh" "${OPT_DIR_PARAM}"
 # based on HOL4 developers/install-poly.sh
 # --------------------------------------------
 POLY_BASE="https://github.com/polyml/polyml"
+<<<<<<< HEAD
 POLY_VERSION="v5.7.1"
+=======
+POLY_VERSION="v5.8.1"
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 # if poly version is specified in the environment, use this
 if [[ ! -z "${HOLBA_POLYML_VERSION}" ]]; then

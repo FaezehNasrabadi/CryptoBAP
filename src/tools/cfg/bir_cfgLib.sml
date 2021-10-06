@@ -2,9 +2,23 @@ structure bir_cfgLib =
 struct
 local
 
+<<<<<<< HEAD
 open bir_program_labelsSyntax;
 open bir_block_collectionLib;
 
+=======
+open HolKernel boolLib liteLib simpLib Parse bossLib;
+open bir_programSyntax;
+
+open bir_program_labelsSyntax;
+open bir_block_collectionLib;
+
+  (* error handling *)
+  val libname  = "bir_cfgLib"
+  val ERR      = Feedback.mk_HOL_ERR libname
+  val wrap_exn = Feedback.wrap_exn libname
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 in
 
   (* pass 1: Jump, CondJump, Halt will be determined from BIR code.

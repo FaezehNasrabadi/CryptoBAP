@@ -1,3 +1,15 @@
+<<<<<<< HEAD
+=======
+
+(****************)
+(* Main functor *)
+(****************)
+
+functor bir_inst_liftingFunctor (MD : sig val mr : bir_lifting_machinesLib.bmr_rec end) : bir_inst_lifting = struct
+
+(* dependencies *)
+(* ================================================ *)
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 open HolKernel boolLib liteLib simpLib Parse bossLib;
 open bir_inst_liftingTheory
 open bir_lifting_machinesTheory
@@ -12,6 +24,7 @@ open bir_program_labelsTheory
 open bir_immTheory
 open intel_hexLib
 open bir_inst_liftingLibTypes
+<<<<<<< HEAD
 open PPBackEnd Parse
 
 (**********)
@@ -107,6 +120,12 @@ val sty_FAIL  = [FG OrangeRed];
 (****************)
 
 functor bir_inst_liftingFunctor (MD : sig val mr : bmr_rec end) : bir_inst_lifting = struct
+=======
+(* ================================================ *)
+
+  open bir_inst_liftingHelpersLib;
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   (* For debugging RISC-V:
 
     val mr = riscv_bmr_rec;
@@ -1903,6 +1922,7 @@ val cache = lift_inst_cache_empty;
   fun bir_lift_prog (mu_b, mu_e) pc hex_codes =
      bir_lift_prog_gen (mu_b, mu_e) [BILMR (pc, List.map (fn hc => (hc, BILME_unknown)) hex_codes)]
 
+<<<<<<< HEAD
 end
 
 structure bir_inst_liftingLib :> bir_inst_liftingLib = struct
@@ -1922,3 +1942,36 @@ structure bir_inst_liftingLib :> bir_inst_liftingLib = struct
   structure bmil_riscv = bir_inst_liftingFunctor (struct val mr = riscv_bmr_rec end);
 
 end
+=======
+end (* functor *)
+
+
+structure bir_inst_liftingLib :> bir_inst_liftingLib =
+struct
+
+  structure bmil_arm8 = bir_inst_liftingFunctor (struct val mr =
+     bir_lifting_machinesLib_instances.arm8_bmr_rec end);
+
+  structure bmil_m0_LittleEnd_Process = bir_inst_liftingFunctor (struct val mr =
+     bir_lifting_machinesLib_instances.m0_bmr_rec_LittleEnd_Process end);
+  structure bmil_m0_LittleEnd_Main    = bir_inst_liftingFunctor (struct val mr =
+     bir_lifting_machinesLib_instances.m0_bmr_rec_LittleEnd_Main end);
+  structure bmil_m0_BigEnd_Process    = bir_inst_liftingFunctor (struct val mr =
+     bir_lifting_machinesLib_instances.m0_bmr_rec_BigEnd_Process end);
+  structure bmil_m0_BigEnd_Main       = bir_inst_liftingFunctor (struct val mr =
+     bir_lifting_machinesLib_instances.m0_bmr_rec_BigEnd_Main end);
+
+  structure bmil_m0_mod_LittleEnd_Process = bir_inst_liftingFunctor (struct val mr =
+     bir_lifting_machinesLib_instances.m0_mod_bmr_rec_LittleEnd_Process end);
+  structure bmil_m0_mod_LittleEnd_Main    = bir_inst_liftingFunctor (struct val mr =
+     bir_lifting_machinesLib_instances.m0_mod_bmr_rec_LittleEnd_Main end);
+  structure bmil_m0_mod_BigEnd_Process    = bir_inst_liftingFunctor (struct val mr =
+     bir_lifting_machinesLib_instances.m0_mod_bmr_rec_BigEnd_Process end);
+  structure bmil_m0_mod_BigEnd_Main       = bir_inst_liftingFunctor (struct val mr =
+     bir_lifting_machinesLib_instances.m0_mod_bmr_rec_BigEnd_Main end);
+
+  structure bmil_riscv = bir_inst_liftingFunctor (struct val mr =
+     bir_lifting_machinesLib_instances.riscv_bmr_rec end);
+
+end (* struct *)
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc

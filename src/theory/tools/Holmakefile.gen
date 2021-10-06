@@ -5,7 +5,11 @@ DEPENDENCIES   =
 
 # configuration
 # ----------------------------------
+<<<<<<< HEAD
 HOLHEAP        = comp/HolBATheory_Tools_Comp-heap
+=======
+HOLHEAP        = backlifter/HolBATheory_Tools_Backlifter-heap
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 NEWHOLHEAP     = HolBATheory_Tools-heap
 
 HEAPINC_EXTRA  = 

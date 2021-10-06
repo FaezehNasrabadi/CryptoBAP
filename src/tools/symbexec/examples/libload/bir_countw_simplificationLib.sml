@@ -1,6 +1,14 @@
 structure bir_countw_simplificationLib =
 struct
 local
+<<<<<<< HEAD
+=======
+
+  open HolKernel Parse;
+  open bossLib;
+  open boolSyntax;
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   open bir_symbexec_stateLib;
 
   open bir_constpropLib;
@@ -22,6 +30,7 @@ fun expand_exp_symbv vals symbv =
                | x => raise ERR "expand_exp_symbv"
                         ("unhandled symbolic value type: " ^ (symbv_to_string symbv) ^ " and " ^ (symbv_to_string x));
 
+<<<<<<< HEAD
     (*val _ =
 	let
 	    val IFile = TextIO.openAppend "Expand_Exp_Symbv.txt";
@@ -29,6 +38,8 @@ fun expand_exp_symbv vals symbv =
 	end;*)
 
     
+=======
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
     val vars = get_birexp_vars exp;
 
     val valsl = ((Redblackmap.listItems) vals);
@@ -40,7 +51,10 @@ fun expand_exp_symbv vals symbv =
                   subexps_raw;
 
     val exp_ = List.foldl (fn ((bv, e), exp_) => subst_exp (bv, e, exp_)) exp subexps;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   in
     exp_
   end
@@ -116,8 +130,13 @@ fun simple_pred_to_subst pred exp =
 in (* local *)
 
 val bv_countw = mk_BVar_string ("countw", ``(BType_Imm Bit64)``);
+<<<<<<< HEAD
 val bv_mem = ``BVar "MEM" (BType_Mem Bit64 Bit8)``;
 val bv_sp = ``BVar "SP_process" (BType_Imm Bit64)``;
+=======
+val bv_mem = ``BVar "MEM" (BType_Mem Bit32 Bit8)``;
+val bv_sp = ``BVar "SP_process" (BType_Imm Bit32)``;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 (*
 val syst = hd systs;
@@ -147,19 +166,31 @@ fun expand_bv_in_syst bv syst =
 fun eval_exp_in_syst exp syst =
   let
     val vals = (SYST_get_vals syst);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
     (*
     val pred = (SYST_get_pred syst);
     val env  = (SYST_get_env  syst);
     val benv = mk_BEnv (simple_pred_to_benvmap pred benvmap_empty);
     *)
+<<<<<<< HEAD
 (*val exp = ``BExp_Den (BVar "PSR_N" BType_Bool)``;*)
+=======
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
     open bir_symbexec_coreLib;
     val symbv = compute_valbe exp syst;
     val exp_ = expand_exp_symbv vals symbv;
 
     val benv = ``BEnv (K NONE)``;
   in
+<<<<<<< HEAD
     (snd o dest_eq o concl o EVAL)``bir_eval_exp ^exp_ ^benv``
+=======
+    (snd o dest_eq o concl o EVAL) ``bir_eval_exp ^exp_ ^benv``
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   end;
 
 fun eval_exp_no_deps exp =
@@ -181,6 +212,7 @@ fun eval_countw_in_syst syst =
 
 end (* local *)
 end (* struct *)
+<<<<<<< HEAD
 (*
 val exp_ = ``BExp_Load
   (BExp_Store
@@ -4180,3 +4212,5 @@ val exp_ = ``BExp_Load
         (BExp_Const (Imm64 80w))) (BExp_Const (Imm64 8w))) BEnd_LittleEndian
   Bit64``;
 *)
+=======
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc

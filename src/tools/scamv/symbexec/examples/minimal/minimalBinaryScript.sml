@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 open HolKernel Parse
+=======
+open HolKernel Parse;
+open PPBackEnd;
+open bir_inst_liftingHelpersLib;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 open bir_inst_liftingLib;
 open gcc_supportLib;

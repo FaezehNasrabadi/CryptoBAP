@@ -1,6 +1,10 @@
 # includes
 # ----------------------------------
+<<<<<<< HEAD
 DEPENDENCIES   = ../2-lift ../support ../4-bir-to-arm ../5-wp ../6-smt
+=======
+DEPENDENCIES   = ../2-lift ../4-bir-to-arm ../5-wp ../6-smt
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 
 # configuration

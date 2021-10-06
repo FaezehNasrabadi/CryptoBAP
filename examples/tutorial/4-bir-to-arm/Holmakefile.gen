@@ -1,6 +1,10 @@
 # includes
 # ----------------------------------
+<<<<<<< HEAD
 DEPENDENCIES   = ../2-lift ../support
+=======
+DEPENDENCIES   = ../2-lift
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 
 # configuration

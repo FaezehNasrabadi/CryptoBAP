@@ -2,6 +2,11 @@ structure bir_cfg_m0Lib =
 struct
 local
 
+<<<<<<< HEAD
+=======
+  open HolKernel Parse;
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   open bir_programSyntax;
   open bir_valuesSyntax;
   open bir_immSyntax;
@@ -12,10 +17,19 @@ local
   open bir_block_collectionLib;
   open bir_cfgLib;
 
+<<<<<<< HEAD
   (* simple helpers *)
   val BVarLR32_tm = ``BVar "LR" (BType_Imm Bit32)``;
 val tm = ``BStmt_Assign (BVar "R30" (BType_Imm Bit32))
               (BExp_Const (Imm32 12w))``;
+=======
+  val libname = "bir_cfg_m0Lib";
+  val ERR = Feedback.mk_HOL_ERR libname;
+  val wrap_exn = Feedback.wrap_exn libname;
+
+  (* simple helpers *)
+  val BVarLR32_tm = ``BVar "LR" (BType_Imm Bit32)``;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   fun is_Assign_LR tm =
     if is_BStmt_Assign tm then
       identical ((fst o dest_BStmt_Assign) tm) BVarLR32_tm

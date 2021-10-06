@@ -23,6 +23,7 @@ fi
 export SCAMV_EXPGENRUN_PARAMS=$(head -n 1 "${EXPGENRUN_FILE}")
 echo "Using scamv parameters: ${SCAMV_EXPGENRUN_PARAMS}"
 
+<<<<<<< HEAD
 # try to prepare logs directory accordingly
 cd "${HOLBA_EMBEXP_LOGS}"
 if [[ ! -z "$(git status --porcelain)" ]]; then
@@ -52,5 +53,23 @@ git checkout -b "${EXPGENRUN_PREFIX_PARAM}_${EXPGENRUN_ID_PARAM}"
 # start experiment generation process
 cd "${SCAMV_EXAMPLES_DIR}"
 ./scamv.sh ${SCAMV_EXPGENRUN_PARAMS}
+=======
+# check that logs directory exists, and assume that it is in the right state
+if [[ -z "${HOLBA_EMBEXP_LOGS}" ]]; then
+  echo "logs repository not defined"
+  exit 1
+fi
+if [[ ! -d "${HOLBA_EMBEXP_LOGS}" ]]; then
+  echo "logs repository not found: ${HOLBA_EMBEXP_LOGS}"
+  exit 1
+fi
+
+# description for this holbarun
+SCAMV_HOLBA_RUN_DESCR="1-gen.sh_${EXPGENRUN_PREFIX_PARAM}_${EXPGENRUN_ID_PARAM}"
+
+# start experiment generation process
+cd "${SCAMV_EXAMPLES_DIR}"
+./scamv.sh --run_description "${SCAMV_HOLBA_RUN_DESCR}" ${SCAMV_EXPGENRUN_PARAMS}
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 

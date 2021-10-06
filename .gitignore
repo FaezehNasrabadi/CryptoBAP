@@ -60,5 +60,10 @@ config.env.sh
 # binary files compiled for analysis
 *.elf
 *.o
+<<<<<<< HEAD
 
+=======
+# generally all .da files
+*.da
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 

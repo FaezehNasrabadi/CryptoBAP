@@ -4,6 +4,13 @@ local
 
   open gcc_supportLib;
 
+<<<<<<< HEAD
+=======
+  val libname = "bir_gcc_dataLib";
+  val ERR = Feedback.mk_HOL_ERR libname;
+  val wrap_exn = Feedback.wrap_exn libname;
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   fun find_single_SOME []             = NONE
     | find_single_SOME ( NONE   ::xs) = find_single_SOME xs
     | find_single_SOME ((SOME x)::xs) =
@@ -65,7 +72,11 @@ in (* local *)
     let
       val entries = List.filter (is_addr_in_entry addr) b;
     in
+<<<<<<< HEAD
       find_single_SOME (List.map (K (SOME name)) entries)
+=======
+      find_single_SOME (List.map (Lib.K (SOME name)) entries)
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
     end;
 
   fun mem_find_symbol_by_addr_lbl addr (l:disassembly_lbl) =

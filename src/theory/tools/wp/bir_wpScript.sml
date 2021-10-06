@@ -11,7 +11,11 @@ open bir_program_blocksTheory bir_program_terminationTheory
      bir_program_valid_stateTheory bir_exp_substitutionsTheory
      bir_bool_expTheory bir_program_env_orderTheory
      bir_program_multistep_propsTheory bir_exp_equivTheory
+<<<<<<< HEAD
      bir_bool_expTheory;
+=======
+     bir_bool_expTheory bir_program_no_assumeTheory;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 (* Simplification sets from theory/bir: *)
 open HolBACoreSimps;
@@ -2764,4 +2768,8 @@ PAT_X_ASSUM ``BER_Ended A B C D = r`` (fn thm => ASSUME_TAC (GSYM thm)) >>
 FULL_SIMP_TAC (std_ss++holBACore_ss) [bir_bool_expTheory.bir_is_bool_exp_env_REWRS]
 );
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 val _ = export_theory();

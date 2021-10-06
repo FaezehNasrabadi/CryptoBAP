@@ -4,8 +4,11 @@ open binariesLib;
 open binariesCfgLib;
 open binariesMemLib;
 
+<<<<<<< HEAD
 open commonBalrobScriptLib;
 
+=======
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 val entry_labels = ["motor_prep_input",
                     "__lesf2",
                     "__clzsi2",
@@ -52,3 +55,22 @@ val _ = print_dead_code bl_dict_ n_dict entry_label;
 =================================================================================================
 *)
 
+<<<<<<< HEAD
+=======
+(*
+val names = symbs_sec_text;
+
+val name = List.nth(names, 0);
+fun name_to_instrsnum name =
+  List.length (List.filter ((fn s => s = name) o lbl_tm_to_rel_symbol) (List.map fst (Redblackmap.listItems n_dict)));
+val szmap = List.map (fn n => (n, name_to_instrsnum n)) names;
+
+val _ = print "\ninstructions per function: \n";
+val _ = List.app (fn (n,sz) => (
+  print ("- " ^ n ^ "\n");
+  print ("  size: " ^ (Int.toString sz) ^ "\n"))) szmap;
+
+val _ = print ("\ntotal number of instructions: " ^ (Int.toString (List.foldr (+) (0) (List.map snd szmap))) ^ "\n");
+*)
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc

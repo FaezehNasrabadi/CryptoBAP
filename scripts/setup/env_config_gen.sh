@@ -111,7 +111,11 @@ echo
 # first define HOLBA_HOL_DIR if undefined (default)
 if [[ ( -z "${HOLBA_HOL_DIR}" ) || ( ! -z "${OPT_DIR_PARAM}" ) ]]; then
   print_export_msg "HOLBA_HOL_DIR"
+<<<<<<< HEAD
   export HOLBA_HOL_DIR="${HOLBA_OPT_DIR}/hol_k13"
+=======
+  export HOLBA_HOL_DIR="${HOLBA_OPT_DIR}/hol_k14"
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 fi
 
 HOLBA_HOL_BIN_DIR="${HOLBA_HOL_DIR}/bin"

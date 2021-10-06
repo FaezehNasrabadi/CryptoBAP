@@ -1,7 +1,16 @@
 structure scamv_configLib : scamv_configLib =
 struct
 
+<<<<<<< HEAD
 open bir_scamv_helpersLib;
+=======
+open holba_entryLib;
+
+  (* error handling *)
+  val libname  = "scamv_configLib"
+  val ERR      = Feedback.mk_HOL_ERR libname
+  val wrap_exn = Feedback.wrap_exn libname
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 datatype 'cfg opt_entry =
          Arity0 of string * string * string * ('cfg -> bool -> 'cfg)
@@ -12,12 +21,24 @@ datatype gen_type = gen_rand
                   | qc
                   | slice
                   | from_file
+<<<<<<< HEAD
 
 datatype obs_model = cache_tag_index
+=======
+                  | from_list
+
+datatype obs_model = mem_address_pc
+                   | cache_tag_index
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
                    | cache_tag_only
                    | cache_index_only
                    | cache_tag_index_part
                    | cache_tag_index_part_page
+<<<<<<< HEAD
+=======
+                   | cache_speculation
+                   | cache_speculation_first
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 datatype hw_obs_model = hw_cache_tag_index
                       | hw_cache_index_numvalid
@@ -31,10 +52,20 @@ type scamv_config = { max_iter  : int,
                       generator : gen_type,
                       generator_param : string option,
                       obs_model : obs_model,
+<<<<<<< HEAD
                       hw_obs_model : hw_obs_model,
                       only_gen  : bool,
                       verbosity : int,
                       seed_rand : bool
+=======
+                      refined_obs_model : obs_model option,
+                      obs_projection : int,
+                      hw_obs_model : hw_obs_model,
+                      verbosity : int,
+                      seed_rand : bool,
+                      do_training : bool,
+                      run_description : string option
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
                     }
 
 val default_cfg = { max_iter  = 10
@@ -44,10 +75,20 @@ val default_cfg = { max_iter  = 10
                   , generator = gen_rand
                   , generator_param = NONE
                   , obs_model = cache_tag_index
+<<<<<<< HEAD
                   , hw_obs_model = hw_cache_tag_index
                   , only_gen  = true
                   , verbosity = 1
                   , seed_rand = true
+=======
+                  , refined_obs_model = NONE
+                  , obs_projection = 1
+                  , hw_obs_model = hw_cache_tag_index
+                  , verbosity = 1
+                  , seed_rand = true
+                  , do_training = false
+                  , run_description = NONE
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
                   }
 
 fun gen_type_fromString gt =
@@ -57,15 +98,29 @@ fun gen_type_fromString gt =
       | "qc"               => SOME qc
       | "slice"            => SOME slice
       | "file"             => SOME from_file
+<<<<<<< HEAD
+=======
+      | "list"             => SOME from_list
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
       | _                  => NONE
 
 fun obs_model_fromString om =
     case om of
+<<<<<<< HEAD
         "cache_tag_index"           => SOME cache_tag_index
+=======
+        "mem_address_pc"            => SOME mem_address_pc
+      | "cache_tag_index"           => SOME cache_tag_index
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
       | "cache_tag_only"            => SOME cache_tag_only
       | "cache_index_only"          => SOME cache_index_only
       | "cache_tag_index_part"      => SOME cache_tag_index_part
       | "cache_tag_index_part_page" => SOME cache_tag_index_part_page
+<<<<<<< HEAD
+=======
+      | "cache_speculation"         => SOME cache_speculation
+      | "cache_speculation_first"   => SOME cache_speculation_first
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
       | _                           => NONE
 
 fun hw_obs_model_fromString hwom =
@@ -86,10 +141,20 @@ fun set_max_iter (cfg : scamv_config) n =
       generator = # generator cfg,
       generator_param = # generator_param cfg,
       obs_model = # obs_model cfg,
+<<<<<<< HEAD
       hw_obs_model = # hw_obs_model cfg,
       verbosity = # verbosity cfg,
       only_gen = # only_gen cfg,
       seed_rand = # seed_rand cfg };
+=======
+      refined_obs_model = # refined_obs_model cfg,
+      obs_projection = # obs_projection cfg,
+      hw_obs_model = # hw_obs_model cfg,
+      verbosity = # verbosity cfg,
+      seed_rand = # seed_rand cfg,
+      do_training = # do_training cfg,
+      run_description = # run_description cfg };
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 fun set_prog_size (cfg : scamv_config) n =
     { max_iter = # max_iter cfg,
@@ -99,10 +164,20 @@ fun set_prog_size (cfg : scamv_config) n =
       generator = # generator cfg,
       generator_param = # generator_param cfg,
       obs_model = # obs_model cfg,
+<<<<<<< HEAD
       hw_obs_model = # hw_obs_model cfg,
       verbosity = # verbosity cfg,
       only_gen = # only_gen cfg,
       seed_rand = # seed_rand cfg };
+=======
+      refined_obs_model = # refined_obs_model cfg, 
+      obs_projection = # obs_projection cfg,
+      hw_obs_model = # hw_obs_model cfg,
+      verbosity = # verbosity cfg,
+      seed_rand = # seed_rand cfg,
+      do_training = # do_training cfg,
+      run_description = # run_description cfg };
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 fun set_max_tests (cfg : scamv_config) n =
     { max_iter = # max_iter cfg,
@@ -112,10 +187,20 @@ fun set_max_tests (cfg : scamv_config) n =
       generator = # generator cfg,
       generator_param = # generator_param cfg,
       obs_model = # obs_model cfg,
+<<<<<<< HEAD
       hw_obs_model = # hw_obs_model cfg,
       verbosity = # verbosity cfg,
       only_gen = # only_gen cfg,
       seed_rand = # seed_rand cfg };
+=======
+      refined_obs_model = # refined_obs_model cfg, 
+      obs_projection = # obs_projection cfg,
+      hw_obs_model = # hw_obs_model cfg,
+      verbosity = # verbosity cfg,
+      seed_rand = # seed_rand cfg,
+      do_training = # do_training cfg,
+      run_description = # run_description cfg };
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 fun set_enumerate (cfg : scamv_config) enum =
     { max_iter = # max_iter cfg,
@@ -125,10 +210,20 @@ fun set_enumerate (cfg : scamv_config) enum =
       generator = # generator cfg,
       generator_param = # generator_param cfg,
       obs_model = # obs_model cfg,
+<<<<<<< HEAD
       hw_obs_model = # hw_obs_model cfg,
       verbosity = # verbosity cfg,
       only_gen = # only_gen cfg,
       seed_rand = # seed_rand cfg };
+=======
+      refined_obs_model = # refined_obs_model cfg,
+      obs_projection = # obs_projection cfg,
+      hw_obs_model = # hw_obs_model cfg,
+      verbosity = # verbosity cfg,
+      seed_rand = # seed_rand cfg,
+      do_training = # do_training cfg,
+      run_description = # run_description cfg };
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 fun set_generator (cfg : scamv_config) gen =
     { max_iter = # max_iter cfg,
@@ -138,10 +233,20 @@ fun set_generator (cfg : scamv_config) gen =
       generator = gen,
       generator_param = # generator_param cfg,
       obs_model = # obs_model cfg,
+<<<<<<< HEAD
       hw_obs_model = # hw_obs_model cfg,
       verbosity = # verbosity cfg,
       only_gen = # only_gen cfg,
       seed_rand = # seed_rand cfg };
+=======
+      refined_obs_model = # refined_obs_model cfg, 
+      obs_projection = # obs_projection cfg,
+      hw_obs_model = # hw_obs_model cfg,
+      verbosity = # verbosity cfg,
+      seed_rand = # seed_rand cfg,
+      do_training = # do_training cfg,
+      run_description = # run_description cfg };
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 fun set_generator_param (cfg : scamv_config) gen_param =
     { max_iter = # max_iter cfg,
@@ -151,10 +256,20 @@ fun set_generator_param (cfg : scamv_config) gen_param =
       generator = # generator cfg,
       generator_param = gen_param,
       obs_model = # obs_model cfg,
+<<<<<<< HEAD
       hw_obs_model = # hw_obs_model cfg,
       verbosity = # verbosity cfg,
       only_gen = # only_gen cfg,
       seed_rand = # seed_rand cfg };
+=======
+      refined_obs_model = # refined_obs_model cfg, 
+      obs_projection = # obs_projection cfg,
+      hw_obs_model = # hw_obs_model cfg,
+      verbosity = # verbosity cfg,
+      seed_rand = # seed_rand cfg,
+      do_training = # do_training cfg,
+      run_description = # run_description cfg };
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 fun set_obs_model (cfg : scamv_config) om =
     { max_iter = # max_iter cfg,
@@ -164,10 +279,71 @@ fun set_obs_model (cfg : scamv_config) om =
       generator = # generator cfg,
       generator_param = # generator_param cfg,
       obs_model = om,
+<<<<<<< HEAD
       hw_obs_model = # hw_obs_model cfg,
       verbosity = # verbosity cfg,
       only_gen = # only_gen cfg,
       seed_rand = # seed_rand cfg };
+
+fun set_hw_obs_model (cfg : scamv_config) hwom =
+=======
+      refined_obs_model = # refined_obs_model cfg, 
+      obs_projection = # obs_projection cfg,
+      hw_obs_model = # hw_obs_model cfg,
+      verbosity = # verbosity cfg,
+      seed_rand = # seed_rand cfg,
+      do_training = # do_training cfg,
+      run_description = # run_description cfg };
+
+fun set_refined_obs_model (cfg : scamv_config) om =
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
+    { max_iter = # max_iter cfg,
+      prog_size = # prog_size cfg,
+      max_tests = # max_tests cfg,
+      enumerate = # enumerate cfg,
+      generator = # generator cfg,
+      generator_param = # generator_param cfg,
+      obs_model = # obs_model cfg,
+<<<<<<< HEAD
+      hw_obs_model = hwom,
+      verbosity = # verbosity cfg,
+      only_gen = # only_gen cfg,
+      seed_rand = # seed_rand cfg };
+
+fun set_only_gen (cfg : scamv_config) b =
+=======
+      refined_obs_model = om,
+      obs_projection = # obs_projection cfg,
+      hw_obs_model = # hw_obs_model cfg,
+      verbosity = # verbosity cfg,
+      seed_rand = # seed_rand cfg,
+      do_training = # do_training cfg,
+      run_description = # run_description cfg };
+
+
+fun set_obs_projection (cfg : scamv_config) obs_number =
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
+    { max_iter = # max_iter cfg,
+      prog_size = # prog_size cfg,
+      max_tests = # max_tests cfg,
+      enumerate = # enumerate cfg,
+      generator = # generator cfg,
+      generator_param = # generator_param cfg,
+      obs_model = # obs_model cfg,
+<<<<<<< HEAD
+      hw_obs_model = # hw_obs_model cfg,
+      verbosity = # verbosity cfg,
+      only_gen = b,
+      seed_rand = # seed_rand cfg };
+=======
+      refined_obs_model = # refined_obs_model cfg,
+      obs_projection = obs_number,
+      hw_obs_model = # hw_obs_model cfg,
+      verbosity = # verbosity cfg,
+      seed_rand = # seed_rand cfg,
+      do_training = # do_training cfg,
+      run_description = # run_description cfg };
+
 
 fun set_hw_obs_model (cfg : scamv_config) hwom =
     { max_iter = # max_iter cfg,
@@ -177,23 +353,14 @@ fun set_hw_obs_model (cfg : scamv_config) hwom =
       generator = # generator cfg,
       generator_param = # generator_param cfg,
       obs_model = # obs_model cfg,
+      refined_obs_model = # refined_obs_model cfg, 
+      obs_projection = # obs_projection cfg,
       hw_obs_model = hwom,
       verbosity = # verbosity cfg,
-      only_gen = # only_gen cfg,
-      seed_rand = # seed_rand cfg };
-
-fun set_only_gen (cfg : scamv_config) b =
-    { max_iter = # max_iter cfg,
-      prog_size = # prog_size cfg,
-      max_tests = # max_tests cfg,
-      enumerate = # enumerate cfg,
-      generator = # generator cfg,
-      generator_param = # generator_param cfg,
-      obs_model = # obs_model cfg,
-      hw_obs_model = # hw_obs_model cfg,
-      verbosity = # verbosity cfg,
-      only_gen = b,
-      seed_rand = # seed_rand cfg };
+      seed_rand = # seed_rand cfg,
+      do_training = # do_training cfg,
+      run_description = # run_description cfg };
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 fun set_verbosity (cfg : scamv_config) v =
     { max_iter = # max_iter cfg,
@@ -203,10 +370,20 @@ fun set_verbosity (cfg : scamv_config) v =
       generator = # generator cfg,
       generator_param = # generator_param cfg,
       obs_model = # obs_model cfg,
+<<<<<<< HEAD
       hw_obs_model = # hw_obs_model cfg,
       verbosity = v,
       only_gen = # only_gen cfg,
       seed_rand = # seed_rand cfg };
+=======
+      refined_obs_model = # refined_obs_model cfg, 
+      obs_projection = # obs_projection cfg,
+      hw_obs_model = # hw_obs_model cfg,
+      verbosity = v,
+      seed_rand = # seed_rand cfg,
+      do_training = # do_training cfg,
+      run_description = # run_description cfg };
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 fun set_seed_rand (cfg : scamv_config) s =
     { max_iter = # max_iter cfg,
@@ -216,11 +393,53 @@ fun set_seed_rand (cfg : scamv_config) s =
       generator = # generator cfg,
       generator_param = # generator_param cfg,
       obs_model = # obs_model cfg,
+<<<<<<< HEAD
       hw_obs_model = # hw_obs_model cfg,
       verbosity = # verbosity cfg,
       only_gen = # only_gen cfg,
       seed_rand = s };
 
+=======
+      refined_obs_model = # refined_obs_model cfg, 
+      obs_projection = # obs_projection cfg,
+      hw_obs_model = # hw_obs_model cfg,
+      verbosity = # verbosity cfg,
+      seed_rand = s,
+      do_training = # do_training cfg,
+      run_description = # run_description cfg };
+
+fun set_do_training (cfg : scamv_config) s =
+    { max_iter = # max_iter cfg,
+      prog_size = # prog_size cfg,
+      max_tests = # max_tests cfg,
+      enumerate = # enumerate cfg,
+      generator = # generator cfg,
+      generator_param = # generator_param cfg,
+      obs_model = # obs_model cfg,
+      refined_obs_model = # refined_obs_model cfg, 
+      obs_projection = # obs_projection cfg,
+      hw_obs_model = # hw_obs_model cfg,
+      verbosity = # verbosity cfg,
+      seed_rand = #seed_rand cfg,
+      do_training = s,
+      run_description = # run_description cfg };
+
+fun set_run_description (cfg : scamv_config) s =
+    { max_iter = # max_iter cfg,
+      prog_size = # prog_size cfg,
+      max_tests = # max_tests cfg,
+      enumerate = # enumerate cfg,
+      generator = # generator cfg,
+      generator_param = # generator_param cfg,
+      obs_model = # obs_model cfg,
+      refined_obs_model = # refined_obs_model cfg, 
+      obs_projection = # obs_projection cfg,
+      hw_obs_model = # hw_obs_model cfg,
+      verbosity = # verbosity cfg,
+      seed_rand = #seed_rand cfg,
+      do_training = # do_training cfg,
+      run_description = s };
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 (* end boilerplate *)
 
@@ -248,12 +467,27 @@ val opt_table =
               handle_conv_arg_with (fn x => SOME (SOME x)) set_generator_param)
     , Arity1 ("om", "obs_model", "Observation model",
               handle_conv_arg_with obs_model_fromString set_obs_model)
+<<<<<<< HEAD
     , Arity1 ("hwom", "hw_obs_model", "HW observation model",
               handle_conv_arg_with hw_obs_model_fromString set_hw_obs_model)
     , Arity0 ("r", "run_experiments", "Automatically run each experiment after generating it (requires active connection)",
               fn cfg => fn b => set_only_gen cfg (not b))
     , Arity0 ("frs", "fix_rand_seed", "Fix the seed for the random number generators.",
               fn cfg => fn b => set_seed_rand cfg (not b))
+=======
+    , Arity1 ("rom", "refined_obs_model", "Refined observation model",
+              handle_conv_arg_with (SOME o obs_model_fromString) set_refined_obs_model)
+    , Arity1 ("proj", "obs_projection", "Observation projection",
+              handle_conv_arg_with Int.fromString set_obs_projection)
+    , Arity1 ("hwom", "hw_obs_model", "HW observation model",
+              handle_conv_arg_with hw_obs_model_fromString set_hw_obs_model)
+    , Arity0 ("frs", "fix_rand_seed", "Fix the seed for the random number generators.",
+              fn cfg => fn b => set_seed_rand cfg (not b))
+    , Arity0 ("T", "training", "Train branch predictor (only works if observing PC)",
+              fn cfg => fn b => set_do_training cfg b)
+    , Arity1 ("rundes", "run_description", "Run description text",
+              handle_conv_arg_with (fn x => SOME (SOME x)) set_run_description)
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
     ];
 end
 
@@ -288,8 +522,15 @@ fun print_scamv_opt_usage () =
     in
         print "Scam-V Usage:\n\n";
         List.map print_entry opt_table;
+<<<<<<< HEAD
         print ("\ngenerator arg should be one of: rand, prefetch_strides, qc, slice, file\n");
         print ("\nobs_model arg should be one of: cache_tag_index, cache_tag_only, cache_index_only, cache_tag_index_part, cache_tag_index_part_page\n");
+=======
+        print ("\ngenerator arg should be one of: rand, prefetch_strides, qc, slice, file, list\n");
+        print ("\nobs_model arg should be one of: mem_address_pc, cache_tag_index, cache_tag_only, cache_index_only, cache_tag_index_part, cache_tag_index_part_page, cache_speculation\n");
+        print ("\nrefined_obs_model arg is like obs_model\n");
+        print ("\nobs_projection is an observation id as a number\n");
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
         print ("\nhw_obs_model arg should be one of: hw_cache_tag_index, hw_cache_index_numvalid, hw_cache_tag_index_part, hw_cache_tag_index_part_page\n");
         print ("\nDefaults are: " ^ PolyML.makestring default_cfg ^ "\n")
     end

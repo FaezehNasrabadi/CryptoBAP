@@ -2,8 +2,13 @@ open HolKernel Parse boolLib bossLib;
 
 (* From tools/wp: *)
 open bir_wpLib bir_wp_expLib;
+<<<<<<< HEAD
 open easy_noproof_wpLib;
 open bir_wpTheory bir_htTheory;
+=======
+open bir_wpTheory bir_htTheory;
+open bir_wp_interfaceLib;
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 (* From theory/bir-support: *)
 open bir_program_labelsTheory bir_program_valid_stateTheory
@@ -19,10 +24,13 @@ open HolBACoreSimps;
 (* From shared: *)
 open bir_exp_to_wordsLib bslSyntax;
 
+<<<<<<< HEAD
 (* From examples support: *)
 open tutorial_bir_to_armSupportTheory;
 open tutorial_wpSupportLib;
 
+=======
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 (* From examples: *)
 open examplesBinaryTheory;
 open tutorial_bir_to_armTheory;
@@ -45,8 +53,11 @@ val _ = new_theory "tutorial_wp";
  * HT = Hoare triple
 *)
 
+<<<<<<< HEAD
 (* TODO: Think about where to put these... *)
 
+=======
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 (******************************************************************)
 (******************************************************************)

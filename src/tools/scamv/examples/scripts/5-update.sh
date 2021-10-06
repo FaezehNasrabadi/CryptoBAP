@@ -16,8 +16,18 @@ cd "${HOLBA_DIR}"
 git pull
 make main
 
+<<<<<<< HEAD
 # update EmbExp-Box
 cd "${HOLBA_EMBEXP_DIR}/EmbExp-Box"
 git pull
 
 
+=======
+# update EmbExp-Logs
+cd "${HOLBA_EMBEXP_LOGS}"
+git pull
+
+# update EmbExp-Box
+cd "${HOLBA_EMBEXP_DIR}/EmbExp-Box"
+git pull
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc

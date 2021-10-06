@@ -38,7 +38,11 @@ The components of SCAM-V are:
 - Misc
   - SCAM-V shell scripts - directory `examples`
   - Configuration parser - `scamv_configLib`
+<<<<<<< HEAD
   - Experiment storage and execution - `bir_embexp_driverLib`
+=======
+  - Experiment storage - `persistenceLib`
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   - Helper functions - `bir_scamv_helpersLib`
 
 
