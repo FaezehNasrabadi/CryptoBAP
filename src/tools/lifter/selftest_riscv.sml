@@ -404,4 +404,3 @@ val _ =
   then ()
   else
     raise ERR "holba/src/tools/lifter/selftest.sml" ("Output in riscv_selftest.log has diverged")
-||||||| empty tree

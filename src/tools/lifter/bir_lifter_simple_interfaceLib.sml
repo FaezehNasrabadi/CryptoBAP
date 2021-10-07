@@ -542,4 +542,3 @@ val thm_prog = lift_inst arch_str (Arbnum.fromInt 0xCFEE) ("4770");
 end (* local *)
 
 end;
-||||||| empty tree

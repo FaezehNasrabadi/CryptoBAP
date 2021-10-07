@@ -17,4 +17,3 @@ val (thm_arm8, errors) = bmil_arm8.bir_lift_prog_gen
 val _ = new_theory "toyBinary";
 val _ = save_thm ("toy_arm8_THM", thm_arm8);
 val _ = export_theory();
-||||||| empty tree

@@ -104,4 +104,3 @@ val _ = if compare_list_contents expected_cjmp_nodes cjmp_nodes then () else
 
 val _ = if compare_list_contents (#CFGG_nodes g2) visited_nodes then () else
         raise Fail ("Traversal visitating is unexpected.");
-||||||| empty tree

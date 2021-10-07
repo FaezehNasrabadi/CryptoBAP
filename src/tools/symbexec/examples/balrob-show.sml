@@ -31,4 +31,3 @@ fun print_option pf NONE     = print "NONE"
 *)
 
 (*
-||||||| empty tree

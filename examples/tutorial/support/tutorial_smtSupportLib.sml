@@ -89,4 +89,3 @@ fun bimp (ante, conseq) = bor (bnot ante, conseq)
     (wrap_exn "bimp" e)
 
 end
-||||||| empty tree

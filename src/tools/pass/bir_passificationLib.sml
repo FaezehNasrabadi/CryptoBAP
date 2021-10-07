@@ -315,4 +315,3 @@ fun bir_prog_pass_ssa prog =
 end;
 
 end;
-||||||| empty tree

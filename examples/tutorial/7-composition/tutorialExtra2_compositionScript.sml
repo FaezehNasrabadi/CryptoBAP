@@ -201,4 +201,3 @@ val bir_ieo_is_odd_ht = save_thm("bir_ieo_is_odd_ht",
 
 
 val _ = export_theory();
-||||||| empty tree

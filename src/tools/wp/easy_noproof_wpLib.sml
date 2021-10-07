@@ -200,4 +200,3 @@ val (postcond_lbls, postcond_bir_tm) = (exit_lbls, postcond);
   end (* local *)
 
 end
-||||||| empty tree

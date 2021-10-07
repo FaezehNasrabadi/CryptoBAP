@@ -286,4 +286,3 @@ val sts = symb_exec_leaflist_complete tree st_assert_lst;
 end (* local *)
 
 end (* struct *)
-||||||| empty tree

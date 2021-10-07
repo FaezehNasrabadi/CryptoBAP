@@ -172,4 +172,3 @@ This part - with execution from `0x0` to `0x1c` shows that we can still generate
 Open `../support/tutorial_wpSupportScript.sml`. In this file, `bir_obtain_ht` is defined. The arguments should have identical names to the values assigned to in `tutorial_wpScript.sml`, so you are free to start executing things inside the function as soon as you have opened the included theories and libraries and the other functions in the file.
 
 Most of the interesting functions used inside `tutorial_wpSupportScript.sml` can be found in `../../../src/tools/wp/bir_wpLib.sml`. You can continue walking through these if you just make the commented-out assignments in `bir_obtain_ht` before, to make sure the values match the function arguments.
-||||||| empty tree

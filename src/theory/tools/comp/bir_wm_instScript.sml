@@ -1228,4 +1228,3 @@ REPEAT STRIP_TAC >| [
 *)
 
 val _ = export_theory();
-||||||| empty tree

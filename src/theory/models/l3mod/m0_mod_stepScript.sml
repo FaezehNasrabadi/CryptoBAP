@@ -139,4 +139,3 @@ val m0_mod_step_gen_relaxed_thm = store_thm("m0_mod_step_gen_relaxed_thm", ``
 
 
 val _ = export_theory();
-||||||| empty tree

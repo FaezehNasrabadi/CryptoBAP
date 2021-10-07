@@ -171,4 +171,3 @@ val dot_path = "/home/xmate/Projects/HolBA/HolBA/src/tools/scamv/tempdir/cfg.dot
 bir_cfgVizLib.bir_export_graph_from_prog prog dot_path;
 *)
 end (* struct *)
-||||||| empty tree

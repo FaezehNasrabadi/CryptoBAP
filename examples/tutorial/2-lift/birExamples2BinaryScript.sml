@@ -62,4 +62,3 @@ val bprog_is_even_odd_def = Define `
 
 val _ = export_theory();
 
-||||||| empty tree

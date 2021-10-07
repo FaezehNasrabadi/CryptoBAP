@@ -62,4 +62,3 @@ now this takes just about 2 minutes and we gain a little bit extra overapproxima
 minmax = (58,168)
 hopefully we can find suitable preconditions
 *)
-||||||| empty tree

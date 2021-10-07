@@ -858,4 +858,3 @@ val bir_exp_is_well_typed_def = Define `bir_exp_is_well_typed e <=>
 
 
 val _ = export_theory();
-||||||| empty tree

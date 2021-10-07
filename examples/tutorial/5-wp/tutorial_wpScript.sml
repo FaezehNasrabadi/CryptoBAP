@@ -270,4 +270,3 @@ val _ =
 *)
 
 val _ = export_theory();
-||||||| empty tree

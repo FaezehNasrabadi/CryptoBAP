@@ -308,4 +308,3 @@ fun wp_test_fun (prog_name, prog, (entry_lbl, precond), (exit_lbls, postcond), w
 val _ = List.map wp_test_fun wp_tests;
 val _ = print ("SUCCESS, all WPs as expected\r\n")
 
-||||||| empty tree

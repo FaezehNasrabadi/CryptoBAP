@@ -27,4 +27,3 @@ val model = Z3_SAT_modelLib.Z3_GET_SAT_MODEL word_relation;
 (*TODO try to make 'complement' relation that doesn't include the invalid paths,
   since the paths will be selected by the driver anyway
  *)
-||||||| empty tree

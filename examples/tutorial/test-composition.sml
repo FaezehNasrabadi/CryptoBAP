@@ -96,4 +96,3 @@ val _ = print_and_check_thm
     {}
     (bir_ieo_pre (v1 :word64)) (bir_ieo_sec_isodd_exit_post v1)
   ``;
-||||||| empty tree

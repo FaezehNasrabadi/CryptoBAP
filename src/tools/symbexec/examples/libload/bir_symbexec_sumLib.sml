@@ -658,4 +658,3 @@ end (* local *)
 end (* outermost local *)
 
 end (* struct *)
-||||||| empty tree

@@ -84,4 +84,3 @@ val _ = List.map (fn (exp, expected) =>
             raise Fail ("unexpected export: " ^ (term_to_string exp)));
   in () end) exporting_exp_testcases;
 
-||||||| empty tree

@@ -16,4 +16,3 @@ n_others       = 133
 n_inconclusive = 1
 n_examples     = 21105
 n_cexamples    = 3
-||||||| empty tree

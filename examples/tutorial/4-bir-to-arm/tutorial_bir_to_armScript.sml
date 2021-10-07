@@ -247,4 +247,3 @@ EVAL ``(bir_vars_of_program tutorial_prog)``;
 *)
 
 val _ = export_theory();
-||||||| empty tree

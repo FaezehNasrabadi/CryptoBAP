@@ -1186,4 +1186,3 @@ REV_FULL_SIMP_TAC arith_ss []
 );
 
 val _ = export_theory();
-||||||| empty tree

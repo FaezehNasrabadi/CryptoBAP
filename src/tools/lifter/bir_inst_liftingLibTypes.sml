@@ -104,4 +104,3 @@ fun check_expanded_bir_inst_lifting_mem_regions [] = NONE
      | NONE => NONE)
 
 end;
-||||||| empty tree

@@ -793,4 +793,3 @@ structure Yices = struct
           "Yices not configured: set the HOL4_YICES_EXECUTABLE environment variable to point to the Yices executable file."
 
 end
-||||||| empty tree

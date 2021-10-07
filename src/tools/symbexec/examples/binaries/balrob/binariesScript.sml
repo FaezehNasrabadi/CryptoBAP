@@ -29,4 +29,3 @@ val _ = List.map lift_da_file_to_thm configs;
 
 
 val _ = export_theory();
-||||||| empty tree

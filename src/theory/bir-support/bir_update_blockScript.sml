@@ -1265,4 +1265,3 @@ SIMP_TAC std_ss [bir_changed_vars_of_update_assert_block_AUX,
 
 
 val _ = export_theory();
-||||||| empty tree

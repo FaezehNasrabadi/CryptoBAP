@@ -70,4 +70,3 @@ val bir_symb_env_write_def = Define `
     else NONE`;
 
 val _ = export_theory ();
-||||||| empty tree

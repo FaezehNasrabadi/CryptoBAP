@@ -18,4 +18,3 @@ n_examples     = 21767
 n_cexamples    = 41
 
 
-||||||| empty tree

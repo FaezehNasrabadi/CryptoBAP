@@ -37,4 +37,3 @@ get_arm8_contract_sing bir_add_reg_ct ``bir_add_reg_progbin`` ``arm8_add_reg_pre
 );
 
 val _ = export_theory();
-||||||| empty tree

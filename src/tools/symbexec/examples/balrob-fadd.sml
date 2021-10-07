@@ -154,4 +154,3 @@ number of paths including assert (fun1, fun2 until call)
 10857 (actually it's 20937, 11417 after restricting ite branching to countw)
 
 *)
-||||||| empty tree

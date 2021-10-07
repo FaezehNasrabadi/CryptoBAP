@@ -2765,4 +2765,3 @@ FULL_SIMP_TAC (std_ss++holBACore_ss) [bir_bool_expTheory.bir_is_bool_exp_env_REW
 );
 
 val _ = export_theory();
-||||||| empty tree

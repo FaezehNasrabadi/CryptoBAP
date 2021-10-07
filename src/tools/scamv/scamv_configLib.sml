@@ -345,4 +345,3 @@ fun memo f =
 val scamv_getopt_config = memo scamv_getopt_config_go;
 
 end
-||||||| empty tree

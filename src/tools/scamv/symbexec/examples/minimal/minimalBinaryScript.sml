@@ -18,4 +18,3 @@ val _ = new_theory "minimalBinary";
 val _ = save_thm ("minimal_arm8_THM", thm_arm8);
 val _ = export_theory();
 
-||||||| empty tree

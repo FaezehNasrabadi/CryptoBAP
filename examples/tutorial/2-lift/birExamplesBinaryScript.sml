@@ -52,4 +52,3 @@ val bprog_add_times_two_def = Define `
 
 val _ = export_theory();
 
-||||||| empty tree

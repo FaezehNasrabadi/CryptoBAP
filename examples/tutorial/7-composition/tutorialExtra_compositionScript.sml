@@ -287,4 +287,3 @@ val bir_att_ct = save_thm("bir_att_ct",
 );
 
 val _ = export_theory();
-||||||| empty tree

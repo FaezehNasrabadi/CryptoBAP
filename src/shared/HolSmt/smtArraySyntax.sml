@@ -32,4 +32,3 @@ struct
 
 end (* smtArraySyntax *)
 
-||||||| empty tree

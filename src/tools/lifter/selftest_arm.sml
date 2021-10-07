@@ -982,4 +982,3 @@ val _ = check_logs ["arm8_selftest.log",
                     "m0_mod_le_main_selftest.log",
                     "m0_mod_be_main_selftest.log"]
 ; 
-||||||| empty tree

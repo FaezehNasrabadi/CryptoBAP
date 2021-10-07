@@ -19,4 +19,3 @@ val update_to_store_REWR = store_thm ("update_to_store_REWR",
 
 val _ = export_theory();
 
-||||||| empty tree

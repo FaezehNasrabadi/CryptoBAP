@@ -98,4 +98,3 @@ val bir_add_reg_ct =
 val _ = save_thm("bir_add_reg_ct", bir_add_reg_ct);
 
 val _ = export_theory();
-||||||| empty tree

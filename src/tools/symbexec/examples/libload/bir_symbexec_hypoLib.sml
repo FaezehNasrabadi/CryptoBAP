@@ -103,4 +103,3 @@ fun collect_trav_info bl_dict n_dict l_entry l_end =
 end (* outermost local *)
 
 end (* struct *)
-||||||| empty tree

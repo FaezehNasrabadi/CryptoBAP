@@ -194,4 +194,3 @@ val size_loads_nums =
 
 val size_stores_nums =
   mk_histogram size_stores;
-||||||| empty tree

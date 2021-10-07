@@ -65,4 +65,3 @@ This CI performs basic static analysis on the code:
  - locates all the places where `TODO` or `FIXME` appear.
  
  It then post the results as a comment on the Pull Request (and in the CI logs as well). However, the CI **cannot** post a comment on the PR if the PR comes from a fork, for security reasons. In this case, there will be no comment posted. See #58 for more history.
-||||||| empty tree

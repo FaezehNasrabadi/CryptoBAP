@@ -14,4 +14,3 @@ HEAPINC_EXTRA  =
 # included lines follow
 # ----------------------------------
 include ../../../Holmakefile.inc
-||||||| empty tree

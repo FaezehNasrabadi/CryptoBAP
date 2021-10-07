@@ -1083,4 +1083,3 @@ SIMP_TAC (std_ss++boolSimps.LIFT_COND_ss++pairSimps.gen_beta_ss++bir_TYPES_ss) [
 
 
 val _ = export_theory();
-||||||| empty tree
