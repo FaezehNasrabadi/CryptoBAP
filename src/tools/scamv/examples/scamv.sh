@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/bin/bash
 set -e
 
@@ -52,3 +53,17 @@ FORWARD_ARGS=${@:1}
 "./holba_entry.sh" driver-test $FORWARD_ARGS
 >>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
+||||||| empty tree
+=======
+#!/bin/bash
+set -e
+
+# get setup directory path
+SCAMVEX_DIR=$(dirname "${BASH_SOURCE[0]}")
+HOLBA_DIR=$(readlink -f "${SCAMVEX_DIR}/../../../..")
+
+FORWARD_ARGS=${@:1}
+
+"./holba_entry.sh" driver-test $FORWARD_ARGS
+
+>>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
