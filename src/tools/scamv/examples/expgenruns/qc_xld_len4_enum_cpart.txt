@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 driver-test --max_iter 1000 --prog_size 4 --max_tests 100 --enumerate --generator qc --generator_param xld --obs_model cache_tag_index_part --hw_obs_model hw_cache_tag_index_part
-=======
---max_iter 1000 --prog_size 4 --max_tests 100 --enumerate --generator qc --generator_param xld --obs_model cache_tag_index_part --hw_obs_model hw_cache_tag_index_part
->>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 
 >>> 
@@ -11,12 +6,3 @@ driver-test --max_iter 1000 --prog_size 4 --max_tests 100 --enumerate --generato
 
 
 ||||||| empty tree
-=======
---max_iter 1000 --prog_size 4 --max_tests 100 --enumerate --generator qc --generator_param xld --obs_model cache_tag_index_part --hw_obs_model hw_cache_tag_index_part
-
-
->>> 
----
-
-
->>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
