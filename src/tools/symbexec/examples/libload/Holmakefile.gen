@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 # includes
 # ----------------------------------
-<<<<<<< HEAD
 DEPENDENCIES   = ../IML ../PreProcess
-=======
-DEPENDENCIES   = 
->>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 
 # configuration
@@ -13,32 +8,10 @@ DEPENDENCIES   =
 HOLHEAP        = ../binaries/HolBATools_SymbExec_ExampleBinaries-heap
 NEWHOLHEAP     = HolBATools_SymbExec_ExampleLibload-heap
 
-<<<<<<< HEAD
 HEAPINC_EXTRA  =
-=======
-HEAPINC_EXTRA  = 
->>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 
 # included lines follow
 # ----------------------------------
 include ../../../../Holmakefile.inc
 ||||||| empty tree
-=======
-# includes
-# ----------------------------------
-DEPENDENCIES   = 
-
-
-# configuration
-# ----------------------------------
-HOLHEAP        = ../binaries/HolBATools_SymbExec_ExampleBinaries-heap
-NEWHOLHEAP     = HolBATools_SymbExec_ExampleLibload-heap
-
-HEAPINC_EXTRA  = 
-
-
-# included lines follow
-# ----------------------------------
-include ../../../../Holmakefile.inc
->>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc

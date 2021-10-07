@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 # includes
 # ----------------------------------
-<<<<<<< HEAD
 DEPENDENCIES   = ../theory/bir ../theory/bir-support ./HolSmt
-=======
-DEPENDENCIES   = ../theory/bir ../theory/bir-support ./HolSmt ./sml-simplejson
->>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 
 # configuration
@@ -13,32 +8,10 @@ DEPENDENCIES   = ../theory/bir ../theory/bir-support ./HolSmt ./sml-simplejson
 HOLHEAP        = ./HolSmt/HolBASharedHolSmt-heap
 NEWHOLHEAP     = HolBAShared-heap
 
-<<<<<<< HEAD
 HEAPINC_EXTRA  = 
-=======
-HEAPINC_EXTRA  = ./sml-simplejson/Json
->>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 
 # included lines follow
 # ----------------------------------
 include ../Holmakefile.inc
 ||||||| empty tree
-=======
-# includes
-# ----------------------------------
-DEPENDENCIES   = ../theory/bir ../theory/bir-support ./HolSmt ./sml-simplejson
-
-
-# configuration
-# ----------------------------------
-HOLHEAP        = ./HolSmt/HolBASharedHolSmt-heap
-NEWHOLHEAP     = HolBAShared-heap
-
-HEAPINC_EXTRA  = ./sml-simplejson/Json
-
-
-# included lines follow
-# ----------------------------------
-include ../Holmakefile.inc
->>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc

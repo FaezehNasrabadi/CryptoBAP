@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # includes
 # ----------------------------------
 DEPENDENCIES   = 
@@ -15,39 +14,4 @@ HEAPINC_EXTRA  =
 # included lines follow
 # ----------------------------------
 include ../../../Holmakefile.inc
-<<<<<<< HEAD
-=======
-
-
-# scamv executable
-# ----------------------------------
-#exescamv: $(TARGETS) $(HOLHEAP)
-#	$(protect $(HOLDIR)/bin/buildheap) $(if $(HOLHEAP),-b $(HOLHEAP),) -o $@ $(HEAPINC) testexception --exe main_scamv
-
->>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 ||||||| empty tree
-=======
-# includes
-# ----------------------------------
-DEPENDENCIES   = 
-
-
-# configuration
-# ----------------------------------
-HOLHEAP        = ../HolBATools_ScamV-heap
-NEWHOLHEAP     = 
-
-HEAPINC_EXTRA  = 
-
-
-# included lines follow
-# ----------------------------------
-include ../../../Holmakefile.inc
-
-
-# scamv executable
-# ----------------------------------
-#exescamv: $(TARGETS) $(HOLHEAP)
-#	$(protect $(HOLDIR)/bin/buildheap) $(if $(HOLHEAP),-b $(HOLHEAP),) -o $@ $(HEAPINC) testexception --exe main_scamv
-
->>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc

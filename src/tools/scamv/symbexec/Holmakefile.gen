@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # includes
 # ----------------------------------
 DEPENDENCIES   = ../../../theory/bir ../../../theory/bir-support ../../../shared
@@ -6,11 +5,7 @@ DEPENDENCIES   = ../../../theory/bir ../../../theory/bir-support ../../../shared
 
 # configuration
 # ----------------------------------
-<<<<<<< HEAD
 HOLHEAP        = ../../wp/HolBATools_Wp-heap
-=======
-HOLHEAP        = ../../backlifter/HolBATools_Backlifter-heap
->>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 NEWHOLHEAP     = HolBATools_ScamV_symbexec-heap
 
 HEAPINC_EXTRA  = 
@@ -20,21 +15,3 @@ HEAPINC_EXTRA  =
 # ----------------------------------
 include ../../../Holmakefile.inc
 ||||||| empty tree
-=======
-# includes
-# ----------------------------------
-DEPENDENCIES   = ../../../theory/bir ../../../theory/bir-support ../../../shared
-
-
-# configuration
-# ----------------------------------
-HOLHEAP        = ../../backlifter/HolBATools_Backlifter-heap
-NEWHOLHEAP     = HolBATools_ScamV_symbexec-heap
-
-HEAPINC_EXTRA  = 
-
-
-# included lines follow
-# ----------------------------------
-include ../../../Holmakefile.inc
->>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc

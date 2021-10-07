@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 # includes
 # ----------------------------------
-<<<<<<< HEAD
 DEPENDENCIES   = ../2-lift ../support ../4-bir-to-arm
-=======
-DEPENDENCIES   = ../2-lift ../4-bir-to-arm
->>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
 
 
 # configuration
@@ -20,21 +15,3 @@ HEAPINC_EXTRA  =
 # ----------------------------------
 include ../../../src/Holmakefile.inc
 ||||||| empty tree
-=======
-# includes
-# ----------------------------------
-DEPENDENCIES   = ../2-lift ../4-bir-to-arm
-
-
-# configuration
-# ----------------------------------
-HOLHEAP        = ../../../src/HolBA-heap
-NEWHOLHEAP     = # TODO: Create a heap with lifted binaries
-
-HEAPINC_EXTRA  = 
-
-
-# included lines follow
-# ----------------------------------
-include ../../../src/Holmakefile.inc
->>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
