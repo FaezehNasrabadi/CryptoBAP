@@ -3,18 +3,15 @@ struct
 local
   val ERR = Feedback.mk_HOL_ERR "bir_json_execLib"
   val wrap_exn = Feedback.wrap_exn "bir_json_execLib"
-
+  open Json;
 (*
 val cmd  = "/usr/bin/echo";
 val args = ["hello there!"];
 val str_in_o = NONE;
-
 val cmd  = "/usr/bin/cat";
 val args = [];
 val str_in_o = SOME "another one!\n";
-
 val input = (cmd, args, str_in_o);
-
 get_exec_output_gen true  input
 get_exec_output_gen false input
 *)
@@ -55,7 +52,6 @@ in
   (* returns deserialized json from stdout *)
   (*
     open Json;
-
     val cmd  = (* (OS.FileSys.getDir ()) ^ "/" ^ *)
                "examples/try_deserialize_serialize_json.py";
     val oper = "wrong";
@@ -70,9 +66,7 @@ in
                       NUMBER (Arbnum.fromInt 4)]),
          ("3", OBJECT [("hello",  NUMBER (Arbnum.fromInt 123)),
                        ("hello2", NUMBER (Arbnum.fromInt 1234))])];
-
     val _ = print (serialize jsonarg);
-
     call_json_exec (cmd, args, jsonarg)
   *)
   fun call_json_exec_2 (cmd, args, jsonarg) =

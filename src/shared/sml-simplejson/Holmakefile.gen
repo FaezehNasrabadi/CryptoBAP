@@ -1,12 +1,12 @@
 # includes
 # ----------------------------------
-DEPENDENCIES   = ../../theory/bir ../../theory/bir-support ../../shared ../lifter ./persistence
+DEPENDENCIES   = 
 
 
 # configuration
 # ----------------------------------
-HOLHEAP        = obsmodel/HolBATools_ScamV_obsmodel-heap
-NEWHOLHEAP     = HolBATools_ScamV-heap
+HOLHEAP        = HolSmt/HolBASharedHolSmt-heap
+NEWHOLHEAP     = HolBASharedSimpleJson-heap
 
 HEAPINC_EXTRA  = 
 
