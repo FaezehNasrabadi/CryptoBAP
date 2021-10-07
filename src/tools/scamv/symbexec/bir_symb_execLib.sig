@@ -1,11 +1,5 @@
-<<<<<<< HEAD
 signature bir_symb_execLib = sig
 
-<<<<<<< HEAD
-=======
-  include Abbrev;
-
->>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   type 'a symb_tree_t;
 
   val symb_is_BST_Running  : term -> bool
@@ -17,11 +11,7 @@ signature bir_symb_execLib = sig
   (* maxdepth (-1 is unlimited), precond, program, pred decider *)
   val symb_exec_program    : int -> term -> term -> (term -> bool) -> (term -> term) option -> term symb_tree_t
 
-<<<<<<< HEAD
   val dest_bir_symb_obs    : term -> term * term * term
-=======
-  val dest_bir_symb_obs    : term -> term * term * term * term
->>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
   val dest_bir_symb_state  : term -> term * term * term * term * term
 
   val bir_exp_hvar_to_bvar : term -> term
@@ -31,31 +21,3 @@ signature bir_symb_execLib = sig
   val bir_exp_rewrite      : (term -> term) -> term -> term
 
 end
-||||||| empty tree
-=======
-signature bir_symb_execLib = sig
-
-  include Abbrev;
-
-  type 'a symb_tree_t;
-
-  val symb_is_BST_Running  : term -> bool
-
-  val symb_is_BST_Halted   : term -> bool
-
-  val symb_is_BST_AssertionViolated : term -> bool
-
-  (* maxdepth (-1 is unlimited), precond, program, pred decider *)
-  val symb_exec_program    : int -> term -> term -> (term -> bool) -> (term -> term) option -> term symb_tree_t
-
-  val dest_bir_symb_obs    : term -> term * term * term * term
-  val dest_bir_symb_state  : term -> term * term * term * term * term
-
-  val bir_exp_hvar_to_bvar : term -> term
-
-  val symb_exec_leaflist   : 'a symb_tree_t -> 'a list
-
-  val bir_exp_rewrite      : (term -> term) -> term -> term
-
-end
->>>>>>> 24a6f6f2aba3708ecd62e9f1b7ba9b6ecc72edcc
