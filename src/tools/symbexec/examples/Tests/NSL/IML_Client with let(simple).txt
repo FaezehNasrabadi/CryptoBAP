@@ -1,0 +1,25 @@
+new Key_235 fixed_64 
+new Key_269 fixed_64 
+new Key_331 fixed_64 
+event client_begin hostA hostB 
+new RAND_NUM_776 fixed_64 
+if ((1000<=949_R0)∧¬(949_R0=1000)) then
+new iv_1088 fixed_64 
+let cipher_1090 = enc(inputs,iv) in
+out c, enc(inputs,iv) 
+in c, Adv_1211 
+if ((1000<=1238_R0)∧¬(1238_R0=1000)) then
+in c, Adv_1356 
+let msg_1538 = dec(Cipher) in
+if (1613_R1=1616_R0) then
+if (1695_R0=0) then
+if (1889_R0=20) then
+if (1920_R0=20) then
+if (2097_R0=0) then
+if (2304_R0=0) then
+if ((1000<=2762_R0)∧¬(2762_R0=1000)) then
+new iv_2901 fixed_64 
+let cipher_2903 = enc(inputs,iv) in
+out c, enc(inputs,iv) 
+event client_end hostA hostB 
+if (3098_R1=0) then

@@ -39,3 +39,4 @@ typehint
 __CrestReturn
 __stack_chk_fail
 memcmp_proxy
+socket_connect

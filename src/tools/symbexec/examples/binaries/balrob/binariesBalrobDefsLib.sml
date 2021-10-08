@@ -259,9 +259,9 @@ val symbs_sec_text = [
     "memcmp_proxy",
     "main"
 ];*)
-    val symbs_sec_text = [
+val symbs_sec_text = [
     "main"
-];
+    ];
 val arch_str         = "arm8";
 val prog_range       = ((Arbnum.fromInt 0x00000000), (Arbnum.fromInt 0xffffffff));
 

@@ -40,3 +40,4 @@ __CrestReturn
 __stack_chk_fail
 memcmp_proxy
 wait_close_proxy
+socket_listen

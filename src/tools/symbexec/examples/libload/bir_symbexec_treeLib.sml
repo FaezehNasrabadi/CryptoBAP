@@ -327,21 +327,33 @@ fun Xor_to_IML vals_list pred =
 
 	val str_be = term_to_string x_be;
 
-	val a = (fst o (bir_auxiliaryLib.list_split_pred #" ") o explode) str_be;
-
-	val b = (snd o (bir_auxiliaryLib.list_split_pred #" ") o explode) str_be;
-
-	val fun_str = (implode a)^"("^(implode b)^")";
+	val fun_str = Fun_Str str_be;
 
     in
 	(to_string (I_Out [(Var (fun_str))]))
 
     end;
 
+(*Translate Let to IML*)    
+fun Let_to_IML vals_list pred =
+    let
+	
+	val pred_term = bir_envSyntax.mk_BVar_string(pred, “BType_Bool”);    
+
+	val be =  symbval_bexp (find_be_val vals_list pred_term);
+
+	val fun_str = if (is_BExp_Den be)
+		      then ((rev_name o fst o dest_BVar_string o dest_BExp_Den) be)
+		      else Fun_Str (term_to_string be);
+
+    in
+	(to_string (I_Let ((rev_name pred), (Var (fun_str)))))
+
+    end;    
 (*Translate BIR expressions to IML expressions*)
 (*
 val pred_be = “BExp_Const (Imm64 2840w)”; val result = "2840";
-val pred_be = “BExp_Den (BVar "88_MEM" (BType_Mem Bit64 Bit8))”;
+val be = “BExp_Den (BVar "88_MEM" (BType_Mem Bit64 Bit8))”;
 val pred_be = ``BExp_Cast BIExp_LowCast
                         (BExp_Den (BVar "R0" (BType_Imm Bit64))) Bit32``;
 val pred_be = ``BExp_UnaryExp BIExp_Not
@@ -524,6 +536,7 @@ fun path_of_tree event_names vals_list refine_preds exec_sts [] str =
 		  else if (String.isSuffix "K" pred) then (K_to_Out vals_list refine_preds exec_sts pred preds)
 		  else if (String.isSuffix "Adv" pred) then (to_string o D_to_In) pred
 		  else if (String.isSuffix "XOR" pred) then (Xor_to_IML vals_list pred)
+		  else if ((String.isSuffix "msg" pred) orelse (String.isSuffix "cipher" pred) orelse (String.isSuffix "nonce" pred) orelse (String.isSuffix "key" pred)) then (Let_to_IML vals_list pred)
 		  else if ((String.isSuffix "event_true_cnd" pred) orelse (String.isSuffix "event1" pred) orelse (String.isSuffix "event2" pred) orelse (String.isSuffix "event_false_cnd" pred))
 		  then (IML_event event_names pred)
 		  else "";

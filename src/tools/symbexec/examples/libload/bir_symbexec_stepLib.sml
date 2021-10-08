@@ -283,7 +283,7 @@ fun symb_exec_library_block abpfun n_dict bl_dict adr_dict syst =
 		    	
 		val lib_type = bir_symbexec_oracleLib.lib_oracle adr_dict (!ret_list) est syst; (* detect type of library call *)
 
-		val _ = if false then () else
+		val _ = if true then () else
 			print ("Lib type: " ^ (lib_type) ^ "\n");
 
 		val systs = if (lib_type = "HMAC_send") then [bir_symbexec_funcLib.HMAC_Send syst]

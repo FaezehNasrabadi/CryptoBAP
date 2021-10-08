@@ -70,11 +70,11 @@ fun encrypt inputs iv =
 	dest_BStmt_Assign stmt
     end;
 
-fun decrypt inputs =
+fun decrypt Cipher =
     let
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
 			(dec
-			     (inputs))``;
+			     (Cipher))``;
 
     in
 	dest_BStmt_Assign stmt
@@ -314,6 +314,8 @@ fun One_Time_Pad syst =
 	    
 	val syst = update_with_fresh_name Fn_vn vn syst;
 	    
+	(* val syst = state_add_path "nonce" Fn_vn syst; (* update path condition *) *)
+
 	val syst = update_lib_syst Fn_vn vn syst; (* update syst *)
 	    
     in
@@ -330,7 +332,9 @@ fun Random_Number syst =
 	val Fn_vn = mk_BExp_Den(get_bvar_fresh (bir_envSyntax.mk_BVar_string ("rand_num", “BType_Imm Bit64”))); (* generate a fresh name *)
 	    
 	val syst = update_with_fresh_name Fn_vn vn syst;
-	    
+
+	(* val syst = state_add_path "nonce" Fn_vn syst; (* update path condition *)  *)   
+
 	val syst = update_lib_syst Fn_vn vn syst; (* update syst *)
 	    
     in
@@ -346,6 +350,8 @@ fun new_key syst =
 	    
 	val syst = update_with_fresh_name Fn_vn vn syst;
 
+	(* val syst = state_add_path "key" Fn_vn syst; (* update path condition *) *)
+	    
 	val syst = update_lib_syst Fn_vn vn syst; (* update syst for Libs *)
 	    
     in
@@ -368,6 +374,8 @@ fun Encryption syst =
 
 	val stmt = ``BStmt_Assign (Fr_Enc) (C_bv)``; (* assign value of R0 to the fresh variable *)
 	
+	val syst = state_add_path "cipher" C_be syst; (* update path condition *)
+	    
 	val syst = update_lib_syst C_be Fr_Enc syst; (* update syst *)
 
 	val syst = add_knowledges_to_adv 0 syst; (*The adversary has a right to know the output of the encryption function.*)
@@ -380,13 +388,15 @@ fun Decryption syst =
     let
 	
 	val n = List.nth (readint_inputs "Library-number of inputs", 0);
-	val inputs = compute_inputs (n-1) syst; (* get values *)
+	val Cipher = compute_inputs (n-1) syst; (* get values *)
 
-	val (M_bv, M_be) = decrypt inputs; (* decrypt with iv *)
+	val (M_bv, M_be) = decrypt Cipher; (* decrypt with iv *)
 
 	val Fr_Dec = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Dec", “BType_Imm Bit64”)); (* generate a fresh variable *)
 
 	val stmt = ``BStmt_Assign (Fr_Dec) (M_bv)``; (* assign value of R0 to the fresh variable *)
+	    
+	val syst = state_add_path "msg" M_be syst; (* update path condition *)
 	    
 	val syst = update_lib_syst M_be Fr_Dec syst; (* update syst *)
 	    		    

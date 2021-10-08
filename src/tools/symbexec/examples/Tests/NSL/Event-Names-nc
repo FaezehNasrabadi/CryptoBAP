@@ -1,4 +1,4 @@
 The event name is as follows:
-X
-server_begin X Y
-server_end X Y
+hostA
+client_begin hostA hostB
+client_end hostA hostB
