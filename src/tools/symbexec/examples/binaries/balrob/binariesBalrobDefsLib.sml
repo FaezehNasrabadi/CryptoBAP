@@ -213,7 +213,7 @@ val symbs_sec_text = [
     "__CrestReturn",
     "__stack_chk_fail",
     "main"
-];*)
+];
 val symbs_sec_text = [
     "__globinit_server",
     "__CrestCall",
@@ -257,6 +257,9 @@ val symbs_sec_text = [
     "__CrestReturn",
     "__stack_chk_fail",
     "memcmp_proxy",
+    "main"
+];*)
+    val symbs_sec_text = [
     "main"
 ];
 val arch_str         = "arm8";

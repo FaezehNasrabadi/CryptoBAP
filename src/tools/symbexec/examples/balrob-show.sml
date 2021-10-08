@@ -30,4 +30,3 @@ fun print_option pf NONE     = print "NONE"
   | print_option pf (SOME x) = (print "SOME ("; pf x; print ")");
 *)
 
-(*

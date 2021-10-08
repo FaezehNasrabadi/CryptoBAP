@@ -1,14 +1,14 @@
 # includes
 # ----------------------------------
-DEPENDENCIES   = ../../theory/bir ../../theory/bir-support ../../theory/tools/backlifter
+DEPENDENCIES   = ../../theory/bir ../../theory/bir-support ../../shared ../lifter
 
 
 # configuration
 # ----------------------------------
-HOLHEAP        = ../comp/HolBATools_Comp-heap
-NEWHOLHEAP     = HolBATools_Backlifter-heap
+HOLHEAP        = obsmodel/HolBATools_ScamV_obsmodel-heap
+NEWHOLHEAP     = HolBATools_ScamV-heap
 
-HEAPINC_EXTRA  =
+HEAPINC_EXTRA  = 
 
 
 # included lines follow

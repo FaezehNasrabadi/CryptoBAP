@@ -5,7 +5,7 @@ DEPENDENCIES   =
 
 # configuration
 # ----------------------------------
-HOLHEAP        = HolSmt/HolBASharedHolSmt-heap
+HOLHEAP        = ../HolSmt/HolBASharedHolSmt-heap
 NEWHOLHEAP     = HolBASharedSimpleJson-heap
 
 HEAPINC_EXTRA  = 
