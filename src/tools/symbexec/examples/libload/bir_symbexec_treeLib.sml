@@ -311,6 +311,8 @@ fun IML_event event_names pred =
 			then (List.nth (event_names, 1))
 			else if (String.isSuffix "event2" pred)
 			then (List.nth (event_names, 2))
+			else if (String.isSuffix "event3" pred)
+			then (List.nth (event_names, 3))
 			else raise ERR "IML_event" "cannot handle this pred";
 
     in
@@ -383,7 +385,7 @@ val pred_be = ``BExp_BinExp BIExp_And
 
 fun BExp_to_IMLExp vals_list exec_sts pred_be =
     let
-
+	(* val _ = print ((term_to_string pred_be)^"\n"); *)
 	val result = if (is_BExp_Const pred_be) then
 			 (if (is_Imm128 o dest_BExp_Const) pred_be then
 			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm128 o dest_BExp_Const) pred_be)
@@ -455,12 +457,12 @@ fun BExp_to_IMLExp vals_list exec_sts pred_be =
 				 ("("^(BExp_to_IMLExp vals_list exec_sts subexp1)^res^(BExp_to_IMLExp vals_list exec_sts subexp2)^")")
 			 end
 		     else if (is_BExp_BinPred pred_be) then
-			 let
+			 let 
 			     val (bop, subexp1, subexp2) = (dest_BExp_BinPred) pred_be;
 			     val res = if identical bop BIExp_Equal_tm then ("=")
 				       else if identical bop BIExp_NotEqual_tm then ("≠")
-				       else if identical bop BIExp_LessThan_tm then ("<")
-				       else if identical bop BIExp_LessOrEqual_tm then ("<=")
+				       else if ((identical bop BIExp_LessThan_tm) orelse (identical bop BIExp_SignedLessThan_tm)) then ("<")
+				       else if ((identical bop BIExp_LessOrEqual_tm) orelse (identical bop BIExp_SignedLessOrEqual_tm)) then ("<=")
 				       else raise ERR "BExp_BinPred:BExp_to_IMLExp" "this should not happen" 
 			 in
 			     ("("^(BExp_to_IMLExp vals_list exec_sts subexp1)^res^(BExp_to_IMLExp vals_list exec_sts subexp2)^")")
@@ -527,7 +529,6 @@ fun path_of_tree event_names vals_list refine_preds exec_sts [] str =
   | path_of_tree event_names vals_list refine_preds exec_sts (pred::preds) str =
     let
 
-
 	val Act = if (String.isSuffix "assert_true_cnd" pred) then ""
 		  else if (String.isSuffix "cjmp_true_cnd" pred) then ((to_string o Br_True) (IMLExp_from_pred vals_list exec_sts pred))
 		  else if (String.isSuffix "assert_false_cnd" pred) then (assert_false_string event_names vals_list exec_sts pred)
@@ -537,7 +538,7 @@ fun path_of_tree event_names vals_list refine_preds exec_sts [] str =
 		  else if (String.isSuffix "Adv" pred) then (to_string o D_to_In) pred
 		  else if (String.isSuffix "XOR" pred) then (Xor_to_IML vals_list pred)
 		  else if ((String.isSuffix "msg" pred) orelse (String.isSuffix "cipher" pred) orelse (String.isSuffix "nonce" pred) orelse (String.isSuffix "key" pred)) then (Let_to_IML vals_list pred)
-		  else if ((String.isSuffix "event_true_cnd" pred) orelse (String.isSuffix "event1" pred) orelse (String.isSuffix "event2" pred) orelse (String.isSuffix "event_false_cnd" pred))
+		  else if ((String.isSuffix "event_true_cnd" pred) orelse (String.isSuffix "event1" pred) orelse (String.isSuffix "event2" pred) orelse (String.isSuffix "event3" pred) orelse (String.isSuffix "event_false_cnd" pred))
 		  then (IML_event event_names pred)
 		  else "";
 
@@ -546,7 +547,7 @@ fun path_of_tree event_names vals_list refine_preds exec_sts [] str =
     in
 	(if (String.isSuffix "cjmp_false_cnd" pred andalso ((not o List.null) preds))
 	   	then (path_of_tree event_names vals_list refine_preds exec_sts (tl preds) str)
-	else if (String.isSuffix "cjmp_true_cnd" pred andalso (List.length preds = 1))
+	else if (String.isSuffix "cjmp_true_cnd" pred andalso (List.length preds = 2))
 	then ((path_of_tree event_names vals_list refine_preds exec_sts [((hd o tl) preds)] str)^(to_string (I_False ())))
 	else (path_of_tree event_names vals_list refine_preds exec_sts preds str))
     end;

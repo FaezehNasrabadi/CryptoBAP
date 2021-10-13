@@ -436,6 +436,8 @@ fun HMAC_Receive syst =
 	val Fr_Hmac = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("HMAC", “BType_Imm Bit64”)); (* generate a fresh variable *)
 
 	val stmt = ``BStmt_Assign (Fr_Hmac) (M_bv)``; (* assign value of R0 to the fresh variable *)
+
+	val syst = state_add_path "msg" M_be syst; (* update path condition *)
 	    
 	val syst = update_lib_syst M_be Fr_Hmac syst; (* update syst *)
 

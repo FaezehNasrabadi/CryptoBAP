@@ -260,7 +260,9 @@ val symbs_sec_text = [
     "main"
 ];*)
 val symbs_sec_text = [
-    "main"
+    "main",
+    "client",
+    "server"
     ];
 val arch_str         = "arm8";
 val prog_range       = ((Arbnum.fromInt 0x00000000), (Arbnum.fromInt 0xffffffff));
@@ -338,7 +340,7 @@ val configs              = [ ("client",
                            ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0xffffffff),
                             (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
-			     ) ];  *)  
+			     ) ];   
     
  val configs              = [ ("server",
                            ("server_nsl.da", "balrob/server_nsl.da.plus", "balrob/server_nsl.mem"),
@@ -346,8 +348,14 @@ val configs              = [ ("client",
                            ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0xffffffff),
                             (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
+			      ) ];*) 
+ val configs              = [ ("RPC",
+                           ("RPC.da", "balrob/RPC.da.plus", "balrob/RPC.mem"),
+                           "server_THM",
+                           ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0xffffffff),
+                            (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
+                            (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 			      ) ]; 
-
 val symb_filter_lift = fn secname =>
   case secname of
       ".text" => (fn symbname => List.exists (fn x => x = symbname) symbs_sec_text)

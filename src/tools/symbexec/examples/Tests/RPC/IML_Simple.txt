@@ -1,0 +1,15 @@
+event client_begin request 
+in c, Adv_146 
+out c, hmac(inputs) 
+in c, Adv_391 
+in c, Adv_422 
+if ((2000<=527_R0)∧¬(527_R0=2000)) then
+let msg_671 = hmac(inputs) in
+event server_reply request response 
+out c, hmac(inputs) 
+if (1025_R0=0) then
+in c, Adv_1055 
+if ((2000<=1160_R0)∧¬(1160_R0=2000)) then
+let msg_1315 = hmac(inputs) in
+event client_accept request response 
+if (1452_R0=0) then
