@@ -346,7 +346,15 @@ fun Let_to_IML vals_list pred =
 
 	val fun_str = if (is_BExp_Den be)
 		      then ((rev_name o fst o dest_BVar_string o dest_BExp_Den) be)
+		      else if (is_BVar be)
+		      then ((rev_name o fst o dest_BVar_string) be)
 		      else Fun_Str (term_to_string be);
+
+	val fun_str = if (String.isSuffix "kS" pred)
+		      then ("kgen("^fun_str^")")
+		      else if(String.isSuffix "kAB" pred)
+		      then ("lookup(hClient,hServer,"^fun_str^")")
+		      else fun_str;
 
     in
 	(to_string (I_Let ((rev_name pred), (Var (fun_str)))))
@@ -467,6 +475,8 @@ fun BExp_to_IMLExp vals_list exec_sts pred_be =
 			 in
 			     ("("^(BExp_to_IMLExp vals_list exec_sts subexp1)^res^(BExp_to_IMLExp vals_list exec_sts subexp2)^")")
 			 end
+		     else if (bir_bool_expSyntax.is_bir_exp_false pred_be) then (BExp_to_IMLExp vals_list exec_sts ``BExp_Const (Imm1 0w)``)
+		     else if (bir_bool_expSyntax.is_bir_exp_true pred_be) then (BExp_to_IMLExp vals_list exec_sts ``BExp_Const (Imm1 1w)``)					     
 		     else if (is_BExp_IfThenElse pred_be) then raise ERR "BExp_IfThenElse:BExp_to_IMLExp" "this should not happen"
 		     else if (is_BExp_MemConst pred_be) then raise ERR "BExp_MemConst:BExp_to_IMLExp" "this should not happen"
 		     else if (is_BExp_MemEq pred_be) then raise ERR "BExp_MemEq:BExp_to_IMLExp" "this should not happen"
@@ -533,11 +543,11 @@ fun path_of_tree event_names vals_list refine_preds exec_sts [] str =
 		  else if (String.isSuffix "cjmp_true_cnd" pred) then ((to_string o Br_True) (IMLExp_from_pred vals_list exec_sts pred))
 		  else if (String.isSuffix "assert_false_cnd" pred) then (assert_false_string event_names vals_list exec_sts pred)
 		  else if (String.isSuffix "cjmp_false_cnd" pred) then ""
-		  else if ((String.isSuffix "Key" pred) orelse (String.isSuffix "iv" pred) orelse (String.isSuffix "RAND_NUM" pred) orelse (String.isSuffix "OTP" pred)) then (to_string o Fr_to_New) pred
+		  else if ((String.isSuffix "Key" pred) orelse (String.isSuffix "iv" pred) orelse (String.isSuffix "RAND_NUM" pred) orelse (String.isSuffix "OTP" pred) orelse (String.isSuffix "SKey" pred)) then (to_string o Fr_to_New) pred
 		  else if (String.isSuffix "K" pred) then (K_to_Out vals_list refine_preds exec_sts pred preds)
 		  else if (String.isSuffix "Adv" pred) then (to_string o D_to_In) pred
 		  else if (String.isSuffix "XOR" pred) then (Xor_to_IML vals_list pred)
-		  else if ((String.isSuffix "msg" pred) orelse (String.isSuffix "cipher" pred) orelse (String.isSuffix "nonce" pred) orelse (String.isSuffix "key" pred)) then (Let_to_IML vals_list pred)
+		  else if ((String.isSuffix "msg" pred) orelse (String.isSuffix "cipher" pred) orelse (String.isSuffix "kS" pred) orelse (String.isSuffix "kAB" pred)) then (Let_to_IML vals_list pred)
 		  else if ((String.isSuffix "event_true_cnd" pred) orelse (String.isSuffix "event1" pred) orelse (String.isSuffix "event2" pred) orelse (String.isSuffix "event3" pred) orelse (String.isSuffix "event_false_cnd" pred))
 		  then (IML_event event_names pred)
 		  else "";

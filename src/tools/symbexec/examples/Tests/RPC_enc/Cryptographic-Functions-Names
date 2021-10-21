@@ -1,0 +1,16 @@
+The cryptographic functions names are as follows:
+get_shared_key
+encrypt
+decrypt
+hmacsha1
+hmacsha1Verify
+memcpy
+event1
+event2
+__stack_chk_fail
+exit
+
+
+
+mk_session_key
+fail

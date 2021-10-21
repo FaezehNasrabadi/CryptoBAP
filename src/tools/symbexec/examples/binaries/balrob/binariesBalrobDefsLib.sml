@@ -258,12 +258,22 @@ val symbs_sec_text = [
     "__stack_chk_fail",
     "memcmp_proxy",
     "main"
-];*)
+];
 val symbs_sec_text = [
     "main",
     "client",
     "server"
-    ];
+];*)
+
+val symbs_sec_text = [
+    "main",
+    "send_request",
+    "recv_response",
+    "parseargs",
+    "send_response",
+    "recv_request"
+];
+	
 val arch_str         = "arm8";
 val prog_range       = ((Arbnum.fromInt 0x00000000), (Arbnum.fromInt 0xffffffff));
 
@@ -348,14 +358,31 @@ val configs              = [ ("client",
                            ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0xffffffff),
                             (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
-			      ) ];*) 
+			      ) ]; 
  val configs              = [ ("RPC",
                            ("RPC.da", "balrob/RPC.da.plus", "balrob/RPC.mem"),
-                           "server_THM",
+                           "RPC_THM",
                            ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0xffffffff),
                             (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 			      ) ]; 
+
+     val configs              = [("RPC_enc_server",
+                              ("RPC_enc_server.da", "balrob/RPC_enc_server.da.plus", "balrob/RPC_enc_server.mem"),
+                              "RPC_enc_server_THM",
+                              ((Arbnum.fromInt 0xd0000000, Arbnum.fromInt 0xd0004dac),
+                               (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x310)),
+                               (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
+				)];
+*)
+
+	 val configs              = [ ("RPC_enc_client",
+                              ("RPC_enc_client.da", "balrob/RPC_enc_client.da.plus", "balrob/RPC_enc_client.mem"),
+                              "RPC_enc_client_THM",
+			      ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0x00003564), 
+                               (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)), 
+                               (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
+			   )];
 val symb_filter_lift = fn secname =>
   case secname of
       ".text" => (fn symbname => List.exists (fn x => x = symbname) symbs_sec_text)

@@ -289,6 +289,7 @@ fun symb_exec_library_block abpfun n_dict bl_dict adr_dict syst =
 		val systs = if (lib_type = "HMAC_send") then [bir_symbexec_funcLib.HMAC_Send syst]
 			   else if (lib_type = "HMAC_receive") then [bir_symbexec_funcLib.HMAC_Receive syst]
 			   else if (lib_type = "NewKey") then [bir_symbexec_funcLib.new_key syst]
+			   else if (lib_type = "SKey") then [bir_symbexec_funcLib.session_key syst]
 			   else if (lib_type = "Encryption") then [bir_symbexec_funcLib.Encryption syst]
 			   else if (lib_type = "Decryption") then [bir_symbexec_funcLib.Decryption syst]
 			   else if (lib_type = "MEMcpy") then [bir_symbexec_funcLib.New_memcpy syst]

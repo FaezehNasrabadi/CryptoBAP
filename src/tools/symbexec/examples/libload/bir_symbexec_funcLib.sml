@@ -341,6 +341,25 @@ fun Random_Number syst =
 	syst
     end; 
 
+fun session_key syst =
+    let
+
+	val vn = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("SKey", “BType_Imm Bit64”)); (* generate a fresh variable *)	    	
+	
+	val syst = update_path vn syst; (* update path condition *)
+
+	val Fn_vn = mk_BExp_Den(get_bvar_fresh (bir_envSyntax.mk_BVar_string ("sk", “BType_Imm Bit64”))); (* generate a fresh name *)
+	    
+	val syst = update_with_fresh_name Fn_vn vn syst;
+
+	val syst = state_add_path "kS" vn syst; (* update path condition *)   
+
+	val syst = update_lib_syst Fn_vn vn syst; (* update syst *)
+	    
+    in
+	syst
+    end;
+    
 fun new_key syst =
     let
 
@@ -350,7 +369,7 @@ fun new_key syst =
 	    
 	val syst = update_with_fresh_name Fn_vn vn syst;
 
-	(* val syst = state_add_path "key" Fn_vn syst; (* update path condition *) *)
+	val syst = state_add_path "kAB" Fn_vn syst; (* update path condition *)
 	    
 	val syst = update_lib_syst Fn_vn vn syst; (* update syst for Libs *)
 	    

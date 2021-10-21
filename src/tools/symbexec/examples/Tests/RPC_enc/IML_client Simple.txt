@@ -1,0 +1,33 @@
+new Key_2 fixed_64 
+let kAB_4 = lookup(hClient,hServer,k_3) in
+new SKey_14 fixed_64 
+let kS_16 = kgen(sk_15) in
+event client_begin hClient hServer request 
+if (145_R0=0) then
+if (161_R1=0) then
+if (318_R0=0) then
+if (338_R1=0) then
+new iv_447 fixed_64 
+let cipher_449 = enc(inputs,iv) in
+out c, enc(inputs,iv) 
+if (459_R0=0) then
+if (479_R1=0) then
+if (585_R1=0) then
+in c, Adv_626 
+if ((1055<=631_R0)∧¬(631_R0=1055)) then
+if ((1056<=640_R0)∧¬(640_R0=1056)) then
+if (665_R0=0) then
+if (681_R1=0) then
+in c, Adv_701 
+if ((1024<=756_R0)∧¬(756_R0=1024)) then
+if (776_R1=0) then
+if (805_R0=0) then
+if (825_R1=0) then
+let msg_860 = dec(Cipher) in
+if (876_R0=0) then
+if (896_R1=0) then
+if ((1023<=909_R0)∧¬(909_R0=1023)) then
+if ((1024<=921_R0)∧¬(921_R0=1024)) then
+if (971_R1=0) then
+if ((sy_R0<0)=0) then
+event client_accept hClient hServer request response 

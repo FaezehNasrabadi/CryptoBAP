@@ -230,7 +230,7 @@ fun lib_oracle_type_label adr_dict label =
 	    else if (find_from_dict = (List.nth (C_fun_names, 7))) then
 		"event2"
 	    (*part of memory that fail function exist*)
-	    else if ((find_from_dict = (List.nth (C_fun_names, 8))) orelse (find_from_dict = (List.nth (C_fun_names, 9)))) then
+	    else if ((find_from_dict = (List.nth (C_fun_names, 8))) orelse (find_from_dict = (List.nth (C_fun_names, 9))) orelse (find_from_dict = (List.nth (C_fun_names, 14)))) then
 		"Fail"
 	    (*part of memory that OTP function exist*)
 	    else if (find_from_dict = (List.nth (C_fun_names, 10))) then
@@ -243,7 +243,7 @@ fun lib_oracle_type_label adr_dict label =
 		"XOR"
 	    (*part of memory that third event function exist*)
 	    else if (find_from_dict = (List.nth (C_fun_names, 13))) then
-		"event3"
+		"SKey"
 	    else
 		"C_Lib";
 	    
