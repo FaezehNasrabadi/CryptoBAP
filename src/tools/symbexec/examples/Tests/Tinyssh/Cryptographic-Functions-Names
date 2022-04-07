@@ -1,0 +1,16 @@
+The cryptographic functions names are as follows:
+
+
+Server_decrypt
+
+
+
+Client_accept
+Server_accept
+die_fatal_@plt
+die_usage@plt
+
+
+
+Server_pk
+global_die@plt

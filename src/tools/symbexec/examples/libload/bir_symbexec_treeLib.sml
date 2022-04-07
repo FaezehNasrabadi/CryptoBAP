@@ -540,7 +540,9 @@ fun path_of_tree event_names vals_list refine_preds exec_sts [] str =
     let
 
 	val Act = if (String.isSuffix "assert_true_cnd" pred) then ""
-		  else if (String.isSuffix "cjmp_true_cnd" pred) then ((to_string o Br_True) (IMLExp_from_pred vals_list exec_sts pred))
+		  else if (String.isSuffix "cjmp_true_cnd" pred) then (if (String.isSuffix "0" (IMLExp_from_pred vals_list exec_sts pred))
+	then ""
+	     else (to_string o Br_True) (IMLExp_from_pred vals_list exec_sts pred))
 		  else if (String.isSuffix "assert_false_cnd" pred) then (assert_false_string event_names vals_list exec_sts pred)
 		  else if (String.isSuffix "cjmp_false_cnd" pred) then ""
 		  else if ((String.isSuffix "Key" pred) orelse (String.isSuffix "iv" pred) orelse (String.isSuffix "RAND_NUM" pred) orelse (String.isSuffix "OTP" pred) orelse (String.isSuffix "SKey" pred)) then (to_string o Fr_to_New) pred
@@ -555,9 +557,10 @@ fun path_of_tree event_names vals_list refine_preds exec_sts [] str =
 	val str = str^Act;
 	    
     in
-	(if (String.isSuffix "cjmp_false_cnd" pred andalso ((not o List.null) preds))
+	(*if (String.isSuffix "cjmp_false_cnd" pred andalso ((not o List.null) preds))
 	   	then (path_of_tree event_names vals_list refine_preds exec_sts (tl preds) str)
-	else if (String.isSuffix "cjmp_true_cnd" pred andalso (List.length preds = 2))
+	 else*)
+	     (if (String.isSuffix "cjmp_true_cnd" pred andalso (List.length preds = 2))
 	then ((path_of_tree event_names vals_list refine_preds exec_sts [((hd o tl) preds)] str)^(to_string (I_False ())))
 	else (path_of_tree event_names vals_list refine_preds exec_sts preds str))
     end;

@@ -355,7 +355,7 @@ fun session_key syst =
 	val syst = state_add_path "kS" vn syst; (* update path condition *)   
 
 	val syst = update_lib_syst Fn_vn vn syst; (* update syst *)
-	    
+
     in
 	syst
     end;
