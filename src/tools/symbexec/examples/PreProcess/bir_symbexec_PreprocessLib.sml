@@ -40,7 +40,7 @@ fun fun_address_dict (n:cfg_node) =
         val lbl_tgt   = #CFGN_targets n;
 	val descr  = (valOf o #CFGN_hc_descr) n;
 	val instrDes = (snd o (list_split_pred #" ") o explode) descr;  
-	val name_adr = if isPrefix "(bl " (implode instrDes)
+	val name_adr = if ((isPrefix "(bl " (implode instrDes)) orelse (isPrefix "(b " (implode instrDes)))
 		       then let
 			       val fname = (implode o fst o (list_split_pred #">") o snd o (list_split_pred #"<")) instrDes;
 			   in

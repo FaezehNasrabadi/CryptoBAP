@@ -270,7 +270,64 @@ val symbs_sec_text = [
     "Server_decrypt",
     "Server_accept",
     "Client_accept",
-    "Server_pk"
+    "Server_pk",
+    "poll@plt",
+"packet_channel_request@plt",
+"packet_channel_send_data@plt",
+"channel_getfd0@plt",
+"packet_putisready@plt",
+"global_die@plt",
+"geteuid@plt",
+"packet_unimplemented@plt",
+"packet_channel_send_close@plt",
+"channel_readisready@plt",
+"packet_send@plt",
+"open_cwd@plt",
+"buf_purge_@plt",
+"packet_channel_recv_data@plt",
+"channel_getfd2@plt",
+"packet_recvisready@plt",
+"channel_subsystem_log@plt",
+"close@plt",
+"packet_channel_send_eof@plt",
+"__errno_location@plt",
+"buf_put_@plt",
+"log_init@plt",
+"packet_sendisready@plt",
+"packet_kex_send@plt",
+"signal@plt",
+"blocking_disable@plt",
+"load@plt",
+"packet_kexdh@plt",
+"packet_auth@plt",
+"packet_hello_send@plt",
+"packet_hello_receive@plt",
+"packet_channel_open@plt",
+"channel_writeisready@plt",
+"channel_getfd1@plt",
+"connectioninfo@plt",
+"str_equaln@plt",
+"fchdir@plt",
+"packet_channel_recv_extendeddata@plt",
+"channel_iseof@plt",
+"alarm@plt",
+"channel_getfd0@plt",
+"packet_get@plt",
+"global_init@plt",
+"packet_channel_recv_close@plt",
+"die_fatal_@plt",
+"blocking_disable@plt",
+"channel_waitnohang@plt",
+"channel_write@plt",
+"packet_recv@plt",
+"die_fatal_@plt",
+"packet_channel_send_extendeddata@plt",
+"str_len@plt",
+"channel_subsystem_add@plt",
+"channel_extendedreadisready@plt",
+"packet_channel_recv_eof@plt",
+"die_usage@plt",
+"open_pipe@plt"
 ];
 	
 val arch_str         = "arm8";
@@ -383,7 +440,7 @@ val configs              = [ ("client",
                                (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 				    )];*)
  val configs              = [ ("tinyssh",
-                              ("tinyssh.elf.da", "balrob/tinyssh.elf.da.plus", "balrob/tinyssh.elf.mem"),
+                              ("tinysshd.da", "balrob/tinysshd.da.plus", "balrob/tinysshd.mem"),
                               "tinyssh_THM",
 			      ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0x00003564), 
                                (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)), 
@@ -392,8 +449,12 @@ val configs              = [ ("client",
 
  val symb_filter_lift = fn secname =>
   case secname of
-      ".text" => (fn symbname => List.exists (fn x => x = symbname) symbs_sec_text)
+      ".text" => (fn symbname => true)
     | _       => (K false);
 
+(* val symb_filter_lift = fn secname =>
+  case secname of
+      ".text" => (fn symbname => List.exists (fn x => x = symbname) symbs_sec_text)
+    | _       => (K false);*)
 
 end (* struct *)

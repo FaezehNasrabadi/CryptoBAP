@@ -26,7 +26,7 @@ fun is_function_call (n_dict : (term, cfg_node) dict) (lbl_tm : term) =
 			    val descr  = (valOf o #CFGN_hc_descr) n;
 			    val instrDes = (snd o (list_split_pred #" ") o explode) descr;
 			in
-			    if String.isPrefix "(bl " (implode instrDes)
+			    if ((String.isPrefix "(bl " (implode instrDes)) orelse (String.isPrefix "(b " (implode instrDes)))
 			    then true
 			    else false
 			  end;
@@ -230,7 +230,7 @@ fun lib_oracle_type_label adr_dict label =
 	    else if (find_from_dict = (List.nth (C_fun_names, 7))) then
 		"event2"
 	    (*part of memory that fail function exist*)
-	    else if ((find_from_dict = (List.nth (C_fun_names, 8))) orelse (find_from_dict = (List.nth (C_fun_names, 9))) orelse (find_from_dict = (List.nth (C_fun_names, 14)))) then
+	    else if ((find_from_dict = (List.nth (C_fun_names, 8))) orelse (find_from_dict = (List.nth (C_fun_names, 9))) orelse (find_from_dict = (List.nth (C_fun_names, 14))) orelse (find_from_dict = (List.nth (C_fun_names, 20))) orelse (find_from_dict = (List.nth (C_fun_names, 21))) orelse (find_from_dict = (List.nth (C_fun_names, 22)))) then
 		"Fail"
 	    (*part of memory that OTP function exist*)
 	    else if (find_from_dict = (List.nth (C_fun_names, 10))) then
@@ -244,6 +244,12 @@ fun lib_oracle_type_label adr_dict label =
 	    (*part of memory that third event function exist*)
 	    else if (find_from_dict = (List.nth (C_fun_names, 13))) then
 		"SKey"
+	    else if (find_from_dict = (List.nth (C_fun_names, 15))) then
+		"Signature"
+	    else if (find_from_dict = (List.nth (C_fun_names, 16))) then
+		"Verify"
+	    else if ((find_from_dict = (List.nth (C_fun_names, 17))) orelse (find_from_dict = (List.nth (C_fun_names, 18))) orelse (find_from_dict = (List.nth (C_fun_names, 19)))) then
+		"LoadFile"
 	    else
 		"C_Lib";
 	    

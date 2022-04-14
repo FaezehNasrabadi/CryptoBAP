@@ -1,7 +1,0 @@
-new SKey_2 fixed_64 
-let kS_4 = kgen(SKey_2) in
-event Client_accept hClient hServer 
-in c, Adv_56 
-let msg_73 = dec(Cipher) in
-if (81_R0=0) then
-event Server_accept hClient hServer 

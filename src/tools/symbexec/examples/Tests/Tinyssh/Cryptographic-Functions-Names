@@ -1,16 +1,24 @@
 The cryptographic functions names are as follows:
+load
+tinyssh_enc
+tinyssh_dec
+tinyssh_hash
 
 
-Server_decrypt
+AcceptS
+AcceptS2
+die_fatal_
+__stack_chk_fail@plt
 
 
 
-Client_accept
-Server_accept
-die_fatal_@plt
-die_usage@plt
-
-
-
-Server_pk
-global_die@plt
+receive_new_key
+__errno_location@plt
+subprocess_sign
+subprocess_auth
+open_read
+read@plt
+open@plt
+abort@plt
+sleep@plt
+die_usage

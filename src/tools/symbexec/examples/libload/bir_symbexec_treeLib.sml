@@ -545,11 +545,11 @@ fun path_of_tree event_names vals_list refine_preds exec_sts [] str =
 	     else (to_string o Br_True) (IMLExp_from_pred vals_list exec_sts pred))
 		  else if (String.isSuffix "assert_false_cnd" pred) then (assert_false_string event_names vals_list exec_sts pred)
 		  else if (String.isSuffix "cjmp_false_cnd" pred) then ""
-		  else if ((String.isSuffix "Key" pred) orelse (String.isSuffix "iv" pred) orelse (String.isSuffix "RAND_NUM" pred) orelse (String.isSuffix "OTP" pred) orelse (String.isSuffix "SKey" pred)) then (to_string o Fr_to_New) pred
+		  else if ((String.isSuffix "Key" pred) orelse (String.isSuffix "iv" pred) orelse (String.isSuffix "Pub-Key" pred) orelse (String.isSuffix "Sec-Key" pred) orelse (String.isSuffix "RAND_NUM" pred) orelse (String.isSuffix "OTP" pred) orelse (String.isSuffix "SKey" pred)) then (to_string o Fr_to_New) pred
 		  else if (String.isSuffix "K" pred) then (K_to_Out vals_list refine_preds exec_sts pred preds)
 		  else if (String.isSuffix "Adv" pred) then (to_string o D_to_In) pred
 		  else if (String.isSuffix "XOR" pred) then (Xor_to_IML vals_list pred)
-		  else if ((String.isSuffix "msg" pred) orelse (String.isSuffix "cipher" pred) orelse (String.isSuffix "kS" pred) orelse (String.isSuffix "kAB" pred)) then (Let_to_IML vals_list pred)
+		  else if ((String.isSuffix "msg" pred) orelse (String.isSuffix "signature" pred) orelse (String.isSuffix "verify" pred) orelse (String.isSuffix "cipher" pred) orelse (String.isSuffix "kS" pred) orelse (String.isSuffix "kAB" pred)) then (Let_to_IML vals_list pred)
 		  else if ((String.isSuffix "event_true_cnd" pred) orelse (String.isSuffix "event1" pred) orelse (String.isSuffix "event2" pred) orelse (String.isSuffix "event3" pred) orelse (String.isSuffix "event_false_cnd" pred))
 		  then (IML_event event_names pred)
 		  else "";

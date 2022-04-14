@@ -257,13 +257,27 @@ fun symb_exec_adversary_block abpfun n_dict bl_dict syst =
 
 		val (lbl_block_tm, bl_stmts, est) = dest_bir_block bl;
 
-		val syst = bir_symbexec_funcLib.store_link bl_stmts syst; (* store link register *)
+		val syst = if ((not o List.null o fst o listSyntax.dest_list) bl_stmts)
+		   then
+		        bir_symbexec_funcLib.store_link bl_stmts syst(* store link register *)
+		   else
+		       syst;		    	
 
 		val av = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Adv", “BType_Imm Bit64”)); (* generate a fresh variable *)
 
 		val syst = bir_symbexec_funcLib.Adv av syst; (* update env, vals & pred *)
 		    
-		val systs = [bir_symbexec_funcLib.update_pc syst];(* update symb_state with new pc *)
+		val systs = if ((not o List.null o fst o listSyntax.dest_list) bl_stmts)
+			    then
+				[bir_symbexec_funcLib.update_pc syst](* update symb_state with new pc *)
+			    else		
+				let
+				    val wpc = (bir_immSyntax.dest_Imm64 o dest_BL_Address) lbl_tm;
+				    val incpc = (rhs o concl o EVAL o wordsSyntax.mk_word_add) (wpc,``4w:word64``);
+				    val tgt = (mk_BL_Address o bir_immSyntax.mk_Imm64) incpc;
+				in
+				    [SYST_update_pc tgt syst](* update symb_state  with new pc *)
+				end;
 
 		val systs_processed = abpfun systs; 
 	    in
@@ -279,8 +293,12 @@ fun symb_exec_library_block abpfun n_dict bl_dict adr_dict syst =
 
 		val (lbl_block_tm, bl_stmts, est) = dest_bir_block bl;
 
-		val syst = bir_symbexec_funcLib.store_link bl_stmts syst;(* store link register *)
-		    	
+		val syst = if ((not o List.null o fst o listSyntax.dest_list) bl_stmts)
+		   then
+		        bir_symbexec_funcLib.store_link bl_stmts syst(* store link register *)
+		   else
+		       syst;		    	
+
 		val lib_type = bir_symbexec_oracleLib.lib_oracle adr_dict (!ret_list) est syst; (* detect type of library call *)
 
 		val _ = if false then () else
@@ -292,7 +310,10 @@ fun symb_exec_library_block abpfun n_dict bl_dict adr_dict syst =
 			   else if (lib_type = "SKey") then [bir_symbexec_funcLib.session_key syst]
 			   else if (lib_type = "Encryption") then [bir_symbexec_funcLib.Encryption syst]
 			   else if (lib_type = "Decryption") then [bir_symbexec_funcLib.Decryption syst]
+			   else if (lib_type = "Signature") then [bir_symbexec_funcLib.Signature syst]
+			   else if (lib_type = "Verify") then [bir_symbexec_funcLib.Verify syst]
 			   else if (lib_type = "MEMcpy") then [bir_symbexec_funcLib.New_memcpy syst]
+			   else if (lib_type = "LoadFile") then [bir_symbexec_funcLib.Load_file syst]
 			   else if (lib_type = "OTP") then [bir_symbexec_funcLib.One_Time_Pad syst]
 			   else if (lib_type = "RNG") then [bir_symbexec_funcLib.Random_Number syst]
 			   else if (lib_type = "XOR") then [bir_symbexec_funcLib.Xor syst]
@@ -300,7 +321,17 @@ fun symb_exec_library_block abpfun n_dict bl_dict adr_dict syst =
 			   else if ((lib_type = "event1") orelse (lib_type = "event2") orelse (lib_type = "event3")) then (bir_symbexec_funcLib.Event lib_type syst)
 			   else [syst];
 
-		val systs = (List.map (fn x => bir_symbexec_funcLib.update_pc x) systs);(* update symb_state with new pc *)
+		val systs = if ((not o List.null o fst o listSyntax.dest_list) bl_stmts)
+			    then
+				(List.map (fn x => bir_symbexec_funcLib.update_pc x) systs)(* update symb_state with new pc *)
+			    else		
+				let
+				    val wpc = (bir_immSyntax.dest_Imm64 o dest_BL_Address) lbl_tm;
+				    val incpc = (rhs o concl o EVAL o wordsSyntax.mk_word_add) (wpc,``4w:word64``);
+				    val tgt = (mk_BL_Address o bir_immSyntax.mk_Imm64) incpc;
+				in
+				    (List.map (fn x => SYST_update_pc tgt x) systs)(* update symb_state  with new pc *)
+				end;
 		    
 		val systs_processed = abpfun systs; 
 	    in
@@ -318,7 +349,7 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 	     val _ = if true then () else
 		     print_term (SYST_get_status syst);
 
-	     val _ = if true then () else
+	     val _ = if false then () else
 		     print_term (lbl_block_tm);
 
 	     val _ = if true then () else
@@ -329,13 +360,16 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 
 	     val _ = if bir_symbexec_oracleLib.is_function_call n_dict lbl_tm
 		     then
-			 let
-			     val s_tm_0 = List.nth (s_tms, 0);
-			     val (bv, be) = dest_BStmt_Assign s_tm_0;
-			 in
-			     ret_list := (be, 0)::(!ret_list)
-			 end
-
+			 if ((not o List.null o fst o listSyntax.dest_list) stmts)
+			 then
+			     let
+				 val syst = bir_symbexec_funcLib.store_link stmts syst;
+				 val s_tm_0 = List.nth (s_tms, 0);
+				 val (bv, be) = dest_BStmt_Assign s_tm_0;
+			     in
+				 ret_list := (be, 0)::(!ret_list)
+			     end
+			 else ()
 		     else ();
 		 
 	     val debugOn = false;
@@ -344,7 +378,29 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 
 	     val systs2 = List.foldl (fn (s, systs) => List.concat(List.map (fn x => symb_exec_stmt (s,x)) systs)) [syst] s_tms;   
 	     (* generate list of states from end statement *)
-	     val systs = List.concat(List.map (symb_exec_endstmt n_dict lbl_tm est) systs2);
+
+	     val systs = if bir_symbexec_oracleLib.is_function_call n_dict lbl_tm
+			 then
+			     if ((not o List.null o fst o listSyntax.dest_list) stmts)
+			     then
+				 (List.map (fn x => bir_symbexec_funcLib.update_pc x) systs2)
+			     else		
+				 let
+				     val wpc = (bir_immSyntax.dest_Imm64 o dest_BL_Address) lbl_tm;
+				     val incpc = (rhs o concl o EVAL o wordsSyntax.mk_word_add) (wpc,``4w:word64``);
+				     val tgt = (mk_BL_Address o bir_immSyntax.mk_Imm64) incpc;
+				 in
+				     (List.map (fn x => SYST_update_pc tgt x) systs2)
+				 end
+			 else
+			      List.concat(List.map (symb_exec_endstmt n_dict lbl_tm est) systs2);
+
+	     (*
+	    val systs = if bir_symbexec_oracleLib.is_function_call n_dict lbl_tm
+			 then (List.map (fn x => bir_symbexec_funcLib.update_pc x) systs)
+			 else systs;*)
+		 
+
 	     val systs_processed = abpfun systs;
 			 
 	    in

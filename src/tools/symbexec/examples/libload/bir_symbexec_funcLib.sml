@@ -18,6 +18,10 @@ val _ = Parse.type_abbrev("exclusive_or", ``:bir_var_t list -> bir_exp_t``);
 
 val _ = Parse.type_abbrev("enc", ``:bir_var_t list -> bir_var_t -> bir_exp_t``);
 
+val _ = Parse.type_abbrev("sign", ``:bir_var_t list -> bir_var_t -> bir_exp_t``);
+
+val _ = Parse.type_abbrev("ver", ``:bir_var_t list -> bir_var_t -> bir_exp_t``);
+    
 val _ = Parse.type_abbrev("dec", ``:bir_var_t list -> bir_exp_t``);
 
     
@@ -70,6 +74,28 @@ fun encrypt inputs iv =
 	dest_BStmt_Assign stmt
     end;
 
+fun Sign inputs sk =
+    let
+	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
+			(sign
+			     (inputs)
+			     (sk))``;
+
+    in
+	dest_BStmt_Assign stmt
+    end;
+    
+fun verify inputs sk =
+    let
+	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
+			(ver
+			     (inputs)
+			     (pk))``;
+
+    in
+	dest_BStmt_Assign stmt
+    end;
+    
 fun decrypt Cipher =
     let
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
@@ -144,10 +170,9 @@ fun store_link bl_stmts syst =
 	val (bv, be) = dest_BStmt_Assign s_tm_0; (* extract bir expression *)
 	val Fr_bv = get_bvar_fresh bv; (* generate a fresh link *)
 	val syst =  update_envvar bv Fr_bv syst; (* update environment *)
-
 	val symbv = bir_symbexec_coreLib.compute_valbe be syst;
-
 	val syst = insert_symbval Fr_bv symbv syst; (* update symbolic value *)
+
     in
 	syst
     end;
@@ -423,6 +448,58 @@ fun Decryption syst =
 	syst
     end;
 
+fun Signature syst =
+    let
+	
+	val n = List.nth (readint_inputs "Library-number of inputs", 0);
+	val inputs = compute_inputs (n-2) syst; (* get values *)
+	    
+	val sk = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Sec-Key", “BType_Imm Bit64”)); (* generate a fresh sk *)
+	
+	val syst = update_path sk syst; (* update path condition *)  
+
+	val (S_bv, S_be) = Sign inputs sk; (* Sign with sk *)
+
+	val Fr_Sig = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Sig", “BType_Imm Bit64”)); (* generate a fresh variable *)
+
+	val stmt = ``BStmt_Assign (Fr_Sig) (S_bv)``; (* assign value of R0 to the fresh variable *)
+	
+	val syst = state_add_path "signature" S_be syst; (* update path condition *)
+	    
+	val syst = update_lib_syst S_be Fr_Sig syst; (* update syst *)
+
+	val syst = add_knowledges_to_adv 0 syst; (*The adversary has a right to know the output of the signature function.*)
+	
+    in
+	syst
+    end;
+
+
+ fun Verify syst =
+    let
+	
+	val n = List.nth (readint_inputs "Library-number of inputs", 0);
+	val inputs = compute_inputs (n-2) syst; (* get values *)
+	    
+	val pk = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Pub-Key", “BType_Imm Bit64”)); (* generate a fresh sk *)
+	
+	val syst = update_path pk syst; (* update path condition *)  
+
+	val (V_bv, V_be) = verify inputs pk; (* Sign with sk *)
+
+	val Fr_Ver = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Ver", “BType_Imm Bit64”)); (* generate a fresh variable *)
+
+	val stmt = ``BStmt_Assign (Fr_Ver) (V_bv)``; (* assign value of R0 to the fresh variable *)
+	
+	val syst = state_add_path "verify" V_be syst; (* update path condition *)
+	    
+	val syst = update_lib_syst V_be Fr_Ver syst; (* update syst *)
+	
+    in
+	syst
+    end;
+
+     
 fun HMAC_Send syst =
     let
 	val n = List.nth (readint_inputs "Library-number of inputs", 0);
@@ -512,6 +589,44 @@ fun New_memcpy syst =
 	syst
     end;
 
+(*    
+fun Load_file syst =
+    let
+	
+	val bv_mem = find_bv_val ("New_memcpy::bv in env not found") (SYST_get_env syst) “BVar "MEM" (BType_Mem Bit64 Bit8)”;
+		    
+	val Fr_load = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Load", “BType_Imm Bit64”)); (* generate a fresh variable *)
+
+	val endi = “BEnd_LittleEndian”;
+
+	val Vtype = “Bit64”;
+		    
+	val be = (mk_BExp_Load (mk_BExp_Den(bv_mem), mk_BExp_Den(Fr_load), endi, Vtype));
+
+	val Fr_r1 = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("R1", “BType_Imm Bit64”));
+
+	val syst =  update_envvar “BVar "R1" (BType_Imm Bit64)” Fr_r1 syst; (* update environment *)  
+	
+	val syst = update_symbval be Fr_r1 syst; (* update symbolic value *)
+    in
+	syst
+    end;
+ *)
+
+fun Load_file syst =
+    let
+	
+	val lf = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Load", “BType_Imm Bit64”)); (* generate a fresh variable *)	    	
+
+	val Fn_lf = mk_BExp_Den(get_bvar_fresh (bir_envSyntax.mk_BVar_string ("load", “BType_Imm Bit64”))); (* generate a fresh name *)
+	    
+	val syst = update_with_fresh_name Fn_lf lf syst;
+
+	val syst = state_add_path "L_File" Fn_lf syst; (* update path condition *)
+
+    in
+	syst
+    end;
 
     
 end(*local*)
