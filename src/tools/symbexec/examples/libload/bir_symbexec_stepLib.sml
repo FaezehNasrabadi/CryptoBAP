@@ -5,8 +5,6 @@ local
   open bir_symbexec_stateLib;
   open bir_symbexec_coreLib;
 
-  val ret_list = ref ([] : (term * int) list);
-
   val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_stepLib"
   val wrap_exn = Feedback.wrap_exn   "bir_symbexec_stepLib"
 in (* outermost local *)
@@ -123,17 +121,6 @@ local
       val cnd     = fst (List.nth (vs, 0));
       val tgt1    = fst (List.nth (vs, 1));
       val tgt2    = fst (List.nth (vs, 2));
-
-      val _ = if (null (!ret_list))
-	      then ()
-	      else
-		  let
-		      val (be, flag) = hd(!ret_list);
-
-		  in
-		      ret_list := (be, flag+1)::(tl(!ret_list))
-		  end;
-
     in
       state_branch_simp
          "cjmp"
@@ -176,8 +163,6 @@ local
                   raise state_exec_try_jmp_exp_var_exn);(*ERR "state_exec_try_jmp_exp_var"
                     ("target value is no const: " ^ (term_to_string bvalo));*)
 
-
-      val _ = ret_list := tl(!ret_list);
     in
       [SYST_update_pc tgt syst]
     end
@@ -189,15 +174,9 @@ local
 
   fun state_exec_try_jmp_exp_var_no_const syst =
       let
-	  val (be, flag) = hd(!ret_list);
-
-	  val _ = if (flag = 0)
-		  then
-		      ret_list := tl(!ret_list)
-		  else
-		      ret_list := (be, flag-1)::(tl(!ret_list));
-
-	  val tgt = (mk_BL_Address o bir_expSyntax.dest_BExp_Const) be;
+	  val indjmps = SYST_get_indjmp syst;
+	  val tgt = (mk_BL_Address o bir_expSyntax.dest_BExp_Const o hd) indjmps;
+	  val syst = SYST_update_indjmp (tl indjmps) syst;    
       in
 	  [SYST_update_pc tgt syst]
       end;
@@ -299,7 +278,7 @@ fun symb_exec_library_block abpfun n_dict bl_dict adr_dict syst =
 		   else
 		       syst;		    	
 
-		val lib_type = bir_symbexec_oracleLib.lib_oracle adr_dict (!ret_list) est syst; (* detect type of library call *)
+		val lib_type = bir_symbexec_oracleLib.lib_oracle adr_dict est syst; (* detect type of library call *)
 
 		val _ = if false then () else
 			print ("Lib type: " ^ (lib_type) ^ "\n");
@@ -358,19 +337,19 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 	     val s_tms = (fst o listSyntax.dest_list) stmts;
 
 
-	     val _ = if bir_symbexec_oracleLib.is_function_call n_dict lbl_tm
+	     val syst = if bir_symbexec_oracleLib.is_function_call n_dict lbl_tm
 		     then
 			 if ((not o List.null o fst o listSyntax.dest_list) stmts)
 			 then
 			     let
-				 val syst = bir_symbexec_funcLib.store_link stmts syst;
 				 val s_tm_0 = List.nth (s_tms, 0);
 				 val (bv, be) = dest_BStmt_Assign s_tm_0;
+				 val indjmps = SYST_get_indjmp syst;   
 			     in
-				 ret_list := (be, 0)::(!ret_list)
+				 SYST_update_indjmp (be::indjmps) syst
 			     end
-			 else ()
-		     else ();
+			 else syst
+		     else syst;
 		 
 	     val debugOn = false;
 	     val _ = if not debugOn then () else
@@ -379,11 +358,13 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 	     val systs2 = List.foldl (fn (s, systs) => List.concat(List.map (fn x => symb_exec_stmt (s,x)) systs)) [syst] s_tms;   
 	     (* generate list of states from end statement *)
 
-	     val systs = if bir_symbexec_oracleLib.is_function_call n_dict lbl_tm
+	     val systs =  List.concat(List.map (symb_exec_endstmt n_dict lbl_tm est) systs2);
+		 
+ 	 (*       val systs = if bir_symbexec_oracleLib.is_function_call n_dict lbl_tm
 			 then
 			     if ((not o List.null o fst o listSyntax.dest_list) stmts)
 			     then
-				 (List.map (fn x => bir_symbexec_funcLib.update_pc x) systs2)
+				  List.concat(List.map (symb_exec_endstmt n_dict lbl_tm est) systs2)
 			     else		
 				 let
 				     val wpc = (bir_immSyntax.dest_Imm64 o dest_BL_Address) lbl_tm;
@@ -395,7 +376,7 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 			 else
 			      List.concat(List.map (symb_exec_endstmt n_dict lbl_tm est) systs2);
 
-	     (*
+
 	    val systs = if bir_symbexec_oracleLib.is_function_call n_dict lbl_tm
 			 then (List.map (fn x => bir_symbexec_funcLib.update_pc x) systs)
 			 else systs;*)
@@ -414,11 +395,11 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 	    let
 		val bl = (valOf o (lookup_block_dict bl_dict)) lbl_tm;
 		val (lbl_block_tm, stmts, est) = dest_bir_block bl;
-		val pc_type = bir_symbexec_oracleLib.fun_oracle adr_dict (!ret_list) est syst;
+		val pc_type = bir_symbexec_oracleLib.fun_oracle adr_dict est syst;
 
 		val _ = if true then () else
 			print_term (est);
-		val _ = if true then () else
+		val _ = if false then () else
 			print ("pc_type: " ^ (pc_type) ^ "\n");
 	    in
 		if (pc_type = "Adversary") then symb_exec_adversary_block abpfun n_dict bl_dict syst

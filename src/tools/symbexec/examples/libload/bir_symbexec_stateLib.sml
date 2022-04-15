@@ -64,6 +64,8 @@ datatype symb_state =
       SYST_status : term,
       (* symbolic observation list: id, condition, value list, aggregation function *)
       SYST_obss   : (Arbnum.num * term * term list * term) list,
+      (* list of indirect jumps *)
+      SYST_indjmp   : term list,
       (* path condition conjuncts *)
       SYST_pred   : term list,
       (* abstracted symbolic values for some "fresh" variables *)
@@ -85,17 +87,20 @@ fun SYST_get_status (SymbState systr) =
   #SYST_status systr;
 fun SYST_get_obss   (SymbState systr) =
   #SYST_obss systr;
+fun SYST_get_indjmp   (SymbState systr) =
+  #SYST_indjmp systr;
 fun SYST_get_pred   (SymbState systr) =
-  #SYST_pred systr;
+    #SYST_pred systr;
 fun SYST_get_vals   (SymbState systr) =
   #SYST_vals systr;
 
-fun SYST_mk pc env status obss pred vals =
+fun SYST_mk pc env status obss indjmp pred vals =
   SymbState {SYST_pc     = pc,
              SYST_env    = env,
              SYST_status = status,
              SYST_obss   = obss,
-             SYST_pred   = pred,
+             SYST_indjmp   = indjmp,
+	     SYST_pred   = pred,
              SYST_vals   = vals };
 
 fun SYST_update_pc pc' (SymbState systr) =
@@ -103,6 +108,7 @@ fun SYST_update_pc pc' (SymbState systr) =
           (#SYST_env    systr)
           (#SYST_status systr)
           (#SYST_obss   systr)
+	  (#SYST_indjmp systr)
           (#SYST_pred   systr)
           (#SYST_vals   systr);
 fun SYST_update_env env' (SymbState systr) =
@@ -110,6 +116,7 @@ fun SYST_update_env env' (SymbState systr) =
           (env')
           (#SYST_status systr)
           (#SYST_obss   systr)
+	  (#SYST_indjmp systr)
           (#SYST_pred   systr)
           (#SYST_vals   systr);
 fun SYST_update_status status' (SymbState systr) =
@@ -117,6 +124,7 @@ fun SYST_update_status status' (SymbState systr) =
           (#SYST_env    systr)
           (status')
           (#SYST_obss   systr)
+	  (#SYST_indjmp systr)
           (#SYST_pred   systr)
           (#SYST_vals   systr);
 fun SYST_update_obss obss' (SymbState systr) =
@@ -124,13 +132,23 @@ fun SYST_update_obss obss' (SymbState systr) =
           (#SYST_env    systr)
           (#SYST_status systr)
           (obss')
+	  (#SYST_indjmp systr)
           (#SYST_pred   systr)
           (#SYST_vals   systr);
+fun SYST_update_indjmp indjmp' (SymbState systr) =
+  SYST_mk (#SYST_pc     systr)
+          (#SYST_env    systr)
+          (#SYST_status systr)
+          (#SYST_obss   systr)
+	  (indjmp')
+          (#SYST_pred   systr)
+          (#SYST_vals   systr);    
 fun SYST_update_pred pred' (SymbState systr) =
   SYST_mk (#SYST_pc     systr)
           (#SYST_env    systr)
           (#SYST_status systr)
           (#SYST_obss   systr)
+	  (#SYST_indjmp systr)
           (pred')
           (#SYST_vals   systr);
 fun SYST_update_vals vals' (SymbState systr) =
@@ -138,6 +156,7 @@ fun SYST_update_vals vals' (SymbState systr) =
           (#SYST_env    systr)
           (#SYST_status systr)
           (#SYST_obss   systr)
+	  (#SYST_indjmp systr)
           (#SYST_pred   systr)
           (vals');
 
@@ -221,6 +240,7 @@ in
               (Redblackmap.fromList Term.compare envlist_progvars)
               BST_Running_tm
               []
+	      []
               []
               (Redblackmap.fromList Term.compare [])
     end;

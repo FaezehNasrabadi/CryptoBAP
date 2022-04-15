@@ -2,7 +2,7 @@ The cryptographic functions names are as follows:
 load
 tinyssh_enc
 tinyssh_dec
-tinyssh_hash
+crypto_hash_sha512_tinyssh
 
 
 AcceptS
@@ -10,11 +10,11 @@ AcceptS2
 die_fatal_
 __stack_chk_fail@plt
 
-
+randombytes
 
 receive_new_key
 __errno_location@plt
-subprocess_sign
+crypto_sign_ed25519_tinyssh
 subprocess_auth
 open_read
 read@plt
@@ -22,3 +22,4 @@ open@plt
 abort@plt
 sleep@plt
 die_usage
+global_die

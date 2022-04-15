@@ -258,6 +258,7 @@ in (* local *)
                env'
                status
                []
+	       []
                pred_bvs
                vals);
       val syst_new = tidyup_state_vals syst_merged;
@@ -570,7 +571,7 @@ fun instantiate_summary_single syst_summary syst =
                List.null obss_func then () else
             raise ERR "script_syst_instanciate" "cannot handle observations for now";
     val obss_inst = [];
-
+    val indjmp_inst = [];
     (* prep: vals and env *)
     val vals_strt = SYST_get_vals syst_strt;
     val vals_func = SYST_get_vals syst_func;
@@ -619,6 +620,7 @@ fun instantiate_summary_single syst_summary syst =
               env_inst
               status_inst
               obss_inst
+	      indjmp_inst
               pred_inst
               vals_inst;
     val syst_after = tidyup_state_vals syst_after_raw;

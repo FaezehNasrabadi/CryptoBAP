@@ -76,10 +76,10 @@ val systs = bir_symbexec_stepLib.symb_exec_to_stop (abpfun cfb) n_dict bl_dict_ 
 (*val est = ``BStmt_Jmp
                     (BLE_Exp (BExp_Den (BVar "R30" (BType_Imm Bit64))))``;*)
 
-fun state_exec_try_jmp_exp_var_out ret_list est syst =
+fun state_exec_try_jmp_exp_var_out est syst =
     let
-	val (be, flag) = hd(ret_list);
-	val tgt = (mk_BL_Address o bir_expSyntax.dest_BExp_Const) be
+	val indjmps = SYST_get_indjmp syst;
+	val tgt = (mk_BL_Address o bir_expSyntax.dest_BExp_Const o hd) indjmps;
     in
 	tgt 
     end;
@@ -178,20 +178,20 @@ fun fun_oracle_type_label adr_dict label =
 	lbl
     end;
 
-fun fun_oracle_Address ret_list est syst =
+fun fun_oracle_Address est syst =
     let
 	val target_label = if is_BStmt_CJmp est then state_exec_try_cjmp_label_out est syst
 			   else if is_BStmt_Halt est then (bir_expSyntax.dest_BExp_Const o dest_BStmt_Halt) est
 			   else if (is_BLE_Label o dest_BStmt_Jmp) est then (dest_BLE_Label o dest_BStmt_Jmp) est
-			   else if (is_BLE_Exp o dest_BStmt_Jmp) est then state_exec_try_jmp_exp_var_out ret_list est syst
+			   else if (is_BLE_Exp o dest_BStmt_Jmp) est then state_exec_try_jmp_exp_var_out est syst
 			   else raise ERR "fun_orcle_Address" ("cannot handle target label " ^ (term_to_string est));
     in
 	target_label
     end;
 
-fun fun_oracle adr_dict ret_list est syst =
+fun fun_oracle adr_dict est syst =
     let
-	val target_label = fun_oracle_Address ret_list est syst;
+	val target_label = fun_oracle_Address est syst;
     in
 	(fun_oracle_type_label adr_dict target_label)
     end;
@@ -230,7 +230,7 @@ fun lib_oracle_type_label adr_dict label =
 	    else if (find_from_dict = (List.nth (C_fun_names, 7))) then
 		"event2"
 	    (*part of memory that fail function exist*)
-	    else if ((find_from_dict = (List.nth (C_fun_names, 8))) orelse (find_from_dict = (List.nth (C_fun_names, 9))) orelse (find_from_dict = (List.nth (C_fun_names, 14))) orelse (find_from_dict = (List.nth (C_fun_names, 20))) orelse (find_from_dict = (List.nth (C_fun_names, 21))) orelse (find_from_dict = (List.nth (C_fun_names, 22)))) then
+	    else if ((find_from_dict = (List.nth (C_fun_names, 8))) orelse (find_from_dict = (List.nth (C_fun_names, 9))) orelse (find_from_dict = (List.nth (C_fun_names, 14))) orelse (find_from_dict = (List.nth (C_fun_names, 20))) orelse (find_from_dict = (List.nth (C_fun_names, 21))) orelse (find_from_dict = (List.nth (C_fun_names, 22))) orelse (find_from_dict = (List.nth (C_fun_names, 23)))) then
 		"Fail"
 	    (*part of memory that OTP function exist*)
 	    else if (find_from_dict = (List.nth (C_fun_names, 10))) then
@@ -257,9 +257,9 @@ fun lib_oracle_type_label adr_dict label =
 	lbl
     end;
 
-fun lib_oracle adr_dict ret_list est syst =
+fun lib_oracle adr_dict est syst =
     let
-	val target_label = fun_oracle_Address ret_list est syst;
+	val target_label = fun_oracle_Address est syst;
     in
 	(lib_oracle_type_label adr_dict target_label)
     end;    
