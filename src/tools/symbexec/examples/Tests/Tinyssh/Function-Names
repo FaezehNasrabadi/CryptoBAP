@@ -84,4 +84,6 @@ crypto_hash_sha512_tinyssh
 crypto_sign_ed25519_tinyssh
 sshcrypto_cipher_put
 sshcrypto_cipher_put+0x2c
-packet_kex_send
+buf_put_
+buf_purge_
+cleanup_

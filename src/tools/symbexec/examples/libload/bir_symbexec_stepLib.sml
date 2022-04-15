@@ -278,7 +278,7 @@ fun symb_exec_library_block abpfun n_dict bl_dict adr_dict syst =
 		   else
 		       syst;		    	
 
-		val lib_type = bir_symbexec_oracleLib.lib_oracle adr_dict est syst; (* detect type of library call *)
+		val lib_type = bir_symbexec_oracleLib.lib_oracle adr_dict lbl_tm syst; (* detect type of library call *)
 
 		val _ = if false then () else
 			print ("Lib type: " ^ (lib_type) ^ "\n");
@@ -328,7 +328,7 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 	     val _ = if true then () else
 		     print_term (SYST_get_status syst);
 
-	     val _ = if false then () else
+	     val _ = if true then () else
 		     print_term (lbl_block_tm);
 
 	     val _ = if true then () else
@@ -393,12 +393,10 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
     fun symb_exec_block abpfun n_dict bl_dict adr_dict syst =
 	let val lbl_tm = SYST_get_pc syst; in
 	    let
-		val bl = (valOf o (lookup_block_dict bl_dict)) lbl_tm;
-		val (lbl_block_tm, stmts, est) = dest_bir_block bl;
-		val pc_type = bir_symbexec_oracleLib.fun_oracle adr_dict est syst;
+		val pc_type = bir_symbexec_oracleLib.fun_oracle adr_dict lbl_tm syst;
 
 		val _ = if true then () else
-			print_term (est);
+			print_term (lbl_tm);
 		val _ = if false then () else
 			print ("pc_type: " ^ (pc_type) ^ "\n");
 	    in

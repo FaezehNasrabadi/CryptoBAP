@@ -26,7 +26,7 @@ fun is_function_call (n_dict : (term, cfg_node) dict) (lbl_tm : term) =
 			    val descr  = (valOf o #CFGN_hc_descr) n;
 			    val instrDes = (snd o (list_split_pred #" ") o explode) descr;
 			in
-			    if ((String.isPrefix "(bl " (implode instrDes)) orelse (String.isPrefix "(b " (implode instrDes)))
+			    if ((String.isPrefix "(bl " (implode instrDes)) orelse (String.isPrefix "(b " (implode instrDes)) orelse (String.isPrefix "(blr " (implode instrDes)))
 			    then true
 			    else false
 			  end;
@@ -189,12 +189,9 @@ fun fun_oracle_Address est syst =
 	target_label
     end;
 
-fun fun_oracle adr_dict est syst =
-    let
-	val target_label = fun_oracle_Address est syst;
-    in
-	(fun_oracle_type_label adr_dict target_label)
-    end;
+fun fun_oracle adr_dict lbl_tm syst =
+	(fun_oracle_type_label adr_dict lbl_tm);
+
 
 fun lib_oracle_type_label adr_dict label =
     let
@@ -257,12 +254,9 @@ fun lib_oracle_type_label adr_dict label =
 	lbl
     end;
 
-fun lib_oracle adr_dict est syst =
-    let
-	val target_label = fun_oracle_Address est syst;
-    in
-	(lib_oracle_type_label adr_dict target_label)
-    end;    
+fun lib_oracle adr_dict lbl_tm syst =
+    	(lib_oracle_type_label adr_dict lbl_tm);
+  
     
 end(*local*)
 

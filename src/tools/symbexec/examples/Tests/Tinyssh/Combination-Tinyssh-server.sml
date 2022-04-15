@@ -32,8 +32,9 @@ val stop_lbl_tms = [``BL_Address (Imm64 4201756w)``];
 val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
 
 val adr_dict = bir_symbexec_PreprocessLib.fun_addresses_dict bl_dict_ prog_lbl_tms_;
-(* val b = listItems adr_dict; *)
-
+(* val b = Redblackmap.find(adr_dict,“BL_Address (Imm64 4235844w)”); 
+    listItems adr_dict
+    val n = valOf (peek (n_dict, “BL_Address (Imm64 4235844w)”));*)
 val syst = init_state lbl_tm prog_vars;
 
 val pred_conjs = [``bir_exp_true``];
@@ -50,9 +51,34 @@ val _ = print "finished exploration of all paths.\n\n";
 val _ = print ("number of paths found: " ^ (Int.toString (length systs)));
 val _ = print "\n\n";
 
+val (systs_noassertfailed, systs_assertfailed) =
+  List.partition (fn syst => not (identical (SYST_get_status syst) BST_AssertionViolated_tm)) systs;
+val _ = print ("number of \"no assert failed\" paths found: " ^ (Int.toString (length systs_noassertfailed)));
+val _ = print "\n\n";
+val _ = print ("number of \"assert failed\" paths found: " ^ (Int.toString (length systs_assertfailed)));
+val _ = print "\n\n";
+
+   
+val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs_noassertfailed;
+  
  (*************)
     
-val lbl_tm = ``BL_Address (Imm64 4201948w)``;
+val lbl_tm = ``BL_Address (Imm64 4210144w)``;
+val stop_lbl_tms = [``BL_Address (Imm64 4211776w)``];
+val syst = init_state lbl_tm prog_vars;
+val pred_conjs = [``bir_exp_true``];
+val syst = state_add_preds "init_pred" pred_conjs syst;
+val systs = symb_exec_to_stop (abpfun cfb) n_dict bl_dict_ [syst]  stop_lbl_tms adr_dict systs;
+val _ = print "\n\n";
+val _ = print "finished exploration of all paths.\n\n";
+val _ = print ("number of paths found: " ^ (Int.toString (length systs)));
+val _ = print "\n\n";
+
+   
+val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs;    
+(*
+(************)
+ val lbl_tm = ``BL_Address (Imm64 4202124w)``;
 val stop_lbl_tms = [``BL_Address (Imm64 4202156w)``];
 val syst = init_state lbl_tm prog_vars;
 val pred_conjs = [``bir_exp_true``];
@@ -63,8 +89,6 @@ val _ = print "finished exploration of all paths.\n\n";
 val _ = print ("number of paths found: " ^ (Int.toString (length systs)));
 val _ = print "\n\n";
     
-(************)
-    
 val (systs_noassertfailed, systs_assertfailed) =
   List.partition (fn syst => not (identical (SYST_get_status syst) BST_AssertionViolated_tm)) systs;
 val _ = print ("number of \"no assert failed\" paths found: " ^ (Int.toString (length systs_noassertfailed)));
@@ -74,3 +98,4 @@ val _ = print "\n\n";
 
    
 val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs_noassertfailed;
+*)
