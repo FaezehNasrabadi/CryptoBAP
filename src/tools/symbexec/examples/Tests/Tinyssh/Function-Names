@@ -87,3 +87,17 @@ sshcrypto_cipher_put+0x2c
 buf_put_
 buf_purge_
 cleanup_
+packetparser_uint8_
+packetparser_uint32_
+packetparser_copy_
+packetparser_end_
+buf_putstringlen_
+packetparser_skip_
+byte_copy
+buf_putnum8_
+packet_put
+packet_sendall
+sshcrypto_key_put
+sshcrypto_kex_put
+str_equaln
+buf_putstring_

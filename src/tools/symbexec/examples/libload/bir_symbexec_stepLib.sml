@@ -280,7 +280,7 @@ fun symb_exec_library_block abpfun n_dict bl_dict adr_dict syst =
 
 		val lib_type = bir_symbexec_oracleLib.lib_oracle adr_dict lbl_tm syst; (* detect type of library call *)
 
-		val _ = if false then () else
+		val _ = if true then () else
 			print ("Lib type: " ^ (lib_type) ^ "\n");
 
 		val systs = if (lib_type = "HMAC_send") then [bir_symbexec_funcLib.HMAC_Send syst]
@@ -296,6 +296,8 @@ fun symb_exec_library_block abpfun n_dict bl_dict adr_dict syst =
 			   else if (lib_type = "OTP") then [bir_symbexec_funcLib.One_Time_Pad syst]
 			   else if (lib_type = "RNG") then [bir_symbexec_funcLib.Random_Number syst]
 			   else if (lib_type = "XOR") then [bir_symbexec_funcLib.Xor syst]
+			   else if (lib_type = "kdfPtoS") then [bir_symbexec_funcLib.kdfPtoS syst]
+			   else if (lib_type = "kdfStoP") then [bir_symbexec_funcLib.kdfStoP syst]				   
 			   else if (lib_type = "Fail") then [SYST_update_status BST_AssumptionViolated_tm syst]
 			   else if ((lib_type = "event1") orelse (lib_type = "event2") orelse (lib_type = "event3")) then (bir_symbexec_funcLib.Event lib_type syst)
 			   else [syst];
@@ -358,26 +360,20 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 	     val systs2 = List.foldl (fn (s, systs) => List.concat(List.map (fn x => symb_exec_stmt (s,x)) systs)) [syst] s_tms;   
 	     (* generate list of states from end statement *)
 
-	     val systs =  List.concat(List.map (symb_exec_endstmt n_dict lbl_tm est) systs2);
+	    val systs =  List.concat(List.map (symb_exec_endstmt n_dict lbl_tm est) systs2);
 		 
- 	 (*       val systs = if bir_symbexec_oracleLib.is_function_call n_dict lbl_tm
+ 	   (*     val systs = if bir_symbexec_oracleLib.is_function_call n_dict lbl_tm
 			 then
 			     if ((not o List.null o fst o listSyntax.dest_list) stmts)
 			     then
 				  List.concat(List.map (symb_exec_endstmt n_dict lbl_tm est) systs2)
 			     else		
-				 let
-				     val wpc = (bir_immSyntax.dest_Imm64 o dest_BL_Address) lbl_tm;
-				     val incpc = (rhs o concl o EVAL o wordsSyntax.mk_word_add) (wpc,``4w:word64``);
-				     val tgt = (mk_BL_Address o bir_immSyntax.mk_Imm64) incpc;
-				 in
-				     (List.map (fn x => SYST_update_pc tgt x) systs2)
-				 end
+				 List.concat(List.map (state_exec_try_jmp_exp_var_no_const systs2))
 			 else
 			      List.concat(List.map (symb_exec_endstmt n_dict lbl_tm est) systs2);
 
 
-	    val systs = if bir_symbexec_oracleLib.is_function_call n_dict lbl_tm
+	  val systs = if bir_symbexec_oracleLib.is_function_call n_dict lbl_tm
 			 then (List.map (fn x => bir_symbexec_funcLib.update_pc x) systs)
 			 else systs;*)
 		 
@@ -397,7 +393,7 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 
 		val _ = if true then () else
 			print_term (lbl_tm);
-		val _ = if false then () else
+		val _ = if true then () else
 			print ("pc_type: " ^ (pc_type) ^ "\n");
 	    in
 		if (pc_type = "Adversary") then symb_exec_adversary_block abpfun n_dict bl_dict syst

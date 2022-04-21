@@ -25,9 +25,9 @@ open bir_symbexec_oracleLib;
 
 (******Start******)
 
-val lbl_tm = ``BL_Address (Imm64 4201420w)``;
+val lbl_tm = ``BL_Address (Imm64 4201404w)``;
 
-val stop_lbl_tms = [``BL_Address (Imm64 4201756w)``];
+val stop_lbl_tms = [``BL_Address (Imm64 4201696w)``];
     
 val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
 
@@ -57,38 +57,37 @@ val _ = print ("number of \"no assert failed\" paths found: " ^ (Int.toString (l
 val _ = print "\n\n";
 val _ = print ("number of \"assert failed\" paths found: " ^ (Int.toString (length systs_assertfailed)));
 val _ = print "\n\n";
-
-   
-val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs_noassertfailed;
   
  (*************)
-    
-val lbl_tm = ``BL_Address (Imm64 4210144w)``;
-val stop_lbl_tms = [``BL_Address (Imm64 4211776w)``];
-val syst = init_state lbl_tm prog_vars;
-val pred_conjs = [``bir_exp_true``];
-val syst = state_add_preds "init_pred" pred_conjs syst;
+  
+val lbl_tm = ``BL_Address (Imm64 4209936w)``;
+val stop_lbl_tms = [``BL_Address (Imm64 4211596w)``];
+val syst = SYST_update_pred [] (SYST_update_status BST_Running_tm (SYST_update_pc lbl_tm ((hd o rev)systs)));
+val syst = state_add_preds "init_pred" pred_conjs syst;    
 val systs = symb_exec_to_stop (abpfun cfb) n_dict bl_dict_ [syst]  stop_lbl_tms adr_dict systs;
 val _ = print "\n\n";
 val _ = print "finished exploration of all paths.\n\n";
 val _ = print ("number of paths found: " ^ (Int.toString (length systs)));
 val _ = print "\n\n";
 
-   
-val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs;    
-(*
+val (systs_noassertfailed, systs_assertfailed) =
+  List.partition (fn syst => not (identical (SYST_get_status syst) BST_AssertionViolated_tm)) systs;
+val _ = print ("number of \"no assert failed\" paths found: " ^ (Int.toString (length systs_noassertfailed)));
+val _ = print "\n\n";
+val _ = print ("number of \"assert failed\" paths found: " ^ (Int.toString (length systs_assertfailed)));
+val _ = print "\n\n";
+
 (************)
- val lbl_tm = ``BL_Address (Imm64 4202124w)``;
-val stop_lbl_tms = [``BL_Address (Imm64 4202156w)``];
-val syst = init_state lbl_tm prog_vars;
-val pred_conjs = [``bir_exp_true``];
-val syst = state_add_preds "init_pred" pred_conjs syst;
+val lbl_tm = ``BL_Address (Imm64 4204336w)``;
+val stop_lbl_tms = [``BL_Address (Imm64 4206928w)``];
+val syst = SYST_update_pred [] (SYST_update_status BST_Running_tm (SYST_update_pc lbl_tm ((hd o rev)systs)));
+val syst = state_add_preds "init_pred" pred_conjs syst;    
 val systs = symb_exec_to_stop (abpfun cfb) n_dict bl_dict_ [syst]  stop_lbl_tms adr_dict systs;
 val _ = print "\n\n";
 val _ = print "finished exploration of all paths.\n\n";
 val _ = print ("number of paths found: " ^ (Int.toString (length systs)));
 val _ = print "\n\n";
-    
+
 val (systs_noassertfailed, systs_assertfailed) =
   List.partition (fn syst => not (identical (SYST_get_status syst) BST_AssertionViolated_tm)) systs;
 val _ = print ("number of \"no assert failed\" paths found: " ^ (Int.toString (length systs_noassertfailed)));
@@ -98,4 +97,15 @@ val _ = print "\n\n";
 
    
 val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs_noassertfailed;
+(*
+val b = listItems (SYST_get_env ((hd o rev) systs))
+val b = listItems (SYST_get_vals ((hd o rev)systs))
+val syst = (hd o rev)systs;
+val be = “BVar "R1" (BType_Imm Bit64)”;
+val be_r = (bir_symbexec_funcLib.symbval_bexp o get_state_symbv " vals not found " be) syst;
+
+open binariesCfgVizLib;
+open binariesDefsLib;
+val _ = show_cfg_fun false  bl_dict_ n_dict "packet_kexdh";
+
 *)

@@ -351,9 +351,13 @@ fun Let_to_IML vals_list pred =
 		      else Fun_Str (term_to_string be);
 
 	val fun_str = if (String.isSuffix "kS" pred)
-		      then ("kgen("^fun_str^")")
+		      then ("kgen(gA,"^fun_str^")")
 		      else if(String.isSuffix "kAB" pred)
-		      then ("lookup(hClient,hServer,"^fun_str^")")
+		      then ("kgen(g,"^fun_str^")")
+		      else if(String.isSuffix "kSP" pred)
+		      then ("kdfStoP(k,h)")
+		      else if(String.isSuffix "kPS" pred)
+		      then ("kdfPtoS(k,h)")
 		      else fun_str;
 
     in
@@ -549,7 +553,7 @@ fun path_of_tree event_names vals_list refine_preds exec_sts [] str =
 		  else if (String.isSuffix "K" pred) then (K_to_Out vals_list refine_preds exec_sts pred preds)
 		  else if (String.isSuffix "Adv" pred) then (to_string o D_to_In) pred
 		  else if (String.isSuffix "XOR" pred) then (Xor_to_IML vals_list pred)
-		  else if ((String.isSuffix "msg" pred) orelse (String.isSuffix "signature" pred) orelse (String.isSuffix "verify" pred) orelse (String.isSuffix "cipher" pred) orelse (String.isSuffix "kS" pred) orelse (String.isSuffix "kAB" pred)) then (Let_to_IML vals_list pred)
+		  else if ((String.isSuffix "msg" pred) orelse (String.isSuffix "signature" pred) orelse (String.isSuffix "verify" pred) orelse (String.isSuffix "cipher" pred) orelse (String.isSuffix "kS" pred) orelse (String.isSuffix "kAB" pred) orelse (String.isSuffix "kSP" pred) orelse (String.isSuffix "kPS" pred)) then (Let_to_IML vals_list pred)
 		  else if ((String.isSuffix "event_true_cnd" pred) orelse (String.isSuffix "event1" pred) orelse (String.isSuffix "event2" pred) orelse (String.isSuffix "event3" pred) orelse (String.isSuffix "event_false_cnd" pred))
 		  then (IML_event event_names pred)
 		  else "";

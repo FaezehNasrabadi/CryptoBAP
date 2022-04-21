@@ -247,6 +247,10 @@ fun lib_oracle_type_label adr_dict label =
 		"Verify"
 	    else if ((find_from_dict = (List.nth (C_fun_names, 17))) orelse (find_from_dict = (List.nth (C_fun_names, 18))) orelse (find_from_dict = (List.nth (C_fun_names, 19)))) then
 		"LoadFile"
+	    else if (find_from_dict = (List.nth (C_fun_names, 24))) then
+		"kdfPtoS"
+	    else if (find_from_dict = (List.nth (C_fun_names, 25))) then
+		"kdfStoP"
 	    else
 		"C_Lib";
 	    

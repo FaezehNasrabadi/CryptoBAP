@@ -225,7 +225,7 @@ fun update_lib_syst be Fr_bv syst =
     in
 	syst
     end;
-    
+
 fun compute_inputs n syst =
     let
 	val Rn = ("R" ^ (IntInf.toString n));
@@ -246,24 +246,32 @@ fun compute_inputs n syst =
 
 fun add_knowledge bv syst =
     let
-	val symbv = get_state_symbv "symbv not found" bv syst;
+	val symbv = SOME (get_state_symbv "symbv not found" bv syst)
+	    handle _ => NONE;
 
-	val be = symbval_bexp symbv;
-
-	val syst = state_add_path "K" be syst;
+	val syst = if (is_some symbv)
+		   then
+		       let
+			   val be = symbval_bexp (valOf symbv);
+		       in
+			   state_add_path "K" be syst
+		       end
+		   else
+		       syst;
     in
        syst
     end;
-    
+
 fun add_knowledges_to_adv n syst =
     let
 	val Rn = ("R" ^ (IntInf.toString n));
+
 	val bv = mk_BVar_string (Rn, ``BType_Imm Bit64``);
 	    
 	val syst = add_knowledge bv syst;
 
-	val n = n-1;
-	val syst = if (n < 0)
+	val n = IntInf.- (n,1);
+	val syst = if (IntInf.< (n,0))
 		     then syst
 		     else
 			 add_knowledges_to_adv n syst;
@@ -271,7 +279,6 @@ fun add_knowledges_to_adv n syst =
 	syst
 
     end;  
-
 
 fun update_with_fresh_name be bv syst =
     let
@@ -364,8 +371,46 @@ fun Random_Number syst =
 	    
     in
 	syst
-    end; 
+    end;
 
+fun kdfPtoS syst =
+    let
+
+	val vn = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("PtoS", “BType_Imm Bit64”)); (* generate a fresh variable *)	    	
+	
+	val syst = update_path vn syst; (* update path condition *)
+
+	val Fn_vn = mk_BExp_Den(get_bvar_fresh (bir_envSyntax.mk_BVar_string ("pTOs", “BType_Imm Bit64”))); (* generate a fresh name *)
+	    
+	val syst = update_with_fresh_name Fn_vn vn syst;
+
+	val syst = state_add_path "kPS" Fn_vn syst; (* update path condition *)
+
+	val syst = update_lib_syst Fn_vn vn syst; (* update syst *)
+	    
+    in
+	syst
+    end;     
+
+fun kdfStoP syst =
+    let
+
+	val vn = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("StoP", “BType_Imm Bit64”)); (* generate a fresh variable *)	    	
+	
+	val syst = update_path vn syst; (* update path condition *)
+
+	val Fn_vn = mk_BExp_Den(get_bvar_fresh (bir_envSyntax.mk_BVar_string ("sTOp", “BType_Imm Bit64”))); (* generate a fresh name *)
+	    
+	val syst = update_with_fresh_name Fn_vn vn syst;
+
+	val syst = state_add_path "kSP" Fn_vn syst; (* update path condition *)   
+
+	val syst = update_lib_syst Fn_vn vn syst; (* update syst *)
+	    
+    in
+	syst
+    end;
+    
 fun session_key syst =
     let
 

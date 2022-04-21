@@ -278,8 +278,8 @@ fun update_envvar bv bv_fresh syst =
 
 (* helper functions *)
 fun find_bv_val err_src_string vals bv =
-      (valOf o Redblackmap.peek) (vals,bv)
-      handle Option => raise ERR
+    (valOf o Redblackmap.peek) (vals,bv)
+    handle Option => raise ERR
                              err_src_string
                              ("coudln't find value for " ^ (term_to_string bv));
 
