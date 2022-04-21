@@ -1,191 +1,179 @@
-if (sy_R0=4294967295) then
-if (sy_R24=4294967295) then
+if (R0_sy=4294967295) then
+if (R24_sy=4294967295) then
 new Key_93 fixed_64 
 let kAB_95 = kgen(g,k_94) in
-if (93_Key=4294967295) then
-if (117_R0=4294967295) then
-if (188_R1=0) then
-if (191_R2=0) then
+if (Key_93=4294967295) then
+if (R0_117=4294967295) then
+if (R1_188=0) then
+if (R2_191=0) then
 in c, Adv_201 
-if (203_a=0) then
-if (210_R3=213_R2) then
-if (257_R3=30) then
-if (280_R5=277_R4) then
-if (314_R0=0) then
-out c, hmac(inputs) 
-if (420_R15=0) then
+if (a_203=0) then
+if (R3_210=R2_213) then
+if (R3_257=30) then
+if (R5_280=R4_277) then
+if (R0_314=0) then
+if (R15_420=0) then
 event AcceptS pkS pkP 
-new Sec-Key_444 fixed_64 
-let signature_446 = sign(inputs,sk) in
-out c, sign(inputs,sk) 
-if (445_Sig=0) then
-if (455_R3=458_R2) then
-if (549_R3=552_R2) then
+let signature_446 = sign(inputs,skS) in
+out c, sign(inputs,skS) 
+if (Sig_445=0) then
+if (R3_455=R2_458) then
+if (R3_549=R2_552) then
 new SKey_587 fixed_64 
 let kS_589 = kgen(gA,SKey_587) in
 in c, Adv_598 
-if (600_a=0) then
-if (607_R3=610_R2) then
+if (a_600=0) then
+if (R3_607=R2_610) then
 let kSP_727 = kdfStoP(k,h) in
 let kPS_811 = kdfPtoS(k,h) in
-if (835_R3=838_R2) then
+if (R3_835=R2_838) then
 event AcceptS pkS pkP 
-new Sec-Key_901 fixed_64 
-let signature_903 = sign(inputs,sk) in
-out c, sign(inputs,sk) 
-if (902_Sig=0) then
-if (912_R3=915_R2) then
-if (1006_R3=1009_R2) then
+let signature_903 = sign(inputs,skS) in
+out c, sign(inputs,skS) 
+if (Sig_902=0) then
+if (R3_912=R2_915) then
+if (R3_1006=R2_1009) then
 new SKey_1044 fixed_64 
 let kS_1046 = kgen(gA,SKey_1044) in
 in c, Adv_1055 
-if (1057_a=0) then
-if (1064_R3=1067_R2) then
+if (a_1057=0) then
+if (R3_1064=R2_1067) then
 let kSP_1184 = kdfStoP(k,h) in
 let kPS_1268 = kdfPtoS(k,h) in
-if (1292_R3=1295_R2) then
+if (R3_1292=R2_1295) then
 in c, Adv_1339 
-if (1341_a=0) then
+if (a_1341=0) then
 in c, Adv_1351 
-if (1353_a=0) then
-if (1360_R3=1363_R2) then
-if (1407_R3=30) then
-if (1430_R5=1427_R4) then
-if (1464_R0=0) then
-out c, hmac(inputs) 
-if (1570_R15=0) then
+if (a_1353=0) then
+if (R3_1360=R2_1363) then
+if (R3_1407=30) then
+if (R5_1430=R4_1427) then
+if (R0_1464=0) then
+if (R15_1570=0) then
 event AcceptS pkS pkP 
-new Sec-Key_1594 fixed_64 
-let signature_1596 = sign(inputs,sk) in
-out c, sign(inputs,sk) 
-if (1595_Sig=0) then
-if (1605_R3=1608_R2) then
-if (1699_R3=1702_R2) then
+let signature_1596 = sign(inputs,skS) in
+out c, sign(inputs,skS) 
+if (Sig_1595=0) then
+if (R3_1605=R2_1608) then
+if (R3_1699=R2_1702) then
 new SKey_1737 fixed_64 
 let kS_1739 = kgen(gA,SKey_1737) in
 in c, Adv_1748 
-if (1750_a=0) then
-if (1757_R3=1760_R2) then
+if (a_1750=0) then
+if (R3_1757=R2_1760) then
 let kSP_1877 = kdfStoP(k,h) in
 let kPS_1961 = kdfPtoS(k,h) in
-if (1985_R3=1988_R2) then
+if (R3_1985=R2_1988) then
 event AcceptS pkS pkP 
-new Sec-Key_2051 fixed_64 
-let signature_2053 = sign(inputs,sk) in
-out c, sign(inputs,sk) 
-if (2052_Sig=0) then
-if (2062_R3=2065_R2) then
-if (2156_R3=2159_R2) then
+let signature_2053 = sign(inputs,skS) in
+out c, sign(inputs,skS) 
+if (Sig_2052=0) then
+if (R3_2062=R2_2065) then
+if (R3_2156=R2_2159) then
 new SKey_2194 fixed_64 
 let kS_2196 = kgen(gA,SKey_2194) in
 in c, Adv_2205 
-if (2207_a=0) then
-if (2214_R3=2217_R2) then
+if (a_2207=0) then
+if (R3_2214=R2_2217) then
 let kSP_2334 = kdfStoP(k,h) in
 let kPS_2418 = kdfPtoS(k,h) in
-if (2442_R3=2445_R2) then
-if (2486_R3=2489_R2) then
+if (R3_2442=R2_2445) then
+if (R3_2486=R2_2489) then
 in c, Adv_2530 
-if (2532_a=0) then
-if (2539_R3=2542_R2) then
-if (2586_R3=30) then
-if (2609_R5=2606_R4) then
-if (2643_R0=0) then
-out c, hmac(inputs) 
-if (2749_R15=0) then
+if (a_2532=0) then
+if (R3_2539=R2_2542) then
+if (R3_2586=30) then
+if (R5_2609=R4_2606) then
+if (R0_2643=0) then
+if (R15_2749=0) then
 event AcceptS pkS pkP 
-new Sec-Key_2773 fixed_64 
-let signature_2775 = sign(inputs,sk) in
-out c, sign(inputs,sk) 
-if (2774_Sig=0) then
-if (2784_R3=2787_R2) then
-if (2878_R3=2881_R2) then
+let signature_2775 = sign(inputs,skS) in
+out c, sign(inputs,skS) 
+if (Sig_2774=0) then
+if (R3_2784=R2_2787) then
+if (R3_2878=R2_2881) then
 new SKey_2916 fixed_64 
 let kS_2918 = kgen(gA,SKey_2916) in
 in c, Adv_2927 
-if (2929_a=0) then
-if (2936_R3=2939_R2) then
+if (a_2929=0) then
+if (R3_2936=R2_2939) then
 let kSP_3056 = kdfStoP(k,h) in
 let kPS_3140 = kdfPtoS(k,h) in
-if (3164_R3=3167_R2) then
+if (R3_3164=R2_3167) then
 event AcceptS pkS pkP 
-new Sec-Key_3230 fixed_64 
-let signature_3232 = sign(inputs,sk) in
-out c, sign(inputs,sk) 
-if (3231_Sig=0) then
-if (3241_R3=3244_R2) then
-if (3335_R3=3338_R2) then
+let signature_3232 = sign(inputs,skS) in
+out c, sign(inputs,skS) 
+if (Sig_3231=0) then
+if (R3_3241=R2_3244) then
+if (R3_3335=R2_3338) then
 new SKey_3373 fixed_64 
 let kS_3375 = kgen(gA,SKey_3373) in
 in c, Adv_3384 
-if (3386_a=0) then
-if (3393_R3=3396_R2) then
+if (a_3386=0) then
+if (R3_3393=R2_3396) then
 let kSP_3513 = kdfStoP(k,h) in
 let kPS_3597 = kdfPtoS(k,h) in
-if (3621_R3=3624_R2) then
+if (R3_3621=R2_3624) then
 in c, Adv_3711 
-if (3712_a=0) then
-if (3725_R1=5) then
-if (3762_R0=0) then
-let msg_3776 = dec(Cipher) in
-if (sy_R26=0) then
-if (3793_R3=3796_R2) then
-in c, Adv_3835 
-if (3836_a=0) then
-if (3843_R3=3846_R2) then
-if (3890_R7=50) then
-if ((256<=3909_R11)∧¬(3909_R11=256)) then
-if (3969_R0=0) then
-if (4040_R0=0) then
-if (sy_R26=0) then
-if (4094_R3=4097_R2) then
-if (4160_R3=4163_R2) then
-if (4230_R11=0) then
-if (¬(4267_R0=0)<=(4255_R15=0)) then
-if (sy_R26=0) then
-if (4339_R3=4342_R2) then
-if (4405_R3=4408_R2) then
-if (¬(4252_R26=0)<=(4444_R1=0)) then
-if (sy_R26=0) then
-if (4505_R3=4508_R2) then
-if (4571_R3=4574_R2) then
-if (4256_R27=0) then
-if (sy_R26=0) then
-if (4660_R3=4663_R2) then
-if (4726_R3=4729_R2) then
-new iv_4764 fixed_64 
-let cipher_4766 = enc(inputs,iv) in
-out c, enc(inputs,iv) 
-if (4801_R0=0) then
-if (4805_R16=0) then
-if (sy_R26=0) then
-if (4852_R0=0) then
-if (¬(((4928_R23-4925_R8)<0)=(((4928_R23-4925_R8)<0)=(4925_R8<=4928_R23)))∨(4928_R23=4925_R8)) then
-if (4943_R0=0) then
-let msg_4964 = dec(Cipher) in
-new Pub-Key_4983 fixed_64 
-let verify_4985 = ver(inputs,pk) in
-if (4984_Ver=0) then
-if (sy_R26=0) then
-if (5039_R3=5042_R2) then
-if (5105_R3=5108_R2) then
+if (a_3712=0) then
+if (R1_3725=5) then
+if (R0_3762=0) then
+let msg_3777 = dec(Cipher,kPS) in
+if (R26_sy=0) then
+if (R3_3794=R2_3797) then
+in c, Adv_3836 
+if (a_3837=0) then
+if (R3_3844=R2_3847) then
+if (R7_3891=50) then
+if ((256<=R11_3910)∧¬(R11_3910=256)) then
+if (R0_3970=0) then
+if (R0_4041=0) then
+if (R26_sy=0) then
+if (R3_4095=R2_4098) then
+if (R3_4161=R2_4164) then
+if (R11_4231=0) then
+if (¬(R0_4268=0)<=(R15_4256=0)) then
+if (R26_sy=0) then
+if (R3_4340=R2_4343) then
+if (R3_4406=R2_4409) then
+if (¬(R26_4253=0)<=(R1_4445=0)) then
+if (R26_sy=0) then
+if (R3_4506=R2_4509) then
+if (R3_4572=R2_4575) then
+if (R27_4257=0) then
+if (R26_sy=0) then
+if (R3_4661=R2_4664) then
+if (R3_4727=R2_4730) then
+let cipher_4767 = enc(inputs,kSP) in
+out c, enc(inputs,kSP) 
+if (R0_4802=0) then
+if (R16_4806=0) then
+if (R26_sy=0) then
+if (R0_4853=0) then
+if (¬(((R23_4929-R8_4926)<0)=(((R23_4929-R8_4926)<0)=(R8_4926<=R23_4929)))∨(R23_4929=R8_4926)) then
+if (R0_4944=0) then
+let msg_4966 = dec(Cipher,kPS) in
+let ver_4987 = verify(inputs,pkP) in
+if (Ver_4986=0) then
+if (R26_sy=0) then
+if (R3_5041=R2_5044) then
+if (R3_5107=R2_5110) then
 event AcceptS2 pkS pkP 
-if (sy_R26=0) then
-if (5196_R3=5199_R2) then
-if (5243_R3=5246_R2) then
-if (5286_R3=5289_R2) then
-if (5351_R0=0) then
-if (¬(((5427_R23-5424_R8)<0)=(((5427_R23-5424_R8)<0)=(5424_R8<=5427_R23)))∨(5427_R23=5424_R8)) then
-if (5442_R0=0) then
-let msg_5463 = dec(Cipher) in
-new Pub-Key_5482 fixed_64 
-let verify_5484 = ver(inputs,pk) in
-if (5483_Ver=0) then
-if (sy_R26=0) then
-if (5538_R3=5541_R2) then
-if (5604_R3=5607_R2) then
+if (R26_sy=0) then
+if (R3_5198=R2_5201) then
+if (R3_5245=R2_5248) then
+if (R3_5288=R2_5291) then
+if (R0_5353=0) then
+if (¬(((R23_5429-R8_5426)<0)=(((R23_5429-R8_5426)<0)=(R8_5426<=R23_5429)))∨(R23_5429=R8_5426)) then
+if (R0_5444=0) then
+let msg_5466 = dec(Cipher,kPS) in
+let ver_5487 = verify(inputs,pkP) in
+if (Ver_5486=0) then
+if (R26_sy=0) then
+if (R3_5541=R2_5544) then
+if (R3_5607=R2_5610) then
 event AcceptS2 pkS pkP 
-if (sy_R26=0) then
-if (5695_R3=5698_R2) then
-if (5742_R3=5745_R2) then
-if (5791_R3=5794_R2) then
+if (R26_sy=0) then
+if (R3_5698=R2_5701) then
+if (R3_5745=R2_5748) then
+if (R3_5794=R2_5797) then

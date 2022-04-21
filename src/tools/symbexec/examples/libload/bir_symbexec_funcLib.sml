@@ -12,7 +12,7 @@ local
   val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_funcLib"
 in
 
-val _ = Parse.type_abbrev("hmac", ``:bir_var_t list -> bir_exp_t``);
+val _ = Parse.type_abbrev("hash", ``:bir_var_t list -> bir_var_t -> bir_exp_t``);
 
 val _ = Parse.type_abbrev("exclusive_or", ``:bir_var_t list -> bir_exp_t``);
 
@@ -20,9 +20,9 @@ val _ = Parse.type_abbrev("enc", ``:bir_var_t list -> bir_var_t -> bir_exp_t``);
 
 val _ = Parse.type_abbrev("sign", ``:bir_var_t list -> bir_var_t -> bir_exp_t``);
 
-val _ = Parse.type_abbrev("ver", ``:bir_var_t list -> bir_var_t -> bir_exp_t``);
+val _ = Parse.type_abbrev("verify", ``:bir_var_t list -> bir_var_t -> bir_exp_t``);
     
-val _ = Parse.type_abbrev("dec", ``:bir_var_t list -> bir_exp_t``);
+val _ = Parse.type_abbrev("dec", ``:bir_var_t list -> bir_var_t -> bir_exp_t``);
 
     
 (* read int from file *)
@@ -63,44 +63,45 @@ fun rev_Fr bv =
 	var
     end;
 		
-fun encrypt inputs iv =
+fun encrypt inputs kSP =
     let
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
 			(enc
 			     (inputs)
-			     (iv))``;
+			     (kSP))``;
 
     in
 	dest_BStmt_Assign stmt
     end;
 
-fun Sign inputs sk =
+fun Sign inputs skS =
     let
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
 			(sign
 			     (inputs)
-			     (sk))``;
+			     (skS))``;
 
     in
 	dest_BStmt_Assign stmt
     end;
     
-fun verify inputs sk =
+fun ver inputs pkP =
     let
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
-			(ver
+			(verify
 			     (inputs)
-			     (pk))``;
+			     (pkP))``;
 
     in
 	dest_BStmt_Assign stmt
     end;
     
-fun decrypt Cipher =
+fun decrypt Cipher kPS =
     let
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
 			(dec
-			     (Cipher))``;
+			     (Cipher)
+			     (kPS))``;
 
     in
 	dest_BStmt_Assign stmt
@@ -127,12 +128,13 @@ val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
 			(hmac
 			     ( ^inputs))``;*)
 
-fun HMac inputs =
+fun HMac inputs pkS =
     let
 
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
-			(hmac
-			     (inputs))``;
+		     (hash
+			  (inputs)
+			  (pkS))``;
     in
 	dest_BStmt_Assign stmt
     end;
@@ -455,7 +457,7 @@ fun Encryption syst =
 	    
 	val iv = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("iv", “BType_Imm Bit64”)); (* generate a fresh iv *)
 	
-	val syst = update_path iv syst; (* update path condition *)  
+(*	val syst = update_path iv syst;  update path condition *)  
 
 	val (C_bv, C_be) = encrypt inputs iv; (* encrypt with iv *)
 
@@ -479,7 +481,9 @@ fun Decryption syst =
 	val n = List.nth (readint_inputs "Library-number of inputs", 0);
 	val Cipher = compute_inputs (n-1) syst; (* get values *)
 
-	val (M_bv, M_be) = decrypt Cipher; (* decrypt with iv *)
+	val iv = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("iv", “BType_Imm Bit64”)); (* generate a fresh iv *)
+		    
+	val (M_bv, M_be) = decrypt Cipher iv; (* decrypt with iv *)
 
 	val Fr_Dec = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Dec", “BType_Imm Bit64”)); (* generate a fresh variable *)
 
@@ -499,9 +503,9 @@ fun Signature syst =
 	val n = List.nth (readint_inputs "Library-number of inputs", 0);
 	val inputs = compute_inputs (n-2) syst; (* get values *)
 	    
-	val sk = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Sec-Key", “BType_Imm Bit64”)); (* generate a fresh sk *)
+	val sk = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("skS", “BType_Imm Bit64”)); (* generate a fresh sk *)
 	
-	val syst = update_path sk syst; (* update path condition *)  
+ (*	val syst = update_path sk syst; update path condition *)  
 
 	val (S_bv, S_be) = Sign inputs sk; (* Sign with sk *)
 
@@ -526,17 +530,17 @@ fun Signature syst =
 	val n = List.nth (readint_inputs "Library-number of inputs", 0);
 	val inputs = compute_inputs (n-2) syst; (* get values *)
 	    
-	val pk = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Pub-Key", “BType_Imm Bit64”)); (* generate a fresh sk *)
+	val pk = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("pkP", “BType_Imm Bit64”)); (* generate a fresh sk *)
 	
-	val syst = update_path pk syst; (* update path condition *)  
+	 (*val syst = update_path pk syst; update path condition *)  
 
-	val (V_bv, V_be) = verify inputs pk; (* Sign with sk *)
+	val (V_bv, V_be) = ver inputs pk; (* Sign with sk *)
 
 	val Fr_Ver = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Ver", “BType_Imm Bit64”)); (* generate a fresh variable *)
 
 	val stmt = ``BStmt_Assign (Fr_Ver) (V_bv)``; (* assign value of R0 to the fresh variable *)
 	
-	val syst = state_add_path "verify" V_be syst; (* update path condition *)
+	val syst = state_add_path "ver" V_be syst; (* update path condition *)
 	    
 	val syst = update_lib_syst V_be Fr_Ver syst; (* update syst *)
 	
@@ -550,8 +554,10 @@ fun HMAC_Send syst =
 	val n = List.nth (readint_inputs "Library-number of inputs", 0);
 	    
 	val inputs = compute_inputs (n-1) syst; (* get values *)
-	
-	val (M_bv, M_be) = HMac inputs; (* HMac with key *)
+	    
+	val iv = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("iv", “BType_Imm Bit64”)); (* generate a fresh iv *)
+		    
+	val (M_bv, M_be) = HMac inputs iv; (* HMac with key *)
 
 	val Fr_Hmac = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("HMAC", “BType_Imm Bit64”)); (* generate a fresh variable *)
 
@@ -559,7 +565,7 @@ fun HMAC_Send syst =
 	    
 	val syst = update_lib_syst M_be Fr_Hmac syst; (* update syst *)
 
-	val syst = add_knowledges_to_adv 0 syst; (*The adversary has a right to know the output of the hmac function.*)
+	(*val syst = add_knowledges_to_adv 0 syst;  The adversary has a right to know the output of the hmac function.*)
 
     in
 	syst
@@ -571,8 +577,10 @@ fun HMAC_Receive syst =
 	val n = List.nth (readint_inputs "Library-number of inputs", 0);
  
 	val inputs = compute_inputs (n-1) syst; (* get values *)
-	
-	val (M_bv, M_be) = HMac inputs; (* HMac with key *)
+	    
+	val iv = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("iv", “BType_Imm Bit64”)); (* generate a fresh iv *)
+	    
+	val (M_bv, M_be) = HMac inputs iv; (* HMac with key *)
 
 	val Fr_Hmac = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("HMAC", “BType_Imm Bit64”)); (* generate a fresh variable *)
 

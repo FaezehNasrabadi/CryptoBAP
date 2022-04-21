@@ -420,7 +420,7 @@ fun BExp_to_IMLExp vals_list exec_sts pred_be =
 			      in
 				  BExp_to_IMLExp vals_list exec_sts pred_be_bool
 			      end
-			  else ((fst o dest_BVar_string o dest_BExp_Den) pred_be))
+			  else ((rev_name o fst o dest_BVar_string o dest_BExp_Den) pred_be))
 		     else if (is_BExp_Cast pred_be) then
 			 let
 			     val (castt, subexp, sz) = (dest_BExp_Cast) pred_be;
@@ -479,13 +479,36 @@ fun BExp_to_IMLExp vals_list exec_sts pred_be =
 			 in
 			     ("("^(BExp_to_IMLExp vals_list exec_sts subexp1)^res^(BExp_to_IMLExp vals_list exec_sts subexp2)^")")
 			 end
+		     else if (is_BExp_Load pred_be) then
+			 let
+			     val (subexp1, subexp2, litend, bt) = (dest_BExp_Load) pred_be;
+
+			     val len = if (is_Bit1 bt) then "1"
+				       else if (is_Bit8 bt) then "8"
+				       else if (is_Bit16 bt) then "16"
+				       else if (is_Bit32 bt) then "32"
+				       else if (is_Bit64 bt) then "64"
+				       else if (is_Bit128 bt) then "128"
+				       else raise ERR "BExp_Load:BExp_to_IMLExp" "this should not happen";
+
+			     val x = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("x", “BType_Imm Bit64”));
+
+			     val name = (rev_name o fst o dest_BVar_string) x;
+			 in
+			     ("read("^name^","^len^")")
+			 end	 
+		     else if (is_BExp_Store pred_be) then
+			 let
+			     val (subexp1, subexp2, litend, subexp3) = (dest_BExp_Store) pred_be;
+			     val name = (fst o dest_BVar_string o dest_BExp_Den) subexp3;
+			 in
+			     ("write("^name^")")
+			 end
 		     else if (bir_bool_expSyntax.is_bir_exp_false pred_be) then (BExp_to_IMLExp vals_list exec_sts ``BExp_Const (Imm1 0w)``)
 		     else if (bir_bool_expSyntax.is_bir_exp_true pred_be) then (BExp_to_IMLExp vals_list exec_sts ``BExp_Const (Imm1 1w)``)					     
 		     else if (is_BExp_IfThenElse pred_be) then raise ERR "BExp_IfThenElse:BExp_to_IMLExp" "this should not happen"
 		     else if (is_BExp_MemConst pred_be) then raise ERR "BExp_MemConst:BExp_to_IMLExp" "this should not happen"
 		     else if (is_BExp_MemEq pred_be) then raise ERR "BExp_MemEq:BExp_to_IMLExp" "this should not happen"
-		     else if (is_BExp_Load pred_be) then raise ERR "BExp_Load:BExp_to_IMLExp" "this should not happen"
-		     else if (is_BExp_Store pred_be) then raise ERR "BExp_Store:BExp_to_IMLExp" "this should not happen"
 		     else raise ERR "BExp_to_IMLExp" "this should not happen";
 
     in
@@ -494,6 +517,13 @@ fun BExp_to_IMLExp vals_list exec_sts pred_be =
 
 (*Extract BIR expressions from pred name*)
 (*
+val pred_be = `` (BExp_Store
+                           (BExp_Den (BVar "MEM" (BType_Mem Bit64 Bit8)))
+                           (BExp_BinExp BIExp_Minus
+                              (BExp_Den (BVar "SP_EL0" (BType_Imm Bit64)))
+                              (BExp_Const (Imm64 48w))) BEnd_LittleEndian
+                           (BExp_Den (BVar "R19" (BType_Imm Bit64))))``;
+val pred_be =``(BExp_Den (BVar "R19" (BType_Imm Bit64)))``;
 val pred = "165_assert_true_cnd";
 val pred_term = “BVar "23_cjmp_true_cnd" BType_Bool”;
 val pred_be = “BExp_Den (BVar "22_ProcState_Z" BType_Bool)”;
@@ -549,11 +579,11 @@ fun path_of_tree event_names vals_list refine_preds exec_sts [] str =
 	     else (to_string o Br_True) (IMLExp_from_pred vals_list exec_sts pred))
 		  else if (String.isSuffix "assert_false_cnd" pred) then (assert_false_string event_names vals_list exec_sts pred)
 		  else if (String.isSuffix "cjmp_false_cnd" pred) then ""
-		  else if ((String.isSuffix "Key" pred) orelse (String.isSuffix "iv" pred) orelse (String.isSuffix "Pub-Key" pred) orelse (String.isSuffix "Sec-Key" pred) orelse (String.isSuffix "RAND_NUM" pred) orelse (String.isSuffix "OTP" pred) orelse (String.isSuffix "SKey" pred)) then (to_string o Fr_to_New) pred
+		  else if ((String.isSuffix "Key" pred) orelse (String.isSuffix "iv" pred) orelse (String.isSuffix "pkP" pred) orelse (String.isSuffix "skS" pred) orelse (String.isSuffix "RAND_NUM" pred) orelse (String.isSuffix "OTP" pred) orelse (String.isSuffix "SKey" pred)) then (to_string o Fr_to_New) pred
 		  else if (String.isSuffix "K" pred) then (K_to_Out vals_list refine_preds exec_sts pred preds)
 		  else if (String.isSuffix "Adv" pred) then (to_string o D_to_In) pred
 		  else if (String.isSuffix "XOR" pred) then (Xor_to_IML vals_list pred)
-		  else if ((String.isSuffix "msg" pred) orelse (String.isSuffix "signature" pred) orelse (String.isSuffix "verify" pred) orelse (String.isSuffix "cipher" pred) orelse (String.isSuffix "kS" pred) orelse (String.isSuffix "kAB" pred) orelse (String.isSuffix "kSP" pred) orelse (String.isSuffix "kPS" pred)) then (Let_to_IML vals_list pred)
+		  else if ((String.isSuffix "msg" pred) orelse (String.isSuffix "signature" pred) orelse (String.isSuffix "ver" pred) orelse (String.isSuffix "cipher" pred) orelse (String.isSuffix "kS" pred) orelse (String.isSuffix "kAB" pred) orelse (String.isSuffix "kSP" pred) orelse (String.isSuffix "kPS" pred)) then (Let_to_IML vals_list pred)
 		  else if ((String.isSuffix "event_true_cnd" pred) orelse (String.isSuffix "event1" pred) orelse (String.isSuffix "event2" pred) orelse (String.isSuffix "event3" pred) orelse (String.isSuffix "event_false_cnd" pred))
 		  then (IML_event event_names pred)
 		  else "";
