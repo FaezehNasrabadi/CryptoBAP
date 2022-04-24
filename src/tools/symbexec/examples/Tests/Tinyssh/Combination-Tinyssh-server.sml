@@ -61,7 +61,7 @@ val _ = print "\n\n";
  (*************)
   
 val lbl_tm = ``BL_Address (Imm64 4209936w)``;
-val stop_lbl_tms = [``BL_Address (Imm64 4211596w)``];
+val stop_lbl_tms = [``BL_Address (Imm64 4212596w)``];
 val syst = SYST_update_pred [] (SYST_update_status BST_Running_tm (SYST_update_pc lbl_tm ((hd o rev)systs)));
 val syst = state_add_preds "init_pred" pred_conjs syst;    
 val systs = symb_exec_to_stop (abpfun cfb) n_dict bl_dict_ [syst]  stop_lbl_tms adr_dict systs;
