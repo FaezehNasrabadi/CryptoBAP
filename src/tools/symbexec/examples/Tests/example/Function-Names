@@ -1,0 +1,8 @@
+The function names are as follows:
+share_key
+Encrypt
+Decrypt
+event_send
+event_receive
+event_bad
+send_channel

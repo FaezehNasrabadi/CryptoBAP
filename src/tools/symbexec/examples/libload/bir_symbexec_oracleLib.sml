@@ -238,7 +238,6 @@ fun lib_oracle_type_label adr_dict label =
 	    (*part of memory that XOR function exist*)
 	    else if (find_from_dict = (List.nth (C_fun_names, 12))) then
 		"XOR"
-	    (*part of memory that third event function exist*)
 	    else if (find_from_dict = (List.nth (C_fun_names, 13))) then
 		"SKey"
 	    else if (find_from_dict = (List.nth (C_fun_names, 15))) then
@@ -251,6 +250,13 @@ fun lib_oracle_type_label adr_dict label =
 		"kdfPtoS"
 	    else if (find_from_dict = (List.nth (C_fun_names, 25))) then
 		"kdfStoP"
+		(*part of memory that third event function exist*)
+	    else if (find_from_dict = (List.nth (C_fun_names, 26))) then
+		"event3"
+	    else if (find_from_dict = (List.nth (C_fun_names, 27))) then
+		"concat"
+	    else if (find_from_dict = (List.nth (C_fun_names, 28))) then
+		"NewKey"
 	    else
 		"C_Lib";
 	    

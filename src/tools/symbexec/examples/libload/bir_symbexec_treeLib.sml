@@ -262,6 +262,7 @@ val result = ();
 
 fun K_to_Out vals_list refine_preds exec_sts pred preds =
     let
+	
 	val t_pred_option = find_latest_T refine_preds exec_sts preds;
 
 	val result = if ((not o Option.isSome) t_pred_option)
@@ -282,17 +283,28 @@ fun K_to_Out vals_list refine_preds exec_sts pred preds =
 
 			 in
 			     if (Term.term_eq t_be k_be)
-			     then (to_string (I_Out [(Var (fun_str))]))
+			     then
+				 (to_string (I_Out [(Var (fun_str))]))
 			     else ""
 			 end);
-			 
+	    
 
     in
 	result
     end;
     
 (*Translate deduce to IML in*)
-fun D_to_In pred_name = (I_In [(rev_name pred_name)]);
+fun D_to_In  vals_list exec_sts pred =
+    let
+	val pred_term = bir_envSyntax.mk_BVar_string(pred, “BType_Bool”);
+
+	val pred_be = symbval_bexp (find_be_val vals_list pred_term);
+	    
+	val pred_name =  (fst o dest_BVar_string o dest_BExp_Den) pred_be;
+	
+    in
+	(I_In [(rev_name pred_name)])
+    end;
     
 (*Translate fresh to IML new*)
 fun Fr_to_New pred_name = (I_New ((rev_name pred_name), N(64)));    
@@ -351,7 +363,9 @@ fun Let_to_IML vals_list pred =
 		      else Fun_Str (term_to_string be);
 
 	val fun_str = if (String.isSuffix "kS" pred)
-		      then ("kgen(gA,"^fun_str^")")
+		      then ("kgen(PKc)")
+		      else if(String.isSuffix "concat" pred)
+		      then ("concat(init,PKs)")
 		      else if(String.isSuffix "kAB" pred)
 		      then ("kgen(g,"^fun_str^")")
 		      else if(String.isSuffix "kSP" pred)
@@ -582,6 +596,7 @@ fun path_of_tree event_names vals_list refine_preds exec_sts [] str =
     (str)
   | path_of_tree event_names vals_list refine_preds exec_sts (pred::preds) str =
     let
+	(*val _ = print ((pred)^"\n"); *)
 
 	val Act = if (String.isSuffix "assert_true_cnd" pred) then ""
 		  else if (String.isSuffix "cjmp_true_cnd" pred) then (if (String.isSuffix "0" (IMLExp_from_pred vals_list exec_sts pred))
@@ -591,20 +606,20 @@ fun path_of_tree event_names vals_list refine_preds exec_sts [] str =
 		  else if (String.isSuffix "cjmp_false_cnd" pred) then ""
 		  else if ((String.isSuffix "Key" pred) orelse (String.isSuffix "iv" pred) orelse (String.isSuffix "pkP" pred) orelse (String.isSuffix "skS" pred) orelse (String.isSuffix "RAND_NUM" pred) orelse (String.isSuffix "OTP" pred) orelse (String.isSuffix "SKey" pred)) then (to_string o Fr_to_New) pred
 		  else if (String.isSuffix "K" pred) then (K_to_Out vals_list refine_preds exec_sts pred preds)
-		  else if (String.isSuffix "Adv" pred) then (to_string o D_to_In) pred
+		  else if (String.isSuffix "Adv" pred) then (to_string (D_to_In  vals_list exec_sts pred))
 		  else if (String.isSuffix "XOR" pred) then (Xor_to_IML vals_list pred)
-		  else if ((String.isSuffix "msg" pred) orelse (String.isSuffix "signature" pred) orelse (String.isSuffix "ver" pred) orelse (String.isSuffix "cipher" pred) orelse (String.isSuffix "kS" pred) orelse (String.isSuffix "kAB" pred) orelse (String.isSuffix "kSP" pred) orelse (String.isSuffix "kPS" pred) orelse (String.isSuffix "Hmac" pred)) then (Let_to_IML vals_list pred)
+		  else if ((String.isSuffix "msg" pred) orelse (String.isSuffix "signature" pred) orelse (String.isSuffix "ver" pred) orelse (String.isSuffix "cipher" pred) orelse (String.isSuffix "kS" pred) (*orelse (String.isSuffix "kAB" pred)*)  orelse (String.isSuffix "kSP" pred) orelse (String.isSuffix "kPS" pred) orelse (String.isSuffix "concat" pred) orelse (String.isSuffix "Hmac" pred)) then (Let_to_IML vals_list pred)
 		  else if ((String.isSuffix "event_true_cnd" pred) orelse (String.isSuffix "event1" pred) orelse (String.isSuffix "event2" pred) orelse (String.isSuffix "event3" pred) orelse (String.isSuffix "event_false_cnd" pred))
 		  then (IML_event event_names pred)
 		  else "";
 
-	val str = str^Act;
+	val str = str^Act;   
 	    
     in
 	(*if (String.isSuffix "cjmp_false_cnd" pred andalso ((not o List.null) preds))
-	   	then (path_of_tree event_names vals_list refine_preds exec_sts (tl preds) str)
-	 else*)
-	     (if (String.isSuffix "cjmp_true_cnd" pred andalso (List.length preds = 2))
+	  then (path_of_tree event_names vals_list refine_preds exec_sts (tl preds) str)
+	  else*)
+	(if (String.isSuffix "cjmp_true_cnd" pred andalso (List.length preds = 2))
 	then ((path_of_tree event_names vals_list refine_preds exec_sts [((hd o tl) preds)] str)^(to_string (I_False ())))
 	else (path_of_tree event_names vals_list refine_preds exec_sts preds str))
     end;

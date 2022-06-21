@@ -24,6 +24,8 @@ val _ = Parse.type_abbrev("verify", ``:bir_var_t list -> bir_var_t -> bir_exp_t`
     
 val _ = Parse.type_abbrev("dec", ``:bir_var_t list -> bir_var_t -> bir_exp_t``);
 
+val _ = Parse.type_abbrev("concatenate", ``:bir_var_t list -> bir_exp_t``);
+
     
 (* read int from file *)
 fun readint_inputs filename =
@@ -67,8 +69,8 @@ fun encrypt inputs kSP =
     let
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
 			(enc
-			     (inputs)
-			     (kSP))``;
+			     (message)
+			     (SK))``;
 
     in
 	dest_BStmt_Assign stmt
@@ -90,18 +92,18 @@ fun ver inputs pkP =
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
 			(verify
 			     (inputs)
-			     (pkP))``;
+			     (PKc))``;
 
     in
 	dest_BStmt_Assign stmt
     end;
     
-fun decrypt Cipher kPS =
+fun decrypt Cipher SK =
     let
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
 			(dec
 			     (Cipher)
-			     (kPS))``;
+			     (SK))``;
 
     in
 	dest_BStmt_Assign stmt
@@ -116,6 +118,17 @@ fun XOR inputs =
     in
 	dest_BStmt_Assign stmt
     end;
+
+fun CON inputs =
+    let
+	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
+		     (concatenate
+			  (inputs))``;
+
+    in
+	dest_BStmt_Assign stmt
+    end;
+    
 (*open List;
      open stringSyntax;
      val str = "";
@@ -255,6 +268,10 @@ fun add_knowledge bv syst =
 		   then
 		       let
 			   val be = symbval_bexp (valOf symbv);
+			   val be = if (is_BVar be)
+				    then ((stringSyntax.fromMLstring o fst o dest_BVar_string) be)
+				    else
+					be;
 		       in
 			   state_add_path "K" be syst
 		       end
@@ -441,9 +458,9 @@ fun new_key syst =
 	    
 	val syst = update_with_fresh_name Fn_vn vn syst;
 
-	val syst = state_add_path "kAB" Fn_vn syst; (* update path condition *)
+	val syst = state_add_path "kAB" vn syst; (* update path condition *)
 	    
-	val syst = update_lib_syst Fn_vn vn syst; (* update syst for Libs *)
+(*	val syst = update_lib_syst Fn_vn vn syst;  update syst for Libs *)
 	    
     in
 	syst
@@ -503,7 +520,7 @@ fun Signature syst =
 	val n = List.nth (readint_inputs "Library-number of inputs", 0);
 	val inputs = compute_inputs (n-2) syst; (* get values *)
 	    
-	val sk = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("skS", “BType_Imm Bit64”)); (* generate a fresh sk *)
+	val sk = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("SKc", “BType_Imm Bit64”)); (* generate a fresh sk *)
 	
  (*	val syst = update_path sk syst; update path condition *)  
 
@@ -530,7 +547,7 @@ fun Signature syst =
 	val n = List.nth (readint_inputs "Library-number of inputs", 0);
 	val inputs = compute_inputs (n-2) syst; (* get values *)
 	    
-	val pk = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("pkP", “BType_Imm Bit64”)); (* generate a fresh sk *)
+	val pk = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("PKc", “BType_Imm Bit64”)); (* generate a fresh sk *)
 	
 	 (*val syst = update_path pk syst; update path condition *)  
 
@@ -542,7 +559,7 @@ fun Signature syst =
 	
 	val syst = state_add_path "ver" V_be syst; (* update path condition *)
 	    
-	val syst = update_lib_syst V_be Fr_Ver syst; (* update syst *)
+	val syst = update_lib_syst Fr_Ver Fr_Ver syst; (* update syst *)
 	
     in
 	syst
@@ -620,7 +637,27 @@ fun Xor syst =
     end;
 
 
+fun Concat syst =
+    let
+	
+	val n = List.nth (readint_inputs "Library-number of inputs", 0);
+	val inputs = compute_inputs (n-2) syst; (* get values *) 
 
+	val (x_bv, x_be) = CON inputs; (* Con inputs *)
+
+	val Fr_Con = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("concat", “BType_Imm Bit64”)); (* generate a fresh variable *)
+
+	val stmt = ``BStmt_Assign (Fr_Con) (x_bv)``; (* assign value of R0 to the fresh variable *)
+
+	val syst = state_add_path "concat" x_be syst; (* update path condition *)
+
+	val syst = update_lib_syst x_be Fr_Con syst; (* update syst *)
+
+	val syst = add_knowledges_to_adv 0 syst; (*The adversary has a right to know the output of the encryption function.*)
+	
+    in
+	syst
+    end;
 
 fun New_memcpy syst =
     let

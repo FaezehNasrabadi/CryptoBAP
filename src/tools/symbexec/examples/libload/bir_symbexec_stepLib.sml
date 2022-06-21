@@ -297,7 +297,8 @@ fun symb_exec_library_block abpfun n_dict bl_dict adr_dict syst =
 			   else if (lib_type = "RNG") then [bir_symbexec_funcLib.Random_Number syst]
 			   else if (lib_type = "XOR") then [bir_symbexec_funcLib.Xor syst]
 			   else if (lib_type = "kdfPtoS") then [bir_symbexec_funcLib.kdfPtoS syst]
-			   else if (lib_type = "kdfStoP") then [bir_symbexec_funcLib.kdfStoP syst]				   
+			   else if (lib_type = "kdfStoP") then [bir_symbexec_funcLib.kdfStoP syst]
+			   else if (lib_type = "concat") then [bir_symbexec_funcLib.Concat syst]
 			   else if (lib_type = "Fail") then [SYST_update_status BST_AssumptionViolated_tm syst]
 			   else if ((lib_type = "event1") orelse (lib_type = "event2") orelse (lib_type = "event3")) then (bir_symbexec_funcLib.Event lib_type syst)
 			   else [syst];
@@ -330,7 +331,7 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 	     val _ = if true then () else
 		     print_term (SYST_get_status syst);
 
-	     val _ = if true then () else
+	     val _ = if false then () else
 		     print_term (lbl_block_tm);
 
 	     val _ = if true then () else
