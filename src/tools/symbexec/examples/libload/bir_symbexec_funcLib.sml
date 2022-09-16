@@ -26,6 +26,17 @@ val _ = Parse.type_abbrev("dec", ``:bir_var_t list -> bir_var_t -> bir_exp_t``);
 
 val _ = Parse.type_abbrev("concatenate", ``:bir_var_t list -> bir_exp_t``);
 
+val bv_mem = ``(BExp_Store
+                        (BExp_Den (BVar "MEM" (BType_Mem Bit64 Bit8)))
+                        (BExp_BinExp BIExp_Plus
+                           (BExp_Den (BVar "SP_EL0" (BType_Imm Bit64)))
+                           (BExp_Const (Imm64 15w))) BEnd_LittleEndian
+                        (BExp_Cast BIExp_LowCast
+				   (BExp_Den (BVar "R0" (BType_Imm Bit64))) Bit8))``;
+
+
+
+
     
 (* read int from file *)
 fun readint_inputs filename =
@@ -240,8 +251,32 @@ fun update_lib_syst be Fr_bv syst =
     in
 	syst
     end;
+    
+fun compute_inputs_mem n syst =
+    let
+	    
+	val bv_mem = find_bv_val ("compute_inputs_mem::bv in env not found") (SYST_get_env syst) “BVar "MEM" (BType_Mem Bit64 Bit8)”;
 
-fun compute_inputs n syst =
+	val (exp1,exp2,endi,exp3) = dest_BExp_Store bv_mem;
+
+	val (exp,bv,bit) = dest_BExp_Cast exp3; 
+
+	val bv_s = dest_BExp_Den bv;
+
+	val be_r = (symbval_bexp o get_state_symbv " vals not found " bv_s) syst;
+
+	val n = n-1;
+	val inputs = if (n < 0)
+		     then []
+		     else
+			 be_r :: compute_inputs_mem n syst;
+		    
+	
+    in
+	inputs
+    end;
+    
+fun compute_inputs_reg n syst =
     let
 	val Rn = ("R" ^ (IntInf.toString n));
 
@@ -253,12 +288,64 @@ fun compute_inputs n syst =
 	val inputs = if (n < 0)
 		     then []
 		     else
-			 be_r :: compute_inputs n syst;
+			 be_r :: compute_inputs_reg n syst;
     in
 	inputs
 
     end;
 
+fun store_mem be bv syst =
+    let
+	val syst = update_symbval be bv syst; (* update symbolic value *)
+	
+	val bv_mem = find_bv_val ("store_mem::bv in env not found") (SYST_get_env syst) “BVar "MEM" (BType_Mem Bit64 Bit8)”;
+		     
+	val be_add = (symbval_bexp o get_state_symbv "store_mem::vals not found " “BVar "SP_EL0" (BType_Imm Bit64)”) syst;
+
+	val endi = “BEnd_LittleEndian”;
+	    
+	val be = (mk_BExp_Store (mk_BExp_Den(bv_mem), be_add, endi, mk_BExp_Den(bv)));
+
+	val Fr_mem = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("MEM", “BType_Mem Bit64 Bit8”));
+
+	val syst =  update_envvar “BVar "MEM" (BType_Mem Bit64 Bit8)” Fr_mem syst; (* update environment *)  
+	
+	val syst = update_symbval be Fr_mem syst; (* update symbolic value *)
+    in
+	syst
+    end;     
+
+fun store_mem_r0 be bv syst =
+    let
+	val syst = update_symbval be bv syst; (* update symbolic value *)
+	
+	val bv_mem = find_bv_val ("store_mem::bv in env not found") (SYST_get_env syst) “BVar "MEM" (BType_Mem Bit64 Bit8)”;
+		     
+	val be_add = (symbval_bexp o get_state_symbv "store_mem::vals not found " “BVar "SP_EL0" (BType_Imm Bit64)”) syst;
+
+	val endi = “BEnd_LittleEndian”;
+	    
+	val be = (mk_BExp_Store (mk_BExp_Den(bv_mem), be_add, endi, mk_BExp_Den(bv)));
+
+	val Fr_mem = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("MEM", “BType_Mem Bit64 Bit8”));
+
+	val syst =  update_envvar “BVar "MEM" (BType_Mem Bit64 Bit8)” Fr_mem syst; (* update environment *)  
+	
+	val syst = update_symbval be Fr_mem syst; (* update symbolic value *)
+
+	val bv0 = ``BVar "R0" (BType_Imm Bit64)``;
+
+	val Fr_r0 = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("R0", “BType_Mem Bit64 Bit8”));
+		  
+	val syst =  update_envvar bv0 Fr_r0 syst; (* update environment *)  
+	
+	val syst = update_symbval be_add Fr_r0 syst; (* update symbolic value *)
+	    
+    in
+	syst
+    end;     
+
+   
 fun add_knowledge bv syst =
     let
 	val symbv = SOME (get_state_symbv "symbv not found" bv syst)
@@ -470,7 +557,7 @@ fun Encryption syst =
     let
 	
 	val n = List.nth (readint_inputs "Library-number of inputs", 0);
-	val inputs = compute_inputs (n-2) syst; (* get values *)
+	val inputs = compute_inputs_mem (n-2) syst; (* get values *)
 	    
 	val iv = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("iv", “BType_Imm Bit64”)); (* generate a fresh iv *)
 	
@@ -496,7 +583,7 @@ fun Decryption syst =
     let
 	
 	val n = List.nth (readint_inputs "Library-number of inputs", 0);
-	val Cipher = compute_inputs (n-1) syst; (* get values *)
+	val Cipher = compute_inputs_mem (n-1) syst; (* get values *)
 
 	val iv = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("iv", “BType_Imm Bit64”)); (* generate a fresh iv *)
 		    
@@ -518,7 +605,7 @@ fun Signature syst =
     let
 	
 	val n = List.nth (readint_inputs "Library-number of inputs", 0);
-	val inputs = compute_inputs (n-2) syst; (* get values *)
+	val inputs = compute_inputs_mem (n-2) syst; (* get values *)
 	    
 	val sk = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("SKc", “BType_Imm Bit64”)); (* generate a fresh sk *)
 	
@@ -545,7 +632,7 @@ fun Signature syst =
     let
 	
 	val n = List.nth (readint_inputs "Library-number of inputs", 0);
-	val inputs = compute_inputs (n-2) syst; (* get values *)
+	val inputs = compute_inputs_mem (n-2) syst; (* get values *)
 	    
 	val pk = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("PKc", “BType_Imm Bit64”)); (* generate a fresh sk *)
 	
@@ -570,7 +657,7 @@ fun HMAC_Send syst =
     let
 	val n = List.nth (readint_inputs "Library-number of inputs", 0);
 	    
-	val inputs = compute_inputs (n-1) syst; (* get values *)
+	val inputs = compute_inputs_mem (n-1) syst; (* get values *)
 	    
 	val iv = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("iv", “BType_Imm Bit64”)); (* generate a fresh iv *)
 		    
@@ -595,7 +682,7 @@ fun HMAC_Receive syst =
 	
 	val n = List.nth (readint_inputs "Library-number of inputs", 0);
  
-	val inputs = compute_inputs (n-1) syst; (* get values *)
+	val inputs = compute_inputs_mem (n-1) syst; (* get values *)
 	    
 	val iv = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("iv", “BType_Imm Bit64”)); (* generate a fresh iv *)
 	    
@@ -618,7 +705,7 @@ fun Xor syst =
     let
 	
 	val n = List.nth (readint_inputs "Library-number of inputs", 0);
-	val inputs = compute_inputs (n-2) syst; (* get values *) 
+	val inputs = compute_inputs_mem (n-2) syst; (* get values *) 
 
 	val (x_bv, x_be) = XOR inputs; (* xor inputs *)
 
@@ -641,7 +728,7 @@ fun Concat syst =
     let
 	
 	val n = List.nth (readint_inputs "Library-number of inputs", 0);
-	val inputs = compute_inputs (n-2) syst; (* get values *) 
+	val inputs = compute_inputs_mem (n-2) syst; (* get values *) 
 
 	val (x_bv, x_be) = CON inputs; (* Con inputs *)
 
@@ -681,6 +768,8 @@ fun New_memcpy syst =
 	syst
     end;
 
+
+   
 (*    
 fun Load_file syst =
     let
