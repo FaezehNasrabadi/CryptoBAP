@@ -259,9 +259,18 @@ fun compute_inputs_mem n syst =
 
 	val (exp1,exp2,endi,exp3) = dest_BExp_Store bv_mem;
 
-	val (exp,bv,bit) = dest_BExp_Cast exp3; 
+	val bv_s = if (is_BExp_Cast exp3)
+		   then
+		       let
+			   val (exp,bv,bit) = dest_BExp_Cast exp3;
+		       in
+			   dest_BExp_Den bv
+		       end
+		   else if (is_BExp_Den exp3)
+		       then
+			   dest_BExp_Den exp3
+		       else raise ERR "compute_inputs_mem" "this should not happen";
 
-	val bv_s = dest_BExp_Den bv;
 
 	val be_r = (symbval_bexp o get_state_symbv " vals not found " bv_s) syst;
 
