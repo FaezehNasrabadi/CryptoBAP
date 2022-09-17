@@ -22,17 +22,18 @@ open bir_symbexec_driverLib;
 open Redblackmap;
 open bir_symbexec_oracleLib;
 open bir_symbexec_oracleLib;
-(*
+
 
 (*Client*)     
-val lbl_tm = ``BL_Address (Imm64 4204228w)``;
+val lbl_tm = ``BL_Address (Imm64 4203840w)``;
 
-val stop_lbl_tms = [``BL_Address (Imm64 4204356w)``]; *)
+val stop_lbl_tms = [``BL_Address (Imm64 4204184w)``]; 
+(*
 (*Server*)     
 val lbl_tm = ``BL_Address (Imm64 4204160w)``;
 
 val stop_lbl_tms = [``BL_Address (Imm64 4204264w)``];
-
+*)
 
 val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
 (* val ns = List.map (fn x => snd x)(listItems n_dict);  *)
@@ -55,10 +56,21 @@ val _ = print ("number of symbolic execution states: " ^ (Int.toString (length s
 val _ = print "\n\n";
 
 
-val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs;
-
-
 val (systs_noassertfailed, systs_assertfailed) =
     List.partition (fn syst => not (identical (SYST_get_status syst) BST_AssertionViolated_tm)) systs;
 val _ = print ("number of \"no assert failed\" paths found: " ^ (Int.toString (length systs_noassertfailed)));
 val _ = print "\n";
+
+    val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs_noassertfailed;
+(*
+val b = listItems (SYST_get_env ((hd o rev) systs));
+val b = listItems (SYST_get_vals ((hd o rev) systs));
+val syst = (hd o rev)systs;
+val be = “BVar "R1" (BType_Imm Bit64)”;
+val be_r = (bir_symbexec_funcLib.symbval_bexp o get_state_symbv " vals not found " be) syst;
+
+open binariesCfgVizLib;
+open binariesDefsLib;
+val _ = show_cfg_fun false  bl_dict_ n_dict "packet_kexdh";
+
+*)

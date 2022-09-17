@@ -74,7 +74,6 @@ val symbs_sec_text = [
     "CreateAlertMsg"
 ];
  *)
-(*
 
 
 
@@ -124,7 +123,7 @@ val symbs_sec_text = [
     "recv",
     "wait_close"
 ];
-
+(*
 val symbs_sec_text = [
     "server",
     "fail",
@@ -329,7 +328,7 @@ val symbs_sec_text = [
 "die_usage@plt",
 "open_pipe@plt"
 ];
-*)
+
 val symbs_sec_text = [
     "main",
     "client",
@@ -342,7 +341,7 @@ val symbs_sec_text = [
     "event_send",
     "event_receive",
     "event_bad"
-];    
+]; *)   
 val arch_str         = "arm8";
 val prog_range       = ((Arbnum.fromInt 0x00000000), (Arbnum.fromInt 0xffffffff));
 
@@ -397,14 +396,15 @@ val configs              = [ ("client",
                             (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 			     ) ];
-
+*)
 val configs              = [ ("client",
-                           ("client.da", "balrob/client.da.plus", "balrob/client.da.mem"),
+                           ("client.da", "balrob/client.da.plus", "balrob/client.mem"),
                            "client_THM",
                            ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0xffffffff),
                             (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 			     ) ];
+    (*
  val configs              = [ ("server",
                            ("server.da", "balrob/server.da.plus", "balrob/server.mem"),
                            "server_THM",
@@ -461,14 +461,14 @@ val configs              = [ ("tinyssh",
 			    )];
 
 
-*)
+
 val configs              = [ ("example",
                               ("example.da", "balrob/example.da.plus", "balrob/example.mem"),
                               "example_THM",
 			      ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0x00003564), 
                                (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)), 
                                (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
-				    )];
+				    )];*)
  (*val symb_filter_lift = fn secname =>
   case secname of
       ".text" => (fn symbname => true)

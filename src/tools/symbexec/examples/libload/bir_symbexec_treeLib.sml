@@ -23,6 +23,8 @@ local
     open Redblackset;
     open bitstringSyntax;
     open  bir_symbexec_funcLib;
+    open stringSyntax;
+	 open bslSyntax;
     val ERR = Feedback.mk_HOL_ERR "bir_symbexec_treeLib"
 
 in
@@ -56,7 +58,61 @@ fun Fun_Str str_be =
 			  (implode a)^"("^(implode b)^")";
     in
 	fun_str
-    end;  
+    end;
+    
+(* val be = ``hash (BVar "1_iv" (BType_Imm Bit64)) (BExp_Const (Imm8 128w))``;
+   val str_be = (term_to_string be);*)
+
+fun find_bexp_val str_be =
+    let
+	val b = (snd o (bir_auxiliaryLib.list_split_pred #"_")) str_be;
+	    
+	val value = if (String.isPrefix "Const" (implode b))
+		    then
+			let
+			    val e = fst ((bir_auxiliaryLib.list_split_pred #"w") b);
+			    val f =  (snd o (bir_auxiliaryLib.list_split_pred #" ") o snd o (bir_auxiliaryLib.list_split_pred #" ")) e;
+			in
+			    (implode f)
+			end
+		    else ""; 		    
+	    
+    in
+	value
+    end;
+
+fun find_bval be =
+    let
+	val d =	if (String.isPrefix "Exp" (implode be))
+		then find_bexp_val be
+		else if (String.isPrefix "Var" (implode be))
+		then
+		    let
+			val c = (fst o (bir_auxiliaryLib.list_split_pred #"\"") o snd o (bir_auxiliaryLib.list_split_pred #"\"")) be;
+			val e = rev_name (implode c);
+		    in
+			e
+		    end
+		else raise ERR "compute_inputs_mem" "this should not happen";
+	    
+    in
+	d
+    end;    
+
+fun Fun_2 str_be =
+    let
+	val a = (fst o (bir_auxiliaryLib.list_split_pred #" ") o explode) str_be;
+
+	val b = (snd o (bir_auxiliaryLib.list_split_pred #"B") o explode) str_be;
+
+	val d =	find_bval b;
+
+	val c = (snd o (bir_auxiliaryLib.list_split_pred #"B") o snd o (bir_auxiliaryLib.list_split_pred #")")) b;
+
+	val f = find_bval c;
+    in
+	(implode a)^"("^d^","^f^")"
+    end;    
 (*Collect path names*)
 fun path_to_names [] Pred_Names =
     (Pred_Names)
@@ -292,7 +348,21 @@ fun K_to_Out vals_list refine_preds exec_sts pred preds =
     in
 	result
     end;
-    
+ (* val k_be =``BVar "193_HMAC" (BType_Imm Bit64)``; *) 
+fun Kr_to_Out vals_list pred =
+    let
+	val pred_term = bir_envSyntax.mk_BVar_string(pred, “BType_Bool”);    
+
+	val k_be =  symbval_bexp (find_be_val vals_list pred_term);
+
+	val str_be = (rev_name o fst o dest_BVar_string) k_be;
+
+    in
+
+	(to_string (I_Out [(Var (str_be))]))
+
+    end;
+
 (*Translate deduce to IML in*)
 fun D_to_In  vals_list exec_sts pred =
     let
@@ -348,7 +418,8 @@ fun Xor_to_IML vals_list pred =
 
     end;
 
-(*Translate Let to IML*)    
+(*Translate Let to IML*)
+   (* val be = ``hash (BExp_Const (Imm8 2w)) (BVar "1_iv" (BType_Imm Bit64))``;*)
 fun Let_to_IML vals_list pred =
     let
 	
@@ -364,6 +435,8 @@ fun Let_to_IML vals_list pred =
 
 	val fun_str = if (String.isSuffix "kS" pred)
 		      then ("kgen(PKc)")
+		      else if(String.isSuffix "HMAC" pred)
+		      then (Fun_2 (term_to_string be))
 		      else if(String.isSuffix "concat" pred)
 		      then ("concat(init,PKs)")
 		      else if(String.isSuffix "kAB" pred)
@@ -421,7 +494,7 @@ val pred_be = ``BExp_BinExp BIExp_And
 
 fun BExp_to_IMLExp vals_list exec_sts pred_be =
     let
-	(* val _ = print ((term_to_string pred_be)^"\n"); *)
+	(*val _ = print ((term_to_string pred_be)^"\n");*)
 	val result = if (is_BExp_Const pred_be) then
 			 (if (is_Imm128 o dest_BExp_Const) pred_be then
 			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm128 o dest_BExp_Const) pred_be)
@@ -596,7 +669,7 @@ fun path_of_tree event_names vals_list refine_preds exec_sts [] str =
     (str)
   | path_of_tree event_names vals_list refine_preds exec_sts (pred::preds) str =
     let
-	(*val _ = print ((pred)^"\n"); *)
+	(*val _ = print ((pred)^"\n");*)
 
 	val Act = if (String.isSuffix "assert_true_cnd" pred) then ""
 		  else if (String.isSuffix "cjmp_true_cnd" pred) then (if (String.isSuffix "0" (IMLExp_from_pred vals_list exec_sts pred))
@@ -606,9 +679,10 @@ fun path_of_tree event_names vals_list refine_preds exec_sts [] str =
 		  else if (String.isSuffix "cjmp_false_cnd" pred) then ""
 		  else if ((String.isSuffix "Key" pred) orelse (String.isSuffix "iv" pred) orelse (String.isSuffix "pkP" pred) orelse (String.isSuffix "skS" pred) orelse (String.isSuffix "RAND_NUM" pred) orelse (String.isSuffix "OTP" pred) orelse (String.isSuffix "SKey" pred)) then (to_string o Fr_to_New) pred
 		  else if (String.isSuffix "K" pred) then (K_to_Out vals_list refine_preds exec_sts pred preds)
+		  else if (String.isSuffix "Kr" pred) then (Kr_to_Out vals_list pred)
 		  else if (String.isSuffix "Adv" pred) then (to_string (D_to_In  vals_list exec_sts pred))
 		  else if (String.isSuffix "XOR" pred) then (Xor_to_IML vals_list pred)
-		  else if ((String.isSuffix "msg" pred) orelse (String.isSuffix "signature" pred) orelse (String.isSuffix "ver" pred) orelse (String.isSuffix "cipher" pred) orelse (String.isSuffix "kS" pred) (*orelse (String.isSuffix "kAB" pred)*)  orelse (String.isSuffix "kSP" pred) orelse (String.isSuffix "kPS" pred) orelse (String.isSuffix "concat" pred) orelse (String.isSuffix "Hmac" pred)) then (Let_to_IML vals_list pred)
+		  else if ((String.isSuffix "msg" pred) orelse (String.isSuffix "signature" pred) orelse (String.isSuffix "ver" pred) orelse (String.isSuffix "cipher" pred) orelse (String.isSuffix "kS" pred) (*orelse (String.isSuffix "kAB" pred)*)  orelse (String.isSuffix "kSP" pred) orelse (String.isSuffix "kPS" pred) orelse (String.isSuffix "concat" pred) orelse (String.isSuffix "HMAC" pred)) then (Let_to_IML vals_list pred)
 		  else if ((String.isSuffix "event_true_cnd" pred) orelse (String.isSuffix "event1" pred) orelse (String.isSuffix "event2" pred) orelse (String.isSuffix "event3" pred) orelse (String.isSuffix "event_false_cnd" pred))
 		  then (IML_event event_names pred)
 		  else "";
@@ -652,7 +726,7 @@ fun sym_exe_to_IML exec_sts =
 
 	val refine_preds = get_refine_preds_list exec_sts;
 
-	(* val _ = print ("\n number of refine path predicates found: " ^ (Int.toString (length refine_preds))^"\n \n"); *)
+	(*val _ = print ("\n number of refine path predicates found: " ^ (Int.toString (length refine_preds))^"\n \n");*) 
 	    
 	val IML_str = path_of_tree event_names vals_list refine_preds exec_sts (rev refine_preds) "";
     

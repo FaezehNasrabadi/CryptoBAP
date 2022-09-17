@@ -12,7 +12,7 @@ local
   val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_funcLib"
 in
 
-val _ = Parse.type_abbrev("hash", ``:bir_var_t list -> bir_var_t -> bir_exp_t``);
+val _ = Parse.type_abbrev("hash", ``:bir_var_t -> bir_var_t -> bir_exp_t``);
 
 val _ = Parse.type_abbrev("exclusive_or", ``:bir_var_t list -> bir_exp_t``);
 
@@ -25,18 +25,15 @@ val _ = Parse.type_abbrev("verify", ``:bir_var_t list -> bir_var_t -> bir_exp_t`
 val _ = Parse.type_abbrev("dec", ``:bir_var_t list -> bir_var_t -> bir_exp_t``);
 
 val _ = Parse.type_abbrev("concatenate", ``:bir_var_t list -> bir_exp_t``);
-
-val bv_mem = ``(BExp_Store
-                        (BExp_Den (BVar "MEM" (BType_Mem Bit64 Bit8)))
-                        (BExp_BinExp BIExp_Plus
-                           (BExp_Den (BVar "SP_EL0" (BType_Imm Bit64)))
-                           (BExp_Const (Imm64 15w))) BEnd_LittleEndian
-                        (BExp_Cast BIExp_LowCast
-				   (BExp_Den (BVar "R0" (BType_Imm Bit64))) Bit8))``;
+(*
+val bv_mem = ``BExp_Store (BExp_Den (BVar "160_MEM" (BType_Mem Bit64 Bit8)))
+  (BExp_Den (BVar "163_R0" (BType_Imm Bit64))) BEnd_LittleEndian
+  (BExp_Const (Imm8 2w))
+``;
 
 
 
-
+*)
     
 (* read int from file *)
 fun readint_inputs filename =
@@ -150,15 +147,19 @@ val b = fromMLstring str_a;
 open Term;
 val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
 			(hmac
-			     ( ^inputs))``;*)
+			     ( ^inputs))``;
 
-fun HMac inputs pkS =
+ val inputs = ``BExp_Const (Imm8 2w)``;
+ val iv = ``BVar "1_iv" (BType_Imm Bit64)``;
+*)
+
+fun HMac inputs iv =
     let
 
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
 		     (hash
-			  (inputs)
-			  (pkS))``;
+			  ( ^inputs)
+			  ( ^iv))``;
     in
 	dest_BStmt_Assign stmt
     end;
@@ -255,34 +256,43 @@ fun update_lib_syst be Fr_bv syst =
 fun compute_inputs_mem n syst =
     let
 	    
-	val bv_mem = find_bv_val ("compute_inputs_mem::bv in env not found") (SYST_get_env syst) “BVar "MEM" (BType_Mem Bit64 Bit8)”;
+	val bv_mem =  “BVar "MEM" (BType_Mem Bit64 Bit8)”;
 
-	val (exp1,exp2,endi,exp3) = dest_BExp_Store bv_mem;
+	val be_mem =  (symbval_bexp o get_state_symbv " be not found " bv_mem) syst;
+	    
+	(*val _ = print ("be_mem " ^ term_to_string be_mem^"\n");*)
+	val (exp1,exp2,endi,exp3) = dest_BExp_Store be_mem;
 
-	val bv_s = if (is_BExp_Cast exp3)
+	val be_r = if (is_BExp_Cast exp3)
 		   then
 		       let
 			   val (exp,bv,bit) = dest_BExp_Cast exp3;
+			   val bv_s =  dest_BExp_Den bv;
 		       in
-			   dest_BExp_Den bv
+			   (symbval_bexp o get_state_symbv " vals not found " bv_s) syst
 		       end
 		   else if (is_BExp_Den exp3)
-		       then
-			   dest_BExp_Den exp3
-		       else raise ERR "compute_inputs_mem" "this should not happen";
-
-
-	val be_r = (symbval_bexp o get_state_symbv " vals not found " bv_s) syst;
-
+		   then
+		       let
+			   val bv_s = dest_BExp_Den exp3;
+		       in
+			   (symbval_bexp o get_state_symbv " vals not found " bv_s) syst
+		       end
+		   else if (is_BExp_Const exp3)
+		   then
+		       exp3
+		   else raise ERR "compute_inputs_mem" "this should not happen";
+val _ = print ("be_mem " ^ term_to_string be_r^"\n");
+(*
 	val n = n-1;
 	val inputs = if (n < 0)
 		     then []
 		     else
 			 be_r :: compute_inputs_mem n syst;
-		    
+*)		    
 	
     in
-	inputs
+	be_r
     end;
     
 fun compute_inputs_reg n syst =
@@ -305,7 +315,7 @@ fun compute_inputs_reg n syst =
 
 fun store_mem be bv syst =
     let
-	val syst = update_symbval be bv syst; (* update symbolic value *)
+	(* val syst = update_symbval be bv syst;  update symbolic value *)
 	
 	val bv_mem = find_bv_val ("store_mem::bv in env not found") (SYST_get_env syst) “BVar "MEM" (BType_Mem Bit64 Bit8)”;
 		     
@@ -320,13 +330,19 @@ fun store_mem be bv syst =
 	val syst =  update_envvar “BVar "MEM" (BType_Mem Bit64 Bit8)” Fr_mem syst; (* update environment *)  
 	
 	val syst = update_symbval be Fr_mem syst; (* update symbolic value *)
+
+	(*val syst = update_path bv syst;  update path condition *)
     in
 	syst
     end;     
 
 fun store_mem_r0 be bv syst =
     let
-	val syst = update_symbval be bv syst; (* update symbolic value *)
+	val fr_bv = Fr bv;
+
+	val syst = (SYST_update_pred ((fr_bv)::(SYST_get_pred syst)) o update_symbval be fr_bv) syst;
+	    
+	(*val syst = update_symbval be bv syst;  update symbolic value *)
 	
 	val bv_mem = find_bv_val ("store_mem::bv in env not found") (SYST_get_env syst) “BVar "MEM" (BType_Mem Bit64 Bit8)”;
 		     
@@ -334,13 +350,13 @@ fun store_mem_r0 be bv syst =
 
 	val endi = “BEnd_LittleEndian”;
 	    
-	val be = (mk_BExp_Store (mk_BExp_Den(bv_mem), be_add, endi, mk_BExp_Den(bv)));
+	val be_mem = (mk_BExp_Store (mk_BExp_Den(bv_mem), be_add, endi, mk_BExp_Den(bv)));
 
 	val Fr_mem = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("MEM", “BType_Mem Bit64 Bit8”));
 
 	val syst =  update_envvar “BVar "MEM" (BType_Mem Bit64 Bit8)” Fr_mem syst; (* update environment *)  
 	
-	val syst = update_symbval be Fr_mem syst; (* update symbolic value *)
+	val syst = update_symbval be_mem Fr_mem syst; (* update symbolic value *)
 
 	val bv0 = ``BVar "R0" (BType_Imm Bit64)``;
 
@@ -349,11 +365,19 @@ fun store_mem_r0 be bv syst =
 	val syst =  update_envvar bv0 Fr_r0 syst; (* update environment *)  
 	
 	val syst = update_symbval be_add Fr_r0 syst; (* update symbolic value *)
+
 	    
     in
 	syst
     end;     
 
+fun add_knowledge_r0 bv syst =
+    let
+	val syst = state_add_path "Kr" bv syst;
+
+    in
+	syst
+    end;
    
 fun add_knowledge bv syst =
     let
@@ -424,7 +448,10 @@ fun Adv av syst =
 
 	val syst = update_symbval Fn_av av syst; (* update symbolic value *)
 
-	val syst = update_with_fresh_name Fn_av av syst;	    
+	val syst = store_mem Fn_av av syst;
+	    
+	val syst = update_with_fresh_name Fn_av av syst;
+	    
     in
 	syst
     end;
@@ -661,7 +688,8 @@ fun Signature syst =
 	syst
     end;
 
-     
+
+		     
 fun HMAC_Send syst =
     let
 	val n = List.nth (readint_inputs "Library-number of inputs", 0);
@@ -669,18 +697,18 @@ fun HMAC_Send syst =
 	val inputs = compute_inputs_mem (n-1) syst; (* get values *)
 	    
 	val iv = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("iv", “BType_Imm Bit64”)); (* generate a fresh iv *)
+
+	val syst = update_path iv syst;
 		    
 	val (M_bv, M_be) = HMac inputs iv; (* HMac with key *)
-
+	    
 	val Fr_Hmac = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("HMAC", “BType_Imm Bit64”)); (* generate a fresh variable *)
 
-	val stmt = ``BStmt_Assign (Fr_Hmac) (M_bv)``; (* assign value of R0 to the fresh variable *)
-
-	val syst = state_add_path "Hmac" M_be syst; (* update path condition *)
+	(*val syst = state_add_path "Hmac" M_be syst;  update path condition *)
 	    
-	val syst = update_lib_syst M_be Fr_Hmac syst; (* update syst *)
+	val syst = store_mem_r0 M_be Fr_Hmac syst; (* update syst *)
 
-	(*val syst = add_knowledges_to_adv 0 syst;  The adversary has a right to know the output of the hmac function.*)
+	val syst = add_knowledge_r0 Fr_Hmac syst;  (*The adversary has a right to know the output of the hmac function.*)
 
     in
 	syst

@@ -1,0 +1,7 @@
+if ((1000<=R0_40)∧¬(R0_40=1000)) then
+if ((1000<=R0_52)∧¬(R0_52=1000)) then
+new iv_188 fixed_64 
+let HMAC_189 = hash(2,iv_188) in
+out c, HMAC_189 
+event client_send Hmac 
+event client_send Hmac 
