@@ -159,7 +159,7 @@ fun eval_exp_in_syst exp syst =
 
     val benv = ``BEnv (K NONE)``;
   in
-    (snd o dest_eq o concl o EVAL)``bir_eval_exp ^exp_ ^benv``
+    (snd o dest_eq o concl o EVAL) ``bir_eval_exp ^exp_ ^benv``
   end;
 
 fun eval_exp_no_deps exp =

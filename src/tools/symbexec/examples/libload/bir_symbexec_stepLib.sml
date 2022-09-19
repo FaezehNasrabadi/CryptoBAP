@@ -242,7 +242,7 @@ fun symb_exec_adversary_block abpfun n_dict bl_dict syst =
 		   else
 		       syst;		    	
 
-		val av = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Adv", “BType_Imm Bit64”)); (* generate a fresh variable *)
+		val av = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Adv", “BType_Mem Bit64 Bit8”)); (* generate a fresh variable *)
 
 		val syst = bir_symbexec_funcLib.Adv av syst; (* update env, vals & pred *)
 		    
@@ -299,6 +299,11 @@ fun symb_exec_library_block abpfun n_dict bl_dict adr_dict syst =
 			   else if (lib_type = "kdfPtoS") then [bir_symbexec_funcLib.kdfPtoS syst]
 			   else if (lib_type = "kdfStoP") then [bir_symbexec_funcLib.kdfStoP syst]
 			   else if (lib_type = "concat") then [bir_symbexec_funcLib.Concat syst]
+			   else if (lib_type = "Concat1") then [bir_symbexec_funcLib.Concat1 syst]
+			   else if (lib_type = "Concat2") then [bir_symbexec_funcLib.Concat2 syst]
+			   else if (lib_type = "Pars1") then [bir_symbexec_funcLib.Parse1 syst]
+			   else if (lib_type = "Pars2") then [bir_symbexec_funcLib.Parse2 syst]
+			   else if (lib_type = "compare") then (bir_symbexec_funcLib.Compare syst)
 			   else if (lib_type = "Fail") then [SYST_update_status BST_AssumptionViolated_tm syst]
 			   else if ((lib_type = "event1") orelse (lib_type = "event2") orelse (lib_type = "event3")) then (bir_symbexec_funcLib.Event lib_type syst)
 			   else [syst];

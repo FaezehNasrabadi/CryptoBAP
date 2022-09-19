@@ -1,4 +1,4 @@
 The event name is as follows:
 
-client_send Hmac
+server_recv payload
 

@@ -1,0 +1,20 @@
+if ((c_1000<=R0_30)∧¬(R0_30 = c_1000)) then
+in c, a_53 
+if (¬(c_7<=R0_56)∨(R0_56 = c_7)) then
+if ((c_1029<=R0_68)∧¬(R0_68 = c_1029)) then
+in c, a_113 
+if (¬(c_1000<=R0_136)∨(R0_136 = c_1000)) then
+if (R1_146 = R0_149) then
+if (R0_159 = c_1) then
+let Pars1_236 = pars1(a_113) in
+let Conc1_259 = conc1(Pars1_236) in
+let HMAC_263 = hash(Conc1_259,iv_262) in
+let Pars2_274 = pars2(a_113) in
+if (HMAC_263 = Pars2_274) then
+event server_recv payload
+event bad 
+if (R0_276 = c_0) then
+if (R0_299 = c_0) then
+if (R0_276 = c_0) then
+if (R0_333 = c_0) then
+else

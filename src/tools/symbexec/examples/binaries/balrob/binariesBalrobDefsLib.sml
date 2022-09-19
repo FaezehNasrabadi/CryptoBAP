@@ -73,13 +73,13 @@ val symbs_sec_text = [
     "ParseAlertMsg",
     "CreateAlertMsg"
 ];
- *)
 
 
 
 
 
 
+*)
 
 val symbs_sec_text = [
     "_IO_puts",
@@ -123,7 +123,7 @@ val symbs_sec_text = [
     "recv",
     "wait_close"
 ];
-(*
+ (*
 val symbs_sec_text = [
     "server",
     "fail",
@@ -396,7 +396,7 @@ val configs              = [ ("client",
                             (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 			     ) ];
-*)
+  *)
 val configs              = [ ("client",
                            ("client.da", "balrob/client.da.plus", "balrob/client.mem"),
                            "client_THM",
@@ -404,7 +404,7 @@ val configs              = [ ("client",
                             (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 			     ) ];
-    (*
+  (*
  val configs              = [ ("server",
                            ("server.da", "balrob/server.da.plus", "balrob/server.mem"),
                            "server_THM",

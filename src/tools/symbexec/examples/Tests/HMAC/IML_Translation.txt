@@ -1,0 +1,9 @@
+if ((c_1000<=R0_40)∧¬(R0_40 = c_1000)) then
+if ((c_1000<=R0_52)∧¬(R0_52 = c_1000)) then
+event client_send payload 
+let Conc1_188 = conc1(payload) in
+let HMAC_192 = hash(Conc1_188,key) in
+let Conc2_196 = conc2(payload,HMAC_192) in
+out c, Conc2_196 
+if (R0_237 = c_0) then
+else

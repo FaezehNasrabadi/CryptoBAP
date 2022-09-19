@@ -257,6 +257,16 @@ fun lib_oracle_type_label adr_dict label =
 		"concat"
 	    else if (find_from_dict = (List.nth (C_fun_names, 28))) then
 		"NewKey"
+	    else if (find_from_dict = (List.nth (C_fun_names, 29))) then
+		"Concat1"
+	    else if (find_from_dict = (List.nth (C_fun_names, 30))) then
+		"Concat2"
+	    else if (find_from_dict = (List.nth (C_fun_names, 31))) then
+		"Pars1"
+	    else if (find_from_dict = (List.nth (C_fun_names, 32))) then
+		"Pars2"
+	    else if (find_from_dict = (List.nth (C_fun_names, 33))) then
+		"compare"
 	    else
 		"C_Lib";
 	    

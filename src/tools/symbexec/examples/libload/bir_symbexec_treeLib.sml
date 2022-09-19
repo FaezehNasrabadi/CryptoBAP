@@ -60,7 +60,8 @@ fun Fun_Str str_be =
 	fun_str
     end;
     
-(* val be = ``hash (BVar "1_iv" (BType_Imm Bit64)) (BExp_Const (Imm8 128w))``;
+(* val be = ``conc2 payload (BVar "192_HMAC" (BType_Imm Bit64))``;
+val be = “hash (BVar "188_Conc1" (BType_Imm Bit64)) key”;
    val str_be = (term_to_string be);*)
 
 fun find_bexp_val str_be =
@@ -73,9 +74,17 @@ fun find_bexp_val str_be =
 			    val e = fst ((bir_auxiliaryLib.list_split_pred #"w") b);
 			    val f =  (snd o (bir_auxiliaryLib.list_split_pred #" ") o snd o (bir_auxiliaryLib.list_split_pred #" ")) e;
 			in
-			    (implode f)
+			    ("c_"^(implode f))
 			end
-		    else ""; 		    
+		    else if (String.isPrefix "Den" (implode b))
+		    then
+			let
+			    val c = (fst o (bir_auxiliaryLib.list_split_pred #"\"") o snd o (bir_auxiliaryLib.list_split_pred #"\"")) b;
+			    val e = rev_name (implode c);
+			in
+			    e
+			end
+		    else (implode b); 		    
 	    
     in
 	value
@@ -93,26 +102,76 @@ fun find_bval be =
 		    in
 			e
 		    end
-		else raise ERR "compute_inputs_mem" "this should not happen";
+		    else (implode be);
+		(*else raise ERR "compute_inputs_mem" "this should not happen";*)
 	    
     in
 	d
-    end;    
+    end;
+
+fun find_fun_arg b =
+    let
+	val f = if ((String.isPrefix "Var" (implode b)) orelse (String.isPrefix "Exp" (implode b)))
+		then
+		    find_bval b
+		    else if ((String.isPrefix "(BVar" (implode b)) orelse (String.isPrefix "(BExp" (implode b)))
+		then
+		    let
+			val c = (snd o (bir_auxiliaryLib.list_split_pred #"B")) b;
+
+		    in
+			find_bval c
+		    end
+		else if (List.exists (fn x => x = #" ") b)
+		then
+		    (implode o fst o (bir_auxiliaryLib.list_split_pred #" ")) b
+		else  (implode b);
+    in
+	f
+    end;
+
+fun Fun_1 str_be =
+    let
+	(*val _ = print str_be;*)
+	val (a,b) = ((bir_auxiliaryLib.list_split_pred #" ") o explode) str_be;
+
+	val f = find_fun_arg b;
+
+    in
+	(implode a)^"("^f^")"
+    end;
 
 fun Fun_2 str_be =
     let
-	val a = (fst o (bir_auxiliaryLib.list_split_pred #" ") o explode) str_be;
+	(*val _ = print str_be;*)
+	val (a,b) = ((bir_auxiliaryLib.list_split_pred #" ") o explode) str_be;
 
-	val b = (snd o (bir_auxiliaryLib.list_split_pred #"B") o explode) str_be;
+	val (c,d) = bir_auxiliaryLib.list_split_pred #" " b;
 
-	val d =	find_bval b;
+	val f =  if ((String.isPrefix "(BVar" (implode c)) orelse (String.isPrefix "(BExp" (implode c)))
+		 then
+		     let
+			 val e = find_fun_arg b;
+			 val g = (implode o snd o (bir_auxiliaryLib.list_split_pred #" ") o snd o (bir_auxiliaryLib.list_split_pred #")")) d;
+		     in
+			 (e^","^g)
+		     end
+		 else if ((String.isPrefix "(BVar" (implode d)) orelse (String.isPrefix "(BExp" (implode d)))
+		 then
+		     let
+			 val e = implode c;
+			     
+			 val g = find_fun_arg d;
+		     in
+			 (e^","^g)
+		     end
+		 else
+		     str_be;
+	    
 
-	val c = (snd o (bir_auxiliaryLib.list_split_pred #"B") o snd o (bir_auxiliaryLib.list_split_pred #")")) b;
-
-	val f = find_bval c;
     in
-	(implode a)^"("^d^","^f^")"
-    end;    
+	(implode a)^"("^f^")"
+    end;      
 (*Collect path names*)
 fun path_to_names [] Pred_Names =
     (Pred_Names)
@@ -431,8 +490,10 @@ fun Let_to_IML vals_list pred =
 		      then ((rev_name o fst o dest_BVar_string o dest_BExp_Den) be)
 		      else if (is_BVar be)
 		      then ((rev_name o fst o dest_BVar_string) be)
-		      else Fun_Str (term_to_string be);
-
+		      else if((String.isSuffix "Conc1" pred) orelse (String.isSuffix "Pars1" pred) orelse (String.isSuffix "Pars2" pred))
+		      then (Fun_1 (term_to_string be))
+		      else (Fun_2 (term_to_string be));
+(*
 	val fun_str = if (String.isSuffix "kS" pred)
 		      then ("kgen(PKc)")
 		      else if(String.isSuffix "HMAC" pred)
@@ -446,7 +507,7 @@ fun Let_to_IML vals_list pred =
 		      else if(String.isSuffix "kPS" pred)
 		      then ("kdfPtoS(k,h)")
 		      else fun_str;
-	    
+*)	    
 (*	val pred = if (String.isSuffix "kS" pred)
 		      then ("k")
 		      else if(String.isSuffix "Hmac" pred)
@@ -497,17 +558,17 @@ fun BExp_to_IMLExp vals_list exec_sts pred_be =
 	(*val _ = print ((term_to_string pred_be)^"\n");*)
 	val result = if (is_BExp_Const pred_be) then
 			 (if (is_Imm128 o dest_BExp_Const) pred_be then
-			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm128 o dest_BExp_Const) pred_be)
+			      ("c_"^((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm128 o dest_BExp_Const) pred_be))
 			  else if (is_Imm64 o dest_BExp_Const) pred_be then
-			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm64 o dest_BExp_Const) pred_be)
+			      ("c_"^((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm64 o dest_BExp_Const) pred_be))
 			  else if (is_Imm32 o dest_BExp_Const) pred_be then
-			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm32 o dest_BExp_Const) pred_be)
+			      ("c_"^((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm32 o dest_BExp_Const) pred_be))
 			  else if (is_Imm16 o dest_BExp_Const) pred_be then
-			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm16 o dest_BExp_Const) pred_be)
+			      ("c_"^((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm16 o dest_BExp_Const) pred_be))
 			  else if (is_Imm8 o dest_BExp_Const) pred_be then
-			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm8 o dest_BExp_Const) pred_be)
+			      ("c_"^((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm8 o dest_BExp_Const) pred_be))
 			  else if (is_Imm1 o dest_BExp_Const) pred_be then
-			      ((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm1 o dest_BExp_Const) pred_be)
+			      ("c_"^((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm1 o dest_BExp_Const) pred_be))
 			  else raise ERR "BExp_Const:BExp_to_IMLExp" "this should not happen")
 		     else if (is_BExp_Den pred_be) then
 			 (if identical “BType_Bool” ((snd o dest_BVar o dest_BExp_Den) pred_be) then
@@ -568,7 +629,7 @@ fun BExp_to_IMLExp vals_list exec_sts pred_be =
 		     else if (is_BExp_BinPred pred_be) then
 			 let 
 			     val (bop, subexp1, subexp2) = (dest_BExp_BinPred) pred_be;
-			     val res = if identical bop BIExp_Equal_tm then ("=")
+			     val res = if identical bop BIExp_Equal_tm then (" = ")
 				       else if identical bop BIExp_NotEqual_tm then ("≠")
 				       else if ((identical bop BIExp_LessThan_tm) orelse (identical bop BIExp_SignedLessThan_tm)) then ("<")
 				       else if ((identical bop BIExp_LessOrEqual_tm) orelse (identical bop BIExp_SignedLessOrEqual_tm)) then ("<=")
@@ -672,17 +733,17 @@ fun path_of_tree event_names vals_list refine_preds exec_sts [] str =
 	(*val _ = print ((pred)^"\n");*)
 
 	val Act = if (String.isSuffix "assert_true_cnd" pred) then ""
-		  else if (String.isSuffix "cjmp_true_cnd" pred) then (if (String.isSuffix "0" (IMLExp_from_pred vals_list exec_sts pred))
+		  else if ((String.isSuffix "cjmp_true_cnd" pred) orelse (String.isSuffix "comp_true_cnd" pred)) then (if (String.isSuffix "0" (IMLExp_from_pred vals_list exec_sts pred))
 	then ""
 	     else (to_string o Br_True) (IMLExp_from_pred vals_list exec_sts pred))
 		  else if (String.isSuffix "assert_false_cnd" pred) then (assert_false_string event_names vals_list exec_sts pred)
-		  else if (String.isSuffix "cjmp_false_cnd" pred) then ""
+		  else if ((String.isSuffix "cjmp_false_cnd" pred) orelse (String.isSuffix "comp_false_cnd" pred)) then ""
 		  else if ((String.isSuffix "Key" pred) orelse (String.isSuffix "iv" pred) orelse (String.isSuffix "pkP" pred) orelse (String.isSuffix "skS" pred) orelse (String.isSuffix "RAND_NUM" pred) orelse (String.isSuffix "OTP" pred) orelse (String.isSuffix "SKey" pred)) then (to_string o Fr_to_New) pred
 		  else if (String.isSuffix "K" pred) then (K_to_Out vals_list refine_preds exec_sts pred preds)
 		  else if (String.isSuffix "Kr" pred) then (Kr_to_Out vals_list pred)
 		  else if (String.isSuffix "Adv" pred) then (to_string (D_to_In  vals_list exec_sts pred))
 		  else if (String.isSuffix "XOR" pred) then (Xor_to_IML vals_list pred)
-		  else if ((String.isSuffix "msg" pred) orelse (String.isSuffix "signature" pred) orelse (String.isSuffix "ver" pred) orelse (String.isSuffix "cipher" pred) orelse (String.isSuffix "kS" pred) (*orelse (String.isSuffix "kAB" pred)*)  orelse (String.isSuffix "kSP" pred) orelse (String.isSuffix "kPS" pred) orelse (String.isSuffix "concat" pred) orelse (String.isSuffix "HMAC" pred)) then (Let_to_IML vals_list pred)
+		  else if ((String.isSuffix "msg" pred) orelse (String.isSuffix "signature" pred) orelse (String.isSuffix "ver" pred) orelse (String.isSuffix "cipher" pred) orelse (String.isSuffix "kS" pred) (*orelse (String.isSuffix "kAB" pred)*)  orelse (String.isSuffix "kSP" pred) orelse (String.isSuffix "kPS" pred) orelse (String.isSuffix "concat" pred) orelse (String.isSuffix "HMAC" pred) orelse (String.isSuffix "Conc1" pred) orelse (String.isSuffix "Conc2" pred) orelse (String.isSuffix "Pars1" pred) orelse (String.isSuffix "Pars2" pred)) then (Let_to_IML vals_list pred)
 		  else if ((String.isSuffix "event_true_cnd" pred) orelse (String.isSuffix "event1" pred) orelse (String.isSuffix "event2" pred) orelse (String.isSuffix "event3" pred) orelse (String.isSuffix "event_false_cnd" pred))
 		  then (IML_event event_names pred)
 		  else "";

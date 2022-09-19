@@ -4,10 +4,15 @@ The cryptographic functions names are as follows:
 
 HMAC
 
-my_memcpy_proxy
-send
+
+__libc_malloc
 
 fail
+__stack_chk_fail
+
+
+
+
 
 
 

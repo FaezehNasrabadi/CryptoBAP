@@ -27,14 +27,14 @@ open bir_symbexec_oracleLib;
 (*Client*)     
 val lbl_tm = ``BL_Address (Imm64 4203840w)``;
 
-val stop_lbl_tms = [``BL_Address (Imm64 4204184w)``]; 
-(*
-(*Server*)     
-val lbl_tm = ``BL_Address (Imm64 4204160w)``;
+val stop_lbl_tms = [``BL_Address (Imm64 4204224w)``]; 
 
-val stop_lbl_tms = [``BL_Address (Imm64 4204264w)``];
+(*Server*) (*    
+val lbl_tm = ``BL_Address (Imm64 4203632w)``;
+
+val stop_lbl_tms = [``BL_Address (Imm64 4204156w)``];
+
 *)
-
 val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
 (* val ns = List.map (fn x => snd x)(listItems n_dict);  *)
 (* val _ =  bir_cfg_vizLib.cfg_display_graph_ns ns;  *)
