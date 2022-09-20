@@ -8,7 +8,7 @@ print_text_buffer
 __stack_chk_fail
 unmute
 __cfree
-_IO_fflush
+send
 __libc_malloc
 exit
 mute
@@ -18,7 +18,6 @@ readenvL
 decrypt
 event1
 _IO_fwrite
-send
 print_buffer
 mk_session_key
 assume_string
@@ -28,3 +27,4 @@ get_request
 fail
 decrypt_len
 parseargs
+recv_response

@@ -80,7 +80,11 @@ val prog_vars = gen_vars_of_prog prog_tm;
 
 val adv_mem = “BVar "Adv_MEM" (BType_Mem Bit64 Bit8)”;
 
-val prog_vars = adv_mem::prog_vars;	      
+val prog_vars = adv_mem::prog_vars;
+
+val bv_key = ``BVar "key" (BType_Imm Bit64)``;
+
+val prog_vars = bv_key::prog_vars;    
 (* =============================== memory contents (including data) ============================= *)
 
 local

@@ -1,7 +1,7 @@
 The cryptographic functions names are as follows:
-get_shared_key
+
 encrypt
-decrypt
+send
 hmacsha1
 hmacsha1Verify
 memcpy
@@ -14,3 +14,22 @@ exit
 
 mk_session_key
 fail
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

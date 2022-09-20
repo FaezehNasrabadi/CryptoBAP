@@ -1,4 +1,4 @@
 The event name is as follows:
-hClient hServer
-client_begin hClient hServer request
-client_accept hClient hServer request response
+
+client_begin clientID serverID request
+client_accept clientID serverID request response

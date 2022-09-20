@@ -554,17 +554,18 @@ fun Let_to_IML vals_list pred =
 
 	val be =  symbval_bexp (find_be_val vals_list pred_term) handle e => ``bir_exp_true``;
 
-	val fun_str = if (String.isSuffix "kAB" pred)
-		      then ("lookup(clientID,serverID,key)")
-		      else if (is_BExp_Den be)
-		      then ((rev_name o fst o dest_BVar_string o dest_BExp_Den) be)
-		      else if (is_BVar be)
-		      then ((rev_name o fst o dest_BVar_string) be)
-		      else if((String.isSuffix "Enc" pred))
-		      then (Fun_3 (term_to_string be))
-		      else if((String.isSuffix "Conc1" pred) orelse (String.isSuffix "Pars1" pred) orelse (String.isSuffix "Pars2" pred) orelse (String.isSuffix "sk" pred))
-		      then (Fun_1 (term_to_string be))
-		      else (Fun_2 (term_to_string be));
+	val fun_str =
+	    if (String.isSuffix "kAB" pred)
+	    then ("lookup(clientID,serverID,key)")
+	    else if (is_BExp_Den be)
+	    then ((rev_name o fst o dest_BVar_string o dest_BExp_Den) be)
+	    else if (is_BVar be)
+	    then ((rev_name o fst o dest_BVar_string) be)
+	    else if((String.isSuffix "Enc" pred))
+	    then (Fun_3 (term_to_string be))
+	    else if((String.isSuffix "Conc1" pred) orelse (String.isSuffix "Pars1" pred) orelse (String.isSuffix "Pars2" pred) orelse (String.isSuffix "sk" pred))
+	    then (Fun_1 (term_to_string be))
+	    else (Fun_2 (term_to_string be));
 (*
 	val fun_str = if (String.isSuffix "kS" pred)
 		      then ("kgen(PKc)")
