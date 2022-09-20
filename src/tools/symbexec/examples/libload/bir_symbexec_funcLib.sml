@@ -168,7 +168,7 @@ fun HMac inputs key =
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
 		     (hash
 			  ( ^inputs)
-			  ( key))``;
+			  ( keyAB))``;
     in
 	dest_BStmt_Assign stmt
     end;
@@ -188,11 +188,22 @@ fun Conc2 input1 input2 =
 
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
 		     (conc2
-			  ( ^input1)
+			  ( response)
 			  ( ^input2))``;
     in
 	dest_BStmt_Assign stmt
     end;
+
+fun Conc3 input1 input2 =
+    let
+
+	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
+		     (conc2
+			  ( ^input1)
+			  ( response))``;
+    in
+	dest_BStmt_Assign stmt
+    end;    
 
 fun Pars1 input =
     let
@@ -550,7 +561,7 @@ fun Adv av syst =
         
 fun Concat1 syst =
     let
-	val flag = false;
+	val flag = true;
 
 	val input = if (flag = true)
 		    then (compute_inputs_mem (1) syst)
@@ -584,6 +595,7 @@ fun Concat2 syst =
 	syst
     end;
 
+    
 fun Parse1 syst =
     let
 	val be_adv = find_adv_name syst;
@@ -612,6 +624,58 @@ fun Parse2 syst =
     in
 	syst
     end;
+
+fun Concat3 syst =
+    let
+	val syst = Parse1 syst;
+	    
+	val input = compute_inputs_mem (1) syst; (* get values *)
+
+	val str = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("str", “BType_Imm Bit64”));   
+		    
+	val (C_bv, C_be) = Conc2 str input; (* Concat with string *)
+	    
+	val Fr_conc2 = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Conc2", “BType_Imm Bit64”)); (* generate a fresh variable *)
+	    
+	val syst = store_mem_r0 C_be Fr_conc2 syst; (* update syst *)
+
+    in
+	syst
+    end;    
+
+fun Concat4 syst =
+    let
+	val syst = Parse1 syst;
+	    
+	val input = compute_inputs_mem (1) syst; (* get values *)
+		    
+	val (C_bv, C_be) = Conc1 input; (* Concat with string *)
+	    
+	val Fr_conc1 = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Conc1", “BType_Imm Bit64”)); (* generate a fresh variable *)
+	    
+	val syst = store_mem_r0 C_be Fr_conc1 syst; (* update syst *)
+
+    in
+	syst
+    end;
+
+fun Concat5 syst =
+    let
+	val syst = Parse1 syst;
+	    
+	val input = compute_inputs_mem (1) syst; (* get values *)
+
+	val str = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("str", “BType_Imm Bit64”)); (* generate a fresh iv *) 
+		    
+	val (C_bv, C_be) = Conc3 input str; (* Concat with string *)
+	    
+	val Fr_conc2 = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Conc2", “BType_Imm Bit64”)); (* generate a fresh variable *)
+	    
+	val syst = store_mem_r0 C_be Fr_conc2 syst; (* update syst *)
+
+    in
+	syst
+    end;
     
 fun Event lib_type syst =
     let
@@ -632,6 +696,33 @@ fun Event lib_type syst =
     in
 	systs
     end;   
+
+
+
+fun Compare syst =
+    let
+
+	val input1 = compute_inputs_mem (1) syst;
+
+	val syst = Parse2 syst;
+	    
+	val input2 = compute_inputs_mem (1) syst;
+
+	val D_input1 = mk_BExp_Den(input1);
+
+	val D_input2 = mk_BExp_Den(input2);
+
+	val cnd = ``BExp_BinPred BIExp_Equal
+		    ( ^D_input1)
+		    ( ^D_input2)``;
+		  
+	val systs1 = ((Event "event3") o I o state_add_path "comp_true_cnd" cnd) syst;
+	val systs2 = ((Event "event3") o I o state_add_path "comp_false_cnd" (bslSyntax.bnot cnd)) syst;
+
+	    
+    in
+	systs1@systs2
+    end;
 
 fun One_Time_Pad syst =
     let
@@ -848,7 +939,7 @@ fun Signature syst =
 		     
 fun HMAC_Send syst =
     let
-	val syst = Concat1 syst;
+	val syst = Concat5 syst;
 
 	val n = List.nth (readint_inputs "Library-number of inputs", 0);
 	    
@@ -873,7 +964,7 @@ fun HMAC_Send syst =
 
 fun HMAC_Receive syst =
     let
-	val syst = Concat1 syst;
+	val syst = Concat4 syst;
 	
 	val n = List.nth (readint_inputs "Library-number of inputs", 0);
  
@@ -886,6 +977,8 @@ fun HMAC_Receive syst =
 	val Fr_Hmac = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("HMAC", “BType_Imm Bit64”)); (* generate a fresh variable *)
 
 	val syst = store_mem_r0 M_be Fr_Hmac syst; (* update syst *)
+
+	val syst = hd(Compare syst);
 
     in
 	syst
@@ -1006,30 +1099,7 @@ fun Load_file syst =
 	syst
     end;
     
-fun Compare syst =
-    let
-
-	val input1 = compute_inputs_mem (1) syst;
-
-	val syst = Parse2 syst;
-	    
-	val input2 = compute_inputs_mem (1) syst;
-
-	val D_input1 = mk_BExp_Den(input1);
-
-	val D_input2 = mk_BExp_Den(input2);
-
-	val cnd = ``BExp_BinPred BIExp_Equal
-		    ( ^D_input1)
-		    ( ^D_input2)``;
-		  
-	val systs1 = ((Event "event1") o I o state_add_path "comp_true_cnd" cnd) syst;
-	val systs2 = ((Event "event2") o I o state_add_path "comp_false_cnd" (bslSyntax.bnot cnd)) syst;
-
-	    
-    in
-	systs1@systs2
-    end; 
+ 
     
 end(*local*)
 

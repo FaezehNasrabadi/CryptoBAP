@@ -21,23 +21,23 @@ open bir_cfg_m0Lib;
 open bir_symbexec_driverLib;
 open Redblackmap;
 open bir_symbexec_oracleLib;
-(*
-(*client*)
+
+(*client*)(*
 val lbl_tm = ``BL_Address (Imm64 4228268w)``;
 
 val stop_lbl_tms = [``BL_Address (Imm64 4230700w)``]; 
-(*server*)
+(*server*)*)
 val lbl_tm = ``BL_Address (Imm64 4230704w)``;
 
 val stop_lbl_tms = [``BL_Address (Imm64 4233012w)``];
-(*main*)   
+(*main*)   (*
 val lbl_tm = ``BL_Address (Imm64 4233016w)``;
 
-val stop_lbl_tms = [``BL_Address (Imm64 4236208w)``];*)
+val stop_lbl_tms = [``BL_Address (Imm64 4236208w)``];
 
 val lbl_tm = ``BL_Address (Imm64 4228268w)``;
 
-val stop_lbl_tms = [``BL_Address (Imm64 4229252w)``]; 
+val stop_lbl_tms = [``BL_Address (Imm64 4229252w)``]; *)
     
 val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
 
@@ -58,7 +58,7 @@ val _ = print "\n\n";
 val _ = print "finished exploration of all paths.\n\n";
 val _ = print ("number of paths found: " ^ (Int.toString (length systs)));
 val _ = print "\n\n";
-
+(*
 (******send to server*******)
     
 val lbl_tm = ``BL_Address (Imm64 4230704w)``;
@@ -84,7 +84,7 @@ val _ = print "\n\n";
 val _ = print "finished exploration of all paths.\n\n";
 val _ = print ("number of paths found: " ^ (Int.toString (length systs)));
 val _ = print "\n\n";    
-
+*)
 val (systs_noassertfailed, systs_assertfailed) =
   List.partition (fn syst => not (identical (SYST_get_status syst) BST_AssertionViolated_tm)) systs;
 val _ = print ("number of \"no assert failed\" paths found: " ^ (Int.toString (length systs_noassertfailed)));
@@ -104,5 +104,5 @@ val _ = print "finished tidying up all paths.\n\n";
 val _ = print ("number of tidied up paths found: " ^ (Int.toString (length systs_tidiedup)));
 val _ = print "\n\n";
 *)   
-val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs;
+val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs_noassertfailed;
 

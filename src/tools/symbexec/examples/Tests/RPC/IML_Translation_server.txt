@@ -1,0 +1,15 @@
+in c, a_96 
+if ((c_2000<=R0_199)∧¬(R0_199 = c_2000)) then
+let Pars1_342 = pars1(a_96) in
+let Conc1_345 = conc1(Pars1_342) in
+let HMAC_349 = hash(Conc1_345,keyAB) in
+let Pars2_352 = pars2(a_96) in
+if (HMAC_349 = Pars2_352) then
+event server_reply request response 
+let Pars1_573 = pars1(a_96) in
+let Conc2_577 = conc2(Pars1_573,response) in
+let HMAC_581 = hash(Conc2_577,keyAB) in
+let Conc2_585 = conc2(response,HMAC_581) in
+out c, Conc2_585 
+if (R0_723 = c_0) then
+else

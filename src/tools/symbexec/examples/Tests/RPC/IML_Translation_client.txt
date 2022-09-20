@@ -1,0 +1,17 @@
+event client_begin request 
+let Conc1_213 = conc1(request) in
+let HMAC_217 = hash(Conc1_213,keyAB) in
+let Conc2_221 = conc2(request,HMAC_217) in
+out c, Conc2_221 
+in c, a_347 
+if ((c_2000<=R0_450)∧¬(R0_450 = c_2000)) then
+let Pars1_604 = pars1(a_347) in
+let Conc2_608 = conc2(request,Pars1_604) in
+let HMAC_612 = hash(Conc2_608,keyAB) in
+let Pars2_736 = pars2(a_347) in
+if (HMAC_612 = Pars2_736) then
+event client_accept request response 
+event client_accept request response 
+if (R0_756 = c_0) then
+if (R0_782 = c_0) then
+else

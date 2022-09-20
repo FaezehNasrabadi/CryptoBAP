@@ -42,3 +42,7 @@ __CrestUnmute
 iconcat
 str
 event3
+__CrestLocation
+__CrestDone
+socket_connect
+socket_listen
