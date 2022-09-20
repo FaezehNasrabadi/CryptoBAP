@@ -460,7 +460,7 @@ fun IML_event event_names pred =
 	((to_string o I_Event) pred_name)
     end;
 
-(*Translate XOR to IML*)    
+(*Translate XOR to IML   
 fun Xor_to_IML vals_list pred =
     let
 	
@@ -470,13 +470,13 @@ fun Xor_to_IML vals_list pred =
 
 	val str_be = term_to_string x_be;
 
-	val fun_str = Fun_Str str_be;
+	val fun_str = Fun2 str_be;
 
     in
 	(to_string (I_Out [(Var (fun_str))]))
 
     end;
-
+*) 
 (*Translate Let to IML*)
    (* val be = ``hash (BExp_Const (Imm8 2w)) (BVar "1_iv" (BType_Imm Bit64))``;*)
 fun Let_to_IML vals_list pred =
@@ -742,8 +742,7 @@ fun path_of_tree event_names vals_list refine_preds exec_sts [] str =
 		  else if (String.isSuffix "K" pred) then (K_to_Out vals_list refine_preds exec_sts pred preds)
 		  else if (String.isSuffix "Kr" pred) then (Kr_to_Out vals_list pred)
 		  else if (String.isSuffix "Adv" pred) then (to_string (D_to_In  vals_list exec_sts pred))
-		  else if (String.isSuffix "XOR" pred) then (Xor_to_IML vals_list pred)
-		  else if ((String.isSuffix "msg" pred) orelse (String.isSuffix "signature" pred) orelse (String.isSuffix "ver" pred) orelse (String.isSuffix "cipher" pred) orelse (String.isSuffix "kS" pred) (*orelse (String.isSuffix "kAB" pred)*)  orelse (String.isSuffix "kSP" pred) orelse (String.isSuffix "kPS" pred) orelse (String.isSuffix "concat" pred) orelse (String.isSuffix "HMAC" pred) orelse (String.isSuffix "Conc1" pred) orelse (String.isSuffix "Conc2" pred) orelse (String.isSuffix "Pars1" pred) orelse (String.isSuffix "Pars2" pred)) then (Let_to_IML vals_list pred)
+		  else if ((String.isSuffix "msg" pred) orelse (String.isSuffix "signature" pred) orelse (String.isSuffix "ver" pred) orelse (String.isSuffix "cipher" pred) orelse (String.isSuffix "kS" pred) (*orelse (String.isSuffix "kAB" pred)*)  orelse (String.isSuffix "kSP" pred) orelse (String.isSuffix "kPS" pred) orelse (String.isSuffix "concat" pred) orelse (String.isSuffix "HMAC" pred) orelse (String.isSuffix "Conc1" pred) orelse (String.isSuffix "Conc2" pred) orelse (String.isSuffix "Pars1" pred) orelse (String.isSuffix "Pars2" pred) orelse (String.isSuffix "XOR" pred)) then (Let_to_IML vals_list pred)
 		  else if ((String.isSuffix "event_true_cnd" pred) orelse (String.isSuffix "event1" pred) orelse (String.isSuffix "event2" pred) orelse (String.isSuffix "event3" pred) orelse (String.isSuffix "event_false_cnd" pred))
 		  then (IML_event event_names pred)
 		  else "";

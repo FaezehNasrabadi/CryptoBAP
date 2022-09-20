@@ -79,7 +79,7 @@ val symbs_sec_text = [
 
 
 
-*)
+
 
 val symbs_sec_text = [
     "_IO_puts",
@@ -123,7 +123,7 @@ val symbs_sec_text = [
     "recv",
     "wait_close"
 ];
- (*
+
 val symbs_sec_text = [
     "server",
     "fail",
@@ -142,7 +142,7 @@ val symbs_sec_text = [
 
 
 
-
+*)
 val symbs_sec_text = [
     "__libc_malloc",
     "memcpy",
@@ -154,6 +154,7 @@ val symbs_sec_text = [
     "server",
     "main"
 ];
+(*
 
 val symbs_sec_text = [
     "__libc_malloc",
@@ -380,7 +381,7 @@ val configs              = [ ("client",
                             (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 			     ) ];    
-
+ *)
  val configs              = [ ("server",
                            ("server_xor.da", "balrob/server_xor.da.plus", "balrob/server_xor.mem"),
                            "server_THM",
@@ -388,7 +389,7 @@ val configs              = [ ("client",
                             (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 			      ) ]; 
-
+ (*
 val configs              = [ ("client",
                            ("client_xor.da", "balrob/client_xor.da.plus", "balrob/client_xor.mem"),
                            "client_THM",
@@ -396,7 +397,7 @@ val configs              = [ ("client",
                             (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 			     ) ];
-  *)
+
 val configs              = [ ("client",
                            ("client.da", "balrob/client.da.plus", "balrob/client.mem"),
                            "client_THM",
@@ -404,7 +405,7 @@ val configs              = [ ("client",
                             (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 			     ) ];
-  (*
+  
  val configs              = [ ("server",
                            ("server.da", "balrob/server.da.plus", "balrob/server.mem"),
                            "server_THM",

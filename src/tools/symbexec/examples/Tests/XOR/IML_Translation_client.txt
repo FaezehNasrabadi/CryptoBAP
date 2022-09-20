@@ -1,0 +1,4 @@
+new OTP_48 fixed_64 
+let Conc1_66 = conc1(OTP_48) in
+let XOR_70 = exclusive_or(Conc1_66,pad) in
+out c, XOR_70 

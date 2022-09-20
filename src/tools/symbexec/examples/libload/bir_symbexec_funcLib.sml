@@ -14,7 +14,7 @@ in
 
 val _ = Parse.type_abbrev("hash", ``:bir_var_t -> bir_var_t -> bir_exp_t``);
 
-val _ = Parse.type_abbrev("exclusive_or", ``:bir_var_t list -> bir_exp_t``);
+val _ = Parse.type_abbrev("exclusive_or", ``:bir_var_t -> bir_var_t -> bir_exp_t``);
 
 val _ = Parse.type_abbrev("enc", ``:bir_var_t list -> bir_var_t -> bir_exp_t``);
 
@@ -125,11 +125,12 @@ fun decrypt Cipher SK =
 	dest_BStmt_Assign stmt
     end;
 
-fun XOR inputs =
+fun XOR input pad =
     let
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
 		     (exclusive_or
-			  (inputs))``;
+			  ( ^input)
+			  ( pad))``;
 
     in
 	dest_BStmt_Assign stmt
@@ -161,7 +162,7 @@ val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
  val iv = ``BVar "1_iv" (BType_Imm Bit64)``;
 *)
 
-fun HMac inputs iv =
+fun HMac inputs key =
     let
 
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
@@ -177,7 +178,7 @@ fun Conc1 input =
 
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
 		     (conc1
-			  ( payload))``;
+			  ( ^input))``;
     in
 	dest_BStmt_Assign stmt
     end;
@@ -187,7 +188,7 @@ fun Conc2 input1 input2 =
 
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
 		     (conc2
-			  ( payload)
+			  ( ^input1)
 			  ( ^input2))``;
     in
 	dest_BStmt_Assign stmt
@@ -549,8 +550,12 @@ fun Adv av syst =
         
 fun Concat1 syst =
     let
-	val input = compute_inputs_mem (1) syst; (* get values *)
-		    
+	val flag = false;
+
+	val input = if (flag = true)
+		    then (compute_inputs_mem (1) syst)
+		    else (find_adv_name syst);
+
 	val (C_bv, C_be) = Conc1 input;
 	    
 	val Fr_conc1 = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Conc1", “BType_Imm Bit64”)); (* generate a fresh variable *)
@@ -889,22 +894,28 @@ fun HMAC_Receive syst =
     
 fun Xor syst =
     let
-	
+	val syst = Concat1 syst;
+	    
 	val n = List.nth (readint_inputs "Library-number of inputs", 0);
-	val inputs = compute_inputs_mem (n-2) syst; (* get values *) 
+	val inputs = compute_inputs_mem (n-1) syst; (* get values *)
 
-	val (x_bv, x_be) = XOR inputs; (* xor inputs *)
+	val pad = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("pad", “BType_Imm Bit64”)); (* generate a fresh iv *)    
+
+	val (x_bv, x_be) = XOR inputs pad; (* xor inputs *)
 
 	val Fr_Xor = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("XOR", “BType_Imm Bit64”)); (* generate a fresh variable *)
 
-	val stmt = ``BStmt_Assign (Fr_Xor) (x_bv)``; (* assign value of R0 to the fresh variable *)
+(*	val stmt = ``BStmt_Assign (Fr_Xor) (x_bv)``; (* assign value of R0 to the fresh variable *)
 
 	val syst = state_add_path "XOR" x_be syst; (* update path condition *)
 
-	val syst = update_lib_syst x_be Fr_Xor syst; (* update syst *)
+	val syst = update_lib_syst x_be Fr_Xor syst; (* update syst *)*)
 
-	
-	
+	val syst = store_mem_r0 x_be Fr_Xor syst; (* update syst *)
+
+	 (* val syst = add_knowledge_r0 Fr_Xor syst; The adversary has a right to know *)
+
+		
     in
 	syst
     end;

@@ -22,16 +22,16 @@ open bir_symbexec_driverLib;
 open Redblackmap;
 open bir_symbexec_oracleLib;
 open bir_symbexec_oracleLib;
-(*
+
 
 (*Server*)     
-val lbl_tm = ``BL_Address (Imm64 4203788w)``;
+val lbl_tm = ``BL_Address (Imm64 4203632w)``;
 
-val stop_lbl_tms = [``BL_Address (Imm64 4203848w)``];  *)   
-(*Client*)     
-val lbl_tm = ``BL_Address (Imm64 4203760w)``;
+val stop_lbl_tms = [``BL_Address (Imm64 4203760w)``];    
+(*Client*)   (*  
+val lbl_tm = ``BL_Address (Imm64 4203632w)``;
 
-val stop_lbl_tms = [``BL_Address (Imm64 4203816w)``]; 
+val stop_lbl_tms = [``BL_Address (Imm64 4203756w)``];  *)
 
 val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
 (* val ns = List.map (fn x => snd x)(listItems n_dict); *)
@@ -53,6 +53,9 @@ val _ = print "finished exploration of all paths.\n\n";
 val _ = print ("number of stopped symbolic execution states: " ^ (Int.toString (length systs)));
 val _ = print "\n\n";
 
+val (systs_noassertfailed, systs_assertfailed) =
+    List.partition (fn syst => not (identical (SYST_get_status syst) BST_AssertionViolated_tm)) systs;
+val _ = print ("number of \"no assert failed\" paths found: " ^ (Int.toString (length systs_noassertfailed)));
+val _ = print "\n";
 
-val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs;
-
+    val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs_noassertfailed;
