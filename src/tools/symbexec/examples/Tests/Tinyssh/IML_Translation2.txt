@@ -1,0 +1,199 @@
+if (R1_51 = c_0) then
+if (R2_54 = c_0) then
+if (R1_sy = c_0) then
+if (R3_68 = R2_71) then
+if (R3_115 = c_30) then
+if (R5_138 = R4_135) then
+if (R0_171 = c_0) then
+if (R15_274 = c_0) then
+event AcceptS pkS pkP 
+let signature_300 = sign(sign inputs skS) in
+out c, sign(inputs,skS) 
+if (Sig_299 = c_0) then
+if (R3_309 = R2_312) then
+if (R2_sy = c_0) then
+if (R3_393 = R2_396) then
+if (R2_sy = c_0) then
+if (R3_442 = R2_445) then
+in c, a_556 
+in c, a_633 
+in c, a_710 
+new SKey_712 fixed_64 
+let sk_714 = kgen(g,g_713) in
+let kAB_715 = kgen(a_710,SKey_712) in
+let HMAC_721 = hash3(a_710,sk_714,pkS) in
+let kPS_725 = kdfPtoS(kAB_715,HMAC_721) in
+let kSP_729 = kdfStoP(kAB_715,HMAC_721) in
+let Dec_732 = dec(a_710,kPS_725) in
+let Enc_735 = enc(Dec_732,kSP_729) in
+out c, Enc_735 
+in c, a_815 
+in c, a_892 
+in c, a_969 
+let Dec_971 = dec(a_969,kPS_725) in
+let Ver_975 = verify(Dec_971,pkP) in
+if (Ver_975 = c_1) then
+event AcceptS2 pkS pkP 
+if (R3_1004 = R2_1007) then
+in c, a_1049 
+event AcceptS pkS pkP 
+let signature_1073 = sign(sign inputs skS) in
+out c, sign(inputs,skS) 
+if (Sig_1072 = c_0) then
+if (R3_1082 = R2_1085) then
+if (R2_sy = c_0) then
+if (R3_1166 = R2_1169) then
+if (R2_sy = c_0) then
+if (R3_1215 = R2_1218) then
+in c, a_1329 
+in c, a_1406 
+in c, a_1483 
+new SKey_1485 fixed_64 
+let sk_1487 = kgen(g,g_1486) in
+let kAB_1488 = kgen(a_1483,SKey_1485) in
+let HMAC_1494 = hash3(a_1483,sk_1487,pkS) in
+let kPS_1498 = kdfPtoS(kAB_1488,HMAC_1494) in
+let kSP_1502 = kdfStoP(kAB_1488,HMAC_1494) in
+let Dec_1505 = dec(a_1483,kPS_1498) in
+let Enc_1508 = enc(Dec_1505,kSP_1502) in
+out c, Enc_1508 
+in c, a_1588 
+in c, a_1665 
+in c, a_1742 
+let Dec_1744 = dec(a_1742,kPS_1498) in
+let Ver_1748 = verify(Dec_1744,pkP) in
+if (Ver_1748 = c_1) then
+event AcceptS2 pkS pkP 
+if (R3_1777 = R2_1780) then
+if (R1_sy = c_0) then
+if (R1_sy = c_0) then
+if (R3_1835 = R2_1838) then
+if (R3_1882 = c_30) then
+if (R5_1905 = R4_1902) then
+if (R0_1938 = c_0) then
+if (R15_2041 = c_0) then
+event AcceptS pkS pkP 
+let signature_2067 = sign(sign inputs skS) in
+out c, sign(inputs,skS) 
+if (Sig_2066 = c_0) then
+if (R3_2076 = R2_2079) then
+if (R2_sy = c_0) then
+if (R3_2160 = R2_2163) then
+if (R2_sy = c_0) then
+if (R3_2209 = R2_2212) then
+in c, a_2323 
+in c, a_2400 
+in c, a_2477 
+new SKey_2479 fixed_64 
+let sk_2481 = kgen(g,g_2480) in
+let kAB_2482 = kgen(a_2477,SKey_2479) in
+let HMAC_2488 = hash3(a_2477,sk_2481,pkS) in
+let kPS_2492 = kdfPtoS(kAB_2482,HMAC_2488) in
+let kSP_2496 = kdfStoP(kAB_2482,HMAC_2488) in
+let Dec_2499 = dec(a_2477,kPS_2492) in
+let Enc_2502 = enc(Dec_2499,kSP_2496) in
+out c, Enc_2502 
+in c, a_2582 
+in c, a_2659 
+in c, a_2736 
+let Dec_2738 = dec(a_2736,kPS_2492) in
+let Ver_2742 = verify(Dec_2738,pkP) in
+if (Ver_2742 = c_1) then
+event AcceptS2 pkS pkP 
+if (R3_2771 = R2_2774) then
+in c, a_2816 
+event AcceptS pkS pkP 
+let signature_2840 = sign(sign inputs skS) in
+out c, sign(inputs,skS) 
+if (Sig_2839 = c_0) then
+if (R3_2849 = R2_2852) then
+if (R2_sy = c_0) then
+if (R3_2933 = R2_2936) then
+if (R2_sy = c_0) then
+if (R3_2982 = R2_2985) then
+in c, a_3096 
+in c, a_3173 
+in c, a_3250 
+new SKey_3252 fixed_64 
+let sk_3254 = kgen(g,g_3253) in
+let kAB_3255 = kgen(a_3250,SKey_3252) in
+let HMAC_3261 = hash3(a_3250,sk_3254,pkS) in
+let kPS_3265 = kdfPtoS(kAB_3255,HMAC_3261) in
+let kSP_3269 = kdfStoP(kAB_3255,HMAC_3261) in
+let Dec_3272 = dec(a_3250,kPS_3265) in
+let Enc_3275 = enc(Dec_3272,kSP_3269) in
+out c, Enc_3275 
+in c, a_3355 
+in c, a_3432 
+in c, a_3509 
+let Dec_3511 = dec(a_3509,kPS_3265) in
+let Ver_3515 = verify(Dec_3511,pkP) in
+if (Ver_3515 = c_1) then
+event AcceptS2 pkS pkP 
+if (R3_3544 = R2_3547) then
+if (R3_3588 = R2_3591) then
+if (R1_sy = c_0) then
+if (R3_3636 = R2_3639) then
+if (R3_3683 = c_30) then
+if (R5_3706 = R4_3703) then
+if (R0_3739 = c_0) then
+if (R15_3842 = c_0) then
+event AcceptS pkS pkP 
+let signature_3868 = sign(sign inputs skS) in
+out c, sign(inputs,skS) 
+if (Sig_3867 = c_0) then
+if (R3_3877 = R2_3880) then
+if (R2_sy = c_0) then
+if (R3_3961 = R2_3964) then
+if (R2_sy = c_0) then
+if (R3_4010 = R2_4013) then
+in c, a_4124 
+in c, a_4201 
+in c, a_4278 
+new SKey_4280 fixed_64 
+let sk_4282 = kgen(g,g_4281) in
+let kAB_4283 = kgen(a_4278,SKey_4280) in
+let HMAC_4289 = hash3(a_4278,sk_4282,pkS) in
+let kPS_4293 = kdfPtoS(kAB_4283,HMAC_4289) in
+let kSP_4297 = kdfStoP(kAB_4283,HMAC_4289) in
+let Dec_4300 = dec(a_4278,kPS_4293) in
+let Enc_4303 = enc(Dec_4300,kSP_4297) in
+out c, Enc_4303 
+in c, a_4383 
+in c, a_4460 
+in c, a_4537 
+let Dec_4539 = dec(a_4537,kPS_4293) in
+let Ver_4543 = verify(Dec_4539,pkP) in
+if (Ver_4543 = c_1) then
+event AcceptS2 pkS pkP 
+if (R3_4572 = R2_4575) then
+in c, a_4617 
+event AcceptS pkS pkP 
+let signature_4641 = sign(sign inputs skS) in
+out c, sign(inputs,skS) 
+if (Sig_4640 = c_0) then
+if (R3_4650 = R2_4653) then
+if (R2_sy = c_0) then
+if (R3_4734 = R2_4737) then
+if (R2_sy = c_0) then
+if (R3_4783 = R2_4786) then
+in c, a_4897 
+in c, a_4974 
+in c, a_5051 
+new SKey_5053 fixed_64 
+let sk_5055 = kgen(g,g_5054) in
+let kAB_5056 = kgen(a_5051,SKey_5053) in
+let HMAC_5062 = hash3(a_5051,sk_5055,pkS) in
+let kPS_5066 = kdfPtoS(kAB_5056,HMAC_5062) in
+let kSP_5070 = kdfStoP(kAB_5056,HMAC_5062) in
+let Dec_5073 = dec(a_5051,kPS_5066) in
+let Enc_5076 = enc(Dec_5073,kSP_5070) in
+out c, Enc_5076 
+in c, a_5156 
+in c, a_5233 
+in c, a_5310 
+let Dec_5312 = dec(a_5310,kPS_5066) in
+let Ver_5316 = verify(Dec_5312,pkP) in
+if (Ver_5316 = c_1) then
+event AcceptS2 pkS pkP 
+if (R3_5345 = R2_5348) then

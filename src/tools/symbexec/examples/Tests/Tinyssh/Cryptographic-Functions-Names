@@ -1,21 +1,21 @@
 The cryptographic functions names are as follows:
-load
-tinyssh_enc
-tinyssh_dec
-tinyssh_hash
 
-byte_copy
-AcceptS
+
+
+
+
+
+
 AcceptS2
 die_fatal_
 __stack_chk_fail@plt
 
-randombytes
 
-receive_new_key
+
+
 __errno_location@plt
-subprocess_sign
-subprocess_auth
+
+kdfStoP
 open_read
 read@plt
 open@plt
@@ -24,4 +24,12 @@ sleep@plt
 die_usage
 global_die
 kdfPtoS
-kdfStoP
+
+
+
+
+
+
+
+
+

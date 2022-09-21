@@ -93,7 +93,6 @@ packetparser_copy_
 packetparser_end_
 buf_putstringlen_
 packetparser_skip_
-byte_copy
 buf_putnum8_
 packet_put
 packet_sendall
@@ -101,3 +100,4 @@ sshcrypto_key_put
 sshcrypto_kex_put
 str_equaln
 buf_putstring_
+byte_copy

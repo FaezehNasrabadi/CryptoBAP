@@ -218,7 +218,7 @@ val symbs_sec_text = [
     "__CrestReturn",
     "__stack_chk_fail",
     "main"
-];*)
+];
 val symbs_sec_text = [
     "parseargs",
     "send_response",
@@ -269,13 +269,13 @@ val symbs_sec_text = [
     "memcmp_proxy",
     "main"
 ];
-(*
+
 val symbs_sec_text = [
     "main",
     "client",
     "server"
 ];
-
+*)
 val symbs_sec_text = [
     "main_tinysshd",
     "Server_decrypt",
@@ -283,6 +283,8 @@ val symbs_sec_text = [
     "Client_accept",
     "Server_pk",
     "poll@plt",
+    "packet_kexdh",
+    "packet_auth",
 "packet_channel_request@plt",
 "packet_channel_send_data@plt",
 "channel_getfd0@plt",
@@ -340,7 +342,7 @@ val symbs_sec_text = [
 "die_usage@plt",
 "open_pipe@plt"
 ];
-
+(*
 val symbs_sec_text = [
     "main",
     "client",
@@ -353,7 +355,7 @@ val symbs_sec_text = [
     "event_send",
     "event_receive",
     "event_bad"
-]; *)   
+];    *)
 val arch_str         = "arm8";
 val prog_range       = ((Arbnum.fromInt 0x00000000), (Arbnum.fromInt 0xffffffff));
 
@@ -449,7 +451,7 @@ val configs              = [ ("client",
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 			      ) ];
       
-*)
+
      val configs              = [("RPC_enc_server",
                               ("RPC_enc_server.da", "balrob/RPC_enc_server.da.plus", "balrob/RPC_enc_server.mem"),
                               "RPC_enc_server_THM",
@@ -457,7 +459,7 @@ val configs              = [ ("client",
                                (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x310)),
                                (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 				)];
- (*
+ 
 
 	 val configs              = [ ("RPC_enc_client",
                               ("RPC_enc_client.da", "balrob/RPC_enc_client.da.plus", "balrob/RPC_enc_client.mem"),
@@ -465,7 +467,7 @@ val configs              = [ ("client",
 			      ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0x00003564), 
                                (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)), 
                                (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
-				    )];
+				    )];*)
 val configs              = [ ("tinyssh",
                               ("tinysshd.da", "balrob/tinysshd.da.plus", "balrob/tinysshd.mem"),
                               "tinyssh_THM",
@@ -475,7 +477,7 @@ val configs              = [ ("tinyssh",
 			    )];
 
 
-
+(*
 val configs              = [ ("example",
                               ("example.da", "balrob/example.da.plus", "balrob/example.mem"),
                               "example_THM",
