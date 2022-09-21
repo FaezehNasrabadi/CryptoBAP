@@ -1,5 +1,5 @@
 The cryptographic functions names are as follows:
-get_shared_key
+
 encrypt
 decrypt
 hmacsha1
@@ -12,5 +12,24 @@ exit
 
 
 
-mk_session_key
+
 fail
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

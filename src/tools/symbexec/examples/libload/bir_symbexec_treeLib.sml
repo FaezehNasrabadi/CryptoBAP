@@ -67,6 +67,8 @@ val be = “hash (BVar "188_Conc1" (BType_Imm Bit64)) key”;
 val be = ``enc1 (BVar "444_Conc3" (BType_Imm Bit64)) (BVar "448_kAB" (BType_Imm Bit64))
   (BVar "451_iv" (BType_Imm Bit64))``;
 Fun_3 str_be
+val be = ``enc1 response (BVar "493_Pars4" (BType_Imm Bit64))
+  (BVar "497_iv" (BType_Imm Bit64))``;
 *)
 
 fun find_bexp_val str_be =
@@ -199,7 +201,7 @@ fun Fun_3 str_be =
 
 	val (c,d) = bir_auxiliaryLib.list_split_pred #" " b;
 
-	val (e,g) =  if ((String.isPrefix "(BVar" (implode c)) orelse (String.isPrefix "(BExp" (implode c)))
+	val (e,g,flag) =  if ((String.isPrefix "(BVar" (implode c)) orelse (String.isPrefix "(BExp" (implode c)))
 		 then
 		     if ((List.exists (fn x => x = #"B") d) andalso ((List.exists (fn x => x = #"V") d) orelse (List.exists (fn x => x = #"E") d)))
 		     then
@@ -207,18 +209,20 @@ fun Fun_3 str_be =
 			      val e = find_fun_arg b;
 			      val c1 = (snd o (bir_auxiliaryLib.list_split_pred #"B") o snd o (bir_auxiliaryLib.list_split_pred #")")) b;
 			      val g = find_bval c1;
+				  val flag = true;
 
 
 
 			 in
-			     (e,g)
+			     (e,g,flag)
 			 end
 		     else
 		     let
 			 val e = find_fun_arg b;
 			 val g = (implode o snd o (bir_auxiliaryLib.list_split_pred #" ") o snd o (bir_auxiliaryLib.list_split_pred #")")) d;
+			     val flag = true;
 		     in
-			 (e,g)
+			 (e,g,flag)
 		     end
 		 else if ((String.isPrefix "(BVar" (implode d)) orelse (String.isPrefix "(BExp" (implode d)))
 		 then
@@ -226,16 +230,28 @@ fun Fun_3 str_be =
 			 val e = implode c;
 			     
 			 val g = find_fun_arg d;
+
+			 val flag = false;
 		     in
-			 (e,g)
+			 (e,g,flag)
 		     end
 		 else raise ERR "Fun_3" "this should not happen";
 
-	val h1 =  (snd o (bir_auxiliaryLib.list_split_pred #"B") o snd o (bir_auxiliaryLib.list_split_pred #"t") o snd o (bir_auxiliaryLib.list_split_pred #"t")) b;
 
+	val h = if (flag = true)
+		then
+		    let
+			val h1 =  (snd o (bir_auxiliaryLib.list_split_pred #"B") o snd o (bir_auxiliaryLib.list_split_pred #"t") o snd o (bir_auxiliaryLib.list_split_pred #"t")) b;
 
-	val h = find_bval h1;
-    
+		    in
+			find_bval h1
+		    end
+		else
+		    let
+			val h1 =  (snd o (bir_auxiliaryLib.list_split_pred #"B") o snd o (bir_auxiliaryLib.list_split_pred #"t")) d;
+		    in
+			find_bval h1
+			end;
 
     in
 	(implode a)^"("^e^","^g^","^h^")"
@@ -554,18 +570,19 @@ fun Let_to_IML vals_list pred =
 
 	val be =  symbval_bexp (find_be_val vals_list pred_term) handle e => ``bir_exp_true``;
 
-	val fun_str = if (String.isSuffix "kAB" pred)
-		      then ("lookup(clientID,serverID,key)")
-		      else if (is_BExp_Den be)
-		      then ((rev_name o fst o dest_BVar_string o dest_BExp_Den) be)
-		      else if (is_BVar be)
-		      then ((rev_name o fst o dest_BVar_string) be)
-		      else if((String.isSuffix "Enc" pred))
-		      then (Fun_3 (term_to_string be))
-		      else if((String.isSuffix "Conc1" pred) orelse (String.isSuffix "Pars1" pred) orelse (String.isSuffix "Pars2" pred) orelse (String.isSuffix "sk" pred))
-		      then (Fun_1 (term_to_string be))
-		      else (Fun_2 (term_to_string be));
-(*
+	val fun_str =
+	    if (String.isSuffix "kAB" pred)
+	    then ("lookup(clientID,serverID,key)")
+	    else if (is_BExp_Den be)
+	    then ((rev_name o fst o dest_BVar_string o dest_BExp_Den) be)
+	    else if (is_BVar be)
+	    then ((rev_name o fst o dest_BVar_string) be)
+	    else if((String.isSuffix "Enc" pred))
+	    then (Fun_3 (term_to_string be))
+	    else if((String.isSuffix "Conc1" pred) orelse (String.isSuffix "Pars1" pred) orelse (String.isSuffix "Pars2" pred) orelse (String.isSuffix "sk" pred) orelse (String.isSuffix "Pars3" pred) orelse (String.isSuffix "Pars4" pred))
+	    then (Fun_1 (term_to_string be))
+	    else (Fun_2 (term_to_string be));
+    (*
 	val fun_str = if (String.isSuffix "kS" pred)
 		      then ("kgen(PKc)")
 		      else if(String.isSuffix "HMAC" pred)
@@ -814,7 +831,7 @@ fun path_of_tree event_names vals_list refine_preds exec_sts [] str =
 		  else if (String.isSuffix "K" pred) then (K_to_Out vals_list refine_preds exec_sts pred preds)
 		  else if (String.isSuffix "Kr" pred) then (Kr_to_Out vals_list pred)
 		  else if (String.isSuffix "Adv" pred) then (to_string (D_to_In  vals_list exec_sts pred))
-		  else if ((String.isSuffix "Dec" pred) orelse (String.isSuffix "signature" pred) orelse (String.isSuffix "ver" pred) orelse (String.isSuffix "Enc" pred) orelse (String.isSuffix "kS" pred) orelse (String.isSuffix "kAB" pred)  orelse (String.isSuffix "kSP" pred) orelse (String.isSuffix "kPS" pred) orelse (String.isSuffix "concat" pred) orelse (String.isSuffix "HMAC" pred) orelse (String.isSuffix "Conc1" pred) orelse (String.isSuffix "Conc2" pred) orelse (String.isSuffix "Conc3" pred) orelse (String.isSuffix "Pars1" pred) orelse (String.isSuffix "Pars2" pred) orelse (String.isSuffix "XOR" pred) orelse (String.isSuffix "sk" pred)) then (Let_to_IML vals_list pred)
+		  else if ((String.isSuffix "Dec" pred) orelse (String.isSuffix "signature" pred) orelse (String.isSuffix "ver" pred) orelse (String.isSuffix "Enc" pred) orelse (String.isSuffix "kS" pred) orelse (String.isSuffix "kAB" pred)  orelse (String.isSuffix "kSP" pred) orelse (String.isSuffix "kPS" pred) orelse (String.isSuffix "concat" pred) orelse (String.isSuffix "HMAC" pred) orelse (String.isSuffix "Conc1" pred) orelse (String.isSuffix "Conc2" pred) orelse (String.isSuffix "Conc3" pred) orelse (String.isSuffix "Pars1" pred) orelse (String.isSuffix "Pars2" pred) orelse (String.isSuffix "Pars3" pred) orelse (String.isSuffix "Pars4" pred) orelse (String.isSuffix "XOR" pred) orelse (String.isSuffix "sk" pred)) then (Let_to_IML vals_list pred)
 		  else if ((String.isSuffix "event_true_cnd" pred) orelse (String.isSuffix "event1" pred) orelse (String.isSuffix "event2" pred) orelse (String.isSuffix "event3" pred) orelse (String.isSuffix "event_false_cnd" pred))
 		  then (IML_event event_names pred)
 		  else "";

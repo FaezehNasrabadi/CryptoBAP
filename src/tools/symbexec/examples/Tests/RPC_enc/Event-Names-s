@@ -1,5 +1,5 @@
 The event name is as follows:
 hClient hServer
-server_reply hClient hServer request response
+server_reply clientID serverID request response
 
 

@@ -29,3 +29,5 @@ decrypt_len
 parseargs
 wait_close
 __fprintf
+net_bind
+net_accept

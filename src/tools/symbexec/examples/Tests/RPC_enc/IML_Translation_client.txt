@@ -1,0 +1,23 @@
+new SKey_10 fixed_64 
+let sk_11 = kgen(SKey_10) in
+event client_begin clientID serverID request 
+in c, a_105 
+if (R0_144 = c_0) then
+if (R1_160 = c_0) then
+if (R0_317 = c_0) then
+if (R1_337 = c_0) then
+let Conc3_447 = conc3(request,sk_11) in
+let kAB_451 = lookup(clientID,serverID,key) in
+new iv_454 fixed_64 
+let Enc_455 = enc1(Conc3_447,kAB_451,iv_454) in
+let Conc2_459 = conc2(clientID,Enc_455) in
+out c, Conc2_459 
+if (R0_470 = c_0) then
+if (R1_490 = c_0) then
+in c, a_561 
+let Dec_569 = dec(a_561,sk_11) in
+event client_accept clientID serverID request response 
+let Dec_585 = dec(a_561,sk_11) in
+event client_accept clientID serverID request response 
+if (R1_606 = c_0) then
+else

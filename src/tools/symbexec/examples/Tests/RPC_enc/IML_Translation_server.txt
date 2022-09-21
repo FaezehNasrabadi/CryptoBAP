@@ -1,0 +1,30 @@
+in c, a_31 
+if ((c_1081<=R0_34)∧¬(R0_34 = c_1081)) then
+if ((c_2106<=R0_43)∧¬(R0_43 = c_2106)) then
+if (R0_73 = c_0) then
+in c, a_96 
+if (R1_99 = R0_103) then
+if ((c_1024<=R0_138)∧¬(R0_138 = c_1024)) then
+if (¬(R0_165<=R1_157)∨(R1_157 = R0_165)) then
+if (R0_214 = c_0) then
+if ((c_1077<=R0_276)∧¬(R0_276 = c_1077)) then
+if ((c_1045<=R0_406)∧¬(R0_406 = c_1045)) then
+if (R0_427 = c_0) then
+let Pars1_476 = pars1(a_96) in
+let kAB_480 = lookup(clientID,serverID,key) in
+let Pars2_483 = pars2(a_96) in
+let Dec_486 = dec(Pars2_483,kAB_480) in
+let Pars3_489 = pars3(Dec_486) in
+event server_reply clientID serverID request response 
+let Pars4_493 = pars4(Dec_486) in
+new iv_497 fixed_64 
+let Enc_498 = enc1(response,Pars4_493,iv_497) in
+out c, Enc_498 
+if (¬(c_4<=R0_509)∨(R0_509 = c_4)) then
+if (¬(c_1024<=R0_547)∨(R0_547 = c_1024)) then
+if ((c_1023<=R0_559)∧¬(R0_559 = c_1023)) then
+if (¬(R0_576<=R1_568)∨(R1_568 = R0_576)) then
+if (R1_597 = R0_601) then
+if (R0_629 = c_0) then
+if (R0_701 = c_16) then
+if (R0_729 = c_0) then
