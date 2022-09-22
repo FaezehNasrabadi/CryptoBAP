@@ -1102,6 +1102,8 @@ fun session_key syst =
 
 	val Fr_vn = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("sk", “BType_Imm Bit64”)); (* generate a fresh name *)
 
+	val syst = add_knowledge_r0 Fr_vn syst;  (*The adversary has a right to know *)    
+
 	val syst = DH_key vn syst;
 
 	val syst = store_mem_r0 s_be Fr_vn syst; (* update syst *)
