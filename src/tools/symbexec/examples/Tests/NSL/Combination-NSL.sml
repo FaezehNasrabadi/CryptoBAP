@@ -22,17 +22,17 @@ open bir_symbexec_driverLib;
 open Redblackmap;
 open bir_symbexec_oracleLib;
 open bir_symbexec_oracleLib;
-(*
+
 
 (*Client*)     
 val lbl_tm = ``BL_Address (Imm64 4198500w)``;
 
-val stop_lbl_tms = [``BL_Address (Imm64 4209796w)``]; *) 
-(*Server*)     
+val stop_lbl_tms = [``BL_Address (Imm64 4209796w)``]; 
+(*Server*)    (* 
 val lbl_tm = ``BL_Address (Imm64 4198460w)``;
 
 val stop_lbl_tms = [``BL_Address (Imm64 4210224w)``];
-
+*)
 val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
 
 val adr_dict = bir_symbexec_PreprocessLib.fun_addresses_dict bl_dict_ prog_lbl_tms_;
@@ -71,5 +71,5 @@ val _ = print "finished tidying up all paths.\n\n";
 val _ = print ("number of tidied up paths found: " ^ (Int.toString (length systs_tidiedup)));
 val _ = print "\n\n";
 *)   
-val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs;
+val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs_noassertfailed;
 

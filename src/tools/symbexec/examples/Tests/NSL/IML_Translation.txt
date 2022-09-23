@@ -1,0 +1,28 @@
+event client_begin hostA hostB 
+new RAND_NUM_326 fixed_64 
+let Conc1_770 = conc1(RAND_NUM_326,hostA) in
+if ((c_1000<=R0_943)∧¬(R0_943 = c_1000)) then
+new iv_1082 fixed_64 
+let Enc_1083 = enc1(Conc1_770,pkB,iv_1082) in
+out c, Enc_1083 
+in c, a_1206 
+if ((c_1000<=R0_1231)∧¬(R0_1231 = c_1000)) then
+in c, a_1350 
+let Dec_1530 = dec(a_1350,skA) in
+let Pars1_1533 = pars1(Dec_1530) in
+if (Pars1_1533 = RAND_NUM_326) then
+let Pars2_1537 = pars2(Dec_1530) in
+let Pars3_1540 = pars3(Dec_1530) in
+let Conc2_1543 = conc2(Pars3_1540) in
+if (R1_1619 = R0_1622) then
+if (R0_1701 = c_0) then
+if (R0_1895 = c_20) then
+if (R0_1926 = c_20) then
+if (R0_2103 = c_0) then
+if (R0_2310 = c_0) then
+if ((c_1000<=R0_2768)∧¬(R0_2768 = c_1000)) then
+new iv_2907 fixed_64 
+let Enc_2908 = enc1(Conc2_1543,pkB,iv_2907) in
+out c, Enc_2908 
+if (R1_3103 = c_0) then
+else

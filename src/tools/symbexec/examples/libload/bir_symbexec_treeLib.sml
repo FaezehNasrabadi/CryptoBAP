@@ -72,6 +72,7 @@ val be = ``enc1 response (BVar "493_Pars4" (BType_Imm Bit64))
 
 val be = ``hash3 (BExp_Den (BVar "4763_a" (BType_Imm Bit64)))
   (BVar "5039_sk" (BType_Imm Bit64)) pkS``;
+val be = ``enc1 (BVar "1543_Conc2" (BType_Imm Bit64)) pkB (BVar "2907_iv" (BType_Imm Bit64))``;
 *)
 
 fun find_bexp_val str_be =
@@ -210,8 +211,23 @@ fun Fun_3 str_be =
 				     then
 					 let
 					     val e = find_fun_arg b;
-					     val c1 = (snd o (bir_auxiliaryLib.list_split_pred #"B") o snd o (bir_auxiliaryLib.list_split_pred #")")) b;
-					     val g = find_bval c1;
+
+					     val g = if (List.exists (fn x => x = #"\n") b)
+						     then
+							 let
+							     val c1 = (snd o (bir_auxiliaryLib.list_split_pred #" ") o snd o (bir_auxiliaryLib.list_split_pred #")") o fst o (bir_auxiliaryLib.list_split_pred #"\n")) b;
+							     val g = find_bval c1;
+							 in
+							     g
+							 end
+						     else
+							 let
+							     
+							     val c1 = (snd o (bir_auxiliaryLib.list_split_pred #"B") o snd o (bir_auxiliaryLib.list_split_pred #")")) b;
+							     val g = find_bval c1;
+							 in g end;
+
+						 
 					     val flag1 = true;
 					     val flag2 = false;
 
@@ -260,9 +276,23 @@ fun Fun_3 str_be =
 		else if ((flag1 = true) andalso (flag2 = false))
 		then
 		    let
-			val h1 =  (snd o (bir_auxiliaryLib.list_split_pred #" ") o snd o (bir_auxiliaryLib.list_split_pred #"t") o snd o (bir_auxiliaryLib.list_split_pred #"t")) d;
+			val h1 = if (List.exists (fn x => x = #"\n") d)
+				 then
+
+				     let
+					 val k = (snd o (bir_auxiliaryLib.list_split_pred #"B") o snd o (bir_auxiliaryLib.list_split_pred #"\n")) d;
+				     in
+					 (find_bval k)
+				     end
+				 else
+				     let
+					
+					 val h1 =  (snd o (bir_auxiliaryLib.list_split_pred #" ") o snd o (bir_auxiliaryLib.list_split_pred #"t") o snd o (bir_auxiliaryLib.list_split_pred #"t")) d;
+				     in
+					 (implode h1)
+				     end;
 		    in
-			(implode h1)
+			h1
 		    end
 		else raise ERR "Fun_3" "this should not happen";
 	    
@@ -527,7 +557,7 @@ fun D_to_In  vals_list exec_sts pred =
 
 	val pred_be = symbval_bexp (find_be_val vals_list pred_term);
 	    
-	val pred_name =  (fst o dest_BVar_string o dest_BExp_Den) pred_be;
+	val pred_name =  (fst o dest_BVar_string) pred_be;
 	
     in
 	(I_In [(rev_name pred_name)])
@@ -590,9 +620,9 @@ fun Let_to_IML vals_list pred =
 		      then ((rev_name o fst o dest_BVar_string o dest_BExp_Den) be)
 		      else if (is_BVar be)
 		      then ((rev_name o fst o dest_BVar_string) be)
-		      else if((*(String.isSuffix "Enc" pred) orelse *)(String.isSuffix "HMAC" pred))
+		      else if((String.isSuffix "Enc" pred) orelse (String.isSuffix "HMAC" pred))
 		      then (Fun_3 (term_to_string be))
-		      else if((String.isSuffix "Conc1" pred) orelse (String.isSuffix "Pars1" pred) orelse (String.isSuffix "Pars2" pred) (*orelse (String.isSuffix "sk" pred)*) orelse (String.isSuffix "Pars3" pred) orelse (String.isSuffix "Pars4" pred))
+		      else if((String.isSuffix "Conc2" pred) orelse (String.isSuffix "Pars1" pred) orelse (String.isSuffix "Pars2" pred) (*orelse (String.isSuffix "sk" pred)*) orelse (String.isSuffix "Pars3" pred) orelse (String.isSuffix "Pars4" pred))
 		      then (Fun_1 (term_to_string be))
 		      else (Fun_2 (term_to_string be));
 	    

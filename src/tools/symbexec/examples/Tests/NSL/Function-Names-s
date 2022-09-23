@@ -1,5 +1,5 @@
 The function names are as follows:
-__globinit_client
+__globinit_server
 __CrestCall
 __CrestLoadStackPtr
 __CrestApply
@@ -33,10 +33,11 @@ send
 decrypt_len
 decrypt_proxy
 exit_proxy
-_IO_puts
+_IO_fwrite
 __CrestNondet
 typehint
 __CrestReturn
 __stack_chk_fail
 memcmp_proxy
-socket_connect
+wait_close_proxy
+socket_listen

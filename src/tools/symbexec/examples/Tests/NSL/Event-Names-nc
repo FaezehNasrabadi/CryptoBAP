@@ -1,4 +1,0 @@
-The event name is as follows:
-hostA
-client_begin hostA hostB
-client_end hostA hostB

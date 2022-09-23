@@ -1,0 +1,4 @@
+The event name is as follows:
+hostB
+server_begin hostA hostB
+server_end hostA hostB
