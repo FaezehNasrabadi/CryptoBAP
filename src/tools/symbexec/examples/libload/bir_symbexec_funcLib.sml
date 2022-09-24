@@ -42,7 +42,11 @@ val _ = Parse.type_abbrev("pars2", ``:bir_var_t -> bir_exp_t``);
 
 val _ = Parse.type_abbrev("pars3", ``:bir_var_t -> bir_exp_t``);
 
-val _ = Parse.type_abbrev("pars4", ``:bir_var_t -> bir_exp_t``);    
+val _ = Parse.type_abbrev("pars4", ``:bir_var_t -> bir_exp_t``);
+
+val _ = Parse.type_abbrev("pars5", ``:bir_var_t -> bir_exp_t``);
+
+val _ = Parse.type_abbrev("pars6", ``:bir_var_t -> bir_exp_t``);     
 
 val _ = Parse.type_abbrev("kgen1", ``:bir_var_t -> bir_exp_t``);
 
@@ -122,7 +126,7 @@ fun Encrypt input1 input2 input3 =
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
 		     (enc1
 			  ( ^input1)
-			  ( pkB)
+			  ( pkA)
 			  ( ^input3))``;
 
     in
@@ -167,7 +171,7 @@ fun decrypt Cipher SK =
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
 			(dec
 			     ( ^Cipher)
-			     ( skA))``;
+			     ( skB))``;
 
     in
 	dest_BStmt_Assign stmt
@@ -272,13 +276,14 @@ fun Conc22 input1 =
     in
 	dest_BStmt_Assign stmt
     end;    
-fun Conc3 input1 input2 =
+fun Conc3 input1 input2 input3 =
     let
 
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
 		     (conc3
-			  ( request)
-			  ( ^input2))``;
+			  ( ^input1)
+			  ( ^input2)
+			  ( hostB))``;
     in
 	dest_BStmt_Assign stmt
     end;    
@@ -322,6 +327,27 @@ fun Pars4 input =
     in
 	dest_BStmt_Assign stmt
     end;
+
+fun Pars5 input =
+    let
+
+	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
+		     (pars5
+			  ( ^input))``;
+    in
+	dest_BStmt_Assign stmt
+    end;
+
+fun Pars6 input =
+    let
+
+	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
+		     (pars6
+			  ( ^input))``;
+    in
+	dest_BStmt_Assign stmt
+    end;
+    
     
 fun Kgen1 input =
     let
@@ -887,7 +913,7 @@ fun Concat1 syst =
 
     in
 	syst
-    end;*)
+    end;
 fun Concat1 syst =
     let
 	val key = (symbval_bexp o get_state_symbv "concat1::bv in env not found"  ``BVar "key" (BType_Imm Bit64)``) syst;
@@ -902,7 +928,7 @@ fun Concat1 syst =
 
     in
 	syst
-    end;
+    end;*)
      
 fun Concat2 syst =
     let
@@ -922,7 +948,7 @@ fun Concat2 syst =
 	syst
     end;
 
-    
+(*    
 fun Parse1 syst =
     let
 	val msg = compute_inputs_op_mem (1) syst; (* get values *)
@@ -960,6 +986,35 @@ fun Parse2 syst =
 	val Fr_par2 = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Pars2", “BType_Imm Bit64”)); (* generate a fresh variable *)
 	    
 	val syst = store_mem_r0 P_be Fr_par2 syst; (* update syst *)
+
+    in
+	syst
+    end;*)
+
+fun Parse2 syst =
+    let
+	
+	val msg = compute_inputs_op_mem (1) syst; (* get values *)
+		    
+	val (P_bv, P_be) = Pars6 msg; (* Parse inputs *)
+	    
+	val Fr_par6 = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Pars6", “BType_Imm Bit64”)); (* generate a fresh variable *)
+	    
+	val syst = store_mem_r0 P_be Fr_par6 syst; (* update syst *)
+
+	val key = (symbval_bexp o get_state_symbv "pars1::bv in env not found"  ``BVar "key" (BType_Imm Bit64)``) syst;
+
+	val D_input1 = mk_BExp_Den(Fr_par6);
+
+	val D_input2 = mk_BExp_Den(key);
+
+	val cnd = ``BExp_BinPred BIExp_Equal
+		    ( ^D_input1)
+		    ( ^D_input2)``;
+		  
+	val syst = (state_add_path "comp_true_cnd" cnd) syst;
+
+	val syst = hd(Event "event2" syst);
 
     in
 	syst
@@ -1047,6 +1102,36 @@ fun Parse4 msg syst =
 	syst
     end;    
 
+fun Parse5 syst =
+    let
+	val msg = compute_inputs_op_mem (1) syst; (* get values *)
+		    
+	val (P_bv, P_be) = Pars5 msg; (* Parse inputs *)
+	    
+	val Fr_par5 = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Pars5", “BType_Imm Bit64”)); (* generate a fresh variable *)
+	    
+	val syst = store_op_mem_r0 P_be Fr_par5 syst; (* update syst *)
+
+    in
+	syst
+    end;
+    
+fun Parse1 syst =
+    let
+	val msg = compute_inputs_op_mem (1) syst; (* get values *)
+		    
+	val (P_bv, P_be) = Pars4 msg; (* Parse inputs *)
+	    
+	val Fr_par4 = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Pars4", “BType_Imm Bit64”)); (* generate a fresh variable *)
+	    
+	val syst = store_mem_r0 P_be Fr_par4 syst; (* update syst *)
+
+	val syst = hd(Event "event1" syst);
+
+    in
+	syst
+    end;
+    
 fun Concat3 syst =
     let
 	val syst = Parse1 syst;
@@ -1098,7 +1183,7 @@ fun Concat5 syst =
     in
 	syst
     end;
-
+(*
 fun Concat6 syst =
     let
 	val input = (symbval_bexp o get_state_symbv "concat6::bv in env not found"  ``BVar "key" (BType_Imm Bit64)``) syst;
@@ -1114,7 +1199,7 @@ fun Concat6 syst =
     in
 	syst
     end;     
-      
+  *)    
 
 fun Compare syst =
     let
@@ -1325,7 +1410,28 @@ fun session_key syst =
     in
 	syst
     end;
-    
+
+fun Concat1 syst =
+    let
+	val syst = Parse5 syst;
+
+	val msg = compute_inputs_op_mem (1) syst; (* get values *)
+
+	val syst = Random_Number syst;
+	    
+	val key = (symbval_bexp o get_state_symbv "concat1::bv in env not found"  ``BVar "key" (BType_Imm Bit64)``) syst;
+
+	val str = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("str", “BType_Imm Bit64”)); (* generate a fresh iv *)
+
+	val (C_bv, C_be) = Conc3 msg key str;
+	    
+	val Fr_conc3 = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Conc3", “BType_Imm Bit64”)); (* generate a fresh variable *)
+	    
+	val syst = store_op_mem_r0 C_be Fr_conc3 syst; (* update syst *)
+
+    in
+	syst
+    end;   
 (*
 RPC-enc client    
 fun new_key syst =
@@ -1491,8 +1597,49 @@ fun Decryption syst =
 	syst
     end;
 
+NSL client
 
+fun Decryption syst =
+    let
+	val be_adv = find_adv_name syst;
 
+	val iv = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("iv", “BType_Imm Bit64”)); (* generate a fresh iv *)
+		    
+	val (M_bv, M_be) = decrypt be_adv iv; (* decrypt with key *)
+
+	val Fr_Dec = (get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Dec", “BType_Imm Bit64”))); (* generate a fresh variable *)
+
+	val syst = store_op_mem_r0 M_be Fr_Dec syst; (* update syst *)
+
+	val syst = Parse1 syst;
+
+	val syst = Parse22 Fr_Dec syst;
+
+	val syst = Parse3 Fr_Dec syst;	    
+	    		    
+    in
+	syst
+    end;
+
+fun Encryption syst =
+    let
+	val msg = compute_inputs_op_mem (1) syst; (* get values *)
+
+	val iv = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("iv", “BType_Imm Bit64”)); (* generate a fresh iv *)
+	
+	val syst = update_path iv syst;  (*update path condition *)
+
+	val (C_bv, C_be) = Encrypt msg iv iv; (* encrypt with iv *)
+
+	val Fr_Enc = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Enc", “BType_Imm Bit64”)); (* generate a fresh variable *)
+	    
+	val syst = store_op_mem_r0 C_be Fr_Enc syst; (* update syst *)
+
+	val syst = add_knowledge_r0 Fr_Enc syst;  (*The adversary has a right to know *)
+	
+    in
+	syst
+    end;
 *)
 fun new_key syst =
     let
@@ -1519,12 +1666,6 @@ fun Decryption syst =
 	val Fr_Dec = (get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Dec", “BType_Imm Bit64”))); (* generate a fresh variable *)
 
 	val syst = store_op_mem_r0 M_be Fr_Dec syst; (* update syst *)
-
-	val syst = Parse1 syst;
-
-	val syst = Parse22 Fr_Dec syst;
-
-	val syst = Parse3 Fr_Dec syst;	    
 	    		    
     in
 	syst
