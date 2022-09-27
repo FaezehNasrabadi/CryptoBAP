@@ -412,7 +412,7 @@ val configs              = [ ("client",
 			     ) ];
 
 val configs              = [ ("client",
-                           ("client.da", "balrob/client.da.plus", "balrob/client.mem"),
+                           ("client_hmac.da", "balrob/client_hmac.da.plus", "balrob/client_hmac.mem"),
                            "client_THM",
                            ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0xffffffff),
                             (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
@@ -420,7 +420,7 @@ val configs              = [ ("client",
 			     ) ];
   
  val configs              = [ ("server",
-                           ("server.da", "balrob/server.da.plus", "balrob/server.mem"),
+                           ("server_hmac.da", "balrob/server_hmac.da.plus", "balrob/server_hmac.mem"),
                            "server_THM",
                            ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0xffffffff),
                             (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
