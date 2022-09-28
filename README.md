@@ -1,8 +1,12 @@
 # CryptoBAP
 
+This is an implementation of our CryptoBAP toolchain.
+This implementation includes 
+- The crypto-aware symbolic execution engine on top of the proof-producing platform named HolBA
+- The extension of HolBA with the syntax of intermediate model language (IML)
+- The translation of the symbolic tree into the IML
+- The modification of the Csec-modex toolchain for getting IML files as inputs
 
-This is an implementation of the symbolic execution engine used in CryptoBAP toolchain.
-This implementation also includes the translation of the symbolic tree into an intermediate model language.
 
 Folders and organization
 ========================
@@ -24,8 +28,8 @@ It includes the following:
 
 How to setup and compile
 ========================
-
-1) Set up HolBA framework in the root directory using README.md
+## HolBA
+1) Set up HolBA framework using HolBA/README.md
 2) In binaries/balrob/binariesBalrobDefsLib.sml : Specify which binary file and which blocks inside it you want to transpile into the binary intermediate representation (BIR)
 3) In order to generate a BIR program of your specified binary file when you are in binaries/balrob/ directory execute the following lines :
 	- source ../../../../../../env.sh
