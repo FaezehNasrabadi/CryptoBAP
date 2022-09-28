@@ -12,8 +12,6 @@ in (* outermost local *)
 (* execution of a basic statement *)
 local
   (* basic statement execution functions *) 
-  (* TODO: this branching can be considered a hack because of
-   the way that countw is assigned to for conditional branches *)
 
   val bv_countw = bir_envSyntax.mk_BVar_string ("countw", ``(BType_Imm Bit64)``);
   fun state_exec_assign (bv, be) syst =
@@ -156,12 +154,7 @@ local
       open optionSyntax;
       val tgt = (mk_BL_Address o dest_BVal_Imm o dest_some) bvalo
                 handle _ => (
-                  (*print ("state_exec_try_jmp_exp_var::no const: " ^
-                         (term_to_string bvalo) ^ " ;; \n" ^ 
-                         (term_to_string be_tgt) ^ " ;; \n" ^ 
-                         (term_to_string (SYST_get_pc syst)) ^ "\n");*)
-                  raise state_exec_try_jmp_exp_var_exn);(*ERR "state_exec_try_jmp_exp_var"
-                    ("target value is no const: " ^ (term_to_string bvalo));*)
+                  raise state_exec_try_jmp_exp_var_exn);
 
     in
       [SYST_update_pc tgt syst]
@@ -181,21 +174,7 @@ local
 	  [SYST_update_pc tgt syst]
       end;
 
-(*
-open bir_cfgLib;
-  fun state_exec_from_cfg n_dict lbl_tm syst =
-      let
-	  val n:cfg_node = binariesCfgLib.find_node n_dict lbl_tm;
-	  val n_type  = #CFGN_type n;
-	  val _       = if cfg_nodetype_is_call n_type orelse
-			   cfg_node_type_eq (n_type, CFGNT_Jump) then () else
-			raise ERR "symb_exec_endstmt" ("can only handle a call or a jump here, problem at " ^ (term_to_string lbl_tm));
-	  val n_targets  = #CFGN_targets n;
-	  val lbl_tms = n_targets;
-      in
-	  List.map (fn t => SYST_update_pc t syst) lbl_tms
-      end;
-*)      
+     
 in (* local *)
   fun symb_exec_endstmt n_dict lbl_tm est syst = (
     (* no update if state is not running *)
@@ -208,13 +187,8 @@ in (* local *)
     case state_exec_try_cjmp_label est syst of
        SOME systs => systs
      | NONE       => (
-    (* try to match indirect jump *)
-    (*case state_exec_try_jmp_exp_var est syst of
-       SOME systs => systs
-     | NONE       => ( *)
     (* no match, then we have some indirection and need to rely on cfg (or it's another end statement) *)
        state_exec_try_jmp_exp_var_no_const syst
-       (*state_exec_from_cfg n_dict lbl_tm syst*)
     )))
    handle e =>
      raise wrap_exn (term_to_string lbl_tm) e;;
@@ -231,7 +205,6 @@ in (* local *)
 fun symb_exec_adversary_block abpfun n_dict bl_dict syst =
     let val lbl_tm = SYST_get_pc syst; in
 	    let
-		(* val _ = print ("Adv \n"); *)
 		val bl = (valOf o (lookup_block_dict bl_dict)) lbl_tm;
 
 		val (lbl_block_tm, bl_stmts, est) = dest_bir_block bl;
@@ -280,7 +253,7 @@ fun symb_exec_library_block abpfun n_dict bl_dict adr_dict syst =
 
 		val lib_type = bir_symbexec_oracleLib.lib_oracle adr_dict lbl_tm syst; (* detect type of library call *)
 
-		val _ = if false then () else
+		val _ = if true then () else
 			print ("Lib type: " ^ (lib_type) ^ "\n");
 
 		val systs = if (lib_type = "HMAC_send") then [bir_symbexec_funcLib.HMAC_Send syst]
@@ -364,24 +337,8 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 		     (print_term bl; print "\n ==================== \n\n");
 
 	     val systs2 = List.foldl (fn (s, systs) => List.concat(List.map (fn x => symb_exec_stmt (s,x)) systs)) [syst] s_tms;   
-	     (* generate list of states from end statement *)
 
 	    val systs =  List.concat(List.map (symb_exec_endstmt n_dict lbl_tm est) systs2);
-		 
- 	   (*     val systs = if bir_symbexec_oracleLib.is_function_call n_dict lbl_tm
-			 then
-			     if ((not o List.null o fst o listSyntax.dest_list) stmts)
-			     then
-				  List.concat(List.map (symb_exec_endstmt n_dict lbl_tm est) systs2)
-			     else		
-				 List.concat(List.map (state_exec_try_jmp_exp_var_no_const systs2))
-			 else
-			      List.concat(List.map (symb_exec_endstmt n_dict lbl_tm est) systs2);
-
-
-	  val systs = if bir_symbexec_oracleLib.is_function_call n_dict lbl_tm
-			 then (List.map (fn x => bir_symbexec_funcLib.update_pc x) systs)
-			 else systs;*)
 		 
 
 	     val systs_processed = abpfun systs;

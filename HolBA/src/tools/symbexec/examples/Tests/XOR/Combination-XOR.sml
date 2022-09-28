@@ -34,8 +34,7 @@ val lbl_tm = ``BL_Address (Imm64 4203632w)``;
 val stop_lbl_tms = [``BL_Address (Imm64 4203756w)``];  *)
 
 val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
-(* val ns = List.map (fn x => snd x)(listItems n_dict); *)
-(* val _ =  bir_cfg_vizLib.cfg_display_graph_ns ns; *)
+
 
 val adr_dict = bir_symbexec_PreprocessLib.fun_addresses_dict bl_dict_ prog_lbl_tms_;
 val syst = init_state lbl_tm prog_vars;
@@ -58,4 +57,4 @@ val (systs_noassertfailed, systs_assertfailed) =
 val _ = print ("number of \"no assert failed\" paths found: " ^ (Int.toString (length systs_noassertfailed)));
 val _ = print "\n";
 
-    val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs_noassertfailed;
+val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs_noassertfailed;

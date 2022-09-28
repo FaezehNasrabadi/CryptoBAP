@@ -25,22 +25,8 @@ local
     open Redblackmap;
   val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_PreprocessLib"
 in
-(*
-val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
 
-val n = valOf (peek (n_dict, “BL_Address (Imm64 268437120w)”));
-
-# val n =
-   {CFGN_hc_descr = SOME "A9BE53F3 (stp x19, x20, [sp, #-32]!)",
-    CFGN_lbl_tm = “BL_Address (Imm64 4235844w)”, CFGN_targets =
-    [“BL_Address (Imm64 4235848w)”], CFGN_type = CFGNT_Jump}: cfg_node
-
-*)
-(* (List.length lbl_tgt) = 0
-		       then
-			   (“BL_Address (Imm64 0w)”, " ")
-		       else
-			   ((hd lbl_tgt), " ");*)
+(* Find nodes with branch*)
 fun fun_address_dict (n:cfg_node) =
     let
         val lbl_tm   = #CFGN_lbl_tm n;
@@ -58,7 +44,7 @@ fun fun_address_dict (n:cfg_node) =
 	name_adr
     end;
     
-    
+(* Find address of nodes with branch*)    
 fun fun_addresses_dict bl_dict prog_lbl_tms =
     let
 	val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict prog_lbl_tms;
@@ -71,10 +57,7 @@ fun fun_addresses_dict bl_dict prog_lbl_tms =
     in
 	fst (Redblackmap.remove(func_table', “BL_Address (Imm32 0w)”))
     end;
-(*
-val aa = fun_addresses_dict bl_dict_  prog_lbl_tms_
-    Redblackmap.listItems aa ;
-*)    
+    
 end(*local*)
 
 end (* struct *)

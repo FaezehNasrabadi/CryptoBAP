@@ -29,6 +29,7 @@ local
 
 in
 
+(* reverse a fresh name *)
 fun rev_name pred_name =
     let
 	val a = (fst o (bir_auxiliaryLib.list_split_pred #"_") o explode) pred_name;
@@ -39,6 +40,7 @@ fun rev_name pred_name =
 	rev_pred_name
     end;
 
+(* translate function symbol *)     
 fun Fun_Str str_be =
     let
 	val a = (fst o (bir_auxiliaryLib.list_split_pred #" ") o explode) str_be;
@@ -60,22 +62,7 @@ fun Fun_Str str_be =
 	fun_str
     end;
     
-(* val be = ``conc2 payload (BVar "192_HMAC" (BType_Imm Bit64))``;
-val be = ``dec (BVar "709_a" (BType_Imm Bit64)) (BVar "870_Conc3" (BType_Imm Bit64))``;
-val be = “hash (BVar "188_Conc1" (BType_Imm Bit64)) key”;
-   val str_be = (term_to_string be);
-val be = ``enc1 (BVar "444_Conc3" (BType_Imm Bit64)) (BVar "448_kAB" (BType_Imm Bit64))
-  (BVar "451_iv" (BType_Imm Bit64))``;
-Fun_3 str_be
-val be = ``enc1 response (BVar "493_Pars4" (BType_Imm Bit64))
-  (BVar "497_iv" (BType_Imm Bit64))``;
-
-val be = ``hash3 (BExp_Den (BVar "4763_a" (BType_Imm Bit64)))
-  (BVar "5039_sk" (BType_Imm Bit64)) pkS``;
-val be = ``enc1 (BVar "1543_Conc2" (BType_Imm Bit64)) pkB (BVar "2907_iv" (BType_Imm Bit64))``;
-val be = ``conc3 (BVar "608_Dec" (BType_Imm Bit64)) (BVar "1890_RAND_NUM" (BType_Imm Bit64)) hostB``;
-*)
-
+(* find value for function entry from BIR expression *) 
 fun find_bexp_val str_be =
     let
 	val b = (snd o (bir_auxiliaryLib.list_split_pred #"_")) str_be;
@@ -102,6 +89,7 @@ fun find_bexp_val str_be =
 	value
     end;
 
+(* find value for function entry *)    
 fun find_bval be =
     let
 	val d =	if (String.isPrefix "Exp" (implode be))
@@ -115,12 +103,12 @@ fun find_bval be =
 			e
 		    end
 		    else (implode be);
-		(*else raise ERR "compute_inputs_mem" "this should not happen";*)
 	    
     in
 	d
     end;
-
+    
+(* translate function entry *)
 fun find_fun_arg b =
     let
 	val f = if ((String.isPrefix "Var" (implode b)) orelse (String.isPrefix "Exp" (implode b)))
@@ -142,6 +130,7 @@ fun find_fun_arg b =
 	f
     end;
 
+(* translate function symbol with one entry *)    
 fun Fun_1 str_be =
     let
 	val _ = print str_be;
@@ -153,6 +142,7 @@ fun Fun_1 str_be =
 	(implode a)^"("^f^")"
     end;
 
+(* translate function symbol with two entries *)    
 fun Fun_2 str_be =
     let
 	(*val _ = print str_be;*)
@@ -198,7 +188,7 @@ fun Fun_2 str_be =
 	(implode a)^"("^f^")"
     end;
 
-
+(* translate function symbol with three entries *)
 fun Fun_3 str_be =
     let
 
@@ -290,7 +280,8 @@ fun Fun_3 str_be =
 		
     in
 	(implode a)^"("^e^","^g^","^h^")"
-    end;      
+    end;
+    
 (*Collect path names*)
 fun path_to_names [] Pred_Names =
     (Pred_Names)
@@ -399,17 +390,6 @@ val refine_preds =
    ["61_K", "60_Adv", "58_T", "56_Key", "54_cjmp_false_cnd",
     "53_cjmp_true_cnd", "47_K", "46_Adv", "44_T", "42_iv", "39_T", "37_Key",
     "2_init_pred"];
-
-val b = "2_init_pred";
-
-(Option.valOf o Int.fromString) b
-open Array;
-
-val b = (List.map (fn x => (Option.valOf o Int.fromString) x) all_preds);
-val A = Array.fromList all_preds;
-
-val a = qsort A;
-open Vector;
 *)
 fun get_refine_preds_list exec_sts =
     let
@@ -526,7 +506,8 @@ fun K_to_Out vals_list refine_preds exec_sts pred preds =
     in
 	result
     end;
- (* val k_be =``BVar "193_HMAC" (BType_Imm Bit64)``; *) 
+
+(*Translate a piece of knowledge from register r0 to IML out*)    
 fun Kr_to_Out vals_list pred =
     let
 	val pred_term = bir_envSyntax.mk_BVar_string(pred, “BType_Bool”);    
@@ -563,6 +544,7 @@ fun Br_True pred_name = (I_True (Var pred_name));
 (*Translate assume to IML event*)
 fun assume_to_event pred_name = (I_Event pred_name);
 
+(*Translate event names to IML event*)    
 fun IML_event event_names pred =
     let
 
@@ -579,7 +561,7 @@ fun IML_event event_names pred =
 	((to_string o I_Event) pred_name)
     end;
 
-(*Translate XOR to IML   
+(*Translate XOR to IML*)
 fun Xor_to_IML vals_list pred =
     let
 	
@@ -595,9 +577,9 @@ fun Xor_to_IML vals_list pred =
 	(to_string (I_Out [(Var (fun_str))]))
 
     end;
-*) 
+ 
 (*Translate Let to IML*)
-   (* val be = ``hash (BExp_Const (Imm8 2w)) (BVar "1_iv" (BType_Imm Bit64))``;*)
+
 fun Let_to_IML vals_list pred =
     let
 	
@@ -616,14 +598,12 @@ fun Let_to_IML vals_list pred =
 		      else if((String.isSuffix "Conc2" pred) orelse (String.isSuffix "Pars1" pred) orelse (String.isSuffix "Pars2" pred) (*orelse (String.isSuffix "sk" pred)*) orelse (String.isSuffix "Pars3" pred) orelse (String.isSuffix "Pars4" pred) orelse (String.isSuffix "Pars5" pred) orelse (String.isSuffix "Pars6" pred))
 		      then (Fun_1 (term_to_string be))
 		      else (Fun_2 (term_to_string be));
-	    
-(*if (String.isSuffix "kAB" pred)
-	    then ("lookup(clientID,serverID,key)")
-	      else*)
+
     in
 	(to_string (I_Let ((rev_name pred), (Var (fun_str)))))
 
-    end;    
+    end;
+    
 (*Translate BIR expressions to IML expressions*)
 (*
 val pred_be = “BExp_Const (Imm64 2840w)”; val result = "2840";
@@ -657,7 +637,6 @@ val pred_be = ``BExp_BinExp BIExp_And
 
 fun BExp_to_IMLExp vals_list exec_sts pred_be =
     let
-	(*val _ = print ((term_to_string pred_be)^"\n");*)
 	val result = if (is_BExp_Const pred_be) then
 			 (if (is_Imm128 o dest_BExp_Const) pred_be then
 			      ("c_"^((Arbnum.toString o wordsSyntax.dest_word_literal o dest_Imm128 o dest_BExp_Const) pred_be))
@@ -788,7 +767,6 @@ val pred = "165_assert_true_cnd";
 val pred_term = “BVar "23_cjmp_true_cnd" BType_Bool”;
 val pred_be = “BExp_Den (BVar "22_ProcState_Z" BType_Bool)”;
 *)
-(*val _ = let val IFile = TextIO.openAppend "Symbolic Execution Preds Vals.txt"; in TextIO.output (IFile, (term_to_string pred_be) ^ "\n ----------------- \n" ); TextIO.flushOut IFile end;*)
     
 fun IMLExp_from_pred vals_list exec_sts pred =
     let
@@ -832,7 +810,6 @@ fun path_of_tree event_names vals_list refine_preds exec_sts [] str =
     (str)
   | path_of_tree event_names vals_list refine_preds exec_sts (pred::preds) str =
     let
-	val _ = print ((pred)^"\n");
 
 	val Act = if (String.isSuffix "assert_true_cnd" pred) then ""
 		  else if ((String.isSuffix "cjmp_true_cnd" pred) orelse (String.isSuffix "comp_true_cnd" pred)) then (if (String.isSuffix "0" (IMLExp_from_pred vals_list exec_sts pred))
@@ -852,9 +829,6 @@ fun path_of_tree event_names vals_list refine_preds exec_sts [] str =
 	val str = str^Act;   
 	    
     in
-	(*if (String.isSuffix "cjmp_false_cnd" pred andalso ((not o List.null) preds))
-	  then (path_of_tree event_names vals_list refine_preds exec_sts (tl preds) str)
-	  else*)
 	(if (String.isSuffix "cjmp_true_cnd" pred andalso (List.length preds = 2))
 	then ((path_of_tree event_names vals_list refine_preds exec_sts [((hd o tl) preds)] str)^(to_string (I_False ())))
 	else (path_of_tree event_names vals_list refine_preds exec_sts preds str))

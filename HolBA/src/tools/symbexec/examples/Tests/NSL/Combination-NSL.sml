@@ -59,17 +59,6 @@ val _ = print "\n\n";
 val _ = print ("number of \"assert failed\" paths found: " ^ (Int.toString (length systs_assertfailed)));
 val _ = print "\n\n";
 
-(*
-HOL_ERR {message = "don't know BIR expression: dec inputs", origin_function = "bexp_to_smtlib", origin_structure = "bir_smtLib"}
 
-val systs_feasible = List.filter check_feasible systs_noassertfailed;
-val _ = print ("number of feasible paths found: " ^ (Int.toString (length systs_feasible)));
-val _ = print "\n\n";
-
-val systs_tidiedup = List.map tidyup_state_vals systs_feasible;
-val _ = print "finished tidying up all paths.\n\n";
-val _ = print ("number of tidied up paths found: " ^ (Int.toString (length systs_tidiedup)));
-val _ = print "\n\n";
-*)   
 val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs_noassertfailed;
 

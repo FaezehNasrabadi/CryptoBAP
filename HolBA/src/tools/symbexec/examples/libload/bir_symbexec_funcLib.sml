@@ -12,6 +12,7 @@ local
   val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_funcLib"
 in
 
+(* define uninterpreted cryptographic functions *)
 val _ = Parse.type_abbrev("hash2", ``:bir_var_t -> bir_var_t -> bir_exp_t``);
 
 val _ = Parse.type_abbrev("hash3", ``:bir_var_t -> bir_var_t -> bir_var_t -> bir_exp_t``);    
@@ -62,17 +63,8 @@ val _ = Parse.type_abbrev("conc2", ``:bir_var_t -> bir_exp_t``);
 
 val _ = Parse.type_abbrev("conc3", ``:bir_var_t -> bir_var_t -> bir_var_t -> bir_exp_t``);    
     
-(*
-val bv_mem = ``BExp_Store (BExp_Den (BVar "160_MEM" (BType_Mem Bit64 Bit8)))
-  (BExp_Den (BVar "163_R0" (BType_Imm Bit64))) BEnd_LittleEndian
-  (BExp_Const (Imm8 2w))
-``;
-
-
-
-*)
     
-(* read int from file *)
+(* read the number of function entries from file *)
 fun readint_inputs filename =
     let
 	val fullfilename = Path.mkAbsolute{path = filename,
@@ -93,7 +85,8 @@ fun readint_inputs filename =
  loop ins before TextIO.closeIn ins
 
     end;
-    
+
+(* generate a variable with type BType_Bool_tm from a BVar *)    
 fun Fr var =
     let
 	 val (bv_str, _) = bir_envSyntax.dest_BVar_string var;
@@ -102,6 +95,8 @@ fun Fr var =
 	bv
     end;
 
+    
+(* generate a variable with type BType_Imm Bit64 from a BVar *)
 fun rev_Fr bv =
     let
 	 val (bv_str, _) = bir_envSyntax.dest_BVar_string bv;
@@ -109,7 +104,8 @@ fun rev_Fr bv =
     in
 	var
     end;
-		
+
+(* the symbolic model of cryptographic functions *)    
 fun encrypt inputs kSP =
     let
 	val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
@@ -197,22 +193,6 @@ fun CON inputs =
     in
 	dest_BStmt_Assign stmt
     end;
-    
-(*open List;
-     open stringSyntax;
-     val str = "";
-	 val inputs = ``BVar "R3" (BType_Imm Bit64)``;
-val inputs = [``BVar "R3" (BType_Imm Bit64)``, ``BVar "R1" (BType_Imm Bit64)``, ``BVar "R2" (BType_Imm Bit64)``];
-val str_a = (List.foldr (fn (x,s) => (term_to_string x)^","^s) "" (inputs));
-val b = fromMLstring str_a;
-open Term;
-val stmt = ``BStmt_Assign (BVar "R0" (BType_Imm Bit64))
-			(hmac
-			     ( ^inputs))``;
-
- val inputs = ``BExp_Const (Imm8 2w)``;
- val iv = ``BVar "1_iv" (BType_Imm Bit64)``;
-*)
 
 fun HMac2 inputs key =
     let
@@ -402,7 +382,8 @@ fun KDfStoP input1 input2 =
     in
 	dest_BStmt_Assign stmt
     end; 
-    
+
+(* find the symbolic expression for a symbolic value *)    
 fun symbval_bexp symbv =
     let
 	val bexp =
@@ -415,6 +396,7 @@ fun symbval_bexp symbv =
 	bexp
     end;
 
+(* insert a symbolic value into the current state*)    
 fun update_symbval new_be Fr_bv syst =
     let
 
@@ -428,7 +410,7 @@ fun update_symbval new_be Fr_bv syst =
 	syst
     end;
   
-
+(* store the link register *)
 fun store_link bl_stmts syst =
     let
 	val s_tm = (fst o listSyntax.dest_list) bl_stmts;
@@ -443,6 +425,7 @@ fun store_link bl_stmts syst =
 	syst
     end;
 
+(* fetch the link register *)    
 fun update_pc syst =
     let
 	val bv = ``BVar "R30" (BType_Imm Bit64)``;
@@ -459,6 +442,7 @@ fun update_pc syst =
 	syst
     end;
 
+(* update the path predicate of the current state*)     
 fun update_path bv syst =
     let
 	 val Fr_bv = Fr bv;
@@ -467,6 +451,7 @@ fun update_path bv syst =
 	syst
     end;
 
+(* add a path predicate and insert symbolic value for it into the current state*)    
 fun state_add_path bv_str pred syst =
     let
       val bv = bir_envSyntax.mk_BVar_string (bv_str, bir_valuesSyntax.BType_Bool_tm);
@@ -476,7 +461,8 @@ fun state_add_path bv_str pred syst =
        update_symbval pred bv_fresh
       ) syst
     end;
-    
+
+(* store output of a cryptographic function into register r0 *)    
 fun update_lib_syst be Fr_bv syst =
     let
 	
@@ -491,17 +477,14 @@ fun update_lib_syst be Fr_bv syst =
     in
 	syst
     end;
-    
+
+(* fetch inputs from memory *)    
 fun compute_inputs_mem n syst =
     let
 	    
 	val bv_mem =  “BVar "MEM" (BType_Mem Bit64 Bit8)”;
 
-	val _ = print ("bv_mem " ^ term_to_string bv_mem^"\n");
-
 	val be_mem =  (symbval_bexp o get_state_symbv " be not found " bv_mem) syst;
-	    
-	val _ = print ("be_mem " ^ term_to_string be_mem^"\n");
 
 	val (exp1,exp2,endi,exp3) = dest_BExp_Store be_mem;
 
@@ -523,8 +506,7 @@ fun compute_inputs_mem n syst =
 		   else if (is_BExp_Const exp3)
 		   then
 		       exp3
-		   else raise ERR "compute_inputs_mem" "this should not happen";
-val _ = print ("be_mem " ^ term_to_string be_r^"\n");
+		   else raise ERR "compute_inputs_mem" "this should not happen";;
 (*
 	val n = n-1;
 	val inputs = if (n < 0)
@@ -537,17 +519,13 @@ val _ = print ("be_mem " ^ term_to_string be_r^"\n");
 	be_r
     end;
 
-
+(* fetch inputs from memory belong to cryptographic results *)
 fun compute_inputs_op_mem n syst =
     let
 	
 	val bv_mem =  “BVar "Op_MEM" (BType_Mem Bit64 Bit8)”;
 
-	val _ = print ("bv_mem " ^ term_to_string bv_mem^"\n");
-
 	val be_mem =  (symbval_bexp o get_state_symbv " be not found " bv_mem) syst;
-	    
-	val _ = print ("be_mem " ^ term_to_string be_mem^"\n");
 
 	val (exp1,exp2,endi,exp3) = dest_BExp_Store be_mem;
 
@@ -570,7 +548,7 @@ fun compute_inputs_op_mem n syst =
 		   then
 		       exp3
 		   else raise ERR "compute_inputs_op_mem" "this should not happen";
-	val _ = print ("be_mem " ^ term_to_string be_r^"\n");
+
     (*
      val n = n-1;
      val inputs = if (n < 0)
@@ -582,7 +560,8 @@ fun compute_inputs_op_mem n syst =
     in
 	be_r
     end;    
-    
+
+(* fetch inputs from registers *)    
 fun compute_inputs_reg n syst =
     let
 	val Rn = ("R" ^ (IntInf.toString n));
@@ -601,9 +580,9 @@ fun compute_inputs_reg n syst =
 
     end;
 
+(* store into memory *)    
 fun store_mem be bv syst =
     let
-	(* val syst = update_symbval be bv syst;  update symbolic value *)
 	
 	val bv_mem = find_bv_val ("store_mem::bv in env not found") (SYST_get_env syst) “BVar "MEM" (BType_Mem Bit64 Bit8)”;
 		     
@@ -618,23 +597,17 @@ fun store_mem be bv syst =
 	val syst =  update_envvar “BVar "MEM" (BType_Mem Bit64 Bit8)” Fr_mem syst; (* update environment *)  
 	
 	val syst = update_symbval be Fr_mem syst; (* update symbolic value *)
-
-	(*val syst = update_path bv syst;  update path condition *)
     in
 	syst
     end;     
 
+(* store into memory and register r0 *)    
 fun store_mem_r0 be bv syst =
     let
 	val fr_bv = Fr bv;
-
-	    val _ = print ("bv " ^ term_to_string bv^"\n");
-	    val _ = print ("be " ^ term_to_string be^"\n");
 	
 
 	val syst = (SYST_update_pred ((fr_bv)::(SYST_get_pred syst)) o update_symbval be fr_bv) syst;
-	    
-	(*val syst = update_symbval be bv syst;  update symbolic value *)
 	
 	val bv_mem = find_bv_val ("store_mem::bv in env not found") (SYST_get_env syst) “BVar "MEM" (BType_Mem Bit64 Bit8)”;
 		     
@@ -663,9 +636,9 @@ fun store_mem_r0 be bv syst =
 	syst
     end;     
 
+(* store into memory belong to cryptographic results *)    
 fun store_op_mem be bv syst =
     let
-	(* val syst = update_symbval be bv syst;  update symbolic value *)
 	
 	val bv_mem = find_bv_val ("store_op_mem::bv in env not found") (SYST_get_env syst) “BVar "Op_MEM" (BType_Mem Bit64 Bit8)”;
 		     
@@ -680,23 +653,16 @@ fun store_op_mem be bv syst =
 	val syst =  update_envvar “BVar "Op_MEM" (BType_Mem Bit64 Bit8)” Fr_mem syst; (* update environment *)  
 	
 	val syst = update_symbval be Fr_mem syst; (* update symbolic value *)
-
-	(*val syst = update_path bv syst;  update path condition *)
     in
 	syst
     end;     
 
+(* store into register r0 and memory belong to cryptographic results *)     
 fun store_op_mem_r0 be bv syst =
     let
 	val fr_bv = Fr bv;
 
-	    val _ = print ("bv " ^ term_to_string bv^"\n");
-	    val _ = print ("be " ^ term_to_string be^"\n");
-	
-
 	val syst = (SYST_update_pred ((fr_bv)::(SYST_get_pred syst)) o update_symbval be fr_bv) syst;
-	    
-	(*val syst = update_symbval be bv syst;  update symbolic value *)
 	
 	val bv_mem = find_bv_val ("store_op_mem::bv in env not found") (SYST_get_env syst) “BVar "Op_MEM" (BType_Mem Bit64 Bit8)”;
 		     
@@ -724,7 +690,9 @@ fun store_op_mem_r0 be bv syst =
     in
 	syst
     end;
-    
+
+
+(* store into memory belong to adversary *)     
 fun store_advmem be bv syst =
     let
 	val fr_bv = Fr bv;
@@ -732,27 +700,13 @@ fun store_advmem be bv syst =
 	val syst = (SYST_update_pred ((fr_bv)::(SYST_get_pred syst)) o update_symbval be fr_bv) syst;
 	    
 	val syst = update_symbval be bv syst;  (*update symbolic value *)
-	(*
-	val bv_mem = find_bv_val ("store_advmem::bv in env not found") (SYST_get_env syst) “BVar "Adv_MEM" (BType_Mem Bit64 Bit8)”;
-		     
-	val be_add = (symbval_bexp o get_state_symbv "store_mem::vals not found " “BVar "SP_EL0" (BType_Imm Bit64)”) syst;
-
-	val endi = “BEnd_LittleEndian”;
-	    
-	val be_mem = (mk_BExp_Store (mk_BExp_Den(bv_mem), be_add, endi, mk_BExp_Den(bv)));
-
-	val Fr_mem = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Adv_MEM", “BType_Mem Bit64 Bit8”));
-
-	val syst =  update_envvar “BVar "Adv_MEM" (BType_Mem Bit64 Bit8)” Fr_mem syst; (* update environment *)  
-	
-	val syst = update_symbval be_mem Fr_mem syst; (* update symbolic value *)*)
 
 	    
     in
 	syst
     end;     
 
-    
+(* add knowledge to adversary by register r0 *)    
 fun add_knowledge_r0 bv syst =
     let
 	val syst = state_add_path "Kr" bv syst;
@@ -760,7 +714,9 @@ fun add_knowledge_r0 bv syst =
     in
 	syst
     end;
-   
+
+
+(* add a piece of knowledge to adversary *)       
 fun add_knowledge bv syst =
     let
 	val symbv = SOME (get_state_symbv "symbv not found" bv syst)
@@ -783,6 +739,7 @@ fun add_knowledge bv syst =
        syst
     end;
 
+(* add n piece of knowledge to adversary *)    
 fun add_knowledges_to_adv n syst =
     let
 	val Rn = ("R" ^ (IntInf.toString n));
@@ -801,18 +758,18 @@ fun add_knowledges_to_adv n syst =
 
     end;  
 
-
+(* find adversary stored value *)
 fun find_adv_name syst =
     let
 	 val bv_adv = “BVar "Adv_MEM" (BType_Mem Bit64 Bit8)”;
-
-	(*val _ = print ("bv_adv " ^ term_to_string bv_mem^"\n");*)
 
 	val be_adv =  (symbval_bexp o get_state_symbv " be not found " bv_adv) syst;
     in
 	be_adv
 
-    end; 
+    end;
+
+(* update the current state with a fresh name *)    
 fun update_with_fresh_name be bv syst =
     let
 	
@@ -830,6 +787,7 @@ fun update_with_fresh_name be bv syst =
 	syst
     end;
 
+(* update the shared key between parties *)      
 fun update_key be bv syst =
     let
 	val bv_key = ``BVar "key" (BType_Imm Bit64)``;
@@ -842,23 +800,11 @@ fun update_key be bv syst =
 	    
 	val syst = update_symbval be bv syst;
 
-    (*
-	val Fr_bv = Fr bv;
-
-	val syst = (SYST_update_pred ((Fr_bv)::(SYST_get_pred syst)) o update_symbval be Fr_bv) syst;
-
-	val syst = update_path bv  syst;
-
-	val bv_key = ``BVar "key" (BType_Imm Bit64)``;
-
-	val syst =  update_envvar bv_key bv syst;
-	    
-	val syst = update_symbval be bv syst; (* update symbolic value *)*)
-
     in
 	syst
     end;    
-    
+
+(* adversary update the current state *)    
 fun Adv av syst =
     let
 
@@ -876,7 +822,7 @@ fun Adv av syst =
 	syst
     end;
 
-
+(* release an event *)
 fun Event lib_type syst =
     let
 
@@ -896,7 +842,10 @@ fun Event lib_type syst =
     in
 	systs
     end;
- (*   
+
+(*handle cryptographic symbolic model, concatenation, and parsing the bitstring  *)
+    
+(*   
 fun Concat1 syst =
     let
 	val flag = true;
@@ -1433,7 +1382,8 @@ fun Concat1 syst =
 	syst
     end;   
 (*
-RPC-enc client    
+RPC-enc client
+==============    
 fun new_key syst =
     let
 
@@ -1492,7 +1442,8 @@ fun Decryption syst =
 	syst
     end;
  
-RPC-enc server  
+RPC-enc server
+==============  
 fun new_key syst =
     let
 	val syst = Parse1 syst;
@@ -1557,6 +1508,7 @@ fun Decryption syst =
     end;
 
 Tinyssh
+=======
 fun Encryption syst =
     let
 	val key = compute_inputs_mem (1) syst; (* get values *)
@@ -1597,7 +1549,9 @@ fun Decryption syst =
 	syst
     end;
 
+
 NSL client
+==========
 
 fun Decryption syst =
     let
@@ -1905,32 +1859,6 @@ fun New_memcpy syst =
     in
 	syst
     end;
-
-
-   
-(*    
-fun Load_file syst =
-    let
-	
-	val bv_mem = find_bv_val ("New_memcpy::bv in env not found") (SYST_get_env syst) “BVar "MEM" (BType_Mem Bit64 Bit8)”;
-		    
-	val Fr_load = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Load", “BType_Imm Bit64”)); (* generate a fresh variable *)
-
-	val endi = “BEnd_LittleEndian”;
-
-	val Vtype = “Bit64”;
-		    
-	val be = (mk_BExp_Load (mk_BExp_Den(bv_mem), mk_BExp_Den(Fr_load), endi, Vtype));
-
-	val Fr_r1 = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("R1", “BType_Imm Bit64”));
-
-	val syst =  update_envvar “BVar "R1" (BType_Imm Bit64)” Fr_r1 syst; (* update environment *)  
-	
-	val syst = update_symbval be Fr_r1 syst; (* update symbolic value *)
-    in
-	syst
-    end;
- *)
 
 fun Load_file syst =
     let

@@ -36,8 +36,6 @@ val stop_lbl_tms = [``BL_Address (Imm64 4204156w)``];
 
 *)
 val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
-(* val ns = List.map (fn x => snd x)(listItems n_dict);  *)
-(* val _ =  bir_cfg_vizLib.cfg_display_graph_ns ns;  *)
 
 val adr_dict = bir_symbexec_PreprocessLib.fun_addresses_dict bl_dict_ prog_lbl_tms_;
 val syst = init_state lbl_tm prog_vars;
@@ -61,16 +59,4 @@ val (systs_noassertfailed, systs_assertfailed) =
 val _ = print ("number of \"no assert failed\" paths found: " ^ (Int.toString (length systs_noassertfailed)));
 val _ = print "\n";
 
-    val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs_noassertfailed;
-(*
-val b = listItems (SYST_get_env ((hd o rev) systs));
-val b = listItems (SYST_get_vals ((hd o rev) systs));
-val syst = (hd o rev)systs;
-val be = “BVar "R1" (BType_Imm Bit64)”;
-val be_r = (bir_symbexec_funcLib.symbval_bexp o get_state_symbv " vals not found " be) syst;
-
-open binariesCfgVizLib;
-open binariesDefsLib;
-val _ = show_cfg_fun false  bl_dict_ n_dict "packet_kexdh";
-
-*)
+val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs_noassertfailed;
