@@ -33,7 +33,6 @@ val stop_lbl_tms = [``BL_Address (Imm64 4199076w)``];
 val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
 
 val adr_dict = bir_symbexec_PreprocessLib.fun_addresses_dict bl_dict_ prog_lbl_tms_;
-(* val b = listItems adr_dict; *)
   
 val syst = init_state lbl_tm prog_vars;
 
@@ -55,9 +54,6 @@ val _ = print "\n\n";
     
 val lbl_tm = ``BL_Address (Imm64 4196056w)``;
 val stop_lbl_tms = [``BL_Address (Imm64 4196940w)``];
-(*val syst = init_state lbl_tm prog_vars;
-val pred_conjs = [``bir_exp_true``];
-val syst = state_add_preds "init_pred" pred_conjs syst;*)
     
 val systs = symb_exec_to_stop (abpfun cfb) n_dict bl_dict_ systs  stop_lbl_tms adr_dict systs;
 val _ = print "\n\n";
@@ -65,7 +61,18 @@ val _ = print "finished exploration of all paths.\n\n";
 val _ = print ("number of paths found: " ^ (Int.toString (length systs)));
 val _ = print "\n\n";
     
-(******rec_res******)
+
+val (systs_noassertfailed, systs_assertfailed) =
+  List.partition (fn syst => not (identical (SYST_get_status syst) BST_AssertionViolated_tm)) systs;
+val _ = print ("number of \"no assert failed\" paths found: " ^ (Int.toString (length systs_noassertfailed)));
+val _ = print "\n\n";
+val _ = print ("number of \"assert failed\" paths found: " ^ (Int.toString (length systs_assertfailed)));
+val _ = print "\n\n";
+  
+val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs_noassertfailed;
+
+
+    (******rec_res******)
  (*     
 val lbl_tm = ``BL_Address (Imm64 4196948w)``;
 val stop_lbl_tms = [``BL_Address (Imm64 4199092w)``];
@@ -92,27 +99,6 @@ val _ = print ("number of paths found: " ^ (Int.toString (length systs)));
 val _ = print "\n\n";
     
     *)
-val (systs_noassertfailed, systs_assertfailed) =
-  List.partition (fn syst => not (identical (SYST_get_status syst) BST_AssertionViolated_tm)) systs;
-val _ = print ("number of \"no assert failed\" paths found: " ^ (Int.toString (length systs_noassertfailed)));
-val _ = print "\n\n";
-val _ = print ("number of \"assert failed\" paths found: " ^ (Int.toString (length systs_assertfailed)));
-val _ = print "\n\n";
 
-(*
-HOL_ERR {message = "don't know BIR expression: dec inputs", origin_function = "bexp_to_smtlib", origin_structure = "bir_smtLib"}
 
-val systs_feasible = List.filter check_feasible systs_noassertfailed;
-val _ = print ("number of feasible paths found: " ^ (Int.toString (length systs_feasible)));
-val _ = print "\n\n";
 
-val systs_tidiedup = List.map tidyup_state_vals systs_feasible;
-val _ = print "finished tidying up all paths.\n\n";
-val _ = print ("number of tidied up paths found: " ^ (Int.toString (length systs_tidiedup)));
-val _ = print "\n\n";
-*)   
-val Acts = bir_symbexec_treeLib.sym_exe_to_IML systs_noassertfailed;
-
-val env = listItems ((SYST_get_env o hd o rev) systs_noassertfailed);
-    
-val vals = listItems ((SYST_get_vals o hd o rev) systs_noassertfailed);

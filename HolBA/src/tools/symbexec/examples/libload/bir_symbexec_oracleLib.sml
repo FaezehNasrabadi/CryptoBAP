@@ -15,6 +15,7 @@ local
     val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_oracleLib"
 in
 
+(* detect function call based on label of block *)
 fun is_function_call (n_dict : (term, cfg_node) dict) (lbl_tm : term) =
     let
 	val n_op = Redblackmap.peek(n_dict, lbl_tm);
@@ -34,9 +35,7 @@ fun is_function_call (n_dict : (term, cfg_node) dict) (lbl_tm : term) =
 	exist
     end;
 
-(*val est = ``BStmt_CJmp (BExp_Den (BVar "ProcState_Z" BType_Bool))
-			     (BLE_Label (BL_Address (Imm64 2844w)))
-			     (BLE_Label (BL_Address (Imm64 2836w)))``;*)
+(* fetch address of cjmp *)
 fun state_exec_try_cjmp_label_out est syst =
      let
 	 val cjmp_label_match_tm = ``BStmt_CJmp xyzc (BLE_Label xyz1) (BLE_Label xyz2)``;
@@ -56,26 +55,9 @@ fun state_exec_try_cjmp_label_out est syst =
              tgt2
 
      end;
-    (*
-val lbl_tm = ``BL_Address (Imm64 4280w)``;
 
-val stop_lbl_tms = [``BL_Address (Imm64 4460w)``];
-    
-val syst = init_state lbl_tm prog_vars;
 
-val pred_conjs = [``bir_exp_true``];
-    
-val syst = state_add_preds "init_pred" pred_conjs syst;
-
-val _ = print "initial state created.\n\n";
-
-val cfb = false;
-val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
-  
-val systs = bir_symbexec_stepLib.symb_exec_to_stop (abpfun cfb) n_dict bl_dict_ [syst] stop_lbl_tms [];*)
-(*val est = ``BStmt_Jmp
-                    (BLE_Exp (BExp_Den (BVar "R30" (BType_Imm Bit64))))``;*)
-
+(* fetch address of jump from expression variable *)
 fun state_exec_try_jmp_exp_var_out est syst =
     let
 	val indjmps = SYST_get_indjmp syst;
@@ -84,6 +66,7 @@ fun state_exec_try_jmp_exp_var_out est syst =
 	tgt 
     end;
 
+(* convert term into an integer *)    
 fun sint_of_term tm =
   tm |> wordsSyntax.dest_word_literal |> Arbnum.toLargeInt
   handle Overflow => raise ERR "sint_of_term"
@@ -145,7 +128,8 @@ fun read_fun_names filename =
  loop ins before TextIO.closeIn ins
 
     end;
-		
+
+(* detect name exists in function names *)    
 fun exist_in_dict fun_name file_name =
     let
 	val Names_list = read_fun_names file_name;
@@ -153,6 +137,7 @@ fun exist_in_dict fun_name file_name =
 	(List.exists (fn x => x=fun_name) Names_list)
     end;
 
+     
 fun fun_oracle_type_label adr_dict label =
     let
 	val exist_dict = Redblackmap.peek(adr_dict, label);
@@ -178,6 +163,7 @@ fun fun_oracle_type_label adr_dict label =
 	lbl
     end;
 
+(* find address of function call *)     
 fun fun_oracle_Address est syst =
     let
 	val target_label = if is_BStmt_CJmp est then state_exec_try_cjmp_label_out est syst
@@ -189,10 +175,12 @@ fun fun_oracle_Address est syst =
 	target_label
     end;
 
+ (* detect type of function call *)   
 fun fun_oracle adr_dict lbl_tm syst =
 	(fun_oracle_type_label adr_dict lbl_tm);
 
 
+(* detect type of cryptographic function call *)    
 fun lib_oracle_type_label adr_dict label =
     let
 
