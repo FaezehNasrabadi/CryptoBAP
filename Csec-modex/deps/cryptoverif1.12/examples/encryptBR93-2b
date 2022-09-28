@@ -1,0 +1,159 @@
+(*************************************************************
+ *                                                           *
+ *       Cryptographic protocol verifier                     *
+ *                                                           *
+ *       Bruno Blanchet                                      *
+ *                                                           *
+ *       Copyright (C) ENS, CNRS, INRIA, 2005-2011           *
+ *                                                           *
+ *************************************************************)
+
+(*
+
+    Copyright ENS, CNRS, INRIA 
+    contributor: Bruno Blanchet, Bruno.Blanchet@ens.fr
+    
+This software is a computer program whose purpose is to verify 
+cryptographic protocols in the computational model.
+
+This software is governed by the CeCILL-B license under French law and
+abiding by the rules of distribution of free software.  You can  use, 
+modify and/ or redistribute the software under the terms of the CeCILL-B
+license as circulated by CEA, CNRS and INRIA at the following URL
+"http://www.cecill.info". 
+
+As a counterpart to the access to the source code and  rights to copy,
+modify and redistribute granted by the license, users are provided only
+with a limited warranty  and the software's author,  the holder of the
+economic rights,  and the successive licensors  have only  limited
+liability. 
+
+In this respect, the user's attention is drawn to the risks associated
+with loading,  using,  modifying and/or developing or reproducing the
+software by the user in light of its specific status of free software,
+that may mean  that it is complicated to manipulate,  and  that  also
+therefore means  that it is reserved for developers  and  experienced
+professionals having in-depth computer knowledge. Users are therefore
+encouraged to load and test the software's suitability as regards their
+requirements in conditions enabling the security of their systems and/or 
+data to be ensured and,  more generally, to use and operate it in the 
+same conditions as regards security. 
+
+The fact that you are presently reading this means that you have had
+knowledge of the CeCILL-B license and that you accept its terms.
+
+*)
+(* encryption scheme by Bellare and Rogaway, Random Oracles are
+Practical: a Paradigm for Designing Efficient Protocols, CCS'93, 
+section 3.2: 
+	E(x) = f(r) || H(r) xor x || H2(r || x) 
+(CCA2) -- in progress *)
+
+set interactiveMode = true.
+
+(* The proof is as follows:
+
+crypto hash2
+crypto hash
+remove_assign binder pk
+crypto f r x_67
+crypto xor @6_r_113
+
+The game is transformed into a game that does not depend on menc.
+We can then easily show that if menc is defined by 
+"in(c, (m1,m2); new b1:bool; let menc = if b1 then m1 else m2"
+then the secrecy of b1 is preserved.
+(The system fails to show that directly; see encryptBR93-2.)
+*)
+
+param nx, qD.
+
+type pkey [bounded].
+type skey [bounded].
+type keyseed [large,fixed].
+type hasht [large,fixed].
+type hasht2 [large,fixed].
+type seed [large,fixed]. 
+
+(* One-way trapdoor permutation *)
+
+proba POW.
+
+expand OW_trapdoor_perm(keyseed, pkey, skey, seed, pkgen, skgen, f, mf, POW).
+
+(* Hash function, random oracle model *)
+
+type hashkey [fixed].
+
+expand ROM_hash(hashkey, seed, hasht, hash).
+
+param qH [noninteractive].
+channel hc1, hc2.
+let hashoracle = ! qH in(hc1, x: seed); out(hc2, hash(hk,x)).
+
+(* Another hash function, random oracle model 
+   I cannot use the macro to define because it needs to take two
+   arguments and not one. I cannot use a tuple for grouping the arguments
+   because it breaks the one-wayness transformation !
+   If I use tuples, a test x = (y,z) should be transformed into 
+   let (y', z') = x in y = y' && z = z' to apply one-wayness to the equality
+   y = y'.
+*)
+
+fun hash2(hashkey, seed, hasht):hasht2.
+
+param nH, nH2, nH3.
+
+equiv !nH new key: hashkey;
+      	  (!nH2 Oh(x:seed,y:hasht) := hash2(key,x,y),
+	   !nH3 Oeq(x':seed,y':hasht,r':hasht2) := r' = hash2(key,x',y'))
+      <=(#Oeq/|hasht2|)=>
+      !nH (!nH2 Oh(x:seed,y:hasht) := find j <= nH2 suchthat defined(x[j],y[j],r[j]) && x= x[j] && y=y[j] then r[j] else
+			 new r:hasht2; r,
+           !nH3 Oeq(x':seed,y':hasht,r':hasht2) := find j <= nH2 suchthat defined(x[j],y[j],r[j]) && x' = x[j] && y' =y[j] then r' = r[j] else false).
+
+param qH2 [noninteractive].
+channel c3, c4.
+let hashoracle2 = ! qH2 in(c3, (x:seed,y:hasht)); out(c4, hash2(hk2,x,y)).
+
+(* Xor *)
+
+expand Xor(hasht, xor).
+
+(* Queries *)
+
+query secret1 menc.
+
+channel c5, c6, c7, c8, c9, hstart, hret, start.
+
+let processD =
+	! qD
+	in(c5, (a:seed, b: hasht, c:hasht2));
+        (* The attacker cannot call the decryption oracle on the test ciphertext *)
+	find suchthat defined(aT,bT,cT) && a = aT && b = bT && c = cT then yield else
+	let x = mf(sk,a) in
+	let m = xor(hash(hk,x), b) in
+	if c = hash2(hk2,x,m) then
+	out(c6, m).
+
+let processT = 
+	in(c7, menc:hasht);
+	new x:seed;
+	let aT:seed = f(pk,x) in
+	let bT:hasht = xor(hash(hk,x), menc) in
+	let cT:hasht2 = hash2(hk2,x,menc) in
+	out(c8, (aT,bT,cT)).
+
+process 
+	in(hstart, ());
+	new hk: hashkey;
+	new hk2: hashkey;
+	out(hret, ());	
+	(hashoracle | hashoracle2 | 
+	(in(start, ());
+	new r:keyseed; 
+	let sk = skgen(r) in
+	let pk = pkgen(r) in
+	out(c9, pk);
+	(processD | processT)))
+

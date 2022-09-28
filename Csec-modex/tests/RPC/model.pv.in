@@ -1,0 +1,39 @@
+
+free c_in.
+free c_out.
+
+(******************** 
+  Crypto
+********************)
+
+fun HMAC_sha1/2.
+
+data arithmetic1/0.
+
+(* ASSERT_DEFINITION
+  arithmetic1/0
+  "sha1"
+*)
+
+reduc
+  HMAC(arithmetic1, m, k) = HMAC_sha1(m, k).
+
+(******************** 
+  <Query>
+********************)
+
+query ev:client_accept(x, y) ==> ev:server_reply(x, y).
+query ev:server_reply(x, y) ==> ev:client_begin(x).
+
+query ev:client_accept(x, y).
+
+(******************** 
+  <Environment>
+********************)
+
+process !
+  new keyAB;
+  in(c, request);
+  in(c, response);
+  (!client | !server)
+ 

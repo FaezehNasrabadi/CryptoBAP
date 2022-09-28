@@ -1,0 +1,206 @@
+let A = 
+assume argv0 = argv0 in
+assume ((len(argv0) + 1) >= 0) /\ ((len(argv0) + 1) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+assume argv1 = argv1 in
+assume ((len(argv1) + 1) >= 0) /\ ((len(argv1) + 1) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+assume argv2 = argv2 in
+assume ((len(argv2) + 1) >= 0) /\ ((len(argv2) + 1) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+assume argv3 = argv3 in
+assume ((len(argv3) + 1) >= 0) /\ ((len(argv3) + 1) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+assume argv4 = argv4 in
+assume ((len(argv4) + 1) >= 0) /\ ((len(argv4) + 1) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+assume clientID = clientID in
+assume serverID = serverID in
+assume port_ascii = port_ascii in
+if Malloc(len(argv0) + 1, len(argv1) + 1, len(argv2) + 1, len(argv3) + 1, len(argv4) + 1) <> 0 then 
+assume Defined(clientID) in
+assume len(clientID) = len(argv1) in
+assume Defined(serverID) in
+assume len(serverID) = len(argv2) in
+assume Defined(port_ascii) in
+assume len(port_ascii) = len(argv3) in
+if ¬(len(clientID) > 1024) then 
+if ¬(len(serverID) > 1024) then 
+if ¬(len(clientID) = 0) then 
+if ¬(Malloc(len(argv0) + 1, len(argv1) + 1, len(argv2) + 1, len(argv3) + 1, len(argv4) + 1, len(clientID)) = 0) then 
+if ¬(len(serverID) = 0) then 
+if ¬(Malloc(len(argv0) + 1, len(argv1) + 1, len(argv2) + 1, len(argv3) + 1, len(argv4) + 1, len(clientID), len(serverID)) = 0) then 
+assume Defined(port) in
+assume len(port) = 4 in
+assume Defined(request) in
+assume (len(request) >= 0) /\ (len(request) <= ((256 * 256 * 256 * 256) - 1)) in
+if ¬(len(request) > 1024) then 
+if ¬(len(request) < 1024) then 
+if Malloc(len(argv0) + 1, len(argv1) + 1, len(argv2) + 1, len(argv3) + 1, len(argv4) + 1, len(clientID), len(serverID), len(serverID) + 1) <> 0 then 
+out(c, serverID);
+out(c, port);
+in(c, var1);
+assume Defined(var1) in
+assume len(var1) = 4 in
+let net_connect_result1 = var1 (* named net_connect_result1 *) in
+if ¬((net_connect_result1)_[s,4] <> 0) then 
+if ¬(Truth_of_bs(net_connect_result1)) then 
+assume Defined(xClient) in
+assume (len(xClient) >= 0) /\ (len(xClient) <= ((256 * 256 * 256 * 256) - 1)) in
+if ¬(len(clientID) <> len(xClient)) then 
+if Malloc(len(argv0) + 1, len(argv1) + 1, len(argv2) + 1, len(argv3) + 1, len(argv4) + 1, len(clientID), len(serverID), len(serverID) + 1, len(xClient)) <> 0 then 
+assume Defined(clientID) /\ Defined(xClient) in
+assume len(Cmp(clientID, xClient)) = 4 in
+ifeq clientID = xClient then 
+let client1 = clientID (* named client1 *) in
+let server1 = serverID (* named server1 *) in
+assume Defined(lookup(client1, server1, db)) in
+let kAB1 = lookup(client1, server1, db) (* named kAB1 *) in
+assume (len(kAB1) >= 0) /\ (len(kAB1) <= ((256 * 256 * 256 * 256) - 1)) in
+new var2: fixed_16_keyseed;
+let kS_seed1 = var2 (* named kS_seed1 *) in
+let kS1 = kgen(kS_seed1) (* named kS1 *) in
+assume (len(kS1) >= 0) /\ (len(kS1) <= ((256 * 256 * 256 * 256) - 1)) in
+if ¬(len(kS1) <> 16) then 
+event client_begin(clientID, serverID, request);
+if ¬(Malloc(len(argv0) + 1, len(argv1) + 1, len(argv2) + 1, len(argv3) + 1, len(argv4) + 1, len(clientID), len(serverID), len(serverID) + 1, len(xClient), 1 + len(kS1) + 4 + len(request)) = 0) then 
+if ¬(Malloc(len(argv0) + 1, len(argv1) + 1, len(argv2) + 1, len(argv3) + 1, len(argv4) + 1, len(clientID), len(serverID), len(serverID) + 1, len(xClient), 1 + len(kS1) + 4 + len(request), 1 + 4 + len(clientID) + 32 + 1 + len(kS1) + 4 + len(request)) = 0) then 
+let msg1 = "p"|(len(request))^[u,4]|request|kS1 (* named msg1 *) in
+let key1 = kAB1 (* named key1 *) in
+new var3: fixed_16_seed;
+let nonce1 = var3 (* named nonce1 *) in
+let cipher1 = E(msg1, key1, nonce1) (* named cipher1 *) in
+assume (len(cipher1) >= 0) /\ (len(cipher1) <= ((256 * 256 * 256 * 256) - 1)) in
+if ¬(len(cipher1) > (32 + 1 + len(kS1) + 4 + len(request))) then 
+if ¬(len(cipher1) = 0) then 
+let msg2 = CastToInt((((1)^[u,8] + (4)^[u,8]) + (len(clientID))^[u,8]) + (len(cipher1))^[u,8]) (* named msg2 *) in
+out(c, msg2);
+let msg3 = "p"|(len(clientID))^[u,4]|clientID|cipher1 (* named msg3 *) in
+out(c, msg3);
+in(c, var4);
+assume Defined(var4) in
+assume len(var4) = 4 in
+let msg4 = var4 (* named msg4 *) in
+if ¬((msg4)_[u,4] < 1056) then 
+if ¬((msg4)_[u,4] > 1056) then 
+if ¬(Malloc(len(argv0) + 1, len(argv1) + 1, len(argv2) + 1, len(argv3) + 1, len(argv4) + 1, len(clientID), len(serverID), len(serverID) + 1, len(xClient), 1 + len(kS1) + 4 + len(request), 1 + 4 + len(clientID) + 32 + 1 + len(kS1) + 4 + len(request), (msg4)_[u,4]) = 0) then 
+in(c, var5);
+assume Defined(var5) in
+assume len(var5) = (msg4)_[u,4] in
+let msg5 = var5 (* named msg5 *) in
+if ¬(Malloc(len(argv0) + 1, len(argv1) + 1, len(argv2) + 1, len(argv3) + 1, len(argv4) + 1, len(clientID), len(serverID), len(serverID) + 1, len(xClient), 1 + len(kS1) + 4 + len(request), 1 + 4 + len(clientID) + 32 + 1 + len(kS1) + 4 + len(request), (msg4)_[u,4], (msg4)_[u,4] - 32) = 0) then 
+let cipher2 = msg5 (* named cipher2 *) in
+let key2 = kS1 (* named key2 *) in
+let msg6 = inverse_injbot(D(cipher2, key2)) (* named msg6 *) in
+assume (len(msg6) >= 0) /\ (len(msg6) <= ((256 * 256 * 256 * 256) - 1)) in
+if ¬(len(msg6) > ((msg4)_[u,4] - 32)) then 
+if ¬(len(msg6) = 0) then 
+if ¬(len(msg6) < 1024) then 
+event client_accept(clientID, serverID, request, msg6);
+
+let B = 
+assume argv0 = argv0 in
+assume ((len(argv0) + 1) >= 0) /\ ((len(argv0) + 1) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+assume argv1 = argv1 in
+assume ((len(argv1) + 1) >= 0) /\ ((len(argv1) + 1) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+assume argv2 = argv2 in
+assume ((len(argv2) + 1) >= 0) /\ ((len(argv2) + 1) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+assume argv3 = argv3 in
+assume ((len(argv3) + 1) >= 0) /\ ((len(argv3) + 1) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+assume argv4 = argv4 in
+assume ((len(argv4) + 1) >= 0) /\ ((len(argv4) + 1) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+assume serverID = serverID in
+assume port_ascii = port_ascii in
+if Malloc(len(argv0) + 1, len(argv1) + 1, len(argv2) + 1, len(argv3) + 1, len(argv4) + 1) <> 0 then 
+assume Defined(serverID) in
+assume len(serverID) = len(argv1) in
+assume Defined(port_ascii) in
+assume len(port_ascii) = len(argv2) in
+if ¬(len(serverID) > 1024) then 
+if ¬(len(serverID) >= 256) then 
+if ¬(len(serverID) = 0) then 
+if ¬(Malloc(len(argv0) + 1, len(argv1) + 1, len(argv2) + 1, len(argv3) + 1, len(argv4) + 1, len(serverID)) = 0) then 
+assume Defined(port) in
+assume len(port) = 4 in
+if ¬(Malloc(len(argv0) + 1, len(argv1) + 1, len(argv2) + 1, len(argv3) + 1, len(argv4) + 1, len(serverID), len(serverID) + 1) = 0) then 
+new nondet1: nondet;
+assume Defined(socket(nondet1)) in
+assume len(socket(nondet1)) = 4 in
+out(c, serverID);
+out(c, port);
+in(c, var6);
+assume Defined(var6) in
+assume len(var6) = 4 in
+let net_bind_result1 = var6 (* named net_bind_result1 *) in
+if ¬((net_bind_result1)_[s,4] <> 0) then 
+new nondet2: nondet;
+assume Defined(socket(nondet2)) in
+assume len(socket(nondet2)) = 4 in
+in(c, var7);
+assume Defined(var7) in
+assume len(var7) = 1024 in
+let client_ip1 = var7 (* named client_ip1 *) in
+in(c, var8);
+assume Defined(var8) in
+assume len(var8) = 4 in
+let net_accept_result1 = var8 (* named net_accept_result1 *) in
+if ¬((net_accept_result1)_[s,4] <> 0) then 
+in(c, var9);
+assume Defined(var9) in
+assume len(var9) = 4 in
+let msg7 = var9 (* named msg7 *) in
+if ¬((msg7)_[u,4] < (1040 + 4 + 1 + 32 + 4 + 1)) then 
+if ¬((msg7)_[u,4] > (1040 + 4 + 1 + 32 + 1024 + 4 + 1)) then 
+if ¬(Malloc(len(argv0) + 1, len(argv1) + 1, len(argv2) + 1, len(argv3) + 1, len(argv4) + 1, len(serverID), len(serverID) + 1, (msg7)_[u,4]) = 0) then 
+in(c, var10);
+assume Defined(var10) in
+assume len(var10) = (msg7)_[u,4] in
+let msg8 = var10 (* named msg8 *) in
+assume True() /\ ((len(msg8) >= 1) /\ (0 >= 0) /\ (1 >= 0)) in
+assume len(Cmp("p", msg8{0, 1})) = 4 in
+if "p" = msg8{0, 1} then 
+if ¬((msg8{1, 4})_[u,4] > 1024) then 
+if ¬(Malloc(len(argv0) + 1, len(argv1) + 1, len(argv2) + 1, len(argv3) + 1, len(argv4) + 1, len(serverID), len(serverID) + 1, (msg7)_[u,4], (msg8{1, 4})_[u,4]) = 0) then 
+if ¬(((msg7)_[u,4] - (1 + 4 + (msg8{1, 4})_[u,4])) > (1040 + 4 + 1 + 32)) then 
+assume Defined(xClient) in
+assume (len(xClient) >= 0) /\ (len(xClient) <= ((256 * 256 * 256 * 256) - 1)) in
+if ¬((msg8{1, 4})_[u,4] <> len(xClient)) then 
+if Malloc(len(argv0) + 1, len(argv1) + 1, len(argv2) + 1, len(argv3) + 1, len(argv4) + 1, len(serverID), len(serverID) + 1, (msg7)_[u,4], (msg8{1, 4})_[u,4], len(xClient)) <> 0 then 
+assume ((len(msg8) >= (1 + 4 + (msg8{1, 4})_[u,4])) /\ ((1 + 4) >= 0) /\ ((msg8{1, 4})_[u,4] >= 0)) /\ Defined(xClient) in
+assume len(Cmp(msg8{1 + 4, (msg8{1, 4})_[u,4]}, xClient)) = 4 in
+ifeq msg8{1 + 4, (msg8{1, 4})_[u,4]} = xClient then 
+let client2 = msg8{1 + 4, (msg8{1, 4})_[u,4]} (* named client2 *) in
+let server2 = serverID (* named server2 *) in
+assume Defined(lookup(client2, server2, db)) in
+let kAB2 = lookup(client2, server2, db) (* named kAB2 *) in
+assume (len(kAB2) >= 0) /\ (len(kAB2) <= ((256 * 256 * 256 * 256) - 1)) in
+if ¬(Malloc(len(argv0) + 1, len(argv1) + 1, len(argv2) + 1, len(argv3) + 1, len(argv4) + 1, len(serverID), len(serverID) + 1, (msg7)_[u,4], (msg8{1, 4})_[u,4], len(xClient), (msg7)_[u,4] - (1 + 4 + (msg8{1, 4})_[u,4] + 32)) = 0) then 
+let cipher3 = msg8{1 + 4 + (msg8{1, 4})_[u,4], len(msg8) - (1 + 4 + (msg8{1, 4})_[u,4])} (* named cipher3 *) in
+let key3 = kAB2 (* named key3 *) in
+let msg9 = inverse_injbot(D(cipher3, key3)) (* named msg9 *) in
+assume (len(msg9) >= 0) /\ (len(msg9) <= ((256 * 256 * 256 * 256) - 1)) in
+if ¬(len(msg9) > ((msg7)_[u,4] - (1 + 4 + (msg8{1, 4})_[u,4] + 32))) then 
+if ¬(len(msg9) < (1 + 4)) then 
+if ¬((msg9{1, 4})_[u,4] > 1024) then 
+if ¬((msg9{1, 4})_[u,4] < 1024) then 
+if ¬(len(msg9) <= (1 + 4 + (msg9{1, 4})_[u,4])) then 
+assume True() /\ ((len(msg9) >= 1) /\ (0 >= 0) /\ (1 >= 0)) in
+assume len(Cmp("p", msg9{0, 1})) = 4 in
+if "p" = msg9{0, 1} then 
+if ¬(Malloc(len(argv0) + 1, len(argv1) + 1, len(argv2) + 1, len(argv3) + 1, len(argv4) + 1, len(serverID), len(serverID) + 1, (msg7)_[u,4], (msg8{1, 4})_[u,4], len(xClient), (msg7)_[u,4] - (1 + 4 + (msg8{1, 4})_[u,4] + 32), (msg9{1, 4})_[u,4]) = 0) then 
+if ¬((len(msg9) - (1 + 4 + (msg9{1, 4})_[u,4])) <> 16) then 
+if ¬(Malloc(len(argv0) + 1, len(argv1) + 1, len(argv2) + 1, len(argv3) + 1, len(argv4) + 1, len(serverID), len(serverID) + 1, (msg7)_[u,4], (msg8{1, 4})_[u,4], len(xClient), (msg7)_[u,4] - (1 + 4 + (msg8{1, 4})_[u,4] + 32), (msg9{1, 4})_[u,4], len(msg9) - (1 + 4 + (msg9{1, 4})_[u,4])) = 0) then 
+assume Defined(response) in
+assume (len(response) >= 0) /\ (len(response) <= ((256 * 256 * 256 * 256) - 1)) in
+if ¬(len(response) > 1024) then 
+if ¬(len(response) < 1024) then 
+event server_reply(msg8{1 + 4, (msg8{1, 4})_[u,4]}, serverID, msg9{1 + 4, (msg9{1, 4})_[u,4]}, response);
+if ¬(Malloc(len(argv0) + 1, len(argv1) + 1, len(argv2) + 1, len(argv3) + 1, len(argv4) + 1, len(serverID), len(serverID) + 1, (msg7)_[u,4], (msg8{1, 4})_[u,4], len(xClient), (msg7)_[u,4] - (1 + 4 + (msg8{1, 4})_[u,4] + 32), (msg9{1, 4})_[u,4], len(msg9) - (1 + 4 + (msg9{1, 4})_[u,4]), 32 + len(response)) = 0) then 
+let msg10 = response (* named msg10 *) in
+let key4 = msg9{1 + 4 + (msg9{1, 4})_[u,4], len(msg9) - (1 + 4 + (msg9{1, 4})_[u,4])} (* named key4 *) in
+new var11: fixed_16_seed;
+let nonce2 = var11 (* named nonce2 *) in
+let cipher4 = E(msg10, key4, nonce2) (* named cipher4 *) in
+assume (len(cipher4) >= 0) /\ (len(cipher4) <= ((256 * 256 * 256 * 256) - 1)) in
+if ¬(len(cipher4) > (32 + len(response))) then 
+if ¬(len(cipher4) = 0) then 
+let msg11 = (len(cipher4))^[u,4] (* named msg11 *) in
+out(c, msg11);
+let msg12 = cipher4 (* named msg12 *) in
+out(c, msg12);
+

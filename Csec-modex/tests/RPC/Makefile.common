@@ -1,0 +1,16 @@
+CC = aarch64-linux-gnu-gcc -march=armv8-a -mtune=cortex-a53 -L/home/faezeh/openssl -L/home/faezeh/csec-modex/tests/RPC/proxies -static  
+# This was causing us to analyze the loop that prints the buffer one-by-one, taking a long time
+CFLAGS += -DVERBOSE -DCSEC_VERIFY
+LDLIBS += -lssl -lcrypto
+ 
+# $(shell find -name "*.c" -not -name "*.cil.c")
+SRC := ProgrammingInterface.c RPC.c RPC_funs.c RPC_net.c
+
+P1 = server.exe
+P2 = client.exe
+
+P1_CMD = server
+P2_CMD = client
+
+P1_SRC = $(SRC)
+P2_SRC = $(SRC)

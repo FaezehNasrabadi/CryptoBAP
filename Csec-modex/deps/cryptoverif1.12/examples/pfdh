@@ -1,0 +1,117 @@
+(*************************************************************
+ *                                                           *
+ *       Cryptographic protocol verifier                     *
+ *                                                           *
+ *       Bruno Blanchet                                      *
+ *                                                           *
+ *       Copyright (C) ENS, CNRS, INRIA, 2005-2011           *
+ *                                                           *
+ *************************************************************)
+
+(*
+
+    Copyright ENS, CNRS, INRIA 
+    contributor: Bruno Blanchet, Bruno.Blanchet@ens.fr
+    
+This software is a computer program whose purpose is to verify 
+cryptographic protocols in the computational model.
+
+This software is governed by the CeCILL-B license under French law and
+abiding by the rules of distribution of free software.  You can  use, 
+modify and/ or redistribute the software under the terms of the CeCILL-B
+license as circulated by CEA, CNRS and INRIA at the following URL
+"http://www.cecill.info". 
+
+As a counterpart to the access to the source code and  rights to copy,
+modify and redistribute granted by the license, users are provided only
+with a limited warranty  and the software's author,  the holder of the
+economic rights,  and the successive licensors  have only  limited
+liability. 
+
+In this respect, the user's attention is drawn to the risks associated
+with loading,  using,  modifying and/or developing or reproducing the
+software by the user in light of its specific status of free software,
+that may mean  that it is complicated to manipulate,  and  that  also
+therefore means  that it is reserved for developers  and  experienced
+professionals having in-depth computer knowledge. Users are therefore
+encouraged to load and test the software's suitability as regards their
+requirements in conditions enabling the security of their systems and/or 
+data to be ensured and,  more generally, to use and operate it in the 
+same conditions as regards security. 
+
+The fact that you are presently reading this means that you have had
+knowledge of the CeCILL-B license and that you accept its terms.
+
+*)
+(* PFDH signature scheme
+   The prover finds the same probability as for FDH, not the better
+   reduction by J.S.Coron. This is ok, because we do not give the
+   hypothesis of random self-reducibility.
+ *)
+
+(*
+set interactiveMode = true.
+
+Proof:
+
+crypto hash
+crypto mf r r_35 r_38
+crypto f r
+success
+
+The prover finds the proof automatically, like for fdh, but is unable to find
+the better reduction which exists for this scheme...
+*)
+
+param qS.
+
+type pkey [bounded].
+type skey [bounded].
+type keyseed [large,fixed].
+type seed [(*large,*)fixed].
+type D [(*large,*)fixed].
+
+(* One-way trapdoor permutation *)
+
+proba POW.
+
+expand OW_trapdoor_perm(keyseed, pkey, skey, D, pkgen, skgen, f, mf, POW).
+
+(* Hash function, random oracle model *)
+
+type hashkey [fixed].
+
+expand ROM_hash(hashkey, bitstring, D, hash).
+
+param qH [noninteractive].
+channel hc1, hc2.
+let hashoracle = ! qH in(hc1, x: bitstring); out(hc2, hash(hk,x)).
+
+(* Queries *)
+
+event bad.
+query event bad ==> false.
+
+channel c0, c1, c2, c3, c4, c5, start.
+
+let processS =
+	! qS
+	in(c1, m:bitstring);
+	new sr:seed;
+	out(c2, (sr,mf(sk, hash(hk, (m,sr))))).
+
+let processT = 
+	in(c3, (m2:bitstring, sr:seed, s:D));
+	if f(pk, s) = hash(hk, (m2,sr)) then
+	find j <= qS suchthat defined(m[j]) && (m2 = m[j]) then yield else
+	event bad.
+
+process 
+	(in(start, ());
+	new hk: hashkey;
+	new r:keyseed; 
+	let sk = skgen(r) in
+	let pk = pkgen(r) in
+	out(c0, pk);
+	(hashoracle | processS | processT))
+

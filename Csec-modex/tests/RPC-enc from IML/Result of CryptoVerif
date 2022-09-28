@@ -1,0 +1,757 @@
+{ /home/faezeh/csec-modex/src/symtrace/cvtrace IML_client.txt IML_server.txt /home/faezeh/csec-modex/deps/cryptoverif1.12/default model.cv.in | tee model.cv.out; } > model.cv.debug.out 2>&1
+for f in model.cv.out; do\
+	/home/faezeh/csec-modex/deps/cryptoverif1.12/cryptoverif -lib /home/faezeh/csec-modex/deps/cryptoverif1.12/default $f | grep "RESULT\|queries";\
+done
+RESULT Proved event client_accept(hClient, hServer, x, y) ==> true
+RESULT Proved event server_reply(hClient, hServer, x, y) ==> true
+RESULT Proved event server_reply(hClient, hServer, x, y) ==> (client_begin(hClient, hServer, x)||bad(hClient)) up to probability N * Pencctxt(time(context for game 4) + time + (-2. * N + 2. * N * N) * time(dec) + (-1. * N + N * N) * time(enc1) + (-1. + N) * time(kgen), N, 2. * N)
+RESULT time(context for game 4) = N * N * time(= bounded_1024_id, maxlength(game 4: xClient_59[!_45, !_43]), length(clientID)) + N * N * time(pars2, maxlength(game 4: a_96_60[!_45, !_43])) + N * N * time(let badHost, maxlength(game 4: xClient'[!_45, !_43])) + N * N * time(pars2, maxlength(game 4: a_96_71[!_45, !_43])) + 2. * N * N * time(let injbot) + N * N * time(pars3) + N * N * time(pars4) + N * N * time(cast_fixed_1024_payload_bounded_1045_plaintext) + N * N * time(enc1) + N * N * time(kgen) + N * N * time(conc1) + N * N * time(conc2, length(clientID)) + N * N * time(cast_bitstring_bounded_1077_ciphertext, maxlength(game 4: a_561_0[!_44, !_43])) + N * N * time(dec)
+RESULT time(context for game 7) = N * N * time(= bounded_1024_id, maxlength(game 7: xClient_59[!_45, !_43]), length(clientID)) + N * N * time(pars2, maxlength(game 7: a_96_60[!_45, !_43])) + N * N * time(let badHost, maxlength(game 7: xClient'[!_45, !_43])) + N * N * time(pars2, maxlength(game 7: a_96_71[!_45, !_43])) + N * N * time(cast_fixed_1024_payload_bounded_1045_plaintext) + N * N * time(enc1) + N * N * time(kgen) + N * N * time(conc1) + N * N * time(conc2, length(clientID)) + N * N * time(let injbot) + N * N * time(cast_bitstring_bounded_1077_ciphertext, maxlength(game 7: a_561_0[!_44, !_43])) + N * N * time(dec)
+RESULT Could not prove event leaked(hClient, resp) ==> bad(hClient), event client_accept(hClient, hServer, x, y) ==> server_reply(hClient, hServer, x, y).
+faezeh@ubuntu:~/Desktop/csec-modex/tests/RPC-enc from IML$ make -f Makefile.csec 
+for f in model.cv.out; do\
+	/home/faezeh/csec-modex/deps/cryptoverif1.12/cryptoverif -lib /home/faezeh/csec-modex/deps/cryptoverif1.12/default $f;\
+done
+Doing expand if, let, find... No change.
+Doing simplify... Run simplify 2 time(s). Fixpoint reached.
+Done.
+Doing move all binders... No change.
+Doing remove assignments of useless... Done.
+Proved query event server_reply(hClient, hServer, x, y) ==> true
+Proved query event client_accept(hClient, hServer, x, y) ==> true
+Trying equivalence
+equiv ! !_37 <= @5_N2 new @5_r: fixed_16_keyseed; (
+  ! !_38 <= @5_N new @5_r2: fixed_16_seed; @5_Oenc(@5_x: bounded_1045_plaintext) := enc1(@5_x, kgen(@5_r), @5_r2),
+  ! !_39 <= @5_N3 @5_Odec(@5_y: bounded_1077_ciphertext) := dec(@5_y, kgen(@5_r)))
+<=(@5_N2 * Pencctxt(time + (@5_N2 - 1.) * (time(kgen) + @5_N * time(enc1) + @5_N3 * time(dec)), @5_N, @5_N3))=> [computational]
+      ! !_40 <= @5_N2 new @5_r: fixed_16_keyseed [unchanged]; (
+  ! !_41 <= @5_N new @5_r2: fixed_16_seed [unchanged]; @5_Oenc(@5_x_91: bounded_1045_plaintext) := let @5_x: bounded_1045_plaintext = @5_x_91 in let @5_z: bounded_1077_ciphertext = enc1(@5_x, @5_kgen2(@5_r), @5_r2) in @5_z,
+  ! !_42 <= @5_N3 @5_Odec(@5_y: bounded_1077_ciphertext) := find @5_j <= @5_N suchthat defined(@5_x[@5_j], @5_r2[@5_j], @5_z[@5_j]) && (@5_z[@5_j] = @5_y) then injbot(@5_x[@5_j]) else bottom)
+... Failed.
+Trying equivalence
+equiv ! !_33 <= @5_N2 new @5_r: fixed_16_keyseed; ! !_34 <= @5_N new @5_r2: fixed_16_seed; @5_Oenc(@5_x: bounded_1045_plaintext) := enc1(@5_x, @5_kgen2(@5_r), @5_r2)
+<=(@5_N2 * Penc(time + (@5_N2 - 1.) * (time(kgen) + @5_N * time(enc1) + @5_N * time(Zbounded_1045_plaintext)), @5_N))=>
+      ! !_35 <= @5_N2 new @5_r: fixed_16_keyseed; ! !_36 <= @5_N new @5_r2: fixed_16_seed; @5_Oenc(@5_x: bounded_1045_plaintext) := @5_enc2(Zbounded_1045_plaintext(@5_x), @5_kgen2(@5_r), @5_r2)
+... Failed.
+Doing remove assignments of binder Pars4_493_78... Done.
+Trying equivalence
+equiv ! !_37 <= @5_N2 new @5_r: fixed_16_keyseed; (
+  ! !_38 <= @5_N new @5_r2: fixed_16_seed; @5_Oenc(@5_x: bounded_1045_plaintext) := enc1(@5_x, kgen(@5_r), @5_r2),
+  ! !_39 <= @5_N3 @5_Odec(@5_y: bounded_1077_ciphertext) := dec(@5_y, kgen(@5_r)))
+<=(@5_N2 * Pencctxt(time + (@5_N2 - 1.) * (time(kgen) + @5_N * time(enc1) + @5_N3 * time(dec)), @5_N, @5_N3))=> [computational]
+      ! !_40 <= @5_N2 new @5_r: fixed_16_keyseed [unchanged]; (
+  ! !_41 <= @5_N new @5_r2: fixed_16_seed [unchanged]; @5_Oenc(@5_x_91: bounded_1045_plaintext) := let @5_x: bounded_1045_plaintext = @5_x_91 in let @5_z: bounded_1077_ciphertext = enc1(@5_x, @5_kgen2(@5_r), @5_r2) in @5_z,
+  ! !_42 <= @5_N3 @5_Odec(@5_y: bounded_1077_ciphertext) := find @5_j <= @5_N suchthat defined(@5_x[@5_j], @5_r2[@5_j], @5_z[@5_j]) && (@5_z[@5_j] = @5_y) then injbot(@5_x[@5_j]) else bottom)
+with iv_497_79... Failed.
+Doing remove assignments of binder Pars4_493_67... Done.
+Trying equivalence
+equiv ! !_37 <= @5_N2 new @5_r: fixed_16_keyseed; (
+  ! !_38 <= @5_N new @5_r2: fixed_16_seed; @5_Oenc(@5_x: bounded_1045_plaintext) := enc1(@5_x, kgen(@5_r), @5_r2),
+  ! !_39 <= @5_N3 @5_Odec(@5_y: bounded_1077_ciphertext) := dec(@5_y, kgen(@5_r)))
+<=(@5_N2 * Pencctxt(time + (@5_N2 - 1.) * (time(kgen) + @5_N * time(enc1) + @5_N3 * time(dec)), @5_N, @5_N3))=> [computational]
+      ! !_40 <= @5_N2 new @5_r: fixed_16_keyseed [unchanged]; (
+  ! !_41 <= @5_N new @5_r2: fixed_16_seed [unchanged]; @5_Oenc(@5_x_91: bounded_1045_plaintext) := let @5_x: bounded_1045_plaintext = @5_x_91 in let @5_z: bounded_1077_ciphertext = enc1(@5_x, @5_kgen2(@5_r), @5_r2) in @5_z,
+  ! !_42 <= @5_N3 @5_Odec(@5_y: bounded_1077_ciphertext) := find @5_j <= @5_N suchthat defined(@5_x[@5_j], @5_r2[@5_j], @5_z[@5_j]) && (@5_z[@5_j] = @5_y) then injbot(@5_x[@5_j]) else bottom)
+with iv_497_68... Failed.
+Doing remove assignments of binder kAB... Done.
+Trying equivalence
+equiv ! !_37 <= @5_N2 new @5_r: fixed_16_keyseed; (
+  ! !_38 <= @5_N new @5_r2: fixed_16_seed; @5_Oenc(@5_x: bounded_1045_plaintext) := enc1(@5_x, kgen(@5_r), @5_r2),
+  ! !_39 <= @5_N3 @5_Odec(@5_y: bounded_1077_ciphertext) := dec(@5_y, kgen(@5_r)))
+<=(@5_N2 * Pencctxt(time + (@5_N2 - 1.) * (time(kgen) + @5_N * time(enc1) + @5_N3 * time(dec)), @5_N, @5_N3))=> [computational]
+      ! !_40 <= @5_N2 new @5_r: fixed_16_keyseed [unchanged]; (
+  ! !_41 <= @5_N new @5_r2: fixed_16_seed [unchanged]; @5_Oenc(@5_x_91: bounded_1045_plaintext) := let @5_x: bounded_1045_plaintext = @5_x_91 in let @5_z: bounded_1077_ciphertext = enc1(@5_x, @5_kgen2(@5_r), @5_r2) in @5_z,
+  ! !_42 <= @5_N3 @5_Odec(@5_y: bounded_1077_ciphertext) := find @5_j <= @5_N suchthat defined(@5_x[@5_j], @5_r2[@5_j], @5_z[@5_j]) && (@5_z[@5_j] = @5_y) then injbot(@5_x[@5_j]) else bottom)
+with iv_454_0... Succeeded.
+Doing simplify... Run simplify 2 time(s). Fixpoint reached.
+Done.
+Doing move all binders... No change.
+Doing remove assignments of useless... Done.
+Proved query event server_reply(hClient, hServer, x, y) ==> (client_begin(hClient, hServer, x)||bad(hClient))
+Trying equivalence
+equiv ! !_37 <= @5_N2 new @5_r: fixed_16_keyseed; (
+  ! !_38 <= @5_N new @5_r2: fixed_16_seed; @5_Oenc(@5_x: bounded_1045_plaintext) := enc1(@5_x, kgen(@5_r), @5_r2),
+  ! !_39 <= @5_N3 @5_Odec(@5_y: bounded_1077_ciphertext) := dec(@5_y, kgen(@5_r)))
+<=(@5_N2 * Pencctxt(time + (@5_N2 - 1.) * (time(kgen) + @5_N * time(enc1) + @5_N3 * time(dec)), @5_N, @5_N3))=> [computational]
+      ! !_40 <= @5_N2 new @5_r: fixed_16_keyseed [unchanged]; (
+  ! !_41 <= @5_N new @5_r2: fixed_16_seed [unchanged]; @5_Oenc(@5_x_91: bounded_1045_plaintext) := let @5_x: bounded_1045_plaintext = @5_x_91 in let @5_z: bounded_1077_ciphertext = enc1(@5_x, @5_kgen2(@5_r), @5_r2) in @5_z,
+  ! !_42 <= @5_N3 @5_Odec(@5_y: bounded_1077_ciphertext) := find @5_j <= @5_N suchthat defined(@5_x[@5_j], @5_r2[@5_j], @5_z[@5_j]) && (@5_z[@5_j] = @5_y) then injbot(@5_x[@5_j]) else bottom)
+... Failed.
+Trying equivalence
+equiv ! !_33 <= @5_N2 new @5_r: fixed_16_keyseed; ! !_34 <= @5_N new @5_r2: fixed_16_seed; @5_Oenc(@5_x: bounded_1045_plaintext) := enc1(@5_x, @5_kgen2(@5_r), @5_r2)
+<=(@5_N2 * Penc(time + (@5_N2 - 1.) * (time(kgen) + @5_N * time(enc1) + @5_N * time(Zbounded_1045_plaintext)), @5_N))=>
+      ! !_35 <= @5_N2 new @5_r: fixed_16_keyseed; ! !_36 <= @5_N new @5_r2: fixed_16_seed; @5_Oenc(@5_x: bounded_1045_plaintext) := @5_enc2(Zbounded_1045_plaintext(@5_x), @5_kgen2(@5_r), @5_r2)
+... Succeeded.
+Doing simplify... Run simplify 1 time(s). Fixpoint reached.
+No change.
+Doing move all binders... No change.
+Doing remove assignments of useless... No change.
+Trying equivalence
+equiv ! !_37 <= @5_N2 new @5_r: fixed_16_keyseed; (
+  ! !_38 <= @5_N new @5_r2: fixed_16_seed; @5_Oenc(@5_x: bounded_1045_plaintext) := enc1(@5_x, kgen(@5_r), @5_r2),
+  ! !_39 <= @5_N3 @5_Odec(@5_y: bounded_1077_ciphertext) := dec(@5_y, kgen(@5_r)))
+<=(@5_N2 * Pencctxt(time + (@5_N2 - 1.) * (time(kgen) + @5_N * time(enc1) + @5_N3 * time(dec)), @5_N, @5_N3))=> [computational]
+      ! !_40 <= @5_N2 new @5_r: fixed_16_keyseed [unchanged]; (
+  ! !_41 <= @5_N new @5_r2: fixed_16_seed [unchanged]; @5_Oenc(@5_x_91: bounded_1045_plaintext) := let @5_x: bounded_1045_plaintext = @5_x_91 in let @5_z: bounded_1077_ciphertext = enc1(@5_x, @5_kgen2(@5_r), @5_r2) in @5_z,
+  ! !_42 <= @5_N3 @5_Odec(@5_y: bounded_1077_ciphertext) := find @5_j <= @5_N suchthat defined(@5_x[@5_j], @5_r2[@5_j], @5_z[@5_j]) && (@5_z[@5_j] = @5_y) then injbot(@5_x[@5_j]) else bottom)
+... Failed.
+Trying equivalence
+equiv ! !_33 <= @5_N2 new @5_r: fixed_16_keyseed; ! !_34 <= @5_N new @5_r2: fixed_16_seed; @5_Oenc(@5_x: bounded_1045_plaintext) := enc1(@5_x, @5_kgen2(@5_r), @5_r2)
+<=(@5_N2 * Penc(time + (@5_N2 - 1.) * (time(kgen) + @5_N * time(enc1) + @5_N * time(Zbounded_1045_plaintext)), @5_N))=>
+      ! !_35 <= @5_N2 new @5_r: fixed_16_keyseed; ! !_36 <= @5_N new @5_r2: fixed_16_seed; @5_Oenc(@5_x: bounded_1045_plaintext) := @5_enc2(Zbounded_1045_plaintext(@5_x), @5_kgen2(@5_r), @5_r2)
+... Failed.
+Doing remove assignments of binder sk_11_0... Done.
+Trying equivalence
+equiv ! !_37 <= @5_N2 new @5_r: fixed_16_keyseed; (
+  ! !_38 <= @5_N new @5_r2: fixed_16_seed; @5_Oenc(@5_x: bounded_1045_plaintext) := enc1(@5_x, kgen(@5_r), @5_r2),
+  ! !_39 <= @5_N3 @5_Odec(@5_y: bounded_1077_ciphertext) := dec(@5_y, kgen(@5_r)))
+<=(@5_N2 * Pencctxt(time + (@5_N2 - 1.) * (time(kgen) + @5_N * time(enc1) + @5_N3 * time(dec)), @5_N, @5_N3))=> [computational]
+      ! !_40 <= @5_N2 new @5_r: fixed_16_keyseed [unchanged]; (
+  ! !_41 <= @5_N new @5_r2: fixed_16_seed [unchanged]; @5_Oenc(@5_x_91: bounded_1045_plaintext) := let @5_x: bounded_1045_plaintext = @5_x_91 in let @5_z: bounded_1077_ciphertext = enc1(@5_x, @5_kgen2(@5_r), @5_r2) in @5_z,
+  ! !_42 <= @5_N3 @5_Odec(@5_y: bounded_1077_ciphertext) := find @5_j <= @5_N suchthat defined(@5_x[@5_j], @5_r2[@5_j], @5_z[@5_j]) && (@5_z[@5_j] = @5_y) then injbot(@5_x[@5_j]) else bottom)
+with iv_497_79... Failed.
+Doing remove assignments of binder sk_11_0... Done.
+Trying equivalence
+equiv ! !_37 <= @5_N2 new @5_r: fixed_16_keyseed; (
+  ! !_38 <= @5_N new @5_r2: fixed_16_seed; @5_Oenc(@5_x: bounded_1045_plaintext) := enc1(@5_x, kgen(@5_r), @5_r2),
+  ! !_39 <= @5_N3 @5_Odec(@5_y: bounded_1077_ciphertext) := dec(@5_y, kgen(@5_r)))
+<=(@5_N2 * Pencctxt(time + (@5_N2 - 1.) * (time(kgen) + @5_N * time(enc1) + @5_N3 * time(dec)), @5_N, @5_N3))=> [computational]
+      ! !_40 <= @5_N2 new @5_r: fixed_16_keyseed [unchanged]; (
+  ! !_41 <= @5_N new @5_r2: fixed_16_seed [unchanged]; @5_Oenc(@5_x_91: bounded_1045_plaintext) := let @5_x: bounded_1045_plaintext = @5_x_91 in let @5_z: bounded_1077_ciphertext = enc1(@5_x, @5_kgen2(@5_r), @5_r2) in @5_z,
+  ! !_42 <= @5_N3 @5_Odec(@5_y: bounded_1077_ciphertext) := find @5_j <= @5_N suchthat defined(@5_x[@5_j], @5_r2[@5_j], @5_z[@5_j]) && (@5_z[@5_j] = @5_y) then injbot(@5_x[@5_j]) else bottom)
+with iv_497_68... Failed.
+Doing remove assignments of binder sk_11_0... Done.
+Trying equivalence
+equiv ! !_37 <= @5_N2 new @5_r: fixed_16_keyseed; (
+  ! !_38 <= @5_N new @5_r2: fixed_16_seed; @5_Oenc(@5_x: bounded_1045_plaintext) := enc1(@5_x, kgen(@5_r), @5_r2),
+  ! !_39 <= @5_N3 @5_Odec(@5_y: bounded_1077_ciphertext) := dec(@5_y, kgen(@5_r)))
+<=(@5_N2 * Pencctxt(time + (@5_N2 - 1.) * (time(kgen) + @5_N * time(enc1) + @5_N3 * time(dec)), @5_N, @5_N3))=> [computational]
+      ! !_40 <= @5_N2 new @5_r: fixed_16_keyseed [unchanged]; (
+  ! !_41 <= @5_N new @5_r2: fixed_16_seed [unchanged]; @5_Oenc(@5_x_91: bounded_1045_plaintext) := let @5_x: bounded_1045_plaintext = @5_x_91 in let @5_z: bounded_1077_ciphertext = enc1(@5_x, @5_kgen2(@5_r), @5_r2) in @5_z,
+  ! !_42 <= @5_N3 @5_Odec(@5_y: bounded_1077_ciphertext) := find @5_j <= @5_N suchthat defined(@5_x[@5_j], @5_r2[@5_j], @5_z[@5_j]) && (@5_z[@5_j] = @5_y) then injbot(@5_x[@5_j]) else bottom)
+with SKey_10_0... Failed.
+Doing remove assignments of binder sk_11_0... Done.
+Trying equivalence
+equiv ! !_33 <= @5_N2 new @5_r: fixed_16_keyseed; ! !_34 <= @5_N new @5_r2: fixed_16_seed; @5_Oenc(@5_x: bounded_1045_plaintext) := enc1(@5_x, @5_kgen2(@5_r), @5_r2)
+<=(@5_N2 * Penc(time + (@5_N2 - 1.) * (time(kgen) + @5_N * time(enc1) + @5_N * time(Zbounded_1045_plaintext)), @5_N))=>
+      ! !_35 <= @5_N2 new @5_r: fixed_16_keyseed; ! !_36 <= @5_N new @5_r2: fixed_16_seed; @5_Oenc(@5_x: bounded_1045_plaintext) := @5_enc2(Zbounded_1045_plaintext(@5_x), @5_kgen2(@5_r), @5_r2)
+with iv_497_79... Failed.
+Doing remove assignments of binder sk_11_0... Done.
+Trying equivalence
+equiv ! !_33 <= @5_N2 new @5_r: fixed_16_keyseed; ! !_34 <= @5_N new @5_r2: fixed_16_seed; @5_Oenc(@5_x: bounded_1045_plaintext) := enc1(@5_x, @5_kgen2(@5_r), @5_r2)
+<=(@5_N2 * Penc(time + (@5_N2 - 1.) * (time(kgen) + @5_N * time(enc1) + @5_N * time(Zbounded_1045_plaintext)), @5_N))=>
+      ! !_35 <= @5_N2 new @5_r: fixed_16_keyseed; ! !_36 <= @5_N new @5_r2: fixed_16_seed; @5_Oenc(@5_x: bounded_1045_plaintext) := @5_enc2(Zbounded_1045_plaintext(@5_x), @5_kgen2(@5_r), @5_r2)
+with iv_497_68... Failed.
+===================== Proof starts =======================
+Initial state
+Game 1 is
+! !_43 <= N
+in(c_in[!_43], adb: keydb);
+new kAB_seed: fixed_16_keyseed;
+let kAB: fixed_16_key = kgen(kAB_seed) in
+let key: keydb = add_honest(kAB, adb) in
+out(c_out[!_43], ());
+(
+  ! !_44 <= N
+  in(c_in[!_44, !_43], (argv0_50: bitstring, argv1_49: bitstring, argv2_48: bitstring, argv3_47: bitstring, argv4_46: bitstring));
+  out(c_out[!_44, !_43], ());
+  in(c_in[!_44, !_43], (xClient_52: bounded_1024_id, xServer_51: bounded_1024_id));
+  new request1: fixed_1024_payload;
+  out(c_out[!_44, !_43], ());
+  in(c_in[!_44, !_43], a_105_0: bitstring);
+  new SKey_10_0: fixed_16_keyseed;
+  let sk_11_0: fixed_16_key = kgen(SKey_10_0) in
+  event client_begin(clientID, serverID, request);
+  let Conc3_447_0: bounded_1045_plaintext = conc1(request, sk_11_0) in
+  let kAB_451_0: fixed_16_key = lookup(clientID, serverID, key) in
+  new iv_454_0: fixed_16_seed;
+  let Enc_455_0: bounded_1077_ciphertext = enc1(Conc3_447_0, kAB_451_0, iv_454_0) in
+  let Conc2_459_0: bitstring = conc2(clientID, Enc_455_0) in
+  out(c_out[!_44, !_43], Conc2_459_0);
+  in(c_in[!_44, !_43], a_561_0: bitstring);
+  let injbot(Dec_569_0: bounded_1045_plaintext) = dec(cast_bitstring_bounded_1077_ciphertext(a_561_0), sk_11_0) in
+  event client_accept(clientID, serverID, request, cast_bounded_1045_plaintext_fixed_1024_payload(Dec_569_0))
+) | (
+  ! !_45 <= N
+  in(c_in[!_45, !_43], (argv0_57: bitstring, argv1_56: bitstring, argv2_55: bitstring, argv3_54: bitstring, argv4_53: bitstring));
+  out(c_out[!_45, !_43], ());
+  in(c_in[!_45, !_43], (xClient_59: bounded_1024_id, xServer_58: bounded_1024_id));
+  new response1: fixed_1024_payload;
+  if (xClient_59 = clientID) then
+    out(c_out[!_45, !_43], ());
+    (
+      in(c_in[!_45, !_43], (a_31_61: bitstring, a_96_60: bitstring));
+      let Pars1_476_62: bounded_1024_id = pars1(a_96_60) in
+      let kAB_480_63: fixed_16_key = lookup(clientID, serverID, key) in
+      let Pars2_483_64: bounded_1077_ciphertext = pars2(a_96_60) in
+      let injbot(Dec_486_65: bounded_1045_plaintext) = dec(Pars2_483_64, kAB_480_63) in
+      let Pars3_489_66: fixed_1024_payload = pars3(Dec_486_65) in
+      event server_reply(clientID, serverID, Pars3_489_66, response);
+      let Pars4_493_67: fixed_16_key = pars4(Dec_486_65) in
+      new iv_497_68: fixed_16_seed;
+      let Enc_498_69: bounded_1077_ciphertext = enc1(cast_fixed_1024_payload_bounded_1045_plaintext(response), Pars4_493_67, iv_497_68) in
+      out(c_out[!_45, !_43], Enc_498_69)
+    ) | (
+      in(c_in[!_45, !_43], response'_70: fixed_1024_payload);
+      if (response'_70 = response) then
+      event leaked(xClient_59, response)
+    )
+  else
+    let badHost(xClient': bounded_1024_id) = xClient_59 in
+    event bad(xClient_59);
+    out(c_out[!_45, !_43], ());
+    (
+      in(c_in[!_45, !_43], (a_31_72: bitstring, a_96_71: bitstring));
+      let Pars1_476_73: bounded_1024_id = pars1(a_96_71) in
+      let kAB_480_74: fixed_16_key = lookup(clientID, serverID, key) in
+      let Pars2_483_75: bounded_1077_ciphertext = pars2(a_96_71) in
+      let injbot(Dec_486_76: bounded_1045_plaintext) = dec(Pars2_483_75, kAB_480_74) in
+      let Pars3_489_77: fixed_1024_payload = pars3(Dec_486_76) in
+      event server_reply(clientID, serverID, Pars3_489_77, response);
+      let Pars4_493_78: fixed_16_key = pars4(Dec_486_76) in
+      new iv_497_79: fixed_16_seed;
+      let Enc_498_80: bounded_1077_ciphertext = enc1(cast_fixed_1024_payload_bounded_1045_plaintext(response), Pars4_493_78, iv_497_79) in
+      out(c_out[!_45, !_43], Enc_498_80)
+    ) | (
+      in(c_in[!_45, !_43], response'_81: fixed_1024_payload);
+      if (response'_81 = response) then
+      event leaked(xClient_59, response)
+    )
+)
+
+
+Applying simplify yields
+
+Game 2 is
+! !_43 <= N
+in(c_in[!_43], adb: keydb);
+new kAB_seed: fixed_16_keyseed;
+let kAB: fixed_16_key = kgen(kAB_seed) in
+let key: keydb = add_honest(kAB, adb) in
+out(c_out[!_43], ());
+(
+  ! !_44 <= N
+  in(c_in[!_44, !_43], (argv0_50: bitstring, argv1_49: bitstring, argv2_48: bitstring, argv3_47: bitstring, argv4_46: bitstring));
+  out(c_out[!_44, !_43], ());
+  in(c_in[!_44, !_43], (xClient_52: bounded_1024_id, xServer_51: bounded_1024_id));
+  out(c_out[!_44, !_43], ());
+  in(c_in[!_44, !_43], a_105_0: bitstring);
+  new SKey_10_0: fixed_16_keyseed;
+  let sk_11_0: fixed_16_key = kgen(SKey_10_0) in
+  event client_begin(clientID, serverID, request);
+  let Conc3_447_0: bounded_1045_plaintext = conc1(request, sk_11_0) in
+  let kAB_451_0: fixed_16_key = kAB in
+  new iv_454_0: fixed_16_seed;
+  let Enc_455_0: bounded_1077_ciphertext = enc1(Conc3_447_0, kAB_451_0, iv_454_0) in
+  let Conc2_459_0: bitstring = conc2(clientID, Enc_455_0) in
+  out(c_out[!_44, !_43], Conc2_459_0);
+  in(c_in[!_44, !_43], a_561_0: bitstring);
+  let injbot(Dec_569_0: bounded_1045_plaintext) = dec(cast_bitstring_bounded_1077_ciphertext(a_561_0), sk_11_0) in
+  event client_accept(clientID, serverID, request, cast_bounded_1045_plaintext_fixed_1024_payload(Dec_569_0))
+) | (
+  ! !_45 <= N
+  in(c_in[!_45, !_43], (argv0_57: bitstring, argv1_56: bitstring, argv2_55: bitstring, argv3_54: bitstring, argv4_53: bitstring));
+  out(c_out[!_45, !_43], ());
+  in(c_in[!_45, !_43], (xClient_59: bounded_1024_id, xServer_58: bounded_1024_id));
+  if (xClient_59 = clientID) then
+    out(c_out[!_45, !_43], ());
+    (
+      in(c_in[!_45, !_43], (a_31_61: bitstring, a_96_60: bitstring));
+      let Pars1_476_62: bounded_1024_id = pars1(a_96_60) in
+      let kAB_480_63: fixed_16_key = kAB in
+      let Pars2_483_64: bounded_1077_ciphertext = pars2(a_96_60) in
+      let injbot(Dec_486_65: bounded_1045_plaintext) = dec(Pars2_483_64, kAB_480_63) in
+      let Pars3_489_66: fixed_1024_payload = pars3(Dec_486_65) in
+      event server_reply(clientID, serverID, Pars3_489_66, response);
+      let Pars4_493_67: fixed_16_key = pars4(Dec_486_65) in
+      new iv_497_68: fixed_16_seed;
+      let Enc_498_69: bounded_1077_ciphertext = enc1(cast_fixed_1024_payload_bounded_1045_plaintext(response), Pars4_493_67, iv_497_68) in
+      out(c_out[!_45, !_43], Enc_498_69)
+    ) | (
+      in(c_in[!_45, !_43], response'_70: fixed_1024_payload);
+      if (response'_70 = response) then
+      event leaked(xClient_59, response)
+    )
+  else
+    let badHost(xClient': bounded_1024_id) = xClient_59 in
+    event bad(xClient_59);
+    out(c_out[!_45, !_43], ());
+    (
+      in(c_in[!_45, !_43], (a_31_72: bitstring, a_96_71: bitstring));
+      let Pars1_476_73: bounded_1024_id = pars1(a_96_71) in
+      let kAB_480_74: fixed_16_key = kAB in
+      let Pars2_483_75: bounded_1077_ciphertext = pars2(a_96_71) in
+      let injbot(Dec_486_76: bounded_1045_plaintext) = dec(Pars2_483_75, kAB_480_74) in
+      let Pars3_489_77: fixed_1024_payload = pars3(Dec_486_76) in
+      event server_reply(clientID, serverID, Pars3_489_77, response);
+      let Pars4_493_78: fixed_16_key = pars4(Dec_486_76) in
+      new iv_497_79: fixed_16_seed;
+      let Enc_498_80: bounded_1077_ciphertext = enc1(cast_fixed_1024_payload_bounded_1045_plaintext(response), Pars4_493_78, iv_497_79) in
+      out(c_out[!_45, !_43], Enc_498_80)
+    ) | (
+      in(c_in[!_45, !_43], response'_81: fixed_1024_payload);
+      if (response'_81 = response) then
+      event leaked(xClient_59, response)
+    )
+)
+
+
+Applying remove assignments of useless yields
+
+Game 3 is
+! !_43 <= N
+in(c_in[!_43], adb: keydb);
+new kAB_seed: fixed_16_keyseed;
+let kAB: fixed_16_key = kgen(kAB_seed) in
+out(c_out[!_43], ());
+(
+  ! !_44 <= N
+  in(c_in[!_44, !_43], (argv0_50: bitstring, argv1_49: bitstring, argv2_48: bitstring, argv3_47: bitstring, argv4_46: bitstring));
+  out(c_out[!_44, !_43], ());
+  in(c_in[!_44, !_43], (xClient_52: bounded_1024_id, xServer_51: bounded_1024_id));
+  out(c_out[!_44, !_43], ());
+  in(c_in[!_44, !_43], a_105_0: bitstring);
+  new SKey_10_0: fixed_16_keyseed;
+  let sk_11_0: fixed_16_key = kgen(SKey_10_0) in
+  event client_begin(clientID, serverID, request);
+  let Conc3_447_0: bounded_1045_plaintext = conc1(request, sk_11_0) in
+  new iv_454_0: fixed_16_seed;
+  let Enc_455_0: bounded_1077_ciphertext = enc1(Conc3_447_0, kAB, iv_454_0) in
+  let Conc2_459_0: bitstring = conc2(clientID, Enc_455_0) in
+  out(c_out[!_44, !_43], Conc2_459_0);
+  in(c_in[!_44, !_43], a_561_0: bitstring);
+  let injbot(Dec_569_0: bounded_1045_plaintext) = dec(cast_bitstring_bounded_1077_ciphertext(a_561_0), sk_11_0) in
+  event client_accept(clientID, serverID, request, cast_bounded_1045_plaintext_fixed_1024_payload(Dec_569_0))
+) | (
+  ! !_45 <= N
+  in(c_in[!_45, !_43], (argv0_57: bitstring, argv1_56: bitstring, argv2_55: bitstring, argv3_54: bitstring, argv4_53: bitstring));
+  out(c_out[!_45, !_43], ());
+  in(c_in[!_45, !_43], (xClient_59: bounded_1024_id, xServer_58: bounded_1024_id));
+  if (xClient_59 = clientID) then
+    out(c_out[!_45, !_43], ());
+    (
+      in(c_in[!_45, !_43], (a_31_61: bitstring, a_96_60: bitstring));
+      let Pars2_483_64: bounded_1077_ciphertext = pars2(a_96_60) in
+      let injbot(Dec_486_65: bounded_1045_plaintext) = dec(Pars2_483_64, kAB) in
+      let Pars3_489_66: fixed_1024_payload = pars3(Dec_486_65) in
+      event server_reply(clientID, serverID, Pars3_489_66, response);
+      let Pars4_493_67: fixed_16_key = pars4(Dec_486_65) in
+      new iv_497_68: fixed_16_seed;
+      let Enc_498_69: bounded_1077_ciphertext = enc1(cast_fixed_1024_payload_bounded_1045_plaintext(response), Pars4_493_67, iv_497_68) in
+      out(c_out[!_45, !_43], Enc_498_69)
+    ) | (
+      in(c_in[!_45, !_43], response'_70: fixed_1024_payload);
+      if (response'_70 = response) then
+      event leaked(xClient_59, response)
+    )
+  else
+    let badHost(xClient': bounded_1024_id) = xClient_59 in
+    event bad(xClient_59);
+    out(c_out[!_45, !_43], ());
+    (
+      in(c_in[!_45, !_43], (a_31_72: bitstring, a_96_71: bitstring));
+      let Pars2_483_75: bounded_1077_ciphertext = pars2(a_96_71) in
+      let injbot(Dec_486_76: bounded_1045_plaintext) = dec(Pars2_483_75, kAB) in
+      let Pars3_489_77: fixed_1024_payload = pars3(Dec_486_76) in
+      event server_reply(clientID, serverID, Pars3_489_77, response);
+      let Pars4_493_78: fixed_16_key = pars4(Dec_486_76) in
+      new iv_497_79: fixed_16_seed;
+      let Enc_498_80: bounded_1077_ciphertext = enc1(cast_fixed_1024_payload_bounded_1045_plaintext(response), Pars4_493_78, iv_497_79) in
+      out(c_out[!_45, !_43], Enc_498_80)
+    ) | (
+      in(c_in[!_45, !_43], response'_81: fixed_1024_payload);
+      if (response'_81 = response) then
+      event leaked(xClient_59, response)
+    )
+)
+
+
+RESULT Proved event client_accept(hClient, hServer, x, y) ==> true
+RESULT Proved event server_reply(hClient, hServer, x, y) ==> true
+
+Applying remove assignments of binder kAB yields
+
+Game 4 is
+! !_43 <= N
+in(c_in[!_43], adb: keydb);
+new kAB_seed: fixed_16_keyseed;
+out(c_out[!_43], ());
+(
+  ! !_44 <= N
+  in(c_in[!_44, !_43], (argv0_50: bitstring, argv1_49: bitstring, argv2_48: bitstring, argv3_47: bitstring, argv4_46: bitstring));
+  out(c_out[!_44, !_43], ());
+  in(c_in[!_44, !_43], (xClient_52: bounded_1024_id, xServer_51: bounded_1024_id));
+  out(c_out[!_44, !_43], ());
+  in(c_in[!_44, !_43], a_105_0: bitstring);
+  new SKey_10_0: fixed_16_keyseed;
+  let sk_11_0: fixed_16_key = kgen(SKey_10_0) in
+  event client_begin(clientID, serverID, request);
+  let Conc3_447_0: bounded_1045_plaintext = conc1(request, sk_11_0) in
+  new iv_454_0: fixed_16_seed;
+  let Enc_455_0: bounded_1077_ciphertext = enc1(Conc3_447_0, kgen(kAB_seed), iv_454_0) in
+  let Conc2_459_0: bitstring = conc2(clientID, Enc_455_0) in
+  out(c_out[!_44, !_43], Conc2_459_0);
+  in(c_in[!_44, !_43], a_561_0: bitstring);
+  let injbot(Dec_569_0: bounded_1045_plaintext) = dec(cast_bitstring_bounded_1077_ciphertext(a_561_0), sk_11_0) in
+  event client_accept(clientID, serverID, request, cast_bounded_1045_plaintext_fixed_1024_payload(Dec_569_0))
+) | (
+  ! !_45 <= N
+  in(c_in[!_45, !_43], (argv0_57: bitstring, argv1_56: bitstring, argv2_55: bitstring, argv3_54: bitstring, argv4_53: bitstring));
+  out(c_out[!_45, !_43], ());
+  in(c_in[!_45, !_43], (xClient_59: bounded_1024_id, xServer_58: bounded_1024_id));
+  if (xClient_59 = clientID) then
+    out(c_out[!_45, !_43], ());
+    (
+      in(c_in[!_45, !_43], (a_31_61: bitstring, a_96_60: bitstring));
+      let Pars2_483_64: bounded_1077_ciphertext = pars2(a_96_60) in
+      let injbot(Dec_486_65: bounded_1045_plaintext) = dec(Pars2_483_64, kgen(kAB_seed)) in
+      let Pars3_489_66: fixed_1024_payload = pars3(Dec_486_65) in
+      event server_reply(clientID, serverID, Pars3_489_66, response);
+      let Pars4_493_67: fixed_16_key = pars4(Dec_486_65) in
+      new iv_497_68: fixed_16_seed;
+      let Enc_498_69: bounded_1077_ciphertext = enc1(cast_fixed_1024_payload_bounded_1045_plaintext(response), Pars4_493_67, iv_497_68) in
+      out(c_out[!_45, !_43], Enc_498_69)
+    ) | (
+      in(c_in[!_45, !_43], response'_70: fixed_1024_payload);
+      if (response'_70 = response) then
+      event leaked(xClient_59, response)
+    )
+  else
+    let badHost(xClient': bounded_1024_id) = xClient_59 in
+    event bad(xClient_59);
+    out(c_out[!_45, !_43], ());
+    (
+      in(c_in[!_45, !_43], (a_31_72: bitstring, a_96_71: bitstring));
+      let Pars2_483_75: bounded_1077_ciphertext = pars2(a_96_71) in
+      let injbot(Dec_486_76: bounded_1045_plaintext) = dec(Pars2_483_75, kgen(kAB_seed)) in
+      let Pars3_489_77: fixed_1024_payload = pars3(Dec_486_76) in
+      event server_reply(clientID, serverID, Pars3_489_77, response);
+      let Pars4_493_78: fixed_16_key = pars4(Dec_486_76) in
+      new iv_497_79: fixed_16_seed;
+      let Enc_498_80: bounded_1077_ciphertext = enc1(cast_fixed_1024_payload_bounded_1045_plaintext(response), Pars4_493_78, iv_497_79) in
+      out(c_out[!_45, !_43], Enc_498_80)
+    ) | (
+      in(c_in[!_45, !_43], response'_81: fixed_1024_payload);
+      if (response'_81 = response) then
+      event leaked(xClient_59, response)
+    )
+)
+
+
+Applying equivalence
+equiv ! !_37 <= @5_N2 new @5_r: fixed_16_keyseed; (
+  ! !_38 <= @5_N new @5_r2: fixed_16_seed; @5_Oenc(@5_x: bounded_1045_plaintext) := enc1(@5_x, kgen(@5_r), @5_r2),
+  ! !_39 <= @5_N3 @5_Odec(@5_y: bounded_1077_ciphertext) := dec(@5_y, kgen(@5_r)))
+<=(@5_N2 * Pencctxt(time + (@5_N2 - 1.) * (time(kgen) + @5_N * time(enc1) + @5_N3 * time(dec)), @5_N, @5_N3))=> [computational]
+      ! !_40 <= @5_N2 new @5_r: fixed_16_keyseed [unchanged]; (
+  ! !_41 <= @5_N new @5_r2: fixed_16_seed [unchanged]; @5_Oenc(@5_x_91: bounded_1045_plaintext) := let @5_x: bounded_1045_plaintext = @5_x_91 in let @5_z: bounded_1077_ciphertext = enc1(@5_x, @5_kgen2(@5_r), @5_r2) in @5_z,
+  ! !_42 <= @5_N3 @5_Odec(@5_y: bounded_1077_ciphertext) := find @5_j <= @5_N suchthat defined(@5_x[@5_j], @5_r2[@5_j], @5_z[@5_j]) && (@5_z[@5_j] = @5_y) then injbot(@5_x[@5_j]) else bottom)
+with iv_454_0 [probability N * Pencctxt(time(context for game 4) + time + (-2. * N + 2. * N * N) * time(dec) + (-1. * N + N * N) * time(enc1) + (-1. + N) * time(kgen), N, 2. * N)] yields
+
+Game 5 is
+! !_43 <= N
+in(c_in[!_43], adb: keydb);
+new kAB_seed: fixed_16_keyseed;
+out(c_out[!_43], ());
+(
+  ! !_44 <= N
+  in(c_in[!_44, !_43], (argv0_50: bitstring, argv1_49: bitstring, argv2_48: bitstring, argv3_47: bitstring, argv4_46: bitstring));
+  out(c_out[!_44, !_43], ());
+  in(c_in[!_44, !_43], (xClient_52: bounded_1024_id, xServer_51: bounded_1024_id));
+  out(c_out[!_44, !_43], ());
+  in(c_in[!_44, !_43], a_105_0: bitstring);
+  new SKey_10_0: fixed_16_keyseed;
+  let sk_11_0: fixed_16_key = kgen(SKey_10_0) in
+  event client_begin(clientID, serverID, request);
+  let Conc3_447_0: bounded_1045_plaintext = conc1(request, sk_11_0) in
+  new iv_454_0: fixed_16_seed;
+  let @5_x_130: bounded_1045_plaintext = Conc3_447_0 in
+  let @5_z_129: bounded_1077_ciphertext = enc1(@5_x_130, @5_kgen2(kAB_seed), iv_454_0) in
+  let Enc_455_0: bounded_1077_ciphertext = @5_z_129 in
+  let Conc2_459_0: bitstring = conc2(clientID, Enc_455_0) in
+  out(c_out[!_44, !_43], Conc2_459_0);
+  in(c_in[!_44, !_43], a_561_0: bitstring);
+  let injbot(Dec_569_0: bounded_1045_plaintext) = dec(cast_bitstring_bounded_1077_ciphertext(a_561_0), sk_11_0) in
+  event client_accept(clientID, serverID, request, cast_bounded_1045_plaintext_fixed_1024_payload(Dec_569_0))
+) | (
+  ! !_45 <= N
+  in(c_in[!_45, !_43], (argv0_57: bitstring, argv1_56: bitstring, argv2_55: bitstring, argv3_54: bitstring, argv4_53: bitstring));
+  out(c_out[!_45, !_43], ());
+  in(c_in[!_45, !_43], (xClient_59: bounded_1024_id, xServer_58: bounded_1024_id));
+  if (xClient_59 = clientID) then
+    out(c_out[!_45, !_43], ());
+    (
+      in(c_in[!_45, !_43], (a_31_61: bitstring, a_96_60: bitstring));
+      let Pars2_483_64: bounded_1077_ciphertext = pars2(a_96_60) in
+      find @i_143 <= N suchthat defined(@5_x_130[@i_143], iv_454_0[@i_143], @5_z_129[@i_143]) && (@5_z_129[@i_143] = Pars2_483_64) then
+      (
+        let injbot(Dec_486_65: bounded_1045_plaintext) = injbot(@5_x_130[@i_143]) in
+        let Pars3_489_66: fixed_1024_payload = pars3(Dec_486_65) in
+        event server_reply(clientID, serverID, Pars3_489_66, response);
+        let Pars4_493_67: fixed_16_key = pars4(Dec_486_65) in
+        new iv_497_68: fixed_16_seed;
+        let Enc_498_69: bounded_1077_ciphertext = enc1(cast_fixed_1024_payload_bounded_1045_plaintext(response), Pars4_493_67, iv_497_68) in
+        out(c_out[!_45, !_43], Enc_498_69)
+      )
+      else
+        let injbot(Dec_486_65: bounded_1045_plaintext) = bottom in
+        let Pars3_489_66: fixed_1024_payload = pars3(Dec_486_65) in
+        event server_reply(clientID, serverID, Pars3_489_66, response);
+        let Pars4_493_67: fixed_16_key = pars4(Dec_486_65) in
+        new iv_497_68: fixed_16_seed;
+        let Enc_498_69: bounded_1077_ciphertext = enc1(cast_fixed_1024_payload_bounded_1045_plaintext(response), Pars4_493_67, iv_497_68) in
+        out(c_out[!_45, !_43], Enc_498_69)
+    ) | (
+      in(c_in[!_45, !_43], response'_70: fixed_1024_payload);
+      if (response'_70 = response) then
+      event leaked(xClient_59, response)
+    )
+  else
+    let badHost(xClient': bounded_1024_id) = xClient_59 in
+    event bad(xClient_59);
+    out(c_out[!_45, !_43], ());
+    (
+      in(c_in[!_45, !_43], (a_31_72: bitstring, a_96_71: bitstring));
+      let Pars2_483_75: bounded_1077_ciphertext = pars2(a_96_71) in
+      find @i_137 <= N suchthat defined(@5_x_130[@i_137], iv_454_0[@i_137], @5_z_129[@i_137]) && (@5_z_129[@i_137] = Pars2_483_75) then
+      (
+        let injbot(Dec_486_76: bounded_1045_plaintext) = injbot(@5_x_130[@i_137]) in
+        let Pars3_489_77: fixed_1024_payload = pars3(Dec_486_76) in
+        event server_reply(clientID, serverID, Pars3_489_77, response);
+        let Pars4_493_78: fixed_16_key = pars4(Dec_486_76) in
+        new iv_497_79: fixed_16_seed;
+        let Enc_498_80: bounded_1077_ciphertext = enc1(cast_fixed_1024_payload_bounded_1045_plaintext(response), Pars4_493_78, iv_497_79) in
+        out(c_out[!_45, !_43], Enc_498_80)
+      )
+      else
+        let injbot(Dec_486_76: bounded_1045_plaintext) = bottom in
+        let Pars3_489_77: fixed_1024_payload = pars3(Dec_486_76) in
+        event server_reply(clientID, serverID, Pars3_489_77, response);
+        let Pars4_493_78: fixed_16_key = pars4(Dec_486_76) in
+        new iv_497_79: fixed_16_seed;
+        let Enc_498_80: bounded_1077_ciphertext = enc1(cast_fixed_1024_payload_bounded_1045_plaintext(response), Pars4_493_78, iv_497_79) in
+        out(c_out[!_45, !_43], Enc_498_80)
+    ) | (
+      in(c_in[!_45, !_43], response'_81: fixed_1024_payload);
+      if (response'_81 = response) then
+      event leaked(xClient_59, response)
+    )
+)
+
+
+Applying simplify yields
+
+Game 6 is
+! !_43 <= N
+in(c_in[!_43], adb: keydb);
+new kAB_seed: fixed_16_keyseed;
+out(c_out[!_43], ());
+(
+  ! !_44 <= N
+  in(c_in[!_44, !_43], (argv0_50: bitstring, argv1_49: bitstring, argv2_48: bitstring, argv3_47: bitstring, argv4_46: bitstring));
+  out(c_out[!_44, !_43], ());
+  in(c_in[!_44, !_43], (xClient_52: bounded_1024_id, xServer_51: bounded_1024_id));
+  out(c_out[!_44, !_43], ());
+  in(c_in[!_44, !_43], a_105_0: bitstring);
+  new SKey_10_0: fixed_16_keyseed;
+  let sk_11_0: fixed_16_key = kgen(SKey_10_0) in
+  event client_begin(clientID, serverID, request);
+  let Conc3_447_0: bounded_1045_plaintext = conc1(request, sk_11_0) in
+  new iv_454_0: fixed_16_seed;
+  let @5_x_130: bounded_1045_plaintext = Conc3_447_0 in
+  let @5_z_129: bounded_1077_ciphertext = enc1(@5_x_130, @5_kgen2(kAB_seed), iv_454_0) in
+  let Enc_455_0: bounded_1077_ciphertext = @5_z_129 in
+  let Conc2_459_0: bitstring = conc2(clientID, Enc_455_0) in
+  out(c_out[!_44, !_43], Conc2_459_0);
+  in(c_in[!_44, !_43], a_561_0: bitstring);
+  let injbot(Dec_569_0: bounded_1045_plaintext) = dec(cast_bitstring_bounded_1077_ciphertext(a_561_0), sk_11_0) in
+  event client_accept(clientID, serverID, request, cast_bounded_1045_plaintext_fixed_1024_payload(Dec_569_0))
+) | (
+  ! !_45 <= N
+  in(c_in[!_45, !_43], (argv0_57: bitstring, argv1_56: bitstring, argv2_55: bitstring, argv3_54: bitstring, argv4_53: bitstring));
+  out(c_out[!_45, !_43], ());
+  in(c_in[!_45, !_43], (xClient_59: bounded_1024_id, xServer_58: bounded_1024_id));
+  if (xClient_59 = clientID) then
+    out(c_out[!_45, !_43], ());
+    (
+      in(c_in[!_45, !_43], (a_31_61: bitstring, a_96_60: bitstring));
+      let Pars2_483_64: bounded_1077_ciphertext = pars2(a_96_60) in
+      find @i_143 <= N suchthat defined(@5_z_129[@i_143], @5_x_130[@i_143], sk_11_0[@i_143]) && (@5_z_129[@i_143] = Pars2_483_64) then
+      let Dec_486_65: bounded_1045_plaintext = @5_x_130[@i_143] in
+      let Pars3_489_66: fixed_1024_payload = request in
+      event server_reply(clientID, serverID, Pars3_489_66, response);
+      let Pars4_493_67: fixed_16_key = sk_11_0[@i_143] in
+      new iv_497_68: fixed_16_seed;
+      let Enc_498_69: bounded_1077_ciphertext = enc1(cast_fixed_1024_payload_bounded_1045_plaintext(response), Pars4_493_67, iv_497_68) in
+      out(c_out[!_45, !_43], Enc_498_69)
+    ) | (
+      in(c_in[!_45, !_43], response'_70: fixed_1024_payload);
+      if (response'_70 = response) then
+      event leaked(xClient_59, response)
+    )
+  else
+    let badHost(xClient': bounded_1024_id) = xClient_59 in
+    event bad(xClient_59);
+    out(c_out[!_45, !_43], ());
+    (
+      in(c_in[!_45, !_43], (a_31_72: bitstring, a_96_71: bitstring));
+      let Pars2_483_75: bounded_1077_ciphertext = pars2(a_96_71) in
+      find @i_137 <= N suchthat defined(@5_z_129[@i_137], @5_x_130[@i_137], sk_11_0[@i_137]) && (@5_z_129[@i_137] = Pars2_483_75) then
+      let Dec_486_76: bounded_1045_plaintext = @5_x_130[@i_137] in
+      let Pars3_489_77: fixed_1024_payload = request in
+      event server_reply(clientID, serverID, Pars3_489_77, response);
+      let Pars4_493_78: fixed_16_key = sk_11_0[@i_137] in
+      new iv_497_79: fixed_16_seed;
+      let Enc_498_80: bounded_1077_ciphertext = enc1(cast_fixed_1024_payload_bounded_1045_plaintext(response), Pars4_493_78, iv_497_79) in
+      out(c_out[!_45, !_43], Enc_498_80)
+    ) | (
+      in(c_in[!_45, !_43], response'_81: fixed_1024_payload);
+      if (response'_81 = response) then
+      event leaked(xClient_59, response)
+    )
+)
+
+
+Applying remove assignments of useless yields
+
+Game 7 is
+! !_43 <= N
+in(c_in[!_43], adb: keydb);
+new kAB_seed: fixed_16_keyseed;
+out(c_out[!_43], ());
+(
+  ! !_44 <= N
+  in(c_in[!_44, !_43], (argv0_50: bitstring, argv1_49: bitstring, argv2_48: bitstring, argv3_47: bitstring, argv4_46: bitstring));
+  out(c_out[!_44, !_43], ());
+  in(c_in[!_44, !_43], (xClient_52: bounded_1024_id, xServer_51: bounded_1024_id));
+  out(c_out[!_44, !_43], ());
+  in(c_in[!_44, !_43], a_105_0: bitstring);
+  new SKey_10_0: fixed_16_keyseed;
+  let sk_11_0: fixed_16_key = kgen(SKey_10_0) in
+  event client_begin(clientID, serverID, request);
+  let Conc3_447_0: bounded_1045_plaintext = conc1(request, sk_11_0) in
+  new iv_454_0: fixed_16_seed;
+  let @5_z_129: bounded_1077_ciphertext = enc1(Conc3_447_0, @5_kgen2(kAB_seed), iv_454_0) in
+  let Conc2_459_0: bitstring = conc2(clientID, @5_z_129) in
+  out(c_out[!_44, !_43], Conc2_459_0);
+  in(c_in[!_44, !_43], a_561_0: bitstring);
+  let injbot(Dec_569_0: bounded_1045_plaintext) = dec(cast_bitstring_bounded_1077_ciphertext(a_561_0), sk_11_0) in
+  event client_accept(clientID, serverID, request, cast_bounded_1045_plaintext_fixed_1024_payload(Dec_569_0))
+) | (
+  ! !_45 <= N
+  in(c_in[!_45, !_43], (argv0_57: bitstring, argv1_56: bitstring, argv2_55: bitstring, argv3_54: bitstring, argv4_53: bitstring));
+  out(c_out[!_45, !_43], ());
+  in(c_in[!_45, !_43], (xClient_59: bounded_1024_id, xServer_58: bounded_1024_id));
+  if (xClient_59 = clientID) then
+    out(c_out[!_45, !_43], ());
+    (
+      in(c_in[!_45, !_43], (a_31_61: bitstring, a_96_60: bitstring));
+      let Pars2_483_64: bounded_1077_ciphertext = pars2(a_96_60) in
+      find @i_143 <= N suchthat defined(Conc3_447_0[@i_143], SKey_10_0[@i_143], @5_z_129[@i_143], sk_11_0[@i_143]) && (@5_z_129[@i_143] = Pars2_483_64) then
+      let Pars3_489_66: fixed_1024_payload = request in
+      event server_reply(clientID, serverID, Pars3_489_66, response);
+      new iv_497_68: fixed_16_seed;
+      let Enc_498_69: bounded_1077_ciphertext = enc1(cast_fixed_1024_payload_bounded_1045_plaintext(response), sk_11_0[@i_143], iv_497_68) in
+      out(c_out[!_45, !_43], Enc_498_69)
+    ) | (
+      in(c_in[!_45, !_43], response'_70: fixed_1024_payload);
+      if (response'_70 = response) then
+      event leaked(xClient_59, response)
+    )
+  else
+    let badHost(xClient': bounded_1024_id) = xClient_59 in
+    event bad(xClient_59);
+    out(c_out[!_45, !_43], ());
+    (
+      in(c_in[!_45, !_43], (a_31_72: bitstring, a_96_71: bitstring));
+      let Pars2_483_75: bounded_1077_ciphertext = pars2(a_96_71) in
+      find @i_137 <= N suchthat defined(Conc3_447_0[@i_137], SKey_10_0[@i_137], @5_z_129[@i_137], sk_11_0[@i_137]) && (@5_z_129[@i_137] = Pars2_483_75) then
+      let Pars3_489_77: fixed_1024_payload = request in
+      event server_reply(clientID, serverID, Pars3_489_77, response);
+      new iv_497_79: fixed_16_seed;
+      let Enc_498_80: bounded_1077_ciphertext = enc1(cast_fixed_1024_payload_bounded_1045_plaintext(response), sk_11_0[@i_137], iv_497_79) in
+      out(c_out[!_45, !_43], Enc_498_80)
+    ) | (
+      in(c_in[!_45, !_43], response'_81: fixed_1024_payload);
+      if (response'_81 = response) then
+      event leaked(xClient_59, response)
+    )
+)
+
+
+RESULT Proved event server_reply(hClient, hServer, x, y) ==> (client_begin(hClient, hServer, x)||bad(hClient)) up to probability N * Pencctxt(time(context for game 4) + time + (-2. * N + 2. * N * N) * time(dec) + (-1. * N + N * N) * time(enc1) + (-1. + N) * time(kgen), N, 2. * N)
+
+Applying equivalence
+equiv ! !_33 <= @5_N2 new @5_r: fixed_16_keyseed; ! !_34 <= @5_N new @5_r2: fixed_16_seed; @5_Oenc(@5_x: bounded_1045_plaintext) := enc1(@5_x, @5_kgen2(@5_r), @5_r2)
+<=(@5_N2 * Penc(time + (@5_N2 - 1.) * (time(kgen) + @5_N * time(enc1) + @5_N * time(Zbounded_1045_plaintext)), @5_N))=>
+      ! !_35 <= @5_N2 new @5_r: fixed_16_keyseed; ! !_36 <= @5_N new @5_r2: fixed_16_seed; @5_Oenc(@5_x: bounded_1045_plaintext) := @5_enc2(Zbounded_1045_plaintext(@5_x), @5_kgen2(@5_r), @5_r2)
+ [probability N * Penc(time(context for game 7) + time + (-1. * N + N * N) * time(Zbounded_1045_plaintext) + (-1. * N + N * N) * time(enc1) + (-1. + N) * time(kgen), N)] yields
+
+Game 8 is
+! !_43 <= N
+in(c_in[!_43], adb: keydb);
+new kAB_seed_169: fixed_16_keyseed;
+out(c_out[!_43], ());
+(
+  ! !_44 <= N
+  in(c_in[!_44, !_43], (argv0_50: bitstring, argv1_49: bitstring, argv2_48: bitstring, argv3_47: bitstring, argv4_46: bitstring));
+  out(c_out[!_44, !_43], ());
+  in(c_in[!_44, !_43], (xClient_52: bounded_1024_id, xServer_51: bounded_1024_id));
+  out(c_out[!_44, !_43], ());
+  in(c_in[!_44, !_43], a_105_0: bitstring);
+  new SKey_10_0: fixed_16_keyseed;
+  let sk_11_0: fixed_16_key = kgen(SKey_10_0) in
+  event client_begin(clientID, serverID, request);
+  let Conc3_447_0: bounded_1045_plaintext = conc1(request, sk_11_0) in
+  new iv_454_168: fixed_16_seed;
+  let @5_z_129: bounded_1077_ciphertext = @5_enc2(Zbounded_1045_plaintext(Conc3_447_0), @5_kgen2(kAB_seed_169), iv_454_168) in
+  let Conc2_459_0: bitstring = conc2(clientID, @5_z_129) in
+  out(c_out[!_44, !_43], Conc2_459_0);
+  in(c_in[!_44, !_43], a_561_0: bitstring);
+  let injbot(Dec_569_0: bounded_1045_plaintext) = dec(cast_bitstring_bounded_1077_ciphertext(a_561_0), sk_11_0) in
+  event client_accept(clientID, serverID, request, cast_bounded_1045_plaintext_fixed_1024_payload(Dec_569_0))
+) | (
+  ! !_45 <= N
+  in(c_in[!_45, !_43], (argv0_57: bitstring, argv1_56: bitstring, argv2_55: bitstring, argv3_54: bitstring, argv4_53: bitstring));
+  out(c_out[!_45, !_43], ());
+  in(c_in[!_45, !_43], (xClient_59: bounded_1024_id, xServer_58: bounded_1024_id));
+  if (xClient_59 = clientID) then
+    out(c_out[!_45, !_43], ());
+    (
+      in(c_in[!_45, !_43], (a_31_61: bitstring, a_96_60: bitstring));
+      let Pars2_483_64: bounded_1077_ciphertext = pars2(a_96_60) in
+      find @i_143 <= N suchthat defined(Conc3_447_0[@i_143], SKey_10_0[@i_143], @5_z_129[@i_143], sk_11_0[@i_143]) && (@5_z_129[@i_143] = Pars2_483_64) then
+      let Pars3_489_66: fixed_1024_payload = request in
+      event server_reply(clientID, serverID, Pars3_489_66, response);
+      new iv_497_68: fixed_16_seed;
+      let Enc_498_69: bounded_1077_ciphertext = enc1(cast_fixed_1024_payload_bounded_1045_plaintext(response), sk_11_0[@i_143], iv_497_68) in
+      out(c_out[!_45, !_43], Enc_498_69)
+    ) | (
+      in(c_in[!_45, !_43], response'_70: fixed_1024_payload);
+      if (response'_70 = response) then
+      event leaked(xClient_59, response)
+    )
+  else
+    let badHost(xClient': bounded_1024_id) = xClient_59 in
+    event bad(xClient_59);
+    out(c_out[!_45, !_43], ());
+    (
+      in(c_in[!_45, !_43], (a_31_72: bitstring, a_96_71: bitstring));
+      let Pars2_483_75: bounded_1077_ciphertext = pars2(a_96_71) in
+      find @i_137 <= N suchthat defined(Conc3_447_0[@i_137], SKey_10_0[@i_137], @5_z_129[@i_137], sk_11_0[@i_137]) && (@5_z_129[@i_137] = Pars2_483_75) then
+      let Pars3_489_77: fixed_1024_payload = request in
+      event server_reply(clientID, serverID, Pars3_489_77, response);
+      new iv_497_79: fixed_16_seed;
+      let Enc_498_80: bounded_1077_ciphertext = enc1(cast_fixed_1024_payload_bounded_1045_plaintext(response), sk_11_0[@i_137], iv_497_79) in
+      out(c_out[!_45, !_43], Enc_498_80)
+    ) | (
+      in(c_in[!_45, !_43], response'_81: fixed_1024_payload);
+      if (response'_81 = response) then
+      event leaked(xClient_59, response)
+    )
+)
+
+RESULT time(context for game 4) = N * N * time(= bounded_1024_id, maxlength(game 4: xClient_59[!_45, !_43]), length(clientID)) + N * N * time(pars2, maxlength(game 4: a_96_60[!_45, !_43])) + N * N * time(let badHost, maxlength(game 4: xClient'[!_45, !_43])) + N * N * time(pars2, maxlength(game 4: a_96_71[!_45, !_43])) + 2. * N * N * time(let injbot) + N * N * time(pars3) + N * N * time(pars4) + N * N * time(cast_fixed_1024_payload_bounded_1045_plaintext) + N * N * time(enc1) + N * N * time(kgen) + N * N * time(conc1) + N * N * time(conc2, length(clientID)) + N * N * time(cast_bitstring_bounded_1077_ciphertext, maxlength(game 4: a_561_0[!_44, !_43])) + N * N * time(dec)
+RESULT time(context for game 7) = N * N * time(= bounded_1024_id, maxlength(game 7: xClient_59[!_45, !_43]), length(clientID)) + N * N * time(pars2, maxlength(game 7: a_96_60[!_45, !_43])) + N * N * time(let badHost, maxlength(game 7: xClient'[!_45, !_43])) + N * N * time(pars2, maxlength(game 7: a_96_71[!_45, !_43])) + N * N * time(cast_fixed_1024_payload_bounded_1045_plaintext) + N * N * time(enc1) + N * N * time(kgen) + N * N * time(conc1) + N * N * time(conc2, length(clientID)) + N * N * time(let injbot) + N * N * time(cast_bitstring_bounded_1077_ciphertext, maxlength(game 7: a_561_0[!_44, !_43])) + N * N * time(dec)
+RESULT Could not prove event leaked(hClient, resp) ==> bad(hClient), event client_accept(hClient, hServer, x, y) ==> server_reply(hClient, hServer, x, y).
+

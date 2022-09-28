@@ -1,0 +1,75 @@
+
+free c_in.
+free c_out.
+
+fun true/0.
+
+(********************************
+  Crypto
+*********************************)
+
+fun enc1/3.
+fun kgen/1.
+fun cast/1.
+fun E/3.
+reduc
+  dec(enc1(x, k, r), k) = x.
+
+data conc3/2.
+data conc2/2.
+
+reduc
+  pars1(conc2(arg0, arg1)) = arg0.
+reduc
+  pars2(conc2(arg0, arg1)) = arg1.
+reduc
+  pars3(conc3(arg0, arg1)) = arg0.
+reduc
+  pars4(conc3(arg0, arg1)) = arg1.
+
+(********************************
+  Key lookup
+*********************************)
+
+private fun lookup/3.
+
+
+(* 
+equation 
+  key(A, B) = key(B, A).
+*)
+
+(********************************
+  <Query>
+*********************************)
+
+(* Authentication properties: *)
+query ev:client_accept(client, server, request, response) ==> ev:server_reply(client, server, request, response) | ev:bad(client, server).
+query ev:server_reply(client, server, request, response) ==> ev:client_begin(client, server, request) | ev:bad(client, server).
+
+(* Secrecy properties: *)
+query attacker:lookup(client, server, key) ==> ev:bad(client, server).
+query attacker:kgen(SKey_10[clientID = client; serverID = server]) ==> ev:bad(client, server).
+
+(* Sanity property: *)
+query ev:client_accept(client, server, request, response) ==> ev:bad(client, server).
+free request, response.
+free clientID, serverID.
+(********************************
+  <Model>
+*********************************)
+
+let client = 0 . 
+let server = 0 .
+
+(********************************
+  <Environment>
+*********************************)
+
+process
+  ! ( new key; in(c_in, xClient); (* not used in PV *)
+    ! (in(c_in, clientID); in(c_in, serverID); !client)
+  | ! (in(c_in, serverID); !server)
+  | ! (in(c_in, (clientID, serverID)); 
+       event bad(clientID, serverID); 
+       out(c_out, lookup(clientID, serverID, key))))

@@ -1,0 +1,172 @@
+(*************************************************************
+ *                                                           *
+ *       Cryptographic protocol verifier                     *
+ *                                                           *
+ *       Bruno Blanchet                                      *
+ *                                                           *
+ *       Copyright (C) ENS, CNRS, INRIA, 2005-2011           *
+ *                                                           *
+ *************************************************************)
+
+(*
+
+    Copyright ENS, CNRS, INRIA 
+    contributor: Bruno Blanchet, Bruno.Blanchet@ens.fr
+    
+This software is a computer program whose purpose is to verify 
+cryptographic protocols in the computational model.
+
+This software is governed by the CeCILL-B license under French law and
+abiding by the rules of distribution of free software.  You can  use, 
+modify and/ or redistribute the software under the terms of the CeCILL-B
+license as circulated by CEA, CNRS and INRIA at the following URL
+"http://www.cecill.info". 
+
+As a counterpart to the access to the source code and  rights to copy,
+modify and redistribute granted by the license, users are provided only
+with a limited warranty  and the software's author,  the holder of the
+economic rights,  and the successive licensors  have only  limited
+liability. 
+
+In this respect, the user's attention is drawn to the risks associated
+with loading,  using,  modifying and/or developing or reproducing the
+software by the user in light of its specific status of free software,
+that may mean  that it is complicated to manipulate,  and  that  also
+therefore means  that it is reserved for developers  and  experienced
+professionals having in-depth computer knowledge. Users are therefore
+encouraged to load and test the software's suitability as regards their
+requirements in conditions enabling the security of their systems and/or 
+data to be ensured and,  more generally, to use and operate it in the 
+same conditions as regards security. 
+
+The fact that you are presently reading this means that you have had
+knowledge of the CeCILL-B license and that you accept its terms.
+
+*)
+(* Version with possibly dishonest participants.
+   Using two series of function symbols to prevent repeated applications
+   of the same cryptographic rule.
+*)
+
+
+param N.
+param N2.
+param N3.
+
+(* Bitstrings of size exactly the block size *)
+type blocksize [large,fixed].
+type blocksizeltag [fixed].
+
+type tag [bounded].
+type nonce [large,fixed].
+type host [bounded].
+type key [large,fixed].
+type keyseed [fixed].
+
+const tag1: tag.
+const tag2: tag.
+const tag3: tag.
+const tag4: tag.
+
+(* Concat1 and concat2 already include the necessary padding to reach the block size *)
+fun concat1(nonce, nonce, host, host):blocksizeltag [compos].
+fun concat2(nonce, key):blocksizeltag [compos].
+fun tagf(tag, blocksizeltag):blocksize [compos].
+
+(* Shared-key encryption (Block cipher) *)
+
+proba Penc.
+
+expand SPRP_cipher(keyseed, key, blocksize, kgen, enc, dec, Penc).
+
+(* Queries *)
+
+query secret1 keyA.
+query secret1 keyB.
+query secret keyA.
+query secret keyB.
+
+channel c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12,
+	start, finish.
+const A : host.
+const B : host.
+
+event endA(host, host, nonce, key).
+event endB(host, host, nonce, key).
+event beginA(host, host, nonce).
+event beginB(host, host, nonce).
+
+query x:host, y:host, n:nonce, k:key; 
+	event endA(x,y,n,k) ==> beginB(x,y,n).
+query x:host, y:host, n:nonce, k:key; 
+	event endB(x,y,n,k) ==> beginA(x,y,n).
+query x:host, y:host, n:nonce, k:key; 
+	event inj:endA(x,y,n,k) ==> inj:beginB(x,y,n).
+query x:host, y:host, n:nonce, k:key; 
+	event inj:endB(x,y,n,k) ==> inj:beginA(x,y,n).
+
+
+let processA = 
+	in(c1, hb: host);
+	new M : nonce;
+	new Na : nonce;
+	event beginA(A, hb, M);
+	let ea1 = enc(tagf(tag1, concat1(Na, M, A, hb)), Kas) in
+	out(c2, (M, A, hb, ea1));
+	in(c3, (=M, ea2: blocksize));
+	let tagf(=tag3, concat2(=Na, k)) = dec(ea2, Kas) in
+	if hb = B then
+	(
+	event endA(A, hb, M, k);
+	let keyA:key = k
+	)
+	else out(c11,k).
+
+let processB =
+	in(c4, (M: nonce, ha: host, =B, ea:bitstring));
+	new Nb : nonce;
+	event beginB(ha, B, M);
+	let e2 = enc(tagf(tag2, concat1(Nb, M, ha, B)), Kbs) in
+	out(c5, (M, ha, B, ea, e2));
+	in(c6, (=M, ea2: blocksize, eb2: blocksize));
+	let tagf(=tag4, concat2(=Nb, k)) = dec(eb2, Kbs) in
+	out(c7, (M, ea2));
+	in(finish, ());
+	if ha = A then
+	(
+	event endB(ha, B, M, k);
+	let keyB:key = k
+	)
+	else out(c12,k).
+
+let processK =
+	in(c8, (Khost: host, Kkey: key));
+	let Rkey:key = 
+		if Khost = A then Kas else
+		if Khost = B then Kbs else
+		Kkey.
+
+let processS =
+	in(c9, (M: nonce, ha: host, hb: host, ea1: blocksize, eb1: blocksize));
+	find jA <= N2 suchthat defined(Rkey[jA], Khost[jA]) && (ha = Khost[jA]) then
+	let kas = Rkey[jA] in
+	find jB <= N2 suchthat defined(Rkey[jB], Khost[jB]) && (hb = Khost[jB]) then
+	let kbs = Rkey[jB] in
+	let tagf(=tag1, concat1(Na, =M, =ha, =hb)) = dec(ea1, kas) in
+	let tagf(=tag2, concat1(Nb, =M, =ha, =hb)) = dec(eb1, kbs) in
+	new k: key;
+	let e1 = enc(tagf(tag3,concat2(Na, k)), kas) in
+	let e2 = enc(tagf(tag4,concat2(Nb, k)), kbs) in
+	out(c10, (M, e1, e2)).
+	
+process 
+	in(start, ());
+	new rKas: keyseed;
+	let Kas = kgen(rKas) in
+	new rKbs: keyseed;
+	let Kbs = kgen(rKbs) in
+	out(start, ());
+	((! N processA) |
+	 (! N processB) | 
+	 (! N processS) |
+	 (! N2 processK))

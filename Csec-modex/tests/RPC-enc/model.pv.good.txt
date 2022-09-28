@@ -1,0 +1,131 @@
+
+free c_in.
+free c_out.
+
+fun true/0.
+
+(********************************
+  Crypto
+*********************************)
+
+fun E/3.
+fun kgen/1.
+reduc
+  D_injbot(E(x, k, r), k) = x.
+
+(********************************
+  Key lookup
+*********************************)
+
+private fun lookup/3.
+
+(* 
+equation 
+  key(A, B) = key(B, A).
+*)
+
+
+(*************************** 
+  Encoders 
+***************************)
+
+data conc1/2.
+data conc2/2.
+
+(******************** 
+  Parsers 
+********************)
+
+reduc
+  parse1(conc2(arg0, arg1)) = arg0.
+reduc
+  parse2(conc2(arg0, arg1)) = arg1.
+reduc
+  parse3(conc1(arg0, arg1)) = arg0.
+reduc
+  parse4(conc1(arg0, arg1)) = arg1.
+
+(*************************** 
+  Arithmetic Functions 
+***************************)
+
+data arithmetic1/2.
+data arithmetic2/1.
+
+(********************************
+  <Query>
+*********************************)
+
+(* Authentication properties: *)
+query ev:client_accept(client, server, req, resp) ==> ev:server_reply(client, server, req, resp) | ev:bad(client, server).
+query ev:server_reply(client, server, req, resp) ==> ev:client_begin(client, server, req) | ev:bad(client, server).
+
+(* Secrecy properties: *)
+query attacker:lookup(client, server, db) ==> ev:bad(client, server).
+query attacker:kgen(kS_seed1[clientID = client; serverID = server]) ==> ev:bad(client, server).
+
+(* Sanity property: *)
+query ev:client_accept(client, server, req, resp) ==> ev:bad(client, server).
+free request, response.
+
+
+(*************************** 
+  Model 
+***************************)
+
+let client = 
+out(c_out, serverID);
+out(c_out, port);
+in(c_in, net_connect_result1);
+if clientID = xClient then 
+let key1 = lookup(clientID, serverID, db) in
+new kS_seed1;
+let key2 = kgen(kS_seed1) in
+event client_begin(clientID, serverID, request);
+let msg1 = conc1(request, key2) in
+new nonce1;
+let cipher1 = E(msg1, key1, nonce1) in
+let msg2 = arithmetic1(clientID, cipher1) in
+out(c_out, msg2);
+let msg3 = conc2(clientID, cipher1) in
+out(c_out, msg3);
+in(c_in, msg4);
+in(c_in, cipher2);
+let msg6 = D_injbot(cipher2, key2) in
+event client_accept(clientID, serverID, request, msg6); 0 .
+
+let server = 
+new nondet1;
+out(c_out, serverID);
+out(c_out, port);
+in(c_in, net_bind_result1);
+new nondet2;
+in(c_in, var7);
+in(c_in, net_accept_result1);
+in(c_in, msg7);
+in(c_in, msg8);
+let client2 = parse1(msg8) in
+if client2 = xClient then 
+let key3 = lookup(client2, serverID, db) in
+let cipher3 = parse2(msg8) in
+let msg9 = D_injbot(cipher3, key3) in
+let var18 = parse3(msg9) in
+event server_reply(client2, serverID, var18, response);
+let key4 = parse4(msg9) in
+new nonce2;
+let msg12 = E(response, key4, nonce2) in
+let msg11 = arithmetic2(msg12) in
+out(c_out, msg11);
+out(c_out, msg12); 0 .
+
+(********************************
+  <Environment>
+*********************************)
+
+process
+  ! ( new db; in(c, xClient); (* not used in PV *)
+    ! (in(c, clientID); in(c, serverID); !client)
+  | ! (in(c, serverID); !server)
+  | ! (in(c, (clientID, serverID)); 
+       event bad(clientID, serverID); 
+       out(c, lookup(clientID, serverID, db))))

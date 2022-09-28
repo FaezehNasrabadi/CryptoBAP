@@ -1,0 +1,97 @@
+
+free c_in.
+free c_out.
+
+fun true/0.
+
+(******************** 
+  Crypto
+********************)
+
+fun HMAC_sha1/2.
+
+data arithmetic1/0.
+
+(* ASSERT_DEFINITION
+  arithmetic1/0
+  "sha1"
+*)
+
+reduc
+  HMAC(arithmetic1, m, k) = HMAC_sha1(m, k).
+
+
+(*************************** 
+  Encoders 
+***************************)
+
+data conc1/1.
+data conc2/2.
+
+(******************** 
+  Parsers 
+********************)
+
+reduc
+  parse1(conc2(arg0, arg1)) = arg0;
+  parse1(conc1(arg0)) = arg0.
+reduc
+  parse2(conc2(arg0, arg1)) = arg1.
+
+(*************************** 
+  Arithmetic Functions 
+***************************)
+
+(* arithmetic1 is already defined in the template *)
+
+data arithmetic2/1.
+
+(******************** 
+  <Query>
+********************)
+
+query ev:server_recv(x) ==> ev:client_send(x).
+query ev:server_recv(x).
+
+
+(*************************** 
+  Model 
+***************************)
+
+let client = 
+event client_send(payload);
+let msg1 = conc1(payload) in
+let var20 = arithmetic1 in
+let hash1 = HMAC(var20, msg1, key) in
+in(c_in, var1);
+in(c_in, BIO_ctrl_result1);
+let msg2 = arithmetic2(payload) in
+out(c_out, msg2);
+let msg3 = conc2(payload, hash1) in
+out(c_out, msg3); 0 .
+
+let server = 
+in(c_in, var3);
+in(c_in, BIO_ctrl_result2);
+in(c_in, BIO_ctrl_result3);
+in(c_in, var6);
+in(c_in, var7);
+in(c_in, msg4);
+in(c_in, msg5);
+let var12 = parse1(msg5) in
+let msg6 = conc1(var12) in
+let var14 = arithmetic1 in
+let hash2 = HMAC(var14, msg6, key) in
+let var16 = parse2(msg5) in
+let var17 = var16 in
+if hash2 = var17 then 
+event server_recv(var12); 0 .
+
+(******************** 
+  <Environment>
+********************)
+
+process !
+  new key;
+  in(c_in, payload);
+  (!client | !server)

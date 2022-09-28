@@ -1,0 +1,115 @@
+(*************************************************************
+ *                                                           *
+ *       Cryptographic protocol verifier                     *
+ *                                                           *
+ *       Bruno Blanchet                                      *
+ *                                                           *
+ *       Copyright (C) ENS, CNRS, INRIA, 2005-2011           *
+ *                                                           *
+ *************************************************************)
+
+(*
+
+    Copyright ENS, CNRS, INRIA 
+    contributor: Bruno Blanchet, Bruno.Blanchet@ens.fr
+    
+This software is a computer program whose purpose is to verify 
+cryptographic protocols in the computational model.
+
+This software is governed by the CeCILL-B license under French law and
+abiding by the rules of distribution of free software.  You can  use, 
+modify and/ or redistribute the software under the terms of the CeCILL-B
+license as circulated by CEA, CNRS and INRIA at the following URL
+"http://www.cecill.info". 
+
+As a counterpart to the access to the source code and  rights to copy,
+modify and redistribute granted by the license, users are provided only
+with a limited warranty  and the software's author,  the holder of the
+economic rights,  and the successive licensors  have only  limited
+liability. 
+
+In this respect, the user's attention is drawn to the risks associated
+with loading,  using,  modifying and/or developing or reproducing the
+software by the user in light of its specific status of free software,
+that may mean  that it is complicated to manipulate,  and  that  also
+therefore means  that it is reserved for developers  and  experienced
+professionals having in-depth computer knowledge. Users are therefore
+encouraged to load and test the software's suitability as regards their
+requirements in conditions enabling the security of their systems and/or 
+data to be ensured and,  more generally, to use and operate it in the 
+same conditions as regards security. 
+
+The fact that you are presently reading this means that you have had
+knowledge of the CeCILL-B license and that you accept its terms.
+
+*)
+(*
+Running example for correspondences paper.
+Inspired freely from Woo and Lam public-key auth protocol (1997)
+
+B -> A: N, B
+A -> B: { pkA, B, N }_skA
+
+*)
+
+param N.
+param N2.
+param N3.
+param N4.
+
+type nonce [large,fixed].
+type host [bounded].
+type pkey [bounded].
+type skey [bounded].
+type keyseed [large,fixed].
+type seed [fixed].
+type signature [bounded].
+type blocksize [fixed].
+type blocksizebot [bounded].
+
+fun concat1(pkey, host, nonce):blocksize [compos].
+
+(* Signatures *)
+
+proba Psign.
+proba Psigncoll.
+
+expand UF_CMA_signature(keyseed, pkey, skey, blocksize, signature, seed, skgen, pkgen, sign, check, Psign, Psigncoll).
+
+(* Queries *)
+
+channel c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13.
+const B:host.
+event eA(pkey,host,nonce).
+event eB(pkey,host,nonce).
+
+query x:pkey,y:host, z:nonce;
+	event eB(x,y,z) ==> eA(x,y,z).
+query x:pkey,y:host, z:nonce;
+	event inj:eB(x,y,z) ==> inj:eA(x,y,z).
+
+let processA =
+	in(c2, (xN:nonce, xB:host));
+	event eA(pkA, xB, xN);
+	new r:seed;
+	out(c3, sign(concat1(pkA, xB, xN), skA, r)).
+
+let processB =
+	in(c4, xpkA:pkey);
+	new n:nonce;
+	out(c5, (n, B));
+	in(c6, s:signature);
+	if check(concat1(xpkA, B, n), xpkA, s) then
+	(* OK *)
+	if xpkA = pkA then
+	event eB(xpkA, B, n).
+
+process 
+	in(c0, ());
+	new rkA: keyseed;
+	let pkA = pkgen(rkA) in
+	let skA = skgen(rkA) in
+	out(c1, pkA);
+	((! N processA) |
+	 (! N processB))
+

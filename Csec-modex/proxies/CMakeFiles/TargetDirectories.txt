@@ -1,0 +1,6 @@
+/home/faezeh/csec-modex/proxies/CMakeFiles/edit_cache.dir
+/home/faezeh/csec-modex/proxies/CMakeFiles/rebuild_cache.dir
+/home/faezeh/csec-modex/proxies/CMakeFiles/crestify.dir
+/home/faezeh/csec-modex/proxies/CMakeFiles/system-proxies.dir
+/home/faezeh/csec-modex/proxies/CMakeFiles/csec-info.dir
+/home/faezeh/csec-modex/proxies/CMakeFiles/openssl-proxies.dir

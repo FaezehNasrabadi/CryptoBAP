@@ -1,0 +1,405 @@
+let A = 
+(* main[0, <top of main>] *)
+assume Defined(Ztp(argv0)) in
+(* main[0, <top of main>] *)
+assume Defined(Ztp(argv1)) in
+(* main[0, <top of main>] *)
+assume Defined(Ztp(argv2)) in
+(* main[0, <top of main>] *)
+assume Defined(Ztp(argv3)) in
+(* main[0, <top of main>] *)
+assume Defined(Ztp(argv4)) in
+(* struct_properties[2, // proxies.c:20] *)
+assume ((Field_offset[msg]() + Field_offset[msg3]() + Field_offset[nonce]()) >= -(128 * (256 * 256 * 256 * 256 * 256 * 256 * 256))) /\ ((Field_offset[msg]() + Field_offset[msg3]() + Field_offset[nonce]()) <= ((128 * (256 * 256 * 256 * 256 * 256 * 256 * 256)) - 1)) in
+(* struct_properties[2, // proxies.c:20] *)
+ifaux ¬((Field_offset[msg]() + Field_offset[msg3]() + Field_offset[nonce]()) < 0) then 
+(* struct_properties[2, // proxies.c:24] *)
+assume ((Field_offset[msg]() + Field_offset[msg3]() + Field_offset[nonce]()) >= -(128 * (256 * 256 * 256 * 256 * 256 * 256 * 256))) /\ ((Field_offset[msg]() + Field_offset[msg3]() + Field_offset[nonce]()) <= ((128 * (256 * 256 * 256 * 256 * 256 * 256 * 256)) - 1)) in
+(* struct_properties[2, // proxies.c:24] *)
+ifaux ¬((Field_offset[msg]() + Field_offset[msg3]() + Field_offset[nonce]()) > (40 - 16)) then 
+(* struct_properties[2, // proxies.c:30] *)
+assume ((Field_offset[msg]() + Field_offset[msg1]() + Field_offset[nonce]()) >= -(128 * (256 * 256 * 256 * 256 * 256 * 256 * 256))) /\ ((Field_offset[msg]() + Field_offset[msg1]() + Field_offset[nonce]()) <= ((128 * (256 * 256 * 256 * 256 * 256 * 256 * 256)) - 1)) in
+(* struct_properties[2, // proxies.c:30] *)
+ifaux ¬((Field_offset[msg]() + Field_offset[msg1]() + Field_offset[nonce]()) < 0) then 
+(* struct_properties[2, // proxies.c:34] *)
+assume ((Field_offset[msg]() + Field_offset[msg1]() + Field_offset[nonce]()) >= -(128 * (256 * 256 * 256 * 256 * 256 * 256 * 256))) /\ ((Field_offset[msg]() + Field_offset[msg1]() + Field_offset[nonce]()) <= ((128 * (256 * 256 * 256 * 256 * 256 * 256 * 256)) - 1)) in
+(* struct_properties[2, // proxies.c:34] *)
+ifaux ¬((Field_offset[msg]() + Field_offset[msg1]() + Field_offset[nonce]()) > (40 - 16)) then 
+(* struct_properties[2, // proxies.c:40] *)
+assume ((Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce1]()) >= -(128 * (256 * 256 * 256 * 256 * 256 * 256 * 256))) /\ ((Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce1]()) <= ((128 * (256 * 256 * 256 * 256 * 256 * 256 * 256)) - 1)) in
+(* struct_properties[2, // proxies.c:40] *)
+ifaux ¬((Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce1]()) < 0) then 
+(* struct_properties[2, // proxies.c:44] *)
+assume ((Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce1]()) >= -(128 * (256 * 256 * 256 * 256 * 256 * 256 * 256))) /\ ((Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce1]()) <= ((128 * (256 * 256 * 256 * 256 * 256 * 256 * 256)) - 1)) in
+(* struct_properties[2, // proxies.c:44] *)
+ifaux ¬((Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce1]()) > (40 - 16)) then 
+(* struct_properties[2, // proxies.c:50] *)
+assume ((Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce2]()) >= -(128 * (256 * 256 * 256 * 256 * 256 * 256 * 256))) /\ ((Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce2]()) <= ((128 * (256 * 256 * 256 * 256 * 256 * 256 * 256)) - 1)) in
+(* struct_properties[2, // proxies.c:50] *)
+ifaux ¬((Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce2]()) < 0) then 
+(* struct_properties[2, // proxies.c:54] *)
+assume ((Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce2]()) >= -(128 * (256 * 256 * 256 * 256 * 256 * 256 * 256))) /\ ((Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce2]()) <= ((128 * (256 * 256 * 256 * 256 * 256 * 256 * 256)) - 1)) in
+(* struct_properties[2, // proxies.c:54] *)
+ifaux ¬((Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce2]()) > (40 - 16)) then 
+(* assume_intype[9, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume Defined(alice_pub_key) in
+(* assume_intype[10, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(alice_pub_key) >= 0) /\ (len(alice_pub_key) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+(* assume_intype[13, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume Defined(alice_priv_key) in
+(* assume_intype[14, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(alice_priv_key) >= 0) /\ (len(alice_priv_key) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+(* assume_intype[17, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume Defined(alice_mod_key) in
+(* assume_intype[18, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(alice_mod_key) >= 0) /\ (len(alice_mod_key) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+(* assume_intype[21, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume Defined(bob_pub_key) in
+(* assume_intype[22, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bob_pub_key) >= 0) /\ (len(bob_pub_key) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+(* assume_intype[25, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume Defined(bob_priv_key) in
+(* assume_intype[26, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bob_priv_key) >= 0) /\ (len(bob_priv_key) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+(* assume_intype[29, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume Defined(bob_mod_key) in
+(* assume_intype[30, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bob_mod_key) >= 0) /\ (len(bob_mod_key) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+let hex1 = alice_pub_key (* named hex1 *) in
+let ztp1 = Ztp(hex1) (* named ztp1 *) in
+let bignum1 = BN_hex2bn(ztp1) (* named bignum1 *) in
+(* test_intype[43, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:17] *)
+ifaux Defined(bignum1) then 
+(* assume_intype[47, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bignum1) >= -(128 * (256 * 256 * 256))) /\ (len(bignum1) <= ((128 * (256 * 256 * 256)) - 1)) in
+let bignum2 = bignum1 (* named bignum2 *) in
+let hex2 = alice_priv_key (* named hex2 *) in
+let ztp2 = Ztp(hex2) (* named ztp2 *) in
+let bignum3 = BN_hex2bn(ztp2) (* named bignum3 *) in
+(* test_intype[53, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:17] *)
+ifaux Defined(bignum3) then 
+(* assume_intype[57, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bignum3) >= -(128 * (256 * 256 * 256))) /\ (len(bignum3) <= ((128 * (256 * 256 * 256)) - 1)) in
+let bignum4 = bignum3 (* named bignum4 *) in
+let hex3 = alice_mod_key (* named hex3 *) in
+let ztp3 = Ztp(hex3) (* named ztp3 *) in
+let bignum5 = BN_hex2bn(ztp3) (* named bignum5 *) in
+(* test_intype[63, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:17] *)
+ifaux Defined(bignum5) then 
+(* assume_intype[67, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bignum5) >= -(128 * (256 * 256 * 256))) /\ (len(bignum5) <= ((128 * (256 * 256 * 256)) - 1)) in
+let bignum6 = bignum5 (* named bignum6 *) in
+let hex4 = bob_pub_key (* named hex4 *) in
+let ztp4 = Ztp(hex4) (* named ztp4 *) in
+let bignum7 = BN_hex2bn(ztp4) (* named bignum7 *) in
+(* test_intype[83, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:17] *)
+ifaux Defined(bignum7) then 
+(* assume_intype[87, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bignum7) >= -(128 * (256 * 256 * 256))) /\ (len(bignum7) <= ((128 * (256 * 256 * 256)) - 1)) in
+let bignum8 = bignum7 (* named bignum8 *) in
+let hex5 = bob_priv_key (* named hex5 *) in
+let ztp5 = Ztp(hex5) (* named ztp5 *) in
+let bignum9 = BN_hex2bn(ztp5) (* named bignum9 *) in
+(* test_intype[93, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:17] *)
+ifaux Defined(bignum9) then 
+(* assume_intype[97, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bignum9) >= -(128 * (256 * 256 * 256))) /\ (len(bignum9) <= ((128 * (256 * 256 * 256)) - 1)) in
+let bignum10 = bignum9 (* named bignum10 *) in
+let hex6 = bob_mod_key (* named hex6 *) in
+let ztp6 = Ztp(hex6) (* named ztp6 *) in
+let bignum11 = BN_hex2bn(ztp6) (* named bignum11 *) in
+(* test_intype[103, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:17] *)
+ifaux Defined(bignum11) then 
+(* assume_intype[107, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bignum11) >= -(128 * (256 * 256 * 256))) /\ (len(bignum11) <= ((128 * (256 * 256 * 256)) - 1)) in
+let bignum12 = bignum11 (* named bignum12 *) in
+in(c, var1);
+ifaux len(var1) = 4 then 
+let socket_result1 = var1 (* named socket_result1 *) in
+(* assume_len[128, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:46] *)
+assume len(replicate((0)^[s,4], (16)^[u,8])) = 16 in
+in(c, var2);
+ifaux len(var2) = 2 then 
+let htons_result1 = var2 (* named htons_result1 *) in
+in(c, var3);
+ifaux len(var3) = 4 then 
+let inet_addr_result1 = var3 (* named inet_addr_result1 *) in
+in(c, var4);
+ifaux len(var4) = 4 then 
+let connect_result1 = var4 (* named connect_result1 *) in
+(* connect_socket[121, // common.c:99] *)
+ifaux ¬((connect_result1)_[s,4] <> 0) then 
+new var5: fixed_16;
+let nonce1 = var5 (* named nonce1 *) in
+let bignum13 = <{msg: <{msg1: <{id: (0)^[u,8]; nonce: nonce1}>[24]}>[32]; msg_type: (1)^[s,4]}>[40] (* named bignum13 *) in
+let bignum14 = bignum8 (* named bignum14 *) in
+let bignum15 = bignum12 (* named bignum15 *) in
+let bignum16 = mod_exp(bignum13, bignum14, bignum15) (* named bignum16 *) in
+(* assume_intype[162, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume Defined(bignum16) in
+let hex7 = BN_bn2hex(bignum16) (* named hex7 *) in
+(* assume_intype[166, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume Defined(hex7) in
+let msg1 = hex7{0, 128} (* named msg1 *) in
+out(c, msg1);
+in(c, var6);
+ifaux len(var6) = 128 then 
+let msg2 = var6 (* named msg2 *) in
+let hex8 = msg2|(0)^[s,1] (* named hex8 *) in
+let ztp7 = Ztp(hex8) (* named ztp7 *) in
+let bignum17 = BN_hex2bn(ztp7) (* named bignum17 *) in
+(* test_intype[181, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:17] *)
+ifaux Defined(bignum17) then 
+(* assume_intype[185, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bignum17) >= -(128 * (256 * 256 * 256))) /\ (len(bignum17) <= ((128 * (256 * 256 * 256)) - 1)) in
+let bignum18 = bignum17 (* named bignum18 *) in
+let bignum19 = bignum18 (* named bignum19 *) in
+let bignum20 = bignum4 (* named bignum20 *) in
+let bignum21 = bignum6 (* named bignum21 *) in
+let bignum22 = mod_exp(bignum19, bignum20, bignum21) (* named bignum22 *) in
+(* assume_intype[200, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume Defined(bignum22) in
+(* assume_intype[205, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bignum22) >= -(128 * (256 * 256 * 256))) /\ (len(bignum22) <= ((128 * (256 * 256 * 256)) - 1)) in
+(* my_decypher[189, // primitives_crypt.c:185] *)
+ifaux ¬(len(bignum22) > 1024) then 
+(* assume_intype[210, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bignum22) >= -(128 * (256 * 256 * 256))) /\ (len(bignum22) <= ((128 * (256 * 256 * 256)) - 1)) in
+(* assume_intype[217, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bignum22) >= -(128 * (256 * 256 * 256))) /\ (len(bignum22) <= ((128 * (256 * 256 * 256)) - 1)) in
+(* my_decypher[189, // primitives_crypt.c:197] *)
+ifaux ¬(len(bignum22) < 40) then 
+(* assume_len[225, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:46] *)
+assume len(Cmp(Ztp(bignum22{Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce1](), 16}), Ztp(nonce1))) = 4 in
+(* main[1, // alice.c:220] *)
+ifaux (Cmp(Ztp(bignum22{Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce1](), 16}), Ztp(nonce1)))_[s,4] = 0 then 
+event alice_accept(nonce1, bignum22{Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce2](), 16});
+let bignum23 = <{msg: <{msg3: <{nonce: bignum22{Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce2](), 16}}>[16]}>[32]; msg_type: (3)^[s,4]}>[40] (* named bignum23 *) in
+let bignum24 = bignum8 (* named bignum24 *) in
+let bignum25 = bignum12 (* named bignum25 *) in
+let bignum26 = mod_exp(bignum23, bignum24, bignum25) (* named bignum26 *) in
+(* assume_intype[251, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume Defined(bignum26) in
+let hex9 = BN_bn2hex(bignum26) (* named hex9 *) in
+(* assume_intype[255, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume Defined(hex9) in
+let msg3 = hex9{0, 128} (* named msg3 *) in
+out(c, msg3);
+in(c, var7);
+ifaux len(var7) = 4 then 
+let close_result1 = var7 (* named close_result1 *) in
+
+let B = 
+(* main[0, <top of main>] *)
+assume Defined(Ztp(argv0)) in
+(* main[0, <top of main>] *)
+assume Defined(Ztp(argv1)) in
+(* main[0, <top of main>] *)
+assume Defined(Ztp(argv2)) in
+(* main[0, <top of main>] *)
+assume Defined(Ztp(argv3)) in
+(* main[0, <top of main>] *)
+assume Defined(Ztp(argv4)) in
+(* struct_properties[2, // proxies.c:20] *)
+assume ((Field_offset[msg]() + Field_offset[msg3]() + Field_offset[nonce]()) >= -(128 * (256 * 256 * 256 * 256 * 256 * 256 * 256))) /\ ((Field_offset[msg]() + Field_offset[msg3]() + Field_offset[nonce]()) <= ((128 * (256 * 256 * 256 * 256 * 256 * 256 * 256)) - 1)) in
+(* struct_properties[2, // proxies.c:20] *)
+ifaux ¬((Field_offset[msg]() + Field_offset[msg3]() + Field_offset[nonce]()) < 0) then 
+(* struct_properties[2, // proxies.c:24] *)
+assume ((Field_offset[msg]() + Field_offset[msg3]() + Field_offset[nonce]()) >= -(128 * (256 * 256 * 256 * 256 * 256 * 256 * 256))) /\ ((Field_offset[msg]() + Field_offset[msg3]() + Field_offset[nonce]()) <= ((128 * (256 * 256 * 256 * 256 * 256 * 256 * 256)) - 1)) in
+(* struct_properties[2, // proxies.c:24] *)
+ifaux ¬((Field_offset[msg]() + Field_offset[msg3]() + Field_offset[nonce]()) > (40 - 16)) then 
+(* struct_properties[2, // proxies.c:30] *)
+assume ((Field_offset[msg]() + Field_offset[msg1]() + Field_offset[nonce]()) >= -(128 * (256 * 256 * 256 * 256 * 256 * 256 * 256))) /\ ((Field_offset[msg]() + Field_offset[msg1]() + Field_offset[nonce]()) <= ((128 * (256 * 256 * 256 * 256 * 256 * 256 * 256)) - 1)) in
+(* struct_properties[2, // proxies.c:30] *)
+ifaux ¬((Field_offset[msg]() + Field_offset[msg1]() + Field_offset[nonce]()) < 0) then 
+(* struct_properties[2, // proxies.c:34] *)
+assume ((Field_offset[msg]() + Field_offset[msg1]() + Field_offset[nonce]()) >= -(128 * (256 * 256 * 256 * 256 * 256 * 256 * 256))) /\ ((Field_offset[msg]() + Field_offset[msg1]() + Field_offset[nonce]()) <= ((128 * (256 * 256 * 256 * 256 * 256 * 256 * 256)) - 1)) in
+(* struct_properties[2, // proxies.c:34] *)
+ifaux ¬((Field_offset[msg]() + Field_offset[msg1]() + Field_offset[nonce]()) > (40 - 16)) then 
+(* struct_properties[2, // proxies.c:40] *)
+assume ((Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce1]()) >= -(128 * (256 * 256 * 256 * 256 * 256 * 256 * 256))) /\ ((Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce1]()) <= ((128 * (256 * 256 * 256 * 256 * 256 * 256 * 256)) - 1)) in
+(* struct_properties[2, // proxies.c:40] *)
+ifaux ¬((Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce1]()) < 0) then 
+(* struct_properties[2, // proxies.c:44] *)
+assume ((Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce1]()) >= -(128 * (256 * 256 * 256 * 256 * 256 * 256 * 256))) /\ ((Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce1]()) <= ((128 * (256 * 256 * 256 * 256 * 256 * 256 * 256)) - 1)) in
+(* struct_properties[2, // proxies.c:44] *)
+ifaux ¬((Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce1]()) > (40 - 16)) then 
+(* struct_properties[2, // proxies.c:50] *)
+assume ((Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce2]()) >= -(128 * (256 * 256 * 256 * 256 * 256 * 256 * 256))) /\ ((Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce2]()) <= ((128 * (256 * 256 * 256 * 256 * 256 * 256 * 256)) - 1)) in
+(* struct_properties[2, // proxies.c:50] *)
+ifaux ¬((Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce2]()) < 0) then 
+(* struct_properties[2, // proxies.c:54] *)
+assume ((Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce2]()) >= -(128 * (256 * 256 * 256 * 256 * 256 * 256 * 256))) /\ ((Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce2]()) <= ((128 * (256 * 256 * 256 * 256 * 256 * 256 * 256)) - 1)) in
+(* struct_properties[2, // proxies.c:54] *)
+ifaux ¬((Field_offset[msg]() + Field_offset[msg2]() + Field_offset[nonce2]()) > (40 - 16)) then 
+(* assume_intype[9, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume Defined(alice_pub_key) in
+(* assume_intype[10, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(alice_pub_key) >= 0) /\ (len(alice_pub_key) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+(* assume_intype[13, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume Defined(alice_priv_key) in
+(* assume_intype[14, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(alice_priv_key) >= 0) /\ (len(alice_priv_key) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+(* assume_intype[17, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume Defined(alice_mod_key) in
+(* assume_intype[18, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(alice_mod_key) >= 0) /\ (len(alice_mod_key) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+(* assume_intype[21, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume Defined(bob_pub_key) in
+(* assume_intype[22, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bob_pub_key) >= 0) /\ (len(bob_pub_key) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+(* assume_intype[25, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume Defined(bob_priv_key) in
+(* assume_intype[26, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bob_priv_key) >= 0) /\ (len(bob_priv_key) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+(* assume_intype[29, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume Defined(bob_mod_key) in
+(* assume_intype[30, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bob_mod_key) >= 0) /\ (len(bob_mod_key) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+let hex10 = alice_pub_key (* named hex10 *) in
+let ztp8 = Ztp(hex10) (* named ztp8 *) in
+let bignum27 = BN_hex2bn(ztp8) (* named bignum27 *) in
+(* test_intype[43, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:17] *)
+ifaux Defined(bignum27) then 
+(* assume_intype[47, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bignum27) >= -(128 * (256 * 256 * 256))) /\ (len(bignum27) <= ((128 * (256 * 256 * 256)) - 1)) in
+let bignum28 = bignum27 (* named bignum28 *) in
+let hex11 = alice_priv_key (* named hex11 *) in
+let ztp9 = Ztp(hex11) (* named ztp9 *) in
+let bignum29 = BN_hex2bn(ztp9) (* named bignum29 *) in
+(* test_intype[53, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:17] *)
+ifaux Defined(bignum29) then 
+(* assume_intype[57, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bignum29) >= -(128 * (256 * 256 * 256))) /\ (len(bignum29) <= ((128 * (256 * 256 * 256)) - 1)) in
+let bignum30 = bignum29 (* named bignum30 *) in
+let hex12 = alice_mod_key (* named hex12 *) in
+let ztp10 = Ztp(hex12) (* named ztp10 *) in
+let bignum31 = BN_hex2bn(ztp10) (* named bignum31 *) in
+(* test_intype[63, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:17] *)
+ifaux Defined(bignum31) then 
+(* assume_intype[67, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bignum31) >= -(128 * (256 * 256 * 256))) /\ (len(bignum31) <= ((128 * (256 * 256 * 256)) - 1)) in
+let bignum32 = bignum31 (* named bignum32 *) in
+let hex13 = bob_pub_key (* named hex13 *) in
+let ztp11 = Ztp(hex13) (* named ztp11 *) in
+let bignum33 = BN_hex2bn(ztp11) (* named bignum33 *) in
+(* test_intype[83, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:17] *)
+ifaux Defined(bignum33) then 
+(* assume_intype[87, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bignum33) >= -(128 * (256 * 256 * 256))) /\ (len(bignum33) <= ((128 * (256 * 256 * 256)) - 1)) in
+let bignum34 = bignum33 (* named bignum34 *) in
+let hex14 = bob_priv_key (* named hex14 *) in
+let ztp12 = Ztp(hex14) (* named ztp12 *) in
+let bignum35 = BN_hex2bn(ztp12) (* named bignum35 *) in
+(* test_intype[93, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:17] *)
+ifaux Defined(bignum35) then 
+(* assume_intype[97, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bignum35) >= -(128 * (256 * 256 * 256))) /\ (len(bignum35) <= ((128 * (256 * 256 * 256)) - 1)) in
+let bignum36 = bignum35 (* named bignum36 *) in
+let hex15 = bob_mod_key (* named hex15 *) in
+let ztp13 = Ztp(hex15) (* named ztp13 *) in
+let bignum37 = BN_hex2bn(ztp13) (* named bignum37 *) in
+(* test_intype[103, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:17] *)
+ifaux Defined(bignum37) then 
+(* assume_intype[107, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bignum37) >= -(128 * (256 * 256 * 256))) /\ (len(bignum37) <= ((128 * (256 * 256 * 256)) - 1)) in
+let bignum38 = bignum37 (* named bignum38 *) in
+in(c, var8);
+ifaux len(var8) = 4 then 
+let socket_result2 = var8 (* named socket_result2 *) in
+in(c, var9);
+ifaux len(var9) = 4 then 
+let setsockopt_result1 = var9 (* named setsockopt_result1 *) in
+(* assume_len[126, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:46] *)
+assume len(replicate((0)^[s,4], (16)^[u,8])) = 16 in
+in(c, var10);
+ifaux len(var10) = 4 then 
+let htonl_result1 = var10 (* named htonl_result1 *) in
+in(c, var11);
+ifaux len(var11) = 2 then 
+let htons_result2 = var11 (* named htons_result2 *) in
+in(c, var12);
+ifaux len(var12) = 4 then 
+let bind_result1 = var12 (* named bind_result1 *) in
+in(c, var13);
+ifaux len(var13) = 4 then 
+let listen_result1 = var13 (* named listen_result1 *) in
+in(c, var14);
+ifaux len(var14) = 4 then 
+let accept_result1 = var14 (* named accept_result1 *) in
+in(c, var15);
+ifaux len(var15) = 128 then 
+let msg4 = var15 (* named msg4 *) in
+let hex16 = msg4|(0)^[s,1] (* named hex16 *) in
+let ztp14 = Ztp(hex16) (* named ztp14 *) in
+let bignum39 = BN_hex2bn(ztp14) (* named bignum39 *) in
+(* test_intype[151, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:17] *)
+ifaux Defined(bignum39) then 
+(* assume_intype[155, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bignum39) >= -(128 * (256 * 256 * 256))) /\ (len(bignum39) <= ((128 * (256 * 256 * 256)) - 1)) in
+let bignum40 = bignum39 (* named bignum40 *) in
+let bignum41 = bignum40 (* named bignum41 *) in
+let bignum42 = bignum36 (* named bignum42 *) in
+let bignum43 = bignum38 (* named bignum43 *) in
+let bignum44 = mod_exp(bignum41, bignum42, bignum43) (* named bignum44 *) in
+(* assume_intype[170, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume Defined(bignum44) in
+(* assume_intype[175, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bignum44) >= -(128 * (256 * 256 * 256))) /\ (len(bignum44) <= ((128 * (256 * 256 * 256)) - 1)) in
+(* my_decypher[159, // primitives_crypt.c:185] *)
+ifaux ¬(len(bignum44) > 1024) then 
+(* assume_intype[180, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bignum44) >= -(128 * (256 * 256 * 256))) /\ (len(bignum44) <= ((128 * (256 * 256 * 256)) - 1)) in
+(* assume_intype[187, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bignum44) >= -(128 * (256 * 256 * 256))) /\ (len(bignum44) <= ((128 * (256 * 256 * 256)) - 1)) in
+(* my_decypher[159, // primitives_crypt.c:197] *)
+ifaux ¬(len(bignum44) < 40) then 
+new var16: fixed_16;
+let nonce2 = var16 (* named nonce2 *) in
+let bignum45 = <{msg: <{msg2: <{nonce1: bignum44{Field_offset[msg]() + Field_offset[msg1]() + Field_offset[nonce](), 16}; nonce2: nonce2}>[32]}>[32]; msg_type: (2)^[s,4]}>[40] (* named bignum45 *) in
+let bignum46 = bignum28 (* named bignum46 *) in
+let bignum47 = bignum32 (* named bignum47 *) in
+let bignum48 = mod_exp(bignum45, bignum46, bignum47) (* named bignum48 *) in
+(* assume_intype[218, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume Defined(bignum48) in
+let hex17 = BN_bn2hex(bignum48) (* named hex17 *) in
+(* assume_intype[222, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume Defined(hex17) in
+let msg5 = hex17{0, 128} (* named msg5 *) in
+out(c, msg5);
+in(c, var17);
+ifaux len(var17) = 128 then 
+let msg6 = var17 (* named msg6 *) in
+let hex18 = msg6|(0)^[s,1] (* named hex18 *) in
+let ztp15 = Ztp(hex18) (* named ztp15 *) in
+let bignum49 = BN_hex2bn(ztp15) (* named bignum49 *) in
+(* test_intype[237, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:17] *)
+ifaux Defined(bignum49) then 
+(* assume_intype[241, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bignum49) >= -(128 * (256 * 256 * 256))) /\ (len(bignum49) <= ((128 * (256 * 256 * 256)) - 1)) in
+let bignum50 = bignum49 (* named bignum50 *) in
+let bignum51 = bignum50 (* named bignum51 *) in
+let bignum52 = bignum36 (* named bignum52 *) in
+let bignum53 = bignum38 (* named bignum53 *) in
+let bignum54 = mod_exp(bignum51, bignum52, bignum53) (* named bignum54 *) in
+(* assume_intype[256, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume Defined(bignum54) in
+(* assume_intype[261, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bignum54) >= -(128 * (256 * 256 * 256))) /\ (len(bignum54) <= ((128 * (256 * 256 * 256)) - 1)) in
+(* my_decypher[245, // primitives_crypt.c:185] *)
+ifaux ¬(len(bignum54) > 1024) then 
+(* assume_intype[266, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bignum54) >= -(128 * (256 * 256 * 256))) /\ (len(bignum54) <= ((128 * (256 * 256 * 256)) - 1)) in
+(* assume_intype[273, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:24] *)
+assume (len(bignum54) >= -(128 * (256 * 256 * 256))) /\ (len(bignum54) <= ((128 * (256 * 256 * 256)) - 1)) in
+(* my_decypher[245, // primitives_crypt.c:197] *)
+ifaux ¬(len(bignum54) < 40) then 
+(* assume_len[281, // /home/avatar/docs/verification/svn/csec-modex/proxies/symbolic_interface.c:46] *)
+assume len(Cmp(Ztp(bignum54{Field_offset[msg]() + Field_offset[msg3]() + Field_offset[nonce](), 16}), Ztp(nonce2))) = 4 in
+(* main[1, // bob.c:205] *)
+ifaux (Cmp(Ztp(bignum54{Field_offset[msg]() + Field_offset[msg3]() + Field_offset[nonce](), 16}), Ztp(nonce2)))_[s,4] = 0 then 
+event bob_accept(bignum44{Field_offset[msg]() + Field_offset[msg1]() + Field_offset[nonce](), 16}, nonce2);
+in(c, var18);
+ifaux len(var18) = 4 then 
+let close_result2 = var18 (* named close_result2 *) in
+

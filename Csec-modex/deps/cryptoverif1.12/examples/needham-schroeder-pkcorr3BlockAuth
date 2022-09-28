@@ -1,0 +1,194 @@
+(*************************************************************
+ *                                                           *
+ *       Cryptographic protocol verifier                     *
+ *                                                           *
+ *       Bruno Blanchet                                      *
+ *                                                           *
+ *       Copyright (C) ENS, CNRS, INRIA, 2005-2011           *
+ *                                                           *
+ *************************************************************)
+
+(*
+
+    Copyright ENS, CNRS, INRIA 
+    contributor: Bruno Blanchet, Bruno.Blanchet@ens.fr
+    
+This software is a computer program whose purpose is to verify 
+cryptographic protocols in the computational model.
+
+This software is governed by the CeCILL-B license under French law and
+abiding by the rules of distribution of free software.  You can  use, 
+modify and/ or redistribute the software under the terms of the CeCILL-B
+license as circulated by CEA, CNRS and INRIA at the following URL
+"http://www.cecill.info". 
+
+As a counterpart to the access to the source code and  rights to copy,
+modify and redistribute granted by the license, users are provided only
+with a limited warranty  and the software's author,  the holder of the
+economic rights,  and the successive licensors  have only  limited
+liability. 
+
+In this respect, the user's attention is drawn to the risks associated
+with loading,  using,  modifying and/or developing or reproducing the
+software by the user in light of its specific status of free software,
+that may mean  that it is complicated to manipulate,  and  that  also
+therefore means  that it is reserved for developers  and  experienced
+professionals having in-depth computer knowledge. Users are therefore
+encouraged to load and test the software's suitability as regards their
+requirements in conditions enabling the security of their systems and/or 
+data to be ensured and,  more generally, to use and operate it in the 
+same conditions as regards security. 
+
+The fact that you are presently reading this means that you have had
+knowledge of the CeCILL-B license and that you accept its terms.
+
+*)
+(* Needham Schroeder public key protocol. *)
+
+(* In order to determine the proof, use interactive mode: 
+   set interactiveMode = true.
+The proof is as follows: *)
+
+proof {
+crypto sign rkS;
+auto
+}
+
+param N.
+param N2.
+param N3.
+param N4.
+
+type nonce [large,fixed].
+type host [bounded].
+type pkey [bounded].
+type skey [bounded].
+type keyseed [large,fixed].
+type seed [fixed].
+type spkey [bounded].
+type sskey [bounded].
+type skeyseed [large,fixed].
+type sseed [fixed].
+type signature [bounded].
+type blocksize [fixed].
+type blocksizebot [bounded].
+type sblocksize [bounded].
+
+fun concat1(nonce, host):blocksize [compos].
+fun concat2(nonce, nonce, host):blocksize [compos].
+fun concat3(pkey, host):sblocksize [compos].
+fun pad(nonce):blocksize [compos].
+
+forall z:nonce,t:nonce,u:host,y2:nonce,z2:host;
+	concat2(z,t,u) <> concat1(y2,z2).
+forall y:nonce,y2:nonce,z2:host;
+	pad(y) <> concat1(y2,z2).
+forall z:nonce,t:nonce,u:host,y2:nonce;
+	concat2(z,t,u) <> pad(y2).
+
+(* Public-key encryption (CCA2) *)
+
+proba Penc.
+proba Penccoll.
+
+expand IND_CCA2_public_key_enc(keyseed, pkey, skey, blocksize, bitstring, seed, skgen, pkgen, enc, dec, injbot, Z, Penc, Penccoll).
+
+(* Signatures *)
+
+proba Psign.
+proba Psigncoll.
+
+expand UF_CMA_signature(skeyseed, spkey, sskey, sblocksize, signature, sseed, sskgen, spkgen, sign, check, Psign, Psigncoll).
+
+(* Queries *)
+
+channel c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, 
+	c15, c16, c17, start, finish.
+const A : host.
+const B : host.
+
+event beginA(host, host, nonce, nonce).
+event endA(host, host, nonce, nonce).
+event beginB(host, host, nonce, nonce).
+event endB(host, host, nonce, nonce).
+
+query x:host, y:host, na:nonce, nb:nonce;
+	event endA(x,y,na,nb) ==> beginB(x,y,na,nb).
+query x:host, y:host, na:nonce, nb:nonce;
+	event endB(x,y,na,nb) ==> beginA(x,y,na,nb).
+query x:host, y:host, na:nonce, nb:nonce;
+	event inj:endA(x,y,na,nb) ==> inj:beginB(x,y,na,nb).
+query x:host, y:host, na:nonce, nb:nonce;
+	event inj:endB(x,y,na,nb) ==> inj:beginA(x,y,na,nb).
+
+
+let processA =
+	in(c1, hostX: host);
+	out(c2, (A, hostX));
+	in(c3, (pkX: pkey, =hostX, ms: signature));
+	if check(concat3(pkX, hostX), pkS, ms) then
+	(* Message 3 *)
+        new Na: nonce;
+	new r3: seed;
+        out(c4, enc(concat1(Na, A), pkX, r3));
+	(* Message 6 *)
+        in(c5, m: bitstring);
+	let injbot(concat2(=Na, Nb, =hostX)) = dec(m, skA) in
+	event beginA(A, hostX, Na, Nb);
+	(* Message 7 *)
+	new r4: seed;
+	out(c6, enc(pad(Nb), pkX, r4));
+	(* OK *)
+	in(finish, ());
+	if hostX = B then
+	event endA(A, hostX, Na, Nb).
+
+let processB =
+	(* Message 3 *)
+	in(c7, m:bitstring);
+	let injbot(concat1(Na, hostY)) = dec(m, skB) in
+	out(c8, (B, hostY));
+	in(c9, (pkY: pkey, =hostY, ms: signature));
+	if check(concat3(pkY, hostY), pkS, ms) then
+	(* Message 6 *)
+	new Nb: nonce;
+	event beginB(hostY, B, Na, Nb);
+	new r5: seed;
+	out(c10, enc(concat2(Na, Nb, B), pkY, r5));
+	(* Message 7 *)
+	in(c11, m3: bitstring);
+	let injbot(pad(=Nb)) = dec(m3, skB) in
+	(* OK *)
+	if hostY = A then
+	event endB(hostY, B, Na, Nb).
+
+let processK =
+	in(c12, (Khost: host, Kkey: pkey));
+	let Rkey:pkey = 
+		if Khost = A then pkA else
+		if Khost = B then pkB else
+		Kkey.
+
+let processS = 
+	in(c13, (h1: host, h2: host));
+	find j2 <= N2 suchthat defined(Khost[j2],Rkey[j2]) && (Khost[j2] = h2) then
+	new r3: sseed;
+	out(c14, (Rkey[j2], h2, sign(concat3(Rkey[j2], h2), skS, r3))).
+
+process 
+	in(start, ());
+	new rkA: keyseed;
+	let pkA = pkgen(rkA) in
+	let skA = skgen(rkA) in
+	new rkB: keyseed;
+	let pkB = pkgen(rkB) in
+	let skB = skgen(rkB) in
+	new rkS: skeyseed;
+	let pkS = spkgen(rkS) in
+	let skS = sskgen(rkS) in
+	out(c15, (pkA, pkB, pkS));
+	((! N processA) |
+	 (! N processB) | 
+	 (! N processS) |
+	 (! N2 processK))
+

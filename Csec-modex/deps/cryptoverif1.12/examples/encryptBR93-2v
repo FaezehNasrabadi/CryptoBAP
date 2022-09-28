@@ -1,0 +1,338 @@
+(*************************************************************
+ *                                                           *
+ *       Cryptographic protocol verifier                     *
+ *                                                           *
+ *       Bruno Blanchet                                      *
+ *                                                           *
+ *       Copyright (C) ENS, CNRS, INRIA, 2005-2011           *
+ *                                                           *
+ *************************************************************)
+
+(*
+
+    Copyright ENS, CNRS, INRIA 
+    contributor: Bruno Blanchet, Bruno.Blanchet@ens.fr
+    
+This software is a computer program whose purpose is to verify 
+cryptographic protocols in the computational model.
+
+This software is governed by the CeCILL-B license under French law and
+abiding by the rules of distribution of free software.  You can  use, 
+modify and/ or redistribute the software under the terms of the CeCILL-B
+license as circulated by CEA, CNRS and INRIA at the following URL
+"http://www.cecill.info". 
+
+As a counterpart to the access to the source code and  rights to copy,
+modify and redistribute granted by the license, users are provided only
+with a limited warranty  and the software's author,  the holder of the
+economic rights,  and the successive licensors  have only  limited
+liability. 
+
+In this respect, the user's attention is drawn to the risks associated
+with loading,  using,  modifying and/or developing or reproducing the
+software by the user in light of its specific status of free software,
+that may mean  that it is complicated to manipulate,  and  that  also
+therefore means  that it is reserved for developers  and  experienced
+professionals having in-depth computer knowledge. Users are therefore
+encouraged to load and test the software's suitability as regards their
+requirements in conditions enabling the security of their systems and/or 
+data to be ensured and,  more generally, to use and operate it in the 
+same conditions as regards security. 
+
+The fact that you are presently reading this means that you have had
+knowledge of the CeCILL-B license and that you accept its terms.
+
+*)
+(* encryption scheme by Bellare and Rogaway, Random Oracles are
+Practical: a Paradigm for Designing Efficient Protocols, CCS'93, 
+section 3.2: variant
+	E(x) = f(r) || H(r) xor x || H2(r || H(r) xor x) 
+(CCA2) *)
+
+(* In order to determine the proof, use interactive mode: 
+   set interactiveMode = true.
+The proof is as follows: *)
+
+proof {
+crypto hash;
+crypto hash2;
+remove_assign binder pk;
+crypto f r;
+crypto xor *;
+success
+}
+
+(*
+NOTE: When allowing move of lets, CryptoVerif swaps hash2 and hash
+in the decryption oracle. Correspondingly, we need to swap 
+crypto hash2 and crypto hash in proof...
+
+
+After crypto f r, the simplification proceeds as follows:
+(This is an old version of the games.)
+
+in(start, ());
+new r_94: keyseed;
+out(c9, pkgen2(r_94));
+(
+  (
+    (
+      ! !_39 <= N
+      in(c1[!_39], x_50: seed);
+      new r2_83: hasht;
+      find @i_91 <= N3 suchthat defined(r_78[@i_91], a[@i_91], r2_80[@i_91]) && (f(pkgen2(r_94), x_50) = a[@i_91]) then
+        out(c2[!_39], r2_80[@i_91]);
+        0
+      orfind @i_90 <= N suchthat defined(r_81[@i_90], x_50[@i_90], r2_83[@i_90]) && (x_50 = x_50[@i_90]) then
+        out(c2[!_39], r2_83[@i_90]);
+        0
+      else
+        let r_81: bitstring = cst_bitstring in
+        out(c2[!_39], r2_83);
+        0
+    |
+      ! !_40 <= N
+      in(c1[!_40], (x_49: seed, y: hasht));
+      new r2_65: hasht2;
+      find @i_73 <= N3 suchthat defined(r_58[@i_73], a[@i_73], b[@i_73], r2_61[@i_73]) && ((f(pkgen2(r_94), x_49) = a[@i_73]) && (y = b[@i_73])) then
+        out(c2[!_40], r2_61[@i_73]);
+        0
+      orfind @i_72 <= N suchthat defined(r_62[@i_72], x_49[@i_72], y[@i_72], r2_65[@i_72]) && ((x_49 = x_49[@i_72]) && (y = y[@i_72])) then
+        out(c2[!_40], r2_65[@i_72]);
+        0
+      else
+        let r_62: bitstring = cst_bitstring in
+        out(c2[!_40], r2_65);
+        0
+    )
+  |
+    ! !_41 <= N3
+    in(c5[!_41], (a: seed, b: hasht, c: hasht2));
+    find i <= N4 suchthat defined(aT[i], bT[i], cT[i]) && ((a = aT[i]) && ((b = bT[i]) && (c = cT[i]))) then
+      0
+    else
+      new r2_80: hasht;
+      find @i_89 <= N4 suchthat defined(r_75[@i_89], y_93[@i_89], r2_77[@i_89]) && (a = f2(pkgen2(r_94), y_93[@i_89])) then
+        let m_48: hasht = xor(r2_77[@i_89], b) in
+        new r2_61: hasht2;
+        find @i_71 <= N4 suchthat defined(r_54[@i_71], bT[@i_71], r2_57[@i_71]) && ((@i_89 = @i_71) && (b = bT[@i_71])) then
+          if (c = r2_57[@i_71]) then
+		[IMPOSSIBLE here we would have (a = aT[i]) && (b = bT[i]) && (c = cT[i]) for i = @i_89 = @i_71]
+        orfind @i_70 <= N3 suchthat defined(r_58[@i_70], a[@i_70], b[@i_70], r2_61[@i_70]) && ((a = a[@i_70]) && (b = b[@i_70])) then
+          if (c = r2_61[@i_70]) then
+		[IMPOSSIBLE r2_61[@i_70] not published]
+        else
+          let r_58: bitstring = cst_bitstring in
+          if (c = r2_61) then
+		[IMPOSSIBLE c does not depend on r2_61]
+	[THE ABOVE PART CAN BE REPLACED WITH 0, THUS REMOVING THE REFERENCE TO r2_77]
+      orfind @i_88 <= N3 suchthat defined(r_78[@i_88], a[@i_88], r2_80[@i_88]) && (a = a[@i_88]) then
+        let m_48: hasht = xor(r2_80[@i_88], b) in
+        new r2_61: hasht2;
+        find @i_71 <= N4 suchthat defined(r_54[@i_71], y_93[@i_71], bT[@i_71], r2_57[@i_71]) && ((a = f2(pkgen2(r_94), y_93[@i_71])) && (b = bT[@i_71])) then
+          if (c = r2_57[@i_71]) then
+          out(c6[!_41], m_48);
+          0
+        orfind @i_70 <= N3 suchthat defined(r_58[@i_70], a[@i_70], b[@i_70], r2_61[@i_70]) && ((a = a[@i_70]) && (b = b[@i_70])) then
+          if (c = r2_61[@i_70]) then
+          out(c6[!_41], m_48);
+          0
+        orfind @i_69 <= N suchthat defined(r_62[@i_69], x_49[@i_69], y[@i_69], r2_65[@i_69]) && ((a = f(pkgen2(r_94), x_49[@i_69])) && (b = y[@i_69])) then
+          if (c = r2_65[@i_69]) then
+          out(c6[!_41], m_48);
+          0
+        else
+          let r_58: bitstring = cst_bitstring in
+          if (c = r2_61) then
+          out(c6[!_41], m_48);
+          0
+      orfind @i_87 <= N suchthat defined(r_81[@i_87], x_50[@i_87], r2_83[@i_87]) && (a = f(pkgen2(r_94), x_50[@i_87])) then
+        let m_48: hasht = xor(r2_83[@i_87], b) in
+        new r2_61: hasht2;
+        find @i_70 <= N3 suchthat defined(r_58[@i_70], a[@i_70], b[@i_70], r2_61[@i_70]) && ((a = a[@i_70]) && (b = b[@i_70])) then
+          if (c = r2_61[@i_70]) then
+          out(c6[!_41], m_48);
+          0
+        orfind @i_69 <= N suchthat defined(r_62[@i_69], x_49[@i_69], y[@i_69], r2_65[@i_69]) && ((x_50[@i_87] = x_49[@i_69]) && (b = y[@i_69])) then
+          if (c = r2_65[@i_69]) then
+          out(c6[!_41], m_48);
+          0
+        else
+          let r_58: bitstring = cst_bitstring in
+          if (c = r2_61) then
+          out(c6[!_41], m_48);
+          0
+      else
+        let r_78: bitstring = cst_bitstring in
+        let m_48: hasht = xor(r2_80, b) in
+        new r2_61: hasht2;
+        find @i_71 <= N4 suchthat defined(r_54[@i_71], y_93[@i_71], bT[@i_71], r2_57[@i_71]) && ((a = f2(pkgen2(r_94), y_93[@i_71])) && (b = bT[@i_71])) then
+          if (c = r2_57[@i_71]) then
+          out(c6[!_41], m_48);
+          0
+        orfind @i_70 <= N3 suchthat defined(r_58[@i_70], a[@i_70], b[@i_70], r2_61[@i_70]) && ((a = a[@i_70]) && (b = b[@i_70])) then
+          if (c = r2_61[@i_70]) then
+          out(c6[!_41], m_48);
+          0
+        orfind @i_69 <= N suchthat defined(r_62[@i_69], x_49[@i_69], y[@i_69], r2_65[@i_69]) && ((a = f(pkgen2(r_94), x_49[@i_69])) && (b = y[@i_69])) then
+          if (c = r2_65[@i_69]) then
+          out(c6[!_41], m_48);
+          0
+        else
+          let r_58: bitstring = cst_bitstring in
+          if (c = r2_61) then
+          out(c6[!_41], m_48);
+          0
+  )
+|
+  ! !_42 <= N4
+  in(c7[!_42], (m1: hasht, m2: hasht));
+  new b1: bool;
+  let menc_45: hasht = test(b1, m1, m2) in
+  new y_93: seed;
+  let aT: seed = f2(pkgen2(r_94), y_93) in
+  new r2_77: hasht;
+  find @i_86 <= N4 suchthat defined(r_75[@i_86], r2_77[@i_86]) && (!_42 = @i_86) then
+	[IMPOSSIBLE r_75[!_42] defined later]
+  orfind @i_85 <= N3 suchthat defined(r_78[@i_85], a[@i_85], r2_80[@i_85]) && (f2(pkgen2(r_94), y_93) = a[@i_85]) then
+	[IMPOSSIBLE a[@i_85] does not depend on y_93 and f2(pkgen2(r_94), y_93) characterizes y_93]
+  else
+    let r_75: bitstring = cst_bitstring in
+    let bT: hasht = xor(r2_77, menc_45) in
+    new r2_57: hasht2;
+    find @i_68 <= N4 suchthat defined(r_54[@i_68], bT[@i_68], r2_57[@i_68]) && ((!_42 = @i_68) && (bT = bT[@i_68])) then
+	[IMPOSSIBLE r_54[!_42] defined later]
+    orfind @i_67 <= N3 suchthat defined(r_58[@i_67], a[@i_67], b[@i_67], r2_61[@i_67]) && ((f2(pkgen2(r_94), y_93) = a[@i_67]) && (bT = b[@i_67])) then
+	[IMPOSSIBLE a[@i_67] does not depend on y_93 and f2(pkgen2(r_94), y_93) characterizes y_93]
+    else
+      let r_54: bitstring = cst_bitstring in
+      let cT: hasht2 = r2_57 in
+      out(c8[!_42], (aT, bT, r2_57));
+      0
+)
+
+
+
+finally remains
+
+  ! !_42 <= N4
+  in(c7[!_42], (m1: hasht, m2: hasht));
+  new b1: bool;
+  let menc_45: hasht = test(b1, m1, m2) in
+  new y_93: seed;
+  let aT: seed = f2(pkgen2(r_94), y_93) in
+  new r2_77: hasht;
+    let r_75: bitstring = cst_bitstring in
+    let bT: hasht = xor(r2_77, menc_45) in
+    new r2_57: hasht2;
+      let r_54: bitstring = cst_bitstring in
+      let cT: hasht2 = r2_57 in
+      out(c8[!_42], (aT, bT, r2_57));
+      0
+
+and one can apply crypto xor r2_77
+*)
+
+param nx, qD.
+
+type pkey [bounded].
+type skey [bounded].
+type keyseed [large,fixed].
+type hasht [large,fixed].
+type hasht2 [large,fixed].
+type seed [large,fixed]. 
+
+(* One-way trapdoor permutation *)
+
+proba POW.
+
+expand OW_trapdoor_perm(keyseed, pkey, skey, seed, pkgen, skgen, f, mf, POW).
+
+(* Hash function, random oracle model *)
+
+type hashkey [fixed].
+
+expand ROM_hash(hashkey, seed, hasht, hash).
+
+param qH [noninteractive].
+channel hc1, hc2.
+let hashoracle = ! qH in(hc1, x: seed); out(hc2, hash(hk,x)).
+
+(* Another hash function, random oracle model 
+   I cannot use the macro to define because it needs to take two
+   arguments and not one. I cannot use a tuple for grouping the arguments
+   because it breaks the one-wayness transformation !
+   If I use tuples, a test x = (y,z) should be transformed into 
+   let (y', z') = x in y = y' && z = z' to apply one-wayness to the equality
+   y = y'.
+*)
+
+fun hash2(hashkey, seed, hasht):hasht2.
+
+param nH, nH2, nH3.
+
+equiv !nH new key: hashkey;
+      	  (!nH2 Oh(x:seed,y:hasht) := hash2(key,x,y),
+	   !nH3 Oeq(x':seed,y':hasht,r':hasht2) := r' = hash2(key,x',y'))
+      <=(#Oeq/|hasht2|)=>
+      !nH (!nH2 Oh(x:seed,y:hasht) := find j <= nH2 suchthat defined(x[j],y[j],r[j]) && x= x[j] && y=y[j] then r[j] else
+			 new r:hasht2; r,
+           !nH3 Oeq(x':seed,y':hasht,r':hasht2) := find j <= nH2 suchthat defined(x[j],y[j],r[j]) && x' = x[j] && y' =y[j] then r' = r[j] else false).
+
+param qH2 [noninteractive].
+channel c3, c4.
+let hashoracle2 = ! qH2 in(c3, (x:seed,y:hasht)); out(c4, hash2(hk2,x,y)).
+
+(* Xor *)
+
+expand Xor(hasht, xor).
+
+(* Implementing a test as a function.
+   Useful to avoid expanding if, which is necessary for this proof. *)
+
+fun test(bool, hasht, hasht):hasht.
+forall x:hasht,y:hasht; test(true,x,y) = x.
+forall x:hasht,y:hasht; test(false,x,y) = y.
+
+(* Queries *)
+
+query secret1 b1.
+
+channel c5, c6, c7, c8, c9, hstart, hret, start.
+
+let processD =
+	! qD
+	in(c5, (a:seed, b: hasht, c:hasht2));
+        (* The attacker cannot call the decryption oracle on the test ciphertext *)
+	find suchthat defined(aT,bT,cT) && a = aT && b = bT && c = cT then yield else
+	let x = mf(sk,a) in
+	let m = xor(hash(hk, x), b) in
+	if c = hash2(hk2, x,b) then
+	out(c6, m).
+
+let processT = 
+	in(c7, (m1:hasht, m2:hasht));
+	new b1:bool;
+	(* The next line is equivalent to an "if" that will not be
+	expanded. This is necessary for the system to succeed in
+	proving the protocol. *)
+	let menc = test(b1, m1, m2) in
+	new x:seed;
+	let aT:seed = f(pk,x) in
+	let bT:hasht = xor(hash(hk, x), menc) in
+	let cT:hasht2 = hash2(hk2, x,bT) in
+	out(c8, (aT,bT,cT)).
+
+process 
+	in(hstart, ());
+	new hk: hashkey;
+	new hk2: hashkey;
+	out(hret, ());	
+	(hashoracle | hashoracle2 | 
+	(in(start, ());
+	new r:keyseed; 
+	let sk = skgen(r) in
+	let pk = pkgen(r) in
+	out(c9, pk);
+	(processD | processT)))
+

@@ -1,0 +1,586 @@
+
+channel c_in, c_out. 
+
+param N.
+
+type nondet [fixed].
+
+type fixed_20_nonce [fixed, large].
+
+type bounded_40_host.
+const hostA: bounded_40_host.
+const hostB: bounded_40_host.
+
+(************************
+  Public-key encryption
+*************************)
+
+(* IND-CCA2 probabilistic public-key encryption 
+   keyseed: type of key seeds, must be "fixed" (to be able to generate random numbers from it), typically large.
+   pkey: type of public keys, must be "bounded"
+   skey: type of secret keys, must be "bounded"
+   cleartext: type of cleartexts, must be "bounded" or "fixed" (the encryptions of *all* cleartexts of any length
+              are assumed to be indistinguishable from each other).
+   ciphertext: type of ciphertexts
+   seed: type of random seeds for encryption, must be "fixed"
+
+   dk: public-key generation function 
+   sk: secret-key generation function
+   E: encryption function
+   D: decryption function
+   injbot: natural injection from cleartext to bitstringbot
+   Z: a constant cleartext
+
+   Penc(t, N): probability of breaking the IND-CCA2 property
+   in time t for one key and N decryption queries.
+   Penccoll: probability of collision between independently generated keys
+*)
+
+type keyseed_T [fixed, large].
+(* 100 is MAX_SIZE_KEY in the code. *)
+type fixed_100_key [fixed].
+type bounded_1000_ciphertext [bounded].
+type bounded_200_cleartext [bounded].
+type fixed_256_seed_T [fixed].
+
+proba Penc.
+proba Penccoll.
+
+expand IND_CCA2_public_key_enc(keyseed_T, fixed_100_key, fixed_100_key, bounded_200_cleartext, bounded_1000_ciphertext, fixed_256_seed_T, dk, ek, E, D, injbot, Z, Penc, Penccoll).
+
+fun inverse_injbot(bitstringbot): bounded_200_cleartext.
+
+fun isek(fixed_100_key): fixed_100_key.
+
+forall x: fixed_100_key;
+  isek(x) = x.
+
+fun decrypt_len(bitstring): bitstring.
+fun encrypt_len(bounded_200_cleartext): bitstring.
+fun encrypt_lenZ(bounded_200_cleartext): bitstring.
+  
+fun Zbounded_200_cleartext(bounded_200_cleartext): bounded_200_cleartext.
+
+(* Length of an encryption does not depend on the contents of the plaintext. *)
+forall x: bounded_200_cleartext;
+  encrypt_len(x) = encrypt_lenZ(Zbounded_200_cleartext(x)).
+
+(*************************** 
+ Signatures
+***************************)
+
+type spkey [bounded].
+type sskey [bounded].
+type skeyseed [large,fixed].
+type sseed [fixed].
+type signature [bounded].
+type sblocksize [bounded].
+
+proba Psign.
+proba Psigncoll.
+
+expand UF_CMA_signature(skeyseed, spkey, sskey, sblocksize, signature, sseed, sk, vk, sign, check, Psign, Psigncoll).
+
+fun cert(fixed_100_key, bounded_40_host): sblocksize [compos].
+
+fun check_key(bounded_40_host, fixed_100_key, signature, spkey): bool.
+
+forall h: bounded_40_host, k: fixed_100_key, sig: signature, pkS: spkey;
+  check_key(h, k, sig, pkS) = check(cert(k, h), pkS, sig).
+
+
+(*************************** 
+  Formatting Functions 
+***************************)
+
+(* conc1 := "msg1"|(len(arg0))^[u,8]|arg0|arg1 *)
+fun conc1(fixed_20_nonce, bounded_40_host): bounded_200_cleartext [compos].
+
+(* conc2 := "msg3"|arg0 *)
+fun conc2(fixed_20_nonce): bounded_200_cleartext [compos].
+
+(* conc3 := "msg2"|(len(arg0))^[u,8]|(len(arg1))^[u,8]|arg0|arg1|arg2 *)
+fun conc3(fixed_20_nonce, fixed_20_nonce, bounded_40_host): bounded_200_cleartext [compos].
+
+
+forall var1: fixed_20_nonce, var2: fixed_20_nonce, var3: fixed_20_nonce, var4: bounded_40_host;
+  conc2(var1) <> conc3(var2, var3, var4).
+forall var1: fixed_20_nonce, var2: bounded_40_host, var3: fixed_20_nonce, var4: fixed_20_nonce, var5: bounded_40_host;
+  conc1(var1, var2) <> conc3(var3, var4, var5).
+forall var1: fixed_20_nonce, var2: bounded_40_host, var3: fixed_20_nonce;
+  conc1(var1, var2) <> conc2(var3).
+
+(*************************** 
+  Parsing Equations 
+***************************)
+
+
+(*************************** 
+  Arithmetic Functions 
+***************************)
+
+(* arithmetic1 := (len(arg0))^[u,8] *)
+fun arithmetic1(bounded_1000_ciphertext): bitstring.
+
+
+(*************************** 
+  Auxiliary Tests 
+***************************)
+
+(* cond1 := Malloc(len(arg0) + 1, len(arg1) + 1, len(arg2) + 1, len(arg3) + 1, len(arg4) + 1) <> 0 *)
+fun cond1(bitstring, bitstring, bitstring, bitstring, bitstring): bool.
+
+(* cond10 := ¬((arg0)_[u,8] > 1000) *)
+fun cond10(bitstring): bool.
+
+(* cond11 := 0 < (arg0)_[u,8] *)
+fun cond11(bitstring): bool.
+
+(* cond12 := Malloc(len(arg0) + 1, len(arg1) + 1, len(arg2) + 1, len(arg3) + 1, len(arg4) + 1, 24 + len(arg5) + 8, 7 + 24 + len(arg5) + 8, (arg6)_[u,8]) <> 0 *)
+fun cond12(bitstring, bitstring, bitstring, bitstring, bitstring, bounded_40_host, bitstring): bool.
+
+(* cond13 := ¬((arg0)_[u,8] < 7) *)
+fun cond13(bitstring): bool.
+
+(* cond14 := Malloc(len(arg0) + 1, len(arg1) + 1, len(arg2) + 1, len(arg3) + 1, len(arg4) + 1, 24 + len(arg5) + 8, 7 + 24 + len(arg5) + 8, (arg6)_[u,8], (arg6)_[u,8] - 7) <> 0 *)
+fun cond14(bitstring, bitstring, bitstring, bitstring, bitstring, bounded_40_host, bitstring): bool.
+
+(* cond15 := ¬((len(arg0) + 40 + (2 * 8) + 4) <> len(arg1)) *)
+fun cond15(bounded_40_host, bounded_200_cleartext): bool.
+
+(* cond16 := arg0{0, 4} = "msg2" *)
+fun cond16(bounded_200_cleartext): bool.
+
+(* cond17 := ¬((arg0{4, 8})_[u,8] <> 20) *)
+fun cond17(bounded_200_cleartext): bool.
+
+(* cond18 := ¬((arg0{4 + 8, 8})_[u,8] <> 20) *)
+fun cond18(bounded_200_cleartext): bool.
+
+(* cond19 := Malloc(len(arg0) + 1, len(arg1) + 1, len(arg2) + 1, len(arg3) + 1, len(arg4) + 1, 24 + len(arg5) + 8, 7 + 24 + len(arg5) + 8, (arg6)_[u,8], (arg6)_[u,8] - 7, 4 + (arg7{4 + 8, 8})_[u,8]) <> 0 *)
+fun cond19(bitstring, bitstring, bitstring, bitstring, bitstring, bounded_40_host, bitstring, bounded_200_cleartext): bool.
+
+(* cond2 := ¬((arg0)_[s,8] <= 0) *)
+fun cond2(bitstring): bool.
+
+(* cond20 := Malloc(len(arg0) + 1, len(arg1) + 1, len(arg2) + 1, len(arg3) + 1, len(arg4) + 1, 24 + len(arg5) + 8, 7 + 24 + len(arg5) + 8, (arg6)_[u,8], (arg6)_[u,8] - 7, 4 + (arg7{4 + 8, 8})_[u,8], 7 + 4 + (arg7{4 + 8, 8})_[u,8]) <> 0 *)
+fun cond20(bitstring, bitstring, bitstring, bitstring, bitstring, bounded_40_host, bitstring, bounded_200_cleartext): bool.
+
+(* cond21 := Malloc(len(arg0) + 1, len(arg1) + 1, len(arg2) + 1, len(arg3) + 1, len(arg4) + 1) <> 0 *)
+fun cond21(bitstring, bitstring, bitstring, bitstring, bitstring): bool.
+
+(* cond22 := ¬((arg0)_[s,8] <= 0) *)
+fun cond22(bitstring): bool.
+
+(* cond23 := ¬((arg0)_[s,8] <= 0) *)
+fun cond23(bitstring): bool.
+
+(* cond27 := ¬((arg0)_[u,8] > 1000) *)
+fun cond27(bitstring): bool.
+
+(* cond28 := 0 < (arg0)_[u,8] *)
+fun cond28(bitstring): bool.
+
+(* cond29 := Malloc(len(arg0) + 1, len(arg1) + 1, len(arg2) + 1, len(arg3) + 1, len(arg4) + 1, (arg5)_[u,8]) <> 0 *)
+fun cond29(bitstring, bitstring, bitstring, bitstring, bitstring, bitstring): bool.
+
+(* cond30 := ¬((arg0)_[u,8] < 7) *)
+fun cond30(bitstring): bool.
+
+(* cond31 := Malloc(len(arg0) + 1, len(arg1) + 1, len(arg2) + 1, len(arg3) + 1, len(arg4) + 1, (arg5)_[u,8], (arg5)_[u,8] - 7) <> 0 *)
+fun cond31(bitstring, bitstring, bitstring, bitstring, bitstring, bitstring): bool.
+
+(* cond32 := ¬((8 + 20 + 4) > len(arg0)) *)
+fun cond32(bounded_200_cleartext): bool.
+
+(* cond33 := arg0{0, 4} = "msg1" *)
+fun cond33(bounded_200_cleartext): bool.
+
+(* cond34 := ¬((arg0{4, 8})_[u,8] <> 20) *)
+fun cond34(bounded_200_cleartext): bool.
+
+(* cond35 := ¬((len(arg0) - (4 + 8 + (arg0{4, 8})_[u,8])) > 40) *)
+fun cond35(bounded_200_cleartext): bool.
+
+(* cond37 := Malloc(len(arg0) + 1, len(arg1) + 1, len(arg2) + 1, len(arg3) + 1, len(arg4) + 1, (arg5)_[u,8], (arg5)_[u,8] - 7, 40 + (2 * 8) + 4 + len(arg6)) <> 0 *)
+fun cond37(bitstring, bitstring, bitstring, bitstring, bitstring, bitstring, bounded_40_host): bool.
+
+(* cond38 := Malloc(len(arg0) + 1, len(arg1) + 1, len(arg2) + 1, len(arg3) + 1, len(arg4) + 1, (arg5)_[u,8], (arg5)_[u,8] - 7, 40 + (2 * 8) + 4 + len(arg6), 7 + 40 + (2 * 8) + 4 + len(arg6)) <> 0 *)
+fun cond38(bitstring, bitstring, bitstring, bitstring, bitstring, bitstring, bounded_40_host): bool.
+
+(* cond39 := ¬((arg0)_[u,8] > 1000) *)
+fun cond39(bitstring): bool.
+
+(* cond40 := 0 < (arg0)_[u,8] *)
+fun cond40(bitstring): bool.
+
+(* cond41 := Malloc(len(arg0) + 1, len(arg1) + 1, len(arg2) + 1, len(arg3) + 1, len(arg4) + 1, (arg5)_[u,8], (arg5)_[u,8] - 7, 40 + (2 * 8) + 4 + len(arg6), 7 + 40 + (2 * 8) + 4 + len(arg6), (arg7)_[u,8]) <> 0 *)
+fun cond41(bitstring, bitstring, bitstring, bitstring, bitstring, bitstring, bounded_40_host, bitstring): bool.
+
+(* cond42 := ¬((arg0)_[u,8] < 7) *)
+fun cond42(bitstring): bool.
+
+(* cond43 := Malloc(len(arg0) + 1, len(arg1) + 1, len(arg2) + 1, len(arg3) + 1, len(arg4) + 1, (arg5)_[u,8], (arg5)_[u,8] - 7, 40 + (2 * 8) + 4 + len(arg6), 7 + 40 + (2 * 8) + 4 + len(arg6), (arg7)_[u,8], (arg7)_[u,8] - 7) <> 0 *)
+fun cond43(bitstring, bitstring, bitstring, bitstring, bitstring, bitstring, bounded_40_host, bitstring): bool.
+
+(* cond44 := arg0{0, 4} = "msg3" *)
+fun cond44(bounded_200_cleartext): bool.
+
+(* cond45 := ¬(len(arg0) <> 24) *)
+fun cond45(bounded_200_cleartext): bool.
+
+(* cond8 := Malloc(len(arg0) + 1, len(arg1) + 1, len(arg2) + 1, len(arg3) + 1, len(arg4) + 1, 24 + len(arg5) + 8) <> 0 *)
+fun cond8(bitstring, bitstring, bitstring, bitstring, bitstring, bounded_40_host): bool.
+
+(* cond9 := Malloc(len(arg0) + 1, len(arg1) + 1, len(arg2) + 1, len(arg3) + 1, len(arg4) + 1, 24 + len(arg5) + 8, 7 + 24 + len(arg5) + 8) <> 0 *)
+fun cond9(bitstring, bitstring, bitstring, bitstring, bitstring, bounded_40_host): bool.
+
+
+(*************************** 
+  Zero Functions 
+***************************)
+
+fun Zbitstring(bitstring): bitstring.
+
+fun Zbitstring_prime(bitstring): bitstring.
+
+fun Zbounded_1000_ciphertext(bounded_1000_ciphertext): bounded_1000_ciphertext.
+
+fun Zbounded_1000_ciphertext_prime(bounded_1000_ciphertext): bounded_1000_ciphertext.
+
+(* Zbounded_200_cleartext is already defined in the template *)
+
+fun Zbounded_200_cleartext_prime(bounded_200_cleartext): bounded_200_cleartext.
+
+fun Zbounded_40_host(bounded_40_host): bounded_40_host.
+
+fun Zbounded_40_host_prime(bounded_40_host): bounded_40_host.
+
+fun Zfixed_100_key(fixed_100_key): fixed_100_key.
+
+fun Zfixed_100_key_prime(fixed_100_key): fixed_100_key.
+
+fun Zfixed_20_nonce(fixed_20_nonce): fixed_20_nonce.
+
+fun Zfixed_20_nonce_prime(fixed_20_nonce): fixed_20_nonce.
+
+fun Zfixed_256_seed_T(fixed_256_seed_T): fixed_256_seed_T.
+
+fun Zfixed_256_seed_T_prime(fixed_256_seed_T): fixed_256_seed_T.
+
+const zero_fixed_100_key: fixed_100_key.
+
+const zero_fixed_20_nonce: fixed_20_nonce.
+
+const zero_fixed_256_seed_T: fixed_256_seed_T.
+
+
+(*************************** 
+  Primed Functions 
+***************************)
+
+fun cond9_prime(bitstring, bitstring, bitstring, bitstring, bitstring, bounded_40_host): bool.
+
+fun cond8_prime(bitstring, bitstring, bitstring, bitstring, bitstring, bounded_40_host): bool.
+
+fun cond45_prime(bounded_200_cleartext): bool.
+
+fun cond43_prime(bitstring, bitstring, bitstring, bitstring, bitstring, bitstring, bounded_40_host, bitstring): bool.
+
+fun cond41_prime(bitstring, bitstring, bitstring, bitstring, bitstring, bitstring, bounded_40_host, bitstring): bool.
+
+fun cond38_prime(bitstring, bitstring, bitstring, bitstring, bitstring, bitstring, bounded_40_host): bool.
+
+fun cond37_prime(bitstring, bitstring, bitstring, bitstring, bitstring, bitstring, bounded_40_host): bool.
+
+fun cond32_prime(bounded_200_cleartext): bool.
+
+fun cond31_prime(bitstring, bitstring, bitstring, bitstring, bitstring, bitstring): bool.
+
+fun cond29_prime(bitstring, bitstring, bitstring, bitstring, bitstring, bitstring): bool.
+
+fun cond21_prime(bitstring, bitstring, bitstring, bitstring, bitstring): bool.
+
+fun cond20_prime(bitstring, bitstring, bitstring, bitstring, bitstring, bounded_40_host, bitstring, bounded_200_cleartext): bool.
+
+fun cond19_prime(bitstring, bitstring, bitstring, bitstring, bitstring, bounded_40_host, bitstring, bounded_200_cleartext): bool.
+
+fun conc3_prime(fixed_20_nonce, fixed_20_nonce, bounded_40_host): bounded_200_cleartext.
+
+fun conc2_prime(fixed_20_nonce): bounded_200_cleartext.
+
+fun conc1_prime(fixed_20_nonce, bounded_40_host): bounded_200_cleartext.
+
+fun cond15_prime(bounded_40_host, bounded_200_cleartext): bool.
+
+fun cond14_prime(bitstring, bitstring, bitstring, bitstring, bitstring, bounded_40_host, bitstring): bool.
+
+fun cond12_prime(bitstring, bitstring, bitstring, bitstring, bitstring, bounded_40_host, bitstring): bool.
+
+fun cond1_prime(bitstring, bitstring, bitstring, bitstring, bitstring): bool.
+
+
+(*************************** 
+  Typecasting 
+***************************)
+
+fun cast_bitstring_bounded_1000_ciphertext(bitstring): bounded_1000_ciphertext [compos].
+
+(*************************** 
+  Auxiliary Facts 
+***************************)
+
+forall arg5: bounded_40_host, arg4: bitstring, arg3: bitstring, arg2: bitstring, arg1: bitstring, arg0: bitstring;
+	cond9(arg0, arg1, arg2, arg3, arg4, arg5) = cond9_prime(Zbitstring(arg0), Zbitstring(arg1), Zbitstring(arg2), Zbitstring(arg3), Zbitstring(arg4), Zbounded_40_host(arg5)).
+forall arg5: bounded_40_host, arg4: bitstring, arg3: bitstring, arg2: bitstring, arg1: bitstring, arg0: bitstring;
+	cond8(arg0, arg1, arg2, arg3, arg4, arg5) = cond8_prime(Zbitstring(arg0), Zbitstring(arg1), Zbitstring(arg2), Zbitstring(arg3), Zbitstring(arg4), Zbounded_40_host(arg5)).
+forall arg0: bounded_200_cleartext;
+	cond45(arg0) = cond45_prime(Zbounded_200_cleartext(arg0)).
+forall x319: bounded_40_host, x318: fixed_20_nonce, x317: fixed_20_nonce;
+	cond44(conc3(x317, x318, x319)) = cond44(conc3_prime(Zfixed_20_nonce(x317), Zfixed_20_nonce(x318), Zbounded_40_host(x319))).
+forall x320: fixed_20_nonce;
+	cond44(conc2(x320)) = cond44(conc2_prime(Zfixed_20_nonce(x320))).
+forall x322: bounded_40_host, x321: fixed_20_nonce;
+	cond44(conc1(x321, x322)) = cond44(conc1_prime(Zfixed_20_nonce(x321), Zbounded_40_host(x322))).
+forall arg7: bitstring, arg6: bounded_40_host, arg5: bitstring, arg4: bitstring, arg3: bitstring, arg2: bitstring, arg1: bitstring, arg0: bitstring;
+	cond43(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7) = cond43_prime(Zbitstring(arg0), Zbitstring(arg1), Zbitstring(arg2), Zbitstring(arg3), Zbitstring(arg4), arg5, Zbounded_40_host(arg6), arg7).
+forall arg7: bitstring, arg6: bounded_40_host, arg5: bitstring, arg4: bitstring, arg3: bitstring, arg2: bitstring, arg1: bitstring, arg0: bitstring;
+	cond41(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7) = cond41_prime(Zbitstring(arg0), Zbitstring(arg1), Zbitstring(arg2), Zbitstring(arg3), Zbitstring(arg4), arg5, Zbounded_40_host(arg6), arg7).
+forall arg6: bounded_40_host, arg5: bitstring, arg4: bitstring, arg3: bitstring, arg2: bitstring, arg1: bitstring, arg0: bitstring;
+	cond38(arg0, arg1, arg2, arg3, arg4, arg5, arg6) = cond38_prime(Zbitstring(arg0), Zbitstring(arg1), Zbitstring(arg2), Zbitstring(arg3), Zbitstring(arg4), arg5, Zbounded_40_host(arg6)).
+forall arg6: bounded_40_host, arg5: bitstring, arg4: bitstring, arg3: bitstring, arg2: bitstring, arg1: bitstring, arg0: bitstring;
+	cond37(arg0, arg1, arg2, arg3, arg4, arg5, arg6) = cond37_prime(Zbitstring(arg0), Zbitstring(arg1), Zbitstring(arg2), Zbitstring(arg3), Zbitstring(arg4), arg5, Zbounded_40_host(arg6)).
+forall x393: bounded_40_host, x392: fixed_20_nonce, x391: fixed_20_nonce;
+	cond35(conc3(x391, x392, x393)) = cond35(conc3_prime(Zfixed_20_nonce(x391), Zfixed_20_nonce(x392), Zbounded_40_host(x393))).
+forall x396: bounded_40_host, x395: fixed_20_nonce;
+	cond35(conc1(x395, x396)) = cond35(conc1_prime(Zfixed_20_nonce(x395), Zbounded_40_host(x396))).
+forall x401: bounded_40_host, x400: fixed_20_nonce, x399: fixed_20_nonce;
+	cond34(conc3(x399, x400, x401)) = cond34(conc3_prime(Zfixed_20_nonce(x399), Zfixed_20_nonce(x400), Zbounded_40_host(x401))).
+forall x404: bounded_40_host, x403: fixed_20_nonce;
+	cond34(conc1(x403, x404)) = cond34(conc1_prime(Zfixed_20_nonce(x403), Zbounded_40_host(x404))).
+forall x409: bounded_40_host, x408: fixed_20_nonce, x407: fixed_20_nonce;
+	cond33(conc3(x407, x408, x409)) = cond33(conc3_prime(Zfixed_20_nonce(x407), Zfixed_20_nonce(x408), Zbounded_40_host(x409))).
+forall x410: fixed_20_nonce;
+	cond33(conc2(x410)) = cond33(conc2_prime(Zfixed_20_nonce(x410))).
+forall x412: bounded_40_host, x411: fixed_20_nonce;
+	cond33(conc1(x411, x412)) = cond33(conc1_prime(Zfixed_20_nonce(x411), Zbounded_40_host(x412))).
+forall arg0: bounded_200_cleartext;
+	cond32(arg0) = cond32_prime(Zbounded_200_cleartext(arg0)).
+forall arg5: bitstring, arg4: bitstring, arg3: bitstring, arg2: bitstring, arg1: bitstring, arg0: bitstring;
+	cond31(arg0, arg1, arg2, arg3, arg4, arg5) = cond31_prime(Zbitstring(arg0), Zbitstring(arg1), Zbitstring(arg2), Zbitstring(arg3), Zbitstring(arg4), arg5).
+forall arg5: bitstring, arg4: bitstring, arg3: bitstring, arg2: bitstring, arg1: bitstring, arg0: bitstring;
+	cond29(arg0, arg1, arg2, arg3, arg4, arg5) = cond29_prime(Zbitstring(arg0), Zbitstring(arg1), Zbitstring(arg2), Zbitstring(arg3), Zbitstring(arg4), arg5).
+forall arg4: bitstring, arg3: bitstring, arg2: bitstring, arg1: bitstring, arg0: bitstring;
+	cond21(arg0, arg1, arg2, arg3, arg4) = cond21_prime(Zbitstring(arg0), Zbitstring(arg1), Zbitstring(arg2), Zbitstring(arg3), Zbitstring(arg4)).
+forall arg7: bounded_200_cleartext, arg6: bitstring, arg5: bounded_40_host, arg4: bitstring, arg3: bitstring, arg2: bitstring, arg1: bitstring, arg0: bitstring;
+	cond20(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7) = cond20_prime(Zbitstring(arg0), Zbitstring(arg1), Zbitstring(arg2), Zbitstring(arg3), Zbitstring(arg4), Zbounded_40_host(arg5), arg6, arg7).
+forall x477: bounded_40_host, x476: fixed_20_nonce, x475: fixed_20_nonce, arg6: bitstring, arg5: bounded_40_host, arg4: bitstring, arg3: bitstring, arg2: bitstring, arg1: bitstring, arg0: bitstring;
+	cond20_prime(arg0, arg1, arg2, arg3, arg4, arg5, arg6, conc3(x475, x476, x477)) = cond20_prime(arg0, arg1, arg2, arg3, arg4, arg5, arg6, conc3_prime(Zfixed_20_nonce(x475), Zfixed_20_nonce(x476), Zbounded_40_host(x477))).
+forall arg7: bounded_200_cleartext, arg6: bitstring, arg5: bounded_40_host, arg4: bitstring, arg3: bitstring, arg2: bitstring, arg1: bitstring, arg0: bitstring;
+	cond19(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7) = cond19_prime(Zbitstring(arg0), Zbitstring(arg1), Zbitstring(arg2), Zbitstring(arg3), Zbitstring(arg4), Zbounded_40_host(arg5), arg6, arg7).
+forall x501: bounded_40_host, x500: fixed_20_nonce, x499: fixed_20_nonce, arg6: bitstring, arg5: bounded_40_host, arg4: bitstring, arg3: bitstring, arg2: bitstring, arg1: bitstring, arg0: bitstring;
+	cond19_prime(arg0, arg1, arg2, arg3, arg4, arg5, arg6, conc3(x499, x500, x501)) = cond19_prime(arg0, arg1, arg2, arg3, arg4, arg5, arg6, conc3_prime(Zfixed_20_nonce(x499), Zfixed_20_nonce(x500), Zbounded_40_host(x501))).
+forall x509: bounded_40_host, x508: fixed_20_nonce, x507: fixed_20_nonce;
+	cond18(conc3(x507, x508, x509)) = cond18(conc3_prime(Zfixed_20_nonce(x507), Zfixed_20_nonce(x508), Zbounded_40_host(x509))).
+forall x517: bounded_40_host, x516: fixed_20_nonce, x515: fixed_20_nonce;
+	cond17(conc3(x515, x516, x517)) = cond17(conc3_prime(Zfixed_20_nonce(x515), Zfixed_20_nonce(x516), Zbounded_40_host(x517))).
+forall x520: bounded_40_host, x519: fixed_20_nonce;
+	cond17(conc1(x519, x520)) = cond17(conc1_prime(Zfixed_20_nonce(x519), Zbounded_40_host(x520))).
+forall x525: bounded_40_host, x524: fixed_20_nonce, x523: fixed_20_nonce;
+	cond16(conc3(x523, x524, x525)) = cond16(conc3_prime(Zfixed_20_nonce(x523), Zfixed_20_nonce(x524), Zbounded_40_host(x525))).
+forall x526: fixed_20_nonce;
+	cond16(conc2(x526)) = cond16(conc2_prime(Zfixed_20_nonce(x526))).
+forall x528: bounded_40_host, x527: fixed_20_nonce;
+	cond16(conc1(x527, x528)) = cond16(conc1_prime(Zfixed_20_nonce(x527), Zbounded_40_host(x528))).
+forall arg1: bounded_200_cleartext, arg0: bounded_40_host;
+	cond15(arg0, arg1) = cond15_prime(Zbounded_40_host(arg0), Zbounded_200_cleartext(arg1)).
+forall arg6: bitstring, arg5: bounded_40_host, arg4: bitstring, arg3: bitstring, arg2: bitstring, arg1: bitstring, arg0: bitstring;
+	cond14(arg0, arg1, arg2, arg3, arg4, arg5, arg6) = cond14_prime(Zbitstring(arg0), Zbitstring(arg1), Zbitstring(arg2), Zbitstring(arg3), Zbitstring(arg4), Zbounded_40_host(arg5), arg6).
+forall arg6: bitstring, arg5: bounded_40_host, arg4: bitstring, arg3: bitstring, arg2: bitstring, arg1: bitstring, arg0: bitstring;
+	cond12(arg0, arg1, arg2, arg3, arg4, arg5, arg6) = cond12_prime(Zbitstring(arg0), Zbitstring(arg1), Zbitstring(arg2), Zbitstring(arg3), Zbitstring(arg4), Zbounded_40_host(arg5), arg6).
+forall arg4: bitstring, arg3: bitstring, arg2: bitstring, arg1: bitstring, arg0: bitstring;
+	cond1(arg0, arg1, arg2, arg3, arg4) = cond1_prime(Zbitstring(arg0), Zbitstring(arg1), Zbitstring(arg2), Zbitstring(arg3), Zbitstring(arg4)).
+
+(*************************** 
+  Zero Facts 
+***************************)
+
+forall arg2: bounded_40_host, arg1: fixed_20_nonce, arg0: fixed_20_nonce;
+	Zbounded_200_cleartext(conc3(arg0, arg1, arg2)) = Zbounded_200_cleartext_prime(conc3(Zfixed_20_nonce(arg0), Zfixed_20_nonce(arg1), Zbounded_40_host(arg2))).
+forall arg0: fixed_20_nonce;
+	Zbounded_200_cleartext(conc2(arg0)) = Zbounded_200_cleartext_prime(conc2(Zfixed_20_nonce(arg0))).
+forall arg1: bounded_40_host, arg0: fixed_20_nonce;
+	Zbounded_200_cleartext(conc1(arg0, arg1)) = Zbounded_200_cleartext_prime(conc1(Zfixed_20_nonce(arg0), Zbounded_40_host(arg1))).
+forall x: bitstring;
+	Zbounded_1000_ciphertext(cast_bitstring_bounded_1000_ciphertext(x)) = Zbounded_1000_ciphertext_prime(cast_bitstring_bounded_1000_ciphertext(Zbitstring(x))).
+forall x: fixed_20_nonce;
+	Zfixed_20_nonce(x) = zero_fixed_20_nonce().
+forall x: fixed_256_seed_T;
+	Zfixed_256_seed_T(x) = zero_fixed_256_seed_T().
+forall x: fixed_100_key;
+	Zfixed_100_key(x) = zero_fixed_100_key().
+
+(******************** 
+  <Query>
+********************)
+ 
+event client_begin(bounded_40_host, bounded_40_host).
+event server_begin(bounded_40_host, bounded_40_host).
+event client_end(bounded_40_host, bounded_40_host).
+event server_end(bounded_40_host, bounded_40_host).
+event bad(bounded_40_host).
+
+(* na: nonce, nb: nonce *)
+query x: bounded_40_host, y: bounded_40_host;
+  event server_end(x, y) ==> client_begin(x, y) || bad(x).
+
+query x: bounded_40_host, y: bounded_40_host;
+  event client_end(x, y) ==> server_begin(x, y) || bad(y).
+
+
+(*************************** 
+  Model 
+***************************)
+
+let client = 
+in(c_in, (var1: bitstring, BIO_ctrl_result1: bitstring));
+if cond1(argv0, argv1, argv2, argv3, argv4) then 
+if cond2(BIO_ctrl_result1) then 
+if check_key(hostX, pkX, sigX, pkS) then 
+event client_begin(hostA, hostX);
+if cond8(argv0, argv1, argv2, argv3, argv4, hostA) then 
+new nonce1: fixed_20_nonce;
+if cond9(argv0, argv1, argv2, argv3, argv4, hostA) then 
+let msg1 = conc1(nonce1, hostA) in
+let key3 = isek(pkX) in
+new nonce2: fixed_256_seed_T;
+let msg3 = E(msg1, key3, nonce2) in
+let msg2 = arithmetic1(msg3) in
+out(c_out, (msg3, msg2));
+in(c_in, (msg4: bitstring, cipher2: bitstring));
+if cond10(msg4) then 
+if cond11(msg4) then 
+if cond12(argv0, argv1, argv2, argv3, argv4, hostA, msg4) then 
+if cond13(msg4) then 
+if cond14(argv0, argv1, argv2, argv3, argv4, hostA, msg4) then 
+let injbot(msg6) = D(cast_bitstring_bounded_1000_ciphertext(cipher2), skA) in
+if cond15(hostX, msg6) then 
+if cond16(msg6) then 
+if cond17(msg6) then 
+if cond18(msg6) then 
+let conc3(var39, var43, var41) = msg6 in
+let var40 = var39 in
+if var40 = nonce1 then 
+let var42 = var41 in
+if var42 = hostX then 
+if cond19(argv0, argv1, argv2, argv3, argv4, hostA, msg4, msg6) then 
+if cond20(argv0, argv1, argv2, argv3, argv4, hostA, msg4, msg6) then 
+let var44 = var43 in
+let msg7 = conc2(var44) in
+new nonce3: fixed_256_seed_T;
+let msg9 = E(msg7, key3, nonce3) in
+let msg8 = arithmetic1(msg9) in
+event client_end(hostA, hostX);
+out(c_out, (msg9, msg8)); 0 .
+
+let server = 
+in(c_in, (var8: bitstring, BIO_ctrl_result2: bitstring, BIO_ctrl_result3: bitstring, var11: bitstring, var12: bitstring, msg10: bitstring, cipher4: bitstring));
+if cond21(argv0, argv1, argv2, argv3, argv4) then 
+if cond22(BIO_ctrl_result2) then 
+if cond23(BIO_ctrl_result3) then 
+if cond27(msg10) then 
+if cond28(msg10) then 
+if cond29(argv0, argv1, argv2, argv3, argv4, msg10) then 
+if cond30(msg10) then 
+if cond31(argv0, argv1, argv2, argv3, argv4, msg10) then 
+let injbot(msg12) = D(cast_bitstring_bounded_1000_ciphertext(cipher4), skB) in
+if cond32(msg12) then 
+if cond33(msg12) then 
+if cond34(msg12) then 
+if cond35(msg12) then 
+let conc1(var24, host2) = msg12 in
+if check_key(host2, pkX, sigX, pkS) then 
+event server_begin(host2, hostB);
+if cond37(argv0, argv1, argv2, argv3, argv4, msg10, hostB) then 
+new nonce4: fixed_20_nonce;
+if cond38(argv0, argv1, argv2, argv3, argv4, msg10, hostB) then 
+let var25 = var24 in
+let msg13 = conc3(var25, nonce4, hostB) in
+let key10 = isek(pkX) in
+new nonce5: fixed_256_seed_T;
+let msg15 = E(msg13, key10, nonce5) in
+let msg14 = arithmetic1(msg15) in
+out(c_out, (msg15, msg14));
+in(c_in, (msg16: bitstring, cipher6: bitstring));
+if cond39(msg16) then 
+if cond40(msg16) then 
+if cond41(argv0, argv1, argv2, argv3, argv4, msg10, hostB, msg16) then 
+if cond42(msg16) then 
+if cond43(argv0, argv1, argv2, argv3, argv4, msg10, hostB, msg16) then 
+let injbot(msg18) = D(cast_bitstring_bounded_1000_ciphertext(cipher6), skB) in
+if cond44(msg18) then 
+if cond45(msg18) then 
+let conc2(var31) = msg18 in
+let var32 = var31 in
+if var32 = nonce4 then 
+event server_end(host2, hostB);
+yield .
+
+(*************************** 
+  <Environment>
+***************************)
+
+let client' = 
+  in(c_in, (argv0: bitstring, 
+            argv1: bitstring,
+            argv2: bitstring,
+            argv3: bitstring,
+            argv4: bitstring));
+  out(c_out, ());
+  in(c_in, (pkX: fixed_100_key, hostX: bounded_40_host, sigX: signature));
+  out(c_out, ());
+  client .
+
+let server' = 
+  in(c_in, (argv0: bitstring, 
+            argv1: bitstring,
+            argv2: bitstring,
+            argv3: bitstring,
+            argv4: bitstring));
+  out(c_out, ());
+  in(c_in, (pkX: fixed_100_key, sigX: signature));
+  out(c_out, ());
+  server .
+
+let keyServer = 
+  in(c_in, (h: bounded_40_host, k: fixed_100_key));
+  let rk = 
+    if h = hostA then pkA else
+    if h = hostB then pkB else
+    k in
+  new r3: sseed;
+  let cert = (rk, h, sign(cert(rk, h), skS, r3)) in
+  if h = hostA || h = hostB then
+    out(c_out, cert)
+  else
+    event bad(h);
+    out(c_out, cert) .
+
+process
+! N (
+  in(c_in, ());
+  new A_seed: keyseed_T; 
+  new B_seed: keyseed_T;
+  let pkA = ek(A_seed) in
+  let skA = dk(A_seed) in
+  let pkB = ek(B_seed) in
+  let skB = dk(B_seed) in
+
+  new rkS: skeyseed;
+  let pkS = vk(rkS) in
+  let skS = sk(rkS) in
+  
+  out(c_out, (pkA, pkB, pkS));
+  ((! N client') | (! N server') | (! N keyServer))
+)
+

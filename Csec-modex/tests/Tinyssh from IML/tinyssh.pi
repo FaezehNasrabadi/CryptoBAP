@@ -1,0 +1,162 @@
+
+free c_in.
+free c_out.
+
+fun true/0.
+
+(********************************
+  Crypto
+*********************************)
+fun E/3.
+fun enc/2.
+
+fun kgen/2.
+
+data const_0/0.
+data const_4294967295/0.
+data userauth_pk_ok/0.
+data user_answer/0.
+data user_auth/0.
+data server_sign/0.
+data Cipher/0.
+data g/0.
+data k_94/0.
+data inputs/0.
+data kPS/0.
+data kSP/0.
+data k/0.
+data h/0.
+data R15_421/0.
+data R0_314/0.
+data R4_277/0.
+data R5_280/0.
+data const_30/0.
+data R3_257/0.
+data R2_213/0.
+data R3_210/0.
+data R2_191/0.
+data R1_188/0.
+data R0_117/0.
+
+
+equation kgen(kgen(g(),a),b) = kgen(kgen(g(),b),a).
+
+fun hash3/3.
+
+fun kdfPtoS/2. 
+fun kdfStoP/2.
+
+fun pk/1.
+(********************************
+  Key lookup
+*********************************)
+fun sign/2.
+
+reduc verify(sign(x,y), pk(y)) = true.
+
+reduc dec(enc(m,i),i) = m.
+
+
+
+(*************************** 
+  Encoders 
+***************************)
+
+
+(******************** 
+  Parsers 
+********************)
+
+
+(*************************** 
+  Arithmetic Functions 
+***************************)
+
+
+(********************************
+  <Query>
+*********************************)
+
+(* Authentication property *)
+
+query ev:AcceptP(i,j) ==> ev:AcceptS(i,l).
+
+query ev:AcceptS2(i,j) ==> ev:AcceptP2(i,j).
+
+(* Sanity check *)
+
+query ev:AcceptP(i,j).
+
+query ev:AcceptP2(i,j).
+
+query ev:AcceptS(i,j).
+
+query ev:AcceptS2(i,j).
+
+
+(*************************** 
+  Model 
+***************************)
+
+let client = 
+new a;
+let gA = kgen(g,a) in
+out(c_out, gA);
+in(c_in, B);
+in(c_in, sig);
+in(c_in, opks);
+if pkS = opks then 
+let h_1 = hash3(gA,B,pkS) in
+let k_1 = kgen(B,a) in
+let x = verify(sig,pkS) in
+if x = true then 
+event AcceptP(pkS, pkP);
+let kPS_1 = kdfPtoS(k_1,h_1) in
+let kSP_1 = kdfStoP(k_1,h_1) in
+out(c_out, enc(user_auth,kPS_1));
+in(c_in, userauth_answer);
+if dec(userauth_answer,kSP_1) = user_auth then 
+event AcceptP2(pkS, pkP);
+out(c_out, enc(sign(user_answer,skP),kPS_1)); 0 .
+
+let server = 
+in(c_in, a_63);
+in(c_in, a_433);
+new SKey_704;
+let sk_706 = kgen(g,SKey_704) in
+out(c_out, sk_706);
+let kAB_708 = kgen(a_433,SKey_704) in
+let HMAC_714 = hash3(a_433,sk_706,pkS) in
+event AcceptS(pkS, pkP);
+let signature_720 = sign(inputs,skS) in
+out(c_out, sign(inputs,skS));
+out(c_out, pkS);
+let kPS_724 = kdfPtoS(kAB_708,HMAC_714) in
+let kSP_728 = kdfStoP(kAB_708,HMAC_714) in
+in(c_in, a_732);
+let Dec_733 = dec(a_732,kPS_724) in
+let Enc_736 = enc(Dec_733,kSP_728) in
+out(c_out, Enc_736);
+in(c_in, a_967);
+let Dec_968 = dec(a_967,kPS_724) in
+let Ver_972 = verify(Dec_968,pkP) in
+if Ver_972 = true then 
+event AcceptS2(pkS, pkP); 0 .
+
+(********************************
+  <Environment>
+*********************************)
+
+process
+ !(
+	new skS;
+	let pkS = pk(skS) in  
+	out(c_out, pkS);
+       !(
+		new skP;
+		let pkP = pk(skP) in	 
+		out(c_out, pkP);
+           ((!client) | (!server))
+	)
+  )
+

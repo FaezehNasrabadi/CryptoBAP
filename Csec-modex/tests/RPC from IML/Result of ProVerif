@@ -1,0 +1,148 @@
+{ /home/faezeh/csec-modex/src/symtrace/pvtrace IML_client.txt IML_server.txt /home/faezeh/csec-modex/deps/cryptoverif1.12/default model.cv.in model.pv.in | tee model.pv.out; } > model.pv.debug.out 2>&1
+for f in model.pv.out; do\
+	/home/faezeh/csec-modex/deps/proverif1.84/proverif -in pi $f;\
+done
+Process:
+{1}!
+new keyAB_11;
+{2}in(c_in, request_12);
+{3}in(c_in, response_13);
+{4}!
+(
+    {18}event client_begin(request_12);
+    {19}let Conc1_213_23 = conc1(request_12) in
+    {20}let HMAC_217_24 = hash(Conc1_213_23,keyAB_11) in
+    {21}let Conc2_221_25 = conc2(request_12,HMAC_217_24) in
+    {22}out(c_out, Conc2_221_25);
+    {23}in(c_in, a_347_26);
+    {24}let Pars1_604_27 = pars1(a_347_26) in
+    {25}let Conc2_608_28 = conc2(request_12,Pars1_604_27) in
+    {26}let HMAC_612_29 = hash(Conc2_608_28,keyAB_11) in
+    {27}let Pars2_736_30 = pars2(a_347_26) in
+    {28}if HMAC_612_29 = Pars2_736_30 then
+    {29}event client_accept(request_12,Pars1_604_27);
+    0
+) | (
+    {5}!
+    {6}in(c_in, a_96_14);
+    {7}let Pars1_342_15 = pars1(a_96_14) in
+    {8}let Conc1_345_16 = conc1(Pars1_342_15) in
+    {9}let HMAC_349_17 = hash(Conc1_345_16,keyAB_11) in
+    {10}let Pars2_352_18 = pars2(a_96_14) in
+    {11}if HMAC_349_17 = Pars2_352_18 then
+    {12}event server_reply(Pars1_342_15,response_13);
+    {13}let Pars1_573_19 = pars1(a_96_14) in
+    {14}let Conc2_577_20 = conc2(Pars1_573_19,response_13) in
+    {15}let HMAC_581_21 = hash(Conc2_577_20,keyAB_11) in
+    {16}let Conc2_585_22 = conc2(response_13,HMAC_581_21) in
+    {17}out(c_out, Conc2_585_22);
+    0
+)
+
+-- Query not ev:client_accept(x_31,y_32)
+Completing...
+Starting query not ev:client_accept(x_31,y_32)
+goal reachable: attacker:y_150 & attacker:x_151 -> end:client_accept(x_151,y_150)
+Abbreviations:
+keyAB_179 = keyAB_11[!1 = @sid_174]
+
+1. We assume as hypothesis that
+attacker:x_177.
+
+2. The attacker has some term response_175.
+attacker:response_175.
+
+3. The attacker has some term request_165.
+attacker:request_165.
+
+4. We assume as hypothesis that
+attacker:y_178.
+
+5. The attacker has some term response_154.
+attacker:response_154.
+
+6. The message x_177 that the attacker may have by 1 may be received at input {2}.
+The message response_154 that the attacker may have by 5 may be received at input {3}.
+So the message conc2(x_177,hash(conc1(x_177),keyAB_179)) may be sent to the attacker at output {22}.
+attacker:conc2(x_177,hash(conc1(x_177),keyAB_179)).
+
+7. By 6, the attacker may know conc2(x_177,hash(conc1(x_177),keyAB_179)).
+Using the 1th inverse of function conc2 the attacker may obtain hash(conc1(x_177),keyAB_179).
+attacker:hash(conc1(x_177),keyAB_179).
+
+8. By 1, the attacker may know x_177.
+By 7, the attacker may know hash(conc1(x_177),keyAB_179).
+Using the function conc2 the attacker may obtain conc2(x_177,hash(conc1(x_177),keyAB_179)).
+attacker:conc2(x_177,hash(conc1(x_177),keyAB_179)).
+
+9. The message request_165 that the attacker may have by 3 may be received at input {2}.
+The message y_178 that the attacker may have by 4 may be received at input {3}.
+The message conc2(x_177,hash(conc1(x_177),keyAB_179)) that the attacker may have by 8 may be received at input {6}.
+So the message conc2(y_178,hash(conc2(x_177,y_178),keyAB_179)) may be sent to the attacker at output {17}.
+attacker:conc2(y_178,hash(conc2(x_177,y_178),keyAB_179)).
+
+10. By 9, the attacker may know conc2(y_178,hash(conc2(x_177,y_178),keyAB_179)).
+Using the 1th inverse of function conc2 the attacker may obtain hash(conc2(x_177,y_178),keyAB_179).
+attacker:hash(conc2(x_177,y_178),keyAB_179).
+
+11. By 4, the attacker may know y_178.
+By 10, the attacker may know hash(conc2(x_177,y_178),keyAB_179).
+Using the function conc2 the attacker may obtain conc2(y_178,hash(conc2(x_177,y_178),keyAB_179)).
+attacker:conc2(y_178,hash(conc2(x_177,y_178),keyAB_179)).
+
+12. The message x_177 that the attacker may have by 1 may be received at input {2}.
+The message response_175 that the attacker may have by 2 may be received at input {3}.
+The message conc2(y_178,hash(conc2(x_177,y_178),keyAB_179)) that the attacker may have by 11 may be received at input {23}.
+So event client_accept(x_177,y_178) may be executed at {29}.
+end:client_accept(x_177,y_178).
+
+
+Trying unification request_165 with x_177 succeeded.
+Trying unification y_178 with response_175 succeeded.
+Trying unification response_154 with response_175 succeeded.
+Iterating unifyDerivation.
+Fixpoint reached: nothing more to unify.
+The clause after unifyDerivation is attacker:x_180 & attacker:response_181 -> end:client_accept(x_180,response_181)
+This clause still contradicts the query.
+A more detailed output of the traces is available with
+  param traceDisplay = long.
+
+in(c_in, a_1) at {2} in copy a_3
+
+in(c_in, a_2) at {3} in copy a_3
+
+event(client_begin(a_1)) at {18} in copy a_3, a_7
+
+out(c_out, conc2(a_1,hash(conc1(a_1),keyAB_11_8))) at {22} in copy a_3, a_7
+
+event(client_begin(a_1)) at {18} in copy a_3, a_6
+
+out(c_out, conc2(a_1,hash(conc1(a_1),keyAB_11_8))) at {22} in copy a_3, a_6
+
+event(client_begin(a_1)) at {18} in copy a_3, a_4
+
+out(c_out, conc2(a_1,hash(conc1(a_1),keyAB_11_8))) at {22} in copy a_3, a_4
+
+in(c_in, conc2(a_1,hash(conc1(a_1),keyAB_11_8))) at {6} in copy a_3, a_6, a_5
+
+event(server_reply(a_1,a_2)) at {12} in copy a_3, a_6, a_5
+
+out(c_out, conc2(a_2,hash(conc2(a_1,a_2),keyAB_11_8))) at {17} in copy a_3, a_6, a_5
+
+in(c_in, conc2(a_2,hash(conc2(a_1,a_2),keyAB_11_8))) at {23} in copy a_3, a_7
+
+event(client_accept(a_1,a_2)) at {29} in copy a_3, a_7
+
+The event client_accept(a_1,a_2) is executed.
+A trace has been found.
+RESULT not ev:client_accept(x_31,y_32) is false.
+-- Query ev:server_reply(x_417,y_418) ==> ev:client_begin(x_417)
+Completing...
+Starting query ev:server_reply(x_417,y_418) ==> ev:client_begin(x_417)
+goal reachable: begin:client_begin(x_527) & attacker:x_527 & attacker:y_528 -> end:server_reply(x_527,y_528)
+RESULT ev:server_reply(x_417,y_418) ==> ev:client_begin(x_417) is true.
+-- Query ev:client_accept(x_531,y_532) ==> ev:server_reply(x_531,y_532)
+Completing...
+Starting query ev:client_accept(x_531,y_532) ==> ev:server_reply(x_531,y_532)
+goal reachable: begin:server_reply(x_640,y_641) & attacker:y_641 & attacker:x_640 -> end:client_accept(x_640,y_641)
+RESULT ev:client_accept(x_531,y_532) ==> ev:server_reply(x_531,y_532) is true.

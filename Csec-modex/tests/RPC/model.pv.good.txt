@@ -1,0 +1,120 @@
+
+free c_in.
+free c_out.
+
+(******************** 
+  Crypto
+********************)
+
+fun HMAC_sha1/2.
+
+data arithmetic1/0.
+
+(* ASSERT_DEFINITION
+  arithmetic1/0
+  "sha1"
+*)
+
+reduc
+  HMAC(arithmetic1, m, k) = HMAC_sha1(m, k).
+
+
+(*************************** 
+  Encoders 
+***************************)
+
+data conc1/1.
+data conc2/2.
+data conc3/2.
+data conc6/2.
+
+(******************** 
+  Parsers 
+********************)
+
+reduc
+  parse1(conc6(arg0, arg1)) = arg0.
+reduc
+  parse2(conc6(arg0, arg1)) = arg1;
+  parse2(conc2(arg0, arg1)) = arg1.
+reduc
+  parse3(conc2(arg0, arg1)) = arg0.
+reduc
+  parse4(conc6(arg0, arg1)) = arg1;
+  parse4(conc2(arg0, arg1)) = arg1.
+
+(*************************** 
+  Arithmetic Functions 
+***************************)
+
+(* arithmetic1 is already defined in the template *)
+
+data arithmetic2/1.
+data arithmetic4/1.
+
+(******************** 
+  <Query>
+********************)
+
+query ev:client_accept(x, y) ==> ev:server_reply(x, y).
+query ev:server_reply(x, y) ==> ev:client_begin(x).
+
+query ev:client_accept(x, y).
+
+
+(*************************** 
+  Model 
+***************************)
+
+let client = 
+event client_begin(request);
+in(c_in, var1);
+in(c_in, BIO_ctrl_result1);
+let msg1 = conc1(request) in
+let var27 = arithmetic1 in
+let hash1 = HMAC(var27, msg1, keyAB) in
+let msg2 = arithmetic2(request) in
+out(c_out, msg2);
+let msg3 = conc2(request, hash1) in
+out(c_out, msg3);
+in(c_in, msg4);
+in(c_in, msg5);
+let var31 = parse1(msg5) in
+let msg6 = conc3(request, var31) in
+let hash2 = HMAC(var27, msg6, keyAB) in
+let var35 = parse2(msg5) in
+if var35 = hash2 then 
+event client_accept(request, var31); 0 .
+
+let server = 
+in(c_in, var5);
+in(c_in, BIO_ctrl_result2);
+in(c_in, BIO_ctrl_result3);
+in(c_in, var8);
+in(c_in, var9);
+in(c_in, msg7);
+in(c_in, msg8);
+let var13 = parse3(msg8) in
+let msg9 = conc1(var13) in
+let var15 = arithmetic1 in
+let hash3 = HMAC(var15, msg9, keyAB) in
+let var17 = parse4(msg8) in
+if var17 = hash3 then 
+event server_reply(var13, response);
+let msg10 = conc3(var13, response) in
+let hash4 = HMAC(var15, msg10, keyAB) in
+let msg11 = arithmetic4(response) in
+out(c_out, msg11);
+let msg12 = conc6(response, hash4) in
+out(c_out, msg12); 0 .
+
+(******************** 
+  <Environment>
+********************)
+
+process !
+  new keyAB;
+  in(c, request);
+  in(c, response);
+  (!client | !server)
+ 

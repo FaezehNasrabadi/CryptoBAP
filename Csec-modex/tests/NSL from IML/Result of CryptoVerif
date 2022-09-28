@@ -1,0 +1,186 @@
+{ /home/faezeh/csec-modex/src/symtrace/cvtrace IML_client.txt IML_server.txt /home/faezeh/csec-modex/deps/cryptoverif1.12/default model.cv.in | tee model.cv.out; } > model.cv.debug.out 2>&1
+for f in model.cv.out; do\
+	/home/faezeh/csec-modex/deps/cryptoverif1.12/cryptoverif -lib /home/faezeh/csec-modex/deps/cryptoverif1.12/default $f;\
+done
+Doing expand if, let, find... Done.
+Doing simplify... Run simplify 2 time(s). Fixpoint reached.
+Done.
+Doing move all binders... No change.
+Doing remove assignments of useless... Done.
+Trying equivalence
+equiv ! !_43 <= @6_N3 new @6_r: skeyseed; (
+  @6_Opk() [2] := vk(@6_r),
+  ! !_44 <= @6_N2 new @6_r2: sseed; @6_Osign(@6_x: sblocksize) := sign(@6_x, sk(@6_r), @6_r2),
+  ! !_45 <= @6_N @6_Ocheck(@6_m1: sblocksize, @6_si1: signature) := check(@6_m1, vk(@6_r), @6_si1)), ! !_46 <= @6_N4 @6_Ocheck2(@6_m: sblocksize, @6_y: spkey, @6_si: signature) [3] := check(@6_m, @6_y, @6_si) [all]
+<=(@6_N3 * Psign(time + (@6_N4 + @6_N - 1.) * time(check) + (@6_N3 - 1.) * (time(vk) + time(sk) + @6_N2 * time(sign) + @6_N * time(check)), @6_N2))=> [computational]
+      ! !_47 <= @6_N3 new @6_r: skeyseed [unchanged]; (
+  @6_Opk() [2] := @6_pkgen2(@6_r),
+  ! !_48 <= @6_N2 new @6_r2: sseed [unchanged]; @6_Osign(@6_x_79: sblocksize) := let @6_x: sblocksize = @6_x_79 in @6_sign2(@6_x, @6_skgen2(@6_r), @6_r2),
+  ! !_49 <= @6_N @6_Ocheck(@6_m1: sblocksize, @6_si1: signature) := find @6_j_51 <= @6_N2 suchthat defined(@6_x[@6_j_51]) && ((@6_m1 = @6_x[@6_j_51]) && @6_check2(@6_m1, @6_pkgen2(@6_r), @6_si1)) then true else false), ! !_50 <= @6_N4 @6_Ocheck2(@6_m: sblocksize, @6_y: spkey, @6_si: signature) [3] := find @6_j_53 <= @6_N2, @6_k_54 <= @6_N3 suchthat defined(@6_x[@6_j_53, @6_k_54], @6_r[@6_k_54]) && ((@6_y = @6_pkgen2(@6_r[@6_k_54])) && ((@6_m = @6_x[@6_j_53, @6_k_54]) && @6_check2(@6_m, @6_y, @6_si))) then true else find @6_k_52 <= @6_N3 suchthat defined(@6_r[@6_k_52]) && (@6_y = @6_pkgen2(@6_r[@6_k_52])) then false else check(@6_m, @6_y, @6_si)
+... Failed.
+Trying equivalence
+equiv ! !_25 <= @4_N3 new @4_r: keyseed_T; (
+  @4_Opk() [2] := ek(@4_r),
+  ! !_26 <= @4_N2 @4_Odec(@4_m: bitstring) := dec(@4_m, dk(@4_r)),
+  ! !_27 <= @4_N new @4_r1: fixed_64; @4_Oenc(@4_x1: bounded_200_cleartext) := enc1(@4_x1, ek(@4_r), @4_r1)), ! !_28 <= @4_N4 new @4_r2: fixed_64; @4_Oenc2(@4_x: bounded_200_cleartext, @4_y: fixed_100_key) [3] := enc1(@4_x, @4_y, @4_r2) [all]
+<=((@4_N3 * @4_N + @4_N4) * Penc(time + (@4_N4 + @4_N - 1.) * time(enc1) + (@4_N3 - 1.) * (time(ek) + time(dk) + @4_N2 * time(dec, maxlength(@4_m[!_26, !_25])) + @4_N * time(enc1)), @4_N2))=>
+      ! !_29 <= @4_N3 new @4_r: keyseed_T; (
+  @4_Opk() [2] := @4_pkgen2(@4_r),
+  ! !_30 <= @4_N2 @4_Odec(@4_m: bitstring) := find @4_j_34 <= @4_N suchthat defined(@4_m1[@4_j_34], @4_x1[@4_j_34]) && (@4_m = @4_m1[@4_j_34]) then injbot(@4_x1[@4_j_34]) else find @4_j_33 <= @4_N4 suchthat defined(@4_m2[@4_j_33], @4_y[@4_j_33], @4_x[@4_j_33]) && ((@4_y[@4_j_33] = @4_pkgen2(@4_r)) && (@4_m = @4_m2[@4_j_33])) then injbot(@4_x[@4_j_33]) else @4_dec2(@4_m, @4_skgen2(@4_r)),
+  ! !_31 <= @4_N new @4_r1: fixed_64; @4_Oenc(@4_x1_80: bounded_200_cleartext) := let @4_x1: bounded_200_cleartext = @4_x1_80 in let @4_m1: bitstring = @4_enc2(Z, @4_pkgen2(@4_r), @4_r1) in @4_m1), ! !_32 <= @4_N4 new @4_r2: fixed_64; new @4_r3: fixed_64; @4_Oenc2(@4_x_82: bounded_200_cleartext, @4_y_81: fixed_100_key) [3] := let @4_x: bounded_200_cleartext = @4_x_82 in let @4_y: fixed_100_key = @4_y_81 in find @4_k <= @4_N3 suchthat defined(@4_r[@4_k]) && (@4_y = @4_pkgen2(@4_r[@4_k])) then let @4_m2: bitstring = @4_enc2(Z, @4_y, @4_r2) in @4_m2 else enc1(@4_x, @4_y, @4_r3)
+... Failed.
+Doing remove assignments of binder skS... Done.
+Trying equivalence
+equiv ! !_43 <= @6_N3 new @6_r: skeyseed; (
+  @6_Opk() [2] := vk(@6_r),
+  ! !_44 <= @6_N2 new @6_r2: sseed; @6_Osign(@6_x: sblocksize) := sign(@6_x, sk(@6_r), @6_r2),
+  ! !_45 <= @6_N @6_Ocheck(@6_m1: sblocksize, @6_si1: signature) := check(@6_m1, vk(@6_r), @6_si1)), ! !_46 <= @6_N4 @6_Ocheck2(@6_m: sblocksize, @6_y: spkey, @6_si: signature) [3] := check(@6_m, @6_y, @6_si) [all]
+<=(@6_N3 * Psign(time + (@6_N4 + @6_N - 1.) * time(check) + (@6_N3 - 1.) * (time(vk) + time(sk) + @6_N2 * time(sign) + @6_N * time(check)), @6_N2))=> [computational]
+      ! !_47 <= @6_N3 new @6_r: skeyseed [unchanged]; (
+  @6_Opk() [2] := @6_pkgen2(@6_r),
+  ! !_48 <= @6_N2 new @6_r2: sseed [unchanged]; @6_Osign(@6_x_79: sblocksize) := let @6_x: sblocksize = @6_x_79 in @6_sign2(@6_x, @6_skgen2(@6_r), @6_r2),
+  ! !_49 <= @6_N @6_Ocheck(@6_m1: sblocksize, @6_si1: signature) := find @6_j_51 <= @6_N2 suchthat defined(@6_x[@6_j_51]) && ((@6_m1 = @6_x[@6_j_51]) && @6_check2(@6_m1, @6_pkgen2(@6_r), @6_si1)) then true else false), ! !_50 <= @6_N4 @6_Ocheck2(@6_m: sblocksize, @6_y: spkey, @6_si: signature) [3] := find @6_j_53 <= @6_N2, @6_k_54 <= @6_N3 suchthat defined(@6_x[@6_j_53, @6_k_54], @6_r[@6_k_54]) && ((@6_y = @6_pkgen2(@6_r[@6_k_54])) && ((@6_m = @6_x[@6_j_53, @6_k_54]) && @6_check2(@6_m, @6_y, @6_si))) then true else find @6_k_52 <= @6_N3 suchthat defined(@6_r[@6_k_52]) && (@6_y = @6_pkgen2(@6_r[@6_k_52])) then false else check(@6_m, @6_y, @6_si)
+with r3_107... Failed.
+Doing remove assignments of binder pkS... Done.
+Trying equivalence
+equiv ! !_43 <= @6_N3 new @6_r: skeyseed; (
+  @6_Opk() [2] := vk(@6_r),
+  ! !_44 <= @6_N2 new @6_r2: sseed; @6_Osign(@6_x: sblocksize) := sign(@6_x, sk(@6_r), @6_r2),
+  ! !_45 <= @6_N @6_Ocheck(@6_m1: sblocksize, @6_si1: signature) := check(@6_m1, vk(@6_r), @6_si1)), ! !_46 <= @6_N4 @6_Ocheck2(@6_m: sblocksize, @6_y: spkey, @6_si: signature) [3] := check(@6_m, @6_y, @6_si) [all]
+<=(@6_N3 * Psign(time + (@6_N4 + @6_N - 1.) * time(check) + (@6_N3 - 1.) * (time(vk) + time(sk) + @6_N2 * time(sign) + @6_N * time(check)), @6_N2))=> [computational]
+      ! !_47 <= @6_N3 new @6_r: skeyseed [unchanged]; (
+  @6_Opk() [2] := @6_pkgen2(@6_r),
+  ! !_48 <= @6_N2 new @6_r2: sseed [unchanged]; @6_Osign(@6_x_79: sblocksize) := let @6_x: sblocksize = @6_x_79 in @6_sign2(@6_x, @6_skgen2(@6_r), @6_r2),
+  ! !_49 <= @6_N @6_Ocheck(@6_m1: sblocksize, @6_si1: signature) := find @6_j_51 <= @6_N2 suchthat defined(@6_x[@6_j_51]) && ((@6_m1 = @6_x[@6_j_51]) && @6_check2(@6_m1, @6_pkgen2(@6_r), @6_si1)) then true else false), ! !_50 <= @6_N4 @6_Ocheck2(@6_m: sblocksize, @6_y: spkey, @6_si: signature) [3] := find @6_j_53 <= @6_N2, @6_k_54 <= @6_N3 suchthat defined(@6_x[@6_j_53, @6_k_54], @6_r[@6_k_54]) && ((@6_y = @6_pkgen2(@6_r[@6_k_54])) && ((@6_m = @6_x[@6_j_53, @6_k_54]) && @6_check2(@6_m, @6_y, @6_si))) then true else find @6_k_52 <= @6_N3 suchthat defined(@6_r[@6_k_52]) && (@6_y = @6_pkgen2(@6_r[@6_k_52])) then false else check(@6_m, @6_y, @6_si)
+with rkS, r3_108, r3_109, r3_107... Succeeded.
+Doing simplify... Run simplify 1 time(s). Fixpoint reached.
+No change.
+Doing move all binders... No change.
+Doing remove assignments of useless... No change.
+Trying equivalence
+equiv ! !_43 <= @6_N3 new @6_r: skeyseed; (
+  @6_Opk() [2] := vk(@6_r),
+  ! !_44 <= @6_N2 new @6_r2: sseed; @6_Osign(@6_x: sblocksize) := sign(@6_x, sk(@6_r), @6_r2),
+  ! !_45 <= @6_N @6_Ocheck(@6_m1: sblocksize, @6_si1: signature) := check(@6_m1, vk(@6_r), @6_si1)), ! !_46 <= @6_N4 @6_Ocheck2(@6_m: sblocksize, @6_y: spkey, @6_si: signature) [3] := check(@6_m, @6_y, @6_si) [all]
+<=(@6_N3 * Psign(time + (@6_N4 + @6_N - 1.) * time(check) + (@6_N3 - 1.) * (time(vk) + time(sk) + @6_N2 * time(sign) + @6_N * time(check)), @6_N2))=> [computational]
+      ! !_47 <= @6_N3 new @6_r: skeyseed [unchanged]; (
+  @6_Opk() [2] := @6_pkgen2(@6_r),
+  ! !_48 <= @6_N2 new @6_r2: sseed [unchanged]; @6_Osign(@6_x_79: sblocksize) := let @6_x: sblocksize = @6_x_79 in @6_sign2(@6_x, @6_skgen2(@6_r), @6_r2),
+  ! !_49 <= @6_N @6_Ocheck(@6_m1: sblocksize, @6_si1: signature) := find @6_j_51 <= @6_N2 suchthat defined(@6_x[@6_j_51]) && ((@6_m1 = @6_x[@6_j_51]) && @6_check2(@6_m1, @6_pkgen2(@6_r), @6_si1)) then true else false), ! !_50 <= @6_N4 @6_Ocheck2(@6_m: sblocksize, @6_y: spkey, @6_si: signature) [3] := find @6_j_53 <= @6_N2, @6_k_54 <= @6_N3 suchthat defined(@6_x[@6_j_53, @6_k_54], @6_r[@6_k_54]) && ((@6_y = @6_pkgen2(@6_r[@6_k_54])) && ((@6_m = @6_x[@6_j_53, @6_k_54]) && @6_check2(@6_m, @6_y, @6_si))) then true else find @6_k_52 <= @6_N3 suchthat defined(@6_r[@6_k_52]) && (@6_y = @6_pkgen2(@6_r[@6_k_52])) then false else check(@6_m, @6_y, @6_si)
+... Failed.
+Trying equivalence
+equiv ! !_25 <= @4_N3 new @4_r: keyseed_T; (
+  @4_Opk() [2] := ek(@4_r),
+  ! !_26 <= @4_N2 @4_Odec(@4_m: bitstring) := dec(@4_m, dk(@4_r)),
+  ! !_27 <= @4_N new @4_r1: fixed_64; @4_Oenc(@4_x1: bounded_200_cleartext) := enc1(@4_x1, ek(@4_r), @4_r1)), ! !_28 <= @4_N4 new @4_r2: fixed_64; @4_Oenc2(@4_x: bounded_200_cleartext, @4_y: fixed_100_key) [3] := enc1(@4_x, @4_y, @4_r2) [all]
+<=((@4_N3 * @4_N + @4_N4) * Penc(time + (@4_N4 + @4_N - 1.) * time(enc1) + (@4_N3 - 1.) * (time(ek) + time(dk) + @4_N2 * time(dec, maxlength(@4_m[!_26, !_25])) + @4_N * time(enc1)), @4_N2))=>
+      ! !_29 <= @4_N3 new @4_r: keyseed_T; (
+  @4_Opk() [2] := @4_pkgen2(@4_r),
+  ! !_30 <= @4_N2 @4_Odec(@4_m: bitstring) := find @4_j_34 <= @4_N suchthat defined(@4_m1[@4_j_34], @4_x1[@4_j_34]) && (@4_m = @4_m1[@4_j_34]) then injbot(@4_x1[@4_j_34]) else find @4_j_33 <= @4_N4 suchthat defined(@4_m2[@4_j_33], @4_y[@4_j_33], @4_x[@4_j_33]) && ((@4_y[@4_j_33] = @4_pkgen2(@4_r)) && (@4_m = @4_m2[@4_j_33])) then injbot(@4_x[@4_j_33]) else @4_dec2(@4_m, @4_skgen2(@4_r)),
+  ! !_31 <= @4_N new @4_r1: fixed_64; @4_Oenc(@4_x1_80: bounded_200_cleartext) := let @4_x1: bounded_200_cleartext = @4_x1_80 in let @4_m1: bitstring = @4_enc2(Z, @4_pkgen2(@4_r), @4_r1) in @4_m1), ! !_32 <= @4_N4 new @4_r2: fixed_64; new @4_r3: fixed_64; @4_Oenc2(@4_x_82: bounded_200_cleartext, @4_y_81: fixed_100_key) [3] := let @4_x: bounded_200_cleartext = @4_x_82 in let @4_y: fixed_100_key = @4_y_81 in find @4_k <= @4_N3 suchthat defined(@4_r[@4_k]) && (@4_y = @4_pkgen2(@4_r[@4_k])) then let @4_m2: bitstring = @4_enc2(Z, @4_y, @4_r2) in @4_m2 else enc1(@4_x, @4_y, @4_r3)
+... Failed.
+Doing remove assignments of binder pkA... Done.
+Trying equivalence
+equiv ! !_25 <= @4_N3 new @4_r: keyseed_T; (
+  @4_Opk() [2] := ek(@4_r),
+  ! !_26 <= @4_N2 @4_Odec(@4_m: bitstring) := dec(@4_m, dk(@4_r)),
+  ! !_27 <= @4_N new @4_r1: fixed_64; @4_Oenc(@4_x1: bounded_200_cleartext) := enc1(@4_x1, ek(@4_r), @4_r1)), ! !_28 <= @4_N4 new @4_r2: fixed_64; @4_Oenc2(@4_x: bounded_200_cleartext, @4_y: fixed_100_key) [3] := enc1(@4_x, @4_y, @4_r2) [all]
+<=((@4_N3 * @4_N + @4_N4) * Penc(time + (@4_N4 + @4_N - 1.) * time(enc1) + (@4_N3 - 1.) * (time(ek) + time(dk) + @4_N2 * time(dec, maxlength(@4_m[!_26, !_25])) + @4_N * time(enc1)), @4_N2))=>
+      ! !_29 <= @4_N3 new @4_r: keyseed_T; (
+  @4_Opk() [2] := @4_pkgen2(@4_r),
+  ! !_30 <= @4_N2 @4_Odec(@4_m: bitstring) := find @4_j_34 <= @4_N suchthat defined(@4_m1[@4_j_34], @4_x1[@4_j_34]) && (@4_m = @4_m1[@4_j_34]) then injbot(@4_x1[@4_j_34]) else find @4_j_33 <= @4_N4 suchthat defined(@4_m2[@4_j_33], @4_y[@4_j_33], @4_x[@4_j_33]) && ((@4_y[@4_j_33] = @4_pkgen2(@4_r)) && (@4_m = @4_m2[@4_j_33])) then injbot(@4_x[@4_j_33]) else @4_dec2(@4_m, @4_skgen2(@4_r)),
+  ! !_31 <= @4_N new @4_r1: fixed_64; @4_Oenc(@4_x1_80: bounded_200_cleartext) := let @4_x1: bounded_200_cleartext = @4_x1_80 in let @4_m1: bitstring = @4_enc2(Z, @4_pkgen2(@4_r), @4_r1) in @4_m1), ! !_32 <= @4_N4 new @4_r2: fixed_64; new @4_r3: fixed_64; @4_Oenc2(@4_x_82: bounded_200_cleartext, @4_y_81: fixed_100_key) [3] := let @4_x: bounded_200_cleartext = @4_x_82 in let @4_y: fixed_100_key = @4_y_81 in find @4_k <= @4_N3 suchthat defined(@4_r[@4_k]) && (@4_y = @4_pkgen2(@4_r[@4_k])) then let @4_m2: bitstring = @4_enc2(Z, @4_y, @4_r2) in @4_m2 else enc1(@4_x, @4_y, @4_r3)
+with iv_2907_0, iv_1082_0, iv_2205_0... Failed.
+Doing remove assignments of binder skA... Done.
+Trying equivalence
+equiv ! !_25 <= @4_N3 new @4_r: keyseed_T; (
+  @4_Opk() [2] := ek(@4_r),
+  ! !_26 <= @4_N2 @4_Odec(@4_m: bitstring) := dec(@4_m, dk(@4_r)),
+  ! !_27 <= @4_N new @4_r1: fixed_64; @4_Oenc(@4_x1: bounded_200_cleartext) := enc1(@4_x1, ek(@4_r), @4_r1)), ! !_28 <= @4_N4 new @4_r2: fixed_64; @4_Oenc2(@4_x: bounded_200_cleartext, @4_y: fixed_100_key) [3] := enc1(@4_x, @4_y, @4_r2) [all]
+<=((@4_N3 * @4_N + @4_N4) * Penc(time + (@4_N4 + @4_N - 1.) * time(enc1) + (@4_N3 - 1.) * (time(ek) + time(dk) + @4_N2 * time(dec, maxlength(@4_m[!_26, !_25])) + @4_N * time(enc1)), @4_N2))=>
+      ! !_29 <= @4_N3 new @4_r: keyseed_T; (
+  @4_Opk() [2] := @4_pkgen2(@4_r),
+  ! !_30 <= @4_N2 @4_Odec(@4_m: bitstring) := find @4_j_34 <= @4_N suchthat defined(@4_m1[@4_j_34], @4_x1[@4_j_34]) && (@4_m = @4_m1[@4_j_34]) then injbot(@4_x1[@4_j_34]) else find @4_j_33 <= @4_N4 suchthat defined(@4_m2[@4_j_33], @4_y[@4_j_33], @4_x[@4_j_33]) && ((@4_y[@4_j_33] = @4_pkgen2(@4_r)) && (@4_m = @4_m2[@4_j_33])) then injbot(@4_x[@4_j_33]) else @4_dec2(@4_m, @4_skgen2(@4_r)),
+  ! !_31 <= @4_N new @4_r1: fixed_64; @4_Oenc(@4_x1_80: bounded_200_cleartext) := let @4_x1: bounded_200_cleartext = @4_x1_80 in let @4_m1: bitstring = @4_enc2(Z, @4_pkgen2(@4_r), @4_r1) in @4_m1), ! !_32 <= @4_N4 new @4_r2: fixed_64; new @4_r3: fixed_64; @4_Oenc2(@4_x_82: bounded_200_cleartext, @4_y_81: fixed_100_key) [3] := let @4_x: bounded_200_cleartext = @4_x_82 in let @4_y: fixed_100_key = @4_y_81 in find @4_k <= @4_N3 suchthat defined(@4_r[@4_k]) && (@4_y = @4_pkgen2(@4_r[@4_k])) then let @4_m2: bitstring = @4_enc2(Z, @4_y, @4_r2) in @4_m2 else enc1(@4_x, @4_y, @4_r3)
+with A_seed, iv_2907_0, iv_1082_0, iv_2205_0... Succeeded.
+Doing simplify... Run simplify 1 time(s). Fixpoint reached.
+No change.
+Doing move all binders... Done.
+Doing remove assignments of useless... Done.
+Trying equivalence
+equiv ! !_43 <= @6_N3 new @6_r: skeyseed; (
+  @6_Opk() [2] := vk(@6_r),
+  ! !_44 <= @6_N2 new @6_r2: sseed; @6_Osign(@6_x: sblocksize) := sign(@6_x, sk(@6_r), @6_r2),
+  ! !_45 <= @6_N @6_Ocheck(@6_m1: sblocksize, @6_si1: signature) := check(@6_m1, vk(@6_r), @6_si1)), ! !_46 <= @6_N4 @6_Ocheck2(@6_m: sblocksize, @6_y: spkey, @6_si: signature) [3] := check(@6_m, @6_y, @6_si) [all]
+<=(@6_N3 * Psign(time + (@6_N4 + @6_N - 1.) * time(check) + (@6_N3 - 1.) * (time(vk) + time(sk) + @6_N2 * time(sign) + @6_N * time(check)), @6_N2))=> [computational]
+      ! !_47 <= @6_N3 new @6_r: skeyseed [unchanged]; (
+  @6_Opk() [2] := @6_pkgen2(@6_r),
+  ! !_48 <= @6_N2 new @6_r2: sseed [unchanged]; @6_Osign(@6_x_79: sblocksize) := let @6_x: sblocksize = @6_x_79 in @6_sign2(@6_x, @6_skgen2(@6_r), @6_r2),
+  ! !_49 <= @6_N @6_Ocheck(@6_m1: sblocksize, @6_si1: signature) := find @6_j_51 <= @6_N2 suchthat defined(@6_x[@6_j_51]) && ((@6_m1 = @6_x[@6_j_51]) && @6_check2(@6_m1, @6_pkgen2(@6_r), @6_si1)) then true else false), ! !_50 <= @6_N4 @6_Ocheck2(@6_m: sblocksize, @6_y: spkey, @6_si: signature) [3] := find @6_j_53 <= @6_N2, @6_k_54 <= @6_N3 suchthat defined(@6_x[@6_j_53, @6_k_54], @6_r[@6_k_54]) && ((@6_y = @6_pkgen2(@6_r[@6_k_54])) && ((@6_m = @6_x[@6_j_53, @6_k_54]) && @6_check2(@6_m, @6_y, @6_si))) then true else find @6_k_52 <= @6_N3 suchthat defined(@6_r[@6_k_52]) && (@6_y = @6_pkgen2(@6_r[@6_k_52])) then false else check(@6_m, @6_y, @6_si)
+... Failed.
+Trying equivalence
+equiv ! !_25 <= @4_N3 new @4_r: keyseed_T; (
+  @4_Opk() [2] := ek(@4_r),
+  ! !_26 <= @4_N2 @4_Odec(@4_m: bitstring) := dec(@4_m, dk(@4_r)),
+  ! !_27 <= @4_N new @4_r1: fixed_64; @4_Oenc(@4_x1: bounded_200_cleartext) := enc1(@4_x1, ek(@4_r), @4_r1)), ! !_28 <= @4_N4 new @4_r2: fixed_64; @4_Oenc2(@4_x: bounded_200_cleartext, @4_y: fixed_100_key) [3] := enc1(@4_x, @4_y, @4_r2) [all]
+<=((@4_N3 * @4_N + @4_N4) * Penc(time + (@4_N4 + @4_N - 1.) * time(enc1) + (@4_N3 - 1.) * (time(ek) + time(dk) + @4_N2 * time(dec, maxlength(@4_m[!_26, !_25])) + @4_N * time(enc1)), @4_N2))=>
+      ! !_29 <= @4_N3 new @4_r: keyseed_T; (
+  @4_Opk() [2] := @4_pkgen2(@4_r),
+  ! !_30 <= @4_N2 @4_Odec(@4_m: bitstring) := find @4_j_34 <= @4_N suchthat defined(@4_m1[@4_j_34], @4_x1[@4_j_34]) && (@4_m = @4_m1[@4_j_34]) then injbot(@4_x1[@4_j_34]) else find @4_j_33 <= @4_N4 suchthat defined(@4_m2[@4_j_33], @4_y[@4_j_33], @4_x[@4_j_33]) && ((@4_y[@4_j_33] = @4_pkgen2(@4_r)) && (@4_m = @4_m2[@4_j_33])) then injbot(@4_x[@4_j_33]) else @4_dec2(@4_m, @4_skgen2(@4_r)),
+  ! !_31 <= @4_N new @4_r1: fixed_64; @4_Oenc(@4_x1_80: bounded_200_cleartext) := let @4_x1: bounded_200_cleartext = @4_x1_80 in let @4_m1: bitstring = @4_enc2(Z, @4_pkgen2(@4_r), @4_r1) in @4_m1), ! !_32 <= @4_N4 new @4_r2: fixed_64; new @4_r3: fixed_64; @4_Oenc2(@4_x_82: bounded_200_cleartext, @4_y_81: fixed_100_key) [3] := let @4_x: bounded_200_cleartext = @4_x_82 in let @4_y: fixed_100_key = @4_y_81 in find @4_k <= @4_N3 suchthat defined(@4_r[@4_k]) && (@4_y = @4_pkgen2(@4_r[@4_k])) then let @4_m2: bitstring = @4_enc2(Z, @4_y, @4_r2) in @4_m2 else enc1(@4_x, @4_y, @4_r3)
+... Failed.
+Doing remove assignments of binder pkB... Done.
+Trying equivalence
+equiv ! !_25 <= @4_N3 new @4_r: keyseed_T; (
+  @4_Opk() [2] := ek(@4_r),
+  ! !_26 <= @4_N2 @4_Odec(@4_m: bitstring) := dec(@4_m, dk(@4_r)),
+  ! !_27 <= @4_N new @4_r1: fixed_64; @4_Oenc(@4_x1: bounded_200_cleartext) := enc1(@4_x1, ek(@4_r), @4_r1)), ! !_28 <= @4_N4 new @4_r2: fixed_64; @4_Oenc2(@4_x: bounded_200_cleartext, @4_y: fixed_100_key) [3] := enc1(@4_x, @4_y, @4_r2) [all]
+<=((@4_N3 * @4_N + @4_N4) * Penc(time + (@4_N4 + @4_N - 1.) * time(enc1) + (@4_N3 - 1.) * (time(ek) + time(dk) + @4_N2 * time(dec, maxlength(@4_m[!_26, !_25])) + @4_N * time(enc1)), @4_N2))=>
+      ! !_29 <= @4_N3 new @4_r: keyseed_T; (
+  @4_Opk() [2] := @4_pkgen2(@4_r),
+  ! !_30 <= @4_N2 @4_Odec(@4_m: bitstring) := find @4_j_34 <= @4_N suchthat defined(@4_m1[@4_j_34], @4_x1[@4_j_34]) && (@4_m = @4_m1[@4_j_34]) then injbot(@4_x1[@4_j_34]) else find @4_j_33 <= @4_N4 suchthat defined(@4_m2[@4_j_33], @4_y[@4_j_33], @4_x[@4_j_33]) && ((@4_y[@4_j_33] = @4_pkgen2(@4_r)) && (@4_m = @4_m2[@4_j_33])) then injbot(@4_x[@4_j_33]) else @4_dec2(@4_m, @4_skgen2(@4_r)),
+  ! !_31 <= @4_N new @4_r1: fixed_64; @4_Oenc(@4_x1_80: bounded_200_cleartext) := let @4_x1: bounded_200_cleartext = @4_x1_80 in let @4_m1: bitstring = @4_enc2(Z, @4_pkgen2(@4_r), @4_r1) in @4_m1), ! !_32 <= @4_N4 new @4_r2: fixed_64; new @4_r3: fixed_64; @4_Oenc2(@4_x_82: bounded_200_cleartext, @4_y_81: fixed_100_key) [3] := let @4_x: bounded_200_cleartext = @4_x_82 in let @4_y: fixed_100_key = @4_y_81 in find @4_k <= @4_N3 suchthat defined(@4_r[@4_k]) && (@4_y = @4_pkgen2(@4_r[@4_k])) then let @4_m2: bitstring = @4_enc2(Z, @4_y, @4_r2) in @4_m2 else enc1(@4_x, @4_y, @4_r3)
+with @4_r3_526, @4_r3_528, @4_r3_530, @4_r3_470, @4_r3_532, @4_r3_534, @4_r3_536, @4_r3_538, @4_r3_524... Failed.
+Doing SA rename @4_y_460... Done.
+Doing remove assignments of useless... Done.
+Doing simplify... Run simplify 1 time(s). Fixpoint reached.
+Done.
+Doing remove assignments of binder skB... Done.
+Trying equivalence
+equiv ! !_25 <= @4_N3 new @4_r: keyseed_T; (
+  @4_Opk() [2] := ek(@4_r),
+  ! !_26 <= @4_N2 @4_Odec(@4_m: bitstring) := dec(@4_m, dk(@4_r)),
+  ! !_27 <= @4_N new @4_r1: fixed_64; @4_Oenc(@4_x1: bounded_200_cleartext) := enc1(@4_x1, ek(@4_r), @4_r1)), ! !_28 <= @4_N4 new @4_r2: fixed_64; @4_Oenc2(@4_x: bounded_200_cleartext, @4_y: fixed_100_key) [3] := enc1(@4_x, @4_y, @4_r2) [all]
+<=((@4_N3 * @4_N + @4_N4) * Penc(time + (@4_N4 + @4_N - 1.) * time(enc1) + (@4_N3 - 1.) * (time(ek) + time(dk) + @4_N2 * time(dec, maxlength(@4_m[!_26, !_25])) + @4_N * time(enc1)), @4_N2))=>
+      ! !_29 <= @4_N3 new @4_r: keyseed_T; (
+  @4_Opk() [2] := @4_pkgen2(@4_r),
+  ! !_30 <= @4_N2 @4_Odec(@4_m: bitstring) := find @4_j_34 <= @4_N suchthat defined(@4_m1[@4_j_34], @4_x1[@4_j_34]) && (@4_m = @4_m1[@4_j_34]) then injbot(@4_x1[@4_j_34]) else find @4_j_33 <= @4_N4 suchthat defined(@4_m2[@4_j_33], @4_y[@4_j_33], @4_x[@4_j_33]) && ((@4_y[@4_j_33] = @4_pkgen2(@4_r)) && (@4_m = @4_m2[@4_j_33])) then injbot(@4_x[@4_j_33]) else @4_dec2(@4_m, @4_skgen2(@4_r)),
+  ! !_31 <= @4_N new @4_r1: fixed_64; @4_Oenc(@4_x1_80: bounded_200_cleartext) := let @4_x1: bounded_200_cleartext = @4_x1_80 in let @4_m1: bitstring = @4_enc2(Z, @4_pkgen2(@4_r), @4_r1) in @4_m1), ! !_32 <= @4_N4 new @4_r2: fixed_64; new @4_r3: fixed_64; @4_Oenc2(@4_x_82: bounded_200_cleartext, @4_y_81: fixed_100_key) [3] := let @4_x: bounded_200_cleartext = @4_x_82 in let @4_y: fixed_100_key = @4_y_81 in find @4_k <= @4_N3 suchthat defined(@4_r[@4_k]) && (@4_y = @4_pkgen2(@4_r[@4_k])) then let @4_m2: bitstring = @4_enc2(Z, @4_y, @4_r2) in @4_m2 else enc1(@4_x, @4_y, @4_r3)
+with B_seed, @4_r3_1635, @4_r3_528, @4_r3_530, @4_r3_470, @4_r3_532, @4_r3_1651, @4_r3_536, @4_r3_538, @4_r3_524... Failed.
+Doing remove assignments of binder @4_y_1620... Done.
+Doing SA rename @4_y_1618... Done.
+Doing remove assignments of useless... Done.
+Doing simplify... Run simplify 1 time(s). Fixpoint reached.
+Done.
+Doing remove assignments of binder @4_y_1619... Done.
+Doing remove assignments of binder @4_y_1617... Done.
+Doing remove assignments of binder @4_y_1616... Done.
+Doing SA rename @4_y_1614... Done.
+Doing remove assignments of useless... Done.
+Doing simplify... Run simplify 1 time(s). Fixpoint reached.
+Done.
+Doing remove assignments of binder @4_y_1615... Done.
+Doing remove assignments of binder @4_y_1613... Done.
+Trying equivalence
+equiv ! !_25 <= @4_N3 new @4_r: keyseed_T; (
+  @4_Opk() [2] := ek(@4_r),
+  ! !_26 <= @4_N2 @4_Odec(@4_m: bitstring) := dec(@4_m, dk(@4_r)),
+  ! !_27 <= @4_N new @4_r1: fixed_64; @4_Oenc(@4_x1: bounded_200_cleartext) := enc1(@4_x1, ek(@4_r), @4_r1)), ! !_28 <= @4_N4 new @4_r2: fixed_64; @4_Oenc2(@4_x: bounded_200_cleartext, @4_y: fixed_100_key) [3] := enc1(@4_x, @4_y, @4_r2) [all]
+<=((@4_N3 * @4_N + @4_N4) * Penc(time + (@4_N4 + @4_N - 1.) * time(enc1) + (@4_N3 - 1.) * (time(ek) + time(dk) + @4_N2 * time(dec, maxlength(@4_m[!_26, !_25])) + @4_N * time(enc1)), @4_N2))=>
+      ! !_29 <= @4_N3 new @4_r: keyseed_T; (
+  @4_Opk() [2] := @4_pkgen2(@4_r),
+  ! !_30 <= @4_N2 @4_Odec(@4_m: bitstring) := find @4_j_34 <= @4_N suchthat defined(@4_m1[@4_j_34], @4_x1[@4_j_34]) && (@4_m = @4_m1[@4_j_34]) then injbot(@4_x1[@4_j_34]) else find @4_j_33 <= @4_N4 suchthat defined(@4_m2[@4_j_33], @4_y[@4_j_33], @4_x[@4_j_33]) && ((@4_y[@4_j_33] = @4_pkgen2(@4_r)) && (@4_m = @4_m2[@4_j_33])) then injbot(@4_x[@4_j_33]) else @4_dec2(@4_m, @4_skgen2(@4_r)),
+  ! !_31 <= @4_N new @4_r1: fixed_64; @4_Oenc(@4_x1_80: bounded_200_cleartext) := let @4_x1: bounded_200_cleartext = @4_x1_80 in let @4_m1: bitstring = @4_enc2(Z, @4_pkgen2(@4_r), @4_r1) in @4_m1), ! !_32 <= @4_N4 new @4_r2: fixed_64; new @4_r3: fixed_64; @4_Oenc2(@4_x_82: bounded_200_cleartext, @4_y_81: fixed_100_key) [3] := let @4_x: bounded_200_cleartext = @4_x_82 in let @4_y: fixed_100_key = @4_y_81 in find @4_k <= @4_N3 suchthat defined(@4_r[@4_k]) && (@4_y = @4_pkgen2(@4_r[@4_k])) then let @4_m2: bitstring = @4_enc2(Z, @4_y, @4_r2) in @4_m2 else enc1(@4_x, @4_y, @4_r3)
+with B_seed, @4_r3_1621, @4_r3_1967, @4_r3_1625, @4_r3_1627, @4_r3_1629, @4_r3_1885, @4_r3_1633, @4_r3_1635, @4_r3_528, @4_r3_530, @4_r3_470, @4_r3_532, @4_r3_1637, @4_r3_1997, @4_r3_1641, @4_r3_1643, @4_r3_1645, @4_r3_1901, @4_r3_1649, @4_r3_1651, @4_r3_536, @4_r3_538, @4_r3_524... Internal error: Stack overflow
+Please report bug to Bruno.Blanchet@ens.fr, including input file and output
+

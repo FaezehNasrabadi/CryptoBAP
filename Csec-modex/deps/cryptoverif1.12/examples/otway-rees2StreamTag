@@ -1,0 +1,178 @@
+(*************************************************************
+ *                                                           *
+ *       Cryptographic protocol verifier                     *
+ *                                                           *
+ *       Bruno Blanchet                                      *
+ *                                                           *
+ *       Copyright (C) ENS, CNRS, INRIA, 2005-2011           *
+ *                                                           *
+ *************************************************************)
+
+(*
+
+    Copyright ENS, CNRS, INRIA 
+    contributor: Bruno Blanchet, Bruno.Blanchet@ens.fr
+    
+This software is a computer program whose purpose is to verify 
+cryptographic protocols in the computational model.
+
+This software is governed by the CeCILL-B license under French law and
+abiding by the rules of distribution of free software.  You can  use, 
+modify and/ or redistribute the software under the terms of the CeCILL-B
+license as circulated by CEA, CNRS and INRIA at the following URL
+"http://www.cecill.info". 
+
+As a counterpart to the access to the source code and  rights to copy,
+modify and redistribute granted by the license, users are provided only
+with a limited warranty  and the software's author,  the holder of the
+economic rights,  and the successive licensors  have only  limited
+liability. 
+
+In this respect, the user's attention is drawn to the risks associated
+with loading,  using,  modifying and/or developing or reproducing the
+software by the user in light of its specific status of free software,
+that may mean  that it is complicated to manipulate,  and  that  also
+therefore means  that it is reserved for developers  and  experienced
+professionals having in-depth computer knowledge. Users are therefore
+encouraged to load and test the software's suitability as regards their
+requirements in conditions enabling the security of their systems and/or 
+data to be ensured and,  more generally, to use and operate it in the 
+same conditions as regards security. 
+
+The fact that you are presently reading this means that you have had
+knowledge of the CeCILL-B license and that you accept its terms.
+
+*)
+(* Version in which the participants only talk to A and B 
+   Using two series of function symbols to prevent repeated applications
+   of the same cryptographic rule.
+*)
+
+param N.
+param N2.
+param N3.
+
+type tag [bounded].
+type nonce [large,fixed].
+type host [bounded].
+type mkey [bounded].
+type mkeyseed [fixed].
+type key [fixed].
+type keyseed [fixed].
+type seed [fixed].
+type macs [fixed].
+type maxenc [bounded].
+type maxmac [bounded].
+type maxencnotag [bounded].
+
+const tag1: tag.
+const tag2: tag.
+const tag3: tag.
+const tag4: tag.
+
+fun concat1(nonce, nonce, host, host):maxencnotag [compos].
+fun concat2(nonce, key):maxencnotag [compos].
+fun tagf(tag, maxencnotag):maxenc [compos].
+
+(* Shared-key encryption (IND-CPA Stream cipher) *)
+
+proba Penc.
+
+expand IND_CPA_sym_enc(keyseed, key, maxenc, maxmac, seed, kgen, enc, dec, injbot, Z, Penc).
+
+(* The function Z returns for each bitstring, a bitstring
+   of the same length, consisting only of zeroes. *)
+const Z1:maxenc.
+const Z2:maxenc.
+forall u:tag, x:nonce, y:nonce, z:host, t:host; Z(tagf(u,concat1(x,y,z,t))) = Z1.
+forall u:tag, x:nonce, y:key; Z(tagf(u,concat2(x,y))) = Z2.
+
+(* Mac *)
+
+proba Pmac.
+
+expand UF_CMA_mac(mkeyseed, mkey, maxmac, macs, mkgen, mac, check, Pmac).
+
+(* Queries *)
+
+query secret1 keyA.
+query secret1 keyB.
+
+query secret keyA.
+query secret keyB.
+
+channel c1, c2, c3, c4, c5, c6, c7, c8, c9, start, finish.
+const A : host.
+const B : host.
+
+event endA(host, host, nonce, key).
+event endB(host, host, nonce, key).
+event beginA(host, host, nonce).
+event beginB(host, host, nonce).
+
+query x:host, y:host, n:nonce, k:key; 
+	event endA(x,y,n,k) ==> beginB(x,y,n).
+query x:host, y:host, n:nonce, k:key; 
+	event endB(x,y,n,k) ==> beginA(x,y,n).
+query x:host, y:host, n:nonce, k:key; 
+	event inj:endA(x,y,n,k) ==> inj:beginB(x,y,n).
+query x:host, y:host, n:nonce, k:key; 
+	event inj:endB(x,y,n,k) ==> inj:beginA(x,y,n).
+
+
+let processA = 
+	in(start, ());
+	new M : nonce;
+	new Na : nonce;
+	new s1 : seed;
+	let ea1 = enc(tagf(tag1, concat1(Na, M, A, B)), Kas, s1) in
+	event beginA(A, B, M);
+	out(c1, (M, A, B, ea1, mac(ea1, mKas)));
+	in(c2, (=M, ea2: maxmac, ma2: macs));
+	if check(ea2, mKas, ma2) then
+	let injbot(tagf(=tag3, concat2(=Na, k))) = dec(ea2, Kas) in
+	event endA(A, B, M, k);
+	let keyA:key = k.
+
+let processB =
+	in(c3, (M: nonce, =A, =B, ea:maxmac, ma:macs));
+	new Nb : nonce;
+	new s2 : seed;
+	let e2 = enc(tagf(tag2, concat1(Nb, M, A, B)), Kbs, s2) in
+	event beginB(A, B, M);
+	out(c4, (M, A, B, ea, ma, e2, mac(e2, mKbs)));
+	in(c5, (=M, ea2: maxmac, ma2: macs, eb2: maxmac, mb2: macs));
+	if check(eb2, mKbs, mb2) then
+	let injbot(tagf(=tag4, concat2(=Nb, k))) = dec(eb2, Kbs) in
+	out(c6, (M, ea2, ma2));
+	in(finish, ());
+	event endB(A, B, M, k);
+	let keyB:key = k.
+
+let processS =
+	in(c7, (M: nonce, =A, =B, ea1: maxmac, ma1: macs, eb1: maxmac, mb1: macs));
+	if check(ea1, mKas, ma1) then
+	let injbot(tagf(=tag1, concat1(Na, =M, =A, =B))) = dec(ea1, Kas) in
+	if check(eb1, mKbs, mb1) then
+	let injbot(tagf(=tag2, concat1(Nb, =M, =A, =B))) = dec(eb1, Kbs) in
+	new k: key;
+	new s3: seed;
+	new s4: seed;
+	let e1 = enc(tagf(tag3, concat2(Na, k)), Kas, s3) in
+	let e2 = enc(tagf(tag4, concat2(Nb, k)), Kbs, s4) in
+	out(c8, (M, e1, mac(e1, mKas), e2, mac(e2, mKbs))).
+	
+process 
+	in(start, ());
+	new rKas: keyseed;
+	let Kas = kgen(rKas) in
+	new rmKas: mkeyseed;
+	let mKas = mkgen(rmKas) in
+	new rKbs: keyseed;
+	let Kbs = kgen(rKbs) in
+	new rmKbs: mkeyseed;
+	let mKbs = mkgen(rmKbs) in
+	out(c9, ());
+	((! N processA) |
+	 (! N processB) | 
+	 (! N processS))

@@ -1,0 +1,6 @@
+# -*- Mode: makefile -*-
+# This file was generated automatically by ./configure.in
+# We will not need this once configure supports multiline variables
+export USE_FUNDEFS=yes
+export USE_FUNREPLACE=yes
+export USE_CRESTINSTRUMENT=yes

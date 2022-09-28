@@ -1,0 +1,89 @@
+for f in model.pv.out; do\
+	/home/faezeh/csec-modex/deps/proverif1.84/proverif -in pi $f;\
+done
+Process:
+{1}!
+new key_9;
+{2}in(c_in, payload_10);
+{3}!
+(
+    {12}event client_send(payload_10);
+    {13}let Conc1_188_16 = conc1(payload_10) in
+    {14}let HMAC_192_17 = hash(Conc1_188_16,key_9) in
+    {15}let Conc2_196_18 = conc2(payload_10,HMAC_192_17) in
+    {16}out(c_out, Conc2_196_18);
+    0
+) | (
+    {4}!
+    {5}in(c_in, a_113_11);
+    {6}let Pars1_236_12 = pars1(a_113_11) in
+    {7}let Conc1_259_13 = conc1(Pars1_236_12) in
+    {8}let HMAC_263_14 = hash(Conc1_259_13,key_9) in
+    {9}let Pars2_274_15 = pars2(a_113_11) in
+    {10}if HMAC_263_14 = Pars2_274_15 then
+    {11}event server_recv(Pars1_236_12);
+    0
+)
+
+-- Query not ev:server_recv(x_19)
+Completing...
+Starting query not ev:server_recv(x_19)
+goal reachable: attacker:x_89 -> end:server_recv(x_89)
+Abbreviations:
+key_104 = key_9[!1 = @sid_99]
+
+1. The attacker has some term payload_100.
+attacker:payload_100.
+
+2. We assume as hypothesis that
+attacker:x_103.
+
+3. The message x_103 that the attacker may have by 2 may be received at input {2}.
+So the message conc2(x_103,hash(conc1(x_103),key_104)) may be sent to the attacker at output {16}.
+attacker:conc2(x_103,hash(conc1(x_103),key_104)).
+
+4. By 3, the attacker may know conc2(x_103,hash(conc1(x_103),key_104)).
+Using the 1th inverse of function conc2 the attacker may obtain hash(conc1(x_103),key_104).
+attacker:hash(conc1(x_103),key_104).
+
+5. By 2, the attacker may know x_103.
+By 4, the attacker may know hash(conc1(x_103),key_104).
+Using the function conc2 the attacker may obtain conc2(x_103,hash(conc1(x_103),key_104)).
+attacker:conc2(x_103,hash(conc1(x_103),key_104)).
+
+6. The message payload_100 that the attacker may have by 1 may be received at input {2}.
+The message conc2(x_103,hash(conc1(x_103),key_104)) that the attacker may have by 5 may be received at input {5}.
+So event server_recv(x_103) may be executed at {11}.
+end:server_recv(x_103).
+
+
+Trying unification x_103 with payload_100 succeeded.
+Iterating unifyDerivation.
+Fixpoint reached: nothing more to unify.
+The clause after unifyDerivation is attacker:payload_105 -> end:server_recv(payload_105)
+This clause still contradicts the query.
+A more detailed output of the traces is available with
+  param traceDisplay = long.
+
+in(c_in, a_1) at {2} in copy a_2
+
+event(client_send(a_1)) at {12} in copy a_2, a_5
+
+out(c_out, conc2(a_1,hash(conc1(a_1),key_9_6))) at {16} in copy a_2, a_5
+
+event(client_send(a_1)) at {12} in copy a_2, a_3
+
+out(c_out, conc2(a_1,hash(conc1(a_1),key_9_6))) at {16} in copy a_2, a_3
+
+in(c_in, conc2(a_1,hash(conc1(a_1),key_9_6))) at {5} in copy a_2, a_5, a_4
+
+event(server_recv(a_1)) at {11} in copy a_2, a_5, a_4
+
+The event server_recv(a_1) is executed.
+A trace has been found.
+RESULT not ev:server_recv(x_19) is false.
+-- Query ev:server_recv(x_170) ==> ev:client_send(x_170)
+Completing...
+Starting query ev:server_recv(x_170) ==> ev:client_send(x_170)
+goal reachable: begin:client_send(x_232) & attacker:x_232 -> end:server_recv(x_232)
+RESULT ev:server_recv(x_170) ==> ev:client_send(x_170) is true.

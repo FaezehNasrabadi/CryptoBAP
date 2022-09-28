@@ -1,0 +1,132 @@
+
+channel c_in, c_out. 
+
+param N.
+
+(******************** 
+  Types
+********************)
+
+type bounded_1000_payload [bounded].
+type fixed_20_hash [fixed].
+type fixed_64 [fixed].
+
+fun conc1(bounded_1000_payload): bitstring [compos].
+
+fun conc2(bounded_1000_payload, fixed_20_hash): bitstring [compos].
+
+fun pars1(bitstring): bounded_1000_payload.
+
+fun pars2(bitstring): fixed_20_hash.
+
+
+forall var1: bounded_1000_payload, var2: bounded_1000_payload, var3: fixed_20_hash;
+  conc1(var1) <> conc2(var2, var3).
+
+(*************************** 
+  Parsing Equations 
+***************************)
+
+forall arg0: bounded_1000_payload, arg1: fixed_20_hash;
+pars2(conc2(arg0, arg1)) = arg1.
+forall arg0: bounded_1000_payload, arg1: fixed_20_hash;
+pars1(conc2(arg0, arg1)) = arg0.
+forall arg0: bounded_1000_payload;
+pars1(conc1(arg0)) = arg0.
+
+(******************** 
+  MAC
+********************)
+
+type bounded_1000_mkeyseed [fixed, large].
+type bounded_1000_mkey [bounded].
+type macinput.
+(* type macres. *)
+proba Pmac.
+
+expand UF_CMA_mac(bounded_1000_mkeyseed, bounded_1000_mkey, bitstring, fixed_20_hash, mkgen, HMAC_sha1, HMAC_sha1_check, Pmac).
+
+forall m: bitstring, k: bounded_1000_mkey, r: fixed_20_hash;
+  ((HMAC_sha1(m, k)) = r) = HMAC_sha1_check(m, k, r).
+
+fun HMAC(bitstring, bitstring, bounded_1000_mkey): fixed_20_hash.
+
+fun hash(bitstring, bounded_1000_mkey): fixed_20_hash.
+
+const c_2: bitstring.
+const R1_238: bitstring.
+const iv_1: bitstring.
+const Hmac: fixed_20_hash.
+const c_1000: bitstring.
+const R0_40: bitstring.
+const R0_52: bitstring.
+const R0_30: bitstring.
+const c_7: bitstring.
+const R0_58: bitstring.
+const c_1029: bitstring.
+const R0_70: bitstring.
+const R0_140: bitstring.
+const R1_150: bitstring.
+const R0_153: bitstring.
+const R0_163: bitstring.
+const c_1: bitstring.
+
+(* ASSERT_DEFINITION
+  arithmetic1/0
+  "sha1"
+*)
+
+const arithmetic1: bitstring.
+
+forall m: bitstring, k: bounded_1000_mkey;
+  HMAC(arithmetic1, m, k) = HMAC_sha1(m, k).
+ 
+(******************** 
+  <Query>
+********************)
+ 
+event client_send(bounded_1000_payload).
+event server_recv(bounded_1000_payload).
+
+query x: bounded_1000_payload, y:bounded_1000_payload;
+  event server_recv(x) ==> client_send(x).
+
+(************************
+  <Model>
+*************************)
+
+let client = 0 .
+let server = 0 .
+
+(************************
+  <Environment>
+*************************)
+
+let server' =
+  in(c_in, (argv0: bitstring, 
+            argv1: bitstring,
+            argv2: bitstring,
+            argv3: bitstring,
+            argv4: bitstring));
+  out(c_out, ());
+  server .
+
+let client' =
+  in(c_in, (argv0: bitstring, 
+            argv1: bitstring,
+            argv2: bitstring,
+            argv3: bitstring,
+            argv4: bitstring));
+  out(c_out, ());
+  client .
+
+process
+! N (
+  in(c_in, (payload: bounded_1000_payload));
+
+  new keyseed: bounded_1000_mkeyseed; 
+  let key = mkgen(keyseed) in
+
+  out(c_out, ());
+  (!N client'| !N server')
+)

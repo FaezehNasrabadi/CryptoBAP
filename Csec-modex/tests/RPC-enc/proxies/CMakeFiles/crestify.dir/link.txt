@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcrestify.a  CMakeFiles/crestify.dir/symbolic_interface.c.o CMakeFiles/crestify.dir/common.c.o CMakeFiles/crestify.dir/common_cpp.cpp.o CMakeFiles/crestify.dir/crestify.cpp.o
+/usr/bin/ranlib libcrestify.a

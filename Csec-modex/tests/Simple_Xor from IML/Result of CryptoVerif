@@ -1,0 +1,91 @@
+{ /home/faezeh/csec-modex/src/symtrace/cvtrace IML_client.txt IML_server.txt /home/faezeh/csec-modex/deps/cryptoverif1.12/default model.cv.in | tee model.cv.out; } > model.cv.debug.out 2>&1
+for f in model.cv.out; do\
+	/home/faezeh/csec-modex/deps/cryptoverif1.12/cryptoverif -lib /home/faezeh/csec-modex/deps/cryptoverif1.12/default $f;\
+done
+Doing expand if, let, find... No change.
+Doing simplify... Run simplify 1 time(s). Fixpoint reached.
+No change.
+Doing move all binders... No change.
+Doing remove assignments of useless... No change.
+Trying equivalence
+equiv ! !_25 <= @4_nx new @4_a: fixed_64; @4_Oxor(@4_x: fixed_64) := exclusive_or(@4_a, @4_x)
+<=(0)=> [computational]
+      ! !_26 <= @4_nx new @4_a: fixed_64; @4_Oxor(@4_x: fixed_64) := @4_a
+... Succeeded.
+Doing simplify... Run simplify 1 time(s). Fixpoint reached.
+No change.
+Doing move all binders... No change.
+Doing remove assignments of useless... Done.
+Proved one-session secrecy of OTP_48_0
+Proved secrecy of OTP_48_0
+===================== Proof starts =======================
+Initial state
+Game 1 is
+! !_27 <= N
+in(c_in[!_27], ());
+new pad: fixed_64;
+out(c_out[!_27], ());
+(
+  in(c_in[!_27], (argv0_32: bitstring, argv1_31: bitstring, argv2_30: bitstring, argv3_29: bitstring, argv4_28: bitstring));
+  out(c_out[!_27], ());
+  in(c_in[!_27], ());
+  new OTP_48_0: fixed_64;
+  let Conc1_66_0: fixed_64 = conc1(OTP_48_0) in
+  let XOR_70_0: fixed_64 = exclusive_or(Conc1_66_0, pad) in
+  out(c_out[!_27], XOR_70_0)
+) | (
+  in(c_in[!_27], (argv0_37: bitstring, argv1_36: bitstring, argv2_35: bitstring, argv3_34: bitstring, argv4_33: bitstring));
+  out(c_out[!_27], ());
+  in(c_in[!_27], ())
+)
+
+
+Applying equivalence
+equiv ! !_25 <= @4_nx new @4_a: fixed_64; @4_Oxor(@4_x: fixed_64) := exclusive_or(@4_a, @4_x)
+<=(0)=> [computational]
+      ! !_26 <= @4_nx new @4_a: fixed_64; @4_Oxor(@4_x: fixed_64) := @4_a
+ yields
+
+Game 2 is
+! !_27 <= N
+in(c_in[!_27], ());
+new pad_38: fixed_64;
+out(c_out[!_27], ());
+(
+  in(c_in[!_27], (argv0_32: bitstring, argv1_31: bitstring, argv2_30: bitstring, argv3_29: bitstring, argv4_28: bitstring));
+  out(c_out[!_27], ());
+  in(c_in[!_27], ());
+  new OTP_48_0: fixed_64;
+  let Conc1_66_0: fixed_64 = conc1(OTP_48_0) in
+  let XOR_70_0: fixed_64 = pad_38 in
+  out(c_out[!_27], XOR_70_0)
+) | (
+  in(c_in[!_27], (argv0_37: bitstring, argv1_36: bitstring, argv2_35: bitstring, argv3_34: bitstring, argv4_33: bitstring));
+  out(c_out[!_27], ());
+  in(c_in[!_27], ())
+)
+
+
+Applying remove assignments of useless yields
+
+Game 3 is
+! !_27 <= N
+in(c_in[!_27], ());
+new pad_38: fixed_64;
+out(c_out[!_27], ());
+(
+  in(c_in[!_27], (argv0_32: bitstring, argv1_31: bitstring, argv2_30: bitstring, argv3_29: bitstring, argv4_28: bitstring));
+  out(c_out[!_27], ());
+  in(c_in[!_27], ());
+  new OTP_48_0: fixed_64;
+  out(c_out[!_27], pad_38)
+) | (
+  in(c_in[!_27], (argv0_37: bitstring, argv1_36: bitstring, argv2_35: bitstring, argv3_34: bitstring, argv4_33: bitstring));
+  out(c_out[!_27], ());
+  in(c_in[!_27], ())
+)
+
+
+RESULT Proved secrecy of OTP_48_0
+All queries proved.
+

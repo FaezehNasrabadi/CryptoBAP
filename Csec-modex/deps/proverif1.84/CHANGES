@@ -1,0 +1,203 @@
+This file summarizes the most important changes between versions
+of the cryptographic protocol verifier.
+
+Version 1.84
+
+- elimVar and elimVarStrict are now forbidden in pi calculus front-ends.
+- elimtrue no longer accepts star variables.
+- improved performance of simplification of derivations and of
+unifyDerivation for very large traces.
+
+Version 1.83
+
+- renamed the executable to proverif
+- improved the simplification of derivations, in particular in
+the presence of private channels.
+- fixed internal error that happened in some cases when trying
+to reconstruct attacks against injective correspondences.x
+
+Version 1.82
+
+- fixed bug in the compromise of session keys (free names were missing 
+  in the terms that are allowed to build compromised terms).
+- fixed two bugs in trace reconstruction (one in the presence of choice,
+  one in the presence of phases).
+- fixed some bugs in the protocol models.
+- fixed bugs in proveriftotex (use LaTeX macros when special TeX characters
+  appear in the ProVerif file to convert; some ProVerif constructs were
+  not handled due to an outdated lexer file).
+- typed front-end: for CryptoVerif compatibility, 
+   - added a def/expand macro mechanism
+   - added -lib command-line option
+   - added tables, in particular useful for tables of keys
+   (the same construct will be added to CryptoVerif; one will be able to use
+   it instead of find in the initial game)
+   - allow empty patterns (), allow "let" without "in", allow "if f(...) then"
+   when f returns a result of type bool.
+
+Version 1.81 (not a public release)
+
+- improved proof of injective correspondences when there are
+several occurrences in the process of the events that occur after ==>
+in the query.
+- heuristic "unifyDerivation" now active by default, and iterated
+(following File, Vigo, CSF'09).
+- when -in <format> is not specified, the input format is now selected
+by the extension of the file:
+    .pv for the typed pi-calculus front-end
+    .pi for the untyped pi-calculus front-end
+    .horntype for the typed Horn clauses front-end
+In all other cases, the untyped Horn clauses front-end. Case is not
+significant in file extensions.
+- typed front-end: 
+   - type "bool" and constants "true" and "false" now declared by default; 
+   - "not" allowed as an ordinary function; 
+   - bound names of the process must be preceded by "new" when they are 
+     used in queries, for more clarity;
+   - "if", "let", "new" now allowed in terms (by expanding them into processes).
+   - declarations "param", "proba", "proof" allowed (but ignored) for 
+     compatibility with CryptoVerif
+   - for type declarations, options between brackets allowed (but ignored) for 
+     compatibility with CryptoVerif
+   - ! i <= N allowed for compatibility with CryptoVerif.
+   - yield allowed as a synonym of 0 for compatibility with CryptoVerif
+   - declarations "letfun f(x1:t1, ..., xn:tn) = M"
+   - declaration "channel c1,...,cn." as a synonym for 
+     "free c1,...,cn:channel." for compatibility with CryptoVerif.
+
+Version 1.80 (not a public release)
+
+- new front-end with types and parametric processes (in progress)
+- reorganized examples according to the front-end they use
+- do not display the generated clauses by default (but a command-line
+option "-test" and a setting "param verboseClauses = explained" display them)
+- removed setting "param channels = names"
+- allow injective events to occur several times (but only in different 
+branches of tests)
+- fixed bug in the verification that a rewrite system is confluent
+
+Version 1.18pl1
+
+- fixed bug in attack reconstruction in the presence of a passive
+adversary that caused an internal error.
+- minor changes in the examples.
+
+Version 1.18
+
+- reconstruction of attacks against injective correspondences
+- when an injective correspondence is not proved, also give the result
+of the corresponding non-injective correspondence, for information.
+
+Version 1.17
+
+- reconstruction of attacks for processes with "choice"
+- reconstruction of attacks for query noninterf
+- display of traces with locations of the executed inputs, outputs, and events
+in the process.
+- display terms that represent names in the form a[x = ..., y = ..., ...]
+to relate the arguments of the names to variables in the process.
+- option -color to display a colored output on terminals that support ANSI
+color codes.
+
+Version 1.16
+
+- reconstruction of attacks for query weaksecret
+- fixed bug with predicate is_name in the output of clauses in Spass format
+
+Version 1.15
+
+- ProVerif now provides explanations of where the clauses come from
+- ProVerif uses abbreviations in the display of derivations
+- ProVerif explains the derivations by referring to the process
+- fixed some bugs in the output of clauses in Spass format
+- fixed a recently introduced bug in attack reconstruction that caused
+attack reconstruction to fail in some cases in which it should have succeeded.
+
+Version 1.14
+
+- fixed some bugs.
+- removed "param allVarsInNames = ...", replaced with an automatic mechanism
+- improved naming of variables in clauses, so that they use process variable 
+  names more often.
+- extended "nounif" instructions.
+- removed limitation to 10 phases.
+- added optimization "refTransAtt" for reflexive and transitive predicates
+  whose arguments are known by the attacker (by Avik Chaudhuri and 
+  Bruno Blanchet).
+
+Version 1.13
+
+- fixed bug with queries "query f ==> x == y."
+- the system is now capable of saying that some injective queries are false.
+- additional option "param redundantHypElim = beginOnly."
+
+Version 1.12
+
+- improved trace reconstruction for very big traces.
+
+Version 1.11
+
+- verification of protocols subject to dictionary attacks
+- verification of observational equivalence of processes that differ
+  only by the terms they use
+- reconstruction of an execution trace that corresponds to an attack
+  (by Xavier Allamigeon and Bruno Blanchet)
+- generalization of the optimizations 
+  pred p/n decompData (see rules F1 & ... & Fn <-> F and F1 & ... & Fn <=> F), 
+  pred p/n elimVar (see elimtrue F),
+  and, for the pi-calculus front-end, not F.
+- reworked treatment of equations
+- various bug fixes and internal improvements
+- removed deprecated keywords anytrue, tupleinv, blocking.
+
+Version 1.10
+
+- new query system (incompatible with previous versions)
+- converter ProVerif to TeX
+- improved treatment of inequalities in the presence of equations
+(previously, syntactic inequality was used as a sound approximation
+of inequality modulo an equational theory)
+
+Version 1.09
+
+- proof of strong secrecy
+- scenarios with several phases
+- inequalities with universally quantified variables.
+- precise analysis of else clauses of destructors
+(before, they were considered as a parallel composition)
+- improvement in treatment of equations
+- optimization: elimination of redundant hypotheses in clauses
+
+Version 1.08 (not a public release)
+
+- let ... suchthat ... construct and predicates.
+- special treatment for lists.
+
+Version 1.07
+
+- A few more optimizations.
+
+Version 1.06 (not a public release)
+
+- A single executable program, that can take several input formats and
+output several kinds of results.
+
+Version 1.05alpha (not a public release)
+
+- More general treatment of equations (including f(x,g(y)) = f(y,g(x))
+used for Diffie-Hellman but also other simple equations; however,
+associativity for instance is not supported).
+- Pattern-matching construct
+- Parameter to set whether communications are allowed on channels that
+are not names.
+- Key compromise is now compatible with authenticity
+- Verification of more general event specifications, not only
+authenticity (begin* and end*)
+- Optimization of the subsumption test (can give dramatic speedups)
+- Redundancy test: when a rule with empty selection is derivable from
+several other rules with empty selection, it is removed.
+- Various small bug fixes and cosmetic changes
+
+Version 1.00alpha
+
+First release.

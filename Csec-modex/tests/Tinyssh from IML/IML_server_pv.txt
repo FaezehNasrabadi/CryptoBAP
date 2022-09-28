@@ -1,0 +1,22 @@
+in c, a_63 
+in c, a_433 
+new SKey_704 fixed_64 
+let sk_706 = kgen(g,SKey_704) in
+out c, sk_706 
+let kAB_708 = kgen(a_433,SKey_704) in
+let HMAC_714 = hash3(a_433,sk_706,pkS) in
+event AcceptS pkS pkP 
+let signature_720 = sign(inputs,skS) in
+out c, sign(inputs,skS) 
+out c, pkS
+let kPS_724 = kdfPtoS(kAB_708,HMAC_714) in
+let kSP_728 = kdfStoP(kAB_708,HMAC_714) in
+in c, a_732 
+let Dec_733 = dec(a_732,kPS_724) in
+let Enc_736 = enc(Dec_733,kSP_728) in
+out c, Enc_736 
+in c, a_967 
+let Dec_968 = dec(a_967,kPS_724) in
+let Ver_972 = verify(Dec_968,pkP) in
+if Ver_972 = true then
+event AcceptS2 pkS pkP 

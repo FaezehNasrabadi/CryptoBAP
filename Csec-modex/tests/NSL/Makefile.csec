@@ -1,0 +1,21 @@
+
+CSEC_ROOT = ../..
+
+include Makefile.common
+
+all:
+
+eclipse-all: compile
+
+PROXY_LIBS = $(PROXIES)/libsystem-proxies.a $(PROXIES)/libopenssl-proxies.a $(PROXIES)/libcrestify.a
+PROXY_OBJ = lib_proxy.o
+
+BUILD_CMD = $(MAKE) -f Makefile.run compile CC=aarch64-linux-gnu-gcc -march=armv8-a -mtune=cortex-a53 -L/home/faezeh/openssl -L/home/faezeh/csec-modex/proxies -static CFLAGS="$(CFLAGS)" LDLIBS="$(LDLIBS)"
+
+include $(CSEC_ROOT)/mk/main.mk
+
+test: test.c lib.c
+test: LDLIBS += $(CRYPTO_LIB) $(SYM_PROXY_LIB)
+
+clean::
+	$(RM) client server

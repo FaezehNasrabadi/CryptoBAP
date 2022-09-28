@@ -1,0 +1,19 @@
+Process:
+new KR_4;
+{1}!
+{2}in(c, V_5);
+new N_6;
+{3}out(c, choice[N_6,H(KR_4,(N_6,V_5))]);
+0
+
+-- Observational equivalence
+Termination warning: v_54 <> v_55 & attacker2:v_53,v_54 & attacker2:v_53,v_55 -> bad:
+Selecting 0
+Termination warning: v_57 <> v_58 & attacker2:v_57,v_56 & attacker2:v_58,v_56 -> bad:
+Selecting 0
+Completing...
+Termination warning: v_54 <> v_55 & attacker2:v_53,v_54 & attacker2:v_53,v_55 -> bad:
+Selecting 0
+Termination warning: v_57 <> v_58 & attacker2:v_57,v_56 & attacker2:v_58,v_56 -> bad:
+Selecting 0
+RESULT Observational equivalence is true (bad not derivable).

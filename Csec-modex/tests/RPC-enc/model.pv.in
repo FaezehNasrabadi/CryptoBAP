@@ -1,0 +1,60 @@
+
+free c_in.
+free c_out.
+
+fun true/0.
+
+(********************************
+  Crypto
+*********************************)
+
+fun E/3.
+fun kgen/1.
+reduc
+  D_injbot(E(x, k, r), k) = x.
+
+(********************************
+  Key lookup
+*********************************)
+
+private fun lookup/3.
+
+(* 
+equation 
+  key(A, B) = key(B, A).
+*)
+
+(********************************
+  <Query>
+*********************************)
+
+(* Authentication properties: *)
+query ev:client_accept(client, server, req, resp) ==> ev:server_reply(client, server, req, resp) | ev:bad(client, server).
+query ev:server_reply(client, server, req, resp) ==> ev:client_begin(client, server, req) | ev:bad(client, server).
+
+(* Secrecy properties: *)
+query attacker:lookup(client, server, db) ==> ev:bad(client, server).
+query attacker:kgen(kS_seed1[clientID = client; serverID = server]) ==> ev:bad(client, server).
+
+(* Sanity property: *)
+query ev:client_accept(client, server, req, resp) ==> ev:bad(client, server).
+free request, response.
+
+(********************************
+  <Model>
+*********************************)
+
+let client = 0 . 
+let server = 0 .
+
+(********************************
+  <Environment>
+*********************************)
+
+process
+  ! ( new db; in(c, xClient); (* not used in PV *)
+    ! (in(c, clientID); in(c, serverID); !client)
+  | ! (in(c, serverID); !server)
+  | ! (in(c, (clientID, serverID)); 
+       event bad(clientID, serverID); 
+       out(c, lookup(clientID, serverID, db))))

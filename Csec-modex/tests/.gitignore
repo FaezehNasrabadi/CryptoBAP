@@ -1,0 +1,24 @@
+.svn
+.depend
+.cproject
+.project
+.makepp
+.settings
+.csettings
+.paths
+*.out
+################ config
+config.log
+config.status
+################ C 
+*.cil.c
+*.i
+*.o
+*.a
+################ Ocaml
+*.cmi
+*.cmx
+*.cmo
+*.cma
+*.cmxa
+

@@ -1,0 +1,85 @@
+/*
+  Based on the API lite for the Yices SMT Solver (version 1)
+  Copyright (c) SRI International.
+  Authors: Leonardo de Moura and Bruno Dutertre.
+
+  Adaption for Camlidl and comments for OCaml: Mickaël Delahaye.
+*/
+quote(mli, "(**\n\
+  [context] type representing a logical context\n\
+*)\n\n")
+typedef [abstract, errorcheck(check_yicesl_context)] void * yicesl_context;
+typedef [abstract, errorcode, errorcheck(check_yicesl_error)] int yicesl_error;
+typedef [abstract, errorcode, errorcheck(check_yicesl_log_file_error)] int yicesl_log_file_error;
+typedef [abstract, errorcode, errorcheck(check_yicesl_output_file_error)] int yicesl_output_file_error;
+
+quote(mli, "(**\n\
+  Sets the verbosity level. The default level is 0.\n\
+\n\
+  At verbosity level 0, Yices does not print anything during processing. Increasing the level causes Yices to   print some (or a lot of) information.\n\
+*)")
+void yicesl_set_verbosity(int l);
+
+quote(mli, "(**\n\
+  @return the yices version number\n\
+*)")
+[string]
+const char * yicesl_version();
+
+quote(mli, "(**\n\
+  Forces Yices to type check expressions when they are asserted (default = false).\n\
+*)")
+void yicesl_enable_type_checker(boolean flag);
+
+quote(mli,"(**\n\
+  Enables a log file that will store the assertions, checks, decls, etc.\n\
+\n\
+  If the log file is already open, then nothing happens.\n\
+\n\
+   @raise Failure if either:\n\
+   - there's already a log file\n\
+   - if the file cannot be opened for write (or some other file error)\n\
+*)")
+yicesl_log_file_error yicesl_enable_log_file([string] const char * file_name);
+
+quote(mli, "(**\n\
+  Sets the file that will store the output produced by yices (e.g., models).\n\
+  The default behavior is to send the output to standard output.\n\
+\n\
+  If the file can be opened then it replaces the current ouput file.\n\
+  The latter, if different from the standard output, is closed first.\n\
+\n\
+  If the file can't be opened then the current output file is kept.\n\
+\n\
+  @raise Failure if the file can be opened and installed as output.\n\
+*)")
+yicesl_output_file_error yicesl_set_output_file([string] const char * file_name);
+
+quote(mli,"(**\n\
+  Creates a logical context.\n\
+*)")
+yicesl_context yicesl_mk_context();
+
+quote(mli,"(**\n\
+  Deletes the given logical context.\n\
+*)")
+void yicesl_del_context(yicesl_context ctx);
+
+quote(mli,"(**\n\
+  Processes the given command in the given logical context. The command must\n\
+  use Yices input language.\n\
+\n\
+  @raise Failure if the command failed. The message is provided by Yices \n\
+  (C API Lite [yicesl_get_last_error_message]).\n\
+  @see <http://yices.csl.sri.com/language.shtml> the input language specification.\n\
+*)")
+[blocking]
+yicesl_error yicesl_read(yicesl_context ctx,[string] const char * cmd) ;
+
+quote(mli, "(**\n\
+  Checks whether the given logical context is known to be inconsistent.\n\
+\n\
+  @return [true] if the context status is {b known} and if the context is {b inconsistent}, and\n\
+  [false] otherwise. In the latter case, one must use command [(check)] to determine whether the context is satisfiable.\n\
+*)")
+boolean yicesl_inconsistent(yicesl_context ctx);

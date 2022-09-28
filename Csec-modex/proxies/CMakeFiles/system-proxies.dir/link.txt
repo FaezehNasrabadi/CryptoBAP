@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsystem-proxies.a  CMakeFiles/system-proxies.dir/system_proxies.c.o CMakeFiles/system-proxies.dir/system_proxies_boring.c.o
+/usr/bin/ranlib libsystem-proxies.a

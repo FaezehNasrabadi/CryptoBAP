@@ -1,0 +1,190 @@
+{ /home/faezeh/csec-modex/src/symtrace/pvtrace IML_client.txt IML_server.txt /home/faezeh/csec-modex/deps/cryptoverif1.12/default model.cv.in model.pv.in | tee model.pv.out; } > model.pv.debug.out 2>&1
+for f in model.pv.out; do\
+	/home/faezeh/csec-modex/deps/proverif1.84/proverif -in pi $f;\
+done
+Process:
+{1}!
+new key_15;
+{2}in(c_in, xClient_16);
+{3}!
+(
+    {22}in(c_in, clientID_30);
+    {23}in(c_in, serverID_31);
+    {24}!
+    new SKey_10_32;
+    {25}let sk_11_33 = kgen(SKey_10_32) in
+    {26}event client_begin(clientID_30,serverID_31,request);
+    {27}in(c_in, a_105_34);
+    {28}let Conc3_447_35 = conc3(request,sk_11_33) in
+    {29}let kAB_451_36 = lookup(clientID_30,serverID_31,key_15) in
+    new iv_454_37;
+    {30}let Enc_455_38 = enc1(Conc3_447_35,kAB_451_36,iv_454_37) in
+    {31}let Conc2_459_39 = conc2(clientID_30,Enc_455_38) in
+    {32}out(c_out, Conc2_459_39);
+    {33}in(c_in, a_561_40);
+    {34}let Dec_569_41 = dec(a_561_40,sk_11_33) in
+    {35}event client_accept(clientID_30,serverID_31,request,Dec_569_41);
+    0
+) | (
+    {4}!
+    (
+        {9}in(c_in, serverID_19);
+        {10}!
+        {11}in(c_in, a_31_20);
+        {12}in(c_in, a_96_21);
+        {13}let Pars1_476_22 = pars1(a_96_21) in
+        {14}let kAB_480_23 = lookup(clientID,serverID_19,key_15) in
+        {15}let Pars2_483_24 = pars2(a_96_21) in
+        {16}let Dec_486_25 = dec(Pars2_483_24,kAB_480_23) in
+        {17}let Pars3_489_26 = pars3(Dec_486_25) in
+        {18}event server_reply(clientID,serverID_19,Pars3_489_26,response);
+        {19}let Pars4_493_27 = pars4(Dec_486_25) in
+        new iv_497_28;
+        {20}let Enc_498_29 = enc1(response,Pars4_493_27,iv_497_28) in
+        {21}out(c_out, Enc_498_29);
+        0
+    ) | (
+        {5}!
+        {6}in(c_in, (clientID_17,serverID_18));
+        {7}event bad(clientID_17,serverID_18);
+        {8}out(c_out, lookup(clientID_17,serverID_18,key_15));
+        0
+    )
+)
+
+-- Query ev:client_accept(client_42,server_43,request[],response[]) ==> ev:bad(client_42,server_43)
+Completing...
+Starting query ev:client_accept(client_42,server_43,request[],response[]) ==> ev:bad(client_42,server_43)
+goal reachable: attacker:server_407 -> end:client_accept(clientID[],server_407,request[],response[])
+Abbreviations:
+SKey_10_450 = SKey_10_32[!3 = @sid_440,serverID = server_449,clientID = clientID[],!2 = @sid_443,xClient = xClient_444,!1 = @sid_445]
+key_451 = key_15[!1 = @sid_445]
+iv_454_452 = iv_454_37[a_105 = a_105_417,!3 = @sid_440,serverID = server_449,clientID = clientID[],!2 = @sid_443,xClient = xClient_444,!1 = @sid_445]
+iv_497_453 = iv_497_28[a_96 = conc2(arg0_428,enc1(conc3(request[],kgen(SKey_10_450)),lookup(clientID[],server_449,key_451),iv_454_452)),a_31 = a_31_434,!4 = @sid_436,serverID = server_449,!3 = @sid_437,!2 = @sid_438,xClient = xClient_435,!1 = @sid_445]
+
+1. The attacker has some term xClient_444.
+attacker:xClient_444.
+
+2. The attacker initially knows clientID[].
+attacker:clientID[].
+
+3. We assume as hypothesis that
+attacker:server_449.
+
+4. The attacker has some term a_105_447.
+attacker:a_105_447.
+
+5. The attacker has some term xClient_435.
+attacker:xClient_435.
+
+6. The attacker has some term a_31_434.
+attacker:a_31_434.
+
+7. The attacker has some term a_105_417.
+attacker:a_105_417.
+
+8. The message xClient_444 that the attacker may have by 1 may be received at input {2}.
+The message clientID[] that the attacker may have by 2 may be received at input {22}.
+The message server_449 that the attacker may have by 3 may be received at input {23}.
+The message a_105_417 that the attacker may have by 7 may be received at input {27}.
+So the message conc2(clientID[],enc1(conc3(request[],kgen(SKey_10_450)),lookup(clientID[],server_449,key_451),iv_454_452)) may be sent to the attacker at output {32}.
+attacker:conc2(clientID[],enc1(conc3(request[],kgen(SKey_10_450)),lookup(clientID[],server_449,key_451),iv_454_452)).
+
+9. By 8, the attacker may know conc2(clientID[],enc1(conc3(request[],kgen(SKey_10_450)),lookup(clientID[],server_449,key_451),iv_454_452)).
+Using the 1th inverse of function conc2 the attacker may obtain enc1(conc3(request[],kgen(SKey_10_450)),lookup(clientID[],server_449,key_451),iv_454_452).
+attacker:enc1(conc3(request[],kgen(SKey_10_450)),lookup(clientID[],server_449,key_451),iv_454_452).
+
+10. The attacker has some term arg0_428.
+attacker:arg0_428.
+
+11. By 10, the attacker may know arg0_428.
+By 9, the attacker may know enc1(conc3(request[],kgen(SKey_10_450)),lookup(clientID[],server_449,key_451),iv_454_452).
+Using the function conc2 the attacker may obtain conc2(arg0_428,enc1(conc3(request[],kgen(SKey_10_450)),lookup(clientID[],server_449,key_451),iv_454_452)).
+attacker:conc2(arg0_428,enc1(conc3(request[],kgen(SKey_10_450)),lookup(clientID[],server_449,key_451),iv_454_452)).
+
+12. The message xClient_435 that the attacker may have by 5 may be received at input {2}.
+The message server_449 that the attacker may have by 3 may be received at input {9}.
+The message a_31_434 that the attacker may have by 6 may be received at input {11}.
+The message conc2(arg0_428,enc1(conc3(request[],kgen(SKey_10_450)),lookup(clientID[],server_449,key_451),iv_454_452)) that the attacker may have by 11 may be received at input {12}.
+So the message enc1(response[],kgen(SKey_10_450),iv_497_453) may be sent to the attacker at output {21}.
+attacker:enc1(response[],kgen(SKey_10_450),iv_497_453).
+
+13. The message xClient_444 that the attacker may have by 1 may be received at input {2}.
+The message clientID[] that the attacker may have by 2 may be received at input {22}.
+The message server_449 that the attacker may have by 3 may be received at input {23}.
+The message a_105_447 that the attacker may have by 4 may be received at input {27}.
+The message enc1(response[],kgen(SKey_10_450),iv_497_453) that the attacker may have by 12 may be received at input {33}.
+So event client_accept(clientID[],server_449,request[],response[]) may be executed at {35}.
+end:client_accept(clientID[],server_449,request[],response[]).
+
+
+Trying unification xClient_435 with xClient_444 succeeded.
+Trying unification a_105_417 with a_105_447 succeeded.
+Iterating unifyDerivation.
+Fixpoint reached: nothing more to unify.
+The clause after unifyDerivation is attacker:server_454 -> end:client_accept(clientID[],server_454,request[],response[])
+This clause still contradicts the query.
+A more detailed output of the traces is available with
+  param traceDisplay = long.
+
+in(c_in, a_4) at {2} in copy a_5
+
+in(c_in, a_1) at {9} in copy a_5, a_11, a_10
+
+in(c_in, a_8) at {11} in copy a_5, a_11, a_10, a_9
+
+in(c_in, clientID) at {22} in copy a_5, a_3
+
+in(c_in, a_1) at {23} in copy a_5, a_3
+
+event(client_begin(clientID,a_1,request)) at {26} in copy a_5, a_3, a_2
+
+in(c_in, a_7) at {27} in copy a_5, a_3, a_2
+
+out(c_out, conc2(clientID,enc1(conc3(request,kgen(SKey_10_32_12)),lookup(clientID,a_1,key_15_13),iv_454_37_14))) at {32} in copy a_5, a_3, a_2
+
+in(c_in, conc2(a_6,enc1(conc3(request,kgen(SKey_10_32_12)),lookup(clientID,a_1,key_15_13),iv_454_37_14))) at {12} in copy a_5, a_11, a_10, a_9
+
+event(server_reply(clientID,a_1,request,response)) at {18} in copy a_5, a_11, a_10, a_9
+
+out(c_out, enc1(response,kgen(SKey_10_32_12),iv_497_28_15)) at {21} in copy a_5, a_11, a_10, a_9
+
+in(c_in, enc1(response,kgen(SKey_10_32_12),iv_497_28_15)) at {33} in copy a_5, a_3, a_2
+
+event(client_accept(clientID,a_1,request,response)) at {35} in copy a_5, a_3, a_2
+
+The event client_accept(clientID,a_1,request,response) is executed.
+A trace has been found.
+RESULT ev:client_accept(client_42,server_43,request[],response[]) ==> ev:bad(client_42,server_43) is false.
+-- Query attacker:kgen(SKey_10_32[!3 = v_693,serverID = server_694,clientID = client_695,!2 = v_696,xClient = v_697,!1 = v_698]) ==> ev:bad(client_695,server_694)
+Completing...
+Starting query attacker:kgen(SKey_10_32[!3 = v_693,serverID = server_694,clientID = client_695,!2 = v_696,xClient = v_697,!1 = v_698]) ==> ev:bad(client_695,server_694)
+goal reachable: attacker:v_986 & begin:bad(client_987,server_988) & attacker:client_987 & attacker:server_988 -> attacker:kgen(SKey_10_32[!3 = v_989,serverID = server_988,clientID = client_987,!2 = v_990,xClient = v_986,!1 = v_991])
+RESULT attacker:kgen(SKey_10_32[!3 = v_693,serverID = server_694,clientID = client_695,!2 = v_696,xClient = v_697,!1 = v_698]) ==> ev:bad(client_695,server_694) is true.
+-- Query attacker:lookup(client_1004,server_1005,key_15[!1 = v_1006]) ==> ev:bad(client_1004,server_1005)
+Completing...
+Starting query attacker:lookup(client_1004,server_1005,key_15[!1 = v_1006]) ==> ev:bad(client_1004,server_1005)
+goal reachable: begin:bad(client_1291,server_1292) & attacker:client_1291 & attacker:server_1292 -> attacker:lookup(client_1291,server_1292,key_15[!1 = v_1293])
+RESULT attacker:lookup(client_1004,server_1005,key_15[!1 = v_1006]) ==> ev:bad(client_1004,server_1005) is true.
+-- Query ev:server_reply(client_1297,server_1298,request[],response[]) ==> ev:client_begin(client_1297,server_1298,request[]) | ev:bad(client_1297,server_1298)
+Completing...
+Starting query ev:server_reply(client_1297,server_1298,request[],response[]) ==> ev:client_begin(client_1297,server_1298,request[]) | ev:bad(client_1297,server_1298)
+goal reachable: begin:bad(clientID[],server_1608) & attacker:server_1608 -> end:server_reply(clientID[],server_1608,request[],response[])
+goal reachable: begin:client_begin(clientID[],server_1609,request[]) & attacker:server_1609 -> end:server_reply(clientID[],server_1609,request[],response[])
+RESULT ev:server_reply(client_1297,server_1298,request[],response[]) ==> ev:client_begin(client_1297,server_1298,request[]) | ev:bad(client_1297,server_1298) is true.
+-- Query ev:client_accept(client_1614,server_1615,request[],response[]) ==> ev:server_reply(client_1614,server_1615,request[],response[]) | ev:bad(client_1614,server_1615)
+Completing...
+Starting query ev:client_accept(client_1614,server_1615,request[],response[]) ==> ev:server_reply(client_1614,server_1615,request[],response[]) | ev:bad(client_1614,server_1615)
+goal reachable: begin:server_reply(clientID[],server_1967,request[],response[]) & attacker:server_1967 -> end:client_accept(clientID[],server_1967,request[],response[])
+goal reachable: begin:bad(client_1970,server_1971) & attacker:server_1971 & attacker:client_1970 -> end:client_accept(client_1970,server_1971,request[],response[])
+RESULT ev:client_accept(client_1614,server_1615,request[],response[]) ==> ev:server_reply(client_1614,server_1615,request[],response[]) | ev:bad(client_1614,server_1615) is true.
+faezeh@ubuntu:~/csec-modex/tests/RPC-enc from IML$ make -f Makefile.csec 
+for f in model.pv.out; do\
+	/home/faezeh/csec-modex/deps/proverif1.84/proverif -in pi $f | grep "RESULT\|queries";\
+done
+RESULT ev:client_accept(client_42,server_43,request[],response[]) ==> ev:bad(client_42,server_43) is false.
+RESULT attacker:kgen(SKey_10_32[!3 = v_693,serverID = server_694,clientID = client_695,!2 = v_696,xClient = v_697,!1 = v_698]) ==> ev:bad(client_695,server_694) is true.
+RESULT attacker:lookup(client_1004,server_1005,key_15[!1 = v_1006]) ==> ev:bad(client_1004,server_1005) is true.
+RESULT ev:server_reply(client_1297,server_1298,request[],response[]) ==> ev:client_begin(client_1297,server_1298,request[]) | ev:bad(client_1297,server_1298) is true.
+RESULT ev:client_accept(client_1614,server_1615,request[],response[]) ==> ev:server_reply(client_1614,server_1615,request[],response[]) | ev:bad(client_1614,server_1615) is true.
+

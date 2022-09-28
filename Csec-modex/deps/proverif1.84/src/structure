@@ -1,0 +1,43 @@
+parsing_helper.ml: functions for error messages
+
+For clauses input
+lexer.mll: lexer 
+parser.mly: parser
+ptree.mli: type declarations for the parse tree
+types.mli: type declarations for the facts and clauses
+syntax.ml: translates parse tree into tree with bound variables (as declared in types.mli)
+
+display.ml: various display functions
+param.ml: various parameters and declarations of predicates, function symbols, ...
+terms.ml: various term manipulation functions
+termsEq.ml: various term manipulation functions with an equational theory
+termslinks.ml: various functions for manipulating terms with links (without expanding them)
+
+rules.ml: the resolution algorithm on clauses.
+selfun.ml: selection function (determines the resolution strategy)
+queue.ml: queue of clauses, used for the resolution algorithm
+history.ml: reconstruct a derivation when a clause has been derived.
+
+spassout.ml: output of clauses in SPASS format
+
+For pi calculus input
+pilexer.mll: lexer 
+piparser.mly: parser
+piptree.mli: type declarations for the parse tree
+pitypes.mli: type declarations for the processes and queries 
+pievent.ml: routines for managing events
+pisyntax.ml: translates parse tree into tree with bound variables (as declared in pitypes.mli)
+pitransl.ml: translates a process into clauses for secrecy (POPL'02), correspondences (SAS'02), strong secrecy (Oakland'04)
+pitranslweak.ml: translates a process into clauses for proving equivalences and protocols with weak secrets (see LICS'05)
+noninterf.ml: clauses manipulations and selection function for strong secrecy (Oakland'04)
+weaksecr.ml clauses manipulations and selection function for proving equivalences (LICS'05)
+piauth.ml: checks whether a correspondence query is true after resolution.
+reduction*.ml: reconstruct a trace (attack) from a derivation (see CSFW'05)
+
+main.ml: main program; interprets the command line and calls the desired functions.
+
+
+Program that translates ProVerif input to TeX:
+lexertotex.mll: lexer
+syntaxtotex.ml: helper file, mainly defines key words
+proveriftotex.ml: main file

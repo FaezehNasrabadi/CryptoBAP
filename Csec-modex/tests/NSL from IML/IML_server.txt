@@ -1,0 +1,17 @@
+in c, a_284 
+in c, a_428 
+let Dec_608 = dec(a_428,skB) in
+let Pars4_1141 = pars4(Dec_608) in
+event server_begin hostA hostB 
+let Pars5_1887 = pars5(Dec_608) in
+new RAND_NUM_1890 fixed_64 
+let Conc3_1893 = conc3(Pars5_1887,RAND_NUM_1890,hostB) in
+new iv_2205 fixed_64 
+let Enc_2206 = enc1(Conc3_1893,pkA,iv_2205) in
+out c, Enc_2206 
+in c, a_2329 
+in c, a_2473 
+let Dec_2653 = dec(a_2473,skB) in
+let Pars6_3017 = pars6(Dec_2653) in
+if Pars6_3017 = RAND_NUM_1890 then
+event server_end hostA hostB 

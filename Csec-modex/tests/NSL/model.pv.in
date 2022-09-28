@@ -1,0 +1,124 @@
+
+free c_in.
+free c_out.
+
+fun true/0.
+
+(**********************************
+  Needham-Schroeder-Lowe protocol.
+***********************************)
+
+
+(*
+  This process is key-safe: neither signing nor decryption keys are being sent.
+  Signing and decryption uses honestly generated keys with fresh randomness.
+*)
+
+free c.
+
+(*************************
+  Public-key encryption
+**************************)
+
+(*
+  NB! The soundness result in CoSP assumes that we can encrypt messages of any length,
+  which means that a correct implementation of E must use hybrid encryption.
+*)
+
+fun ek/1.
+fun dk/1.
+fun E/3.
+reduc
+  D_injbot(E(x, ek(a), r), dk(a)) = x.
+reduc
+  isek(ek(a)) = ek(a).
+  
+(*************************
+  Signatures
+**************************)
+  
+fun sk/1.
+fun vk/1.
+fun sig/3.
+
+(* Just a pairing function *)
+data cert/2.
+
+(*
+  check_key performs signature verification together with bitstring comparison,
+  so it is covered by the soundness result.
+*)
+reduc 
+  check_key(host, key, sig(sk(r), cert(key, host), r'), vk(r)) = true.
+  
+(**********************************
+  Names of the honest participants
+***********************************)
+  
+fun hostA/0.
+fun hostB/0.
+  
+
+(******************** 
+  <Query>
+********************)
+
+query
+  ev:server_end(x, y) ==> ev:client_begin(x, y) | ev:bad(x).
+
+query
+  ev:client_end(x, y) ==> ev:server_begin(x, y) | ev:bad(y).
+
+(*
+  New version of ProVerif displays this information anyway
+*)
+query 
+  ev:server_end(x, y) ==> ev:bad(x).
+
+(*************************** 
+  Model 
+***************************)
+
+let client = 0.
+let server = 0.
+
+(*************************** 
+  <Environment>
+***************************)
+
+let client' = 
+  in(c, (pkX, hostX, sigX));
+  client .
+
+let server' = 
+  in(c, (pkX, hostX, sigX));
+  server .
+
+let keyServer = 
+  in(c, (h, k));
+  new r3;
+  if h = hostA then
+    out(c, (pkA, h, sig(skS, cert(pkA, h), r3)))
+  else if h = hostB then 
+    out(c, (pkB, h, sig(skS, cert(pkB, h), r3)))
+  else
+    event bad(h);
+    out(c, (k, h, sig(skS, cert(k, h), r3))) .
+
+process
+! (
+  new A_seed; 
+  new B_seed;
+  let pkA = ek(A_seed) in
+  let skA = dk(A_seed) in
+  let pkB = ek(B_seed) in
+  let skB = dk(B_seed) in
+
+  new rkS;
+  let pkS = vk(rkS) in
+  let skS = sk(rkS) in
+  
+  out(c, (pkA, pkB, pkS));
+  (!client' | !server' | !keyServer)
+)
+

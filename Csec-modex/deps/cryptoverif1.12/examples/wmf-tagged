@@ -1,0 +1,184 @@
+(*************************************************************
+ *                                                           *
+ *       Cryptographic protocol verifier                     *
+ *                                                           *
+ *       Bruno Blanchet                                      *
+ *                                                           *
+ *       Copyright (C) ENS, CNRS, INRIA, 2005-2011           *
+ *                                                           *
+ *************************************************************)
+
+(*
+
+    Copyright ENS, CNRS, INRIA 
+    contributor: Bruno Blanchet, Bruno.Blanchet@ens.fr
+    
+This software is a computer program whose purpose is to verify 
+cryptographic protocols in the computational model.
+
+This software is governed by the CeCILL-B license under French law and
+abiding by the rules of distribution of free software.  You can  use, 
+modify and/ or redistribute the software under the terms of the CeCILL-B
+license as circulated by CEA, CNRS and INRIA at the following URL
+"http://www.cecill.info". 
+
+As a counterpart to the access to the source code and  rights to copy,
+modify and redistribute granted by the license, users are provided only
+with a limited warranty  and the software's author,  the holder of the
+economic rights,  and the successive licensors  have only  limited
+liability. 
+
+In this respect, the user's attention is drawn to the risks associated
+with loading,  using,  modifying and/or developing or reproducing the
+software by the user in light of its specific status of free software,
+that may mean  that it is complicated to manipulate,  and  that  also
+therefore means  that it is reserved for developers  and  experienced
+professionals having in-depth computer knowledge. Users are therefore
+encouraged to load and test the software's suitability as regards their
+requirements in conditions enabling the security of their systems and/or 
+data to be ensured and,  more generally, to use and operate it in the 
+same conditions as regards security. 
+
+The fact that you are presently reading this means that you have had
+knowledge of the CeCILL-B license and that you accept its terms.
+
+*)
+(* Wide-Mouth-Frog protocol, version without timestamps,
+   but with tags.
+   Proving secrecy of the session key.
+   (Script written for a paper with Martin Abadi and 
+   Hubert Comon-Lundh, CAV'09) *)
+
+param N, N2.
+
+type host [bounded].
+type key [fixed].
+type keyseed [fixed].
+type seed [fixed].
+type maxenc [bounded].
+type tag [fixed].
+
+const c0: tag.
+const c1: tag.
+
+fun concat(tag, host, key):maxenc [compos].
+
+
+(* Shared-key encryption (IND-CPA + INT-CTXT Stream cipher) *)
+
+proba Penc.
+proba Pencctxt.
+
+expand IND_CPA_INT_CTXT_sym_enc(keyseed, key, maxenc, bitstring, seed, kgen, encrypt, decrypt, injbot, Z, Penc, Pencctxt).
+
+(* The function Z returns for each bitstring, a bitstring
+   of the same length, consisting only of zeroes. *)
+const Zconcat:maxenc.
+forall x:tag,h:host,k:key; 
+	Z(concat(x,h,k)) = Zconcat.
+
+(* Queries *)
+
+query secret1 keyA.
+query secret1 keyB.
+
+query secret keyA.
+query secret keyB.
+
+
+event endkey(host, host, key).
+event beginkey(host, host, key).
+
+query x:host, y:host, k:key; 
+	event endkey(x,y,k) ==> beginkey(x,y,k).
+
+(* Honest hosts *)
+
+const a : host.
+const b : host.
+
+(* Channels *)
+
+channel c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14.
+
+let processA = 
+        (* Start honest initiator xA (a or b) wishing to talk to (honest or dishonest) xB.
+	   KAs is the key of xA *)
+        in(c2, (xA:host, xB:host));
+	if xA = a || xA = b then
+	let KAs = (if xA = a then Kas else Kbs) in
+	(* Real initiator role *)
+        (* The test "if xB = b || xB = a then" should normally happen after "in(c4, ())",
+	   but moving it earlier helps CryptoVerif succeed *)
+	if xB = b || xB = a then
+        (
+	  new Kab:key;
+	  event beginkey(xA, xB, Kab);
+	  new r:seed;
+          out(c3, (xA, encrypt(concat(c0, xB, Kab), KAs, r)));
+	  (* OK *)
+	  in(c4,());
+	  let keyA:key = Kab
+	)
+	else
+        (
+	  new Kab:key;
+	  event beginkey(xA, xB, Kab);
+	  new r:seed;
+          out(c3, (xA, encrypt(concat(c0, xB, Kab), KAs, r)));
+	  (* OK *)
+	  in(c4,());
+	  out(c5, Kab)
+        ).
+
+
+let processS = 
+	in(c6, (xA:host, m:bitstring));
+	find jA <= N2 suchthat defined(Rkey[jA], Khost[jA]) && (xA = Khost[jA]) then
+	let KAs = Rkey[jA] in
+        let injbot(concat(=c0, xB, kab)) = decrypt(m,KAs) in
+	find jB <= N2 suchthat defined(Rkey[jB], Khost[jB]) && (xB = Khost[jB]) then
+        let KBs = Rkey[jB] in
+	new r:seed;
+	out(c7, encrypt(concat(c1, xA, kab), KBs, r)).
+                         
+let processB = 
+        (* Start honest responder of identity xB, which can be a or b.
+	   KBs is its corresponding key *)
+        in(c8, xB:host);
+	if xB = a || xB = b then
+	let KBs = (if xB = a then Kas else Kbs) in
+	out(c9,());
+	(* Real responder role *)
+	in(c10, m:bitstring); 
+	let injbot(concat(=c1, xA, kab)) = decrypt(m, KBs) in
+	(* OK *)
+	if (xA = a) || (xA = b) then
+	(
+	event endkey(xA, xB, kab);
+	let keyB:key = kab
+	)
+	else
+	out(c11, kab).
+
+let processK =
+	in(c12, (Khost: host, Kkey: key));
+	let Rkey:key = 
+		if Khost = a then Kas else
+		if Khost = b then Kbs else
+		Kkey.
+
+
+
+process 
+	in(c13, ());
+	new rKas: keyseed;
+	let Kas = kgen(rKas) in
+	new rKbs: keyseed;
+	let Kbs = kgen(rKbs) in
+	out(c14, ());
+	((! N processA) |
+	 (! N processB) | 
+	 (! N processS) |
+	 (! N2 processK))
+

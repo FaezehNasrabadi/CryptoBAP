@@ -1,0 +1,77 @@
+let A = 
+assume argv0 = argv0 in
+assume ((len(argv0) + 1) >= 0) /\ ((len(argv0) + 1) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+assume argv1 = argv1 in
+assume ((len(argv1) + 1) >= 0) /\ ((len(argv1) + 1) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+assume argv2 = argv2 in
+assume ((len(argv2) + 1) >= 0) /\ ((len(argv2) + 1) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+assume argv3 = argv3 in
+assume ((len(argv3) + 1) >= 0) /\ ((len(argv3) + 1) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+assume argv4 = argv4 in
+assume ((len(argv4) + 1) >= 0) /\ ((len(argv4) + 1) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+new var1: fixed_20;
+if Malloc(len(argv0) + 1, len(argv1) + 1, len(argv2) + 1, len(argv3) + 1, len(argv4) + 1) <> 0 then 
+let nonce1 = var1 (* named nonce1 *) in
+assume Defined(pad) in
+assume len(pad) = 21 in
+let xor1 = XOR((1)^[u,1]|nonce1, pad) (* named xor1 *) in
+assume len(xor1) = 21 in
+in(c, var2);
+assume Defined(var2) in
+assume len(var2) = 112 in
+let BIO_new_connect_result1 = var2 (* named BIO_new_connect_result1 *) in
+in(c, var3);
+assume Defined(var3) in
+assume len(var3) = 8 in
+let BIO_ctrl_result1 = var3 (* named BIO_ctrl_result1 *) in
+if ¬((BIO_ctrl_result1)_[s,8] <= 0) then 
+let msg1 = xor1 (* named msg1 *) in
+out(c, msg1);
+
+let B = 
+assume argv0 = argv0 in
+assume ((len(argv0) + 1) >= 0) /\ ((len(argv0) + 1) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+assume argv1 = argv1 in
+assume ((len(argv1) + 1) >= 0) /\ ((len(argv1) + 1) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+assume argv2 = argv2 in
+assume ((len(argv2) + 1) >= 0) /\ ((len(argv2) + 1) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+assume argv3 = argv3 in
+assume ((len(argv3) + 1) >= 0) /\ ((len(argv3) + 1) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+assume argv4 = argv4 in
+assume ((len(argv4) + 1) >= 0) /\ ((len(argv4) + 1) <= ((256 * 256 * 256 * 256 * 256 * 256 * 256 * 256) - 1)) in
+in(c, var4);
+assume Defined(var4) in
+assume len(var4) = 112 in
+if Malloc(len(argv0) + 1, len(argv1) + 1, len(argv2) + 1, len(argv3) + 1, len(argv4) + 1) <> 0 then 
+let BIO_new_accept_result1 = var4 (* named BIO_new_accept_result1 *) in
+in(c, var5);
+assume Defined(var5) in
+assume len(var5) = 8 in
+let BIO_ctrl_result2 = var5 (* named BIO_ctrl_result2 *) in
+if ¬((BIO_ctrl_result2)_[s,8] <= 0) then 
+in(c, var6);
+assume Defined(var6) in
+assume len(var6) = 8 in
+let BIO_ctrl_result3 = var6 (* named BIO_ctrl_result3 *) in
+if ¬((BIO_ctrl_result3)_[s,8] <= 0) then 
+in(c, var7);
+assume Defined(var7) in
+assume len(var7) = 112 in
+let BIO_pop_result1 = var7 (* named BIO_pop_result1 *) in
+in(c, var8);
+assume Defined(var8) in
+assume len(var8) = 4 in
+let BIO_free_result1 = var8 (* named BIO_free_result1 *) in
+in(c, var9);
+assume Defined(var9) in
+assume len(var9) = 21 in
+let msg2 = var9 (* named msg2 *) in
+in(c, var10);
+assume Defined(var10) in
+assume len(var10) = 1 in
+let msg3 = var10 (* named msg3 *) in
+assume Defined(pad) in
+assume len(pad) = 21 in
+let xor2 = XOR(msg2, pad) (* named xor2 *) in
+assume len(xor2) = 21 in
+

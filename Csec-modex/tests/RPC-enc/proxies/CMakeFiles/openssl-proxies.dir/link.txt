@@ -1,0 +1,2 @@
+/usr/bin/ar qc libopenssl-proxies.a  CMakeFiles/openssl-proxies.dir/openssl_proxies.c.o CMakeFiles/openssl-proxies.dir/openssl_proxies_internal.c.o
+/usr/bin/ranlib libopenssl-proxies.a

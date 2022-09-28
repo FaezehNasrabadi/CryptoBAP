@@ -1,0 +1,966 @@
+Applying simplify
+  - Simplification pass
+    - Replaced (Ver_972 = true) with Ver_972 at 409
+    - Remove random number generation at 294
+    - Replaced (x = true) with x at 117
+yields
+
+Game 4 is
+     ! i <= N
+     in(c_in[i], ());
+     new hk_1: mkey;
+     new S_seed: skeyseed;
+     let skS: sskey = sskgen(S_seed) in
+     let pkS: spkey = spkgen(S_seed) in
+     out(c_out[i], pkS);
+     ! i_1 <= N
+     in(c_in[i_1, i], ());
+     new P_seed: skeyseed;
+     let skP: sskey = sskgen(P_seed) in
+     let pkP: spkey = spkgen(P_seed) in
+     out(c_out[i_1, i], pkP);
+     ((
+       ! i_2 <= N
+       in(c_in[i_2, i_1, i], ());
+       new a: Z;
+       let gA: G = exp(g, a) in
+       out(c_out[i_2, i_1, i], gA);
+       in(c_in[i_2, i_1, i], (B: G, sig: bitstring, opks: bitstring));
+       let sig1: signature = to_sig(sig) in
+       let opkst: spkey = trans(opks) in
+       if pkS = opkst then
+       let h_1: macres = mac(gA, B, hk_1) in
+       let k: G = exp(B, a) in
+       let x: bool = check(bl, pkS, sig1) in
+       if x then
+       event AcceptP(pkS, pkP);
+       let kPS: symkey = kdfPtoS(k, h_1) in
+       let kSP: symkey = kdfStoP(k, h_1) in
+       out(c_out[i_2, i_1, i], enc(user_auth, kPS));
+       in(c_in[i_2, i_1, i], userauth_answer: bitstring);
+       let user_auth1: bitstringbot = to_bot(user_auth) in
+       if dec(userauth_answer, kSP) = user_auth1 then
+       event AcceptP2(pkS, pkP);
+       let m_4: block = user_answer in
+       new r_4: sign_seed;
+       let sig2: signature = sign_r(m_4, skP, r_4) in
+       let sig3: bitstring = from_sig(sig2) in
+       out(c_out[i_2, i_1, i], enc(sig3, kPS))
+     ) | (
+       ! i_3 <= N
+       in(c_in[i_3, i_1, i], (a_63: bitstring, a_433: G));
+       new SKey_704: Z;
+       let sk_706: G = exp(g, SKey_704) in
+       let kAB_708: G = exp(a_433, SKey_704) in
+       let HMAC_714: macres = mac(a_433, sk_706, hk_1) in
+       event AcceptS(pkS, pkP);
+       let kPS_724: symkey = kdfPtoS(kAB_708, HMAC_714) in
+       let kSP_728: symkey = kdfStoP(kAB_708, HMAC_714) in
+       let m_6: block = inputs in
+       new r_6: sign_seed;
+       out(c_out[i_3, i_1, i], (pkS, sign_r(m_6, skS, r_6), sk_706));
+       in(c_in[i_3, i_1, i], a_732: bitstring);
+       let Dec_733: bitstringbot = dec(a_732, kPS_724) in
+       let dec1: bitstring = from_bot(Dec_733) in
+       let Enc_736: bitstring = enc(dec1, kSP_728) in
+       out(c_out[i_3, i_1, i], Enc_736);
+       in(c_in[i_3, i_1, i], a_967: bitstring);
+       let Dec_968: bitstringbot = dec(a_967, kPS_724) in
+       let sig4: signature = from_bot_to_sig(Dec_968) in
+       let Ver_972: bool = check(bl, pkP, sig4) in
+       if Ver_972 then
+       event AcceptS2(pkS, pkP)
+     ))
+
+
+Applying move all binders
+  - Move assignment to k
+  - Move assignment to h_1
+  - Move assignment to sig1
+yields
+
+Game 5 is
+     ! i <= N
+     in(c_in[i], ());
+     new hk_1: mkey;
+     new S_seed: skeyseed;
+     let skS: sskey = sskgen(S_seed) in
+     let pkS: spkey = spkgen(S_seed) in
+     out(c_out[i], pkS);
+     ! i_1 <= N
+     in(c_in[i_1, i], ());
+     new P_seed: skeyseed;
+     let skP: sskey = sskgen(P_seed) in
+     let pkP: spkey = spkgen(P_seed) in
+     out(c_out[i_1, i], pkP);
+     ((
+       ! i_2 <= N
+       in(c_in[i_2, i_1, i], ());
+       new a: Z;
+       let gA: G = exp(g, a) in
+       out(c_out[i_2, i_1, i], gA);
+       in(c_in[i_2, i_1, i], (B: G, sig: bitstring, opks: bitstring));
+       let opkst: spkey = trans(opks) in
+       if pkS = opkst then
+       let sig1: signature = to_sig(sig) in
+       let x: bool = check(bl, pkS, sig1) in
+       if x then
+       event AcceptP(pkS, pkP);
+       let k: G = exp(B, a) in
+       let h_1: macres = mac(gA, B, hk_1) in
+       let kPS: symkey = kdfPtoS(k, h_1) in
+       let kSP: symkey = kdfStoP(k, h_1) in
+       out(c_out[i_2, i_1, i], enc(user_auth, kPS));
+       in(c_in[i_2, i_1, i], userauth_answer: bitstring);
+       let user_auth1: bitstringbot = to_bot(user_auth) in
+       if dec(userauth_answer, kSP) = user_auth1 then
+       event AcceptP2(pkS, pkP);
+       let m_4: block = user_answer in
+       new r_4: sign_seed;
+       let sig2: signature = sign_r(m_4, skP, r_4) in
+       let sig3: bitstring = from_sig(sig2) in
+       out(c_out[i_2, i_1, i], enc(sig3, kPS))
+     ) | (
+       ! i_3 <= N
+       in(c_in[i_3, i_1, i], (a_63: bitstring, a_433: G));
+       new SKey_704: Z;
+       let sk_706: G = exp(g, SKey_704) in
+       let kAB_708: G = exp(a_433, SKey_704) in
+       let HMAC_714: macres = mac(a_433, sk_706, hk_1) in
+       event AcceptS(pkS, pkP);
+       let kPS_724: symkey = kdfPtoS(kAB_708, HMAC_714) in
+       let kSP_728: symkey = kdfStoP(kAB_708, HMAC_714) in
+       let m_6: block = inputs in
+       new r_6: sign_seed;
+       out(c_out[i_3, i_1, i], (pkS, sign_r(m_6, skS, r_6), sk_706));
+       in(c_in[i_3, i_1, i], a_732: bitstring);
+       let Dec_733: bitstringbot = dec(a_732, kPS_724) in
+       let dec1: bitstring = from_bot(Dec_733) in
+       let Enc_736: bitstring = enc(dec1, kSP_728) in
+       out(c_out[i_3, i_1, i], Enc_736);
+       in(c_in[i_3, i_1, i], a_967: bitstring);
+       let Dec_968: bitstringbot = dec(a_967, kPS_724) in
+       let sig4: signature = from_bot_to_sig(Dec_968) in
+       let Ver_972: bool = check(bl, pkP, sig4) in
+       if Ver_972 then
+       event AcceptS2(pkS, pkP)
+     ))
+
+
+Proved event(AcceptP2(i, j)) ==> true in game 5
+Proved event(AcceptS(i, l)) ==> true in game 5
+Proved event(AcceptS2(i, j)) ==> true in game 5
+Proved event(AcceptP(i, j)) ==> true in game 5
+
+Applying remove assignments of binder skP
+  - Remove assignments on skP (definition removed, all usages removed)
+yields
+
+Game 6 is
+     ! i <= N
+     in(c_in[i], ());
+     new hk_1: mkey;
+     new S_seed: skeyseed;
+     let skS: sskey = sskgen(S_seed) in
+     let pkS: spkey = spkgen(S_seed) in
+     out(c_out[i], pkS);
+     ! i_1 <= N
+     in(c_in[i_1, i], ());
+     new P_seed: skeyseed;
+     let pkP: spkey = spkgen(P_seed) in
+     out(c_out[i_1, i], pkP);
+     ((
+       ! i_2 <= N
+       in(c_in[i_2, i_1, i], ());
+       new a: Z;
+       let gA: G = exp(g, a) in
+       out(c_out[i_2, i_1, i], gA);
+       in(c_in[i_2, i_1, i], (B: G, sig: bitstring, opks: bitstring));
+       let opkst: spkey = trans(opks) in
+       if pkS = opkst then
+       let sig1: signature = to_sig(sig) in
+       let x: bool = check(bl, pkS, sig1) in
+       if x then
+       event AcceptP(pkS, pkP);
+       let k: G = exp(B, a) in
+       let h_1: macres = mac(gA, B, hk_1) in
+       let kPS: symkey = kdfPtoS(k, h_1) in
+       let kSP: symkey = kdfStoP(k, h_1) in
+       out(c_out[i_2, i_1, i], enc(user_auth, kPS));
+       in(c_in[i_2, i_1, i], userauth_answer: bitstring);
+       let user_auth1: bitstringbot = to_bot(user_auth) in
+       if dec(userauth_answer, kSP) = user_auth1 then
+       event AcceptP2(pkS, pkP);
+       let m_4: block = user_answer in
+       new r_4: sign_seed;
+       let sig2: signature = sign_r(m_4, sskgen(P_seed), r_4) in
+       let sig3: bitstring = from_sig(sig2) in
+       out(c_out[i_2, i_1, i], enc(sig3, kPS))
+     ) | (
+       ! i_3 <= N
+       in(c_in[i_3, i_1, i], (a_63: bitstring, a_433: G));
+       new SKey_704: Z;
+       let sk_706: G = exp(g, SKey_704) in
+       let kAB_708: G = exp(a_433, SKey_704) in
+       let HMAC_714: macres = mac(a_433, sk_706, hk_1) in
+       event AcceptS(pkS, pkP);
+       let kPS_724: symkey = kdfPtoS(kAB_708, HMAC_714) in
+       let kSP_728: symkey = kdfStoP(kAB_708, HMAC_714) in
+       let m_6: block = inputs in
+       new r_6: sign_seed;
+       out(c_out[i_3, i_1, i], (pkS, sign_r(m_6, skS, r_6), sk_706));
+       in(c_in[i_3, i_1, i], a_732: bitstring);
+       let Dec_733: bitstringbot = dec(a_732, kPS_724) in
+       let dec1: bitstring = from_bot(Dec_733) in
+       let Enc_736: bitstring = enc(dec1, kSP_728) in
+       out(c_out[i_3, i_1, i], Enc_736);
+       in(c_in[i_3, i_1, i], a_967: bitstring);
+       let Dec_968: bitstringbot = dec(a_967, kPS_724) in
+       let sig4: signature = from_bot_to_sig(Dec_968) in
+       let Ver_972: bool = check(bl, pkP, sig4) in
+       if Ver_972 then
+       event AcceptS2(pkS, pkP)
+     ))
+
+
+Applying remove assignments of binder pkP
+  - Remove assignments on pkP (definition removed, all usages removed)
+yields
+
+Game 7 is
+     ! i <= N
+     in(c_in[i], ());
+     new hk_1: mkey;
+     new S_seed: skeyseed;
+     let skS: sskey = sskgen(S_seed) in
+     let pkS: spkey = spkgen(S_seed) in
+     out(c_out[i], pkS);
+     ! i_1 <= N
+     in(c_in[i_1, i], ());
+     new P_seed: skeyseed;
+     out(c_out[i_1, i], spkgen(P_seed));
+     ((
+       ! i_2 <= N
+       in(c_in[i_2, i_1, i], ());
+       new a: Z;
+       let gA: G = exp(g, a) in
+       out(c_out[i_2, i_1, i], gA);
+       in(c_in[i_2, i_1, i], (B: G, sig: bitstring, opks: bitstring));
+       let opkst: spkey = trans(opks) in
+       if pkS = opkst then
+       let sig1: signature = to_sig(sig) in
+       let x: bool = check(bl, pkS, sig1) in
+       if x then
+       event AcceptP(pkS, spkgen(P_seed));
+       let k: G = exp(B, a) in
+       let h_1: macres = mac(gA, B, hk_1) in
+       let kPS: symkey = kdfPtoS(k, h_1) in
+       let kSP: symkey = kdfStoP(k, h_1) in
+       out(c_out[i_2, i_1, i], enc(user_auth, kPS));
+       in(c_in[i_2, i_1, i], userauth_answer: bitstring);
+       let user_auth1: bitstringbot = to_bot(user_auth) in
+       if dec(userauth_answer, kSP) = user_auth1 then
+       event AcceptP2(pkS, spkgen(P_seed));
+       let m_4: block = user_answer in
+       new r_4: sign_seed;
+       let sig2: signature = sign_r(m_4, sskgen(P_seed), r_4) in
+       let sig3: bitstring = from_sig(sig2) in
+       out(c_out[i_2, i_1, i], enc(sig3, kPS))
+     ) | (
+       ! i_3 <= N
+       in(c_in[i_3, i_1, i], (a_63: bitstring, a_433: G));
+       new SKey_704: Z;
+       let sk_706: G = exp(g, SKey_704) in
+       let kAB_708: G = exp(a_433, SKey_704) in
+       let HMAC_714: macres = mac(a_433, sk_706, hk_1) in
+       event AcceptS(pkS, spkgen(P_seed));
+       let kPS_724: symkey = kdfPtoS(kAB_708, HMAC_714) in
+       let kSP_728: symkey = kdfStoP(kAB_708, HMAC_714) in
+       let m_6: block = inputs in
+       new r_6: sign_seed;
+       out(c_out[i_3, i_1, i], (pkS, sign_r(m_6, skS, r_6), sk_706));
+       in(c_in[i_3, i_1, i], a_732: bitstring);
+       let Dec_733: bitstringbot = dec(a_732, kPS_724) in
+       let dec1: bitstring = from_bot(Dec_733) in
+       let Enc_736: bitstring = enc(dec1, kSP_728) in
+       out(c_out[i_3, i_1, i], Enc_736);
+       in(c_in[i_3, i_1, i], a_967: bitstring);
+       let Dec_968: bitstringbot = dec(a_967, kPS_724) in
+       let sig4: signature = from_bot_to_sig(Dec_968) in
+       let Ver_972: bool = check(bl, spkgen(P_seed), sig4) in
+       if Ver_972 then
+       event AcceptS2(pkS, spkgen(P_seed))
+     ))
+
+
+Applying equivalence uf_cma(sign) with r_4, P_seed [probability N^2 * Psign(time_1, N)]
+  - Equivalence uf_cma(sign) with variables: P_seed -> r_1, r_4 -> r2
+yields
+
+Game 8 is
+     ! i <= N
+     in(c_in[i], ());
+     new hk_1: mkey;
+     new S_seed: skeyseed;
+     let skS: sskey = sskgen(S_seed) in
+     let pkS: spkey = spkgen(S_seed) in
+     out(c_out[i], pkS);
+     ! i_1 <= N
+     in(c_in[i_1, i], ());
+     new P_seed: skeyseed;
+     out(c_out[i_1, i], pkgen2(P_seed));
+     ((
+       ! i_2 <= N
+       in(c_in[i_2, i_1, i], ());
+       new a: Z;
+       let gA: G = exp(g, a) in
+       out(c_out[i_2, i_1, i], gA);
+       in(c_in[i_2, i_1, i], (B: G, sig: bitstring, opks: bitstring));
+       let opkst: spkey = trans(opks) in
+       if pkS = opkst then
+       let sig1: signature = to_sig(sig) in
+       let x: bool = (let m: block = bl in (let y: spkey = pkS in (let si: signature = sig1 in {87}find u_1 = ri_3 <= N, u_2 = ri_4 <= N, u_3 = ri_5 <= N suchthat defined(x_1[ri_3, ri_4, ri_5], P_seed[ri_4, ri_5]) && {93}((y = pkgen2(P_seed[ri_4, ri_5])) && (m = x_1[ri_3, ri_4, ri_5]) && check2(m, y, si)) then true else {127}find u_4 = ri_6 <= N, u_5 = ri_7 <= N suchthat defined(P_seed[ri_6, ri_7]) && {130}(y = pkgen2(P_seed[ri_6, ri_7])) then false else check(m, y, si)))) in
+       if x then
+       event AcceptP(pkS, pkgen2(P_seed));
+       let k: G = exp(B, a) in
+       let h_1: macres = mac(gA, B, hk_1) in
+       let kPS: symkey = kdfPtoS(k, h_1) in
+       let kSP: symkey = kdfStoP(k, h_1) in
+       out(c_out[i_2, i_1, i], enc(user_auth, kPS));
+       in(c_in[i_2, i_1, i], userauth_answer: bitstring);
+       let user_auth1: bitstringbot = to_bot(user_auth) in
+       if dec(userauth_answer, kSP) = user_auth1 then
+       event AcceptP2(pkS, pkgen2(P_seed));
+       let m_4: block = user_answer in
+       new r_4: sign_seed;
+       let sig2: signature = (let x_1: block = m_4 in sign_r2(x_1, skgen2(P_seed), r_4)) in
+       let sig3: bitstring = from_sig(sig2) in
+       out(c_out[i_2, i_1, i], enc(sig3, kPS))
+     ) | (
+       ! i_3 <= N
+       in(c_in[i_3, i_1, i], (a_63: bitstring, a_433: G));
+       new SKey_704: Z;
+       let sk_706: G = exp(g, SKey_704) in
+       let kAB_708: G = exp(a_433, SKey_704) in
+       let HMAC_714: macres = mac(a_433, sk_706, hk_1) in
+       event AcceptS(pkS, pkgen2(P_seed));
+       let kPS_724: symkey = kdfPtoS(kAB_708, HMAC_714) in
+       let kSP_728: symkey = kdfStoP(kAB_708, HMAC_714) in
+       let m_6: block = inputs in
+       new r_6: sign_seed;
+       out(c_out[i_3, i_1, i], (pkS, sign_r(m_6, skS, r_6), sk_706));
+       in(c_in[i_3, i_1, i], a_732: bitstring);
+       let Dec_733: bitstringbot = dec(a_732, kPS_724) in
+       let dec1: bitstring = from_bot(Dec_733) in
+       let Enc_736: bitstring = enc(dec1, kSP_728) in
+       out(c_out[i_3, i_1, i], Enc_736);
+       in(c_in[i_3, i_1, i], a_967: bitstring);
+       let Dec_968: bitstringbot = dec(a_967, kPS_724) in
+       let sig4: signature = from_bot_to_sig(Dec_968) in
+       let Ver_972: bool = (let m1: block = bl in (let si1: signature = sig4 in {471}find u = ri <= N suchthat defined(x_1[ri]) && {475}((m1 = x_1[ri]) && check2(m1, pkgen2(P_seed), si1)) then true else false)) in
+       if Ver_972 then
+       event AcceptS2(pkS, pkgen2(P_seed))
+     ))
+
+
+Applying simplify (non-expanded game) [probability N^3 * Psigncoll]
+  - Simplification pass
+    - Replaced ((y = pkgen2(P_seed[ri_4, ri_5])) && (m = x_1[ri_3, ri_4, ri_5]) && check2(m, y, si)) with false at 93
+    - Remove branch 1 in find at 87
+    - Find at 87 removed (else branch kept if any)
+    - Replaced (y = pkgen2(P_seed[ri_6, ri_7])) with false at 130
+    - Remove branch 1 in find at 127
+    - Find at 127 removed (else branch kept if any)
+    - Replaced ((m1 = x_1[ri]) && check2(m1, pkgen2(P_seed), si1)) with false at 475
+    - Remove branch 1 in find at 471
+    - Find at 471 removed (else branch kept if any)
+yields
+
+Game 9 is
+     ! i <= N
+     in(c_in[i], ());
+     new hk_1: mkey;
+     new S_seed: skeyseed;
+     let skS: sskey = sskgen(S_seed) in
+     let pkS: spkey = spkgen(S_seed) in
+     out(c_out[i], pkS);
+     ! i_1 <= N
+     in(c_in[i_1, i], ());
+     new P_seed: skeyseed;
+     out(c_out[i_1, i], pkgen2(P_seed));
+     ((
+       ! i_2 <= N
+       in(c_in[i_2, i_1, i], ());
+       new a: Z;
+       let gA: G = exp(g, a) in
+       out(c_out[i_2, i_1, i], gA);
+       in(c_in[i_2, i_1, i], (B: G, sig: bitstring, opks: bitstring));
+       let opkst: spkey = trans(opks) in
+       if pkS = opkst then
+       let sig1: signature = to_sig(sig) in
+       let x: bool = (let m: block = bl in (let y: spkey = pkS in (let si: signature = sig1 in check(m, y, si)))) in
+       if x then
+       event AcceptP(pkS, pkgen2(P_seed));
+       let k: G = exp(B, a) in
+       let h_1: macres = mac(gA, B, hk_1) in
+       let kPS: symkey = kdfPtoS(k, h_1) in
+       let kSP: symkey = kdfStoP(k, h_1) in
+       out(c_out[i_2, i_1, i], enc(user_auth, kPS));
+       in(c_in[i_2, i_1, i], userauth_answer: bitstring);
+       let user_auth1: bitstringbot = to_bot(user_auth) in
+       if dec(userauth_answer, kSP) = user_auth1 then
+       event AcceptP2(pkS, pkgen2(P_seed));
+       let m_4: block = user_answer in
+       new r_4: sign_seed;
+       let sig2: signature = (let x_1: block = m_4 in sign_r2(x_1, skgen2(P_seed), r_4)) in
+       let sig3: bitstring = from_sig(sig2) in
+       out(c_out[i_2, i_1, i], enc(sig3, kPS))
+     ) | (
+       ! i_3 <= N
+       in(c_in[i_3, i_1, i], (a_63: bitstring, a_433: G));
+       new SKey_704: Z;
+       let sk_706: G = exp(g, SKey_704) in
+       let kAB_708: G = exp(a_433, SKey_704) in
+       let HMAC_714: macres = mac(a_433, sk_706, hk_1) in
+       event AcceptS(pkS, pkgen2(P_seed));
+       let kPS_724: symkey = kdfPtoS(kAB_708, HMAC_714) in
+       let kSP_728: symkey = kdfStoP(kAB_708, HMAC_714) in
+       let m_6: block = inputs in
+       new r_6: sign_seed;
+       out(c_out[i_3, i_1, i], (pkS, sign_r(m_6, skS, r_6), sk_706));
+       in(c_in[i_3, i_1, i], a_732: bitstring);
+       let Dec_733: bitstringbot = dec(a_732, kPS_724) in
+       let dec1: bitstring = from_bot(Dec_733) in
+       let Enc_736: bitstring = enc(dec1, kSP_728) in
+       out(c_out[i_3, i_1, i], Enc_736);
+       in(c_in[i_3, i_1, i], a_967: bitstring);
+{394}  let Dec_968: bitstringbot = dec(a_967, kPS_724) in
+{404}  let sig4: signature = from_bot_to_sig(Dec_968) in
+{410}  let Ver_972: bool = {411}(let m1: block = bl in {413}(let si1: signature = sig4 in false)) in
+{419}  if Ver_972 then
+       event AcceptS2(pkS, pkgen2(P_seed))
+     ))
+
+
+Applying expand
+  - Expand if/find/let
+    - Test at 419 always false
+    - Remove let at 410
+    - Remove let at 413
+    - Remove let at 411
+    - Remove let at 404
+    - Remove let at 394
+yields
+
+Game 10 is
+     ! i <= N
+     in(c_in[i], ());
+     new hk_1: mkey;
+     new S_seed: skeyseed;
+     let skS: sskey = sskgen(S_seed) in
+     let pkS: spkey = spkgen(S_seed) in
+     out(c_out[i], pkS);
+     ! i_1 <= N
+     in(c_in[i_1, i], ());
+     new P_seed: skeyseed;
+     out(c_out[i_1, i], pkgen2(P_seed));
+     ((
+       ! i_2 <= N
+       in(c_in[i_2, i_1, i], ());
+       new a: Z;
+       let gA: G = exp(g, a) in
+       out(c_out[i_2, i_1, i], gA);
+       in(c_in[i_2, i_1, i], (B: G, sig: bitstring, opks: bitstring));
+       let opkst: spkey = trans(opks) in
+       if pkS = opkst then
+       let sig1: signature = to_sig(sig) in
+       let m: block = bl in
+       let y: spkey = pkS in
+       let si: signature = sig1 in
+       let x: bool = check(m, y, si) in
+       if x then
+       event AcceptP(pkS, pkgen2(P_seed));
+       let k: G = exp(B, a) in
+       let h_1: macres = mac(gA, B, hk_1) in
+       let kPS: symkey = kdfPtoS(k, h_1) in
+       let kSP: symkey = kdfStoP(k, h_1) in
+       out(c_out[i_2, i_1, i], enc(user_auth, kPS));
+       in(c_in[i_2, i_1, i], userauth_answer: bitstring);
+       let user_auth1: bitstringbot = to_bot(user_auth) in
+       if dec(userauth_answer, kSP) = user_auth1 then
+       event AcceptP2(pkS, pkgen2(P_seed));
+       let m_4: block = user_answer in
+       new r_4: sign_seed;
+       let x_1: block = m_4 in
+       let sig2: signature = sign_r2(x_1, skgen2(P_seed), r_4) in
+       let sig3: bitstring = from_sig(sig2) in
+       out(c_out[i_2, i_1, i], enc(sig3, kPS))
+     ) | (
+       ! i_3 <= N
+       in(c_in[i_3, i_1, i], (a_63: bitstring, a_433: G));
+       new SKey_704: Z;
+       let sk_706: G = exp(g, SKey_704) in
+       let kAB_708: G = exp(a_433, SKey_704) in
+       let HMAC_714: macres = mac(a_433, sk_706, hk_1) in
+       event AcceptS(pkS, pkgen2(P_seed));
+       let kPS_724: symkey = kdfPtoS(kAB_708, HMAC_714) in
+       let kSP_728: symkey = kdfStoP(kAB_708, HMAC_714) in
+       let m_6: block = inputs in
+       new r_6: sign_seed;
+       out(c_out[i_3, i_1, i], (pkS, sign_r(m_6, skS, r_6), sk_706));
+       in(c_in[i_3, i_1, i], a_732: bitstring);
+       let Dec_733: bitstringbot = dec(a_732, kPS_724) in
+       let dec1: bitstring = from_bot(Dec_733) in
+       let Enc_736: bitstring = enc(dec1, kSP_728) in
+       out(c_out[i_3, i_1, i], Enc_736);
+       in(c_in[i_3, i_1, i], a_967: bitstring)
+     ))
+
+
+Applying remove assignments of findcond
+  - Remove assignments on y (definition removed, all usages removed)
+  - Remove assignments on si (definition removed, all usages removed)
+  - Remove assignments on x_1 (definition removed, all usages removed)
+yields
+
+Game 11 is
+     ! i <= N
+     in(c_in[i], ());
+     new hk_1: mkey;
+     new S_seed: skeyseed;
+     let skS: sskey = sskgen(S_seed) in
+     let pkS: spkey = spkgen(S_seed) in
+     out(c_out[i], pkS);
+     ! i_1 <= N
+     in(c_in[i_1, i], ());
+     new P_seed: skeyseed;
+     out(c_out[i_1, i], pkgen2(P_seed));
+     ((
+       ! i_2 <= N
+       in(c_in[i_2, i_1, i], ());
+       new a: Z;
+       let gA: G = exp(g, a) in
+       out(c_out[i_2, i_1, i], gA);
+       in(c_in[i_2, i_1, i], (B: G, sig: bitstring, opks: bitstring));
+       let opkst: spkey = trans(opks) in
+       if pkS = opkst then
+       let sig1: signature = to_sig(sig) in
+       let m: block = bl in
+       let x: bool = check(m, pkS, sig1) in
+       if x then
+       event AcceptP(pkS, pkgen2(P_seed));
+       let k: G = exp(B, a) in
+       let h_1: macres = mac(gA, B, hk_1) in
+       let kPS: symkey = kdfPtoS(k, h_1) in
+       let kSP: symkey = kdfStoP(k, h_1) in
+       out(c_out[i_2, i_1, i], enc(user_auth, kPS));
+       in(c_in[i_2, i_1, i], userauth_answer: bitstring);
+       let user_auth1: bitstringbot = to_bot(user_auth) in
+       if dec(userauth_answer, kSP) = user_auth1 then
+       event AcceptP2(pkS, pkgen2(P_seed));
+       let m_4: block = user_answer in
+       new r_4: sign_seed;
+       let sig2: signature = sign_r2(m_4, skgen2(P_seed), r_4) in
+       let sig3: bitstring = from_sig(sig2) in
+       out(c_out[i_2, i_1, i], enc(sig3, kPS))
+     ) | (
+       ! i_3 <= N
+       in(c_in[i_3, i_1, i], (a_63: bitstring, a_433: G));
+       new SKey_704: Z;
+       let sk_706: G = exp(g, SKey_704) in
+       let kAB_708: G = exp(a_433, SKey_704) in
+       let HMAC_714: macres = mac(a_433, sk_706, hk_1) in
+       event AcceptS(pkS, pkgen2(P_seed));
+       let kPS_724: symkey = kdfPtoS(kAB_708, HMAC_714) in
+       let kSP_728: symkey = kdfStoP(kAB_708, HMAC_714) in
+       let m_6: block = inputs in
+       new r_6: sign_seed;
+       out(c_out[i_3, i_1, i], (pkS, sign_r(m_6, skS, r_6), sk_706));
+       in(c_in[i_3, i_1, i], a_732: bitstring);
+       let Dec_733: bitstringbot = dec(a_732, kPS_724) in
+       let dec1: bitstring = from_bot(Dec_733) in
+       let Enc_736: bitstring = enc(dec1, kSP_728) in
+       out(c_out[i_3, i_1, i], Enc_736);
+       in(c_in[i_3, i_1, i], a_967: bitstring)
+     ))
+
+
+Proved event(AcceptS2(i, j)) ==> event(AcceptP2(i, j)) in game 11
+
+Applying remove assignments of binder skS
+  - Remove assignments on skS (definition removed, all usages removed)
+yields
+
+Game 12 is
+     ! i <= N
+     in(c_in[i], ());
+     new hk_1: mkey;
+     new S_seed: skeyseed;
+     let pkS: spkey = spkgen(S_seed) in
+     out(c_out[i], pkS);
+     ! i_1 <= N
+     in(c_in[i_1, i], ());
+     new P_seed: skeyseed;
+     out(c_out[i_1, i], pkgen2(P_seed));
+     ((
+       ! i_2 <= N
+       in(c_in[i_2, i_1, i], ());
+       new a: Z;
+       let gA: G = exp(g, a) in
+       out(c_out[i_2, i_1, i], gA);
+       in(c_in[i_2, i_1, i], (B: G, sig: bitstring, opks: bitstring));
+       let opkst: spkey = trans(opks) in
+       if pkS = opkst then
+       let sig1: signature = to_sig(sig) in
+       let m: block = bl in
+       let x: bool = check(m, pkS, sig1) in
+       if x then
+       event AcceptP(pkS, pkgen2(P_seed));
+       let k: G = exp(B, a) in
+       let h_1: macres = mac(gA, B, hk_1) in
+       let kPS: symkey = kdfPtoS(k, h_1) in
+       let kSP: symkey = kdfStoP(k, h_1) in
+       out(c_out[i_2, i_1, i], enc(user_auth, kPS));
+       in(c_in[i_2, i_1, i], userauth_answer: bitstring);
+       let user_auth1: bitstringbot = to_bot(user_auth) in
+       if dec(userauth_answer, kSP) = user_auth1 then
+       event AcceptP2(pkS, pkgen2(P_seed));
+       let m_4: block = user_answer in
+       new r_4: sign_seed;
+       let sig2: signature = sign_r2(m_4, skgen2(P_seed), r_4) in
+       let sig3: bitstring = from_sig(sig2) in
+       out(c_out[i_2, i_1, i], enc(sig3, kPS))
+     ) | (
+       ! i_3 <= N
+       in(c_in[i_3, i_1, i], (a_63: bitstring, a_433: G));
+       new SKey_704: Z;
+       let sk_706: G = exp(g, SKey_704) in
+       let kAB_708: G = exp(a_433, SKey_704) in
+       let HMAC_714: macres = mac(a_433, sk_706, hk_1) in
+       event AcceptS(pkS, pkgen2(P_seed));
+       let kPS_724: symkey = kdfPtoS(kAB_708, HMAC_714) in
+       let kSP_728: symkey = kdfStoP(kAB_708, HMAC_714) in
+       let m_6: block = inputs in
+       new r_6: sign_seed;
+       out(c_out[i_3, i_1, i], (pkS, sign_r(m_6, sskgen(S_seed), r_6), sk_706));
+       in(c_in[i_3, i_1, i], a_732: bitstring);
+       let Dec_733: bitstringbot = dec(a_732, kPS_724) in
+       let dec1: bitstring = from_bot(Dec_733) in
+       let Enc_736: bitstring = enc(dec1, kSP_728) in
+       out(c_out[i_3, i_1, i], Enc_736);
+       in(c_in[i_3, i_1, i], a_967: bitstring)
+     ))
+
+
+Applying remove assignments of binder pkS
+  - Remove assignments on pkS (definition removed, all usages removed)
+yields
+
+Game 13 is
+     ! i <= N
+     in(c_in[i], ());
+     new hk_1: mkey;
+     new S_seed: skeyseed;
+     out(c_out[i], spkgen(S_seed));
+     ! i_1 <= N
+     in(c_in[i_1, i], ());
+     new P_seed: skeyseed;
+     out(c_out[i_1, i], pkgen2(P_seed));
+     ((
+       ! i_2 <= N
+       in(c_in[i_2, i_1, i], ());
+       new a: Z;
+       let gA: G = exp(g, a) in
+       out(c_out[i_2, i_1, i], gA);
+       in(c_in[i_2, i_1, i], (B: G, sig: bitstring, opks: bitstring));
+       let opkst: spkey = trans(opks) in
+       if spkgen(S_seed) = opkst then
+       let sig1: signature = to_sig(sig) in
+       let m: block = bl in
+       let x: bool = check(m, spkgen(S_seed), sig1) in
+       if x then
+       event AcceptP(spkgen(S_seed), pkgen2(P_seed));
+       let k: G = exp(B, a) in
+       let h_1: macres = mac(gA, B, hk_1) in
+       let kPS: symkey = kdfPtoS(k, h_1) in
+       let kSP: symkey = kdfStoP(k, h_1) in
+       out(c_out[i_2, i_1, i], enc(user_auth, kPS));
+       in(c_in[i_2, i_1, i], userauth_answer: bitstring);
+       let user_auth1: bitstringbot = to_bot(user_auth) in
+       if dec(userauth_answer, kSP) = user_auth1 then
+       event AcceptP2(spkgen(S_seed), pkgen2(P_seed));
+       let m_4: block = user_answer in
+       new r_4: sign_seed;
+       let sig2: signature = sign_r2(m_4, skgen2(P_seed), r_4) in
+       let sig3: bitstring = from_sig(sig2) in
+       out(c_out[i_2, i_1, i], enc(sig3, kPS))
+     ) | (
+       ! i_3 <= N
+       in(c_in[i_3, i_1, i], (a_63: bitstring, a_433: G));
+       new SKey_704: Z;
+       let sk_706: G = exp(g, SKey_704) in
+       let kAB_708: G = exp(a_433, SKey_704) in
+       let HMAC_714: macres = mac(a_433, sk_706, hk_1) in
+       event AcceptS(spkgen(S_seed), pkgen2(P_seed));
+       let kPS_724: symkey = kdfPtoS(kAB_708, HMAC_714) in
+       let kSP_728: symkey = kdfStoP(kAB_708, HMAC_714) in
+       let m_6: block = inputs in
+       new r_6: sign_seed;
+       out(c_out[i_3, i_1, i], (spkgen(S_seed), sign_r(m_6, sskgen(S_seed), r_6), sk_706));
+       in(c_in[i_3, i_1, i], a_732: bitstring);
+       let Dec_733: bitstringbot = dec(a_732, kPS_724) in
+       let dec1: bitstring = from_bot(Dec_733) in
+       let Enc_736: bitstring = enc(dec1, kSP_728) in
+       out(c_out[i_3, i_1, i], Enc_736);
+       in(c_in[i_3, i_1, i], a_967: bitstring)
+     ))
+
+
+Applying equivalence uf_cma(sign) with S_seed [probability N * Psign(time_2, N^2)]
+  - Equivalence uf_cma(sign) with variables: r_6 -> r2, S_seed -> r_1
+yields
+
+Game 14 is
+     ! i <= N
+     in(c_in[i], ());
+     new hk_1: mkey;
+     new S_seed: skeyseed;
+     out(c_out[i], pkgen2(S_seed));
+     ! i_1 <= N
+     in(c_in[i_1, i], ());
+     new P_seed: skeyseed;
+     out(c_out[i_1, i], pkgen2(P_seed));
+     ((
+       ! i_2 <= N
+       in(c_in[i_2, i_1, i], ());
+       new a: Z;
+       let gA: G = exp(g, a) in
+       out(c_out[i_2, i_1, i], gA);
+       in(c_in[i_2, i_1, i], (B: G, sig: bitstring, opks: bitstring));
+       let opkst: spkey = trans(opks) in
+       if pkgen2(S_seed) = opkst then
+       let sig1: signature = to_sig(sig) in
+       let m: block = bl in
+       let x: bool = (let m1_1: block = m in (let si1_1: signature = sig1 in {83}find u_6 = ri_8 <= N, u_7 = ri_9 <= N suchthat defined(x_2[ri_8, ri_9]) && {87}((m1_1 = x_2[ri_8, ri_9]) && check2(m1_1, pkgen2(S_seed), si1_1)) then true else false)) in
+       if x then
+       event AcceptP(pkgen2(S_seed), pkgen2(P_seed));
+       let k: G = exp(B, a) in
+       let h_1: macres = mac(gA, B, hk_1) in
+       let kPS: symkey = kdfPtoS(k, h_1) in
+       let kSP: symkey = kdfStoP(k, h_1) in
+       out(c_out[i_2, i_1, i], enc(user_auth, kPS));
+       in(c_in[i_2, i_1, i], userauth_answer: bitstring);
+       let user_auth1: bitstringbot = to_bot(user_auth) in
+       if dec(userauth_answer, kSP) = user_auth1 then
+       event AcceptP2(pkgen2(S_seed), pkgen2(P_seed));
+       let m_4: block = user_answer in
+       new r_4: sign_seed;
+       let sig2: signature = sign_r2(m_4, skgen2(P_seed), r_4) in
+       let sig3: bitstring = from_sig(sig2) in
+       out(c_out[i_2, i_1, i], enc(sig3, kPS))
+     ) | (
+       ! i_3 <= N
+       in(c_in[i_3, i_1, i], (a_63: bitstring, a_433: G));
+       new SKey_704: Z;
+       let sk_706: G = exp(g, SKey_704) in
+       let kAB_708: G = exp(a_433, SKey_704) in
+       let HMAC_714: macres = mac(a_433, sk_706, hk_1) in
+       event AcceptS(pkgen2(S_seed), pkgen2(P_seed));
+       let kPS_724: symkey = kdfPtoS(kAB_708, HMAC_714) in
+       let kSP_728: symkey = kdfStoP(kAB_708, HMAC_714) in
+       let m_6: block = inputs in
+       new r_6: sign_seed;
+       out(c_out[i_3, i_1, i], (pkgen2(S_seed), (let x_2: block = m_6 in sign_r2(x_2, skgen2(S_seed), r_6)), sk_706));
+       in(c_in[i_3, i_1, i], a_732: bitstring);
+       let Dec_733: bitstringbot = dec(a_732, kPS_724) in
+       let dec1: bitstring = from_bot(Dec_733) in
+       let Enc_736: bitstring = enc(dec1, kSP_728) in
+       out(c_out[i_3, i_1, i], Enc_736);
+       in(c_in[i_3, i_1, i], a_967: bitstring)
+     ))
+
+
+Applying simplify (non-expanded game)
+  - Simplification pass
+    - Replaced ((m1_1 = x_2[ri_8, ri_9]) && check2(m1_1, pkgen2(S_seed), si1_1)) with false at 87
+    - Remove branch 1 in find at 83
+    - Find at 83 removed (else branch kept if any)
+yields
+
+Game 15 is
+     ! i <= N
+     in(c_in[i], ());
+     new hk_1: mkey;
+     new S_seed: skeyseed;
+     out(c_out[i], pkgen2(S_seed));
+     ! i_1 <= N
+     in(c_in[i_1, i], ());
+     new P_seed: skeyseed;
+     out(c_out[i_1, i], pkgen2(P_seed));
+     ((
+       ! i_2 <= N
+       in(c_in[i_2, i_1, i], ());
+       new a: Z;
+       let gA: G = exp(g, a) in
+       out(c_out[i_2, i_1, i], gA);
+       in(c_in[i_2, i_1, i], (B: G, sig: bitstring, opks: bitstring));
+ {49}  let opkst: spkey = trans(opks) in
+ {55}  if pkgen2(S_seed) = opkst then
+ {64}  let sig1: signature = to_sig(sig) in
+ {70}  let m: block = bl in
+ {72}  let x: bool = {73}(let m1_1: block = m in {78}(let si1_1: signature = sig1 in false)) in
+ {84}  if x then
+       event AcceptP(pkgen2(S_seed), pkgen2(P_seed));
+       let k: G = exp(B, a) in
+       let h_1: macres = mac(gA, B, hk_1) in
+       let kPS: symkey = kdfPtoS(k, h_1) in
+       let kSP: symkey = kdfStoP(k, h_1) in
+       out(c_out[i_2, i_1, i], enc(user_auth, kPS));
+       in(c_in[i_2, i_1, i], userauth_answer: bitstring);
+       let user_auth1: bitstringbot = to_bot(user_auth) in
+       if dec(userauth_answer, kSP) = user_auth1 then
+       event AcceptP2(pkgen2(S_seed), pkgen2(P_seed));
+       let m_4: block = user_answer in
+       new r_4: sign_seed;
+       let sig2: signature = sign_r2(m_4, skgen2(P_seed), r_4) in
+       let sig3: bitstring = from_sig(sig2) in
+       out(c_out[i_2, i_1, i], enc(sig3, kPS))
+     ) | (
+       ! i_3 <= N
+       in(c_in[i_3, i_1, i], (a_63: bitstring, a_433: G));
+       new SKey_704: Z;
+       let sk_706: G = exp(g, SKey_704) in
+       let kAB_708: G = exp(a_433, SKey_704) in
+       let HMAC_714: macres = mac(a_433, sk_706, hk_1) in
+       event AcceptS(pkgen2(S_seed), pkgen2(P_seed));
+       let kPS_724: symkey = kdfPtoS(kAB_708, HMAC_714) in
+       let kSP_728: symkey = kdfStoP(kAB_708, HMAC_714) in
+       let m_6: block = inputs in
+       new r_6: sign_seed;
+       out(c_out[i_3, i_1, i], (pkgen2(S_seed), (let x_2: block = m_6 in sign_r2(x_2, skgen2(S_seed), r_6)), sk_706));
+       in(c_in[i_3, i_1, i], a_732: bitstring);
+       let Dec_733: bitstringbot = dec(a_732, kPS_724) in
+       let dec1: bitstring = from_bot(Dec_733) in
+       let Enc_736: bitstring = enc(dec1, kSP_728) in
+       out(c_out[i_3, i_1, i], Enc_736);
+       in(c_in[i_3, i_1, i], a_967: bitstring)
+     ))
+
+
+Applying expand
+  - Expand if/find/let
+    - Test at 84 always false
+    - Remove let at 72
+    - Remove let at 78
+    - Remove let at 73
+    - Remove let at 70
+    - Remove let at 64
+    - Merge branches of test at 55
+    - Remove let at 49
+yields
+
+Game 16 is
+     ! i <= N
+     in(c_in[i], ());
+     new hk_1: mkey;
+     new S_seed: skeyseed;
+     out(c_out[i], pkgen2(S_seed));
+     ! i_1 <= N
+     in(c_in[i_1, i], ());
+     new P_seed: skeyseed;
+     out(c_out[i_1, i], pkgen2(P_seed));
+     ((
+       ! i_2 <= N
+       in(c_in[i_2, i_1, i], ());
+       new a: Z;
+       let gA: G = exp(g, a) in
+       out(c_out[i_2, i_1, i], gA);
+       in(c_in[i_2, i_1, i], (B: G, sig: bitstring, opks: bitstring))
+     ) | (
+       ! i_3 <= N
+       in(c_in[i_3, i_1, i], (a_63: bitstring, a_433: G));
+       new SKey_704: Z;
+       let sk_706: G = exp(g, SKey_704) in
+       let kAB_708: G = exp(a_433, SKey_704) in
+       let HMAC_714: macres = mac(a_433, sk_706, hk_1) in
+       event AcceptS(pkgen2(S_seed), pkgen2(P_seed));
+       let kPS_724: symkey = kdfPtoS(kAB_708, HMAC_714) in
+       let kSP_728: symkey = kdfStoP(kAB_708, HMAC_714) in
+       let m_6: block = inputs in
+       new r_6: sign_seed;
+       let x_2: block = m_6 in
+       out(c_out[i_3, i_1, i], (pkgen2(S_seed), sign_r2(x_2, skgen2(S_seed), r_6), sk_706));
+       in(c_in[i_3, i_1, i], a_732: bitstring);
+       let Dec_733: bitstringbot = dec(a_732, kPS_724) in
+       let dec1: bitstring = from_bot(Dec_733) in
+       let Enc_736: bitstring = enc(dec1, kSP_728) in
+       out(c_out[i_3, i_1, i], Enc_736);
+       in(c_in[i_3, i_1, i], a_967: bitstring)
+     ))
+
+
+Applying remove assignments of findcond
+  - Remove assignments on x_2 (definition removed, all usages removed)
+yields
+
+Game 17 is
+     ! i <= N
+     in(c_in[i], ());
+     new hk_1: mkey;
+     new S_seed: skeyseed;
+     out(c_out[i], pkgen2(S_seed));
+     ! i_1 <= N
+     in(c_in[i_1, i], ());
+     new P_seed: skeyseed;
+     out(c_out[i_1, i], pkgen2(P_seed));
+     ((
+       ! i_2 <= N
+       in(c_in[i_2, i_1, i], ());
+       new a: Z;
+       let gA: G = exp(g, a) in
+       out(c_out[i_2, i_1, i], gA);
+       in(c_in[i_2, i_1, i], (B: G, sig: bitstring, opks: bitstring))
+     ) | (
+       ! i_3 <= N
+       in(c_in[i_3, i_1, i], (a_63: bitstring, a_433: G));
+       new SKey_704: Z;
+       let sk_706: G = exp(g, SKey_704) in
+       let kAB_708: G = exp(a_433, SKey_704) in
+       let HMAC_714: macres = mac(a_433, sk_706, hk_1) in
+       event AcceptS(pkgen2(S_seed), pkgen2(P_seed));
+       let kPS_724: symkey = kdfPtoS(kAB_708, HMAC_714) in
+       let kSP_728: symkey = kdfStoP(kAB_708, HMAC_714) in
+       let m_6: block = inputs in
+       new r_6: sign_seed;
+       out(c_out[i_3, i_1, i], (pkgen2(S_seed), sign_r2(m_6, skgen2(S_seed), r_6), sk_706));
+       in(c_in[i_3, i_1, i], a_732: bitstring);
+       let Dec_733: bitstringbot = dec(a_732, kPS_724) in
+       let dec1: bitstring = from_bot(Dec_733) in
+       let Enc_736: bitstring = enc(dec1, kSP_728) in
+       out(c_out[i_3, i_1, i], Enc_736);
+       in(c_in[i_3, i_1, i], a_967: bitstring)
+     ))
+
+
+Proved event(AcceptP(i, j)) ==> event(AcceptS(i, l)) in game 17
+Adv[Game 1: event(AcceptP2(i, j)) ==> true] <= 0 + Adv[Game 5: event(AcceptP2(i, j)) ==> true]
+Adv[Game 5: event(AcceptP2(i, j)) ==> true] <= 0
+RESULT Proved event(AcceptP2(i, j)) ==> true
+Adv[Game 1: event(AcceptS(i, l)) ==> true] <= 0 + Adv[Game 5: event(AcceptS(i, l)) ==> true]
+Adv[Game 5: event(AcceptS(i, l)) ==> true] <= 0
+RESULT Proved event(AcceptS(i, l)) ==> true
+Adv[Game 1: event(AcceptS2(i, j)) ==> true] <= 0 + Adv[Game 5: event(AcceptS2(i, j)) ==> true]
+Adv[Game 5: event(AcceptS2(i, j)) ==> true] <= 0
+RESULT Proved event(AcceptS2(i, j)) ==> true
+Adv[Game 1: event(AcceptP(i, j)) ==> true] <= 0 + Adv[Game 5: event(AcceptP(i, j)) ==> true]
+Adv[Game 5: event(AcceptP(i, j)) ==> true] <= 0
+RESULT Proved event(AcceptP(i, j)) ==> true
+Adv[Game 1: event(AcceptS2(i, j)) ==> event(AcceptP2(i, j))] <= N^3 * Psigncoll + N^2 * Psign(time_1, N) + Adv[Game 11: event(AcceptS2(i, j)) ==> event(AcceptP2(i, j))]
+Adv[Game 11: event(AcceptS2(i, j)) ==> event(AcceptP2(i, j))] <= 0
+RESULT Proved event(AcceptS2(i, j)) ==> event(AcceptP2(i, j)) up to probability N^3 * Psigncoll + N^2 * Psign(time_1, N)
+Adv[Game 1: event(AcceptP(i, j)) ==> event(AcceptS(i, l))] <= N * Psign(time_2, N^2) + N^3 * Psigncoll + N^2 * Psign(time_1, N) + Adv[Game 17: event(AcceptP(i, j)) ==> event(AcceptS(i, l))]
+Adv[Game 17: event(AcceptP(i, j)) ==> event(AcceptS(i, l))] <= 0
+RESULT Proved event(AcceptP(i, j)) ==> event(AcceptS(i, l)) up to probability N * Psign(time_2, N^2) + N^3 * Psigncoll + N^2 * Psign(time_1, N)
+RESULT time_1 = (N + N^2 - 1) * time(sskgen) + (N + N^2 - 1) * time(spkgen) + N^3 * time(trans, maxlength(game 7: opks)) + N^3 * time(to_sig, maxlength(game 7: sig)) + N^3 * time(kdfPtoS, maxlength(game 7: h_1)) + N^3 * time(kdfStoP, maxlength(game 7: h_1)) + N^3 * time(enc, length(user_auth)) + N^3 * time(to_bot, length(user_auth)) + N^3 * time(= bitstringbot, length(dec, maxlength(game 7: userauth_answer)), maxlength(game 7: user_auth1)) + N^3 * time(dec, maxlength(game 7: userauth_answer)) + N^3 * time(from_sig) + N^3 * time(enc, maxlength(game 7: sig3)) + 4 * N^3 * time(exp) + 2 * N^3 * time(mac) + N^3 * time(kdfPtoS, maxlength(game 7: HMAC_714)) + N^3 * time(kdfStoP, maxlength(game 7: HMAC_714)) + N^3 * time(dec, maxlength(game 7: a_732)) + N^3 * time(from_bot, maxlength(game 7: Dec_733)) + N^3 * time(enc, maxlength(game 7: dec1)) + N^3 * time(dec, maxlength(game 7: a_967)) + N^3 * time(from_bot_to_sig, maxlength(game 7: Dec_968)) + 4 * N^3 * time(([1,N], [1,N], [1,N])) + time + (2 * N^3 - 1) * time(check) + (2 * N^3 - N) * time(sign_r)
+RESULT time_2 = (N^2 + 3 * N^3) * time(pkgen2) + N^3 * time(trans, maxlength(game 13: opks)) + N^3 * time(to_sig, maxlength(game 13: sig)) + N^3 * time(kdfPtoS, maxlength(game 13: h_1)) + N^3 * time(kdfStoP, maxlength(game 13: h_1)) + N^3 * time(enc, length(user_auth)) + N^3 * time(to_bot, length(user_auth)) + N^3 * time(= bitstringbot, length(dec, maxlength(game 13: userauth_answer)), maxlength(game 13: user_auth1)) + N^3 * time(dec, maxlength(game 13: userauth_answer)) + N^3 * time(sign_r2) + N^3 * time(skgen2) + N^3 * time(from_sig) + N^3 * time(enc, maxlength(game 13: sig3)) + 4 * N^3 * time(exp) + 2 * N^3 * time(mac) + 3 * N^3 * time(([1,N], [1,N], [1,N])) + N^3 * time(kdfPtoS, maxlength(game 13: HMAC_714)) + N^3 * time(kdfStoP, maxlength(game 13: HMAC_714)) + N^3 * time(dec, maxlength(game 13: a_732)) + N^3 * time(from_bot, maxlength(game 13: Dec_733)) + N^3 * time(enc, maxlength(game 13: dec1)) + time + (N^3 - 1) * time(check) + (N^3 - N^2) * time(sign_r) + (N - 1) * time(sskgen) + (N - 1) * time(spkgen)
+All queries proved.

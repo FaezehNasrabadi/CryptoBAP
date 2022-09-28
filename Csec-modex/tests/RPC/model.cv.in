@@ -1,0 +1,98 @@
+
+channel c_in, c_out. 
+
+param N.
+
+type nondet [fixed].
+
+(******************** 
+  Misc
+********************)
+
+type bounded_2000_request.
+type bounded_2000_response.
+
+(******************** 
+  MAC
+********************)
+
+type fixed_100_mkeyseed [fixed, large].
+type fixed_100_mkey [bounded].
+type macinput.
+(* type macres. *)
+proba Pmac.
+
+expand UF_CMA_mac(fixed_100_mkeyseed, fixed_100_mkey, bitstring, bitstring, mkgen, HMAC_sha1, HMAC_sha1_check, Pmac).
+
+forall m: bitstring, k: fixed_100_mkey, r: bitstring;
+  ((HMAC_sha1(m, k)) = r) = HMAC_sha1_check(m, k, r).
+
+(* CR-someday: giving this a precise return type would allow to remove more checks. *) 
+fun HMAC(bitstring, bitstring, fixed_100_mkey): bitstring.
+  
+const arithmetic1: bitstring.
+
+(* ASSERT_DEFINITION
+  arithmetic1/0
+  "sha1"
+*)
+
+forall m: bitstring, k: fixed_100_mkey;
+  HMAC(arithmetic1, m, k) = HMAC_sha1(m, k).
+
+(******************** 
+  <Query>
+********************)
+ 
+event client_begin(bounded_2000_request).
+event client_accept(bounded_2000_request, bounded_2000_response).
+event server_reply(bounded_2000_request, bounded_2000_response).
+
+query x: bounded_2000_request, y:bounded_2000_response;
+  event client_accept(x, y) ==> server_reply(x, y).
+
+query x: bounded_2000_request, y:bounded_2000_response;
+  event server_reply(x, y) ==> client_begin(x).
+
+(*
+query x: bitstring, y:bitstring;
+  event client_accept(x, y).
+*)
+
+(******************** 
+  <Model>
+********************)
+
+let server = 0 . 
+let client = 0 .
+
+(******************** 
+  <Environment>
+********************)
+
+let server' =
+  in(c_in, (argv0: bitstring, 
+            argv1: bitstring,
+            argv2: bitstring,
+            argv3: bitstring,
+            argv4: bitstring));
+  out(c_out, ());
+  server .
+
+let client' =
+  in(c_in, (argv0: bitstring, 
+            argv1: bitstring,
+            argv2: bitstring,
+            argv3: bitstring,
+            argv4: bitstring));
+  out(c_out, ());
+  client .
+
+process
+! N (
+  in(c_in, (request: bounded_2000_request, response: bounded_2000_response));
+  new keyseed: fixed_100_mkeyseed; 
+  let keyAB = mkgen(keyseed) in
+  out(c_out, ());
+  ((! N client') | (! N server'))
+)

@@ -1,0 +1,19 @@
+
+CSEC_ROOT = ../..
+
+include Makefile.common
+
+all: cv_full pv_full
+
+eclipse-all: compile
+
+PROXY_LIBS = $(PROXIES)/libsystem-proxies.a $(PROXIES)/libopenssl-proxies.a $(PROXIES)/libcrestify.a
+PROXY_OBJ = lib_proxy.o
+
+BUILD_CMD = $(MAKE) -f Makefile.run compile CC="$(CC)" CFLAGS="$(CFLAGS)" LDLIBS="$(LDLIBS)"
+
+include $(CSEC_ROOT)/mk/main.mk
+
+
+clean::
+	$(RM) client server

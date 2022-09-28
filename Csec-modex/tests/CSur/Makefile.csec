@@ -1,0 +1,20 @@
+ 
+CSEC_ROOT = ../..
+ 
+include Makefile.common
+
+all: iml cv_full
+
+eclipse-all: orig sym
+
+PROXY_LIBS = $(PROXIES)/libsystem-proxies.a $(PROXIES)/libopenssl-proxies.a $(PROXIES)/libcrestify.a
+
+BUILD_CMD = $(MAKE) -f Makefile.run compile CC="$(CC)" CFLAGS="$(CFLAGS)" LDLIBS="$(LDLIBS)"
+
+include $(CSEC_ROOT)/mk/main.mk
+
+# test: primitives_crypt.c common.c test.c
+# test: LDLIBS += $(PROXIES)/libssl_proxy_bin.a
+
+clean::
+	$(RM) alice bob

@@ -1,0 +1,214 @@
+(*************************************************************
+ *                                                           *
+ *       Cryptographic protocol verifier                     *
+ *                                                           *
+ *       Bruno Blanchet                                      *
+ *                                                           *
+ *       Copyright (C) ENS, CNRS, INRIA, 2005-2011           *
+ *                                                           *
+ *************************************************************)
+
+(*
+
+    Copyright ENS, CNRS, INRIA 
+    contributor: Bruno Blanchet, Bruno.Blanchet@ens.fr
+    
+This software is a computer program whose purpose is to verify 
+cryptographic protocols in the computational model.
+
+This software is governed by the CeCILL-B license under French law and
+abiding by the rules of distribution of free software.  You can  use, 
+modify and/ or redistribute the software under the terms of the CeCILL-B
+license as circulated by CEA, CNRS and INRIA at the following URL
+"http://www.cecill.info". 
+
+As a counterpart to the access to the source code and  rights to copy,
+modify and redistribute granted by the license, users are provided only
+with a limited warranty  and the software's author,  the holder of the
+economic rights,  and the successive licensors  have only  limited
+liability. 
+
+In this respect, the user's attention is drawn to the risks associated
+with loading,  using,  modifying and/or developing or reproducing the
+software by the user in light of its specific status of free software,
+that may mean  that it is complicated to manipulate,  and  that  also
+therefore means  that it is reserved for developers  and  experienced
+professionals having in-depth computer knowledge. Users are therefore
+encouraged to load and test the software's suitability as regards their
+requirements in conditions enabling the security of their systems and/or 
+data to be ensured and,  more generally, to use and operate it in the 
+same conditions as regards security. 
+
+The fact that you are presently reading this means that you have had
+knowledge of the CeCILL-B license and that you accept its terms.
+
+*)
+(* Yahalom, Version of Burrows, Abadi, Needham, SRC039
+   Removed last message { NB }_K so that K is really kept
+   secret in the cryptographic sense. 
+ *)
+
+
+param N.
+param N2.
+param N3.
+
+type nonce [large,fixed].
+type host [bounded].
+type mkey [bounded].
+type mkeyseed [fixed].
+type key [fixed].
+type keyseed [fixed].
+type seed [fixed].
+type macs [fixed].
+type maxenc [bounded].
+type maxmac [bounded].
+
+fun concat1(host, key, nonce, nonce):maxenc [compos].
+fun concat2(host, key):maxenc [compos].
+fun concat3(host, nonce, nonce):maxenc [compos].
+
+forall y:host,z:key,t:nonce,u:nonce,y2:host,z2:key; concat1(y,z,t,u) <> concat2(y2,z2).
+forall y:host,z:key,t:nonce,u:nonce,y2:host,z2:nonce,t2:nonce; concat1(y,z,t,u) <> concat3(y2,z2,t2).
+forall y:host,z:key,y2:host,z2:nonce,t2:nonce; concat2(y,z) <> concat3(y2,z2,t2).
+
+(* Shared-key encryption (CPA Stream cipher) *)
+
+proba Penc.
+
+expand IND_CPA_sym_enc(keyseed, key, maxenc, maxmac, seed, kgen, enc, dec, injbot, Z, Penc).
+
+(* The function Z returns for each bitstring, a bitstring
+   of the same length, consisting only of zeroes. *)
+const Zconcat1:maxenc.
+const Zconcat2:maxenc.
+const Zconcat3:maxenc.
+forall y:host,z:key,t:nonce,u:nonce; 
+	Z(concat1(y,z,t,u)) = Zconcat1.
+forall y:host,z:key; 
+	Z(concat2(y,z)) = Zconcat2.
+forall y:host,z:nonce,t:nonce; 
+	Z(concat3(y,z,t)) = Zconcat3.
+
+(* Mac *)
+
+proba Pmac.
+
+expand UF_CMA_mac(mkeyseed, mkey, maxmac, macs, mkgen, mac, check, Pmac).
+
+(* Queries *)
+
+query secret1 keyA.
+query secret1 keyB.
+
+query secret keyA.
+query secret keyB.
+
+channel c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, start, finish.
+const A : host.
+const B : host.
+
+event beginA(host, host, key).
+event endA(host, host, key).
+event beginB(host, host).
+event beginBkey(host, host, key).
+event endB(host, host, key).
+
+query x:host, y:host, k:key;
+	event endA(x,y,k) ==> beginB(x,y).
+query x:host, y:host, k:key;
+	event endA(x,y,k) ==> beginBkey(x,y,k).
+query x:host, y:host, k:key;
+	event endB(x,y,k) ==> beginA(x,y,k).
+query x:host, y:host, k:key;
+	event inj:endA(x,y,k) ==> inj:beginB(x,y).
+query x:host, y:host, k:key;
+	event inj:endA(x,y,k) ==> inj:beginBkey(x,y,k).
+query x:host, y:host, k:key;
+	event inj:endB(x,y,k) ==> inj:beginA(x,y,k).
+
+
+let processA =
+	in(start, ());
+        new Na: nonce;
+        out(c1, (A, Na));
+        in(c2, (cert1: maxmac, mac1:macs, cert2:maxmac, mac2:macs));
+	if check(cert1, mKas, mac1) then
+        let injbot(concat1(b, k, =Na, nb)) = dec(cert1, Kas) in
+	event beginA(A, b, k);
+	(* REMOVED new s3: seed;
+	let e3 = enc(nb, k, s3) in 
+	out(c3, (cert2, mac2, e3)); *)
+	out(c3, (cert2, mac2));
+	(* OK *)
+	in(finish, ());
+	if b = B then
+	(
+	event endA(A, b, k);
+	let keyA:key = k
+	)
+	else out(c10, k).
+
+let processB =
+        in(c4, (a: host, na: nonce));
+	event beginB(a, B);
+	new Nb: nonce;
+	new s4: seed;
+	let e4 = enc(concat3(a, na, Nb), Kbs, s4) in
+	out(c5, (B, e4, mac(e4, mKbs)));
+	in(c6, (cert2: maxmac, mac2: macs));
+	if check(cert2, mKbs, mac2) then
+	let injbot(concat2(a, k)) = dec(cert2, Kbs) in
+	event beginBkey(a, B, k);
+	(* REMOVED 
+	in(c6, (cert2: maxmac, mac2: macs, m:maxmac));
+	....
+	if Nb = dec(m, k) then *)
+	(* OK *)
+	if a = A then
+	(
+	event endB(a, B, k);
+	let keyB: key = k
+	)
+	else out(c11,k).
+
+let processK =
+	in(c7, (Khost: host, Kkey: key, Kmkey: mkey));
+	let Rkey:key = 
+		if Khost = A then Kas else
+		if Khost = B then Kbs else
+		Kkey
+	in
+	let Rmkey:mkey =
+		if Khost = A then mKas else
+		if Khost = B then mKbs else
+		Kmkey.
+
+let processS = 
+	in(c8, (h2: host, m: maxmac, ma: macs));
+	find j <= N2 suchthat defined(Khost[j],Rmkey[j],Rkey[j]) && (Khost[j] = h2) then
+	if check(m, Rmkey[j], ma) then
+	let injbot(concat3(h1, n1, n2)) = dec(m, Rkey[j]) in
+	find j1 <= N2 suchthat defined(Khost[j1],Rmkey[j1],Rkey[j1]) && (Khost[j1] = h1) then
+	new k: key;
+	new s1: seed;
+	new s2: seed;
+	let e1 = enc(concat1(h2, k, n1, n2), Rkey[j1], s1) in
+	let e2 = enc(concat2(h1, k), Rkey[j], s2) in
+	out(c9, (e1, mac(e1, Rmkey[j1]), e2, mac(e2, Rmkey[j]))).
+
+process 
+	in(start, ());
+	new rKas: keyseed;
+	let Kas = kgen(rKas) in
+	new rmKas: mkeyseed;
+	let mKas = mkgen(rmKas) in
+	new rKbs: keyseed;
+	let Kbs = kgen(rKbs) in
+	new rmKbs: mkeyseed;
+	let mKbs = mkgen(rmKbs) in
+	out(c12, ());
+	((! N processA) |
+	 (! N processB) | 
+	 (! N processS) |
+	 (! N2 processK))

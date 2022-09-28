@@ -1,0 +1,45 @@
+
+CSEC_ROOT_ABS = @CSEC_ROOT@
+
+CIL_ROOT = @CIL_ROOT@
+
+OCAMLYICES_ROOT = @OCAMLYICES_ROOT@
+
+CIL_OBJDIR = @CIL_OBJDIR@
+CIL_LIB = @CIL_LIB@
+
+# OPENSSL = @OPENSSL@
+# OPENSSL_CRESTIFIED = @OPENSSL_CRESTIFIED@
+
+PROXIES = @PROXIES@
+
+IMLTRACE = @IMLTRACE@
+PVTRACE  = @PVTRACE@
+CVTRACE  = @CVTRACE@
+
+PROVERIF = @PROVERIF@
+
+CV_ROOT = @CV_ROOT@
+CRYPTOVERIF = @CRYPTOVERIF@
+CV_DEFAULT = @CV_DEFAULT@
+
+CILLY = @CILLY@
+
+PROXY_SYM_CILLY = $(CILLY) --doCrestInstrument --csec-config=$(PROXY_CONF_SYM) --save-temps --commPrintLn
+
+OCAML_LIB = @OCAML_LIB@
+
+OPENSSL_CRESTIFIED=@OPENSSL_CRESTIFIED@
+OPENSSL_CRESTIFIED_CRYPTO=$(OPENSSL_CRESTIFIED)/libcrypto.a
+
+# some system dependency, I guess autoconf would be real nice here
+# ifdef WINDIR
+#   EXTRA_DEPS = -lwsock32 -ladvapi32 -lgdi32 -luser32
+#   CIL_OBJDIR = /obj/x86_WIN32
+#   # stupid make can't account for exe extension on cygwin
+#   # no, it actually seems to be fine
+#   # EXE = .exe 
+# else
+#   EXTRA_DEPS = -ldl
+#   CIL_OBJDIR = /obj/x86_LINUX
+# endif

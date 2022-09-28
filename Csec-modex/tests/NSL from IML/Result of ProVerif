@@ -1,0 +1,218 @@
+{ /home/faezeh/csec-modex/src/symtrace/pvtrace IML_client.txt IML_server.txt /home/faezeh/csec-modex/deps/cryptoverif1.12/default model.cv.in model.pv.in | tee model.pv.out; } > model.pv.debug.out 2>&1
+for f in model.pv.out; do\
+	/home/faezeh/csec-modex/deps/proverif1.84/proverif -in pi $f | grep "RESULT\|queries";\
+done
+RESULT ev:server_end(x_70,y_71) ==> ev:bad(x_70) is false.
+RESULT ev:client_end(x_1297,y_1298) ==> ev:server_begin(x_1297,y_1298) | ev:bad(y_1298) is true.
+RESULT ev:server_end(x_1965,y_1966) ==> ev:client_begin(x_1965,y_1966) | ev:bad(x_1965) is true.
+faezeh@ubuntu:~/csec-modex/tests/NSL from IML$ make -f Makefile.csec for f in model.pv.out; do\
+	/home/faezeh/csec-modex/deps/proverif1.84/proverif -in pi $f;\
+done
+Process:
+{1}!
+new A_seed_26;
+new B_seed_27;
+{2}let pkA_28 = ek(A_seed_26) in
+{3}let skA_29 = dk(A_seed_26) in
+{4}let pkB_30 = ek(B_seed_27) in
+{5}let skB_31 = dk(B_seed_27) in
+new rkS_32;
+{6}let pkS_33 = vk(rkS_32) in
+{7}let skS_34 = sk(rkS_32) in
+{8}out(c, (pkA_28,pkB_30,pkS_33));
+{9}!
+(
+    {35}in(c, (pkX_54,hostX_55,sigX_56));
+    {36}event client_begin(hostA(),hostB());
+    new RAND_NUM_326_57;
+    {37}let Conc1_770_58 = conc1(RAND_NUM_326_57,hostA()) in
+    new iv_1082_59;
+    {38}let Enc_1083_60 = enc1(Conc1_770_58,pkB_30,iv_1082_59) in
+    {39}out(c_out, Enc_1083_60);
+    {40}in(c_in, a_1206_61);
+    {41}in(c_in, a_1350_62);
+    {42}let Dec_1530_63 = dec(a_1350_62,skA_29) in
+    {43}let Pars1_1533_64 = pars1(Dec_1530_63) in
+    {44}if Pars1_1533_64 = RAND_NUM_326_57 then
+    {45}let Pars2_1537_65 = pars2(Dec_1530_63) in
+    {46}let Pars3_1540_66 = pars3(Dec_1530_63) in
+    {47}let Conc2_1543_67 = conc2(Pars3_1540_66) in
+    new iv_2907_68;
+    {48}let Enc_2908_69 = enc1(Conc2_1543_67,pkB_30,iv_2907_68) in
+    {49}out(c_out, Enc_2908_69);
+    {50}event client_end(hostA(),hostB());
+    0
+) | (
+    {10}!
+    (
+        {19}in(c, (pkX_38,hostX_39,sigX_40));
+        {20}in(c_in, a_284_41);
+        {21}in(c_in, a_428_42);
+        {22}let Dec_608_43 = dec(a_428_42,skB_31) in
+        {23}let Pars4_1141_44 = pars4(Dec_608_43) in
+        {24}event server_begin(hostA(),hostB());
+        {25}let Pars5_1887_45 = pars5(Dec_608_43) in
+        new RAND_NUM_1890_46;
+        {26}let Conc3_1893_47 = conc3(Pars5_1887_45,RAND_NUM_1890_46,hostB()) in
+        new iv_2205_48;
+        {27}let Enc_2206_49 = enc1(Conc3_1893_47,pkA_28,iv_2205_48) in
+        {28}out(c_out, Enc_2206_49);
+        {29}in(c_in, a_2329_50);
+        {30}in(c_in, a_2473_51);
+        {31}let Dec_2653_52 = dec(a_2473_51,skB_31) in
+        {32}let Pars6_3017_53 = pars6(Dec_2653_52) in
+        {33}if Pars6_3017_53 = RAND_NUM_1890_46 then
+        {34}event server_end(hostA(),hostB());
+        0
+    ) | (
+        {11}!
+        {12}in(c, (h_35,k_36));
+        new r3_37;
+        {13}if h_35 = hostA() then
+        (
+            {18}out(c, (pkA_28,h_35,sig(skS_34,cert(pkA_28,h_35),r3_37)));
+            0
+        )
+        else
+        (
+            {14}if h_35 = hostB() then
+            (
+                {17}out(c, (pkB_30,h_35,sig(skS_34,cert(pkB_30,h_35),r3_37)));
+                0
+            )
+            else
+            (
+                {15}event bad(h_35);
+                {16}out(c, (k_36,h_35,sig(skS_34,cert(k_36,h_35),r3_37)));
+                0
+            )
+        )
+    )
+)
+
+-- Query ev:server_end(x_70,y_71) ==> ev:bad(x_70)
+Completing...
+Starting query ev:server_end(x_70,y_71) ==> ev:bad(x_70)
+goal reachable: end:server_end(hostA(),hostB())
+Abbreviations:
+RAND_NUM_326_828 = RAND_NUM_326_57[sigX = sigX_802,hostX = hostX_803,pkX = pkX_804,!2 = @sid_805,!1 = @sid_816]
+B_seed_829 = B_seed_27[!1 = @sid_816]
+iv_1082_830 = iv_1082_59[sigX = sigX_802,hostX = hostX_803,pkX = pkX_804,!2 = @sid_805,!1 = @sid_816]
+RAND_NUM_1890_831 = RAND_NUM_1890_46[a_428 = enc1(conc1(RAND_NUM_326_828,hostA()),ek(B_seed_829),iv_1082_830),a_284 = a_284_818,sigX = sigX_819,hostX = hostX_820,pkX = pkX_821,!3 = @sid_822,!2 = @sid_823,!1 = @sid_816]
+A_seed_832 = A_seed_26[!1 = @sid_816]
+iv_2205_833 = iv_2205_48[a_428 = enc1(conc1(RAND_NUM_326_828,hostA()),ek(B_seed_829),iv_1082_830),a_284 = a_284_818,sigX = sigX_819,hostX = hostX_820,pkX = pkX_821,!3 = @sid_822,!2 = @sid_823,!1 = @sid_816]
+iv_2907_834 = iv_2907_68[a_1350 = enc1(conc3(RAND_NUM_326_828,RAND_NUM_1890_831,hostB()),ek(A_seed_832),iv_2205_833),a_1206 = a_1206_810,sigX = sigX_802,hostX = hostX_803,pkX = pkX_804,!2 = @sid_805,!1 = @sid_816]
+
+1. The attacker has some term sigX_819.
+attacker:sigX_819.
+
+2. The attacker has some term hostX_820.
+attacker:hostX_820.
+
+3. The attacker has some term pkX_821.
+attacker:pkX_821.
+
+4. By 3, the attacker may know pkX_821.
+By 2, the attacker may know hostX_820.
+By 1, the attacker may know sigX_819.
+Using the function 3-tuple the attacker may obtain (pkX_821,hostX_820,sigX_819).
+attacker:(pkX_821,hostX_820,sigX_819).
+
+5. The attacker has some term a_284_818.
+attacker:a_284_818.
+
+6. The attacker has some term sigX_802.
+attacker:sigX_802.
+
+7. The attacker has some term hostX_803.
+attacker:hostX_803.
+
+8. The attacker has some term pkX_804.
+attacker:pkX_804.
+
+9. By 8, the attacker may know pkX_804.
+By 7, the attacker may know hostX_803.
+By 6, the attacker may know sigX_802.
+Using the function 3-tuple the attacker may obtain (pkX_804,hostX_803,sigX_802).
+attacker:(pkX_804,hostX_803,sigX_802).
+
+10. The message (pkX_804,hostX_803,sigX_802) that the attacker may have by 9 may be received at input {35}.
+So the message enc1(conc1(RAND_NUM_326_828,hostA()),ek(B_seed_829),iv_1082_830) may be sent to the attacker at output {39}.
+attacker:enc1(conc1(RAND_NUM_326_828,hostA()),ek(B_seed_829),iv_1082_830).
+
+11. The attacker has some term a_2329_825.
+attacker:a_2329_825.
+
+12. The attacker has some term a_1206_810.
+attacker:a_1206_810.
+
+13. The message (pkX_821,hostX_820,sigX_819) that the attacker may have by 4 may be received at input {19}.
+The message a_284_818 that the attacker may have by 5 may be received at input {20}.
+The message enc1(conc1(RAND_NUM_326_828,hostA()),ek(B_seed_829),iv_1082_830) that the attacker may have by 10 may be received at input {21}.
+So the message enc1(conc3(RAND_NUM_326_828,RAND_NUM_1890_831,hostB()),ek(A_seed_832),iv_2205_833) may be sent to the attacker at output {28}.
+attacker:enc1(conc3(RAND_NUM_326_828,RAND_NUM_1890_831,hostB()),ek(A_seed_832),iv_2205_833).
+
+14. The message (pkX_804,hostX_803,sigX_802) that the attacker may have by 9 may be received at input {35}.
+The message a_1206_810 that the attacker may have by 12 may be received at input {40}.
+The message enc1(conc3(RAND_NUM_326_828,RAND_NUM_1890_831,hostB()),ek(A_seed_832),iv_2205_833) that the attacker may have by 13 may be received at input {41}.
+So the message enc1(conc2(RAND_NUM_1890_831),ek(B_seed_829),iv_2907_834) may be sent to the attacker at output {49}.
+attacker:enc1(conc2(RAND_NUM_1890_831),ek(B_seed_829),iv_2907_834).
+
+15. The message (pkX_821,hostX_820,sigX_819) that the attacker may have by 4 may be received at input {19}.
+The message a_284_818 that the attacker may have by 5 may be received at input {20}.
+The message enc1(conc1(RAND_NUM_326_828,hostA()),ek(B_seed_829),iv_1082_830) that the attacker may have by 10 may be received at input {21}.
+The message a_2329_825 that the attacker may have by 11 may be received at input {29}.
+The message enc1(conc2(RAND_NUM_1890_831),ek(B_seed_829),iv_2907_834) that the attacker may have by 14 may be received at input {30}.
+So event server_end(hostA(),hostB()) may be executed at {34}.
+end:server_end(hostA(),hostB()).
+
+
+A more detailed output of the traces is available with
+  param traceDisplay = long.
+
+out(c, (ek(A_seed_26_18),ek(B_seed_27_15),vk(rkS_32_21))) at {8} in copy a_5
+
+in(c, (a_3,a_2,a_1)) at {35} in copy a_5, a_4
+
+event(client_begin(hostA(),hostB())) at {36} in copy a_5, a_4
+
+out(c_out, enc1(conc1(RAND_NUM_326_57_14,hostA()),ek(B_seed_27_15),iv_1082_59_16)) at {39} in copy a_5, a_4
+
+in(c_in, a_12) at {40} in copy a_5, a_4
+
+in(c, (a_9,a_8,a_7)) at {19} in copy a_5, a_11, a_10
+
+in(c_in, a_6) at {20} in copy a_5, a_11, a_10
+
+in(c_in, enc1(conc1(RAND_NUM_326_57_14,hostA()),ek(B_seed_27_15),iv_1082_59_16)) at {21} in copy a_5, a_11, a_10
+
+event(server_begin(hostA(),hostB())) at {24} in copy a_5, a_11, a_10
+
+out(c_out, enc1(conc3(RAND_NUM_326_57_14,RAND_NUM_1890_46_17,hostB()),ek(A_seed_26_18),iv_2205_48_19)) at {28} in copy a_5, a_11, a_10
+
+in(c_in, enc1(conc3(RAND_NUM_326_57_14,RAND_NUM_1890_46_17,hostB()),ek(A_seed_26_18),iv_2205_48_19)) at {41} in copy a_5, a_4
+
+out(c_out, enc1(conc2(RAND_NUM_1890_46_17),ek(B_seed_27_15),iv_2907_68_20)) at {49} in copy a_5, a_4
+
+event(client_end(hostA(),hostB())) at {50} in copy a_5, a_4
+
+in(c_in, a_13) at {29} in copy a_5, a_11, a_10
+
+in(c_in, enc1(conc2(RAND_NUM_1890_46_17),ek(B_seed_27_15),iv_2907_68_20)) at {30} in copy a_5, a_11, a_10
+
+event(server_end(hostA(),hostB())) at {34} in copy a_5, a_11, a_10
+
+The event server_end(hostA(),hostB()) is executed.
+A trace has been found.
+RESULT ev:server_end(x_70,y_71) ==> ev:bad(x_70) is false.
+-- Query ev:client_end(x_1297,y_1298) ==> ev:server_begin(x_1297,y_1298) | ev:bad(y_1298)
+Completing...
+Starting query ev:client_end(x_1297,y_1298) ==> ev:server_begin(x_1297,y_1298) | ev:bad(y_1298)
+goal reachable: begin:server_begin(hostA(),hostB()) -> end:client_end(hostA(),hostB())
+RESULT ev:client_end(x_1297,y_1298) ==> ev:server_begin(x_1297,y_1298) | ev:bad(y_1298) is true.
+-- Query ev:server_end(x_1965,y_1966) ==> ev:client_begin(x_1965,y_1966) | ev:bad(x_1965)
+Completing...
+Starting query ev:server_end(x_1965,y_1966) ==> ev:client_begin(x_1965,y_1966) | ev:bad(x_1965)
+goal reachable: begin:client_begin(hostA(),hostB()) -> end:server_end(hostA(),hostB())
+RESULT ev:server_end(x_1965,y_1966) ==> ev:client_begin(x_1965,y_1966) | ev:bad(x_1965) is true.
+

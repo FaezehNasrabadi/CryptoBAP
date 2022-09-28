@@ -1,0 +1,538 @@
+Linear part:
+kgen(kgen(g(),a),b) = kgen(kgen(g(),b),a)
+Completing equations...
+Completed equations:
+kgen(kgen(g(),a),b) = kgen(kgen(g(),b),a)
+Convergent part: No equation.
+Process 0 (that is, the initial process):
+{1}!
+{2}new skS;
+{3}let pkS = pk(skS) in
+{4}out(c_out, pkS);
+{5}!
+{6}new skP;
+{7}let pkP = pk(skP) in
+{8}out(c_out, pkP);
+(
+    {9}!
+    {10}new a;
+    {11}let gA = kgen(g(),a) in
+    {12}out(c_out, gA);
+    {13}in(c_in, B);
+    {14}in(c_in, sig);
+    {15}in(c_in, opks);
+    {16}if (pkS = opks) then
+    {17}let h_1 = hash3(gA,B,pkS) in
+    {18}let k_1 = kgen(B,a) in
+    {19}let x = verify(sig,pkS) in
+    {20}if (x = true()) then
+    {21}event AcceptP(pkS,pkP);
+    {22}let kPS_1 = kdfPtoS(k_1,h_1) in
+    {23}let kSP_1 = kdfStoP(k_1,h_1) in
+    {24}out(c_out, enc(user_auth(),kPS_1));
+    {25}in(c_in, userauth_answer);
+    {26}if (dec(userauth_answer,kSP_1) = user_auth()) then
+    {27}event AcceptP2(pkS,pkP);
+    {28}out(c_out, enc(sign(user_answer(),skP),kPS_1))
+) | (
+    {29}!
+    {30}in(c_in, a_63);
+    {31}in(c_in, a_433);
+    {32}new SKey_704;
+    {33}let sk_706 = kgen(g(),SKey_704) in
+    {34}out(c_out, sk_706);
+    {35}let kAB_708 = kgen(a_433,SKey_704) in
+    {36}let HMAC_714 = hash3(a_433,sk_706,pkS) in
+    {37}event AcceptS(pkS,pkP);
+    {38}let signature_720 = sign(inputs(),skS) in
+    {39}out(c_out, sign(inputs(),skS));
+    {40}out(c_out, pkS);
+    {41}let kPS_724 = kdfPtoS(kAB_708,HMAC_714) in
+    {42}let kSP_728 = kdfStoP(kAB_708,HMAC_714) in
+    {43}in(c_in, a_732);
+    {44}let Dec_733 = dec(a_732,kPS_724) in
+    {45}let Enc_736 = enc(Dec_733,kSP_728) in
+    {46}out(c_out, Enc_736);
+    {47}in(c_in, a_967);
+    {48}let Dec_968 = dec(a_967,kPS_724) in
+    {49}let Ver_972 = verify(Dec_968,pkP) in
+    {50}if (Ver_972 = true()) then
+    {51}event AcceptS2(pkS,pkP)
+)
+
+--  Process 1 (that is, process 0, with let moved downwards):
+{1}!
+{2}new skS;
+{3}let pkS = pk(skS) in
+{4}out(c_out, pkS);
+{5}!
+{6}new skP;
+{7}let pkP = pk(skP) in
+{8}out(c_out, pkP);
+(
+    {9}!
+    {10}new a;
+    {11}let gA = kgen(g(),a) in
+    {12}out(c_out, gA);
+    {13}in(c_in, B);
+    {14}in(c_in, sig);
+    {15}in(c_in, opks);
+    {16}if (pkS = opks) then
+    {19}let x = verify(sig,pkS) in
+    {20}if (x = true()) then
+    {21}event AcceptP(pkS,pkP);
+    {18}let k_1 = kgen(B,a) in
+    {17}let h_1 = hash3(gA,B,pkS) in
+    {22}let kPS_1 = kdfPtoS(k_1,h_1) in
+    {24}out(c_out, enc(user_auth(),kPS_1));
+    {25}in(c_in, userauth_answer);
+    {23}let kSP_1 = kdfStoP(k_1,h_1) in
+    {26}if (dec(userauth_answer,kSP_1) = user_auth()) then
+    {27}event AcceptP2(pkS,pkP);
+    {28}out(c_out, enc(sign(user_answer(),skP),kPS_1))
+) | (
+    {29}!
+    {30}in(c_in, a_63);
+    {31}in(c_in, a_433);
+    {32}new SKey_704;
+    {33}let sk_706 = kgen(g(),SKey_704) in
+    {34}out(c_out, sk_706);
+    {37}event AcceptS(pkS,pkP);
+    {39}out(c_out, sign(inputs(),skS));
+    {40}out(c_out, pkS);
+    {43}in(c_in, a_732);
+    {36}let HMAC_714 = hash3(a_433,sk_706,pkS) in
+    {35}let kAB_708 = kgen(a_433,SKey_704) in
+    {41}let kPS_724 = kdfPtoS(kAB_708,HMAC_714) in
+    {44}let Dec_733 = dec(a_732,kPS_724) in
+    {42}let kSP_728 = kdfStoP(kAB_708,HMAC_714) in
+    {45}let Enc_736 = enc(Dec_733,kSP_728) in
+    {46}out(c_out, Enc_736);
+    {47}in(c_in, a_967);
+    {48}let Dec_968 = dec(a_967,kPS_724) in
+    {49}let Ver_972 = verify(Dec_968,pkP) in
+    {50}if (Ver_972 = true()) then
+    {51}event AcceptS2(pkS,pkP)
+)
+
+-- Query ev:AcceptP(i,j) ==> ev:AcceptS(i,l) in process 1.
+Translating the process into Horn clauses...
+Completing...
+Starting query ev:AcceptP(i,j) ==> ev:AcceptS(i,l)
+goal reachable: begin:AcceptS(pk(skS_1),pk(skP_1)) -> end:AcceptP(pk(skS_1),pk(skP_2))
+Abbreviations:
+skS_1 = skS[!1 = @sid]
+skP_2 = skP[!2 = @sid_1,!1 = @sid]
+skP_1 = skP[!2 = @sid_2,!1 = @sid]
+RESULT ev:AcceptP(i,j) ==> ev:AcceptS(i,l) is true.
+-- Query ev:AcceptS2(i,j) ==> ev:AcceptP2(i,j) in process 1.
+Translating the process into Horn clauses...
+Completing...
+Starting query ev:AcceptS2(i,j) ==> ev:AcceptP2(i,j)
+goal reachable: begin:AcceptP2(pk(skS_1),pk(skP_1)) -> end:AcceptS2(pk(skS_1),pk(skP_1))
+Abbreviations:
+skS_1 = skS[!1 = @sid]
+skP_1 = skP[!2 = @sid_1,!1 = @sid]
+RESULT ev:AcceptS2(i,j) ==> ev:AcceptP2(i,j) is true.
+-- Query not ev:AcceptP(i,j) in process 1.
+Translating the process into Horn clauses...
+Completing...
+Starting query not ev:AcceptP(i,j)
+goal reachable: end:AcceptP(pk(skS_1),pk(skP_1))
+Abbreviations:
+skS_1 = skS[!1 = @sid]
+skP_1 = skP[!2 = @sid_1,!1 = @sid]
+
+Derivation:
+Abbreviations:
+skS_1 = skS[!1 = @sid]
+skP_1 = skP[!2 = @sid_1,!1 = @sid]
+
+1. The attacker has some term B_1.
+attacker:B_1.
+
+2. The attacker has some term a_1.
+attacker:a_1.
+
+3. The attacker has some term a_2.
+attacker:a_2.
+
+4. The message a_1 that the attacker may have by 2 may be received at input {30}.
+The message a_2 that the attacker may have by 3 may be received at input {31}.
+So the message sign(inputs(),skS_1) may be sent to the attacker at output {39}.
+attacker:sign(inputs(),skS_1).
+
+5. The message pk(skS_1) may be sent to the attacker at output {4}.
+attacker:pk(skS_1).
+
+6. The message B_1 that the attacker may have by 1 may be received at input {13}.
+The message sign(inputs(),skS_1) that the attacker may have by 4 may be received at input {14}.
+The message pk(skS_1) that the attacker may have by 5 may be received at input {15}.
+So event AcceptP(pk(skS_1),pk(skP_1)) may be executed at {21}.
+end:AcceptP(pk(skS_1),pk(skP_1)).
+
+7. By 6, end:AcceptP(pk(skS_1),pk(skP_1)).
+The goal is reached, represented in the following fact:
+end:AcceptP(pk(skS_1),pk(skP_1)).
+
+
+A more detailed output of the traces is available with
+  param traceDisplay = long.
+
+new skS creating skS_1 at {2} in copy a_1
+
+out(c_out, ~M) with ~M = pk(skS_1) at {4} in copy a_1
+
+new skP creating skP_1 at {6} in copy a_1, a_2
+
+out(c_out, ~M_1) with ~M_1 = pk(skP_1) at {8} in copy a_1, a_2
+
+new a creating a_3 at {10} in copy a_1, a_2, a_4
+
+out(c_out, ~M_2) with ~M_2 = kgen(g(),a_3) at {12} in copy a_1, a_2, a_4
+
+new skP creating skP_2 at {6} in copy a_1, a_5
+
+out(c_out, ~M_3) with ~M_3 = pk(skP_2) at {8} in copy a_1, a_5
+
+in(c_in, a_6) at {30} in copy a_1, a_5, a_7
+
+in(c_in, a_8) at {31} in copy a_1, a_5, a_7
+
+new SKey_704 creating SKey at {32} in copy a_1, a_5, a_7
+
+out(c_out, ~M_4) with ~M_4 = kgen(g(),SKey) at {34} in copy a_1, a_5, a_7
+
+event AcceptS(pk(skS_1),pk(skP_2)) at {37} in copy a_1, a_5, a_7
+
+out(c_out, ~M_5) with ~M_5 = sign(inputs(),skS_1) at {39} in copy a_1, a_5, a_7
+
+out(c_out, ~M_6) with ~M_6 = pk(skS_1) at {40} in copy a_1, a_5, a_7
+
+in(c_in, a_9) at {13} in copy a_1, a_2, a_4
+
+in(c_in, ~M_5) with ~M_5 = sign(inputs(),skS_1) at {14} in copy a_1, a_2, a_4
+
+in(c_in, ~M) with ~M = pk(skS_1) at {15} in copy a_1, a_2, a_4
+
+event AcceptP(pk(skS_1),pk(skP_1)) at {21} in copy a_1, a_2, a_4 (goal)
+
+The event AcceptP(pk(skS_1),pk(skP_1)) is executed at {21} in copy a_1, a_2, a_4.
+A trace has been found.
+RESULT not ev:AcceptP(i,j) is false.
+-- Query not ev:AcceptP2(i,j) in process 1.
+Translating the process into Horn clauses...
+Completing...
+Starting query not ev:AcceptP2(i,j)
+goal reachable: end:AcceptP2(pk(skS_1),pk(skP_1))
+Abbreviations:
+skS_1 = skS[!1 = @sid]
+skP_1 = skP[!2 = @sid_1,!1 = @sid]
+
+Derivation:
+Abbreviations:
+skS_1 = skS[!1 = @sid]
+skP_1 = skP[!2 = @sid_1,!1 = @sid]
+a_1 = a[!3 = @sid_2,!2 = @sid_1,!1 = @sid]
+
+1. Using the function g the attacker may obtain g().
+attacker:g().
+
+2. The attacker has some term a_2.
+attacker:a_2.
+
+3. The attacker has some term a_3.
+attacker:a_3.
+
+4. The message a_2 that the attacker may have by 2 may be received at input {30}.
+The message a_3 that the attacker may have by 3 may be received at input {31}.
+So the message sign(inputs(),skS_1) may be sent to the attacker at output {39}.
+attacker:sign(inputs(),skS_1).
+
+5. The message pk(skS_1) may be sent to the attacker at output {4}.
+attacker:pk(skS_1).
+
+6. The message kgen(g(),a_1) may be sent to the attacker at output {12}.
+attacker:kgen(g(),a_1).
+
+7. By 6, the attacker may know kgen(g(),a_1).
+By 1, the attacker may know g().
+By 5, the attacker may know pk(skS_1).
+Using the function hash3 the attacker may obtain hash3(kgen(g(),a_1),g(),pk(skS_1)).
+attacker:hash3(kgen(g(),a_1),g(),pk(skS_1)).
+
+8. By 6, the attacker may know kgen(g(),a_1).
+By 7, the attacker may know hash3(kgen(g(),a_1),g(),pk(skS_1)).
+Using the function kdfStoP the attacker may obtain kdfStoP(kgen(g(),a_1),hash3(kgen(g(),a_1),g(),pk(skS_1))).
+attacker:kdfStoP(kgen(g(),a_1),hash3(kgen(g(),a_1),g(),pk(skS_1))).
+
+9. Using the function user_auth the attacker may obtain user_auth().
+attacker:user_auth().
+
+10. By 9, the attacker may know user_auth().
+By 8, the attacker may know kdfStoP(kgen(g(),a_1),hash3(kgen(g(),a_1),g(),pk(skS_1))).
+Using the function enc the attacker may obtain enc(user_auth(),kdfStoP(kgen(g(),a_1),hash3(kgen(g(),a_1),g(),pk(skS_1)))).
+attacker:enc(user_auth(),kdfStoP(kgen(g(),a_1),hash3(kgen(g(),a_1),g(),pk(skS_1)))).
+
+11. The message g() that the attacker may have by 1 may be received at input {13}.
+The message sign(inputs(),skS_1) that the attacker may have by 4 may be received at input {14}.
+The message pk(skS_1) that the attacker may have by 5 may be received at input {15}.
+The message enc(user_auth(),kdfStoP(kgen(g(),a_1),hash3(kgen(g(),a_1),g(),pk(skS_1)))) that the attacker may have by 10 may be received at input {25}.
+So event AcceptP2(pk(skS_1),pk(skP_1)) may be executed at {27}.
+end:AcceptP2(pk(skS_1),pk(skP_1)).
+
+12. By 11, end:AcceptP2(pk(skS_1),pk(skP_1)).
+The goal is reached, represented in the following fact:
+end:AcceptP2(pk(skS_1),pk(skP_1)).
+
+
+A more detailed output of the traces is available with
+  param traceDisplay = long.
+
+new skS creating skS_1 at {2} in copy a_1
+
+out(c_out, ~M) with ~M = pk(skS_1) at {4} in copy a_1
+
+new skP creating skP_1 at {6} in copy a_1, a_2
+
+out(c_out, ~M_1) with ~M_1 = pk(skP_1) at {8} in copy a_1, a_2
+
+new a creating a_3 at {10} in copy a_1, a_2, a_4
+
+out(c_out, ~M_2) with ~M_2 = kgen(g(),a_3) at {12} in copy a_1, a_2, a_4
+
+new skP creating skP_2 at {6} in copy a_1, a_5
+
+out(c_out, ~M_3) with ~M_3 = pk(skP_2) at {8} in copy a_1, a_5
+
+in(c_in, a_6) at {30} in copy a_1, a_5, a_7
+
+in(c_in, a_8) at {31} in copy a_1, a_5, a_7
+
+new SKey_704 creating SKey at {32} in copy a_1, a_5, a_7
+
+out(c_out, ~M_4) with ~M_4 = kgen(g(),SKey) at {34} in copy a_1, a_5, a_7
+
+event AcceptS(pk(skS_1),pk(skP_2)) at {37} in copy a_1, a_5, a_7
+
+out(c_out, ~M_5) with ~M_5 = sign(inputs(),skS_1) at {39} in copy a_1, a_5, a_7
+
+out(c_out, ~M_6) with ~M_6 = pk(skS_1) at {40} in copy a_1, a_5, a_7
+
+in(c_in, g()) at {13} in copy a_1, a_2, a_4
+
+in(c_in, ~M_5) with ~M_5 = sign(inputs(),skS_1) at {14} in copy a_1, a_2, a_4
+
+in(c_in, ~M) with ~M = pk(skS_1) at {15} in copy a_1, a_2, a_4
+
+event AcceptP(pk(skS_1),pk(skP_1)) at {21} in copy a_1, a_2, a_4
+
+out(c_out, ~M_7) with ~M_7 = enc(user_auth(),kdfPtoS(kgen(g(),a_3),hash3(kgen(g(),a_3),g(),pk(skS_1)))) at {24} in copy a_1, a_2, a_4
+
+in(c_in, enc(user_auth(),kdfStoP(~M_2,hash3(~M_2,g(),~M)))) with enc(user_auth(),kdfStoP(~M_2,hash3(~M_2,g(),~M))) = enc(user_auth(),kdfStoP(kgen(g(),a_3),hash3(kgen(g(),a_3),g(),pk(skS_1)))) at {25} in copy a_1, a_2, a_4
+
+event AcceptP2(pk(skS_1),pk(skP_1)) at {27} in copy a_1, a_2, a_4 (goal)
+
+The event AcceptP2(pk(skS_1),pk(skP_1)) is executed at {27} in copy a_1, a_2, a_4.
+A trace has been found.
+RESULT not ev:AcceptP2(i,j) is false.
+-- Query not ev:AcceptS(i,j) in process 1.
+Translating the process into Horn clauses...
+Completing...
+Starting query not ev:AcceptS(i,j)
+goal reachable: end:AcceptS(pk(skS_1),pk(skP_1))
+Abbreviations:
+skS_1 = skS[!1 = @sid]
+skP_1 = skP[!2 = @sid_1,!1 = @sid]
+
+Derivation:
+Abbreviations:
+skS_1 = skS[!1 = @sid]
+skP_1 = skP[!2 = @sid_1,!1 = @sid]
+
+1. The attacker has some term a_1.
+attacker:a_1.
+
+2. The attacker has some term a_2.
+attacker:a_2.
+
+3. The message a_1 that the attacker may have by 1 may be received at input {30}.
+The message a_2 that the attacker may have by 2 may be received at input {31}.
+So event AcceptS(pk(skS_1),pk(skP_1)) may be executed at {37}.
+end:AcceptS(pk(skS_1),pk(skP_1)).
+
+4. By 3, end:AcceptS(pk(skS_1),pk(skP_1)).
+The goal is reached, represented in the following fact:
+end:AcceptS(pk(skS_1),pk(skP_1)).
+
+
+A more detailed output of the traces is available with
+  param traceDisplay = long.
+
+new skS creating skS_1 at {2} in copy a_1
+
+out(c_out, ~M) with ~M = pk(skS_1) at {4} in copy a_1
+
+new skP creating skP_1 at {6} in copy a_1, a_2
+
+out(c_out, ~M_1) with ~M_1 = pk(skP_1) at {8} in copy a_1, a_2
+
+in(c_in, a_3) at {30} in copy a_1, a_2, a_4
+
+in(c_in, a_5) at {31} in copy a_1, a_2, a_4
+
+new SKey_704 creating SKey at {32} in copy a_1, a_2, a_4
+
+out(c_out, ~M_2) with ~M_2 = kgen(g(),SKey) at {34} in copy a_1, a_2, a_4
+
+event AcceptS(pk(skS_1),pk(skP_1)) at {37} in copy a_1, a_2, a_4 (goal)
+
+The event AcceptS(pk(skS_1),pk(skP_1)) is executed at {37} in copy a_1, a_2, a_4.
+A trace has been found.
+RESULT not ev:AcceptS(i,j) is false.
+-- Query not ev:AcceptS2(i,j) in process 1.
+Translating the process into Horn clauses...
+Completing...
+Starting query not ev:AcceptS2(i,j)
+goal reachable: end:AcceptS2(pk(skS_1),pk(skP_1))
+Abbreviations:
+skS_1 = skS[!1 = @sid]
+skP_1 = skP[!2 = @sid_1,!1 = @sid]
+
+Derivation:
+Abbreviations:
+skS_1 = skS[!1 = @sid]
+skP_1 = skP[!2 = @sid_1,!1 = @sid]
+a_1 = a[!3 = @sid_2,!2 = @sid_1,!1 = @sid]
+SKey = SKey_704[a_433 = kgen(g(),a_1),a_63 = a_2,!3 = @sid_3,!2 = @sid_1,!1 = @sid]
+
+1. The attacker has some term a_2.
+attacker:a_2.
+
+2. The message kgen(g(),a_1) may be sent to the attacker at output {12}.
+attacker:kgen(g(),a_1).
+
+3. The message a_2 that the attacker may have by 1 may be received at input {30}.
+The message kgen(g(),a_1) that the attacker may have by 2 may be received at input {31}.
+So the message kgen(g(),SKey) may be sent to the attacker at output {34}.
+attacker:kgen(g(),SKey).
+
+4. The attacker has some term a_3.
+attacker:a_3.
+
+5. The attacker has some term a_4.
+attacker:a_4.
+
+6. The message a_3 that the attacker may have by 4 may be received at input {30}.
+The message a_4 that the attacker may have by 5 may be received at input {31}.
+So the message sign(inputs(),skS_1) may be sent to the attacker at output {39}.
+attacker:sign(inputs(),skS_1).
+
+7. The message pk(skS_1) may be sent to the attacker at output {4}.
+attacker:pk(skS_1).
+
+8. The message kgen(g(),SKey) that the attacker may have by 3 may be received at input {13}.
+The message sign(inputs(),skS_1) that the attacker may have by 6 may be received at input {14}.
+The message pk(skS_1) that the attacker may have by 7 may be received at input {15}.
+So the message enc(user_auth(),kdfPtoS(kgen(kgen(g(),a_1),SKey),hash3(kgen(g(),a_1),kgen(g(),SKey),pk(skS_1)))) may be sent to the attacker at output {24}.
+attacker:enc(user_auth(),kdfPtoS(kgen(kgen(g(),a_1),SKey),hash3(kgen(g(),a_1),kgen(g(),SKey),pk(skS_1)))).
+
+9. The message a_2 that the attacker may have by 1 may be received at input {30}.
+The message kgen(g(),a_1) that the attacker may have by 2 may be received at input {31}.
+The message enc(user_auth(),kdfPtoS(kgen(kgen(g(),a_1),SKey),hash3(kgen(g(),a_1),kgen(g(),SKey),pk(skS_1)))) that the attacker may have by 8 may be received at input {43}.
+So the message enc(user_auth(),kdfStoP(kgen(kgen(g(),a_1),SKey),hash3(kgen(g(),a_1),kgen(g(),SKey),pk(skS_1)))) may be sent to the attacker at output {46}.
+attacker:enc(user_auth(),kdfStoP(kgen(kgen(g(),a_1),SKey),hash3(kgen(g(),a_1),kgen(g(),SKey),pk(skS_1)))).
+
+10. The message kgen(g(),SKey) that the attacker may have by 3 may be received at input {13}.
+The message sign(inputs(),skS_1) that the attacker may have by 6 may be received at input {14}.
+The message pk(skS_1) that the attacker may have by 7 may be received at input {15}.
+The message enc(user_auth(),kdfStoP(kgen(kgen(g(),a_1),SKey),hash3(kgen(g(),a_1),kgen(g(),SKey),pk(skS_1)))) that the attacker may have by 9 may be received at input {25}.
+So the message enc(sign(user_answer(),skP_1),kdfPtoS(kgen(kgen(g(),a_1),SKey),hash3(kgen(g(),a_1),kgen(g(),SKey),pk(skS_1)))) may be sent to the attacker at output {28}.
+attacker:enc(sign(user_answer(),skP_1),kdfPtoS(kgen(kgen(g(),a_1),SKey),hash3(kgen(g(),a_1),kgen(g(),SKey),pk(skS_1)))).
+
+11. The message a_2 that the attacker may have by 1 may be received at input {30}.
+The message kgen(g(),a_1) that the attacker may have by 2 may be received at input {31}.
+The message enc(user_auth(),kdfPtoS(kgen(kgen(g(),a_1),SKey),hash3(kgen(g(),a_1),kgen(g(),SKey),pk(skS_1)))) that the attacker may have by 8 may be received at input {43}.
+The message enc(sign(user_answer(),skP_1),kdfPtoS(kgen(kgen(g(),a_1),SKey),hash3(kgen(g(),a_1),kgen(g(),SKey),pk(skS_1)))) that the attacker may have by 10 may be received at input {47}.
+So event AcceptS2(pk(skS_1),pk(skP_1)) may be executed at {51}.
+end:AcceptS2(pk(skS_1),pk(skP_1)).
+
+12. By 11, end:AcceptS2(pk(skS_1),pk(skP_1)).
+The goal is reached, represented in the following fact:
+end:AcceptS2(pk(skS_1),pk(skP_1)).
+
+
+A more detailed output of the traces is available with
+  param traceDisplay = long.
+
+new skS creating skS_1 at {2} in copy a_1
+
+out(c_out, ~M) with ~M = pk(skS_1) at {4} in copy a_1
+
+new skP creating skP_1 at {6} in copy a_1, a_2
+
+out(c_out, ~M_1) with ~M_1 = pk(skP_1) at {8} in copy a_1, a_2
+
+new a creating a_3 at {10} in copy a_1, a_2, a_4
+
+out(c_out, ~M_2) with ~M_2 = kgen(g(),a_3) at {12} in copy a_1, a_2, a_4
+
+new skP creating skP_2 at {6} in copy a_1, a_5
+
+out(c_out, ~M_3) with ~M_3 = pk(skP_2) at {8} in copy a_1, a_5
+
+in(c_in, a_6) at {30} in copy a_1, a_5, a_7
+
+in(c_in, a_8) at {31} in copy a_1, a_5, a_7
+
+new SKey_704 creating SKey at {32} in copy a_1, a_5, a_7
+
+out(c_out, ~M_4) with ~M_4 = kgen(g(),SKey) at {34} in copy a_1, a_5, a_7
+
+event AcceptS(pk(skS_1),pk(skP_2)) at {37} in copy a_1, a_5, a_7
+
+out(c_out, ~M_5) with ~M_5 = sign(inputs(),skS_1) at {39} in copy a_1, a_5, a_7
+
+out(c_out, ~M_6) with ~M_6 = pk(skS_1) at {40} in copy a_1, a_5, a_7
+
+in(c_in, a_9) at {30} in copy a_1, a_2, a_10
+
+in(c_in, ~M_2) with ~M_2 = kgen(g(),a_3) at {31} in copy a_1, a_2, a_10
+
+new SKey_704 creating SKey_1 at {32} in copy a_1, a_2, a_10
+
+out(c_out, ~M_7) with ~M_7 = kgen(g(),SKey_1) at {34} in copy a_1, a_2, a_10
+
+event AcceptS(pk(skS_1),pk(skP_1)) at {37} in copy a_1, a_2, a_10
+
+out(c_out, ~M_8) with ~M_8 = sign(inputs(),skS_1) at {39} in copy a_1, a_2, a_10
+
+out(c_out, ~M_9) with ~M_9 = pk(skS_1) at {40} in copy a_1, a_2, a_10
+
+in(c_in, ~M_7) with ~M_7 = kgen(g(),SKey_1) at {13} in copy a_1, a_2, a_4
+
+in(c_in, ~M_5) with ~M_5 = sign(inputs(),skS_1) at {14} in copy a_1, a_2, a_4
+
+in(c_in, ~M) with ~M = pk(skS_1) at {15} in copy a_1, a_2, a_4
+
+event AcceptP(pk(skS_1),pk(skP_1)) at {21} in copy a_1, a_2, a_4
+
+out(c_out, ~M_10) with ~M_10 = enc(user_auth(),kdfPtoS(kgen(kgen(g(),SKey_1),a_3),hash3(kgen(g(),a_3),kgen(g(),SKey_1),pk(skS_1)))) at {24} in copy a_1, a_2, a_4
+
+in(c_in, ~M_10) with ~M_10 = enc(user_auth(),kdfPtoS(kgen(kgen(g(),a_3),SKey_1),hash3(kgen(g(),a_3),kgen(g(),SKey_1),pk(skS_1)))) at {43} in copy a_1, a_2, a_10
+
+out(c_out, ~M_11) with ~M_11 = enc(user_auth(),kdfStoP(kgen(kgen(g(),a_3),SKey_1),hash3(kgen(g(),a_3),kgen(g(),SKey_1),pk(skS_1)))) at {46} in copy a_1, a_2, a_10
+
+in(c_in, ~M_11) with ~M_11 = enc(user_auth(),kdfStoP(kgen(kgen(g(),a_3),SKey_1),hash3(kgen(g(),a_3),kgen(g(),SKey_1),pk(skS_1)))) at {25} in copy a_1, a_2, a_4
+
+event AcceptP2(pk(skS_1),pk(skP_1)) at {27} in copy a_1, a_2, a_4
+
+out(c_out, ~M_12) with ~M_12 = enc(sign(user_answer(),skP_1),kdfPtoS(kgen(kgen(g(),SKey_1),a_3),hash3(kgen(g(),a_3),kgen(g(),SKey_1),pk(skS_1)))) at {28} in copy a_1, a_2, a_4
+
+in(c_in, ~M_12) with ~M_12 = enc(sign(user_answer(),skP_1),kdfPtoS(kgen(kgen(g(),a_3),SKey_1),hash3(kgen(g(),a_3),kgen(g(),SKey_1),pk(skS_1)))) at {47} in copy a_1, a_2, a_10
+
+event AcceptS2(pk(skS_1),pk(skP_1)) at {51} in copy a_1, a_2, a_10 (goal)
+
+The event AcceptS2(pk(skS_1),pk(skP_1)) is executed at {51} in copy a_1, a_2, a_10.
+A trace has been found.
+RESULT not ev:AcceptS2(i,j) is false.
