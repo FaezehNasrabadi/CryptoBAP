@@ -35,15 +35,15 @@ Our toolchain includes the following:
 How to setup and compile
 ========================
 ## HolBA
-1) Set up HolBA framework using HolBA/README.md
-2) In binaries/balrob/binariesBalrobDefsLib.sml : Specify which binary file and which blocks inside it you want to transpile into the binary intermediate representation (BIR)
-3) In order to generate a BIR program of your specified binary file when you are in binaries/balrob/ directory execute the following lines :
-	- source ../../../../../../env.sh
-	- Holmake
+1) Set up HolBA framework using [HolBA/README.md](https://github.com/FaezehNasrabadi/CryptoBAP/blob/main/HolBA/README.md)
+2) Specify which binary file and which blocks inside it you want to transpile into the binary intermediate representation (BIR) in [HolBA/src/tools/symbexec/examples/binaries/balrob/binariesBalrobDefsLib.sml](https://github.com/FaezehNasrabadi/CryptoBAP/blob/main/HolBA/src/tools/symbexec/examples/binaries/balrob/binariesBalrobDefsLib.sml)
+3) In order to generate a BIR program of your specified binary file execute the following lines :
+	- source env.sh when you are in [HolBA/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA) directory
+	- Holmake when you are in [HolBA/src/tools/symbexec/examples/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA/src/tools/symbexec/examples)
 
-You can find the BIR program stored in binariesTheory.sig file
+You can find the BIR program stored in binariesTheory.sig file in [HolBA/src/tools/symbexec/examples/binaries/balrob/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA/src/tools/symbexec/examples/binaries/balrob) directory
 
-4) Now you can go to the root directory and verify your desired use-case in the Tests/ directory with the command make as following:
+4) Now you can go to [HolBA/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA) directory and verify your desired use-case with the following command :
 	- make src/tools/symbexec/examples/Tests/subdirectory/your-desired-use-case.sml_run
 
-5) You can find the IML result in IML_Translation.txt file in subdirectory of the tests/ directory
+5) You can find the IML result in IML_Translation.txt file in subdirectory of the [HolBA/src/tools/symbexec/examples/Tests/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA/src/tools/symbexec/examples/Tests) directory
