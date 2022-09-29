@@ -11,13 +11,13 @@ This implementation includes
 Folders and organization
 ========================
 
-It includes the following:
+Our toolchain includes the following:
 
-**binaries/balrob/** : A directory contains the source code of the protocols we analysed: simple mac, simple xor, RPC, RPC-enc, NSL and TinySSH at ARMv8 binary code.<br/>
-**PreProcess/** : A directory consists of the source codes for preprocessing the BIR program before executing by our symbolic execution.<br/>
-**IML/** : A directory includes the intermediate model language (IML) syntax implemented on top of the theorem prover HOL4.<br/>
-**libload/** : A directory contains the source codes of our crypto-aware symbolic execution.<br/>
-**Tests/** : A directory includes the IML output and the input files for each of our use-cases, such as :<br/>
+**[HolBA/src/tools/symbexec/examples/binaries/balrob/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA/src/tools/symbexec/examples/binaries/balrob)** : A directory contains the source code of the protocols we analysed: simple mac, simple xor, RPC, RPC-enc, NSL and TinySSH at ARMv8 binary code.<br/>
+**[HolBA/src/tools/symbexec/examples/PreProcess/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA/src/tools/symbexec/examples/PreProcess)** : A directory consists of the source codes for preprocessing the BIR program before executing by our symbolic execution.<br/>
+**[HolBA/src/tools/symbexec/examples/IML/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA/src/tools/symbexec/examples/IML)** : A directory includes the intermediate model language (IML) syntax implemented on top of the theorem prover HOL4.<br/>
+**[HolBA/src/tools/symbexec/examples/libload/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA/src/tools/symbexec/examples/libload)** : A directory contains the source codes of our crypto-aware symbolic execution.<br/>
+**[HolBA/src/tools/symbexec/examples/Tests/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA/src/tools/symbexec/examples/Tests)** : A directory includes the IML output and the input files for each of our use-cases, such as :<br/>
 - The function names used in the protocol implementation<br/> 
 - The names of cryptographic functions used in the protocol implementation<br/> 
 - The name of functions used for network communications in the protocol implementation and we anoint them adversary function names<br/>
