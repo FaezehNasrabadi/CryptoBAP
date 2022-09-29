@@ -25,6 +25,12 @@ Our toolchain includes the following:
 - The number of entries for adversary functions used in the protocol implementation<br/>
 - The name of events we release during the execution of the protocol<br/>
 
+**[Csec-modex/src/symtrace/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/Csec-modex/src/symtrace)** :  A directory contains the source code of the Csec-modex verification toolchain, which we modified to start the analysis from IML.<br/>
+**[Csec-modex/mk/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/Csec-modex/mk)** :   A directory includes the make files of the Csec-modex verification toolchain, which we modified to start from IML.<br/>
+**[Csec-modex/tests/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/Csec-modex/tests)** : A directory includes subdirectories that start the analysis of our use cases from IML input files. These subdirectories contain CryptoVerif and ProVerif template files which include :<br/>
+- The cryptographic assumptions used by the protocol implementation<br/>
+- The process which generates shared cryptographic material and breeds the protocol participants<br/>
+- Queries for the property that the protocol implementation attempt to satisfy<br/>
 
 How to setup and compile
 ========================
