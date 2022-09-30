@@ -55,4 +55,81 @@ You can find the BIR program stored in ***binariesTheory.sig*** file in [HolBA/s
 3) Run verification via the following command : 
 	- `make -f Makefile.csec` when you are in the related subdirectory in [Csec-modex/tests/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/Csec-modex/tests)
 
+Running example
+==============
+Consider a client-side of the implementation of simple XOR as described in [1].<br/>
 
+The ***client_xor.da***, ***client_xor.da.plus***, and ***client_xor.mem*** are the implementation of client-side of simple XOR at ARMv8 binary in [HolBA/src/tools/symbexec/examples/binaries/balrob/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA/src/tools/symbexec/examples/binaries/balrob) directory.<br/>
+
+We configure these files as input files at ARMv8 binary in [HolBA/src/tools/symbexec/examples/binaries/balrob/binariesBalrobDefsLib.sml](https://github.com/FaezehNasrabadi/CryptoBAP/blob/main/HolBA/src/tools/symbexec/examples/binaries/balrob/binariesBalrobDefsLib.sml) file as follows:<br/>
+
+```
+val configs              = [ ("client", 
+                           ("client_xor.da", "balrob/client_xor.da.plus", "balrob/client_xor.mem"),
+                           "client_THM",
+                           ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0xffffffff),
+                            (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
+                            (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
+			     ) ];
+```
+
+And we specify blocks inside these files we want to transpile to BIR like :
+
+```
+val symbs_sec_text = [
+    "__libc_malloc",
+    "memcpy",
+    "otp",
+    "xor",
+    "socket_connect",
+    "send",
+    "RAND_bytes",
+    "client",
+    "main"
+];
+```
+
+The BIR program is stored in ***binariesTheory.sig*** file in [HolBA/src/tools/symbexec/examples/binaries/balrob/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA/src/tools/symbexec/examples/binaries/balrob) directory and it contains BIR blocks like as follow : 
+
+```
+		...
+		bb_last_statement :=
+                  BStmt_Jmp (BLE_Label (BL_Address (Imm64 4203720w)))|>;
+ <|bb_label :=
+                  BL_Address_HC (Imm64 4203720w)
+                    "9400014B (bl 4029f4 <xor>)";
+                  bb_statements :=
+                  [BStmt_Assign (BVar "R30" (BType_Imm Bit64))
+                     (BExp_Const (Imm64 4203724w))];
+                  bb_last_statement :=
+                  BStmt_Jmp (BLE_Label (BL_Address (Imm64 4205044w)))|>;
+<|bb_label :=
+                  BL_Address_HC (Imm64 4203724w)
+                    "F94017A0 (ldr x0, [x29,#40])";
+                    ...
+```                  
+
+We set the entry and exit points of the derived BIR program in [HolBA/src/tools/symbexec/examples/Tests/XOR/Combination-XOR.sml](https://github.com/FaezehNasrabadi/CryptoBAP/blob/main/HolBA/src/tools/symbexec/examples/Tests/XOR/Combination-XOR.sml) as follows:
+
+```
+val lbl_tm = ``BL_Address (Imm64 4203632w)``;
+
+val stop_lbl_tms = [``BL_Address (Imm64 4203756w)``];
+```
+
+And we run the following command when we are in [HolBA/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA) directory :
+- `make src/tools/symbexec/examples/Tests/XOR/Combination-XOR.sml_run`
+
+The result of translating our symbolic execution tree into IML is as follows :
+
+```
+new OTP_48 fixed_64 
+let Conc1_66 = conc1(OTP_48) in
+let XOR_70 = exclusive_or(Conc1_66,pad) in
+out c, XOR_70 
+```
+
+
+## References
+<a id="1">[1]</a> 
+Aizatulin, Mihhail, Andrew D. Gordon, and Jan Jürjens. "Computational verification of C protocol implementations by symbolic execution." Proceedings of the 2012 ACM conference on Computer and communications security. 2012.
