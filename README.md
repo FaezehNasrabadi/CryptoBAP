@@ -35,25 +35,25 @@ Our toolchain includes the following:
 How to setup and compile
 ========================
 ## HolBA
-1) Set up HolBA framework using [HolBA/README.md](https://github.com/FaezehNasrabadi/CryptoBAP/blob/main/HolBA/README.md)
-2) Specify which binary file and which blocks inside it you want to transpile into the binary intermediate representation (BIR) in [HolBA/src/tools/symbexec/examples/binaries/balrob/binariesBalrobDefsLib.sml](https://github.com/FaezehNasrabadi/CryptoBAP/blob/main/HolBA/src/tools/symbexec/examples/binaries/balrob/binariesBalrobDefsLib.sml)
-3) In order to generate a BIR program of your specified binary file execute the following lines :
-	- `source env.sh` when you are in [HolBA/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA) directory
-	- `Holmake` when you are in [HolBA/src/tools/symbexec/examples/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA/src/tools/symbexec/examples)
+1. Set up HolBA framework using [HolBA/README.md](https://github.com/FaezehNasrabadi/CryptoBAP/blob/main/HolBA/README.md)<br/>
+2. Specify which binary file and which blocks inside it you want to transpile into the binary intermediate representation (BIR) in [HolBA/src/tools/symbexec/examples/binaries/balrob/binariesBalrobDefsLib.sml](https://github.com/FaezehNasrabadi/CryptoBAP/blob/main/HolBA/src/tools/symbexec/examples/binaries/balrob/binariesBalrobDefsLib.sml)<br/>
+3. In order to generate a BIR program of your specified binary file execute the following lines :<br/>
+    - `source env.sh` when you are in [HolBA/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA) directory<br/>
+    - `Holmake` when you are in [HolBA/src/tools/symbexec/examples/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA/src/tools/symbexec/examples)<br/>
 
-You can find the BIR program stored in ***binariesTheory.sig*** file in [HolBA/src/tools/symbexec/examples/binaries/balrob/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA/src/tools/symbexec/examples/binaries/balrob) directory
+You can find the BIR program stored in ***binariesTheory.sig*** file in [HolBA/src/tools/symbexec/examples/binaries/balrob/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA/src/tools/symbexec/examples/binaries/balrob) directory<br/>
 
-4) Now you can go to [HolBA/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA) directory and verify your desired use-case with the following command :
-	- `make src/tools/symbexec/examples/Tests/subdirectory/your-desired-use-case.sml_run`
+4. Now you can go to [HolBA/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA) directory and verify your desired use-case with the following command :<br/>
+    - `make src/tools/symbexec/examples/Tests/subdirectory/your-desired-use-case.sml_run`
 
-5) You can find the IML result in ***IML_Translation.txt*** file in subdirectory of the [HolBA/src/tools/symbexec/examples/Tests/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA/src/tools/symbexec/examples/Tests) directory<br/>
+5. You can find the IML result in ***IML_Translation.txt*** file in subdirectory of the [HolBA/src/tools/symbexec/examples/Tests/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA/src/tools/symbexec/examples/Tests) directory<br/>
 
 
 ## Csec-modex
-1) Set up Csec-modex verification toolchain using [Csec-modex/README.markdown](https://github.com/FaezehNasrabadi/CryptoBAP/blob/main/Csec-modex/README.markdown)
-2) Place your derived IML file in the related subdirectory in [Csec-modex/tests/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/Csec-modex/tests)
-3) Run verification via the following command : 
-	- `make -f Makefile.csec` when you are in the related subdirectory in [Csec-modex/tests/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/Csec-modex/tests)
+1. Set up Csec-modex verification toolchain using [Csec-modex/README.markdown](https://github.com/FaezehNasrabadi/CryptoBAP/blob/main/Csec-modex/README.markdown)<br/>
+2. Place your derived IML file in the related subdirectory in [Csec-modex/tests/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/Csec-modex/tests)
+3) Run verification via the following command : <br/>
+     - `make -f Makefile.csec` when you are in the related subdirectory in [Csec-modex/tests/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/Csec-modex/tests)<br/>
 
 Running example
 ==============
@@ -73,7 +73,7 @@ val configs              = [ ("client",
 			     ) ];
 ```
 
-And we specify blocks inside these files we want to transpile to BIR like :
+And we specify blocks inside these files we want to transpile to BIR like :<br/>
 
 ```
 val symbs_sec_text = [
@@ -89,7 +89,7 @@ val symbs_sec_text = [
 ];
 ```
 
-The BIR program is stored in ***binariesTheory.sig*** file in [HolBA/src/tools/symbexec/examples/binaries/balrob/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA/src/tools/symbexec/examples/binaries/balrob) directory and it contains BIR blocks like as follow : 
+The BIR program is stored in ***binariesTheory.sig*** file in [HolBA/src/tools/symbexec/examples/binaries/balrob/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA/src/tools/symbexec/examples/binaries/balrob) directory and it contains BIR blocks like as follow : <br/>
 
 ```
 		...
@@ -109,7 +109,7 @@ The BIR program is stored in ***binariesTheory.sig*** file in [HolBA/src/tools/s
                     ...
 ```                  
 
-We set the entry and exit points of the derived BIR program in [HolBA/src/tools/symbexec/examples/Tests/XOR/Combination-XOR.sml](https://github.com/FaezehNasrabadi/CryptoBAP/blob/main/HolBA/src/tools/symbexec/examples/Tests/XOR/Combination-XOR.sml) as follows:
+We set the entry and exit points of the derived BIR program in [HolBA/src/tools/symbexec/examples/Tests/XOR/Combination-XOR.sml](https://github.com/FaezehNasrabadi/CryptoBAP/blob/main/HolBA/src/tools/symbexec/examples/Tests/XOR/Combination-XOR.sml) as follows : <br/>
 
 ```
 val lbl_tm = ``BL_Address (Imm64 4203632w)``;
@@ -117,10 +117,10 @@ val lbl_tm = ``BL_Address (Imm64 4203632w)``;
 val stop_lbl_tms = [``BL_Address (Imm64 4203756w)``];
 ```
 
-And we run the following command when we are in [HolBA/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA) directory :
-- `make src/tools/symbexec/examples/Tests/XOR/Combination-XOR.sml_run`
+And we run the following command when we are in [HolBA/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/HolBA) directory : <br/>
+- `make src/tools/symbexec/examples/Tests/XOR/Combination-XOR.sml_run` <br/>
 
-The result of translating our symbolic execution tree into IML is as follows :
+The result of translating our symbolic execution tree into IML is as follows :<br/>
 
 ```
 new OTP_48 fixed_64 
