@@ -154,7 +154,7 @@ val symbs_sec_text = [
     "server",
     "main"
 ];
-
+*)
 
 val symbs_sec_text = [
     "__libc_malloc",
@@ -169,7 +169,7 @@ val symbs_sec_text = [
 ];
 
 
-
+(*
 val symbs_sec_text = [
     "__globinit_client",
     "__CrestCall",
@@ -218,7 +218,7 @@ val symbs_sec_text = [
     "__CrestReturn",
     "__stack_chk_fail",
     "main"
-];*)
+];
 val symbs_sec_text = [
     "parseargs",
     "send_response",
@@ -269,7 +269,7 @@ val symbs_sec_text = [
     "memcmp_proxy",
     "main"
 ];
-(*
+
 val symbs_sec_text = [
     "main",
     "client",
@@ -402,7 +402,7 @@ val configs              = [ ("client",
                             (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 			      ) ]; 
-
+*)
 val configs              = [ ("client",
                            ("client_xor.da", "balrob/client_xor.da.plus", "balrob/client_xor.mem"),
                            "client_THM",
@@ -410,7 +410,7 @@ val configs              = [ ("client",
                             (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 			     ) ];
-
+(*
 val configs              = [ ("client",
                            ("client_hmac.da", "balrob/client_hmac.da.plus", "balrob/client_hmac.mem"),
                            "client_THM",
@@ -434,7 +434,7 @@ val configs              = [ ("client",
                             (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 			     ) ];   
-    *)
+    
  val configs              = [ ("server",
                            ("server_nsl.da", "balrob/server_nsl.da.plus", "balrob/server_nsl.mem"),
                            "server_THM",
@@ -442,7 +442,7 @@ val configs              = [ ("client",
                             (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 			      ) ]; 
-(*
+
  val configs              = [ ("RPC",
                            ("RPC.da", "balrob/RPC.da.plus", "balrob/RPC.mem"),
                            "RPC_THM",

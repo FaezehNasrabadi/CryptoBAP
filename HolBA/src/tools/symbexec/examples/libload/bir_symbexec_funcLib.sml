@@ -30,9 +30,9 @@ val _ = Parse.type_abbrev("verify", ``:bir_var_t list -> bir_var_t -> bir_exp_t`
 val _ = Parse.type_abbrev("dec", ``:bir_var_t -> bir_var_t -> bir_exp_t``);
 
 val _ = Parse.type_abbrev("concatenate", ``:bir_var_t list -> bir_exp_t``);
-(*
-val _ = Parse.type_abbrev("conc1", ``:bir_var_t -> bir_exp_t``);
 
+val _ = Parse.type_abbrev("conc1", ``:bir_var_t -> bir_exp_t``);
+(*
 val _ = Parse.type_abbrev("conc2", ``:bir_var_t -> bir_var_t -> bir_exp_t``);
 
 val _ = Parse.type_abbrev("conc3", ``:bir_var_t -> bir_var_t -> bir_exp_t``);*)
@@ -57,7 +57,7 @@ val _ = Parse.type_abbrev("kdfPtoS", ``:bir_var_t -> bir_var_t -> bir_exp_t``);
 
 val _ = Parse.type_abbrev("kdfStoP", ``:bir_var_t -> bir_var_t -> bir_exp_t``);    
 
-val _ = Parse.type_abbrev("conc1", ``:bir_var_t -> bir_var_t -> bir_exp_t``);
+(*val _ = Parse.type_abbrev("conc1", ``:bir_var_t -> bir_var_t -> bir_exp_t``);*)
 
 val _ = Parse.type_abbrev("conc2", ``:bir_var_t -> bir_exp_t``);
 
@@ -845,7 +845,7 @@ fun Event lib_type syst =
 
 (*handle cryptographic symbolic model, concatenation, and parsing the bitstring  *)
     
-(*   
+  
 fun Concat1 syst =
     let
 	val flag = true;
@@ -862,7 +862,7 @@ fun Concat1 syst =
 
     in
 	syst
-    end;
+    end;(*
 fun Concat1 syst =
     let
 	val key = (symbval_bexp o get_state_symbv "concat1::bv in env not found"  ``BVar "key" (BType_Imm Bit64)``) syst;
@@ -1359,6 +1359,9 @@ fun session_key syst =
     in
 	syst
     end;
+(*
+NSL server
+==========
 
 fun Concat1 syst =
     let
@@ -1381,7 +1384,7 @@ fun Concat1 syst =
     in
 	syst
     end;   
-(*
+
 RPC-enc client
 ==============    
 fun new_key syst =
@@ -1808,7 +1811,7 @@ fun Xor syst =
 
 	val syst = store_mem_r0 x_be Fr_Xor syst; (* update syst *)
 
-	 (* val syst = add_knowledge_r0 Fr_Xor syst; The adversary has a right to know *)
+	val syst = add_knowledge_r0 Fr_Xor syst; (* The adversary has a right to know *)
 
 		
     in
