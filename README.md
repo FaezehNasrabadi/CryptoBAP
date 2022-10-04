@@ -51,8 +51,8 @@ You can find the BIR program stored in ***binariesTheory.sig*** file in [HolBA/s
 
 ## Csec-modex
 1. Set up Csec-modex verification toolchain using [Csec-modex/README.markdown](https://github.com/FaezehNasrabadi/CryptoBAP/blob/main/Csec-modex/README.markdown)<br/>
-2. Place your derived IML file in the related subdirectory in [Csec-modex/tests/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/Csec-modex/tests)
-3) Run verification via the following command : <br/>
+2. Place your derived IML file in the related subdirectory in [Csec-modex/tests/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/Csec-modex/tests) <br/>
+3. Run verification via the following command : <br/>
      - `make -f Makefile.csec` when you are in the related subdirectory in [Csec-modex/tests/](https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/Csec-modex/tests)<br/>
 
 Running example
