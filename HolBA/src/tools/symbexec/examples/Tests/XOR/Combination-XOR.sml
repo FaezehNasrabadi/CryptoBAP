@@ -24,14 +24,14 @@ open bir_symbexec_oracleLib;
 open bir_symbexec_oracleLib;
 
 
-(*Server*)     
+(*Server*)   (*  
 val lbl_tm = ``BL_Address (Imm64 4203632w)``;
 
 val stop_lbl_tms = [``BL_Address (Imm64 4203760w)``];    
-(*Client*)   (*  
+(*Client*)   *)  
 val lbl_tm = ``BL_Address (Imm64 4203632w)``;
 
-val stop_lbl_tms = [``BL_Address (Imm64 4203756w)``];  *)
+val stop_lbl_tms = [``BL_Address (Imm64 4203756w)``]; 
 
 val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
 

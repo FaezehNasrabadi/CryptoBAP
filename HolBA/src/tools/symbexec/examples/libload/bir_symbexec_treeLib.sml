@@ -571,7 +571,7 @@ fun Xor_to_IML vals_list pred =
 
 	val str_be = term_to_string x_be;
 
-	val fun_str = Fun2 str_be;
+	val fun_str = Fun_2 str_be;
 
     in
 	(to_string (I_Out [(Var (fun_str))]))
