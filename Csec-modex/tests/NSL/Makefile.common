@@ -1,7 +1,7 @@
-CC = aarch64-linux-gnu-gcc -march=armv8-a -mtune=cortex-a53 -L/home/faezeh/openssl -static 
+
 # Makes the models smaller
-CFLAGS += -DVERBOSE -DCSEC_VERIFY
-LDLIBS += -lssl -lcrypto -I/home/faezeh/csec-modex/proxies -I/home/faezeh/csec-modex/tests/NSL/inc
+# CFLAGS += -DVERBOSE 
+LDLIBS += -lssl -lcrypto
 
 P1 = server
 P2 = client

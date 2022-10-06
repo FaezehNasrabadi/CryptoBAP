@@ -1,6 +1,6 @@
-CC = aarch64-linux-gnu-gcc -march=armv8-a -mtune=cortex-a53 -L/home/faezeh/openssl -L/home/faezeh/csec-modex/tests/RPC/proxies -static  
+ 
 # This was causing us to analyze the loop that prints the buffer one-by-one, taking a long time
-CFLAGS += -DVERBOSE -DCSEC_VERIFY
+# CFLAGS += -DVERBOSE 
 LDLIBS += -lssl -lcrypto
  
 # $(shell find -name "*.c" -not -name "*.cil.c")

@@ -1,9 +1,5 @@
-CC = aarch64-linux-gnu-gcc -march=armv8-a -mtune=cortex-a53 -L/home/faezeh/openssl -L/home/faezeh/csec-modex/tests/RPC-enc/gcm -L/home/faezeh/csec-modex/tests/RPC-enc/polarssl/library -L/home/faezeh/csec-modex/tests/RPC-enc/proxies -static 
-# Makes the models smaller
-CFLAGS += -DVERBOSE -DCSEC_VERIFY -DPROXY_COMMON -DPROXY_INTERFACE -Ipolarssl/include -Igcm -Wall
-LDLIBS += -Wl,-Bstatic -lssl -lcrypto -I/home/faezeh/csec-modex/proxies -I/home/faezeh/csec-modex/tests/RPC-enc -I/home/faezeh/csec-modex/tests/RPC-enc/proxies -lminimal -lgcm -ldl 
 
-FILES = client.c server.c lib.c common.h interface.h lib.h lib_proxy.c net.c net.h rpc-enc.h  Makefile proxies.conf RPC-enc.v iml.all.good.txt query.in pvmodel.good.txt
+FILES = client.c server.c lib.c lib.h lib_proxy.c net.c net.h rpc-enc.h  Makefile proxies.conf RPC-enc.v iml.all.good.txt query.in pvmodel.good.txt
 
 # FD: Sorry about the .exe, the fact that the thing compiles everytime I want
 # to run it is starting to get on my nerves
@@ -18,9 +14,9 @@ P2_CMD = localhost localhost 4433 "What is the weather like?"
 
 # The model is smaller without this
 # -DVERBOSE 
-# CFLAGS = -Ipolarssl/include -Igcm -Wall
+CFLAGS = -Ipolarssl/include -Igcm -Wall
 LDFLAGS = -Lpolarssl/library -Lgcm
-# LDLIBS = -lminimal -lgcm -ldl 
+LDLIBS = -lminimal -lgcm -ldl 
 
 polarssl: polarssl/library/libminimal.a
 

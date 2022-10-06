@@ -1,5 +1,5 @@
-CC = aarch64-linux-gnu-gcc -march=armv8-a -mtune=cortex-a53 -L/home/faezeh/openssl -static -I/home/faezeh/csec-modex/proxies
-CFLAGS += -DVERBOSE -DCSEC_VERIFY
+
+CFLAGS += -DVERBOSE 
 LDLIBS += -lssl -lcrypto
  
 P1 = server
@@ -7,4 +7,3 @@ P2 = client
 
 P1_SRC = server.c net.c lib.c
 P2_SRC = client.c net.c lib.c
-
