@@ -1,2 +1,0 @@
-/home/faezeh/csec-modex/CMakeFiles/edit_cache.dir
-/home/faezeh/csec-modex/CMakeFiles/rebuild_cache.dir

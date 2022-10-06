@@ -8,40 +8,15 @@ include $(CSEC_ROOT)/mk/common.mk
 ## IML
 ############################
 
-#ifndef IML_OUTPUTS 
- # IML_OUTPUTS = iml.out
-#endif
-
-#copy: iml.debug.copy.out
-
-#iml.debug.copy.out: iml.debug.out
-#	cp $^ $@
-
-#mark:
-#	grep "(mark)" iml.debug.out > mark.out
-
-#iml: iml.out
-
-#ifdef DEBUG_IML
-#iml.out: $(CVM) $(IMLTRACE)
-#	{ $(IMLTRACE) $(CVM) iml.raw.out | tee iml.out; } 2>&1 | tee iml.debug.out
-#else
-#iml.out: IML.txt $(IMLTRACE)
-#	{ $(IMLTRACE) IML.txt iml.raw.out | tee iml.out; } > iml.debug.out 2>&1
-#endif
-
-#iml.raw.out: iml.out
-
-
 ifndef IML_OUTPUTS 
  	IML_OUTPUTS = iml_client.out iml_server.out
 endif
 
-iml_client.out: IML_client.txt /home/faezeh/csec-modex/src/symtrace/sym_iml
-	{ /home/faezeh/csec-modex/src/symtrace/sym_iml IML_client.txt iml_client.raw.out | tee iml_client.out; } > iml_client.debug.out 2>&1
+iml_client.out: IML_client.txt $(IMLINPUT)
+	{ $(IMLINPUT) IML_client.txt iml_client.raw.out | tee iml_client.out; } > iml_client.debug.out 2>&1
 
-iml_server.out: IML_server.txt /home/faezeh/csec-modex/src/symtrace/sym_iml
-	{ /home/faezeh/csec-modex/src/symtrace/sym_iml IML_server.txt iml_server.raw.out | tee iml_server.out; } > iml_server.debug.out 2>&1
+iml_server.out: IML_server.txt $(IMLINPUT)
+	{ $(IMLINPUT) IML_server.txt iml_server.raw.out | tee iml_server.out; } > iml_server.debug.out 2>&1
 
 iml_client.raw.out: iml_client.out
 
@@ -214,4 +189,3 @@ clean::
 phony:
 
 .PHONY: phony
-
