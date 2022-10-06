@@ -1,6 +1,4 @@
-for f in model.pv.out; do\
-	/home/faezeh/csec-modex/deps/proverif1.84/proverif -in pi $f;\
-done
+
 Process:
 {1}!
 new key_9;

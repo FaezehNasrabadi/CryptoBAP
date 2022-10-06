@@ -1,6 +1,4 @@
-for f in model.pv.out; do\
-	/home/faezeh/csec-modex/deps/proverif1.84/proverif -in pi $f;\
-done
+
 Linear part:
 kgen(kgen(g(),a_4),b_5) = kgen(kgen(g(),b_5),a_4)
 Completing equations...
@@ -344,10 +342,8 @@ Completing...
 Starting query ev:AcceptP(i_16686,j_16687) ==> ev:AcceptS(i_16686,l_16688)
 goal reachable: begin:AcceptS(pk(skS_10[!1 = @sid_19727]),pk(skP_12[!2 = @sid_19728,!1 = @sid_19727])) -> end:AcceptP(pk(skS_10[!1 = @sid_19727]),pk(skP_12[!2 = @sid_19729,!1 = @sid_19727]))
 RESULT ev:AcceptP(i_16686,j_16687) ==> ev:AcceptS(i_16686,l_16688) is true.
-faezeh@ubuntu:~/csec-modex/tests/Tinyssh from IML$ make -f Makefile.csec 
-for f in model.pv.out; do\
-	/home/faezeh/csec-modex/deps/proverif1.84/proverif -in pi $f | grep "RESULT\|queries";\
-done
+
+
 RESULT not ev:AcceptS2(i_54,j_55) cannot be proved.
 RESULT not ev:AcceptS(i_4009,j_4010) is false.
 RESULT not ev:AcceptP2(i_7068,j_7069) is false.

@@ -1,17 +1,11 @@
-{ /home/faezeh/csec-modex/src/symtrace/cvtrace IML_client.txt IML_server.txt /home/faezeh/csec-modex/deps/cryptoverif1.12/default model.cv.in | tee model.cv.out; } > model.cv.debug.out 2>&1
-for f in model.cv.out; do\
-	/home/faezeh/csec-modex/deps/cryptoverif1.12/cryptoverif -lib /home/faezeh/csec-modex/deps/cryptoverif1.12/default $f | grep "RESULT\|queries";\
-done
+
 RESULT Proved event client_accept(hClient, hServer, x, y) ==> true
 RESULT Proved event server_reply(hClient, hServer, x, y) ==> true
 RESULT Proved event server_reply(hClient, hServer, x, y) ==> (client_begin(hClient, hServer, x)||bad(hClient)) up to probability N * Pencctxt(time(context for game 4) + time + (-2. * N + 2. * N * N) * time(dec) + (-1. * N + N * N) * time(enc1) + (-1. + N) * time(kgen), N, 2. * N)
 RESULT time(context for game 4) = N * N * time(= bounded_1024_id, maxlength(game 4: xClient_59[!_45, !_43]), length(clientID)) + N * N * time(pars2, maxlength(game 4: a_96_60[!_45, !_43])) + N * N * time(let badHost, maxlength(game 4: xClient'[!_45, !_43])) + N * N * time(pars2, maxlength(game 4: a_96_71[!_45, !_43])) + 2. * N * N * time(let injbot) + N * N * time(pars3) + N * N * time(pars4) + N * N * time(cast_fixed_1024_payload_bounded_1045_plaintext) + N * N * time(enc1) + N * N * time(kgen) + N * N * time(conc1) + N * N * time(conc2, length(clientID)) + N * N * time(cast_bitstring_bounded_1077_ciphertext, maxlength(game 4: a_561_0[!_44, !_43])) + N * N * time(dec)
 RESULT time(context for game 7) = N * N * time(= bounded_1024_id, maxlength(game 7: xClient_59[!_45, !_43]), length(clientID)) + N * N * time(pars2, maxlength(game 7: a_96_60[!_45, !_43])) + N * N * time(let badHost, maxlength(game 7: xClient'[!_45, !_43])) + N * N * time(pars2, maxlength(game 7: a_96_71[!_45, !_43])) + N * N * time(cast_fixed_1024_payload_bounded_1045_plaintext) + N * N * time(enc1) + N * N * time(kgen) + N * N * time(conc1) + N * N * time(conc2, length(clientID)) + N * N * time(let injbot) + N * N * time(cast_bitstring_bounded_1077_ciphertext, maxlength(game 7: a_561_0[!_44, !_43])) + N * N * time(dec)
 RESULT Could not prove event leaked(hClient, resp) ==> bad(hClient), event client_accept(hClient, hServer, x, y) ==> server_reply(hClient, hServer, x, y).
-faezeh@ubuntu:~/Desktop/csec-modex/tests/RPC-enc from IML$ make -f Makefile.csec 
-for f in model.cv.out; do\
-	/home/faezeh/csec-modex/deps/cryptoverif1.12/cryptoverif -lib /home/faezeh/csec-modex/deps/cryptoverif1.12/default $f;\
-done
+
 Doing expand if, let, find... No change.
 Doing simplify... Run simplify 2 time(s). Fixpoint reached.
 Done.

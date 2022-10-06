@@ -1,7 +1,4 @@
-{ /home/faezeh/csec-modex/src/symtrace/pvtrace IML_client.txt IML_server.txt /home/faezeh/csec-modex/deps/cryptoverif1.12/default model.cv.in model.pv.in | tee model.pv.out; } > model.pv.debug.out 2>&1
-for f in model.pv.out; do\
-	/home/faezeh/csec-modex/deps/proverif1.84/proverif -in pi $f;\
-done
+
 Process:
 {1}!
 new key_15;
@@ -178,10 +175,7 @@ Starting query ev:client_accept(client_1614,server_1615,request[],response[]) ==
 goal reachable: begin:server_reply(clientID[],server_1967,request[],response[]) & attacker:server_1967 -> end:client_accept(clientID[],server_1967,request[],response[])
 goal reachable: begin:bad(client_1970,server_1971) & attacker:server_1971 & attacker:client_1970 -> end:client_accept(client_1970,server_1971,request[],response[])
 RESULT ev:client_accept(client_1614,server_1615,request[],response[]) ==> ev:server_reply(client_1614,server_1615,request[],response[]) | ev:bad(client_1614,server_1615) is true.
-faezeh@ubuntu:~/csec-modex/tests/RPC-enc from IML$ make -f Makefile.csec 
-for f in model.pv.out; do\
-	/home/faezeh/csec-modex/deps/proverif1.84/proverif -in pi $f | grep "RESULT\|queries";\
-done
+
 RESULT ev:client_accept(client_42,server_43,request[],response[]) ==> ev:bad(client_42,server_43) is false.
 RESULT attacker:kgen(SKey_10_32[!3 = v_693,serverID = server_694,clientID = client_695,!2 = v_696,xClient = v_697,!1 = v_698]) ==> ev:bad(client_695,server_694) is true.
 RESULT attacker:lookup(client_1004,server_1005,key_15[!1 = v_1006]) ==> ev:bad(client_1004,server_1005) is true.

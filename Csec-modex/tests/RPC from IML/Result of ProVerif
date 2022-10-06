@@ -1,7 +1,4 @@
-{ /home/faezeh/csec-modex/src/symtrace/pvtrace IML_client.txt IML_server.txt /home/faezeh/csec-modex/deps/cryptoverif1.12/default model.cv.in model.pv.in | tee model.pv.out; } > model.pv.debug.out 2>&1
-for f in model.pv.out; do\
-	/home/faezeh/csec-modex/deps/proverif1.84/proverif -in pi $f;\
-done
+
 Process:
 {1}!
 new keyAB_11;

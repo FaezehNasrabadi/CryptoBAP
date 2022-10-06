@@ -1,10 +1,10 @@
 
-# Makes the models smaller
+# Mkae the model smaller
 # CFLAGS += -DVERBOSE 
 LDLIBS += -lssl -lcrypto
 
 P1 = server
 P2 = client
 
-P1_SRC = server.c keys.c net.c lib.c
-P2_SRC = client.c keys.c net.c lib.c
+P1_SRC = server.c net.c lib.c
+P2_SRC = client.c net.c lib.c

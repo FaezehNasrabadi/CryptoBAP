@@ -1,7 +1,4 @@
-{ /home/faezeh/csec-modex/src/symtrace/cvtrace IML_client.txt IML_server.txt /home/faezeh/csec-modex/deps/cryptoverif1.12/default model.cv.in | tee model.cv.out; } > model.cv.debug.out 2>&1
-for f in model.cv.out; do\
-	/home/faezeh/csec-modex/deps/cryptoverif1.12/cryptoverif -lib /home/faezeh/csec-modex/deps/cryptoverif1.12/default $f;\
-done
+
 Doing expand if, let, find... No change.
 Doing simplify... Run simplify 2 time(s). Fixpoint reached.
 Done.

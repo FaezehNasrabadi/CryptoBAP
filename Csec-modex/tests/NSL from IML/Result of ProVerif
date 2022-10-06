@@ -1,13 +1,7 @@
-{ /home/faezeh/csec-modex/src/symtrace/pvtrace IML_client.txt IML_server.txt /home/faezeh/csec-modex/deps/cryptoverif1.12/default model.cv.in model.pv.in | tee model.pv.out; } > model.pv.debug.out 2>&1
-for f in model.pv.out; do\
-	/home/faezeh/csec-modex/deps/proverif1.84/proverif -in pi $f | grep "RESULT\|queries";\
-done
 RESULT ev:server_end(x_70,y_71) ==> ev:bad(x_70) is false.
 RESULT ev:client_end(x_1297,y_1298) ==> ev:server_begin(x_1297,y_1298) | ev:bad(y_1298) is true.
 RESULT ev:server_end(x_1965,y_1966) ==> ev:client_begin(x_1965,y_1966) | ev:bad(x_1965) is true.
-faezeh@ubuntu:~/csec-modex/tests/NSL from IML$ make -f Makefile.csec for f in model.pv.out; do\
-	/home/faezeh/csec-modex/deps/proverif1.84/proverif -in pi $f;\
-done
+
 Process:
 {1}!
 new A_seed_26;
