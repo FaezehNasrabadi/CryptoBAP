@@ -120,15 +120,11 @@
    The Return() call needs to take appropriate actions to remove the symbolic return value
    constructed by the instrumentation, so that the custom value will remain on top of the stack
    instead.
-
    You must not call any other function between CustomReturn() and Return(), for instance,
    instead of
-
      CustomReturn()
      return f()
-
    you must write
-
      tmp = f();
      CustomReturn();
      return tmp;
