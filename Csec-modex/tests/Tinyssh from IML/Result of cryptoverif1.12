@@ -48,29 +48,40 @@ out(c_out[!_40, !_39], pkP);
   let userauth_answer1: bounded_1000_ciphertext = to_cipher(userauth_answer) in
   if (dec(userauth_answer1, kSP) = user_auth) then
   event AcceptP2(pkS, pkP);
-  out(c_out[!_41, !_40, !_39], enc(sign(user_answer, skP), kPS))
+  let y: bitstring = conc(c_50, c_128) in
+  out(c_out[!_41, !_40, !_39], (enc(sign(user_answer, skP), kPS), y))
 ) | (
   ! !_42 <= N
-  in(c_in[!_42, !_40, !_39], (a_63_0: bitstring, a_433_0: bitstring));
-  new SKey_704_0: fixed_64;
-  let sk_706_0: bitstring = kgen(g, SKey_704_0) in
-  let kAB_708_0: bitstring = kgen(a_433_0, SKey_704_0) in
-  let HMAC_714_0: bitstring = HMAC(a_433_0, sk_706_0, pkS) in
+  in(c_in[!_42, !_40, !_39], (a_63_0: bitstring, a_429_0: bitstring));
+  if (c_0 = a_429_0) then
+  event bad;
+  new SKey_661_0: fixed_64;
+  let sk_663_0: bitstring = kgen(g, SKey_661_0) in
+  let kAB_665_0: bitstring = kgen(a_429_0, SKey_661_0) in
+  let HMAC_671_0: bitstring = HMAC(a_429_0, sk_663_0, pkS) in
   event AcceptS(pkS, pkP);
-  let signature_720_0: signature = sign(inputs, skS) in
-  let kPS_724_0: fixed_100_key = kdfPtoS(kAB_708_0, HMAC_714_0) in
-  let kSP_728_0: fixed_100_key = kdfStoP(kAB_708_0, HMAC_714_0) in
-  out(c_out[!_42, !_40, !_39], (pkS, sign(inputs, skS), sk_706_0));
-  in(c_in[!_42, !_40, !_39], a_732_0: bitstring);
-  let a_44: bounded_1000_ciphertext = to_cipher(a_732_0) in
-  let Dec_733_0: signature = dec(a_44, kPS_724_0) in
-  let Enc_736_0: bounded_1000_ciphertext = enc(Dec_733_0, kSP_728_0) in
-  out(c_out[!_42, !_40, !_39], Enc_736_0);
-  in(c_in[!_42, !_40, !_39], a_967_0: bitstring);
-  let a1: bounded_1000_ciphertext = to_cipher(a_967_0) in
-  let Dec_968_0: signature = dec(a1, kPS_724_0) in
-  let Ver_972_0: bool = verify(Dec_968_0, pkP) in
-  if (Ver_972_0 = true) then
+  let signature_677_0: signature = sign(inputs, skS) in
+  let kPS_681_0: fixed_100_key = kdfPtoS(kAB_665_0, HMAC_671_0) in
+  let kSP_685_0: fixed_100_key = kdfStoP(kAB_665_0, HMAC_671_0) in
+  out(c_out[!_42, !_40, !_39], (sign(inputs, skS), sk_663_0));
+  in(c_in[!_42, !_40, !_39], a_689_0: bitstring);
+  let a_44: bounded_1000_ciphertext = to_cipher(a_689_0) in
+  let Dec_690_0: signature = dec(a_44, kPS_681_0) in
+  let Enc_693_0: bounded_1000_ciphertext = enc(Dec_690_0, kSP_685_0) in
+  out(c_out[!_42, !_40, !_39], Enc_693_0);
+  in(c_in[!_42, !_40, !_39], (a_5074_0: bitstring, a_5173_0: bitstring, a_6160_0: bitstring));
+  if (c_0 = a_5173_0) then
+  event bad;
+  let Pars1_5177_0: bitstring = pars1(a_5173_0) in
+  if (c_50 = Pars1_5177_0) then
+  event bad;
+  let Pars2_5183_0: bitstring = pars2(a_5173_0) in
+  if (c_256 = Pars2_5183_0) then
+  event bad;
+  let a1: bounded_1000_ciphertext = to_cipher(a_6160_0) in
+  let Dec_6161_0: signature = dec(a1, kPS_681_0) in
+  let Ver_6165_0: bool = verify(Dec_6161_0, pkP) in
+  if (Ver_6165_0 = true) then
   event AcceptS2(pkS, pkP)
 )
 
@@ -110,29 +121,40 @@ out(c_out[!_40, !_39], pkP);
   let userauth_answer1: bounded_1000_ciphertext = to_cipher(userauth_answer) in
   if (dec(userauth_answer1, kSP) = user_auth) then
   event AcceptP2(pkS, pkP);
-  out(c_out[!_41, !_40, !_39], enc(sign(user_answer, skP), kPS))
+  let y: bitstring = conc(c_50, c_128) in
+  out(c_out[!_41, !_40, !_39], (enc(sign(user_answer, skP), kPS), y))
 ) | (
   ! !_42 <= N
-  in(c_in[!_42, !_40, !_39], (a_63_0: bitstring, a_433_0: bitstring));
-  new SKey_704_0: fixed_64;
-  let sk_706_0: bitstring = kgen(g, SKey_704_0) in
-  let kAB_708_0: bitstring = kgen(a_433_0, SKey_704_0) in
-  let HMAC_714_0: bitstring = HMAC(a_433_0, sk_706_0, pkS) in
+  in(c_in[!_42, !_40, !_39], (a_63_0: bitstring, a_429_0: bitstring));
+  if (c_0 = a_429_0) then
+  event bad;
+  new SKey_661_0: fixed_64;
+  let sk_663_0: bitstring = kgen(g, SKey_661_0) in
+  let kAB_665_0: bitstring = kgen(a_429_0, SKey_661_0) in
+  let HMAC_671_0: bitstring = HMAC(a_429_0, sk_663_0, pkS) in
   event AcceptS(pkS, pkP);
-  let signature_720_0: signature = sign(inputs, skS) in
-  let kPS_724_0: fixed_100_key = kdfPtoS(kAB_708_0, HMAC_714_0) in
-  let kSP_728_0: fixed_100_key = kdfStoP(kAB_708_0, HMAC_714_0) in
-  out(c_out[!_42, !_40, !_39], (pkS, sign(inputs, skS), sk_706_0));
-  in(c_in[!_42, !_40, !_39], a_732_0: bitstring);
-  let a_44: bounded_1000_ciphertext = to_cipher(a_732_0) in
-  let Dec_733_0: signature = dec(a_44, kPS_724_0) in
-  let Enc_736_0: bounded_1000_ciphertext = enc(Dec_733_0, kSP_728_0) in
-  out(c_out[!_42, !_40, !_39], Enc_736_0);
-  in(c_in[!_42, !_40, !_39], a_967_0: bitstring);
-  let a1: bounded_1000_ciphertext = to_cipher(a_967_0) in
-  let Dec_968_0: signature = dec(a1, kPS_724_0) in
-  let Ver_972_0: bool = verify(Dec_968_0, pkP) in
-  if (Ver_972_0 = true) then
+  let signature_677_0: signature = sign(inputs, skS) in
+  let kPS_681_0: fixed_100_key = kdfPtoS(kAB_665_0, HMAC_671_0) in
+  let kSP_685_0: fixed_100_key = kdfStoP(kAB_665_0, HMAC_671_0) in
+  out(c_out[!_42, !_40, !_39], (sign(inputs, skS), sk_663_0));
+  in(c_in[!_42, !_40, !_39], a_689_0: bitstring);
+  let a_44: bounded_1000_ciphertext = to_cipher(a_689_0) in
+  let Dec_690_0: signature = dec(a_44, kPS_681_0) in
+  let Enc_693_0: bounded_1000_ciphertext = enc(Dec_690_0, kSP_685_0) in
+  out(c_out[!_42, !_40, !_39], Enc_693_0);
+  in(c_in[!_42, !_40, !_39], (a_5074_0: bitstring, a_5173_0: bitstring, a_6160_0: bitstring));
+  if (c_0 = a_5173_0) then
+  event bad;
+  let Pars1_5177_0: bitstring = pars1(a_5173_0) in
+  if (c_50 = Pars1_5177_0) then
+  event bad;
+  let Pars2_5183_0: bitstring = pars2(a_5173_0) in
+  if (c_256 = Pars2_5183_0) then
+  event bad;
+  let a1: bounded_1000_ciphertext = to_cipher(a_6160_0) in
+  let Dec_6161_0: signature = dec(a1, kPS_681_0) in
+  let Ver_6165_0: bool = verify(Dec_6161_0, pkP) in
+  if (Ver_6165_0 = true) then
   event AcceptS2(pkS, pkP)
 )
 
@@ -172,28 +194,39 @@ out(c_out[!_40, !_39], pkP);
   let userauth_answer1: bounded_1000_ciphertext = to_cipher(userauth_answer) in
   if (dec(userauth_answer1, kSP) = user_auth) then
   event AcceptP2(pkS, pkP);
-  out(c_out[!_41, !_40, !_39], enc(sign(user_answer, skP), kPS))
+  let y: bitstring = conc(c_50, c_128) in
+  out(c_out[!_41, !_40, !_39], (enc(sign(user_answer, skP), kPS), y))
 ) | (
   ! !_42 <= N
-  in(c_in[!_42, !_40, !_39], (a_63_0: bitstring, a_433_0: bitstring));
-  new SKey_704_0: fixed_64;
-  let sk_706_0: bitstring = kgen(g, SKey_704_0) in
-  let kAB_708_0: bitstring = kgen(a_433_0, SKey_704_0) in
-  let HMAC_714_0: bitstring = HMAC(a_433_0, sk_706_0, pkS) in
+  in(c_in[!_42, !_40, !_39], (a_63_0: bitstring, a_429_0: bitstring));
+  if (c_0 = a_429_0) then
+  event bad;
+  new SKey_661_0: fixed_64;
+  let sk_663_0: bitstring = kgen(g, SKey_661_0) in
+  let kAB_665_0: bitstring = kgen(a_429_0, SKey_661_0) in
+  let HMAC_671_0: bitstring = HMAC(a_429_0, sk_663_0, pkS) in
   event AcceptS(pkS, pkP);
-  let kPS_724_0: fixed_100_key = kdfPtoS(kAB_708_0, HMAC_714_0) in
-  let kSP_728_0: fixed_100_key = kdfStoP(kAB_708_0, HMAC_714_0) in
-  out(c_out[!_42, !_40, !_39], (pkS, sign(inputs, skS), sk_706_0));
-  in(c_in[!_42, !_40, !_39], a_732_0: bitstring);
-  let a_44: bounded_1000_ciphertext = to_cipher(a_732_0) in
-  let Dec_733_0: signature = dec(a_44, kPS_724_0) in
-  let Enc_736_0: bounded_1000_ciphertext = enc(Dec_733_0, kSP_728_0) in
-  out(c_out[!_42, !_40, !_39], Enc_736_0);
-  in(c_in[!_42, !_40, !_39], a_967_0: bitstring);
-  let a1: bounded_1000_ciphertext = to_cipher(a_967_0) in
-  let Dec_968_0: signature = dec(a1, kPS_724_0) in
-  let Ver_972_0: bool = verify(Dec_968_0, pkP) in
-  if (Ver_972_0 = true) then
+  let kPS_681_0: fixed_100_key = kdfPtoS(kAB_665_0, HMAC_671_0) in
+  let kSP_685_0: fixed_100_key = kdfStoP(kAB_665_0, HMAC_671_0) in
+  out(c_out[!_42, !_40, !_39], (sign(inputs, skS), sk_663_0));
+  in(c_in[!_42, !_40, !_39], a_689_0: bitstring);
+  let a_44: bounded_1000_ciphertext = to_cipher(a_689_0) in
+  let Dec_690_0: signature = dec(a_44, kPS_681_0) in
+  let Enc_693_0: bounded_1000_ciphertext = enc(Dec_690_0, kSP_685_0) in
+  out(c_out[!_42, !_40, !_39], Enc_693_0);
+  in(c_in[!_42, !_40, !_39], (a_5074_0: bitstring, a_5173_0: bitstring, a_6160_0: bitstring));
+  if (c_0 = a_5173_0) then
+  event bad;
+  let Pars1_5177_0: bitstring = pars1(a_5173_0) in
+  if (c_50 = Pars1_5177_0) then
+  event bad;
+  let Pars2_5183_0: bitstring = pars2(a_5173_0) in
+  if (c_256 = Pars2_5183_0) then
+  event bad;
+  let a1: bounded_1000_ciphertext = to_cipher(a_6160_0) in
+  let Dec_6161_0: signature = dec(a1, kPS_681_0) in
+  let Ver_6165_0: bool = verify(Dec_6161_0, pkP) in
+  if (Ver_6165_0 = true) then
   event AcceptS2(pkS, pkP)
 )
 

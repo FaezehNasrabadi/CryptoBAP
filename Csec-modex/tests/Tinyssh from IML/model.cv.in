@@ -17,6 +17,16 @@ type key.
 type passwd [fixed, large].
 type G [fixed].
 
+fun conc(bitstring, bitstring): bitstring [compos].
+
+fun pars1(bitstring): bitstring.
+
+fun pars2(bitstring): bitstring.
+
+const c_50: bitstring.
+const c_256: bitstring.
+const c_128: bitstring.
+const c_0: bitstring.
 
 type keyseed_T [fixed, large].
 (* 100 is MAX_SIZE_KEY in the code. *)
@@ -110,6 +120,8 @@ event AcceptS(spkey, spkey).
 event AcceptP(spkey, spkey).
 event AcceptS2(spkey, spkey).
 event AcceptP2(spkey, spkey).
+
+event bad().
 
 query i: spkey, j: spkey, l: spkey;
   event AcceptP(i, j) ==> AcceptS(i, l).

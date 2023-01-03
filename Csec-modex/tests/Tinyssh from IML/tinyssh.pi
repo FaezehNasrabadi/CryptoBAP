@@ -11,8 +11,22 @@ fun E/3.
 fun enc/2.
 
 fun kgen/2.
+fun hash/3.
 
-data const_0/0.
+
+fun conc/2.
+
+reduc pars1(conc(arg0, arg1)) = arg0.
+
+reduc pars2(conc(arg0, arg1)) = arg1.
+
+
+fun c_0/0.
+fun c_1/0.
+fun c_256/0.
+fun c_50/0.
+fun c_128/0.
+
 data const_4294967295/0.
 data userauth_pk_ok/0.
 data user_answer/0.
@@ -93,7 +107,6 @@ query ev:AcceptS(i,j).
 
 query ev:AcceptS2(i,j).
 
-
 (*************************** 
   Model 
 ***************************)
@@ -117,31 +130,48 @@ out(c_out, enc(user_auth,kPS_1));
 in(c_in, userauth_answer);
 if dec(userauth_answer,kSP_1) = user_auth then 
 event AcceptP2(pkS, pkP);
+let y = conc(c_50,c_128) in
+out(c_out, y);
 out(c_out, enc(sign(user_answer,skP),kPS_1)); 0 .
 
 let server = 
+!(
 in(c_in, a_63);
-in(c_in, a_433);
-new SKey_704;
-let sk_706 = kgen(g,SKey_704) in
-out(c_out, sk_706);
-let kAB_708 = kgen(a_433,SKey_704) in
-let HMAC_714 = hash3(a_433,sk_706,pkS) in
+if c_0 = a_63 then
+event bad(); 
+0 ) | !(
+in(c_in, a_429);
+new SKey_661;
+let sk_663 = kgen(g,SKey_661) in
+out(c_out, sk_663);
+let kAB_665 = kgen(a_429,SKey_661) in
+let HMAC_671 = hash3(a_429,sk_663,pkS) in
 event AcceptS(pkS, pkP);
-let signature_720 = sign(inputs,skS) in
+let signature_677 = sign(inputs,skS) in
 out(c_out, sign(inputs,skS));
 out(c_out, pkS);
-let kPS_724 = kdfPtoS(kAB_708,HMAC_714) in
-let kSP_728 = kdfStoP(kAB_708,HMAC_714) in
-in(c_in, a_732);
-let Dec_733 = dec(a_732,kPS_724) in
-let Enc_736 = enc(Dec_733,kSP_728) in
-out(c_out, Enc_736);
-in(c_in, a_967);
-let Dec_968 = dec(a_967,kPS_724) in
-let Ver_972 = verify(Dec_968,pkP) in
-if Ver_972 = true then 
-event AcceptS2(pkS, pkP); 0 .
+let kPS_681 = kdfPtoS(kAB_665,HMAC_671) in
+let kSP_685 = kdfStoP(kAB_665,HMAC_671) in
+in(c_in, a_689);
+let Dec_690 = dec(a_689,kPS_681) in
+let Enc_693 = enc(Dec_690,kSP_685) in
+out(c_out, Enc_693);
+!(
+in(c_in, a_5173);
+if c_0 = a_5173 then
+event bad(); 
+let Pars1_5177 = pars1(a_5173) in
+if c_50 = Pars1_5177 then 
+event bad();
+let Pars2_5183 = pars2(a_5173) in
+if c_256 = Pars2_5183 then 
+event bad();
+0 ) | !(
+in(c_in, a_6160);
+let Dec_6161 = dec(a_6160,kPS_681) in
+let Ver_6165 = verify(Dec_6161,pkP) in
+if Ver_6165 = true then 
+event AcceptS2(pkS, pkP); 0)) .
 
 (********************************
   <Environment>

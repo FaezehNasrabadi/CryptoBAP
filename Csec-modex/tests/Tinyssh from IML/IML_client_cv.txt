@@ -19,4 +19,6 @@ in c_in, userauth_answer
 let userauth_answer1 = to_cipher(userauth_answer) in
 if dec(userauth_answer1,kSP) = user_auth then
 event AcceptP2 pkS pkP
+let y = conc(c_50,c_128) in
+out c_out, y
 out c_out, enc(sign(user_answer,skP),kPS)

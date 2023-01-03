@@ -11,8 +11,22 @@ fun E/3.
 fun enc/2.
 
 fun kgen/2.
+fun hash/3.
 
-data const_0/0.
+
+fun conc/2.
+
+reduc pars1(conc(arg0, arg1)) = arg0.
+
+reduc pars2(conc(arg0, arg1)) = arg1.
+
+
+fun c_0/0.
+fun c_1/0.
+fun c_256/0.
+fun c_50/0.
+fun c_128/0.
+
 data const_4294967295/0.
 data userauth_pk_ok/0.
 data user_answer/0.
@@ -76,6 +90,7 @@ query ev:AcceptP2(i,j).
 query ev:AcceptS(i,j).
 
 query ev:AcceptS2(i,j).
+
 
 (********************************
   <Model>

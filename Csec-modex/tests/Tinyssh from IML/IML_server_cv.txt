@@ -1,24 +1,39 @@
 in c, a_63 
-in c, a_433 
-new SKey_704 fixed_64 
-let sk_706 = kgen(g,SKey_704) in
-out c, sk_706 
-let kAB_708 = kgen(a_433,SKey_704) in
-let HMAC_714 = HMAC(a_433,sk_706,pkS) in
+!N(
+in c, a_429 
+if c_0 = a_429 then
+event bad  
+)
+new SKey_661 fixed_64 
+let sk_663 = kgen(g,SKey_661) in
+out c, sk_663 
+let kAB_665 = kgen(a_429,SKey_661) in
+let HMAC_671 = HMAC(a_429,sk_663,pkS) in
 event AcceptS pkS pkP 
-let signature_720 = sign(inputs,skS) in
+let signature_677 = sign(inputs,skS) in
 out c, sign(inputs,skS) 
-out c, pkS
-let kPS_724 = kdfPtoS(kAB_708,HMAC_714) in
-let kSP_728 = kdfStoP(kAB_708,HMAC_714) in
-in c, a_732 
-let a = to_cipher(a_732) in
-let Dec_733 = dec(a,kPS_724) in
-let Enc_736 = enc(Dec_733,kSP_728) in
-out c, Enc_736 
-in c, a_967
-let a1 = to_cipher(a_967) in 
-let Dec_968 = dec(a1,kPS_724) in
-let Ver_972 = verify(Dec_968,pkP) in
-if Ver_972 = true then
+let kPS_681 = kdfPtoS(kAB_665,HMAC_671) in
+let kSP_685 = kdfStoP(kAB_665,HMAC_671) in
+in c, a_689 
+let a = to_cipher(a_689) in
+let Dec_690 = dec(a,kPS_681) in
+let Enc_693 = enc(Dec_690,kSP_685) in
+out c, Enc_693 
+in c, a_5074 
+!N(
+in c, a_5173 
+if c_0 = a_5173 then
+event bad  
+let Pars1_5177 = pars1(a_5173) in
+if c_50 ≠ Pars1_5177 then
+event bad  
+let Pars2_5183 = pars2(a_5173) in
+if c_256 <= Pars2_5183 then
+event bad  
+)
+in c, a_6160 
+let a1 = to_cipher(a_6160) in 
+let Dec_6161 = dec(a1,kPS_681) in
+let Ver_6165 = verify(Dec_6161,pkP) in
+if Ver_6165 = true then
 event AcceptS2 pkS pkP 
