@@ -1229,11 +1229,13 @@ let exe_file (file : in_channel) : iml =
           | "in"      -> Iml.Stmt.In [Var.of_string (List.nth toks 2)]
           | "new"     -> Iml.Stmt.New (Var.of_string (List.nth toks 1), Type.of_string_bitstring (List.nth toks 2))
           | "out"     -> Iml.Stmt.Out (List.map (List.tl (List.tl toks)) ~f:Exp.var_s)
-	  | "if"      -> Iml.Stmt.Test (Exp.eq_bitstring [(Exp.string (List.nth toks 1))])		
-          (*| "if"      -> Iml.Stmt.Eq_test ((Exp.var_s (List.nth toks 1)), (Exp.var_s (List.nth toks 3)))*)
+	  (*| "if"      -> Iml.Stmt.Test (Exp.eq_bitstring [(Exp.string (List.nth toks 1))])	*)	
+          | "if"      -> Iml.Stmt.Eq_test ((Exp.var_s (List.nth toks 1)), (Exp.var_s (List.nth toks 3)))
 	  | "else"    -> Iml.Stmt.Comment (List.nth toks 0)
+	  | ")"    -> Iml.Stmt.Comment (List.nth toks 0)	
           | "event"   -> Iml.Stmt.Event (List.nth toks 1, (List.map (List.tl (List.tl toks)) ~f:Exp.var_s))
-	  | "let"   -> Iml.Stmt.Let (Pat.vpat (List.nth toks 1), (Exp.var_s (List.nth toks 3)))		
+	  | "let"     -> Iml.Stmt.Let (Pat.vpat (List.nth toks 1), (Exp.var_s (List.nth toks 3)))	
+          | "!N("      -> Iml.Stmt.Comment (List.nth toks 0)
           | _         -> failwith (Printf.sprintf "execute: unknown instruction: %s" line)
       with
         | _ -> fail "wrong number of arguments or unknown instruction: %s" line
