@@ -39,12 +39,18 @@ fun fun_address_dict (n:cfg_node) =
 			   in
 			       (lbl_tm, fname)
 			   end
+		       else if (isPrefix "(blr " (implode instrDes))
+		       then let
+			       val fname = (implode o fst o (list_split_pred #")") o snd o (list_split_pred #" ")) instrDes;
+			   in
+			       (lbl_tm, fname)
+			   end
 		       else (“BL_Address (Imm32 0w)”, " ");
     in
 	name_adr
     end;
     
-(* Find address of nodes with branch*)    
+(* Find address of nodes with branch*)     
 fun fun_addresses_dict bl_dict prog_lbl_tms =
     let
 	val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict prog_lbl_tms;
@@ -57,7 +63,7 @@ fun fun_addresses_dict bl_dict prog_lbl_tms =
     in
 	fst (Redblackmap.remove(func_table', “BL_Address (Imm32 0w)”))
     end;
-    
+  
 end(*local*)
 
 end (* struct *)

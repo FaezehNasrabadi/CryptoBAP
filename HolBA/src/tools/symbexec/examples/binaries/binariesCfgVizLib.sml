@@ -42,8 +42,8 @@ fun display_call_graph ci symbs_sec_text =
     val _ = writeToFile dot_str (file ^ ".dot");
     val _ = convertAndView file;
   in () end;
-
-(*fun show_call_graph () =
+(*
+fun show_call_graph () =
   display_call_graph ci symbs_sec_text;*)
 
 fun show_cfg_fun do_walk bl_dict n_dict name =

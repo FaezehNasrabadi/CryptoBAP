@@ -1,0 +1,56 @@
+
+out:     file format elf64-littleaarch64
+
+
+Disassembly of section .page1:
+
+0000000000010000 <foo>:
+   10000:	52800000 	mov	w0, #0x0                   	// #0
+   10004:	d65f03c0 	ret
+
+Disassembly of section .page2:
+
+0000000000040000 <bar>:
+   40000:	52800020 	mov	w0, #0x1                   	// #1
+   40004:	d65f03c0 	ret
+
+Disassembly of section .page3:
+
+0000000000080000 <baz>:
+   80000:	52800040 	mov	w0, #0x2                   	// #2
+   80004:	d65f03c0 	ret
+
+Disassembly of section .text:
+
+0000000000080008 <main>:
+   80008:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+   8000c:	910003fd 	mov	x29, sp
+   80010:	b9001fe0 	str	w0, [sp, #28]
+   80014:	b9401fe0 	ldr	w0, [sp, #28]
+   80018:	7100001f 	cmp	w0, #0x0
+   8001c:	540000a1 	b.ne	80030 <main+0x28>  // b.any
+   80020:	90fffc80 	adrp	x0, 10000 <foo>
+   80024:	91000000 	add	x0, x0, #0x0
+   80028:	f90017e0 	str	x0, [sp, #40]
+   8002c:	14000011 	b	80070 <main+0x68>
+   80030:	b9401fe0 	ldr	w0, [sp, #28]
+   80034:	7100041f 	cmp	w0, #0x1
+   80038:	540000a1 	b.ne	8004c <main+0x44>  // b.any
+   8003c:	90fffe00 	adrp	x0, 40000 <bar>
+   80040:	91000000 	add	x0, x0, #0x0
+   80044:	f90017e0 	str	x0, [sp, #40]
+   80048:	1400000a 	b	80070 <main+0x68>
+   8004c:	b9401fe0 	ldr	w0, [sp, #28]
+   80050:	7100081f 	cmp	w0, #0x2
+   80054:	540000a1 	b.ne	80068 <main+0x60>  // b.any
+   80058:	90000000 	adrp	x0, 80000 <baz>
+   8005c:	91000000 	add	x0, x0, #0x0
+   80060:	f90017e0 	str	x0, [sp, #40]
+   80064:	14000003 	b	80070 <main+0x68>
+   80068:	52800000 	mov	w0, #0x0                   	// #0
+   8006c:	14000004 	b	8007c <main+0x74>
+   80070:	f94017e0 	ldr	x0, [sp, #40]
+   80074:	d63f0000 	blr	x0
+   80078:	52800020 	mov	w0, #0x1                   	// #1
+   8007c:	a8c37bfd 	ldp	x29, x30, [sp], #48
+   80080:	d65f03c0 	ret

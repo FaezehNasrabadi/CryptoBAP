@@ -6,7 +6,7 @@ The cryptographic functions names are as follows:
 
 
 
-AcceptS2
+
 die_fatal_
 __stack_chk_fail@plt
 
@@ -15,7 +15,7 @@ __stack_chk_fail@plt
 
 __errno_location@plt
 
-kdfStoP
+AcceptS2
 open_read
 read@plt
 open@plt

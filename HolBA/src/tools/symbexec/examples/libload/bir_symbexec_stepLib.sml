@@ -4,6 +4,7 @@ struct
 local
   open bir_symbexec_stateLib;
   open bir_symbexec_coreLib;
+  open binariesLib;
 
   val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_stepLib"
   val wrap_exn = Feedback.wrap_exn   "bir_symbexec_stepLib"
@@ -12,6 +13,8 @@ in (* outermost local *)
 (* execution of a basic statement *)
 local
   (* basic statement execution functions *) 
+  (* TODO: this branching can be considered a hack because of
+   the way that countw is assigned to for conditional branches *)
 
   val bv_countw = bir_envSyntax.mk_BVar_string ("countw", ``(BType_Imm Bit64)``);
   fun state_exec_assign (bv, be) syst =
@@ -128,40 +131,70 @@ local
          syst
     end
     )
-    handle HOL_ERR _ => NONE;
+      handle HOL_ERR _ => NONE;
 
-  val jmp_exp_var_match_tm = ``BStmt_Jmp (BLE_Exp x)``;
-  exception state_exec_try_jmp_exp_var_exn;
-  fun state_exec_try_jmp_exp_var est syst =
-    SOME (
+  fun exist_in_prog tgts ex_tgts =
+      let
+	  val res = if (List.exists (fn x => identical (hd tgts) x) prog_lbl_tms_)
+		    then (hd tgts)::ex_tgts
+		    else ex_tgts;
+      in
+	  if (List.null (tl tgts))
+	  then  res
+	  else (exist_in_prog (tl tgts) res)
+      end;
+
+(* add term for target equality *)       
+fun add_tgt_equ tgt be =
     let
-      val (vs, _) = hol88Lib.match jmp_exp_var_match_tm est
-                    handle _ => (
-                      print ("couldn't match end statement: " ^ (term_to_string est) ^ "\n");
-                      raise ERR "couldn't match" (term_to_string est));
 
-
-      val be_tgt  = (fst o hd) vs;
-	  
-      open bir_countw_simplificationLib;
-	   
-      val bvalo = eval_exp_in_syst be_tgt syst
-                  handle e => (
-                    print ("ooops, something went wrong in evaluation: " ^ (term_to_string be_tgt) ^ "\n");
-                    raise wrap_exn ("ooops, something went wrong in evaluation: " ^ (term_to_string be_tgt)) e);
-
-      open bir_valuesSyntax;
-      open optionSyntax;
-      val tgt = (mk_BL_Address o dest_BVal_Imm o dest_some) bvalo
-                handle _ => (
-                  raise state_exec_try_jmp_exp_var_exn);
+	val pred = ``(BExp_BinPred BIExp_Equal
+		      ^tgt
+		      ^be)
+		     ``;   
 
     in
-      [SYST_update_pc tgt syst]
-    end
-    )
-    handle state_exec_try_jmp_exp_var_exn => NONE
-         | e => raise wrap_exn ("state_exec_try_jmp_exp_var::") e;
+	pred
+    end;
+  val jmp_exp_var_match_tm = ``BStmt_Jmp (BLE_Exp x)``;
+  exception state_exec_try_jmp_exp_var_exn;
+  fun state_exec_try_jmp_exp_var n_dict lbl_tm est syst =
+      SOME (
+      let
+	  val (vs, _) = hol88Lib.match jmp_exp_var_match_tm est
+              handle _ => (
+                     print ("couldn't match end statement: " ^ (term_to_string est) ^ "\n");
+                     raise ERR "couldn't match" (term_to_string est));
+
+	  val _ = if not (bir_symbexec_oracleLib.is_indirect_jmp n_dict lbl_tm) then raise state_exec_try_jmp_exp_var_exn
+		  else ();
+    
+	  val be_tgt  = (fst o hd) vs;
+
+	      
+	  val tgt = ``BVar "target" (BType_Imm Bit64)``;
+	  val sy_tgt = get_bvar_init tgt;
+	  val env  = (SYST_get_env syst);
+	  val new_env = Redblackmap.insert (env,tgt,sy_tgt);
+	  val syst = SYST_update_env new_env syst;
+	      
+	  val cnd = add_tgt_equ (bir_expSyntax.mk_BExp_Den tgt) be_tgt;
+	  val syst = bir_symbexec_coreLib.state_add_pred "assert_true_cnd" cnd syst;
+	      
+	  val tgts = (check_feasible_exp be_tgt syst);	   
+	      
+	  val _ = if (List.null tgts) then raise state_exec_try_jmp_exp_var_exn
+		  else ();
+
+	  val targets =  List.map (fn t => (mk_BL_Address o bir_expSyntax.dest_BExp_Const) t) tgts;
+
+	  val ts =  exist_in_prog targets [];
+      in
+	  List.map (fn t => SYST_update_pc t syst) ts
+      end
+      )
+      handle state_exec_try_jmp_exp_var_exn => NONE
+           | e => raise wrap_exn ("state_exec_try_jmp_exp_var::") e;
 
   
 
@@ -173,8 +206,7 @@ local
       in
 	  [SYST_update_pc tgt syst]
       end;
-
-     
+   
 in (* local *)
   fun symb_exec_endstmt n_dict lbl_tm est syst = (
     (* no update if state is not running *)
@@ -187,11 +219,14 @@ in (* local *)
     case state_exec_try_cjmp_label est syst of
        SOME systs => systs
      | NONE       => (
-    (* no match, then we have some indirection and need to rely on cfg (or it's another end statement) *)
+    (* try to match indirect jump *)
+    case state_exec_try_jmp_exp_var n_dict lbl_tm est syst of
+       SOME systs => systs
+     | NONE       => (
        state_exec_try_jmp_exp_var_no_const syst
-    )))
+    ))))
    handle e =>
-     raise wrap_exn (term_to_string lbl_tm) e;;
+     raise wrap_exn (term_to_string lbl_tm) e;
 end (* local *)
 
 local
@@ -205,6 +240,7 @@ in (* local *)
 fun symb_exec_adversary_block abpfun n_dict bl_dict syst =
     let val lbl_tm = SYST_get_pc syst; in
 	    let
+		(* val _ = print ("Adv \n"); *)
 		val bl = (valOf o (lookup_block_dict bl_dict)) lbl_tm;
 
 		val (lbl_block_tm, bl_stmts, est) = dest_bir_block bl;
@@ -237,6 +273,101 @@ fun symb_exec_adversary_block abpfun n_dict bl_dict syst =
 	    end
 	    handle e => raise wrap_exn ("symb_exec_adversary_block::" ^ term_to_string lbl_tm) e end;
 
+(* handle loop block  *)
+fun symb_exec_loop1_block abpfun n_dict bl_dict adr_dict syst =
+    let val lbl_tm = SYST_get_pc syst; in
+	let
+
+	    val bv_rep = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Rep", “BType_Imm Bit64”)); (* generate a fresh variable *)
+
+	    val syst =  bir_symbexec_funcLib.update_path bv_rep syst;
+
+	    val av = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Adv", “BType_Mem Bit64 Bit8”)); (* generate a fresh variable *)
+
+	    val syst =  update_envvar “BVar "Adv_MEM" (BType_Mem Bit64 Bit8)” av syst; (* update environment *) 
+
+	    val Fn_av = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("a", “BType_Imm Bit64”)); (* generate a fresh name *)
+
+	    val syst = bir_symbexec_funcLib.store_advmem Fn_av av syst;
+
+	    val be_adv = bir_expSyntax.mk_BExp_Den (Fn_av);
+
+	    val cnd = ``(BExp_BinPred BIExp_Equal
+				      (BExp_Const (Imm32 0w))
+			 ^be_adv)``;
+
+	    val syst1 = ((bir_symbexec_funcLib.state_add_path "assert_false_cnd" cnd) o bir_symbexec_funcLib.state_add_path "cjmp_true_cnd" cnd) syst;
+	    val syst2 = ((SYST_update_pc  ``BL_Address (Imm64 4210996w)``) o bir_symbexec_funcLib.state_add_path "cjmp_false_cnd" (bslSyntax.bnot cnd)) syst1;
+
+		      
+	    val bv_repend = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("RepEnd", “BType_Imm Bit64”)); (* generate a fresh variable *)
+
+	    val syst =  bir_symbexec_funcLib.update_path bv_repend syst2;
+
+		
+	    val systs_processed = abpfun ([syst]); 
+	in
+	    systs_processed
+	end
+	handle e => raise wrap_exn ("symb_exec_loop1_block::" ^ term_to_string lbl_tm) e end;
+  fun symb_exec_loop2_block abpfun n_dict bl_dict adr_dict syst =
+    let val lbl_tm = SYST_get_pc syst; in
+	let
+
+	    val bv_rep = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Rep", “BType_Imm Bit64”)); (* generate a fresh variable *)
+
+	    val syst =  bir_symbexec_funcLib.update_path bv_rep syst;
+
+	    val av = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("Adv", “BType_Mem Bit64 Bit8”)); (* generate a fresh variable *)
+
+	    val syst =  update_envvar “BVar "Adv_MEM" (BType_Mem Bit64 Bit8)” av syst; (* update environment *) 
+
+	    val Fn_av = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("a", “BType_Imm Bit64”)); (* generate a fresh name *)
+
+	    val syst = bir_symbexec_funcLib.store_advmem Fn_av av syst;
+
+	    val be_adv = bir_expSyntax.mk_BExp_Den (Fn_av);
+
+	    val cnd1 = ``(BExp_BinPred BIExp_Equal
+				      (BExp_Const (Imm32 0w))
+			 ^be_adv)``;
+
+	    val syst1 = ((bir_symbexec_funcLib.state_add_path "assert_false_cnd" cnd1) o bir_symbexec_funcLib.state_add_path "cjmp_true_cnd" cnd1) syst;
+	    val syst = (bir_symbexec_funcLib.state_add_path "cjmp_false_cnd" (bslSyntax.bnot cnd1)) syst1;
+
+	    val syst = bir_symbexec_funcLib.Parse11 Fn_av syst;
+
+	    val fst_adv = bir_expSyntax.mk_BExp_Den(bir_symbexec_funcLib.compute_inputs_op_mem (1) syst); (* get values *)
+
+	    val cnd2 = ``(BExp_BinPred BIExp_NotEqual
+				       (BExp_Const (Imm32 50w))
+			  ^fst_adv)``;
+
+	    val syst1 = ((bir_symbexec_funcLib.state_add_path "assert_false_cnd" cnd2) o bir_symbexec_funcLib.state_add_path "cjmp_true_cnd" cnd2) syst;
+	    val syst = (bir_symbexec_funcLib.state_add_path "cjmp_false_cnd" (bslSyntax.bnot cnd2)) syst1;
+
+
+	    val syst = bir_symbexec_funcLib.Parse22 Fn_av syst;
+
+	    val snd_adv = bir_expSyntax.mk_BExp_Den(bir_symbexec_funcLib.compute_inputs_op_mem (1) syst); (* get values *)
+
+	    val cnd3 = ``(BExp_BinPred BIExp_LessOrEqual
+				       (BExp_Const (Imm32 256w))
+			  ^snd_adv)``;
+
+	    val syst1 = ((bir_symbexec_funcLib.state_add_path "assert_false_cnd" cnd3) o bir_symbexec_funcLib.state_add_path "cjmp_true_cnd" cnd3) syst;
+	    val syst = ((SYST_update_pc  ``BL_Address (Imm64 4205292w)``) o bir_symbexec_funcLib.state_add_path "cjmp_false_cnd" (bslSyntax.bnot cnd3)) syst1;
+		
+	    val bv_repend = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("RepEnd", “BType_Imm Bit64”)); (* generate a fresh variable *)
+
+	    val syst =  bir_symbexec_funcLib.update_path bv_repend syst;
+
+		
+	    val systs_processed = abpfun ([syst]); 
+	in
+	    systs_processed
+	end
+	handle e => raise wrap_exn ("symb_exec_loop2_block::" ^ term_to_string lbl_tm) e end;  
 (* handle library code *)
 fun symb_exec_library_block abpfun n_dict bl_dict adr_dict syst =
     let val lbl_tm = SYST_get_pc syst; in
@@ -263,7 +394,7 @@ fun symb_exec_library_block abpfun n_dict bl_dict adr_dict syst =
 			   else if (lib_type = "Encryption") then [bir_symbexec_funcLib.Encryption syst]
 			   else if (lib_type = "Decryption") then [bir_symbexec_funcLib.Decryption syst]
 			   else if (lib_type = "Signature") then [bir_symbexec_funcLib.Signature syst]
-			   else if (lib_type = "Verify") then [bir_symbexec_funcLib.Verify syst]
+			   else if (lib_type = "Verify") then bir_symbexec_funcLib.Verify syst
 			   else if (lib_type = "MEMcpy") then [bir_symbexec_funcLib.New_memcpy syst]
 			   else if (lib_type = "LoadFile") then [bir_symbexec_funcLib.Load_file syst]
 			   else if (lib_type = "OTP") then [bir_symbexec_funcLib.One_Time_Pad syst]
@@ -298,7 +429,7 @@ fun symb_exec_library_block abpfun n_dict bl_dict adr_dict syst =
 		systs_processed
 	    end
 	    handle e => raise wrap_exn ("symb_exec_library_block::" ^ term_to_string lbl_tm) e end;
-
+    
 (* function for run a normal symbolic execution block *)
 fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 	let val lbl_tm = SYST_get_pc syst; in
@@ -337,6 +468,7 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 		     (print_term bl; print "\n ==================== \n\n");
 
 	     val systs2 = List.foldl (fn (s, systs) => List.concat(List.map (fn x => symb_exec_stmt (s,x)) systs)) [syst] s_tms;   
+	     (* generate list of states from end statement *)
 
 	    val systs =  List.concat(List.map (symb_exec_endstmt n_dict lbl_tm est) systs2);
 		 
@@ -361,6 +493,8 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 	    in
 		if (pc_type = "Adversary") then symb_exec_adversary_block abpfun n_dict bl_dict syst
 		else if (pc_type = "Library") then symb_exec_library_block abpfun n_dict bl_dict adr_dict syst
+		else if (identical lbl_tm  ``BL_Address (Imm64 4210948w)``) then symb_exec_loop1_block abpfun n_dict bl_dict adr_dict syst
+		else if (identical lbl_tm  ``BL_Address (Imm64 4204792w)``) then symb_exec_loop2_block abpfun n_dict bl_dict adr_dict syst
 		else symb_exec_normal_block abpfun n_dict bl_dict syst
 	    end
 	    handle e => raise wrap_exn ("symb_exec_block::" ^ term_to_string lbl_tm) e end;

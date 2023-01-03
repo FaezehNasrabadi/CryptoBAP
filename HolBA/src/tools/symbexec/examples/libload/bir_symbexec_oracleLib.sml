@@ -35,6 +35,27 @@ fun is_function_call (n_dict : (term, cfg_node) dict) (lbl_tm : term) =
 	exist
     end;
 
+(* detect indirect jumps based on label of block *)
+
+fun is_indirect_jmp (n_dict : (term, cfg_node) dict) (lbl_tm : term) =
+    let
+	val n_op = Redblackmap.peek(n_dict, lbl_tm);
+	val exist = if is_none n_op
+		    then false
+		    else
+			let
+			    val n = valOf n_op;
+			    val descr  = (valOf o #CFGN_hc_descr) n;
+			    val instrDes = (snd o (list_split_pred #" ") o explode) descr;
+			in
+			    if (String.isPrefix "(blr " (implode instrDes))
+			    then true
+			    else false
+			  end;
+    in
+	exist
+    end;  
+
 (* fetch address of cjmp *)
 fun state_exec_try_cjmp_label_out est syst =
      let
