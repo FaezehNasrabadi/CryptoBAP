@@ -1,0 +1,131 @@
+
+free c_in.
+free c_out.
+
+fun true/0.
+
+(**********************************
+ Fixed Needham-Schroeder protocol.
+***********************************)
+
+
+free c.
+
+(*************************
+  Public-key encryption
+**************************)
+
+
+fun enc1/3.
+fun ek/1.
+fun dk/1.
+fun E/3.
+reduc
+  dec(enc1(x, ek(a), r), dk(a)) = x.
+reduc
+  isek(ek(a)) = ek(a).
+   
+fun hostA/0.
+fun hostB/0.
+
+data conc1/2.
+data conc2/1.
+data conc3/2.
+
+
+reduc
+  pars1(conc3(arg0, arg1)) = arg0.
+
+reduc
+  pars3(conc3(arg0, arg1)) = arg1.
+reduc
+  pars4(conc1(arg0, arg1)) = arg1.
+reduc
+  pars5(conc1(arg0, arg1)) = arg0.
+reduc
+  pars6(conc2(arg0)) = arg0. 
+(*************************
+  Signatures
+**************************)
+  
+fun sk/1.
+fun vk/1.
+fun sig/3.
+
+(* Just a pairing function *)
+data cert/2.
+
+
+reduc 
+  check_key(host, key, sig(sk(r), cert(key, host), r'), vk(r)) = true.
+  
+
+(******************** 
+  <Query>
+********************)
+(* Authentication properties: 
+query
+  ev:bob_end(x, y) ==> ev:alice_begin(x, y).
+
+query
+  ev:alice_end(x, y) ==> ev:bob_begin(x, y).*)
+
+(* Secrecy properties: *)
+query attacker: RAND_NUM_459.
+query attacker: RAND_NUM_489.
+(*
+query ev: alice_begin(x, y).
+query ev: alice_end(x, y).
+query ev: bob_begin(x, y).
+query ev: bob_end(x, y).
+*)
+
+(********************************
+  <Model>
+*********************************)
+
+let client = 0. 
+
+let server = 0 .
+
+(*************************** 
+  <Environment>
+***************************)
+
+let client' = 
+  in(c, (pkX, hostX, sigX));
+  client .
+
+let server' = 
+  in(c, (pkX, hostX, sigX));
+  server .
+
+let keyServer = 
+  in(c, (h, k));
+  new r3;
+  if h = hostA then
+    out(c, (pkA, h, sig(skS, cert(pkA, h), r3)))
+  else if h = hostB then 
+    out(c, (pkB, h, sig(skS, cert(pkB, h), r3)))
+  else
+    event bad(h);
+    out(c, (k, h, sig(skS, cert(k, h), r3))) .
+
+process
+! (
+  new A_seed; 
+  new B_seed;
+  let pkA = ek(A_seed) in
+  let skA = dk(A_seed) in
+  let pkB = ek(B_seed) in
+  let skB = dk(B_seed) in
+
+  new rkS;
+  let pkS = vk(rkS) in
+  let skS = sk(rkS) in
+  
+  out(c, (pkA, pkB, pkS));
+  (!client' | !server' | !keyServer)
+)
+
+

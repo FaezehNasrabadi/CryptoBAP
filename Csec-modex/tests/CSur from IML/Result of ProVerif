@@ -1,0 +1,788 @@
+Process:
+{1}!
+new A_seed_21;
+new B_seed_22;
+{2}let pkA_23 = ek(A_seed_21) in
+{3}let skA_24 = dk(A_seed_21) in
+{4}let pkB_25 = ek(B_seed_22) in
+{5}let skB_26 = dk(B_seed_22) in
+new rkS_27;
+{6}let pkS_28 = vk(rkS_27) in
+{7}let skS_29 = sk(rkS_27) in
+{8}out(c, (pkA_23,pkB_25,pkS_28));
+{9}!
+(
+    {33}in(c, (pkX_47,hostX_48,sigX_49));
+    {34}event alice_begin(hostA(),hostX_48);
+    new RAND_NUM_459_50;
+    {35}let Conc1_470_51 = conc1(RAND_NUM_459_50,hostA()) in
+    new iv_504_52;
+    {36}let Enc_505_53 = enc1(Conc1_470_51,pkX_47,iv_504_52) in
+    {37}out(c_out, Enc_505_53);
+    {38}in(c_in, a_531_54);
+    {39}let Dec_547_55 = dec(a_531_54,skA_24) in
+    {40}let Pars1_550_56 = pars1(Dec_547_55) in
+    {41}if Pars1_550_56 = RAND_NUM_459_50 then
+    {42}let Pars3_557_57 = pars3(Dec_547_55) in
+    {43}let Conc2_560_58 = conc2(Pars3_557_57) in
+    new iv_612_59;
+    {44}let Enc_613_60 = enc1(Conc2_560_58,pkX_47,iv_612_59) in
+    {45}out(c_out, Enc_613_60);
+    {46}event alice_end(hostA(),hostX_48);
+    0
+) | (
+    {10}!
+    (
+        {19}in(c, (pkX_33,hostX_34,sigX_35));
+        {20}in(c_in, a_422_36);
+        {21}let Dec_443_37 = dec(a_422_36,skB_26) in
+        {22}let Pars4_449_38 = pars4(Dec_443_37) in
+        {23}event bob_begin(hostA(),hostB());
+        {24}let Pars5_486_39 = pars5(Dec_443_37) in
+        new RAND_NUM_489_40;
+        {25}let Conc3_491_41 = conc3(Pars5_486_39,RAND_NUM_489_40) in
+        new iv_503_42;
+        {26}let Enc_504_43 = enc1(Conc3_491_41,pkA_23,iv_503_42) in
+        {27}out(c_out, Enc_504_43);
+        {28}in(c_in, a_521_44);
+        {29}let Dec_537_45 = dec(a_521_44,skB_26) in
+        {30}let Pars6_545_46 = pars6(Dec_537_45) in
+        {31}if Pars6_545_46 = RAND_NUM_489_40 then
+        {32}event bob_end(hostA(),hostB());
+        0
+    ) | (
+        {11}!
+        {12}in(c, (h_30,k_31));
+        new r3_32;
+        {13}if h_30 = hostA() then
+        (
+            {18}out(c, (pkA_23,h_30,sig(skS_29,cert(pkA_23,h_30),r3_32)));
+            0
+        )
+        else
+        (
+            {14}if h_30 = hostB() then
+            (
+                {17}out(c, (pkB_25,h_30,sig(skS_29,cert(pkB_25,h_30),r3_32)));
+                0
+            )
+            else
+            (
+                {15}event bad(h_30);
+                {16}out(c, (k_31,h_30,sig(skS_29,cert(k_31,h_30),r3_32)));
+                0
+            )
+        )
+    )
+)
+
+-- Query not ev:bob_end(x_61,y_62)
+Completing...
+Starting query not ev:bob_end(x_61,y_62)
+goal reachable: end:bob_end(hostA(),hostB())
+Abbreviations:
+B_seed_978 = B_seed_22[!1 = @sid_968]
+RAND_NUM_459_979 = RAND_NUM_459_50[sigX = sigX_956,hostX = hostX_957,pkX = ek(B_seed_978),!2 = @sid_959,!1 = @sid_968]
+iv_504_980 = iv_504_52[sigX = sigX_956,hostX = hostX_957,pkX = ek(B_seed_978),!2 = @sid_959,!1 = @sid_968]
+RAND_NUM_489_981 = RAND_NUM_489_40[a_422 = enc1(conc1(RAND_NUM_459_979,hostA()),ek(B_seed_978),iv_504_980),sigX = sigX_970,hostX = hostX_971,pkX = pkX_972,!3 = @sid_973,!2 = @sid_974,!1 = @sid_968]
+A_seed_982 = A_seed_21[!1 = @sid_968]
+iv_503_983 = iv_503_42[a_422 = enc1(conc1(RAND_NUM_459_979,hostA()),ek(B_seed_978),iv_504_980),sigX = sigX_970,hostX = hostX_971,pkX = pkX_972,!3 = @sid_973,!2 = @sid_974,!1 = @sid_968]
+iv_612_984 = iv_612_59[a_531 = enc1(conc3(RAND_NUM_459_979,RAND_NUM_489_981),ek(A_seed_982),iv_503_983),sigX = sigX_956,hostX = hostX_957,pkX = ek(B_seed_978),!2 = @sid_959,!1 = @sid_968]
+rkS_985 = rkS_27[!1 = @sid_968]
+
+1. The attacker has some term sigX_970.
+attacker:sigX_970.
+
+2. The attacker has some term hostX_971.
+attacker:hostX_971.
+
+3. The attacker has some term pkX_972.
+attacker:pkX_972.
+
+4. By 3, the attacker may know pkX_972.
+By 2, the attacker may know hostX_971.
+By 1, the attacker may know sigX_970.
+Using the function 3-tuple the attacker may obtain (pkX_972,hostX_971,sigX_970).
+attacker:(pkX_972,hostX_971,sigX_970).
+
+5. The attacker has some term sigX_956.
+attacker:sigX_956.
+
+6. The attacker has some term hostX_957.
+attacker:hostX_957.
+
+7. The message (ek(A_seed_982),ek(B_seed_978),vk(rkS_985)) may be sent to the attacker at output {8}.
+attacker:(ek(A_seed_982),ek(B_seed_978),vk(rkS_985)).
+
+8. By 7, the attacker may know (ek(A_seed_982),ek(B_seed_978),vk(rkS_985)).
+Using the 1th inverse of function 3-tuple the attacker may obtain ek(B_seed_978).
+attacker:ek(B_seed_978).
+
+9. By 8, the attacker may know ek(B_seed_978).
+By 6, the attacker may know hostX_957.
+By 5, the attacker may know sigX_956.
+Using the function 3-tuple the attacker may obtain (ek(B_seed_978),hostX_957,sigX_956).
+attacker:(ek(B_seed_978),hostX_957,sigX_956).
+
+10. The message (ek(B_seed_978),hostX_957,sigX_956) that the attacker may have by 9 may be received at input {33}.
+So the message enc1(conc1(RAND_NUM_459_979,hostA()),ek(B_seed_978),iv_504_980) may be sent to the attacker at output {37}.
+attacker:enc1(conc1(RAND_NUM_459_979,hostA()),ek(B_seed_978),iv_504_980).
+
+11. The message (pkX_972,hostX_971,sigX_970) that the attacker may have by 4 may be received at input {19}.
+The message enc1(conc1(RAND_NUM_459_979,hostA()),ek(B_seed_978),iv_504_980) that the attacker may have by 10 may be received at input {20}.
+So the message enc1(conc3(RAND_NUM_459_979,RAND_NUM_489_981),ek(A_seed_982),iv_503_983) may be sent to the attacker at output {27}.
+attacker:enc1(conc3(RAND_NUM_459_979,RAND_NUM_489_981),ek(A_seed_982),iv_503_983).
+
+12. The message (ek(B_seed_978),hostX_957,sigX_956) that the attacker may have by 9 may be received at input {33}.
+The message enc1(conc3(RAND_NUM_459_979,RAND_NUM_489_981),ek(A_seed_982),iv_503_983) that the attacker may have by 11 may be received at input {38}.
+So the message enc1(conc2(RAND_NUM_489_981),ek(B_seed_978),iv_612_984) may be sent to the attacker at output {45}.
+attacker:enc1(conc2(RAND_NUM_489_981),ek(B_seed_978),iv_612_984).
+
+13. The message (pkX_972,hostX_971,sigX_970) that the attacker may have by 4 may be received at input {19}.
+The message enc1(conc1(RAND_NUM_459_979,hostA()),ek(B_seed_978),iv_504_980) that the attacker may have by 10 may be received at input {20}.
+The message enc1(conc2(RAND_NUM_489_981),ek(B_seed_978),iv_612_984) that the attacker may have by 12 may be received at input {28}.
+So event bob_end(hostA(),hostB()) may be executed at {32}.
+end:bob_end(hostA(),hostB()).
+
+
+A more detailed output of the traces is available with
+  param traceDisplay = long.
+
+out(c, (ek(A_seed_21_14),ek(B_seed_22_10),vk(rkS_27_17))) at {8} in copy a_3
+
+in(c, (ek(B_seed_22_10),a_2,a_1)) at {33} in copy a_3, a_4
+
+event(alice_begin(hostA(),a_2)) at {34} in copy a_3, a_4
+
+out(c_out, enc1(conc1(RAND_NUM_459_50_11,hostA()),ek(B_seed_22_10),iv_504_52_12)) at {37} in copy a_3, a_4
+
+in(c, (a_7,a_6,a_5)) at {19} in copy a_3, a_9, a_8
+
+in(c_in, enc1(conc1(RAND_NUM_459_50_11,hostA()),ek(B_seed_22_10),iv_504_52_12)) at {20} in copy a_3, a_9, a_8
+
+event(bob_begin(hostA(),hostB())) at {23} in copy a_3, a_9, a_8
+
+out(c_out, enc1(conc3(RAND_NUM_459_50_11,RAND_NUM_489_40_13),ek(A_seed_21_14),iv_503_42_15)) at {27} in copy a_3, a_9, a_8
+
+in(c_in, enc1(conc3(RAND_NUM_459_50_11,RAND_NUM_489_40_13),ek(A_seed_21_14),iv_503_42_15)) at {38} in copy a_3, a_4
+
+out(c_out, enc1(conc2(RAND_NUM_489_40_13),ek(B_seed_22_10),iv_612_59_16)) at {45} in copy a_3, a_4
+
+event(alice_end(hostA(),a_2)) at {46} in copy a_3, a_4
+
+in(c_in, enc1(conc2(RAND_NUM_489_40_13),ek(B_seed_22_10),iv_612_59_16)) at {28} in copy a_3, a_9, a_8
+
+event(bob_end(hostA(),hostB())) at {32} in copy a_3, a_9, a_8
+
+The event bob_end(hostA(),hostB()) is executed.
+A trace has been found.
+RESULT not ev:bob_end(x_61,y_62) is false.
+-- Query not ev:bob_begin(x_1362,y_1363)
+Completing...
+Starting query not ev:bob_begin(x_1362,y_1363)
+goal reachable: end:bob_begin(hostA(),hostB())
+Abbreviations:
+B_seed_2171 = B_seed_22[!1 = @sid_2162]
+RAND_NUM_459_2172 = RAND_NUM_459_50[sigX = sigX_2154,hostX = hostX_2153,pkX = ek(B_seed_2171),!2 = @sid_2155,!1 = @sid_2156]
+iv_504_2173 = iv_504_52[sigX = sigX_2154,hostX = hostX_2153,pkX = ek(B_seed_2171),!2 = @sid_2155,!1 = @sid_2156]
+A_seed_2174 = A_seed_21[!1 = @sid_2162]
+rkS_2175 = rkS_27[!1 = @sid_2162]
+
+1. The attacker has some term sigX_2166.
+attacker:sigX_2166.
+
+2. The attacker has some term hostX_2165.
+attacker:hostX_2165.
+
+3. The attacker has some term pkX_2164.
+attacker:pkX_2164.
+
+4. By 3, the attacker may know pkX_2164.
+By 2, the attacker may know hostX_2165.
+By 1, the attacker may know sigX_2166.
+Using the function 3-tuple the attacker may obtain (pkX_2164,hostX_2165,sigX_2166).
+attacker:(pkX_2164,hostX_2165,sigX_2166).
+
+5. The attacker has some term sigX_2154.
+attacker:sigX_2154.
+
+6. The attacker has some term hostX_2153.
+attacker:hostX_2153.
+
+7. The message (ek(A_seed_2174),ek(B_seed_2171),vk(rkS_2175)) may be sent to the attacker at output {8}.
+attacker:(ek(A_seed_2174),ek(B_seed_2171),vk(rkS_2175)).
+
+8. By 7, the attacker may know (ek(A_seed_2174),ek(B_seed_2171),vk(rkS_2175)).
+Using the 1th inverse of function 3-tuple the attacker may obtain ek(B_seed_2171).
+attacker:ek(B_seed_2171).
+
+9. By 8, the attacker may know ek(B_seed_2171).
+By 6, the attacker may know hostX_2153.
+By 5, the attacker may know sigX_2154.
+Using the function 3-tuple the attacker may obtain (ek(B_seed_2171),hostX_2153,sigX_2154).
+attacker:(ek(B_seed_2171),hostX_2153,sigX_2154).
+
+10. The message (ek(B_seed_2171),hostX_2153,sigX_2154) that the attacker may have by 9 may be received at input {33}.
+So the message enc1(conc1(RAND_NUM_459_2172,hostA()),ek(B_seed_2171),iv_504_2173) may be sent to the attacker at output {37}.
+attacker:enc1(conc1(RAND_NUM_459_2172,hostA()),ek(B_seed_2171),iv_504_2173).
+
+11. The message (pkX_2164,hostX_2165,sigX_2166) that the attacker may have by 4 may be received at input {19}.
+The message enc1(conc1(RAND_NUM_459_2172,hostA()),ek(B_seed_2171),iv_504_2173) that the attacker may have by 10 may be received at input {20}.
+So event bob_begin(hostA(),hostB()) may be executed at {23}.
+end:bob_begin(hostA(),hostB()).
+
+
+A more detailed output of the traces is available with
+  param traceDisplay = long.
+
+out(c, (ek(A_seed_21_28),ek(B_seed_22_29),vk(rkS_27_30))) at {8} in copy a_20
+
+out(c, (ek(A_seed_21_33),ek(B_seed_22_34),vk(rkS_27_35))) at {8} in copy a_22
+
+in(c, (ek(B_seed_22_29),a_19,a_18)) at {33} in copy a_22, a_21
+
+event(alice_begin(hostA(),a_19)) at {34} in copy a_22, a_21
+
+out(c_out, enc1(conc1(RAND_NUM_459_50_31,hostA()),ek(B_seed_22_29),iv_504_52_32)) at {37} in copy a_22, a_21
+
+in(c, (a_23,a_24,a_25)) at {19} in copy a_20, a_27, a_26
+
+in(c_in, enc1(conc1(RAND_NUM_459_50_31,hostA()),ek(B_seed_22_29),iv_504_52_32)) at {20} in copy a_20, a_27, a_26
+
+event(bob_begin(hostA(),hostB())) at {23} in copy a_20, a_27, a_26
+
+The event bob_begin(hostA(),hostB()) is executed.
+A trace has been found.
+RESULT not ev:bob_begin(x_1362,y_1363) is false.
+-- Query not ev:alice_end(x_2705,y_2706)
+Completing...
+Starting query not ev:alice_end(x_2705,y_2706)
+goal reachable: attacker:y_3515 -> end:alice_end(hostA(),y_3515)
+Abbreviations:
+B_seed_3558 = B_seed_22[!1 = @sid_3553]
+RAND_NUM_459_3559 = RAND_NUM_459_50[sigX = sigX_3549,hostX = y_3557,pkX = ek(B_seed_3558),!2 = @sid_3552,!1 = @sid_3553]
+iv_504_3560 = iv_504_52[sigX = sigX_3549,hostX = y_3557,pkX = ek(B_seed_3558),!2 = @sid_3552,!1 = @sid_3553]
+RAND_NUM_489_3561 = RAND_NUM_489_40[a_422 = enc1(conc1(RAND_NUM_459_3559,hostA()),ek(B_seed_3558),iv_504_3560),sigX = sigX_3543,hostX = hostX_3542,pkX = pkX_3541,!3 = @sid_3544,!2 = @sid_3545,!1 = @sid_3553]
+A_seed_3562 = A_seed_21[!1 = @sid_3553]
+iv_503_3563 = iv_503_42[a_422 = enc1(conc1(RAND_NUM_459_3559,hostA()),ek(B_seed_3558),iv_504_3560),sigX = sigX_3543,hostX = hostX_3542,pkX = pkX_3541,!3 = @sid_3544,!2 = @sid_3545,!1 = @sid_3553]
+rkS_3564 = rkS_27[!1 = @sid_3553]
+
+1. The attacker has some term sigX_3549.
+attacker:sigX_3549.
+
+2. We assume as hypothesis that
+attacker:y_3557.
+
+3. The message (ek(A_seed_3562),ek(B_seed_3558),vk(rkS_3564)) may be sent to the attacker at output {8}.
+attacker:(ek(A_seed_3562),ek(B_seed_3558),vk(rkS_3564)).
+
+4. By 3, the attacker may know (ek(A_seed_3562),ek(B_seed_3558),vk(rkS_3564)).
+Using the 1th inverse of function 3-tuple the attacker may obtain ek(B_seed_3558).
+attacker:ek(B_seed_3558).
+
+5. By 4, the attacker may know ek(B_seed_3558).
+By 2, the attacker may know y_3557.
+By 1, the attacker may know sigX_3549.
+Using the function 3-tuple the attacker may obtain (ek(B_seed_3558),y_3557,sigX_3549).
+attacker:(ek(B_seed_3558),y_3557,sigX_3549).
+
+6. The attacker has some term sigX_3543.
+attacker:sigX_3543.
+
+7. The attacker has some term hostX_3542.
+attacker:hostX_3542.
+
+8. The attacker has some term pkX_3541.
+attacker:pkX_3541.
+
+9. By 8, the attacker may know pkX_3541.
+By 7, the attacker may know hostX_3542.
+By 6, the attacker may know sigX_3543.
+Using the function 3-tuple the attacker may obtain (pkX_3541,hostX_3542,sigX_3543).
+attacker:(pkX_3541,hostX_3542,sigX_3543).
+
+10. The message (ek(B_seed_3558),y_3557,sigX_3549) that the attacker may have by 5 may be received at input {33}.
+So the message enc1(conc1(RAND_NUM_459_3559,hostA()),ek(B_seed_3558),iv_504_3560) may be sent to the attacker at output {37}.
+attacker:enc1(conc1(RAND_NUM_459_3559,hostA()),ek(B_seed_3558),iv_504_3560).
+
+11. The message (pkX_3541,hostX_3542,sigX_3543) that the attacker may have by 9 may be received at input {19}.
+The message enc1(conc1(RAND_NUM_459_3559,hostA()),ek(B_seed_3558),iv_504_3560) that the attacker may have by 10 may be received at input {20}.
+So the message enc1(conc3(RAND_NUM_459_3559,RAND_NUM_489_3561),ek(A_seed_3562),iv_503_3563) may be sent to the attacker at output {27}.
+attacker:enc1(conc3(RAND_NUM_459_3559,RAND_NUM_489_3561),ek(A_seed_3562),iv_503_3563).
+
+12. The message (ek(B_seed_3558),y_3557,sigX_3549) that the attacker may have by 5 may be received at input {33}.
+The message enc1(conc3(RAND_NUM_459_3559,RAND_NUM_489_3561),ek(A_seed_3562),iv_503_3563) that the attacker may have by 11 may be received at input {38}.
+So event alice_end(hostA(),y_3557) may be executed at {46}.
+end:alice_end(hostA(),y_3557).
+
+
+A more detailed output of the traces is available with
+  param traceDisplay = long.
+
+out(c, (ek(A_seed_21_49),ek(B_seed_22_45),vk(rkS_27_51))) at {8} in copy a_38
+
+in(c, (a_42,a_41,a_40)) at {19} in copy a_38, a_44, a_43
+
+in(c, (ek(B_seed_22_45),a_36,a_37)) at {33} in copy a_38, a_39
+
+event(alice_begin(hostA(),a_36)) at {34} in copy a_38, a_39
+
+out(c_out, enc1(conc1(RAND_NUM_459_50_46,hostA()),ek(B_seed_22_45),iv_504_52_47)) at {37} in copy a_38, a_39
+
+in(c_in, enc1(conc1(RAND_NUM_459_50_46,hostA()),ek(B_seed_22_45),iv_504_52_47)) at {20} in copy a_38, a_44, a_43
+
+event(bob_begin(hostA(),hostB())) at {23} in copy a_38, a_44, a_43
+
+out(c_out, enc1(conc3(RAND_NUM_459_50_46,RAND_NUM_489_40_48),ek(A_seed_21_49),iv_503_42_50)) at {27} in copy a_38, a_44, a_43
+
+in(c_in, enc1(conc3(RAND_NUM_459_50_46,RAND_NUM_489_40_48),ek(A_seed_21_49),iv_503_42_50)) at {38} in copy a_38, a_39
+
+out(c_out, enc1(conc2(RAND_NUM_489_40_48),ek(B_seed_22_45),iv_612_59_52)) at {45} in copy a_38, a_39
+
+event(alice_end(hostA(),a_36)) at {46} in copy a_38, a_39
+
+The event alice_end(hostA(),a_36) is executed.
+A trace has been found.
+RESULT not ev:alice_end(x_2705,y_2706) is false.
+-- Query not ev:alice_begin(x_3934,y_3935)
+Completing...
+Starting query not ev:alice_begin(x_3934,y_3935)
+goal reachable: attacker:y_4703 -> end:alice_begin(hostA(),y_4703)
+1. The attacker has some term sigX_4711.
+attacker:sigX_4711.
+
+2. We assume as hypothesis that
+attacker:y_4715.
+
+3. The attacker has some term pkX_4709.
+attacker:pkX_4709.
+
+4. By 3, the attacker may know pkX_4709.
+By 2, the attacker may know y_4715.
+By 1, the attacker may know sigX_4711.
+Using the function 3-tuple the attacker may obtain (pkX_4709,y_4715,sigX_4711).
+attacker:(pkX_4709,y_4715,sigX_4711).
+
+5. The message (pkX_4709,y_4715,sigX_4711) that the attacker may have by 4 may be received at input {33}.
+So event alice_begin(hostA(),y_4715) may be executed at {34}.
+end:alice_begin(hostA(),y_4715).
+
+
+A more detailed output of the traces is available with
+  param traceDisplay = long.
+
+out(c, (ek(A_seed_21_58),ek(B_seed_22_59),vk(rkS_27_60))) at {8} in copy a_57
+
+in(c, (a_54,a_53,a_55)) at {33} in copy a_57, a_56
+
+event(alice_begin(hostA(),a_53)) at {34} in copy a_57, a_56
+
+The event alice_begin(hostA(),a_53) is executed.
+A trace has been found.
+RESULT not ev:alice_begin(x_3934,y_3935) is false.
+-- Query not attacker:RAND_NUM_489_40[a_422 = v_4952,sigX = v_4953,hostX = v_4954,pkX = v_4955,!3 = v_4956,!2 = v_4957,!1 = v_4958]
+Completing...
+Starting query not attacker:RAND_NUM_489_40[a_422 = v_4952,sigX = v_4953,hostX = v_4954,pkX = v_4955,!3 = v_4956,!2 = v_4957,!1 = v_4958]
+goal reachable: attacker:arg1_5726 & attacker:r_5727 & attacker:v_5728 & attacker:v_5729 & attacker:v_5730 & attacker:hostX_5731 & attacker:sigX_5732 & attacker:a_5733 -> attacker:RAND_NUM_489_40[a_422 = enc1(conc1(RAND_NUM_459_50[sigX = sigX_5732,hostX = hostX_5731,pkX = ek(a_5733),!2 = @sid_5734,!1 = v_5735],arg1_5726),ek(B_seed_22[!1 = v_5735]),r_5727),sigX = v_5730,hostX = v_5729,pkX = v_5728,!3 = v_5736,!2 = v_5737,!1 = v_5735]
+Abbreviations:
+RAND_NUM_459_5804 = RAND_NUM_459_50[sigX = sigX_5786,hostX = hostX_5787,pkX = ek(a_5794),!2 = @sid_5789,!1 = v_5803]
+B_seed_5805 = B_seed_22[!1 = v_5803]
+RAND_NUM_489_5806 = RAND_NUM_489_40[a_422 = enc1(conc1(RAND_NUM_459_5804,arg1_5775),ek(B_seed_5805),r_5777),sigX = v_5798,hostX = v_5799,pkX = v_5800,!3 = v_5801,!2 = v_5802,!1 = v_5803]
+A_seed_5807 = A_seed_21[!1 = v_5803]
+iv_503_5808 = iv_503_42[a_422 = enc1(conc1(RAND_NUM_459_5804,arg1_5775),ek(B_seed_5805),r_5777),sigX = v_5798,hostX = v_5799,pkX = v_5800,!3 = v_5801,!2 = v_5802,!1 = v_5803]
+iv_612_5809 = iv_612_59[a_531 = enc1(conc3(RAND_NUM_459_5804,RAND_NUM_489_5806),ek(A_seed_5807),iv_503_5808),sigX = sigX_5786,hostX = hostX_5787,pkX = ek(a_5794),!2 = @sid_5789,!1 = v_5803]
+iv_504_5810 = iv_504_52[sigX = sigX_5786,hostX = hostX_5787,pkX = ek(a_5794),!2 = @sid_5789,!1 = v_5803]
+rkS_5811 = rkS_27[!1 = v_5803]
+
+1. We assume as hypothesis that
+attacker:a_5794.
+
+2. By 1, the attacker may know a_5794.
+Using the function dk the attacker may obtain dk(a_5794).
+attacker:dk(a_5794).
+
+3. We assume as hypothesis that
+attacker:sigX_5786.
+
+4. We assume as hypothesis that
+attacker:hostX_5787.
+
+5. By 1, the attacker may know a_5794.
+Using the function ek the attacker may obtain ek(a_5794).
+attacker:ek(a_5794).
+
+6. By 5, the attacker may know ek(a_5794).
+By 4, the attacker may know hostX_5787.
+By 3, the attacker may know sigX_5786.
+Using the function 3-tuple the attacker may obtain (ek(a_5794),hostX_5787,sigX_5786).
+attacker:(ek(a_5794),hostX_5787,sigX_5786).
+
+7. We assume as hypothesis that
+attacker:v_5798.
+
+8. We assume as hypothesis that
+attacker:v_5799.
+
+9. We assume as hypothesis that
+attacker:v_5800.
+
+10. By 9, the attacker may know v_5800.
+By 8, the attacker may know v_5799.
+By 7, the attacker may know v_5798.
+Using the function 3-tuple the attacker may obtain (v_5800,v_5799,v_5798).
+attacker:(v_5800,v_5799,v_5798).
+
+11. We assume as hypothesis that
+attacker:r_5777.
+
+12. The message (ek(A_seed_5807),ek(B_seed_5805),vk(rkS_5811)) may be sent to the attacker at output {8}.
+attacker:(ek(A_seed_5807),ek(B_seed_5805),vk(rkS_5811)).
+
+13. By 12, the attacker may know (ek(A_seed_5807),ek(B_seed_5805),vk(rkS_5811)).
+Using the 1th inverse of function 3-tuple the attacker may obtain ek(B_seed_5805).
+attacker:ek(B_seed_5805).
+
+14. We assume as hypothesis that
+attacker:arg1_5775.
+
+15. The message (ek(a_5794),hostX_5787,sigX_5786) that the attacker may have by 6 may be received at input {33}.
+So the message enc1(conc1(RAND_NUM_459_5804,hostA()),ek(a_5794),iv_504_5810) may be sent to the attacker at output {37}.
+attacker:enc1(conc1(RAND_NUM_459_5804,hostA()),ek(a_5794),iv_504_5810).
+
+16. By 15, the attacker may know enc1(conc1(RAND_NUM_459_5804,hostA()),ek(a_5794),iv_504_5810).
+By 2, the attacker may know dk(a_5794).
+Using the function dec the attacker may obtain conc1(RAND_NUM_459_5804,hostA()).
+attacker:conc1(RAND_NUM_459_5804,hostA()).
+
+17. By 16, the attacker may know conc1(RAND_NUM_459_5804,hostA()).
+Using the 0th inverse of function conc1 the attacker may obtain RAND_NUM_459_5804.
+attacker:RAND_NUM_459_5804.
+
+18. By 17, the attacker may know RAND_NUM_459_5804.
+By 14, the attacker may know arg1_5775.
+Using the function conc1 the attacker may obtain conc1(RAND_NUM_459_5804,arg1_5775).
+attacker:conc1(RAND_NUM_459_5804,arg1_5775).
+
+19. By 18, the attacker may know conc1(RAND_NUM_459_5804,arg1_5775).
+By 13, the attacker may know ek(B_seed_5805).
+By 11, the attacker may know r_5777.
+Using the function enc1 the attacker may obtain enc1(conc1(RAND_NUM_459_5804,arg1_5775),ek(B_seed_5805),r_5777).
+attacker:enc1(conc1(RAND_NUM_459_5804,arg1_5775),ek(B_seed_5805),r_5777).
+
+20. The message (v_5800,v_5799,v_5798) that the attacker may have by 10 may be received at input {19}.
+The message enc1(conc1(RAND_NUM_459_5804,arg1_5775),ek(B_seed_5805),r_5777) that the attacker may have by 19 may be received at input {20}.
+So the message enc1(conc3(RAND_NUM_459_5804,RAND_NUM_489_5806),ek(A_seed_5807),iv_503_5808) may be sent to the attacker at output {27}.
+attacker:enc1(conc3(RAND_NUM_459_5804,RAND_NUM_489_5806),ek(A_seed_5807),iv_503_5808).
+
+21. The message (ek(a_5794),hostX_5787,sigX_5786) that the attacker may have by 6 may be received at input {33}.
+The message enc1(conc3(RAND_NUM_459_5804,RAND_NUM_489_5806),ek(A_seed_5807),iv_503_5808) that the attacker may have by 20 may be received at input {38}.
+So the message enc1(conc2(RAND_NUM_489_5806),ek(a_5794),iv_612_5809) may be sent to the attacker at output {45}.
+attacker:enc1(conc2(RAND_NUM_489_5806),ek(a_5794),iv_612_5809).
+
+22. By 21, the attacker may know enc1(conc2(RAND_NUM_489_5806),ek(a_5794),iv_612_5809).
+By 2, the attacker may know dk(a_5794).
+Using the function dec the attacker may obtain conc2(RAND_NUM_489_5806).
+attacker:conc2(RAND_NUM_489_5806).
+
+23. By 22, the attacker may know conc2(RAND_NUM_489_5806).
+Using the 0th inverse of function conc2 the attacker may obtain RAND_NUM_489_5806.
+attacker:RAND_NUM_489_5806.
+
+
+A more detailed output of the traces is available with
+  param traceDisplay = long.
+
+out(c, (ek(A_seed_21_77),ek(B_seed_22_74),vk(rkS_27_78))) at {8} in copy a_65
+
+in(c, (a_70,a_69,a_68)) at {19} in copy a_65, a_72, a_71
+
+in(c, (ek(a_63),a_62,a_61)) at {33} in copy a_65, a_64
+
+event(alice_begin(hostA(),a_62)) at {34} in copy a_65, a_64
+
+out(c_out, enc1(conc1(RAND_NUM_459_50_73,hostA()),ek(a_63),iv_504_52_76)) at {37} in copy a_65, a_64
+
+in(c_in, enc1(conc1(RAND_NUM_459_50_73,a_66),ek(B_seed_22_74),a_67)) at {20} in copy a_65, a_72, a_71
+
+event(bob_begin(hostA(),hostB())) at {23} in copy a_65, a_72, a_71
+
+out(c_out, enc1(conc3(RAND_NUM_459_50_73,RAND_NUM_489_40_75),ek(A_seed_21_77),iv_503_42_79)) at {27} in copy a_65, a_72, a_71
+
+in(c_in, enc1(conc3(RAND_NUM_459_50_73,RAND_NUM_489_40_75),ek(A_seed_21_77),iv_503_42_79)) at {38} in copy a_65, a_64
+
+out(c_out, enc1(conc2(RAND_NUM_489_40_75),ek(a_63),iv_612_59_80)) at {45} in copy a_65, a_64
+
+event(alice_end(hostA(),a_62)) at {46} in copy a_65, a_64
+
+The attacker has the message RAND_NUM_489_40_75.
+A trace has been found.
+RESULT not attacker:RAND_NUM_489_40[a_422 = v_4952,sigX = v_4953,hostX = v_4954,pkX = v_4955,!3 = v_4956,!2 = v_4957,!1 = v_4958] is false.
+-- Query not attacker:RAND_NUM_459_50[sigX = v_6181,hostX = v_6182,pkX = v_6183,!2 = v_6184,!1 = v_6185]
+Completing...
+Starting query not attacker:RAND_NUM_459_50[sigX = v_6181,hostX = v_6182,pkX = v_6183,!2 = v_6184,!1 = v_6185]
+goal reachable: attacker:v_6951 & attacker:v_6952 & attacker:a_6953 -> attacker:RAND_NUM_459_50[sigX = v_6952,hostX = v_6951,pkX = ek(a_6953),!2 = v_6954,!1 = v_6955]
+Abbreviations:
+RAND_NUM_459_6981 = RAND_NUM_459_50[sigX = v_6976,hostX = v_6977,pkX = ek(a_6972),!2 = v_6979,!1 = v_6980]
+iv_504_6982 = iv_504_52[sigX = v_6976,hostX = v_6977,pkX = ek(a_6972),!2 = v_6979,!1 = v_6980]
+
+1. We assume as hypothesis that
+attacker:a_6972.
+
+2. By 1, the attacker may know a_6972.
+Using the function dk the attacker may obtain dk(a_6972).
+attacker:dk(a_6972).
+
+3. We assume as hypothesis that
+attacker:v_6976.
+
+4. We assume as hypothesis that
+attacker:v_6977.
+
+5. By 1, the attacker may know a_6972.
+Using the function ek the attacker may obtain ek(a_6972).
+attacker:ek(a_6972).
+
+6. By 5, the attacker may know ek(a_6972).
+By 4, the attacker may know v_6977.
+By 3, the attacker may know v_6976.
+Using the function 3-tuple the attacker may obtain (ek(a_6972),v_6977,v_6976).
+attacker:(ek(a_6972),v_6977,v_6976).
+
+7. The message (ek(a_6972),v_6977,v_6976) that the attacker may have by 6 may be received at input {33}.
+So the message enc1(conc1(RAND_NUM_459_6981,hostA()),ek(a_6972),iv_504_6982) may be sent to the attacker at output {37}.
+attacker:enc1(conc1(RAND_NUM_459_6981,hostA()),ek(a_6972),iv_504_6982).
+
+8. By 7, the attacker may know enc1(conc1(RAND_NUM_459_6981,hostA()),ek(a_6972),iv_504_6982).
+By 2, the attacker may know dk(a_6972).
+Using the function dec the attacker may obtain conc1(RAND_NUM_459_6981,hostA()).
+attacker:conc1(RAND_NUM_459_6981,hostA()).
+
+9. By 8, the attacker may know conc1(RAND_NUM_459_6981,hostA()).
+Using the 0th inverse of function conc1 the attacker may obtain RAND_NUM_459_6981.
+attacker:RAND_NUM_459_6981.
+
+
+A more detailed output of the traces is available with
+  param traceDisplay = long.
+
+out(c, (ek(A_seed_21_88),ek(B_seed_22_89),vk(rkS_27_90))) at {8} in copy a_85
+
+in(c, (ek(a_83),a_82,a_81)) at {33} in copy a_85, a_84
+
+event(alice_begin(hostA(),a_82)) at {34} in copy a_85, a_84
+
+out(c_out, enc1(conc1(RAND_NUM_459_50_86,hostA()),ek(a_83),iv_504_52_87)) at {37} in copy a_85, a_84
+
+The attacker has the message RAND_NUM_459_50_86.
+A trace has been found.
+RESULT not attacker:RAND_NUM_459_50[sigX = v_6181,hostX = v_6182,pkX = v_6183,!2 = v_6184,!1 = v_6185] is false.
+-- Query ev:alice_end(x_7232,y_7233) ==> ev:bob_begin(x_7232,y_7233)
+Completing...
+Starting query ev:alice_end(x_7232,y_7233) ==> ev:bob_begin(x_7232,y_7233)
+goal reachable: attacker:y_8048 -> end:alice_end(hostA(),y_8048)
+Abbreviations:
+RAND_NUM_459_8088 = RAND_NUM_459_50[sigX = sigX_8079,hostX = y_8087,pkX = ek(a_8063),!2 = @sid_8082,!1 = @sid_8083]
+A_seed_8089 = A_seed_21[!1 = @sid_8083]
+iv_504_8090 = iv_504_52[sigX = sigX_8079,hostX = y_8087,pkX = ek(a_8063),!2 = @sid_8082,!1 = @sid_8083]
+B_seed_8091 = B_seed_22[!1 = @sid_8083]
+rkS_8092 = rkS_27[!1 = @sid_8083]
+
+1. The attacker has some term sigX_8079.
+attacker:sigX_8079.
+
+2. We assume as hypothesis that
+attacker:y_8087.
+
+3. The attacker has some term a_8063.
+attacker:a_8063.
+
+4. By 3, the attacker may know a_8063.
+Using the function ek the attacker may obtain ek(a_8063).
+attacker:ek(a_8063).
+
+5. By 4, the attacker may know ek(a_8063).
+By 2, the attacker may know y_8087.
+By 1, the attacker may know sigX_8079.
+Using the function 3-tuple the attacker may obtain (ek(a_8063),y_8087,sigX_8079).
+attacker:(ek(a_8063),y_8087,sigX_8079).
+
+6. The attacker has some term r_8085.
+attacker:r_8085.
+
+7. The message (ek(A_seed_8089),ek(B_seed_8091),vk(rkS_8092)) may be sent to the attacker at output {8}.
+attacker:(ek(A_seed_8089),ek(B_seed_8091),vk(rkS_8092)).
+
+8. By 7, the attacker may know (ek(A_seed_8089),ek(B_seed_8091),vk(rkS_8092)).
+Using the 0th inverse of function 3-tuple the attacker may obtain ek(A_seed_8089).
+attacker:ek(A_seed_8089).
+
+9. The attacker has some term arg1_8084.
+attacker:arg1_8084.
+
+10. By 3, the attacker may know a_8063.
+Using the function dk the attacker may obtain dk(a_8063).
+attacker:dk(a_8063).
+
+11. The message (ek(a_8063),y_8087,sigX_8079) that the attacker may have by 5 may be received at input {33}.
+So the message enc1(conc1(RAND_NUM_459_8088,hostA()),ek(a_8063),iv_504_8090) may be sent to the attacker at output {37}.
+attacker:enc1(conc1(RAND_NUM_459_8088,hostA()),ek(a_8063),iv_504_8090).
+
+12. By 11, the attacker may know enc1(conc1(RAND_NUM_459_8088,hostA()),ek(a_8063),iv_504_8090).
+By 10, the attacker may know dk(a_8063).
+Using the function dec the attacker may obtain conc1(RAND_NUM_459_8088,hostA()).
+attacker:conc1(RAND_NUM_459_8088,hostA()).
+
+13. By 12, the attacker may know conc1(RAND_NUM_459_8088,hostA()).
+Using the 0th inverse of function conc1 the attacker may obtain RAND_NUM_459_8088.
+attacker:RAND_NUM_459_8088.
+
+14. By 13, the attacker may know RAND_NUM_459_8088.
+By 9, the attacker may know arg1_8084.
+Using the function conc3 the attacker may obtain conc3(RAND_NUM_459_8088,arg1_8084).
+attacker:conc3(RAND_NUM_459_8088,arg1_8084).
+
+15. By 14, the attacker may know conc3(RAND_NUM_459_8088,arg1_8084).
+By 8, the attacker may know ek(A_seed_8089).
+By 6, the attacker may know r_8085.
+Using the function enc1 the attacker may obtain enc1(conc3(RAND_NUM_459_8088,arg1_8084),ek(A_seed_8089),r_8085).
+attacker:enc1(conc3(RAND_NUM_459_8088,arg1_8084),ek(A_seed_8089),r_8085).
+
+16. The message (ek(a_8063),y_8087,sigX_8079) that the attacker may have by 5 may be received at input {33}.
+The message enc1(conc3(RAND_NUM_459_8088,arg1_8084),ek(A_seed_8089),r_8085) that the attacker may have by 15 may be received at input {38}.
+So event alice_end(hostA(),y_8087) may be executed at {46}.
+end:alice_end(hostA(),y_8087).
+
+
+A more detailed output of the traces is available with
+  param traceDisplay = long.
+
+out(c, (ek(A_seed_21_100),ek(B_seed_22_101),vk(rkS_27_102))) at {8} in copy a_95
+
+in(c, (ek(a_93),a_91,a_92)) at {33} in copy a_95, a_94
+
+event(alice_begin(hostA(),a_91)) at {34} in copy a_95, a_94
+
+out(c_out, enc1(conc1(RAND_NUM_459_50_98,hostA()),ek(a_93),iv_504_52_99)) at {37} in copy a_95, a_94
+
+in(c_in, enc1(conc3(RAND_NUM_459_50_98,a_96),ek(A_seed_21_100),a_97)) at {38} in copy a_95, a_94
+
+out(c_out, enc1(conc2(a_96),ek(a_93),iv_612_59_103)) at {45} in copy a_95, a_94
+
+event(alice_end(hostA(),a_91)) at {46} in copy a_95, a_94
+
+The event alice_end(hostA(),a_91) is executed.
+A trace has been found.
+RESULT ev:alice_end(x_7232,y_7233) ==> ev:bob_begin(x_7232,y_7233) is false.
+-- Query ev:bob_end(x_8365,y_8366) ==> ev:alice_begin(x_8365,y_8366)
+Completing...
+Starting query ev:bob_end(x_8365,y_8366) ==> ev:alice_begin(x_8365,y_8366)
+goal reachable: begin:alice_begin(hostA(),hostX_9197) & attacker:hostX_9197 -> end:bob_end(hostA(),hostB())
+Abbreviations:
+B_seed_9265 = B_seed_22[!1 = @sid_9255]
+RAND_NUM_459_9266 = RAND_NUM_459_50[sigX = sigX_9243,hostX = hostX_9244,pkX = ek(B_seed_9265),!2 = @sid_9246,!1 = @sid_9255]
+iv_504_9267 = iv_504_52[sigX = sigX_9243,hostX = hostX_9244,pkX = ek(B_seed_9265),!2 = @sid_9246,!1 = @sid_9255]
+RAND_NUM_489_9268 = RAND_NUM_489_40[a_422 = enc1(conc1(RAND_NUM_459_9266,hostA()),ek(B_seed_9265),iv_504_9267),sigX = sigX_9257,hostX = hostX_9258,pkX = pkX_9259,!3 = @sid_9260,!2 = @sid_9261,!1 = @sid_9255]
+A_seed_9269 = A_seed_21[!1 = @sid_9255]
+iv_503_9270 = iv_503_42[a_422 = enc1(conc1(RAND_NUM_459_9266,hostA()),ek(B_seed_9265),iv_504_9267),sigX = sigX_9257,hostX = hostX_9258,pkX = pkX_9259,!3 = @sid_9260,!2 = @sid_9261,!1 = @sid_9255]
+iv_612_9271 = iv_612_59[a_531 = enc1(conc3(RAND_NUM_459_9266,RAND_NUM_489_9268),ek(A_seed_9269),iv_503_9270),sigX = sigX_9243,hostX = hostX_9244,pkX = ek(B_seed_9265),!2 = @sid_9246,!1 = @sid_9255]
+rkS_9272 = rkS_27[!1 = @sid_9255]
+
+1. The attacker has some term sigX_9257.
+attacker:sigX_9257.
+
+2. The attacker has some term hostX_9258.
+attacker:hostX_9258.
+
+3. The attacker has some term pkX_9259.
+attacker:pkX_9259.
+
+4. By 3, the attacker may know pkX_9259.
+By 2, the attacker may know hostX_9258.
+By 1, the attacker may know sigX_9257.
+Using the function 3-tuple the attacker may obtain (pkX_9259,hostX_9258,sigX_9257).
+attacker:(pkX_9259,hostX_9258,sigX_9257).
+
+5. The attacker has some term sigX_9243.
+attacker:sigX_9243.
+
+6. We assume as hypothesis that
+attacker:hostX_9244.
+
+7. The message (ek(A_seed_9269),ek(B_seed_9265),vk(rkS_9272)) may be sent to the attacker at output {8}.
+attacker:(ek(A_seed_9269),ek(B_seed_9265),vk(rkS_9272)).
+
+8. By 7, the attacker may know (ek(A_seed_9269),ek(B_seed_9265),vk(rkS_9272)).
+Using the 1th inverse of function 3-tuple the attacker may obtain ek(B_seed_9265).
+attacker:ek(B_seed_9265).
+
+9. By 8, the attacker may know ek(B_seed_9265).
+By 6, the attacker may know hostX_9244.
+By 5, the attacker may know sigX_9243.
+Using the function 3-tuple the attacker may obtain (ek(B_seed_9265),hostX_9244,sigX_9243).
+attacker:(ek(B_seed_9265),hostX_9244,sigX_9243).
+
+10. The message (ek(B_seed_9265),hostX_9244,sigX_9243) that the attacker may have by 9 may be received at input {33}.
+The event alice_begin(hostA(),hostX_9244) may be executed at {34}.
+So the message enc1(conc1(RAND_NUM_459_9266,hostA()),ek(B_seed_9265),iv_504_9267) may be sent to the attacker at output {37}.
+attacker:enc1(conc1(RAND_NUM_459_9266,hostA()),ek(B_seed_9265),iv_504_9267).
+
+11. The message (pkX_9259,hostX_9258,sigX_9257) that the attacker may have by 4 may be received at input {19}.
+The message enc1(conc1(RAND_NUM_459_9266,hostA()),ek(B_seed_9265),iv_504_9267) that the attacker may have by 10 may be received at input {20}.
+So the message enc1(conc3(RAND_NUM_459_9266,RAND_NUM_489_9268),ek(A_seed_9269),iv_503_9270) may be sent to the attacker at output {27}.
+attacker:enc1(conc3(RAND_NUM_459_9266,RAND_NUM_489_9268),ek(A_seed_9269),iv_503_9270).
+
+12. The message (ek(B_seed_9265),hostX_9244,sigX_9243) that the attacker may have by 9 may be received at input {33}.
+The event alice_begin(hostA(),hostX_9244) may be executed at {34}.
+The message enc1(conc3(RAND_NUM_459_9266,RAND_NUM_489_9268),ek(A_seed_9269),iv_503_9270) that the attacker may have by 11 may be received at input {38}.
+So the message enc1(conc2(RAND_NUM_489_9268),ek(B_seed_9265),iv_612_9271) may be sent to the attacker at output {45}.
+attacker:enc1(conc2(RAND_NUM_489_9268),ek(B_seed_9265),iv_612_9271).
+
+13. The message (pkX_9259,hostX_9258,sigX_9257) that the attacker may have by 4 may be received at input {19}.
+The message enc1(conc1(RAND_NUM_459_9266,hostA()),ek(B_seed_9265),iv_504_9267) that the attacker may have by 10 may be received at input {20}.
+The message enc1(conc2(RAND_NUM_489_9268),ek(B_seed_9265),iv_612_9271) that the attacker may have by 12 may be received at input {28}.
+So event bob_end(hostA(),hostB()) may be executed at {32}.
+end:bob_end(hostA(),hostB()).
+
+
+A more detailed output of the traces is available with
+  param traceDisplay = long.
+
+out(c, (ek(A_seed_21_117),ek(B_seed_22_113),vk(rkS_27_120))) at {8} in copy a_106
+
+in(c, (ek(B_seed_22_113),a_105,a_104)) at {33} in copy a_106, a_107
+
+event(alice_begin(hostA(),a_105)) at {34} in copy a_106, a_107
+
+out(c_out, enc1(conc1(RAND_NUM_459_50_114,hostA()),ek(B_seed_22_113),iv_504_52_115)) at {37} in copy a_106, a_107
+
+in(c, (a_110,a_109,a_108)) at {19} in copy a_106, a_112, a_111
+
+in(c_in, enc1(conc1(RAND_NUM_459_50_114,hostA()),ek(B_seed_22_113),iv_504_52_115)) at {20} in copy a_106, a_112, a_111
+
+event(bob_begin(hostA(),hostB())) at {23} in copy a_106, a_112, a_111
+
+out(c_out, enc1(conc3(RAND_NUM_459_50_114,RAND_NUM_489_40_116),ek(A_seed_21_117),iv_503_42_118)) at {27} in copy a_106, a_112, a_111
+
+in(c_in, enc1(conc3(RAND_NUM_459_50_114,RAND_NUM_489_40_116),ek(A_seed_21_117),iv_503_42_118)) at {38} in copy a_106, a_107
+
+out(c_out, enc1(conc2(RAND_NUM_489_40_116),ek(B_seed_22_113),iv_612_59_119)) at {45} in copy a_106, a_107
+
+event(alice_end(hostA(),a_105)) at {46} in copy a_106, a_107
+
+in(c_in, enc1(conc2(RAND_NUM_489_40_116),ek(B_seed_22_113),iv_612_59_119)) at {28} in copy a_106, a_112, a_111
+
+event(bob_end(hostA(),hostB())) at {32} in copy a_106, a_112, a_111
+
+The event bob_end(hostA(),hostB()) is executed.
+A trace has been found.
+RESULT ev:bob_end(x_8365,y_8366) ==> ev:alice_begin(x_8365,y_8366) is false.
+
+RESULT not ev:bob_end(x_61,y_62) is false.
+RESULT not ev:bob_begin(x_1362,y_1363) is false.
+RESULT not ev:alice_end(x_2705,y_2706) is false.
+RESULT not ev:alice_begin(x_3934,y_3935) is false.
+RESULT not attacker:RAND_NUM_489_40[a_422 = v_4952,sigX = v_4953,hostX = v_4954,pkX = v_4955,!3 = v_4956,!2 = v_4957,!1 = v_4958] is false.
+RESULT not attacker:RAND_NUM_459_50[sigX = v_6181,hostX = v_6182,pkX = v_6183,!2 = v_6184,!1 = v_6185] is false.
+RESULT ev:alice_end(x_7232,y_7233) ==> ev:bob_begin(x_7232,y_7233) is false.
+RESULT ev:bob_end(x_8365,y_8366) ==> ev:alice_begin(x_8365,y_8366) is false.
+
