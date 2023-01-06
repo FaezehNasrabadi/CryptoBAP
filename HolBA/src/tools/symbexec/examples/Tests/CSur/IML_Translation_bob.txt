@@ -1,0 +1,32 @@
+if R0_154 = c_3 then
+in c, a_216 
+let Dec_237 = dec(a_216,skB) in
+let Pars4_243 = pars4(Dec_237) in
+event bob_begin hostA hostB 
+let Pars5_280 = pars5(Dec_237) in
+new RAND_NUM_283 fixed_64 
+let Conc3_285 = conc3(Pars5_280,RAND_NUM_283) in
+new iv_297 fixed_64 
+let Enc_298 = enc1(Conc3_285,pkA,iv_297) in
+out c, Enc_298 
+in c, a_315 
+let Dec_331 = dec(a_315,skB) in
+let Pars6_339 = pars6(Dec_331) in
+if Pars6_339 = RAND_NUM_283 then
+event bob_end hostA hostB 
+if ((R0_380-c_3) < c_0 = (R0_380-c_3) < c_0 = c_3 <= R0_380∧¬R0_380 = c_3) then
+in c, a_422 
+let Dec_443 = dec(a_422,skB) in
+let Pars4_449 = pars4(Dec_443) in
+event bob_begin hostA hostB 
+let Pars5_486 = pars5(Dec_443) in
+new RAND_NUM_489 fixed_64 
+let Conc3_491 = conc3(Pars5_486,RAND_NUM_489) in
+new iv_503 fixed_64 
+let Enc_504 = enc1(Conc3_491,pkA,iv_503) in
+out c, Enc_504 
+in c, a_521 
+let Dec_537 = dec(a_521,skB) in
+let Pars6_545 = pars6(Dec_537) in
+if Pars6_545 = RAND_NUM_489 then
+event bob_end hostA hostB 

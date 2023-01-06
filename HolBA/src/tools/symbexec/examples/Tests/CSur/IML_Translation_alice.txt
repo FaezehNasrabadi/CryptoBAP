@@ -1,0 +1,41 @@
+event alice_begin hostA hostX 
+if R0_165 = c_3 then
+if ((R0_196-c_3) < c_0 = (R0_196-c_3) < c_0 = c_3 <= R0_196∧¬R0_196 = c_3) then
+new RAND_NUM_210 fixed_64 
+let Conc1_221 = conc1(RAND_NUM_210,hostA) in
+new iv_255 fixed_64 
+let Enc_256 = enc1(Conc1_221,pkX,iv_255) in
+out c, Enc_256 
+in c, a_282 
+let Dec_298 = dec(a_282,skA) in
+let Pars1_301 = pars1(Dec_298) in
+let Pars3_308 = pars3(Dec_298) in
+let Conc2_311 = conc2(Pars3_308) in
+new iv_363 fixed_64 
+let Enc_364 = enc1(Conc2_311,pkX,iv_363) in
+out c, Enc_364 
+event alice_end hostA hostX 
+new iv_418 fixed_64 
+let Enc_419 = enc1(Conc2_311,pkX,iv_418) in
+out c, Enc_419 
+event alice_end hostA hostX 
+if ((R0_445-c_3) < c_0 = (R0_445-c_3) < c_0 = c_3 <= R0_445∧¬R0_445 = c_3) then
+new RAND_NUM_459 fixed_64 
+let Conc1_470 = conc1(RAND_NUM_459,hostA) in
+new iv_504 fixed_64 
+let Enc_505 = enc1(Conc1_470,pkX,iv_504) in
+out c, Enc_505 
+in c, a_531 
+let Dec_547 = dec(a_531,skA) in
+let Pars1_550 = pars1(Dec_547) in
+if Pars1_550 = RAND_NUM_459 then
+let Pars3_557 = pars3(Dec_547) in
+let Conc2_560 = conc2(Pars3_557) in
+new iv_612 fixed_64 
+let Enc_613 = enc1(Conc2_560,pkX,iv_612) in
+out c, Enc_613 
+event alice_end hostA hostX 
+new iv_667 fixed_64 
+let Enc_668 = enc1(Conc2_560,pkX,iv_667) in
+out c, Enc_668 
+event alice_end hostA hostX 

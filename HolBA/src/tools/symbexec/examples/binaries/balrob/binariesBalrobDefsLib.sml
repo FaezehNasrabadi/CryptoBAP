@@ -153,8 +153,8 @@ val symbs_sec_text = [
     "wait_close",
     "server",
     "main"
-];
-*)
+];*)
+
 val symbs_sec_text = [
     "__libc_malloc",
     "memcpy",
@@ -165,9 +165,8 @@ val symbs_sec_text = [
     "RAND_bytes",
     "client",
     "main"
-];
+];(*
 
-(*
 
 val symbs_sec_text = [
     "__globinit_client",
@@ -374,8 +373,12 @@ val symbs_sec_text = [
 val symbs_sec_text = [
     "foo",
     "main"
-];    *)
-    
+];    
+
+val symbs_sec_text = [
+    "main"
+];
+ *)   
 val arch_str         = "arm8";
 val prog_range       = ((Arbnum.fromInt 0x00000000), (Arbnum.fromInt 0xffffffff));
 
@@ -421,8 +424,8 @@ val configs              = [ ("client",
                            ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0xffffffff),
                             (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
                             (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
-			      ) ]; *)
-
+			      ) ]; 
+*)
 val configs              = [ ("client",
                            ("client_xor.da", "balrob/client_xor.da.plus", "balrob/client_xor.mem"),
                            "client_THM",
@@ -521,13 +524,35 @@ val configs              = [ ("example-loop",
 			      ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0x00003564), 
                                (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)), 
                                (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
-				    )];*)
+			   )];
+
+val configs              = [ ("CSur-alice",
+                              ("CSur_alice.da", "balrob/CSur_alice.da.plus", "balrob/CSur_alice.mem"),
+                              "CSuralice_THM",
+			      ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0x00003564), 
+                               (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)), 
+                               (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
+			   )];
+    
+val configs              = [ ("CSur-bob",
+                              ("CSur_bob.da", "balrob/CSur_bob.da.plus", "balrob/CSur_bob.mem"),
+                              "CSurbob_THM",
+			      ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0x00003564), 
+                               (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)), 
+                               (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
+			   )];
+
+*)
+    
     
  (*val symb_filter_lift = fn secname =>
   case secname of
       ".text" => (fn symbname => true)
     | _       => (K false);*)
 
+    
+
+    
 val symb_filter_lift = fn secname =>
 			  case secname of
 			      ".text" => (fn symbname => List.exists (fn x => x = symbname) symbs_sec_text)

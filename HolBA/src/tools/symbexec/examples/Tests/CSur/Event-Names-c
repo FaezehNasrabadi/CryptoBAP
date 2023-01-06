@@ -1,0 +1,4 @@
+The event name is as follows:
+hostA
+alice_begin hostA hostX
+alice_end hostA hostX
