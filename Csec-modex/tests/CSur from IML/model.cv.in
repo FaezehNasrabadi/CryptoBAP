@@ -16,27 +16,6 @@ const hostB: bounded_40_host.
   Public-key encryption
 *************************)
 
-(* IND-CCA2 probabilistic public-key encryption 
-   keyseed: type of key seeds, must be "fixed" (to be able to generate random numbers from it), typically large.
-   pkey: type of public keys, must be "bounded"
-   skey: type of secret keys, must be "bounded"
-   cleartext: type of cleartexts, must be "bounded" or "fixed" (the encryptions of *all* cleartexts of any length
-              are assumed to be indistinguishable from each other).
-   ciphertext: type of ciphertexts
-   seed: type of random seeds for encryption, must be "fixed"
-
-   dk: public-key generation function 
-   sk: secret-key generation function
-   enc1: encryption function
-   dec: decryption function
-   injbot: natural injection from cleartext to bitstringbot
-   Z: a constant cleartext
-
-   Penc(t, N): probability of breaking the IND-CCA2 property
-   in time t for one key and N decryption queries.
-   Penccoll: probability of collision between independently generated keys
-*)
-
 type keyseed_T [fixed, large].
 (* 100 is MAX_SIZE_KEY in the code. *)
 type fixed_100_key [fixed].

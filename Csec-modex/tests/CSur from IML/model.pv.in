@@ -5,7 +5,7 @@ free c_out.
 fun true/0.
 
 (**********************************
- Fixed Needham-Schroeder protocol.
+    Needham-Schroeder protocol
 ***********************************)
 
 
@@ -63,22 +63,22 @@ reduc
 (******************** 
   <Query>
 ********************)
-(* Authentication properties: 
+(* Authentication properties: *)
 query
   ev:bob_end(x, y) ==> ev:alice_begin(x, y).
 
 query
-  ev:alice_end(x, y) ==> ev:bob_begin(x, y).*)
+  ev:alice_end(x, y) ==> ev:bob_begin(x, y).
 
 (* Secrecy properties: *)
 query attacker: RAND_NUM_459.
 query attacker: RAND_NUM_489.
-(*
+
 query ev: alice_begin(x, y).
 query ev: alice_end(x, y).
 query ev: bob_begin(x, y).
 query ev: bob_end(x, y).
-*)
+
 
 (********************************
   <Model>
