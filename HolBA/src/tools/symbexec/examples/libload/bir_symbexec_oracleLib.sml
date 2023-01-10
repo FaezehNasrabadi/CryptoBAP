@@ -176,6 +176,12 @@ fun fun_oracle_type_label adr_dict label =
 		       | NONE => false)
 	    then
 		"Library"
+            (*part of memory that loops exist*)
+	    else if (case exist_dict of
+		    SOME x => ((x >= "loop") andalso (x <= "loop"))
+		  | NONE => false)
+	    then
+		"Loop"
 	    (*jump to other part of memory is normal*)
 	    else 
 		"Normal";

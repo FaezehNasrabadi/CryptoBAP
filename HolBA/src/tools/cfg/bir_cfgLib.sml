@@ -2,8 +2,16 @@ structure bir_cfgLib =
 struct
 local
 
+open HolKernel boolLib liteLib simpLib Parse bossLib;
+open bir_programSyntax;
+
 open bir_program_labelsSyntax;
 open bir_block_collectionLib;
+
+  (* error handling *)
+  val libname  = "bir_cfgLib"
+  val ERR      = Feedback.mk_HOL_ERR libname
+  val wrap_exn = Feedback.wrap_exn libname
 
 in
 
@@ -22,6 +30,14 @@ in
     | CFGNT_Call of (term list) (* direct labels for continuation after the call,
                                    used for resolution of return targets *)
     | CFGNT_Return;
+
+  fun toString t =
+      case t of CFGNT_Jump     => "CFGNT_Jump"
+              | CFGNT_CondJump => "CFGNT_CondJump"
+              | CFGNT_Halt     => "CFGNT_Halt"
+              | CFGNT_Basic    => "CFGNT_Basic"
+	      | CFGNT_Call lst => "CFGNT_Call"
+              | CFGNT_Return   => "CFGNT_Return"
 
   fun cfg_node_type_eq (CFGNT_Jump,
                         CFGNT_Jump)     = true
@@ -89,7 +105,7 @@ in
 
   fun cfg_block_to_node bl =
     let
-      val (lbl, _, bbes) = dest_bir_block bl;
+      val (lbl, stmt, bbes) = dest_bir_block bl;
 
       val lbl_tm = (snd o dest_eq o concl o EVAL) lbl;
 
@@ -100,8 +116,12 @@ in
 
       val (cfgn_type, cfg_t_l) =
           if is_BStmt_Jmp bbes then
-            (CFGNT_Jump,
-             cfg_BLEs_to_targets [dest_BStmt_Jmp bbes])
+	      if (can dest_comb) stmt then
+		  (CFGNT_Basic,
+		   cfg_BLEs_to_targets [dest_BStmt_Jmp bbes])
+	      else
+		  (CFGNT_Jump,
+		   cfg_BLEs_to_targets [dest_BStmt_Jmp bbes])
           else if is_BStmt_CJmp bbes then
             (CFGNT_CondJump,
              cfg_BLEs_to_targets ((fn (_, a, b) => [a, b]) (dest_BStmt_CJmp bbes)))

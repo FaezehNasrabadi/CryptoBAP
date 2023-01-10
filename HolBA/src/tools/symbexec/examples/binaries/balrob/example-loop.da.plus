@@ -1,0 +1,25 @@
+
+out:     file format elf64-littleaarch64
+
+
+Disassembly of section .text:
+
+0000000000010080 <main>:
+   10080:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+   10084:	910003fd 	mov	x29, sp
+   10088:	528000a0 	mov	w0, #0x5                   	// #5
+   1008c:	b9002fe0 	str	w0, [sp, #44]
+   10090:	90000000 	adrp	x0, 10000 <foo>
+   10094:	91032000 	add	x0, x0, #0xc8
+   10098:	910063e2 	add	x2, sp, #0x18
+   1009c:	aa0003e3 	mov	x3, x0
+   100a0:	a9400460 	ldp	x0, x1, [x3]
+   100a4:	a9000440 	stp	x0, x1, [x2]
+   100a8:	b9401060 	ldr	w0, [x3, #16]
+   100ac:	b9001040 	str	w0, [x2, #16]
+   100b0:	910063e0 	add	x0, sp, #0x18
+   100b4:	b9402fe1 	ldr	w1, [sp, #44]
+   100b8:	97ffffd2 	bl	10000 <foo>
+   100bc:	52800020 	mov	w0, #0x1                   	// #1
+   100c0:	a8c37bfd 	ldp	x29, x30, [sp], #48
+   100c4:	d65f03c0 	ret

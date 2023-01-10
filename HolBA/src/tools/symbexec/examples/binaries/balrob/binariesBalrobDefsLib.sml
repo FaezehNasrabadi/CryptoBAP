@@ -153,8 +153,8 @@ val symbs_sec_text = [
     "wait_close",
     "server",
     "main"
-];*)
-
+];
+*)
 val symbs_sec_text = [
     "__libc_malloc",
     "memcpy",
@@ -165,8 +165,8 @@ val symbs_sec_text = [
     "RAND_bytes",
     "client",
     "main"
-];(*
-
+];
+(*
 
 val symbs_sec_text = [
     "__globinit_client",
@@ -371,14 +371,14 @@ val symbs_sec_text = [
 ];
 
 val symbs_sec_text = [
-    "foo",
-    "main"
-];    
-
-val symbs_sec_text = [
     "main"
 ];
- *)   
+  
+val symbs_sec_text = [
+    "foo",
+    "main"
+];  *)  
+  
 val arch_str         = "arm8";
 val prog_range       = ((Arbnum.fromInt 0x00000000), (Arbnum.fromInt 0xffffffff));
 
@@ -556,8 +556,8 @@ val configs              = [ ("CSur-bob",
 val symb_filter_lift = fn secname =>
 			  case secname of
 			      ".text" => (fn symbname => List.exists (fn x => x = symbname) symbs_sec_text)
-			  (*  |		     ".page1" => (fn symbname => List.exists (fn x => x = symbname) symbs_sec_text)
-			    |				".page2" => (fn symbname => List.exists (fn x => x = symbname) symbs_sec_text)
+			   |		     ".page1" => (fn symbname => List.exists (fn x => x = symbname) symbs_sec_text)
+			    (* |				".page2" => (fn symbname => List.exists (fn x => x = symbname) symbs_sec_text)
 			    |				".page3" => (fn symbname => List.exists (fn x => x = symbname) symbs_sec_text)*)
 			    | _       => (K false);
 

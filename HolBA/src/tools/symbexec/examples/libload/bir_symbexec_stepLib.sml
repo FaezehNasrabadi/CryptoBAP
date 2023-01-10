@@ -8,6 +8,7 @@ local
 
   val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_stepLib"
   val wrap_exn = Feedback.wrap_exn   "bir_symbexec_stepLib"
+		 
 in (* outermost local *)
 
 (* execution of a basic statement *)
@@ -206,7 +207,7 @@ fun add_tgt_equ tgt be =
       in
 	  [SYST_update_pc tgt syst]
       end;
-   
+      
 in (* local *)
   fun symb_exec_endstmt n_dict lbl_tm est syst = (
     (* no update if state is not running *)
@@ -274,6 +275,65 @@ fun symb_exec_adversary_block abpfun n_dict bl_dict syst =
 	    handle e => raise wrap_exn ("symb_exec_adversary_block::" ^ term_to_string lbl_tm) e end;
 
 (* handle loop block  *)
+fun symb_exec_loop_block abpfun n_dict bl_dict adr_dict syst =
+    let val lbl_tm = SYST_get_pc syst; in
+	let
+
+	    val env   = SYST_get_env syst;
+		
+	    val bv0 = bir_expSyntax.mk_BExp_Den(find_bv_val "loop_block" env ``BVar "R0" (BType_Imm Bit64)``);
+
+	    val bv1 = bir_expSyntax.mk_BExp_Den(find_bv_val "loop_block" env ``BVar "R1" (BType_Imm Bit64)``);
+		      
+	    val t1 = bir_expSyntax.mk_BExp_Den(get_bvar_fresh (bir_envSyntax.mk_BVar_string ("t", “BType_Imm Bit64”))); 
+
+	    val t2 = bir_expSyntax.mk_BExp_Den(get_bvar_fresh (bir_envSyntax.mk_BVar_string ("t", “BType_Imm Bit64”))); 
+	    
+
+
+	    val i = ``(BExp_BinExp BIExp_Plus
+				   (^bv1)
+				   (BExp_BinExp BIExp_Plus
+						(^t1)
+						(^t2)))``;
+	    val A_index = ``(BExp_BinExp BIExp_Plus
+				   (BExp_Load
+					(BExp_Den (BVar "MEM" (BType_Mem Bit64 Bit8)))
+					(BExp_BinExp BIExp_Plus
+						     (BExp_Den (BVar "SP_EL0" (BType_Imm Bit64)))
+						     (BExp_Const (Imm64 8w))) BEnd_LittleEndian Bit64)
+				   (^i))``;
+			  
+	    val A_value = ``(BExp_Load
+				 (BExp_Den (BVar "MEM" (BType_Mem Bit64 Bit8)))
+				 (^A_index)
+				 BEnd_LittleEndian Bit32)``;
+
+	    val cnd1 = ``(BExp_BinPred BIExp_LessThan
+				       (^i)
+				       (^bv0))``;
+		       
+	    val cnd2 = ``(BExp_BinPred BIExp_Equal
+				       (BExp_Const (Imm32 1w))
+				       (^A_value))``;
+
+	    val syst = bir_symbexec_funcLib.state_add_path "loop_cnd" cnd1 syst;
+
+	    val syst = bir_symbexec_funcLib.state_add_path "cjmp_true_cnd" cnd2 syst;
+		
+	    val syst = (bir_symbexec_funcLib.state_add_path "cjmp_false_cnd" (bslSyntax.bnot cnd2)) syst;
+
+	    val exit_adr = bir_symbexec_loopLib.next_pc lbl_tm;
+		
+	    val syst = SYST_update_pc exit_adr syst;
+
+	    val systs_processed = abpfun ([syst]);
+		
+	in
+	    systs_processed
+	end
+	handle e => raise wrap_exn ("symb_exec_loop_block::" ^ term_to_string lbl_tm) e end;
+    
 fun symb_exec_loop1_block abpfun n_dict bl_dict adr_dict syst =
     let val lbl_tm = SYST_get_pc syst; in
 	let
@@ -388,29 +448,29 @@ fun symb_exec_library_block abpfun n_dict bl_dict adr_dict syst =
 			print ("Lib type: " ^ (lib_type) ^ "\n");
 
 		val systs = if (lib_type = "HMAC_send") then [bir_symbexec_funcLib.HMAC_Send syst]
-			   else if (lib_type = "HMAC_receive") then [bir_symbexec_funcLib.HMAC_Receive syst]
-			   else if (lib_type = "NewKey") then [bir_symbexec_funcLib.new_key syst]
-			   else if (lib_type = "SKey") then [bir_symbexec_funcLib.session_key syst]
-			   else if (lib_type = "Encryption") then [bir_symbexec_funcLib.Encryption syst]
-			   else if (lib_type = "Decryption") then [bir_symbexec_funcLib.Decryption syst]
-			   else if (lib_type = "Signature") then [bir_symbexec_funcLib.Signature syst]
-			   else if (lib_type = "Verify") then bir_symbexec_funcLib.Verify syst
-			   else if (lib_type = "MEMcpy") then [bir_symbexec_funcLib.New_memcpy syst]
-			   else if (lib_type = "LoadFile") then [bir_symbexec_funcLib.Load_file syst]
-			   else if (lib_type = "OTP") then [bir_symbexec_funcLib.One_Time_Pad syst]
-			   else if (lib_type = "RNG") then [bir_symbexec_funcLib.Random_Number syst]
-			   else if (lib_type = "XOR") then [bir_symbexec_funcLib.Xor syst]
-			   else if (lib_type = "kdfPtoS") then [bir_symbexec_funcLib.KDF syst]
-			   else if (lib_type = "kdfStoP") then [bir_symbexec_funcLib.KDF syst]
-			   else if (lib_type = "concat") then [bir_symbexec_funcLib.Concat syst]
-			   else if (lib_type = "Concat1") then [bir_symbexec_funcLib.Concat1 syst]
-			   else if (lib_type = "Concat2") then [bir_symbexec_funcLib.Concat2 syst]
-			   else if (lib_type = "Pars1") then [bir_symbexec_funcLib.Parse1 syst]
-			   else if (lib_type = "Pars2") then [bir_symbexec_funcLib.Parse2 syst]
-			   else if (lib_type = "compare") then (bir_symbexec_funcLib.Compare syst)
-			   else if (lib_type = "Fail") then [SYST_update_status BST_AssumptionViolated_tm syst]
-			   else if ((lib_type = "event1") orelse (lib_type = "event2") orelse (lib_type = "event3")) then (bir_symbexec_funcLib.Event lib_type syst)
-			   else [syst];
+			    else if (lib_type = "HMAC_receive") then [bir_symbexec_funcLib.HMAC_Receive syst]
+			    else if (lib_type = "NewKey") then [bir_symbexec_funcLib.new_key syst]
+			    else if (lib_type = "SKey") then [bir_symbexec_funcLib.session_key syst]
+			    else if (lib_type = "Encryption") then [bir_symbexec_funcLib.Encryption syst]
+			    else if (lib_type = "Decryption") then [bir_symbexec_funcLib.Decryption syst]
+			    else if (lib_type = "Signature") then [bir_symbexec_funcLib.Signature syst]
+			    else if (lib_type = "Verify") then bir_symbexec_funcLib.Verify syst
+			    else if (lib_type = "MEMcpy") then [bir_symbexec_funcLib.New_memcpy syst]
+			    else if (lib_type = "LoadFile") then [bir_symbexec_funcLib.Load_file syst]
+			    else if (lib_type = "OTP") then [bir_symbexec_funcLib.One_Time_Pad syst]
+			    else if (lib_type = "RNG") then [bir_symbexec_funcLib.Random_Number syst]
+			    else if (lib_type = "XOR") then [bir_symbexec_funcLib.Xor syst]
+			    else if (lib_type = "kdfPtoS") then [bir_symbexec_funcLib.KDF syst]
+			    else if (lib_type = "kdfStoP") then [bir_symbexec_funcLib.KDF syst]
+			    else if (lib_type = "concat") then [bir_symbexec_funcLib.Concat syst]
+			    else if (lib_type = "Concat1") then [bir_symbexec_funcLib.Concat1 syst]
+			    else if (lib_type = "Concat2") then [bir_symbexec_funcLib.Concat2 syst]
+			    else if (lib_type = "Pars1") then [bir_symbexec_funcLib.Parse1 syst]
+			    else if (lib_type = "Pars2") then [bir_symbexec_funcLib.Parse2 syst]
+			    else if (lib_type = "compare") then (bir_symbexec_funcLib.Compare syst)
+			    else if (lib_type = "Fail") then [SYST_update_status BST_AssumptionViolated_tm syst]
+			    else if ((lib_type = "event1") orelse (lib_type = "event2") orelse (lib_type = "event3")) then (bir_symbexec_funcLib.Event lib_type syst)
+			    else [syst];
 
 		val systs = if ((not o List.null o fst o listSyntax.dest_list) bl_stmts)
 			    then
@@ -479,7 +539,7 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 		systs_processed
 	    end
     handle e => raise wrap_exn ("symb_exec_normal_block::" ^ term_to_string lbl_tm) e end;
-
+ 
 (* execution of a whole block *)
     fun symb_exec_block abpfun n_dict bl_dict adr_dict syst =
 	let val lbl_tm = SYST_get_pc syst; in
@@ -493,6 +553,7 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 	    in
 		if (pc_type = "Adversary") then symb_exec_adversary_block abpfun n_dict bl_dict syst
 		else if (pc_type = "Library") then symb_exec_library_block abpfun n_dict bl_dict adr_dict syst
+		else if (pc_type = "Loop") then symb_exec_loop_block abpfun n_dict bl_dict adr_dict syst
 		else if (identical lbl_tm  ``BL_Address (Imm64 4210948w)``) then symb_exec_loop1_block abpfun n_dict bl_dict adr_dict syst
 		else if (identical lbl_tm  ``BL_Address (Imm64 4204792w)``) then symb_exec_loop2_block abpfun n_dict bl_dict adr_dict syst
 		else symb_exec_normal_block abpfun n_dict bl_dict syst
