@@ -356,16 +356,16 @@ fun symb_exec_loop1_block abpfun n_dict bl_dict adr_dict syst =
 				      (BExp_Const (Imm32 0w))
 			 ^be_adv)``;
 
-	    val syst1 = ((bir_symbexec_funcLib.state_add_path "assert_false_cnd" cnd) o bir_symbexec_funcLib.state_add_path "cjmp_true_cnd" cnd) syst;
-	    val syst2 = ((SYST_update_pc  ``BL_Address (Imm64 4210996w)``) o bir_symbexec_funcLib.state_add_path "cjmp_false_cnd" (bslSyntax.bnot cnd)) syst1;
+	    val syst1 = ((SYST_update_status BST_AssertionViolated_tm) o bir_symbexec_funcLib.state_add_path "cjmp_true_cnd" cnd) syst;
+	    val syst2 = ((SYST_update_pc  ``BL_Address (Imm64 4210996w)``) o bir_symbexec_funcLib.state_add_path "cjmp_false_cnd" (bslSyntax.bnot cnd)) syst;
 
 		      
 	    val bv_repend = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("RepEnd", “BType_Imm Bit64”)); (* generate a fresh variable *)
 
-	    val syst =  bir_symbexec_funcLib.update_path bv_repend syst2;
+	    val syst2 =  bir_symbexec_funcLib.update_path bv_repend syst2;
 
 		
-	    val systs_processed = abpfun ([syst]); 
+	    val systs_processed = abpfun ([syst1]@[syst2]); 
 	in
 	    systs_processed
 	end
@@ -392,8 +392,8 @@ fun symb_exec_loop1_block abpfun n_dict bl_dict adr_dict syst =
 				      (BExp_Const (Imm32 0w))
 			 ^be_adv)``;
 
-	    val syst1 = ((bir_symbexec_funcLib.state_add_path "assert_false_cnd" cnd1) o bir_symbexec_funcLib.state_add_path "cjmp_true_cnd" cnd1) syst;
-	    val syst = (bir_symbexec_funcLib.state_add_path "cjmp_false_cnd" (bslSyntax.bnot cnd1)) syst1;
+	    val syst1 = ((SYST_update_status BST_AssertionViolated_tm) o bir_symbexec_funcLib.state_add_path "cjmp_true_cnd" cnd1) syst;
+	    val syst2 = (bir_symbexec_funcLib.state_add_path "cjmp_false_cnd" (bslSyntax.bnot cnd1)) syst;
 
 	    val syst = bir_symbexec_funcLib.Parse11 Fn_av syst;
 
@@ -403,8 +403,8 @@ fun symb_exec_loop1_block abpfun n_dict bl_dict adr_dict syst =
 				       (BExp_Const (Imm32 50w))
 			  ^fst_adv)``;
 
-	    val syst1 = ((bir_symbexec_funcLib.state_add_path "assert_false_cnd" cnd2) o bir_symbexec_funcLib.state_add_path "cjmp_true_cnd" cnd2) syst;
-	    val syst = (bir_symbexec_funcLib.state_add_path "cjmp_false_cnd" (bslSyntax.bnot cnd2)) syst1;
+	    val syst3 = ((SYST_update_status BST_AssertionViolated_tm) o bir_symbexec_funcLib.state_add_path "cjmp_true_cnd" cnd2) syst2;
+	    val syst4 = (bir_symbexec_funcLib.state_add_path "cjmp_false_cnd" (bslSyntax.bnot cnd2)) syst2;
 
 
 	    val syst = bir_symbexec_funcLib.Parse22 Fn_av syst;
@@ -415,15 +415,15 @@ fun symb_exec_loop1_block abpfun n_dict bl_dict adr_dict syst =
 				       (BExp_Const (Imm32 256w))
 			  ^snd_adv)``;
 
-	    val syst1 = ((bir_symbexec_funcLib.state_add_path "assert_false_cnd" cnd3) o bir_symbexec_funcLib.state_add_path "cjmp_true_cnd" cnd3) syst;
-	    val syst = ((SYST_update_pc  ``BL_Address (Imm64 4205292w)``) o bir_symbexec_funcLib.state_add_path "cjmp_false_cnd" (bslSyntax.bnot cnd3)) syst1;
+	    val syst5 = ((SYST_update_status BST_AssertionViolated_tm) o bir_symbexec_funcLib.state_add_path "cjmp_true_cnd" cnd3) syst4;
+	    val syst6 = ((SYST_update_pc  ``BL_Address (Imm64 4205292w)``) o bir_symbexec_funcLib.state_add_path "cjmp_false_cnd" (bslSyntax.bnot cnd3)) syst4;
 		
 	    val bv_repend = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("RepEnd", “BType_Imm Bit64”)); (* generate a fresh variable *)
 
-	    val syst =  bir_symbexec_funcLib.update_path bv_repend syst;
+	    val syst =  bir_symbexec_funcLib.update_path bv_repend syst6;
 
 		
-	    val systs_processed = abpfun ([syst]); 
+	    val systs_processed = abpfun ([syst1]@[syst3]@[syst5]@[syst6]); 
 	in
 	    systs_processed
 	end
