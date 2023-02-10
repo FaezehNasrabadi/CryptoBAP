@@ -161,6 +161,8 @@ fun exist_in_dict fun_name file_name =
      
 fun fun_oracle_type_label adr_dict label =
     let
+	open String;
+	     
 	val exist_dict = Redblackmap.peek(adr_dict, label);
 	    
 	val lbl = 

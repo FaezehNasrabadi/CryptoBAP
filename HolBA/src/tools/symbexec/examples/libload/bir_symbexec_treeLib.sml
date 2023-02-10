@@ -133,7 +133,7 @@ fun find_fun_arg b =
 (* translate function symbol with one entry *)    
 fun Fun_1 str_be =
     let
-	val _ = print str_be;
+	(*val _ = print str_be;*)
 	val (a,b) = ((bir_auxiliaryLib.list_split_pred #" ") o explode) str_be;
 
 	val f = find_fun_arg b;

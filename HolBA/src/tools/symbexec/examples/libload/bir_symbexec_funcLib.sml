@@ -1409,7 +1409,7 @@ fun session_key syst =
     in
 	syst
     end;
-
+(*
 fun Concat1 syst =
     let
 	val syst = Parse5 syst;
@@ -1429,7 +1429,7 @@ fun Concat1 syst =
     in
 	syst
     end; 
-(*
+*)
 (*
 NSL server
 =======================
