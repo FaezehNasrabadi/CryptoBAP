@@ -3,9 +3,10 @@ struct
 
 local
   open bir_symbexec_stateLib;
-
+  open bir_expSyntax;
   open bir_constpropLib;
   open bir_exp_helperLib;
+  open binariesLib;
 
   val debugAssignments = false;
   val debugPaths = false;
@@ -13,7 +14,7 @@ in (* outermost local *)
 
 (* primitive for symbolic/abstract computation for expressions *)
 local
-  open bir_expSyntax;
+  
 
   fun subst_fun env vals (bev, (e, vars)) =
     let
@@ -157,6 +158,58 @@ in (* local *)
     end;
 
 end (* local *)
+(* update exp  *)
+fun abstract_exp_in_loop exp =
+      if is_BExp_Const exp then
+        (bir_expSyntax.mk_BExp_Den (get_bvar_fresh (bir_envSyntax.mk_BVar_string ("t", ``BType_Imm Bit64``))))
+      else if is_BExp_MemConst exp then
+         exp
+      else if is_BExp_Den exp then
+         exp
+      else if is_BExp_Cast exp then
+        let
+          val (castt, exp1, sz) = (dest_BExp_Cast) exp;
+          val exp_rw = abstract_exp_in_loop exp1;
+        in
+          (mk_BExp_Cast (castt, exp_rw, sz))
+        end
+
+      else if is_BExp_UnaryExp exp then
+        let
+          val (uop, exp1) = (dest_BExp_UnaryExp) exp;
+          val exp_rw = abstract_exp_in_loop exp1;
+        in
+          (mk_BExp_UnaryExp (uop, exp_rw))
+        end
+
+      else if is_BExp_BinExp exp then
+        let
+          val (bop, exp1, exp2) = (dest_BExp_BinExp) exp;
+          val exp1_rw = abstract_exp_in_loop exp1;
+          val exp2_rw = abstract_exp_in_loop exp2;
+        in
+          (mk_BExp_BinExp (bop, exp1_rw, exp2_rw))
+        end
+      else if is_BExp_BinPred exp then
+	  exp
+
+      else if is_BExp_IfThenElse exp then
+        let
+          val (expc, expt, expf) = (dest_BExp_IfThenElse) exp;
+          val expc_rw = abstract_exp_in_loop expc;
+          val expt_rw = abstract_exp_in_loop expt;
+          val expf_rw = abstract_exp_in_loop expf;
+        in
+          (mk_BExp_IfThenElse (expc_rw, expt_rw, expf_rw))
+        end
+
+      else if is_BExp_Load exp then
+	  exp
+
+      else if is_BExp_Store exp then
+	  exp
+      else
+        raise (ERR "abstract_exp_in_loop" ("don't know BIR expression: \"" ^ (term_to_string exp) ^ "\""));	
 
 
 (* primitive to compute expression and store result using fresh variable *)
@@ -166,15 +219,23 @@ end (* local *)
 (* primitive to carry out assignment *)
   fun state_assign_bv bv be syst =
     let
-      val _ = if not debugAssignments then () else
+      val _ = if true then () else
               (print "\n\n===============\nASSIGN: "; print_term bv; print_term be);
 
       val symbv = compute_valbe be syst;
+
+      
+	      
       val expo = case symbv of
                     SymbValBE (x, _) => SOME x
                   | _ => NONE;
 
 
+      val symbv' = case symbv of
+                     SymbValBE (x, t) => (if ((is_state_inloop syst) andalso ((not o is_BExp_Const) x)) then SymbValBE ((abstract_exp_in_loop x), t) else SymbValBE (x, t))
+                   | _ => symbv;
+					  
+	  
       val use_expo_var =
             isSome expo andalso
             (bir_expSyntax.is_BExp_Den o valOf) expo;
@@ -182,13 +243,22 @@ end (* local *)
       val bv_fr = if use_expo_var then
                     (bir_expSyntax.dest_BExp_Den o valOf) expo
                   else
-                    (get_bvar_fresh) bv;
+                      (get_bvar_fresh) bv;
+
+      val _ = if ((is_state_inloop syst) andalso false)
+	      then print (term_to_string bv_fr ^ " = \n")
+	      else ();
+
+      val _ = case symbv' of
+                  SymbValBE (x, t) => (if ((is_state_inloop syst) andalso false) then print (term_to_string x ^ "\n\n") else ())
+                | _ => ();
+	  
     in
       (update_envvar bv bv_fr o
        (if use_expo_var then
           I
         else
-          insert_symbval bv_fr symbv)
+          insert_symbval bv_fr symbv')
       ) syst
     end;
 

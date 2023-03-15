@@ -30,17 +30,29 @@ fun mk_key_from_address64 i addr = (mk_BL_Address o bir_immSyntax.mk_Imm64 o wor
 fun print_list lst =
     List.map (fn x => print_term x) lst;
 
-
-fun detect_loop (g:cfg_graph) entry visited =
+fun is_call_node adr_dict [] visited = visited
+  | is_call_node adr_dict (tgt::targets) visited =
+    let
+	val exist_dict = Redblackmap.peek(adr_dict, tgt);
+	val visited' = if (isSome exist_dict)
+		       then (tgt::visited)
+		       else visited;
+    in
+	is_call_node adr_dict targets visited'
+    end;
+   
+fun detect_loop (g:cfg_graph) adr_dict entry visited =
   let
     val n = bir_block_collectionLib.lookup_block_dict_value (#CFGG_node_dict g) entry "traverse_graph" "n";
     val targets = #CFGN_targets n;
     val n_type  = #CFGN_type n;
     val s_type = bir_cfgLib.toString n_type
     val _ = node_type:= !node_type@[(s_type, (#CFGN_lbl_tm n))];
-    
+	
+    (*val visited = is_call_node adr_dict targets visited;*)
+	
     val targets_to_visit = List.filter (fn x => List.all (fn y => not (identical x y)) visited) targets;
-    val result = List.foldr (fn (entry', visited') => detect_loop g entry' visited') (entry::visited) targets_to_visit;
+    val result = List.foldr (fn (entry', visited') => detect_loop g adr_dict entry' visited') (entry::visited) targets_to_visit;
   in result end;
 
 
@@ -91,17 +103,15 @@ fun next_pc lbl_tm =
 
 (* val loop_pattern = ["CFGNT_Jump","CFGNT_Basic","CFGNT_Basic","CFGNT_Basic","CFGNT_CondJump"]; *)
 
-fun find_loop n_dict entries loop_pattern =
+fun find_loop n_dict adr_dict entries loop_pattern =
     let
 	val g1 = cfg_create "toy" entries n_dict bl_dict_;
-
 	val _ = node_type := [];
-	val _ =  detect_loop  g1 (hd (#CFGG_entries g1)) [];
-
+	val _ =  detect_loop  g1 adr_dict (hd (#CFGG_entries g1)) [];
 	val in_loop = get_range(!node_type, loop_pattern);    
-
-	val entry_adr = snd (List.nth (!node_type, ((valOf in_loop)+((List.length loop_pattern)-1))));
-
+	val entry_adr = if (isSome in_loop)    
+			then snd (List.nth (!node_type, ((valOf in_loop)+((List.length loop_pattern)-1))))
+			else raise ERR "find_loop:get_range" "in_loop is NONE";
 	(* val exit_adr = next_pc entry_adr; *)
     in
 	entry_adr

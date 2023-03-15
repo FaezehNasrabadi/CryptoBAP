@@ -77,7 +77,9 @@ val BST_Running_tm =
 val BST_AssertionViolated_tm =
   ``BST_AssertionViolated``;
 val BST_AssumptionViolated_tm =
-  ``BST_AssumptionViolated``;
+    ``BST_AssumptionViolated``;
+val BST_InLoop_tm =
+  ``BST_InLoop``;    
 
 fun SYST_get_pc     (SymbState systr) =
   #SYST_pc systr;
@@ -162,7 +164,10 @@ fun SYST_update_vals vals' (SymbState systr) =
 
 
 fun state_is_running syst =
-  identical (SYST_get_status syst) BST_Running_tm;
+    identical (SYST_get_status syst) BST_Running_tm;
+
+fun is_state_inloop syst =
+  identical (SYST_get_status syst) BST_InLoop_tm;    
 (*val bv = ``BVar "sy_MEM" (BType_Mem Bit32 Bit8)``;*)
 (* fresh variables and initial state variables *)
 local

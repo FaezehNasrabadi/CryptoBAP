@@ -22,22 +22,26 @@ open bir_symbexec_driverLib;
 open Redblackmap;
 open bir_symbexec_oracleLib;
 open bir_symbexec_loopLib;
+     
+val lbl_tm = ``BL_Address (Imm64 66228w)``;
 
-
-val lbl_tm = ``BL_Address (Imm64 65664w)``;
-
-val stop_lbl_tms = [``BL_Address (Imm64 65732w)``];
+val stop_lbl_tms = [``BL_Address (Imm64 66352w)``];
 
     
 val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict_ prog_lbl_tms_;
-
-val loop_pattern = ["CFGNT_Jump","CFGNT_Basic","CFGNT_Basic","CFGNT_Basic","CFGNT_CondJump"];
+val g1 = cfg_create "toy" [lbl_tm] n_dict bl_dict_;
+val _ = print "Display cfg.\n";
+open bir_cfg_vizLib;
+val ns = List.map (valOf o (lookup_block_dict (#CFGG_node_dict g1))) (#CFGG_nodes g1);
+val _ = bir_cfg_vizLib.cfg_display_graph_ns ns;
+	      
+val loop_pattern = ["CFGNT_Jump","CFGNT_Basic","CFGNT_Basic","CFGNT_CondJump"];
 
 val adr_dict = bir_symbexec_PreprocessLib.fun_addresses_dict bl_dict_ prog_lbl_tms_;
 
 val enter = find_loop n_dict adr_dict [lbl_tm] loop_pattern;
-
-val adr_dict = Redblackmap.insert(adr_dict,enter,"loop");
+    
+val adr_dict = Redblackmap.insert(adr_dict,enter,"loop"); 
     
 val syst = init_state lbl_tm prog_vars;
 

@@ -2741,27 +2741,27 @@ Disassembly of section .text:
   4040f4:	940001b0 	bl	4047b4 <packet_put>
   4040f8:	9400024c 	bl	404a28 <packet_sendall>
   4040fc:	340032e0 	cbz	w0, 404758 <packet_kexdh+0xa38>
-  404100:	97fff989 	bl	402724 <receive_new_key>
-  404104:	aa1603e2 	mov	x2, x22
-  404108:	aa1403e0 	mov	x0, x20
-  40410c:	d2800d41 	mov	x1, #0x6a                  	// #106
-  404110:	94000cea 	bl	4074b8 <buf_purge_>
-  404114:	aa1603e0 	mov	x0, x22
-  404118:	52800001 	mov	w1, #0x0                   	// #0
-  40411c:	97fffce0 	bl	40349c <packet_getall>
-  404120:	340031c0 	cbz	w0, 404758 <packet_kexdh+0xa38>
-  404124:	f94002de 	ldr	x30, [x22]
-  404128:	394003c3 	ldrb	w3, [x30]
-  40412c:	7100547f 	cmp	w3, #0x15
-  404130:	54fffea1 	b.ne	404104 <packet_kexdh+0x3e4>  // b.any
-  404134:	aa1303e2 	mov	x2, x19
-  404138:	aa1403e0 	mov	x0, x20
-  40413c:	d2800e21 	mov	x1, #0x71                  	// #113
-  404140:	94000cde 	bl	4074b8 <buf_purge_>
-  404144:	f9442716 	ldr	x22, [x24, #2120]
-  404148:	aa1303e0 	mov	x0, x19
-  40414c:	9102c3e1 	add	x1, sp, #0xb0
-  404150:	b000013a 	adrp	x26, 429000 <memcpy@GLIBC_2.17>
+  404100:	aa1603e2 	mov	x2, x22
+  404104:	aa1403e0 	mov	x0, x20
+  404108:	d2800ce1 	mov	x1, #0x67                  	// #103
+  40410c:	94000ceb 	bl	4074b8 <buf_purge_>
+  404110:	aa1603e0 	mov	x0, x22
+  404114:	52800001 	mov	w1, #0x0                   	// #0
+  404118:	97fffce1 	bl	40349c <packet_getall>
+  40411c:	340031e0 	cbz	w0, 404758 <packet_kexdh+0xa38>
+  404120:	f94002de 	ldr	x30, [x22]
+  404124:	394003c3 	ldrb	w3, [x30]
+  404128:	7100547f 	cmp	w3, #0x15
+  40412c:	54fffea1 	b.ne	404100 <packet_kexdh+0x3e0>  // b.any
+  404130:	97fff97d 	bl	402724 <receive_new_key>
+  404134:	b000013a 	adrp	x26, 429000 <memcpy@GLIBC_2.17>
+  404138:	aa1303e2 	mov	x2, x19
+  40413c:	aa1403e0 	mov	x0, x20
+  404140:	d2800e21 	mov	x1, #0x71                  	// #113
+  404144:	94000cdd 	bl	4074b8 <buf_purge_>
+  404148:	f9442716 	ldr	x22, [x24, #2120]
+  40414c:	aa1303e0 	mov	x0, x19
+  404150:	9102c3e1 	add	x1, sp, #0xb0
   404154:	d63f02c0 	blr	x22
   404158:	b0000136 	adrp	x22, 429000 <memcpy@GLIBC_2.17>
   40415c:	f94422a4 	ldr	x4, [x21, #2112]
