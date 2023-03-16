@@ -81,3 +81,65 @@ event AcceptS2 pkS pkP
 if (read(x_7769,64) = read(x_7770,64)) then
 if (read(x_7773,64) = read(x_7774,64)) then
 if (read(x_7777,64) = read(x_7778,64)) then
+in c, a_63 
+if read(x_7604,32) = read(x_7605,64) then
+in c, a_432 
+!N(
+in c, a_491 
+)
+new SKey_773 fixed_64 
+let sk_775 = kgen(g,SKey_773) in
+out c, sk_775 
+let kAB_777 = kgen(a_491,SKey_773) in
+let HMAC_783 = hash3(a_491,sk_775,pkS) in
+event AcceptS pkS pkP 
+let signature_789 = sign(inputs,skS) in
+out c, sign(inputs,skS) 
+let kPS_793 = kdfPtoS(kAB_777,HMAC_783) in
+let kSP_797 = kdfStoP(kAB_777,HMAC_783) in
+in c, a_801 
+let Dec_802 = dec(a_801,kPS_793) in
+let Enc_805 = enc(Dec_802,kSP_797) in
+out c, Enc_805 
+if read(x_7609,64) = read(x_7610,64) then
+in c, a_5746 
+if read(x_7612,8) = c_5 then
+if read(x_7617,64) = read(x_7618,64) then
+in c, a_5851 
+if read(x_7621,64) = read(x_7622,64) then
+if (c_256 <= read(x_7626,32)∧¬read(x_7627,32) = c_256) then
+!N(
+in c, a_5996 
+if read(x_7632,64) = read(x_7633,64) then
+if (c_256 <= read(x_7637,32)∧¬read(x_7638,32) = c_256) then
+)
+if read(x_7645,64) = read(x_7646,64) then
+if read(x_7649,64) = read(x_7650,64) then
+if read(x_7656,64) = read(x_7657,64) then
+if read(x_7660,64) = read(x_7661,64) then
+if read(x_7666,64) = read(x_7667,64) then
+if read(x_7670,64) = read(x_7671,64) then
+if read(x_7675,64) = read(x_7676,64) then
+if read(x_7679,64) = read(x_7680,64) then
+if (¬(read(x_7690,64)-read(x_7691,64)) < c_0 = (read(x_7692,64)-read(x_7693,64)) < c_0 = read(x_7694,64) <= read(x_7695,64)∨read(x_7696,64) = read(x_7697,64)) then
+if read(x_7701,64) = read(x_7702,64) then
+if read(x_7705,64) = read(x_7706,64) then
+in c, a_7109 
+let Dec_7110 = dec(a_7109,kPS_793) in
+let Ver_7114 = verify(Dec_7110,pkP) in
+if Ver_7114 = c_1 then
+event AcceptS2 pkS pkP 
+if read(x_7709,64) = read(x_7710,64) then
+if read(x_7713,64) = read(x_7714,64) then
+if read(x_7717,64) = read(x_7718,64) then
+if (¬(read(x_7727,64)-read(x_7728,64)) < c_0 = (read(x_7729,64)-read(x_7730,64)) < c_0 = read(x_7731,64) <= read(x_7732,64)∨read(x_7733,64) = read(x_7734,64)) then
+if read(x_7738,64) = read(x_7739,64) then
+if read(x_7742,64) = read(x_7743,64) then
+in c, a_7506 
+let Dec_7507 = dec(a_7506,kPS_793) in
+let Ver_7511 = verify(Dec_7507,pkP) in
+if Ver_7511 = c_1 then
+event AcceptS2 pkS pkP 
+if read(x_7746,64) = read(x_7747,64) then
+if read(x_7750,64) = read(x_7751,64) then
+if read(x_7754,64) = read(x_7755,64) then
