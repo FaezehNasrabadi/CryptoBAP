@@ -593,14 +593,18 @@ fun Let_to_IML vals_list pred =
 		      then ((rev_name o fst o dest_BVar_string o dest_BExp_Den) be)
 		      else if (is_BVar be)
 		      then ((rev_name o fst o dest_BVar_string) be)
-		      else if((String.isSuffix "Conc3" pred) orelse (* (String.isSuffix "Enc" pred) orelse*) (String.isSuffix "HMAC" pred))
+		      else if((String.isSuffix "Conc3" pred) orelse (String.isSuffix "Enc" pred) (*orelse (String.isSuffix "Triple" pred) orelse (String.isSuffix "HMAC" pred)*))
 		      then (Fun_3 (term_to_string be))
-		      else if((String.isSuffix "Conc2" pred) orelse (String.isSuffix "Pars1" pred) orelse (String.isSuffix "Pars2" pred) (*orelse (String.isSuffix "sk" pred)*) orelse (String.isSuffix "Pars3" pred) orelse (String.isSuffix "Pars4" pred) orelse (String.isSuffix "Pars5" pred) orelse (String.isSuffix "Pars6" pred) orelse (String.isSuffix "Conc1" pred))
+		      else if((String.isSuffix "Conc2" pred) (* orelse  (String.isSuffix "Pars1" pred) orelse (String.isSuffix "Pars2" pred) orelse (String.isSuffix "sk" pred) orelse (String.isSuffix "Pars3" pred)*) orelse (String.isSuffix "Pars4" pred) orelse (String.isSuffix "Pars5" pred) orelse (String.isSuffix "Pars6" pred) orelse (String.isSuffix "Conc1" pred) orelse (String.isSuffix "Ci" pred) orelse (String.isSuffix "Cr" pred))
 		      then (Fun_1 (term_to_string be))
 		      else (Fun_2 (term_to_string be));
 
     in
-	(to_string (I_Let ((rev_name pred), (Var (fun_str)))))
+	if (String.isPrefix "pair" ((implode o snd o (bir_auxiliaryLib.list_split_pred #"_") o explode) pred))
+	then (to_string (I_Let ((Fun_2 pred), (Var (fun_str)))))
+	else if (String.isPrefix "triple" ((implode o snd o (bir_auxiliaryLib.list_split_pred #"_") o explode) pred))
+	then (to_string (I_Let ((Fun_3 pred), (Var (fun_str)))))
+	else (to_string (I_Let ((rev_name pred), (Var (fun_str)))))
 
     end;
     
@@ -815,13 +819,13 @@ fun path_of_tree event_names vals_list refine_preds exec_sts [] str =
 	     else (to_string o Br_True) (IMLExp_from_pred vals_list exec_sts pred))
 		  else if (String.isSuffix "assert_false_cnd" pred) then (assert_false_string event_names vals_list exec_sts pred)
 		  else if ((String.isSuffix "cjmp_false_cnd" pred) orelse (String.isSuffix "comp_false_cnd" pred)) then ""
-		  else if ((String.isSuffix "Key" pred) orelse (String.isSuffix "iv" pred) orelse (String.isSuffix "pkP" pred) orelse (String.isSuffix "skS" pred) orelse (String.isSuffix "RAND_NUM" pred) orelse (String.isSuffix "OTP" pred) orelse (String.isSuffix "SKey" pred)) then (to_string o Fr_to_New) pred
+		  else if ((String.isSuffix "Key" pred) orelse (String.isSuffix "iv" pred) orelse (String.isSuffix "pkP" pred) orelse (String.isSuffix "skS" pred) orelse (String.isSuffix "RAND_NUM" pred) orelse (String.isSuffix "OTP" pred) orelse (String.isSuffix "SKey" pred)  orelse (String.isSuffix "Epriv_i" pred)  orelse (String.isSuffix "Epriv_r" pred) orelse (String.isSuffix "sid_i" pred)  orelse (String.isSuffix "sid_r" pred) ) then (to_string o Fr_to_New) pred
 		  else if (String.isSuffix "K" pred) then (K_to_Out vals_list refine_preds exec_sts pred preds)
 		  else if (String.isSuffix "Kr" pred) then (Kr_to_Out vals_list pred)
-	           else if (String.isSuffix "Rep" pred) then (to_string (I_Rep "N"))
+		  else if (String.isSuffix "Rep" pred) then (to_string (I_Rep "N"))
 		  else if (String.isSuffix "RepEnd" pred) then ")\n"
 		  else if (String.isSuffix "Adv" pred) then (to_string (D_to_In  vals_list exec_sts pred))
-		  else if ((String.isSuffix "Dec" pred) orelse (String.isSuffix "signature" pred) orelse (String.isSuffix "Ver" pred) orelse (String.isSuffix "Enc" pred) orelse (String.isSuffix "kS" pred) orelse (String.isSuffix "kAB" pred)  orelse (String.isSuffix "kSP" pred) orelse (String.isSuffix "kPS" pred) orelse (String.isSuffix "concat" pred) orelse (String.isSuffix "HMAC" pred) orelse (String.isSuffix "Conc1" pred) orelse (String.isSuffix "Conc2" pred) orelse (String.isSuffix "Conc3" pred) orelse (String.isSuffix "Pars1" pred) orelse (String.isSuffix "Pars2" pred) orelse (String.isSuffix "Pars3" pred) orelse (String.isSuffix "Pars4" pred) orelse (String.isSuffix "Pars5" pred) orelse (String.isSuffix "Pars6" pred)  orelse (String.isSuffix "XOR" pred) orelse (String.isSuffix "sk" pred)) then (Let_to_IML vals_list pred)
+		  else if ((String.isSuffix "Dec" pred) orelse (String.isSuffix "signature" pred) orelse (String.isSuffix "Ver" pred) orelse (String.isSuffix "Enc" pred) orelse (String.isSuffix "kS" pred) orelse (String.isSuffix "kAB" pred)  orelse (String.isSuffix "kSP" pred) orelse (String.isSuffix "kPS" pred) orelse (String.isSuffix "concat" pred) orelse (String.isSuffix "HMAC" pred) orelse (String.isSuffix "Conc1" pred) orelse (String.isSuffix "Conc2" pred) orelse (String.isSuffix "Conc3" pred) orelse (String.isSuffix "Pars1" pred) orelse (String.isSuffix "Pars2" pred) orelse (String.isSuffix "Pars3" pred) orelse (String.isSuffix "Pars4" pred) orelse (String.isSuffix "Pars5" pred) orelse (String.isSuffix "Pars6" pred)  orelse (String.isSuffix "XOR" pred) orelse (String.isSuffix "sk" pred) orelse (String.isSuffix "Epub_i" pred)  orelse (String.isSuffix "Epub_r" pred) orelse (String.isSuffix "KDF" pred)  orelse (String.isSuffix "Ci" pred) orelse (String.isSuffix "DH" pred) orelse (String.isSuffix "Cii" pred) orelse (String.isSuffix "Cr" pred) orelse (String.isSuffix "Crr" pred) orelse (String.isSuffix "triple" pred) orelse (String.isSuffix "pair" pred)  orelse (String.isSuffix "(BType_Imm Bit64))" pred)) then (Let_to_IML vals_list pred)
 		  else if ((String.isSuffix "event_true_cnd" pred) orelse (String.isSuffix "event1" pred) orelse (String.isSuffix "event2" pred) orelse (String.isSuffix "event3" pred) orelse (String.isSuffix "event_false_cnd" pred))
 		  then (IML_event event_names pred)
 		  else "";
