@@ -80,7 +80,7 @@ struct
 
 
 
-
+(* client_hmac *)
  val symbs_sec_text = [
      "_IO_puts",
      "strlen",
@@ -124,6 +124,7 @@ struct
      "wait_close"
  ];
 
+(* server_hmac *)
  val symbs_sec_text = [
      "server",
      "fail",
@@ -141,8 +142,7 @@ struct
 
 
 
-
-
+(* server_xor *)
  val symbs_sec_text = [
      "__libc_malloc",
      "memcpy",
@@ -155,7 +155,7 @@ struct
      "main"
  ];
 
-
+(* client_xor *)
  val symbs_sec_text = [
      "__libc_malloc",
      "memcpy",
@@ -168,7 +168,7 @@ struct
      "main"
  ];
 
-
+(* RPC_enc_client *)
  val symbs_sec_text = [
      "__globinit_client",
      "__CrestCall",
@@ -218,6 +218,8 @@ struct
      "__stack_chk_fail",
      "main"
  ];
+
+(* RPC_enc_server *)
  val symbs_sec_text = [
      "parseargs",
      "send_response",
@@ -269,12 +271,13 @@ struct
      "main"
  ];
 
+(* RPC *)
  val symbs_sec_text = [
      "main",
      "client",
      "server"
  ];
- *)
+ 
 val symbs_sec_text = [
     "main_tinysshd",
     "Server_decrypt",
@@ -391,7 +394,7 @@ val symbs_sec_text = [
     "receive_new_key",
     "read@plt"
 ];
-(*
+
  val symbs_sec_text = [
      "main",
      "client",
@@ -421,6 +424,7 @@ val symbs_sec_text = [
      "comp"
  ];
 
+(* CSur *)
  val symbs_sec_text = [
      "main"
  ];
@@ -435,8 +439,63 @@ val symbs_sec_text = [
      "base64_decode",
      "build_decoding_table",
      "base64_encode"
- ];*)    
-    
+ ];
+
+ 
+
+(* WireGuard-Initiator *)
+val symbs_sec_text = [
+    "wait_for_random_bytes",
+    "down_read",
+    "down_write",
+    "mix_hash",
+    "curve25519_generate_secret",
+    "curve25519_generate_public",
+    "up_write",
+    "up_read",
+    "message_ephemeral",
+    "mix_dh",
+    "chacha20poly1305_encrypt",
+    "__crypto_memneq",
+    "kdf.constprop.0",
+    "ktime_get_real_ts64",
+    "wg_index_hashtable_insert",
+    "init_module",
+    "handshake_init",
+    "message_encrypt",
+    "mix_precomputed_dh",
+    "mix_psk",
+    "wg_noise_handshake_create_initiation",
+    "wg_noise_handshake_consume_response"
+];
+
+
+(* WireGuard-Respondor *)
+ val symbs_sec_text = [
+     "wait_for_random_bytes",
+     "down_read",
+     "down_write",
+     "mix_hash",
+     "curve25519_generate_secret",
+     "curve25519_generate_public",
+     "up_write",
+     "up_read",
+     "message_ephemeral",
+     "mix_dh",
+     "chacha20poly1305_encrypt",
+     "__crypto_memneq",
+     "kdf.constprop.0",
+     "ktime_get_real_ts64",
+     "wg_index_hashtable_insert",
+     "init_module",
+     "handshake_init",
+     "message_encrypt",
+     "mix_precomputed_dh",
+     "mix_psk",
+     "wg_noise_handshake_consume_initiation",
+     "wg_noise_handshake_create_response"
+ ];
+ *)
 val arch_str         = "arm8";
 val prog_range       = ((Arbnum.fromInt 0x00000000), (Arbnum.fromInt 0xffffffff));
 
@@ -499,7 +558,7 @@ val prog_range       = ((Arbnum.fromInt 0x00000000), (Arbnum.fromInt 0xffffffff)
 				 (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
 				 (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 			       ) ];
-      
+    
   val configs              = [ ("server",
 				("server_hmac.da", "balrob/server_hmac.da.plus", "balrob/server_hmac.mem"),
 				"server_THM",
@@ -515,7 +574,7 @@ val prog_range       = ((Arbnum.fromInt 0x00000000), (Arbnum.fromInt 0xffffffff)
 				 (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
 				 (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
 			       ) ];   
-      
+   
   val configs              = [ ("server",
 				("server_nsl.da", "balrob/server_nsl.da.plus", "balrob/server_nsl.mem"),
 				"server_THM",
@@ -607,11 +666,19 @@ val configs              = [ ("tinyssh",
 			    )];
 
 
- *)   
-    
+  
+
+    val configs              = [ ("wireguard",
+                              ("wireguard.da", "balrob/wireguard.da.plus", "balrob/wireguard.mem"),
+                              "wireguard_THM",
+			      ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0x00003564), 
+                               (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)), 
+                               (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
+			       )]; *)
+	
 (*val symb_filter_lift = fn secname =>
 			    case secname of
-				".text" => (fn symbname => true)
+				".text" => (fn symbname => List.exists (fn x => x = symbname) symbs_sec_text)
 			      | _       => (K false);*)
 
     
@@ -619,13 +686,12 @@ val configs              = [ ("tinyssh",
     
 val symb_filter_lift = fn secname =>
 			  case secname of
-			      ".text" => (fn symbname => true)
-			    |		     ".init" => (fn symbname => true)
-			    |		     ".plt" => (fn symbname => true)
-			    |		     ".fini" => (fn symbname => true)
-			    |		     ".page1" => (fn symbname => List.exists (fn x => x = symbname) symbs_sec_text)
-			    (* |				".page2" => (fn symbname => List.exists (fn x => x = symbname) symbs_sec_text)
-			    |				".page3" => (fn symbname => List.exists (fn x => x = symbname) symbs_sec_text)*)
-			    | _       => (K false);
-
+			      ".text"  => (fn symbname => true)
+			    | ".init"  => (fn symbname => true)
+			    | ".plt"   => (fn symbname => true)
+			    | ".fini"  => (fn symbname => true)
+			    | ".page1" => (fn symbname => List.exists (fn x => x = symbname) symbs_sec_text)
+			    | ".page2" => (fn symbname => List.exists (fn x => x = symbname) symbs_sec_text)
+			    | ".page3" => (fn symbname => List.exists (fn x => x = symbname) symbs_sec_text)
+			    | _        => (K false);
 end (* struct *)
