@@ -81,7 +81,7 @@ val _ = Parse.type_abbrev("conc1", ``:bir_var_t -> bir_var_t -> bir_exp_t``);
 
 val _ = Parse.type_abbrev("conc2", ``:bir_var_t -> bir_exp_t``);
 *)
-val _ = Parse.type_abbrev("conc3", ``:bir_var_t -> bir_var_t -> bir_var_t -> bir_exp_t``
+val _ = Parse.type_abbrev("conc3", ``:bir_var_t -> bir_var_t -> bir_var_t -> bir_exp_t``);
     
 
 (* read the number of function entries from file *)
