@@ -1,7 +1,4 @@
 
-# vpath %.a $(PROXIES)
-# vpath %.a $(OPENSSL)
-
 include $(CSEC_ROOT)/mk/common.mk
 
 ############################
@@ -56,7 +53,7 @@ cv_noaux: $(CV_OUTPUTS_NOAUX)
 
 %.cv.noaux.out: %.cv.out
 	sed -e '/if auxiliary/s/if \(auxiliary.*\)/(*ifx \1*)/' $< > $@
-	
+
 cvmodel.out: IML_client.txt IML_server.txt $(CV_DEFAULT).cvl cvtemplate.in $(CVTRACE)
 	{ $(CVTRACE) IML_client.txt IML_server.txt $(CV_DEFAULT) cvtemplate.in | tee $@; } > cvmodel.debug.out 2>&1
 
@@ -100,9 +97,6 @@ check: $(GOOD_OUTPUTS)
 		echo "$<: Test OK.";\
 	else\
 		echo "$<: Test not OK.";\
-#		exit 1;\
-	fi
-#    touch $@;\
 
 bless: $(OUTPUTS)
 	rename out good.txt $^
@@ -119,17 +113,11 @@ endif
 
 ifndef LOCAL_CALLGRAPH
 LOCAL_CALLGRAPH = $(shell find . -name "*.callgraph.out")
-# the problem with this is that cryptokix doesn't rely on sym to build itself
-#$(LOCAL_CALLGRAPH): sym
 endif
 
 ifndef LOCAL_GLOBS
 LOCAL_GLOBS = $(shell find . -name "*.globs.out")
-#$(LOCAL_GLOBS): sym
 endif
-
-# PROXY_CALLGRAPH = $(shell find $(PROXIES) -name "*.callgraph.out")
-# PROXY_GLOBS = $(shell find $(PROXIES) -name "*.globs.out")
 
 LIB_CALLGRAPH = $(PROXY_LIBS:.a=.callgraph.out)
 LIB_GLOBS = $(PROXY_LIBS:.a=.globs.out)
@@ -151,14 +139,10 @@ callgraph.out: $(LOCAL_CALLGRAPH) $(LIB_CALLGRAPH)
 globs.out: $(LOCAL_GLOBS) $(LIB_GLOBS)
 	cat $^ > globs.out
 
-# The list of called functions produced by symbolic execution.
 called.out: iml
 
 funlist: funlist_compile funlist_run
 
-# This one depends on compilation only.
-# We want this to work even if funlist_run fails, so that we can tell the user to instrument main().
-# Make sure to call leaves first, as it gives better diagnostics.
 funlist_compile: callgraph.out globs.out
 	@echo "==== Reachable functions not proxied, opaque or crestified:"
 	@$(CSEC_ROOT)/src/CIL/leaves.exe
@@ -173,7 +157,7 @@ funlist_compile: callgraph.out globs.out
 	@#echo "==== Unreachable boring functions:"
 	@#comm -23 boring.out leaves.out
 
-# This one depends on running the program.
+
 funlist_run: called.out
 	@echo "==== Called boring functions:"
 	@$(CSEC_ROOT)/src/CIL/calledOpaque.exe $(CSEC_CONF) "called.out"

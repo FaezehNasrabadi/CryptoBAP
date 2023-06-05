@@ -8,8 +8,6 @@ OCAMLYICES_ROOT = @OCAMLYICES_ROOT@
 CIL_OBJDIR = @CIL_OBJDIR@
 CIL_LIB = @CIL_LIB@
 
-# OPENSSL = @OPENSSL@
-# OPENSSL_CRESTIFIED = @OPENSSL_CRESTIFIED@
 
 PROXIES = @PROXIES@
 
@@ -32,14 +30,3 @@ OCAML_LIB = @OCAML_LIB@
 OPENSSL_CRESTIFIED=@OPENSSL_CRESTIFIED@
 OPENSSL_CRESTIFIED_CRYPTO=$(OPENSSL_CRESTIFIED)/libcrypto.a
 
-# some system dependency, I guess autoconf would be real nice here
-# ifdef WINDIR
-#   EXTRA_DEPS = -lwsock32 -ladvapi32 -lgdi32 -luser32
-#   CIL_OBJDIR = /obj/x86_WIN32
-#   # stupid make can't account for exe extension on cygwin
-#   # no, it actually seems to be fine
-#   # EXE = .exe 
-# else
-#   EXTRA_DEPS = -ldl
-#   CIL_OBJDIR = /obj/x86_LINUX
-# endif

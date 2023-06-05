@@ -1,6 +1,0 @@
-in c, a_14 
-let msg_25 = dec(a_14,SK) in
-if (msg_25=48) then
-event bad 
-else
-event Server_receive 

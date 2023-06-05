@@ -1,3 +1,0 @@
-let cipher_19 = enc(message,SK) in
-out c, cipher_19 
-event Client_send 
