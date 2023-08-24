@@ -1,5 +1,4 @@
 
-# DEPRECATED
 
 include $(CSEC_ROOT)/mk/common.mk
 
@@ -35,11 +34,4 @@ ifneq ($(P2), $(P3))
 $(P3) $(P3).bin $(P3).sym.out: BUILD_SRC = $(P3_SRC)
 $(P3) $(P3).bin $(P3).sym.out: $(P3_SRC) $(CIL_LIB)
 endif
-
-# can't use an implicit rule due to a bug in make (https://savannah.gnu.org/bugs/index.php?29104)
-# makepp doesn't understand this, but do use makepp as soon as bug
-# https://sourceforge.net/tracker/?func=detail&aid=2961995&group_id=138953&atid=742140
-# is fixed and you can just add libraries to SLL_LIB without fear of cilly mangling them
-#$(sort $(CLIENT).bin $(SERVER).bin $(CLIENT).sym $(SERVER).sym $(CLIENT) $(SERVER)): 
-#	$(BUILD_CMD)
 

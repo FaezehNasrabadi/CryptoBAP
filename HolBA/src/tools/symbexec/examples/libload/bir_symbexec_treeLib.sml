@@ -374,23 +374,6 @@ fun Remove_Repeated_preds (pred::[]) No_Repeat =
 
 
 (*Sort and refine path names*)
-(*
-val all_preds =
-   ["2_init_pred", "37_Key", "39_T", "42_iv", "44_T", "47_K", "46_Adv",
-    "53_cjmp_true_cnd", "56_Key", "58_T", "2_init_pred", "37_Key", "39_T",
-    "42_iv", "44_T", "47_K", "46_Adv", "54_cjmp_false_cnd", "61_K", "60_Adv"];
-
-val sort_preds =
-   ["2_init_pred", "2_init_pred", "37_Key", "37_Key", "39_T", "39_T",
-    "42_iv", "42_iv", "44_T", "44_T", "46_Adv", "46_Adv", "47_K", "47_K",
-    "53_cjmp_true_cnd", "54_cjmp_false_cnd", "56_Key", "58_T", "60_Adv",
-    "61_K"];
-
-val refine_preds =
-   ["61_K", "60_Adv", "58_T", "56_Key", "54_cjmp_false_cnd",
-    "53_cjmp_true_cnd", "47_K", "46_Adv", "44_T", "42_iv", "39_T", "37_Key",
-    "2_init_pred"];
-*)
 fun get_refine_preds_list exec_sts =
     let
 	val all_preds = symb_execs_preds exec_sts [];
@@ -447,33 +430,6 @@ fun find_latest_T refine_preds exec_sts preds =
     end;
     
 (*Translate knowledge to IML out*)
-(*
-val All_preds =
-   ["2_init_pred", "37_Key", "39_T", "42_iv", "44_T", "46_Adv", "47_K",
-    "53_cjmp_true_cnd", "54_cjmp_false_cnd", "56_Key", "58_T", "60_Adv",
-    "61_K"];
------------
-val pred = "47_K";
-val preds = ["53_cjmp_true_cnd", "54_cjmp_false_cnd", "56_Key", "58_T", "60_Adv",
-    "61_K"];
-val t_pred = "44_T";
-val t_term = “BVar "44_T" BType_Bool”;
-val t_be = “enc inputs iv”;
-val pred_term = “BVar "47_K" BType_Bool”;
-val k_be = “enc inputs iv”;
-val result = out(c, enc inputs iv);
--------
-val pred = "61_K";
-val preds = [];
-val t_pred = "58_T";
-val t_term = “BVar "58_T" BType_Bool”;
-val t_be = “BVar "57_k" (BType_Imm Bit64)”;
-val pred_term = “BVar "61_K" BType_Bool”;
-val k_be = “BVar "48_a" (BType_Imm Bit64)”;
-val result = ();
- *)
-
-
 fun K_to_Out vals_list refine_preds exec_sts pred preds =
     let
 	
@@ -579,7 +535,6 @@ fun Xor_to_IML vals_list pred =
     end;
  
 (*Translate Let to IML*)
-
 fun Let_to_IML vals_list pred =
     let
 	
@@ -609,36 +564,6 @@ fun Let_to_IML vals_list pred =
     end;
     
 (*Translate BIR expressions to IML expressions*)
-(*
-val pred_be = “BExp_Const (Imm64 2840w)”; val result = "2840";
-val be = “BExp_Den (BVar "88_MEM" (BType_Mem Bit64 Bit8))”;
-val pred_be = ``BExp_Cast BIExp_LowCast
-                        (BExp_Den (BVar "R0" (BType_Imm Bit64))) Bit32``;
-val pred_be = ``BExp_UnaryExp BIExp_Not
-                       (BExp_Den (BVar "ProcState_C" BType_Bool))``;
-val pred_be = “BExp_BinPred BIExp_Equal
-          (BExp_Cast BIExp_LowCast
-             (BExp_Den (BVar "16_Adv" (BType_Imm Bit64))) Bit64)
-          (BExp_Const (Imm64 0w))”;
-val pred_be = ``BExp_BinExp BIExp_And
-		       (BExp_BinPred BIExp_LessOrEqual
- (BExp_BinExp BIExp_Plus
-  (BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
-(BExp_Const (Imm64 24w)))
-(BExp_Const (Imm64 18446744073709551607w)))
-(BExp_BinExp BIExp_Or
-(BExp_BinPred BIExp_NotEqual
-(BExp_BinExp BIExp_Minus
-(BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
-(BExp_Const (Imm64 24w)))
-(BExp_Const (Imm64 3489660928w)))
-(BExp_BinPred BIExp_LessThan
-(BExp_BinExp BIExp_Mult
-(BExp_Den (BVar "5_tmp_SP_EL0" (BType_Imm Bit64)))
-(BExp_Const (Imm64 24w)))
-(BExp_Const (Imm64 3489660928w))))``;
- *)
-
 fun BExp_to_IMLExp vals_list exec_sts pred_be =
     let
 	val result = if (is_BExp_Const pred_be) then
@@ -756,20 +681,7 @@ fun BExp_to_IMLExp vals_list exec_sts pred_be =
 	result
     end;
 
-(*Extract BIR expressions from pred name*)
-(*
-val pred_be = `` (BExp_Store
-                           (BExp_Den (BVar "MEM" (BType_Mem Bit64 Bit8)))
-                           (BExp_BinExp BIExp_Minus
-                              (BExp_Den (BVar "SP_EL0" (BType_Imm Bit64)))
-                              (BExp_Const (Imm64 48w))) BEnd_LittleEndian
-                           (BExp_Den (BVar "R19" (BType_Imm Bit64))))``;
-val pred_be =``(BExp_Den (BVar "R19" (BType_Imm Bit64)))``;
-val pred = "165_assert_true_cnd";
-val pred_term = “BVar "23_cjmp_true_cnd" BType_Bool”;
-val pred_be = “BExp_Den (BVar "22_ProcState_Z" BType_Bool)”;
-*)
-    
+(*Extract BIR expressions from pred name*)    
 fun IMLExp_from_pred vals_list exec_sts pred =
     let
 
@@ -786,18 +698,6 @@ fun IMLExp_from_pred vals_list exec_sts pred =
     end;
     
 (*Translate paths to IML*)
-(*
-val pred = "37_Key";
-val preds = ["39_T", "42_iv", "44_T", "46_Adv", "47_K",
-    "53_cjmp_true_cnd", "54_cjmp_false_cnd", "56_Key", "58_T", "60_Adv",
-    "61_K"];
-val Act = new 37_Key: 64;
-
-val pred = "60_Adv";
-val preds = ["61_K"];
-val Act = in(c, 60_Adv);
- *)
-
 fun assert_false_string event_names vals_list exec_sts pred =
     let
 	val assert_if = "";(* ((to_string o Br_True) (IMLExp_from_pred vals_list exec_sts pred)); *)
@@ -840,23 +740,6 @@ fun path_of_tree event_names vals_list refine_preds exec_sts [] str =
 
 
 (*Translate symbolic execution states to IML*)
-(*
- val refine_preds =
-     ["61_K", "60_Adv", "58_T", "56_Key", "54_cjmp_false_cnd",
-      "53_cjmp_true_cnd", "47_K", "46_Adv", "44_T", "42_iv", "39_T", "37_Key",
-      "2_init_pred"];
-    
- Final Output:
-     new 37_Key: 64;
-     new 42_iv: 64;
-in(c, 46_Adv);
-  out(c, enc inputs iv);
-  if 53_cjmp_true_cnd then
-      new 56_Key: 64;
-  else in(c, 60_Adv);
-
-val exec_sts = systs;
-*) 
 fun sym_exe_to_IML exec_sts =
     let
 	

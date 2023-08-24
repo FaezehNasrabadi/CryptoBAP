@@ -13,11 +13,6 @@ bin_traces: $(BINTRACES)
 
 bin: $(BIN)
 
-#annot:
-#	rename bin.res.txt bin.annot.txt *.bin.res.txt
-
-#%.bin.res.txt: %.bin.out.txt $(BINTRACE)
-#	bintrace $< > $@
 
 %.bin: CFLAGS += -DCSEC_VERIFY
 %.bin: CC = $(BIN_CILLY)
