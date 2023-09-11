@@ -1,0 +1,1171 @@
+time ./proverif -graph graph Wireguard.pi | grep RESULT
+RESULT not attacker:Spriv_i[!1 = v] is true.
+RESULT not attacker:Spriv_r[!2 = v,!1 = v_1] is true.
+RESULT ev:RespRecv(Init(),Resp(),expdh(g(),i),expdh(g(),r)) ==> ev:InitStart(Init(),Resp(),expdh(g(),i),expdh(g(),r)) | attacker:i | attacker:r is true.
+RESULT ev:InitAccept(Init(),Resp(),expdh(g(),i),expdh(g(),r)) ==> ev:RespAnsw(Init(),Resp(),expdh(g(),i),expdh(g(),r)) | attacker:i | attacker:r is true.
+RESULT not ev:InitStart(Init(),Resp(),i,j) is false.
+RESULT not ev:InitAccept(Init(),Resp(),i,j) is false.
+RESULT not ev:RespRecv(Init(),Resp(),i,j) is false.
+RESULT not ev:RespAnsw(Init(),Resp(),i,j) is false.
+
+real	0m59,646s
+user	0m58,832s
+sys	0m0,842s
+
+./proverif -graph graph Wireguard.pi
+Linear part: No equation.
+Convergent part:
+DH(x,y) = expdh(y,x)
+pars1(x) = x
+kdf1(key,input) = hash2(hash2(key,input),c_1())
+kdf2(key,input) = pair(hash2(hash2(key,input),c_1()),hash2(hash2(key,input),hash2(hash2(hash2(key,input),c_1()),c_2())))
+kdf3(key,input) = triple(hash2(hash2(key,input),c_1()),hash2(hash2(key,input),hash2(hash2(hash2(key,input),c_1()),c_2())),hash2(hash2(key,input),hash2(hash2(hash2(key,input),hash2(hash2(hash2(key,input),c_1()),c_2())),c_3())))
+Completing equations...
+Completed equations:
+kdf3(key,input) = triple(hash2(hash2(key,input),c_1()),hash2(hash2(key,input),hash2(hash2(hash2(key,input),c_1()),c_2())),hash2(hash2(key,input),hash2(hash2(hash2(key,input),hash2(hash2(hash2(key,input),c_1()),c_2())),c_3())))
+kdf2(key,input) = pair(hash2(hash2(key,input),c_1()),hash2(hash2(key,input),hash2(hash2(hash2(key,input),c_1()),c_2())))
+kdf1(key,input) = hash2(hash2(key,input),c_1())
+pars1(x) = x
+DH(x,y) = expdh(y,x)
+Process 0 (that is, the initial process):
+{1}!
+{2}new Spriv_i;
+{3}let Spub_i = expdh(g(),Spriv_i) in
+{4}out(c_out, Spub_i);
+{5}!
+{6}new Spriv_r;
+{7}let Spub_r = expdh(g(),Spriv_r) in
+{8}out(c_out, Spub_r);
+(
+    {9}!
+    {10}in(c_in, a_88);
+    {11}let Ci_90 = hash1(Construction()) in
+    {12}new sid_i_91;
+    {13}let HMAC_92 = hash2(Ci_90,sid_i_91) in
+    {14}let HMAC_95 = hash2(HMAC_92,a_88) in
+    {15}new Epriv_i_98;
+    {16}let Epub_i_100 = expdh(g(),Epriv_i_98) in
+    {17}let Cii_152 = kdf1(Ci_90,Epub_i_100) in
+    {18}let HMAC_153 = hash2(HMAC_95,Epub_i_100) in
+    {19}let DH_157 = DH(Epriv_i_98,a_88) in
+    {20}let KDF_160 = kdf2(Cii_152,DH_157) in
+    {21}let pair(c_163,k_164) = KDF_160 in
+    {22}let Pars1_166 = pars12(KDF_160,c_32()) in
+    {23}let Pars2_167 = pars22(KDF_160,c_32()) in
+    {24}let Enc_220 = AEAD(Pars2_167,Spub_i,HMAC_153) in
+    {25}let HMAC_223 = hash2(HMAC_153,Enc_220) in
+    {26}let DH_228 = DH(Spriv_i,a_88) in
+    {27}let KDF_231 = kdf2(Pars1_166,DH_228) in
+    {28}let pair(c_234,k_235) = KDF_231 in
+    {29}let Pars1_237 = pars12(KDF_231,c_32()) in
+    {30}let Pars2_238 = pars22(KDF_231,c_32()) in
+    {31}let Enc_241 = AEAD(Pars2_238,ts_i(),HMAC_223) in
+    {32}let HMAC_244 = hash2(HMAC_223,Enc_241) in
+    {33}out(c_out, triple(Epub_i_100,Enc_220,Enc_241));
+    {34}event InitStart(Init(),Resp(),Spub_i,a_88);
+    {35}in(c_in, a_251);
+    {36}let Pars1_252 = pars12(a_251,c_32()) in
+    {37}let Pars2_256 = pars22(a_251,c_32()) in
+    {38}let Cii_724 = kdf1(Pars1_237,Pars1_252) in
+    {39}let HMAC_725 = hash2(HMAC_244,Pars1_252) in
+    {40}let DH_731 = DH(Epriv_i_98,Pars1_252) in
+    {41}let KDF_734 = kdf2(Cii_724,DH_731) in
+    {42}let pair(c_737,k_738) = KDF_734 in
+    {43}let Pars1_740 = pars12(KDF_734,c_32()) in
+    {44}let Pars2_741 = pars22(KDF_734,c_32()) in
+    {45}let DH_868 = DH(Spriv_i,Pars1_252) in
+    {46}let KDF_871 = kdf2(Pars1_740,DH_868) in
+    {47}let pair(c_874,k_875) = KDF_871 in
+    {48}let Pars1_877 = pars12(KDF_871,c_32()) in
+    {49}let Pars2_878 = pars22(KDF_871,c_32()) in
+    {50}let KDF_1006 = kdf3(Pars1_877,Q()) in
+    {51}let triple(c_1009,tau_1010,k_1011) = KDF_1006 in
+    {52}let Pars1_1013 = pars13(KDF_1006,c_32()) in
+    {53}let Pars2_1014 = pars23(KDF_1006,c_32()) in
+    {54}let HMAC_1017 = hash2(HMAC_725,Pars2_1014) in
+    {55}let Pars3_1020 = pars33(KDF_1006,c_32()) in
+    {56}let Dec_1027 = dec(Pars2_256,Pars3_1020) in
+    {57}let HMAC_1030 = hash2(HMAC_1017,Pars2_256) in
+    {58}event InitAccept(Init(),Resp(),Spub_i,a_88)
+) | (
+    {59}!
+    {60}in(c_in, a_142);
+    {61}let Cr_144 = hash1(Construction()) in
+    {62}new sid_r_145;
+    {63}let HMAC_146 = hash2(Cr_144,sid_r_145) in
+    {64}let HMAC_150 = hash2(HMAC_146,Spub_r) in
+    {65}in(c_in, a_154);
+    {66}let Pars1_155 = pars13(a_154,c_32()) in
+    {67}let Pars2_159 = pars23(a_154,c_32()) in
+    {68}let Pars3_162 = pars33(a_154,c_32()) in
+    {69}let Crr_169 = kdf1(Cr_144,Pars1_155) in
+    {70}let HMAC_170 = hash2(HMAC_150,Pars1_155) in
+    {71}let DH_176 = DH(Spriv_r,Pars1_155) in
+    {72}let Crr_179 = kdf1(Crr_169,DH_176) in
+    {73}let Dec_301 = dec(Pars2_159,Crr_179) in
+    {74}let HMAC_304 = hash2(HMAC_170,Pars2_159) in
+    {75}let DH_307 = DH(Spriv_r,a_142) in
+    {76}let Crr_310 = kdf1(Crr_179,DH_307) in
+    {77}let Dec_554 = dec(Pars3_162,Crr_310) in
+    {78}let HMAC_557 = hash2(HMAC_304,Pars3_162) in
+    {79}event RespRecv(Init(),Resp(),a_142,Spub_r);
+    {80}new Epriv_r_561;
+    {81}let Epub_r_563 = expdh(g(),Epriv_r_561) in
+    {82}let Crr_774 = kdf1(Crr_310,Epub_r_563) in
+    {83}let HMAC_775 = hash2(HMAC_557,Epub_r_563) in
+    {84}let DH_781 = DH(Epriv_r_561,Pars1_155) in
+    {85}let Crr_784 = kdf1(Crr_774,DH_781) in
+    {86}let DH_854 = DH(Epriv_r_561,a_142) in
+    {87}let Crr_857 = kdf1(Crr_784,DH_854) in
+    {88}let KDF_929 = kdf3(Crr_857,Q()) in
+    {89}let triple(c_932,tau_933,k_934) = KDF_929 in
+    {90}let Pars1_936 = pars13(KDF_929,c_32()) in
+    {91}let Pars2_937 = pars23(KDF_929,c_32()) in
+    {92}let HMAC_940 = hash2(HMAC_775,Pars2_937) in
+    {93}let Pars3_943 = pars33(KDF_929,c_32()) in
+    {94}let Enc_951 = AEAD(Pars3_943,epsilon_950(),HMAC_940) in
+    {95}let HMAC_954 = hash2(HMAC_940,Enc_951) in
+    {96}out(c_out, pair(Epub_r_563,Enc_951));
+    {97}event RespAnsw(Init(),Resp(),a_142,Spub_r)
+)
+
+--  Process 1 (that is, process 0, with let moved downwards):
+{1}!
+{2}new Spriv_i;
+{3}let Spub_i = expdh(g(),Spriv_i) in
+{4}out(c_out, Spub_i);
+{5}!
+{6}new Spriv_r;
+{7}let Spub_r = expdh(g(),Spriv_r) in
+{8}out(c_out, Spub_r);
+(
+    {9}!
+    {10}in(c_in, a_88);
+    {12}new sid_i_91;
+    {15}new Epriv_i_98;
+    {19}let DH_157 = DH(Epriv_i_98,a_88) in
+    {16}let Epub_i_100 = expdh(g(),Epriv_i_98) in
+    {11}let Ci_90 = hash1(Construction()) in
+    {17}let Cii_152 = kdf1(Ci_90,Epub_i_100) in
+    {20}let KDF_160 = kdf2(Cii_152,DH_157) in
+    {21}let pair(c_163,k_164) = KDF_160 in
+    {22}let Pars1_166 = pars12(KDF_160,c_32()) in
+    {23}let Pars2_167 = pars22(KDF_160,c_32()) in
+    {26}let DH_228 = DH(Spriv_i,a_88) in
+    {27}let KDF_231 = kdf2(Pars1_166,DH_228) in
+    {28}let pair(c_234,k_235) = KDF_231 in
+    {29}let Pars1_237 = pars12(KDF_231,c_32()) in
+    {30}let Pars2_238 = pars22(KDF_231,c_32()) in
+    {13}let HMAC_92 = hash2(Ci_90,sid_i_91) in
+    {14}let HMAC_95 = hash2(HMAC_92,a_88) in
+    {18}let HMAC_153 = hash2(HMAC_95,Epub_i_100) in
+    {24}let Enc_220 = AEAD(Pars2_167,Spub_i,HMAC_153) in
+    {25}let HMAC_223 = hash2(HMAC_153,Enc_220) in
+    {31}let Enc_241 = AEAD(Pars2_238,ts_i(),HMAC_223) in
+    {33}out(c_out, triple(Epub_i_100,Enc_220,Enc_241));
+    {34}event InitStart(Init(),Resp(),Spub_i,a_88);
+    {35}in(c_in, a_251);
+    {36}let Pars1_252 = pars12(a_251,c_32()) in
+    {37}let Pars2_256 = pars22(a_251,c_32()) in
+    {40}let DH_731 = DH(Epriv_i_98,Pars1_252) in
+    {38}let Cii_724 = kdf1(Pars1_237,Pars1_252) in
+    {41}let KDF_734 = kdf2(Cii_724,DH_731) in
+    {42}let pair(c_737,k_738) = KDF_734 in
+    {43}let Pars1_740 = pars12(KDF_734,c_32()) in
+    {44}let Pars2_741 = pars22(KDF_734,c_32()) in
+    {45}let DH_868 = DH(Spriv_i,Pars1_252) in
+    {46}let KDF_871 = kdf2(Pars1_740,DH_868) in
+    {47}let pair(c_874,k_875) = KDF_871 in
+    {48}let Pars1_877 = pars12(KDF_871,c_32()) in
+    {49}let Pars2_878 = pars22(KDF_871,c_32()) in
+    {50}let KDF_1006 = kdf3(Pars1_877,Q()) in
+    {51}let triple(c_1009,tau_1010,k_1011) = KDF_1006 in
+    {52}let Pars1_1013 = pars13(KDF_1006,c_32()) in
+    {53}let Pars2_1014 = pars23(KDF_1006,c_32()) in
+    {55}let Pars3_1020 = pars33(KDF_1006,c_32()) in
+    {56}let Dec_1027 = dec(Pars2_256,Pars3_1020) in
+    {58}event InitAccept(Init(),Resp(),Spub_i,a_88)
+) | (
+    {59}!
+    {60}in(c_in, a_142);
+    {62}new sid_r_145;
+    {65}in(c_in, a_154);
+    {66}let Pars1_155 = pars13(a_154,c_32()) in
+    {67}let Pars2_159 = pars23(a_154,c_32()) in
+    {68}let Pars3_162 = pars33(a_154,c_32()) in
+    {71}let DH_176 = DH(Spriv_r,Pars1_155) in
+    {61}let Cr_144 = hash1(Construction()) in
+    {69}let Crr_169 = kdf1(Cr_144,Pars1_155) in
+    {72}let Crr_179 = kdf1(Crr_169,DH_176) in
+    {73}let Dec_301 = dec(Pars2_159,Crr_179) in
+    {75}let DH_307 = DH(Spriv_r,a_142) in
+    {76}let Crr_310 = kdf1(Crr_179,DH_307) in
+    {77}let Dec_554 = dec(Pars3_162,Crr_310) in
+    {79}event RespRecv(Init(),Resp(),a_142,Spub_r);
+    {80}new Epriv_r_561;
+    {86}let DH_854 = DH(Epriv_r_561,a_142) in
+    {84}let DH_781 = DH(Epriv_r_561,Pars1_155) in
+    {81}let Epub_r_563 = expdh(g(),Epriv_r_561) in
+    {82}let Crr_774 = kdf1(Crr_310,Epub_r_563) in
+    {85}let Crr_784 = kdf1(Crr_774,DH_781) in
+    {87}let Crr_857 = kdf1(Crr_784,DH_854) in
+    {88}let KDF_929 = kdf3(Crr_857,Q()) in
+    {89}let triple(c_932,tau_933,k_934) = KDF_929 in
+    {90}let Pars1_936 = pars13(KDF_929,c_32()) in
+    {91}let Pars2_937 = pars23(KDF_929,c_32()) in
+    {93}let Pars3_943 = pars33(KDF_929,c_32()) in
+    {63}let HMAC_146 = hash2(Cr_144,sid_r_145) in
+    {64}let HMAC_150 = hash2(HMAC_146,Spub_r) in
+    {70}let HMAC_170 = hash2(HMAC_150,Pars1_155) in
+    {74}let HMAC_304 = hash2(HMAC_170,Pars2_159) in
+    {78}let HMAC_557 = hash2(HMAC_304,Pars3_162) in
+    {83}let HMAC_775 = hash2(HMAC_557,Epub_r_563) in
+    {92}let HMAC_940 = hash2(HMAC_775,Pars2_937) in
+    {94}let Enc_951 = AEAD(Pars3_943,epsilon_950(),HMAC_940) in
+    {96}out(c_out, pair(Epub_r_563,Enc_951));
+    {97}event RespAnsw(Init(),Resp(),a_142,Spub_r)
+)
+
+-- Query not attacker:Spriv_i[!1 = v] in process 1.
+Translating the process into Horn clauses...
+Completing...
+200 rules inserted. Base: 200 rules (49 with conclusion selected). Queue: 1056 rules.
+400 rules inserted. Base: 400 rules (49 with conclusion selected). Queue: 1056 rules.
+600 rules inserted. Base: 600 rules (49 with conclusion selected). Queue: 1056 rules.
+800 rules inserted. Base: 800 rules (49 with conclusion selected). Queue: 1056 rules.
+1000 rules inserted. Base: 1000 rules (49 with conclusion selected). Queue: 1056 rules.
+1200 rules inserted. Base: 1200 rules (49 with conclusion selected). Queue: 1106 rules.
+1400 rules inserted. Base: 1400 rules (49 with conclusion selected). Queue: 1207 rules.
+1600 rules inserted. Base: 1600 rules (49 with conclusion selected). Queue: 1308 rules.
+1800 rules inserted. Base: 1800 rules (49 with conclusion selected). Queue: 1409 rules.
+2000 rules inserted. Base: 2000 rules (49 with conclusion selected). Queue: 1510 rules.
+2200 rules inserted. Base: 2200 rules (49 with conclusion selected). Queue: 1571 rules.
+2400 rules inserted. Base: 2400 rules (49 with conclusion selected). Queue: 1504 rules.
+2600 rules inserted. Base: 2600 rules (49 with conclusion selected). Queue: 1437 rules.
+2800 rules inserted. Base: 2800 rules (49 with conclusion selected). Queue: 1370 rules.
+3000 rules inserted. Base: 3000 rules (49 with conclusion selected). Queue: 1303 rules.
+3200 rules inserted. Base: 3200 rules (49 with conclusion selected). Queue: 1236 rules.
+3400 rules inserted. Base: 3400 rules (49 with conclusion selected). Queue: 1169 rules.
+3600 rules inserted. Base: 3600 rules (49 with conclusion selected). Queue: 1102 rules.
+3800 rules inserted. Base: 3800 rules (49 with conclusion selected). Queue: 1099 rules.
+4000 rules inserted. Base: 4000 rules (49 with conclusion selected). Queue: 1188 rules.
+4200 rules inserted. Base: 4200 rules (49 with conclusion selected). Queue: 1320 rules.
+4400 rules inserted. Base: 4400 rules (49 with conclusion selected). Queue: 1435 rules.
+4600 rules inserted. Base: 4600 rules (49 with conclusion selected). Queue: 1503 rules.
+4800 rules inserted. Base: 4800 rules (49 with conclusion selected). Queue: 1584 rules.
+5000 rules inserted. Base: 4906 rules (49 with conclusion selected). Queue: 1491 rules.
+5200 rules inserted. Base: 4945 rules (49 with conclusion selected). Queue: 1452 rules.
+5400 rules inserted. Base: 5040 rules (49 with conclusion selected). Queue: 1357 rules.
+5600 rules inserted. Base: 5077 rules (49 with conclusion selected). Queue: 1320 rules.
+5800 rules inserted. Base: 5174 rules (49 with conclusion selected). Queue: 1223 rules.
+6000 rules inserted. Base: 5209 rules (49 with conclusion selected). Queue: 1188 rules.
+6200 rules inserted. Base: 5308 rules (49 with conclusion selected). Queue: 1089 rules.
+6400 rules inserted. Base: 5344 rules (49 with conclusion selected). Queue: 1059 rules.
+6600 rules inserted. Base: 5544 rules (49 with conclusion selected). Queue: 1259 rules.
+6800 rules inserted. Base: 5744 rules (49 with conclusion selected). Queue: 1459 rules.
+7000 rules inserted. Base: 5944 rules (49 with conclusion selected). Queue: 1584 rules.
+7200 rules inserted. Base: 6144 rules (49 with conclusion selected). Queue: 1584 rules.
+7400 rules inserted. Base: 6344 rules (49 with conclusion selected). Queue: 1584 rules.
+7600 rules inserted. Base: 6470 rules (49 with conclusion selected). Queue: 1716 rules.
+7800 rules inserted. Base: 6570 rules (49 with conclusion selected). Queue: 1799 rules.
+8000 rules inserted. Base: 6670 rules (49 with conclusion selected). Queue: 1867 rules.
+8200 rules inserted. Base: 6770 rules (49 with conclusion selected). Queue: 1980 rules.
+8400 rules inserted. Base: 6870 rules (49 with conclusion selected). Queue: 2112 rules.
+8600 rules inserted. Base: 6925 rules (49 with conclusion selected). Queue: 2178 rules.
+8800 rules inserted. Base: 6925 rules (49 with conclusion selected). Queue: 2271 rules.
+9000 rules inserted. Base: 6925 rules (49 with conclusion selected). Queue: 2376 rules.
+9200 rules inserted. Base: 7088 rules (89 with conclusion selected). Queue: 2213 rules.
+9400 rules inserted. Base: 7288 rules (115 with conclusion selected). Queue: 2013 rules.
+9600 rules inserted. Base: 7488 rules (156 with conclusion selected). Queue: 1813 rules.
+9800 rules inserted. Base: 7688 rules (181 with conclusion selected). Queue: 1613 rules.
+10000 rules inserted. Base: 7888 rules (223 with conclusion selected). Queue: 1413 rules.
+10200 rules inserted. Base: 8088 rules (247 with conclusion selected). Queue: 1213 rules.
+10400 rules inserted. Base: 8288 rules (290 with conclusion selected). Queue: 1013 rules.
+10600 rules inserted. Base: 8488 rules (313 with conclusion selected). Queue: 813 rules.
+10800 rules inserted. Base: 8688 rules (313 with conclusion selected). Queue: 613 rules.
+11000 rules inserted. Base: 8888 rules (313 with conclusion selected). Queue: 413 rules.
+11200 rules inserted. Base: 9088 rules (313 with conclusion selected). Queue: 213 rules.
+11400 rules inserted. Base: 9288 rules (313 with conclusion selected). Queue: 13 rules.
+Starting query not attacker:Spriv_i[!1 = v]
+RESULT not attacker:Spriv_i[!1 = v] is true.
+-- Query not attacker:Spriv_r[!2 = v,!1 = v_1] in process 1.
+Translating the process into Horn clauses...
+Completing...
+200 rules inserted. Base: 200 rules (49 with conclusion selected). Queue: 1056 rules.
+400 rules inserted. Base: 400 rules (49 with conclusion selected). Queue: 1056 rules.
+600 rules inserted. Base: 600 rules (49 with conclusion selected). Queue: 1056 rules.
+800 rules inserted. Base: 800 rules (49 with conclusion selected). Queue: 1056 rules.
+1000 rules inserted. Base: 1000 rules (49 with conclusion selected). Queue: 1056 rules.
+1200 rules inserted. Base: 1200 rules (49 with conclusion selected). Queue: 1106 rules.
+1400 rules inserted. Base: 1400 rules (49 with conclusion selected). Queue: 1207 rules.
+1600 rules inserted. Base: 1600 rules (49 with conclusion selected). Queue: 1308 rules.
+1800 rules inserted. Base: 1800 rules (49 with conclusion selected). Queue: 1409 rules.
+2000 rules inserted. Base: 2000 rules (49 with conclusion selected). Queue: 1510 rules.
+2200 rules inserted. Base: 2200 rules (49 with conclusion selected). Queue: 1571 rules.
+2400 rules inserted. Base: 2400 rules (49 with conclusion selected). Queue: 1504 rules.
+2600 rules inserted. Base: 2600 rules (49 with conclusion selected). Queue: 1437 rules.
+2800 rules inserted. Base: 2800 rules (49 with conclusion selected). Queue: 1370 rules.
+3000 rules inserted. Base: 3000 rules (49 with conclusion selected). Queue: 1303 rules.
+3200 rules inserted. Base: 3200 rules (49 with conclusion selected). Queue: 1236 rules.
+3400 rules inserted. Base: 3400 rules (49 with conclusion selected). Queue: 1169 rules.
+3600 rules inserted. Base: 3600 rules (49 with conclusion selected). Queue: 1102 rules.
+3800 rules inserted. Base: 3800 rules (49 with conclusion selected). Queue: 1099 rules.
+4000 rules inserted. Base: 4000 rules (49 with conclusion selected). Queue: 1188 rules.
+4200 rules inserted. Base: 4200 rules (49 with conclusion selected). Queue: 1320 rules.
+4400 rules inserted. Base: 4400 rules (49 with conclusion selected). Queue: 1435 rules.
+4600 rules inserted. Base: 4600 rules (49 with conclusion selected). Queue: 1503 rules.
+4800 rules inserted. Base: 4800 rules (49 with conclusion selected). Queue: 1584 rules.
+5000 rules inserted. Base: 4906 rules (49 with conclusion selected). Queue: 1491 rules.
+5200 rules inserted. Base: 4945 rules (49 with conclusion selected). Queue: 1452 rules.
+5400 rules inserted. Base: 5040 rules (49 with conclusion selected). Queue: 1357 rules.
+5600 rules inserted. Base: 5077 rules (49 with conclusion selected). Queue: 1320 rules.
+5800 rules inserted. Base: 5174 rules (49 with conclusion selected). Queue: 1223 rules.
+6000 rules inserted. Base: 5209 rules (49 with conclusion selected). Queue: 1188 rules.
+6200 rules inserted. Base: 5308 rules (49 with conclusion selected). Queue: 1089 rules.
+6400 rules inserted. Base: 5344 rules (49 with conclusion selected). Queue: 1059 rules.
+6600 rules inserted. Base: 5544 rules (49 with conclusion selected). Queue: 1259 rules.
+6800 rules inserted. Base: 5744 rules (49 with conclusion selected). Queue: 1459 rules.
+7000 rules inserted. Base: 5944 rules (49 with conclusion selected). Queue: 1584 rules.
+7200 rules inserted. Base: 6144 rules (49 with conclusion selected). Queue: 1584 rules.
+7400 rules inserted. Base: 6344 rules (49 with conclusion selected). Queue: 1584 rules.
+7600 rules inserted. Base: 6470 rules (49 with conclusion selected). Queue: 1716 rules.
+7800 rules inserted. Base: 6570 rules (49 with conclusion selected). Queue: 1799 rules.
+8000 rules inserted. Base: 6670 rules (49 with conclusion selected). Queue: 1867 rules.
+8200 rules inserted. Base: 6770 rules (49 with conclusion selected). Queue: 1980 rules.
+8400 rules inserted. Base: 6870 rules (49 with conclusion selected). Queue: 2112 rules.
+8600 rules inserted. Base: 6925 rules (49 with conclusion selected). Queue: 2178 rules.
+8800 rules inserted. Base: 6925 rules (49 with conclusion selected). Queue: 2271 rules.
+9000 rules inserted. Base: 6925 rules (49 with conclusion selected). Queue: 2376 rules.
+9200 rules inserted. Base: 7088 rules (89 with conclusion selected). Queue: 2213 rules.
+9400 rules inserted. Base: 7288 rules (115 with conclusion selected). Queue: 2013 rules.
+9600 rules inserted. Base: 7488 rules (156 with conclusion selected). Queue: 1813 rules.
+9800 rules inserted. Base: 7688 rules (181 with conclusion selected). Queue: 1613 rules.
+10000 rules inserted. Base: 7888 rules (223 with conclusion selected). Queue: 1413 rules.
+10200 rules inserted. Base: 8088 rules (247 with conclusion selected). Queue: 1213 rules.
+10400 rules inserted. Base: 8288 rules (290 with conclusion selected). Queue: 1013 rules.
+10600 rules inserted. Base: 8488 rules (313 with conclusion selected). Queue: 813 rules.
+10800 rules inserted. Base: 8688 rules (313 with conclusion selected). Queue: 613 rules.
+11000 rules inserted. Base: 8888 rules (313 with conclusion selected). Queue: 413 rules.
+11200 rules inserted. Base: 9088 rules (313 with conclusion selected). Queue: 213 rules.
+11400 rules inserted. Base: 9288 rules (313 with conclusion selected). Queue: 13 rules.
+Starting query not attacker:Spriv_r[!2 = v,!1 = v_1]
+RESULT not attacker:Spriv_r[!2 = v,!1 = v_1] is true.
+-- Query ev:RespRecv(Init(),Resp(),expdh(g(),i),expdh(g(),r)) ==> ev:InitStart(Init(),Resp(),expdh(g(),i),expdh(g(),r)) | attacker:i | attacker:r in process 1.
+Translating the process into Horn clauses...
+Completing...
+200 rules inserted. Base: 200 rules (36 with conclusion selected). Queue: 1066 rules.
+400 rules inserted. Base: 400 rules (36 with conclusion selected). Queue: 1066 rules.
+600 rules inserted. Base: 600 rules (36 with conclusion selected). Queue: 1066 rules.
+800 rules inserted. Base: 800 rules (36 with conclusion selected). Queue: 1066 rules.
+1000 rules inserted. Base: 1000 rules (36 with conclusion selected). Queue: 1066 rules.
+1200 rules inserted. Base: 1200 rules (46 with conclusion selected). Queue: 1069 rules.
+1400 rules inserted. Base: 1400 rules (46 with conclusion selected). Queue: 1069 rules.
+1600 rules inserted. Base: 1600 rules (46 with conclusion selected). Queue: 1069 rules.
+1800 rules inserted. Base: 1800 rules (46 with conclusion selected). Queue: 1069 rules.
+2000 rules inserted. Base: 2000 rules (46 with conclusion selected). Queue: 1069 rules.
+2200 rules inserted. Base: 2200 rules (59 with conclusion selected). Queue: 1065 rules.
+2400 rules inserted. Base: 2400 rules (59 with conclusion selected). Queue: 1163 rules.
+2600 rules inserted. Base: 2600 rules (59 with conclusion selected). Queue: 1261 rules.
+2800 rules inserted. Base: 2800 rules (59 with conclusion selected). Queue: 1359 rules.
+3000 rules inserted. Base: 3000 rules (59 with conclusion selected). Queue: 1457 rules.
+3200 rules inserted. Base: 3200 rules (59 with conclusion selected). Queue: 1555 rules.
+3400 rules inserted. Base: 3398 rules (59 with conclusion selected). Queue: 1508 rules.
+3600 rules inserted. Base: 3596 rules (59 with conclusion selected). Queue: 1440 rules.
+3800 rules inserted. Base: 3794 rules (59 with conclusion selected). Queue: 1372 rules.
+4000 rules inserted. Base: 3992 rules (59 with conclusion selected). Queue: 1304 rules.
+4200 rules inserted. Base: 4190 rules (59 with conclusion selected). Queue: 1238 rules.
+4400 rules inserted. Base: 4388 rules (59 with conclusion selected). Queue: 1172 rules.
+4600 rules inserted. Base: 4586 rules (59 with conclusion selected). Queue: 1106 rules.
+4800 rules inserted. Base: 4784 rules (59 with conclusion selected). Queue: 1040 rules.
+5000 rules inserted. Base: 4984 rules (59 with conclusion selected). Queue: 1169 rules.
+5200 rules inserted. Base: 5184 rules (59 with conclusion selected). Queue: 1293 rules.
+5400 rules inserted. Base: 5384 rules (59 with conclusion selected). Queue: 1361 rules.
+5600 rules inserted. Base: 5584 rules (59 with conclusion selected). Queue: 1429 rules.
+5800 rules inserted. Base: 5784 rules (59 with conclusion selected). Queue: 1552 rules.
+6000 rules inserted. Base: 5911 rules (59 with conclusion selected). Queue: 1478 rules.
+6200 rules inserted. Base: 5969 rules (59 with conclusion selected). Queue: 1420 rules.
+6400 rules inserted. Base: 6048 rules (59 with conclusion selected). Queue: 1341 rules.
+6600 rules inserted. Base: 6099 rules (59 with conclusion selected). Queue: 1290 rules.
+6800 rules inserted. Base: 6184 rules (59 with conclusion selected). Queue: 1203 rules.
+7000 rules inserted. Base: 6229 rules (59 with conclusion selected). Queue: 1158 rules.
+7200 rules inserted. Base: 6321 rules (59 with conclusion selected). Queue: 1066 rules.
+7400 rules inserted. Base: 6359 rules (59 with conclusion selected). Queue: 1028 rules.
+7600 rules inserted. Base: 6530 rules (59 with conclusion selected). Queue: 1221 rules.
+7800 rules inserted. Base: 6730 rules (59 with conclusion selected). Queue: 1421 rules.
+8000 rules inserted. Base: 6930 rules (59 with conclusion selected). Queue: 1538 rules.
+8200 rules inserted. Base: 7130 rules (59 with conclusion selected). Queue: 1538 rules.
+8400 rules inserted. Base: 7330 rules (59 with conclusion selected). Queue: 1538 rules.
+8600 rules inserted. Base: 7530 rules (59 with conclusion selected). Queue: 1666 rules.
+8800 rules inserted. Base: 7730 rules (59 with conclusion selected). Queue: 1779 rules.
+9000 rules inserted. Base: 7930 rules (59 with conclusion selected). Queue: 1851 rules.
+9200 rules inserted. Base: 8130 rules (59 with conclusion selected). Queue: 1923 rules.
+9400 rules inserted. Base: 8330 rules (59 with conclusion selected). Queue: 2050 rules.
+9600 rules inserted. Base: 8530 rules (59 with conclusion selected). Queue: 2131 rules.
+9800 rules inserted. Base: 8730 rules (59 with conclusion selected). Queue: 2242 rules.
+10000 rules inserted. Base: 8914 rules (59 with conclusion selected). Queue: 2289 rules.
+10200 rules inserted. Base: 9014 rules (59 with conclusion selected). Queue: 2189 rules.
+10400 rules inserted. Base: 9178 rules (59 with conclusion selected). Queue: 2025 rules.
+10600 rules inserted. Base: 9278 rules (59 with conclusion selected). Queue: 1925 rules.
+10800 rules inserted. Base: 9442 rules (59 with conclusion selected). Queue: 1761 rules.
+11000 rules inserted. Base: 9545 rules (59 with conclusion selected). Queue: 1658 rules.
+11200 rules inserted. Base: 9706 rules (59 with conclusion selected). Queue: 1497 rules.
+11400 rules inserted. Base: 9817 rules (59 with conclusion selected). Queue: 1386 rules.
+11600 rules inserted. Base: 9970 rules (59 with conclusion selected). Queue: 1233 rules.
+11800 rules inserted. Base: 10102 rules (59 with conclusion selected). Queue: 1101 rules.
+12000 rules inserted. Base: 10234 rules (59 with conclusion selected). Queue: 969 rules.
+12200 rules inserted. Base: 10366 rules (59 with conclusion selected). Queue: 837 rules.
+12400 rules inserted. Base: 10561 rules (123 with conclusion selected). Queue: 707 rules.
+12600 rules inserted. Base: 10761 rules (223 with conclusion selected). Queue: 611 rules.
+12800 rules inserted. Base: 10961 rules (316 with conclusion selected). Queue: 506 rules.
+13000 rules inserted. Base: 11161 rules (316 with conclusion selected). Queue: 306 rules.
+13200 rules inserted. Base: 11361 rules (474 with conclusion selected). Queue: 106 rules.
+Starting query ev:RespRecv(Init(),Resp(),expdh(g(),i),expdh(g(),r)) ==> ev:InitStart(Init(),Resp(),expdh(g(),i),expdh(g(),r)) | attacker:i | attacker:r
+RESULT ev:RespRecv(Init(),Resp(),expdh(g(),i),expdh(g(),r)) ==> ev:InitStart(Init(),Resp(),expdh(g(),i),expdh(g(),r)) | attacker:i | attacker:r is true.
+-- Query ev:InitAccept(Init(),Resp(),expdh(g(),i),expdh(g(),r)) ==> ev:RespAnsw(Init(),Resp(),expdh(g(),i),expdh(g(),r)) | attacker:i | attacker:r in process 1.
+Translating the process into Horn clauses...
+Completing...
+200 rules inserted. Base: 200 rules (36 with conclusion selected). Queue: 1098 rules.
+400 rules inserted. Base: 400 rules (36 with conclusion selected). Queue: 1098 rules.
+600 rules inserted. Base: 600 rules (36 with conclusion selected). Queue: 1098 rules.
+800 rules inserted. Base: 800 rules (36 with conclusion selected). Queue: 1098 rules.
+1000 rules inserted. Base: 1000 rules (36 with conclusion selected). Queue: 1098 rules.
+1200 rules inserted. Base: 1200 rules (44 with conclusion selected). Queue: 1100 rules.
+1400 rules inserted. Base: 1400 rules (46 with conclusion selected). Queue: 1101 rules.
+1600 rules inserted. Base: 1600 rules (46 with conclusion selected). Queue: 1101 rules.
+1800 rules inserted. Base: 1800 rules (46 with conclusion selected). Queue: 1101 rules.
+2000 rules inserted. Base: 2000 rules (46 with conclusion selected). Queue: 1101 rules.
+2200 rules inserted. Base: 2200 rules (46 with conclusion selected). Queue: 1101 rules.
+2400 rules inserted. Base: 2400 rules (59 with conclusion selected). Queue: 1201 rules.
+2600 rules inserted. Base: 2600 rules (59 with conclusion selected). Queue: 1305 rules.
+2800 rules inserted. Base: 2800 rules (59 with conclusion selected). Queue: 1408 rules.
+3000 rules inserted. Base: 3000 rules (59 with conclusion selected). Queue: 1504 rules.
+3200 rules inserted. Base: 3200 rules (59 with conclusion selected). Queue: 1600 rules.
+3400 rules inserted. Base: 3400 rules (59 with conclusion selected). Queue: 1693 rules.
+3600 rules inserted. Base: 3600 rules (59 with conclusion selected). Queue: 1680 rules.
+3800 rules inserted. Base: 3800 rules (59 with conclusion selected). Queue: 1612 rules.
+4000 rules inserted. Base: 4000 rules (59 with conclusion selected). Queue: 1544 rules.
+4200 rules inserted. Base: 4200 rules (59 with conclusion selected). Queue: 1476 rules.
+4400 rules inserted. Base: 4400 rules (59 with conclusion selected). Queue: 1408 rules.
+4600 rules inserted. Base: 4600 rules (59 with conclusion selected). Queue: 1344 rules.
+4800 rules inserted. Base: 4800 rules (59 with conclusion selected). Queue: 1280 rules.
+5000 rules inserted. Base: 5000 rules (59 with conclusion selected). Queue: 1216 rules.
+5200 rules inserted. Base: 5200 rules (59 with conclusion selected). Queue: 1217 rules.
+5400 rules inserted. Base: 5400 rules (59 with conclusion selected). Queue: 1344 rules.
+5600 rules inserted. Base: 5600 rules (59 with conclusion selected). Queue: 1472 rules.
+5800 rules inserted. Base: 5800 rules (59 with conclusion selected). Queue: 1561 rules.
+6000 rules inserted. Base: 6000 rules (59 with conclusion selected). Queue: 1633 rules.
+6200 rules inserted. Base: 6200 rules (59 with conclusion selected). Queue: 1728 rules.
+6400 rules inserted. Base: 6400 rules (59 with conclusion selected). Queue: 1670 rules.
+6600 rules inserted. Base: 6507 rules (59 with conclusion selected). Queue: 1572 rules.
+6800 rules inserted. Base: 6543 rules (59 with conclusion selected). Queue: 1536 rules.
+7000 rules inserted. Base: 6643 rules (59 with conclusion selected). Queue: 1436 rules.
+7200 rules inserted. Base: 6679 rules (59 with conclusion selected). Queue: 1400 rules.
+7400 rules inserted. Base: 6779 rules (59 with conclusion selected). Queue: 1300 rules.
+7600 rules inserted. Base: 6815 rules (59 with conclusion selected). Queue: 1264 rules.
+7800 rules inserted. Base: 6915 rules (59 with conclusion selected). Queue: 1164 rules.
+8000 rules inserted. Base: 6880 rules (59 with conclusion selected). Queue: 1165 rules.
+8200 rules inserted. Base: 6920 rules (59 with conclusion selected). Queue: 1305 rules.
+8400 rules inserted. Base: 7120 rules (59 with conclusion selected). Queue: 1505 rules.
+8600 rules inserted. Base: 7320 rules (59 with conclusion selected). Queue: 1696 rules.
+8800 rules inserted. Base: 7520 rules (59 with conclusion selected). Queue: 1696 rules.
+9000 rules inserted. Base: 7720 rules (59 with conclusion selected). Queue: 1696 rules.
+9200 rules inserted. Base: 7920 rules (59 with conclusion selected). Queue: 1659 rules.
+9400 rules inserted. Base: 8120 rules (59 with conclusion selected). Queue: 1760 rules.
+9600 rules inserted. Base: 8320 rules (59 with conclusion selected). Queue: 1841 rules.
+9800 rules inserted. Base: 8520 rules (59 with conclusion selected). Queue: 1913 rules.
+10000 rules inserted. Base: 8720 rules (59 with conclusion selected). Queue: 2016 rules.
+10200 rules inserted. Base: 8920 rules (59 with conclusion selected). Queue: 2144 rules.
+10400 rules inserted. Base: 9120 rules (59 with conclusion selected). Queue: 2208 rules.
+10600 rules inserted. Base: 9320 rules (59 with conclusion selected). Queue: 2329 rules.
+10800 rules inserted. Base: 9520 rules (59 with conclusion selected). Queue: 2401 rules.
+11000 rules inserted. Base: 9668 rules (59 with conclusion selected). Queue: 2347 rules.
+11200 rules inserted. Base: 9792 rules (59 with conclusion selected). Queue: 2223 rules.
+11400 rules inserted. Base: 9932 rules (59 with conclusion selected). Queue: 2083 rules.
+11600 rules inserted. Base: 10064 rules (59 with conclusion selected). Queue: 1951 rules.
+11800 rules inserted. Base: 10196 rules (59 with conclusion selected). Queue: 1819 rules.
+12000 rules inserted. Base: 10336 rules (59 with conclusion selected). Queue: 1679 rules.
+12200 rules inserted. Base: 10460 rules (59 with conclusion selected). Queue: 1555 rules.
+12400 rules inserted. Base: 10608 rules (59 with conclusion selected). Queue: 1407 rules.
+12600 rules inserted. Base: 10744 rules (59 with conclusion selected). Queue: 1271 rules.
+12800 rules inserted. Base: 10880 rules (59 with conclusion selected). Queue: 1135 rules.
+13000 rules inserted. Base: 11016 rules (59 with conclusion selected). Queue: 999 rules.
+13200 rules inserted. Base: 11152 rules (59 with conclusion selected). Queue: 865 rules.
+13400 rules inserted. Base: 11352 rules (111 with conclusion selected). Queue: 781 rules.
+13600 rules inserted. Base: 11552 rules (211 with conclusion selected). Queue: 684 rules.
+13800 rules inserted. Base: 11752 rules (311 with conclusion selected). Queue: 587 rules.
+14000 rules inserted. Base: 11952 rules (315 with conclusion selected). Queue: 391 rules.
+14200 rules inserted. Base: 12152 rules (388 with conclusion selected). Queue: 239 rules.
+14400 rules inserted. Base: 12348 rules (579 with conclusion selected). Queue: 43 rules.
+Starting query ev:InitAccept(Init(),Resp(),expdh(g(),i),expdh(g(),r)) ==> ev:RespAnsw(Init(),Resp(),expdh(g(),i),expdh(g(),r)) | attacker:i | attacker:r
+RESULT ev:InitAccept(Init(),Resp(),expdh(g(),i),expdh(g(),r)) ==> ev:RespAnsw(Init(),Resp(),expdh(g(),i),expdh(g(),r)) | attacker:i | attacker:r is true.
+-- Query not ev:InitStart(Init(),Resp(),i,j) in process 1.
+Translating the process into Horn clauses...
+Completing...
+200 rules inserted. Base: 200 rules (50 with conclusion selected). Queue: 1056 rules.
+400 rules inserted. Base: 400 rules (50 with conclusion selected). Queue: 1056 rules.
+600 rules inserted. Base: 600 rules (50 with conclusion selected). Queue: 1056 rules.
+800 rules inserted. Base: 800 rules (50 with conclusion selected). Queue: 1056 rules.
+1000 rules inserted. Base: 1000 rules (50 with conclusion selected). Queue: 1056 rules.
+1200 rules inserted. Base: 1200 rules (50 with conclusion selected). Queue: 1105 rules.
+1400 rules inserted. Base: 1400 rules (50 with conclusion selected). Queue: 1206 rules.
+1600 rules inserted. Base: 1600 rules (50 with conclusion selected). Queue: 1307 rules.
+1800 rules inserted. Base: 1800 rules (50 with conclusion selected). Queue: 1408 rules.
+2000 rules inserted. Base: 2000 rules (50 with conclusion selected). Queue: 1509 rules.
+2200 rules inserted. Base: 2200 rules (50 with conclusion selected). Queue: 1571 rules.
+2400 rules inserted. Base: 2400 rules (50 with conclusion selected). Queue: 1504 rules.
+2600 rules inserted. Base: 2600 rules (50 with conclusion selected). Queue: 1437 rules.
+2800 rules inserted. Base: 2800 rules (50 with conclusion selected). Queue: 1370 rules.
+3000 rules inserted. Base: 3000 rules (50 with conclusion selected). Queue: 1303 rules.
+3200 rules inserted. Base: 3200 rules (50 with conclusion selected). Queue: 1236 rules.
+3400 rules inserted. Base: 3400 rules (50 with conclusion selected). Queue: 1169 rules.
+3600 rules inserted. Base: 3600 rules (50 with conclusion selected). Queue: 1102 rules.
+3800 rules inserted. Base: 3800 rules (50 with conclusion selected). Queue: 1098 rules.
+4000 rules inserted. Base: 4000 rules (50 with conclusion selected). Queue: 1188 rules.
+4200 rules inserted. Base: 4200 rules (50 with conclusion selected). Queue: 1320 rules.
+4400 rules inserted. Base: 4400 rules (50 with conclusion selected). Queue: 1434 rules.
+4600 rules inserted. Base: 4600 rules (50 with conclusion selected). Queue: 1502 rules.
+4800 rules inserted. Base: 4800 rules (50 with conclusion selected). Queue: 1584 rules.
+5000 rules inserted. Base: 4907 rules (50 with conclusion selected). Queue: 1491 rules.
+5200 rules inserted. Base: 4946 rules (50 with conclusion selected). Queue: 1452 rules.
+5400 rules inserted. Base: 5041 rules (50 with conclusion selected). Queue: 1357 rules.
+5600 rules inserted. Base: 5078 rules (50 with conclusion selected). Queue: 1320 rules.
+5800 rules inserted. Base: 5175 rules (50 with conclusion selected). Queue: 1223 rules.
+6000 rules inserted. Base: 5210 rules (50 with conclusion selected). Queue: 1188 rules.
+6200 rules inserted. Base: 5309 rules (50 with conclusion selected). Queue: 1089 rules.
+6400 rules inserted. Base: 5344 rules (50 with conclusion selected). Queue: 1058 rules.
+6600 rules inserted. Base: 5544 rules (50 with conclusion selected). Queue: 1258 rules.
+6800 rules inserted. Base: 5744 rules (50 with conclusion selected). Queue: 1458 rules.
+7000 rules inserted. Base: 5944 rules (50 with conclusion selected). Queue: 1584 rules.
+7200 rules inserted. Base: 6144 rules (50 with conclusion selected). Queue: 1584 rules.
+7400 rules inserted. Base: 6344 rules (50 with conclusion selected). Queue: 1584 rules.
+7600 rules inserted. Base: 6471 rules (50 with conclusion selected). Queue: 1716 rules.
+7800 rules inserted. Base: 6571 rules (50 with conclusion selected). Queue: 1798 rules.
+8000 rules inserted. Base: 6671 rules (50 with conclusion selected). Queue: 1866 rules.
+8200 rules inserted. Base: 6771 rules (50 with conclusion selected). Queue: 1980 rules.
+8400 rules inserted. Base: 6871 rules (50 with conclusion selected). Queue: 2112 rules.
+8600 rules inserted. Base: 6926 rules (50 with conclusion selected). Queue: 2178 rules.
+8800 rules inserted. Base: 6926 rules (50 with conclusion selected). Queue: 2270 rules.
+9000 rules inserted. Base: 6926 rules (50 with conclusion selected). Queue: 2376 rules.
+9200 rules inserted. Base: 7088 rules (90 with conclusion selected). Queue: 2214 rules.
+9400 rules inserted. Base: 7288 rules (116 with conclusion selected). Queue: 2014 rules.
+9600 rules inserted. Base: 7488 rules (157 with conclusion selected). Queue: 1814 rules.
+9800 rules inserted. Base: 7688 rules (182 with conclusion selected). Queue: 1614 rules.
+10000 rules inserted. Base: 7888 rules (224 with conclusion selected). Queue: 1414 rules.
+10200 rules inserted. Base: 8088 rules (248 with conclusion selected). Queue: 1214 rules.
+10400 rules inserted. Base: 8288 rules (291 with conclusion selected). Queue: 1014 rules.
+10600 rules inserted. Base: 8488 rules (314 with conclusion selected). Queue: 814 rules.
+10800 rules inserted. Base: 8688 rules (314 with conclusion selected). Queue: 614 rules.
+11000 rules inserted. Base: 8888 rules (314 with conclusion selected). Queue: 414 rules.
+11200 rules inserted. Base: 9088 rules (314 with conclusion selected). Queue: 214 rules.
+11400 rules inserted. Base: 9288 rules (314 with conclusion selected). Queue: 14 rules.
+Starting query not ev:InitStart(Init(),Resp(),i,j)
+goal reachable: attacker:j -> end:InitStart(Init(),Resp(),expdh(g(),Spriv_i_1),j)
+Abbreviations:
+Spriv_i_1 = Spriv_i[!1 = @sid]
+
+Derivation:
+Abbreviations:
+Spriv_i_1 = Spriv_i[!1 = @sid]
+
+1. We assume as hypothesis that
+attacker:j.
+
+2. The message j that the attacker may have by 1 may be received at input {10}.
+So event InitStart(Init(),Resp(),expdh(g(),Spriv_i_1),j) may be executed at {34}.
+end:InitStart(Init(),Resp(),expdh(g(),Spriv_i_1),j).
+
+3. By 2, end:InitStart(Init(),Resp(),expdh(g(),Spriv_i_1),j).
+The goal is reached, represented in the following fact:
+end:InitStart(Init(),Resp(),expdh(g(),Spriv_i_1),j).
+
+
+A more detailed output of the traces is available with
+  param traceDisplay = long.
+
+new Spriv_i creating Spriv_i_1 at {2} in copy a
+
+out(c_out, ~M) with ~M = expdh(g(),Spriv_i_1) at {4} in copy a
+
+new Spriv_r creating Spriv_r_1 at {6} in copy a, a_1
+
+out(c_out, ~M_1) with ~M_1 = expdh(g(),Spriv_r_1) at {8} in copy a, a_1
+
+in(c_in, a_2) at {10} in copy a, a_1, a_3
+
+new sid_i_91 creating sid_i at {12} in copy a, a_1, a_3
+
+new Epriv_i_98 creating Epriv_i at {15} in copy a, a_1, a_3
+
+out(c_out, triple(~M_2,~M_3,~M_4)) with ~M_2 = expdh(g(),Epriv_i), ~M_3 = AEAD(hash2(hash2(kdf1(hash1(Construction()),expdh(g(),Epriv_i)),DH(Epriv_i,a_2)),hash2(hash2(hash2(kdf1(hash1(Construction()),expdh(g(),Epriv_i)),DH(Epriv_i,a_2)),c_1()),c_2())),expdh(g(),Spriv_i_1),hash2(hash2(hash2(hash1(Construction()),sid_i),a_2),expdh(g(),Epriv_i))), ~M_4 = AEAD(hash2(hash2(hash2(hash2(kdf1(hash1(Construction()),expdh(g(),Epriv_i)),DH(Epriv_i,a_2)),c_1()),DH(Spriv_i_1,a_2)),hash2(hash2(hash2(hash2(hash2(kdf1(hash1(Construction()),expdh(g(),Epriv_i)),DH(Epriv_i,a_2)),c_1()),DH(Spriv_i_1,a_2)),c_1()),c_2())),ts_i(),hash2(hash2(hash2(hash2(hash1(Construction()),sid_i),a_2),expdh(g(),Epriv_i)),AEAD(hash2(hash2(kdf1(hash1(Construction()),expdh(g(),Epriv_i)),DH(Epriv_i,a_2)),hash2(hash2(hash2(kdf1(hash1(Construction()),expdh(g(),Epriv_i)),DH(Epriv_i,a_2)),c_1()),c_2())),expdh(g(),Spriv_i_1),hash2(hash2(hash2(hash1(Construction()),sid_i),a_2),expdh(g(),Epriv_i))))) at {33} in copy a, a_1, a_3
+
+event InitStart(Init(),Resp(),expdh(g(),Spriv_i_1),a_2) at {34} in copy a, a_1, a_3 (goal)
+
+The event InitStart(Init(),Resp(),expdh(g(),Spriv_i_1),a_2) is executed at {34} in copy a, a_1, a_3.
+A trace has been found.
+RESULT not ev:InitStart(Init(),Resp(),i,j) is false.
+-- Query not ev:InitAccept(Init(),Resp(),i,j) in process 1.
+Translating the process into Horn clauses...
+Completing...
+200 rules inserted. Base: 200 rules (49 with conclusion selected). Queue: 1120 rules.
+400 rules inserted. Base: 400 rules (49 with conclusion selected). Queue: 1120 rules.
+600 rules inserted. Base: 600 rules (49 with conclusion selected). Queue: 1120 rules.
+800 rules inserted. Base: 800 rules (49 with conclusion selected). Queue: 1120 rules.
+1000 rules inserted. Base: 1000 rules (49 with conclusion selected). Queue: 1120 rules.
+1200 rules inserted. Base: 1200 rules (49 with conclusion selected). Queue: 1139 rules.
+1400 rules inserted. Base: 1400 rules (49 with conclusion selected). Queue: 1273 rules.
+1600 rules inserted. Base: 1600 rules (49 with conclusion selected). Queue: 1374 rules.
+1800 rules inserted. Base: 1800 rules (49 with conclusion selected). Queue: 1475 rules.
+2000 rules inserted. Base: 2000 rules (49 with conclusion selected). Queue: 1576 rules.
+2200 rules inserted. Base: 2200 rules (49 with conclusion selected). Queue: 1677 rules.
+2400 rules inserted. Base: 2400 rules (49 with conclusion selected). Queue: 1762 rules.
+2600 rules inserted. Base: 2600 rules (49 with conclusion selected). Queue: 1710 rules.
+2800 rules inserted. Base: 2800 rules (49 with conclusion selected). Queue: 1644 rules.
+3000 rules inserted. Base: 3000 rules (49 with conclusion selected). Queue: 1578 rules.
+3200 rules inserted. Base: 3200 rules (49 with conclusion selected). Queue: 1512 rules.
+3400 rules inserted. Base: 3400 rules (49 with conclusion selected). Queue: 1446 rules.
+3600 rules inserted. Base: 3600 rules (49 with conclusion selected). Queue: 1380 rules.
+3800 rules inserted. Base: 3800 rules (49 with conclusion selected). Queue: 1314 rules.
+4000 rules inserted. Base: 4000 rules (49 with conclusion selected). Queue: 1248 rules.
+4200 rules inserted. Base: 4200 rules (49 with conclusion selected). Queue: 1249 rules.
+4400 rules inserted. Base: 4400 rules (49 with conclusion selected). Queue: 1380 rules.
+4600 rules inserted. Base: 4600 rules (49 with conclusion selected). Queue: 1511 rules.
+4800 rules inserted. Base: 4800 rules (49 with conclusion selected). Queue: 1579 rules.
+5000 rules inserted. Base: 5000 rules (49 with conclusion selected). Queue: 1647 rules.
+5200 rules inserted. Base: 5200 rules (49 with conclusion selected). Queue: 1776 rules.
+5400 rules inserted. Base: 5400 rules (49 with conclusion selected). Queue: 1731 rules.
+5600 rules inserted. Base: 5526 rules (49 with conclusion selected). Queue: 1639 rules.
+5800 rules inserted. Base: 5585 rules (49 with conclusion selected). Queue: 1580 rules.
+6000 rules inserted. Base: 5660 rules (49 with conclusion selected). Queue: 1505 rules.
+6200 rules inserted. Base: 5717 rules (49 with conclusion selected). Queue: 1448 rules.
+6400 rules inserted. Base: 5794 rules (49 with conclusion selected). Queue: 1371 rules.
+6600 rules inserted. Base: 5849 rules (49 with conclusion selected). Queue: 1316 rules.
+6800 rules inserted. Base: 5928 rules (49 with conclusion selected). Queue: 1237 rules.
+7000 rules inserted. Base: 5981 rules (49 with conclusion selected). Queue: 1184 rules.
+7200 rules inserted. Base: 5888 rules (49 with conclusion selected). Queue: 1251 rules.
+7400 rules inserted. Base: 6088 rules (49 with conclusion selected). Queue: 1451 rules.
+7600 rules inserted. Base: 6288 rules (49 with conclusion selected). Queue: 1651 rules.
+7800 rules inserted. Base: 6488 rules (49 with conclusion selected). Queue: 1744 rules.
+8000 rules inserted. Base: 6688 rules (49 with conclusion selected). Queue: 1744 rules.
+8200 rules inserted. Base: 6888 rules (49 with conclusion selected). Queue: 1744 rules.
+8400 rules inserted. Base: 7078 rules (49 with conclusion selected). Queue: 1699 rules.
+8600 rules inserted. Base: 7178 rules (49 with conclusion selected). Queue: 1812 rules.
+8800 rules inserted. Base: 7278 rules (49 with conclusion selected). Queue: 1944 rules.
+9000 rules inserted. Base: 7378 rules (49 with conclusion selected). Queue: 2035 rules.
+9200 rules inserted. Base: 7478 rules (49 with conclusion selected). Queue: 2103 rules.
+9400 rules inserted. Base: 7578 rules (49 with conclusion selected). Queue: 2208 rules.
+9600 rules inserted. Base: 7597 rules (49 with conclusion selected). Queue: 2305 rules.
+9800 rules inserted. Base: 7597 rules (49 with conclusion selected). Queue: 2406 rules.
+10000 rules inserted. Base: 7632 rules (49 with conclusion selected). Queue: 2475 rules.
+10200 rules inserted. Base: 7832 rules (83 with conclusion selected). Queue: 2333 rules.
+10400 rules inserted. Base: 8032 rules (115 with conclusion selected). Queue: 2133 rules.
+10600 rules inserted. Base: 8232 rules (150 with conclusion selected). Queue: 1933 rules.
+10800 rules inserted. Base: 8432 rules (181 with conclusion selected). Queue: 1733 rules.
+11000 rules inserted. Base: 8632 rules (217 with conclusion selected). Queue: 1533 rules.
+11200 rules inserted. Base: 8832 rules (247 with conclusion selected). Queue: 1333 rules.
+11400 rules inserted. Base: 9032 rules (284 with conclusion selected). Queue: 1133 rules.
+11600 rules inserted. Base: 9232 rules (313 with conclusion selected). Queue: 933 rules.
+11800 rules inserted. Base: 9432 rules (313 with conclusion selected). Queue: 733 rules.
+12000 rules inserted. Base: 9632 rules (313 with conclusion selected). Queue: 533 rules.
+12200 rules inserted. Base: 9832 rules (313 with conclusion selected). Queue: 333 rules.
+12400 rules inserted. Base: 10032 rules (313 with conclusion selected). Queue: 133 rules.
+Starting query not ev:InitAccept(Init(),Resp(),i,j)
+goal reachable: end:InitAccept(Init(),Resp(),expdh(g(),Spriv_i_1),g())
+Abbreviations:
+Spriv_i_1 = Spriv_i[!1 = @sid]
+
+Derivation:
+Abbreviations:
+Spriv_i_1 = Spriv_i[!1 = @sid]
+Epriv_i = Epriv_i_98[a_88 = g(),!3 = @sid_1,!2 = @sid_2,!1 = @sid]
+sid_i = sid_i_91[a_88 = g(),!3 = @sid_1,!2 = @sid_2,!1 = @sid]
+
+1. Using the function g the attacker may obtain g().
+attacker:g().
+
+2. The attacker has some term a.
+attacker:a.
+
+3. The attacker has some term Dec.
+attacker:Dec.
+
+4. Using the function Q the attacker may obtain Q().
+attacker:Q().
+
+5. The message expdh(g(),Spriv_i_1) may be sent to the attacker at output {4}.
+attacker:expdh(g(),Spriv_i_1).
+
+6. The message g() that the attacker may have by 1 may be received at input {10}.
+So the message triple(expdh(g(),Epriv_i),AEAD(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),c_2())),expdh(g(),Spriv_i_1),hash2(hash2(hash2(hash1(Construction()),sid_i),g()),expdh(g(),Epriv_i))),AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),c_2())),ts_i(),hash2(hash2(hash2(hash2(hash1(Construction()),sid_i),g()),expdh(g(),Epriv_i)),AEAD(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),c_2())),expdh(g(),Spriv_i_1),hash2(hash2(hash2(hash1(Construction()),sid_i),g()),expdh(g(),Epriv_i)))))) may be sent to the attacker at output {33}.
+attacker:triple(expdh(g(),Epriv_i),AEAD(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),c_2())),expdh(g(),Spriv_i_1),hash2(hash2(hash2(hash1(Construction()),sid_i),g()),expdh(g(),Epriv_i))),AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),c_2())),ts_i(),hash2(hash2(hash2(hash2(hash1(Construction()),sid_i),g()),expdh(g(),Epriv_i)),AEAD(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),c_2())),expdh(g(),Spriv_i_1),hash2(hash2(hash2(hash1(Construction()),sid_i),g()),expdh(g(),Epriv_i)))))).
+
+7. By 6, the attacker may know triple(expdh(g(),Epriv_i),AEAD(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),c_2())),expdh(g(),Spriv_i_1),hash2(hash2(hash2(hash1(Construction()),sid_i),g()),expdh(g(),Epriv_i))),AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),c_2())),ts_i(),hash2(hash2(hash2(hash2(hash1(Construction()),sid_i),g()),expdh(g(),Epriv_i)),AEAD(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),c_2())),expdh(g(),Spriv_i_1),hash2(hash2(hash2(hash1(Construction()),sid_i),g()),expdh(g(),Epriv_i)))))).
+Using the function 1-proj-triple the attacker may obtain expdh(g(),Epriv_i).
+attacker:expdh(g(),Epriv_i).
+
+8. Using the function Construction the attacker may obtain Construction().
+attacker:Construction().
+
+9. By 8, the attacker may know Construction().
+Using the function hash1 the attacker may obtain hash1(Construction()).
+attacker:hash1(Construction()).
+
+10. By 9, the attacker may know hash1(Construction()).
+By 7, the attacker may know expdh(g(),Epriv_i).
+Using the function kdf3 the attacker may obtain triple(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),c_2())),hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),c_2())),c_3()))).
+attacker:triple(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),c_2())),hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),c_2())),c_3()))).
+
+11. By 10, the attacker may know triple(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),c_2())),hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),c_2())),c_3()))).
+Using the function 1-proj-triple the attacker may obtain hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()).
+attacker:hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()).
+
+12. By 11, the attacker may know hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()).
+By 7, the attacker may know expdh(g(),Epriv_i).
+Using the function kdf3 the attacker may obtain triple(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),c_2())),hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),c_2())),c_3()))).
+attacker:triple(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),c_2())),hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),c_2())),c_3()))).
+
+13. By 12, the attacker may know triple(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),c_2())),hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),c_2())),c_3()))).
+Using the function 1-proj-triple the attacker may obtain hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()).
+attacker:hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()).
+
+14. By 13, the attacker may know hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()).
+By 5, the attacker may know expdh(g(),Spriv_i_1).
+Using the function kdf3 the attacker may obtain triple(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),c_2())),hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),c_2())),c_3()))).
+attacker:triple(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),c_2())),hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),c_2())),c_3()))).
+
+15. By 14, the attacker may know triple(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),c_2())),hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),c_2())),c_3()))).
+Using the function 1-proj-triple the attacker may obtain hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()).
+attacker:hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()).
+
+16. By 15, the attacker may know hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()).
+By 1, the attacker may know g().
+Using the function kdf3 the attacker may obtain triple(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),c_2())),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),c_2())),c_3()))).
+attacker:triple(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),c_2())),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),c_2())),c_3()))).
+
+17. By 16, the attacker may know triple(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),c_2())),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),c_2())),c_3()))).
+Using the function 1-proj-triple the attacker may obtain hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()).
+attacker:hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()).
+
+18. By 17, the attacker may know hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()).
+By 7, the attacker may know expdh(g(),Epriv_i).
+Using the function kdf3 the attacker may obtain triple(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),c_2())),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),c_2())),c_3()))).
+attacker:triple(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),c_2())),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),c_2())),c_3()))).
+
+19. By 18, the attacker may know triple(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),c_2())),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),c_2())),c_3()))).
+Using the function 1-proj-triple the attacker may obtain hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()).
+attacker:hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()).
+
+20. By 19, the attacker may know hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()).
+By 5, the attacker may know expdh(g(),Spriv_i_1).
+Using the function kdf3 the attacker may obtain triple(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),c_2())),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),c_2())),c_3()))).
+attacker:triple(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),c_2())),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),c_2())),c_3()))).
+
+21. By 20, the attacker may know triple(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),c_2())),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),c_2())),c_3()))).
+Using the function 1-proj-triple the attacker may obtain hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()).
+attacker:hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()).
+
+22. By 21, the attacker may know hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()).
+By 4, the attacker may know Q().
+Using the function kdf3 the attacker may obtain triple(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),c_1()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),c_1()),c_2())),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),c_1()),c_2())),c_3()))).
+attacker:triple(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),c_1()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),c_1()),c_2())),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),c_1()),c_2())),c_3()))).
+
+23. By 22, the attacker may know triple(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),c_1()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),c_1()),c_2())),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),c_1()),c_2())),c_3()))).
+Using the function 3-proj-triple the attacker may obtain hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),c_1()),c_2())),c_3())).
+attacker:hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),c_1()),c_2())),c_3())).
+
+24. By 23, the attacker may know hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),c_1()),c_2())),c_3())).
+By 3, the attacker may know Dec.
+By 2, the attacker may know a.
+Using the function AEAD the attacker may obtain AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),c_1()),c_2())),c_3())),Dec,a).
+attacker:AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),c_1()),c_2())),c_3())),Dec,a).
+
+25. By 1, the attacker may know g().
+By 24, the attacker may know AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),c_1()),c_2())),c_3())),Dec,a).
+Using the function pair the attacker may obtain pair(g(),AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),c_1()),c_2())),c_3())),Dec,a)).
+attacker:pair(g(),AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),c_1()),c_2())),c_3())),Dec,a)).
+
+26. The message g() that the attacker may have by 1 may be received at input {10}.
+The message pair(g(),AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),c_1()),c_2())),c_3())),Dec,a)) that the attacker may have by 25 may be received at input {35}.
+So event InitAccept(Init(),Resp(),expdh(g(),Spriv_i_1),g()) may be executed at {58}.
+end:InitAccept(Init(),Resp(),expdh(g(),Spriv_i_1),g()).
+
+27. By 26, end:InitAccept(Init(),Resp(),expdh(g(),Spriv_i_1),g()).
+The goal is reached, represented in the following fact:
+end:InitAccept(Init(),Resp(),expdh(g(),Spriv_i_1),g()).
+
+
+A more detailed output of the traces is available with
+  param traceDisplay = long.
+
+new Spriv_i creating Spriv_i_1 at {2} in copy a
+
+out(c_out, ~M) with ~M = expdh(g(),Spriv_i_1) at {4} in copy a
+
+new Spriv_r creating Spriv_r_1 at {6} in copy a, a_1
+
+out(c_out, ~M_1) with ~M_1 = expdh(g(),Spriv_r_1) at {8} in copy a, a_1
+
+in(c_in, g()) at {10} in copy a, a_1, a_2
+
+new sid_i_91 creating sid_i at {12} in copy a, a_1, a_2
+
+new Epriv_i_98 creating Epriv_i at {15} in copy a, a_1, a_2
+
+out(c_out, triple(~M_2,~M_3,~M_4)) with ~M_2 = expdh(g(),Epriv_i), ~M_3 = AEAD(hash2(hash2(kdf1(hash1(Construction()),expdh(g(),Epriv_i)),DH(Epriv_i,g())),hash2(hash2(hash2(kdf1(hash1(Construction()),expdh(g(),Epriv_i)),DH(Epriv_i,g())),c_1()),c_2())),expdh(g(),Spriv_i_1),hash2(hash2(hash2(hash1(Construction()),sid_i),g()),expdh(g(),Epriv_i))), ~M_4 = AEAD(hash2(hash2(hash2(hash2(kdf1(hash1(Construction()),expdh(g(),Epriv_i)),DH(Epriv_i,g())),c_1()),DH(Spriv_i_1,g())),hash2(hash2(hash2(hash2(hash2(kdf1(hash1(Construction()),expdh(g(),Epriv_i)),DH(Epriv_i,g())),c_1()),DH(Spriv_i_1,g())),c_1()),c_2())),ts_i(),hash2(hash2(hash2(hash2(hash1(Construction()),sid_i),g()),expdh(g(),Epriv_i)),AEAD(hash2(hash2(kdf1(hash1(Construction()),expdh(g(),Epriv_i)),DH(Epriv_i,g())),hash2(hash2(hash2(kdf1(hash1(Construction()),expdh(g(),Epriv_i)),DH(Epriv_i,g())),c_1()),c_2())),expdh(g(),Spriv_i_1),hash2(hash2(hash2(hash1(Construction()),sid_i),g()),expdh(g(),Epriv_i))))) at {33} in copy a, a_1, a_2
+
+event InitStart(Init(),Resp(),expdh(g(),Spriv_i_1),g()) at {34} in copy a, a_1, a_2
+
+in(c_in, pair(g(),AEAD(3-proj-triple(kdf3(1-proj-triple(kdf3(1-proj-triple(kdf3(1-proj-triple(kdf3(1-proj-triple(kdf3(1-proj-triple(kdf3(1-proj-triple(kdf3(hash1(Construction()),~M_2)),~M_2)),~M)),g())),~M_2)),~M)),Q())),a_3,a_4))) with AEAD(3-proj-triple(kdf3(1-proj-triple(kdf3(1-proj-triple(kdf3(1-proj-triple(kdf3(1-proj-triple(kdf3(1-proj-triple(kdf3(1-proj-triple(kdf3(hash1(Construction()),~M_2)),~M_2)),~M)),g())),~M_2)),~M)),Q())),a_3,a_4) = AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),g()),c_1()),expdh(g(),Epriv_i)),c_1()),expdh(g(),Spriv_i_1)),c_1()),Q()),c_1()),c_2())),c_3())),a_3,a_4) at {35} in copy a, a_1, a_2
+
+event InitAccept(Init(),Resp(),expdh(g(),Spriv_i_1),g()) at {58} in copy a, a_1, a_2 (goal)
+
+The event InitAccept(Init(),Resp(),expdh(g(),Spriv_i_1),g()) is executed at {58} in copy a, a_1, a_2.
+A trace has been found.
+RESULT not ev:InitAccept(Init(),Resp(),i,j) is false.
+-- Query not ev:RespRecv(Init(),Resp(),i,j) in process 1.
+Translating the process into Horn clauses...
+Completing...
+200 rules inserted. Base: 200 rules (49 with conclusion selected). Queue: 1088 rules.
+400 rules inserted. Base: 400 rules (49 with conclusion selected). Queue: 1088 rules.
+600 rules inserted. Base: 600 rules (49 with conclusion selected). Queue: 1088 rules.
+800 rules inserted. Base: 800 rules (49 with conclusion selected). Queue: 1088 rules.
+1000 rules inserted. Base: 1000 rules (49 with conclusion selected). Queue: 1088 rules.
+1200 rules inserted. Base: 1200 rules (49 with conclusion selected). Queue: 1121 rules.
+1400 rules inserted. Base: 1400 rules (49 with conclusion selected). Queue: 1220 rules.
+1600 rules inserted. Base: 1600 rules (49 with conclusion selected). Queue: 1319 rules.
+1800 rules inserted. Base: 1800 rules (49 with conclusion selected). Queue: 1418 rules.
+2000 rules inserted. Base: 2000 rules (49 with conclusion selected). Queue: 1517 rules.
+2200 rules inserted. Base: 2200 rules (49 with conclusion selected). Queue: 1614 rules.
+2400 rules inserted. Base: 2398 rules (49 with conclusion selected). Queue: 1551 rules.
+2600 rules inserted. Base: 2596 rules (49 with conclusion selected). Queue: 1484 rules.
+2800 rules inserted. Base: 2794 rules (49 with conclusion selected). Queue: 1417 rules.
+3000 rules inserted. Base: 2992 rules (49 with conclusion selected). Queue: 1350 rules.
+3200 rules inserted. Base: 3190 rules (49 with conclusion selected). Queue: 1283 rules.
+3400 rules inserted. Base: 3388 rules (49 with conclusion selected). Queue: 1216 rules.
+3600 rules inserted. Base: 3586 rules (49 with conclusion selected). Queue: 1149 rules.
+3800 rules inserted. Base: 3784 rules (49 with conclusion selected). Queue: 1082 rules.
+4000 rules inserted. Base: 3984 rules (49 with conclusion selected). Queue: 1205 rules.
+4200 rules inserted. Base: 4184 rules (49 with conclusion selected). Queue: 1283 rules.
+4400 rules inserted. Base: 4384 rules (49 with conclusion selected). Queue: 1347 rules.
+4600 rules inserted. Base: 4584 rules (49 with conclusion selected). Queue: 1468 rules.
+4800 rules inserted. Base: 4784 rules (49 with conclusion selected). Queue: 1601 rules.
+5000 rules inserted. Base: 4946 rules (49 with conclusion selected). Queue: 1562 rules.
+5200 rules inserted. Base: 5043 rules (49 with conclusion selected). Queue: 1464 rules.
+5400 rules inserted. Base: 5081 rules (49 with conclusion selected). Queue: 1426 rules.
+5600 rules inserted. Base: 5177 rules (49 with conclusion selected). Queue: 1330 rules.
+5800 rules inserted. Base: 5215 rules (49 with conclusion selected). Queue: 1291 rules.
+6000 rules inserted. Base: 5311 rules (49 with conclusion selected). Queue: 1194 rules.
+6200 rules inserted. Base: 5350 rules (49 with conclusion selected). Queue: 1155 rules.
+6400 rules inserted. Base: 5445 rules (49 with conclusion selected). Queue: 1060 rules.
+6600 rules inserted. Base: 5498 rules (49 with conclusion selected). Queue: 1135 rules.
+6800 rules inserted. Base: 5698 rules (49 with conclusion selected). Queue: 1335 rules.
+7000 rules inserted. Base: 5898 rules (49 with conclusion selected). Queue: 1535 rules.
+7200 rules inserted. Base: 6098 rules (49 with conclusion selected). Queue: 1586 rules.
+7400 rules inserted. Base: 6298 rules (49 with conclusion selected). Queue: 1586 rules.
+7600 rules inserted. Base: 6488 rules (49 with conclusion selected). Queue: 1607 rules.
+7800 rules inserted. Base: 6588 rules (49 with conclusion selected). Queue: 1718 rules.
+8000 rules inserted. Base: 6688 rules (49 with conclusion selected). Queue: 1850 rules.
+8200 rules inserted. Base: 6788 rules (49 with conclusion selected). Queue: 1941 rules.
+8400 rules inserted. Base: 6888 rules (49 with conclusion selected). Queue: 2009 rules.
+8600 rules inserted. Base: 6988 rules (49 with conclusion selected). Queue: 2114 rules.
+8800 rules inserted. Base: 7007 rules (49 with conclusion selected). Queue: 2211 rules.
+9000 rules inserted. Base: 7007 rules (49 with conclusion selected). Queue: 2312 rules.
+9200 rules inserted. Base: 7042 rules (58 with conclusion selected). Queue: 2343 rules.
+9400 rules inserted. Base: 7242 rules (108 with conclusion selected). Queue: 2143 rules.
+9600 rules inserted. Base: 7442 rules (125 with conclusion selected). Queue: 1943 rules.
+9800 rules inserted. Base: 7642 rules (175 with conclusion selected). Queue: 1743 rules.
+10000 rules inserted. Base: 7842 rules (192 with conclusion selected). Queue: 1543 rules.
+10200 rules inserted. Base: 8042 rules (242 with conclusion selected). Queue: 1343 rules.
+10400 rules inserted. Base: 8242 rules (259 with conclusion selected). Queue: 1143 rules.
+10600 rules inserted. Base: 8442 rules (309 with conclusion selected). Queue: 943 rules.
+10800 rules inserted. Base: 8642 rules (314 with conclusion selected). Queue: 743 rules.
+11000 rules inserted. Base: 8842 rules (314 with conclusion selected). Queue: 543 rules.
+11200 rules inserted. Base: 9042 rules (314 with conclusion selected). Queue: 343 rules.
+11400 rules inserted. Base: 9242 rules (314 with conclusion selected). Queue: 143 rules.
+Starting query not ev:RespRecv(Init(),Resp(),i,j)
+goal reachable: end:RespRecv(Init(),Resp(),g(),expdh(g(),Spriv_r_1))
+Abbreviations:
+Spriv_r_1 = Spriv_r[!2 = @sid,!1 = @sid_1]
+
+Derivation:
+Abbreviations:
+Spriv_r_1 = Spriv_r[!2 = @sid,!1 = @sid_1]
+
+1. Using the function g the attacker may obtain g().
+attacker:g().
+
+2. The attacker has some term a.
+attacker:a.
+
+3. The attacker has some term Dec.
+attacker:Dec.
+
+4. The message expdh(g(),Spriv_r_1) may be sent to the attacker at output {8}.
+attacker:expdh(g(),Spriv_r_1).
+
+5. Using the function Construction the attacker may obtain Construction().
+attacker:Construction().
+
+6. By 5, the attacker may know Construction().
+Using the function hash1 the attacker may obtain hash1(Construction()).
+attacker:hash1(Construction()).
+
+7. By 6, the attacker may know hash1(Construction()).
+By 1, the attacker may know g().
+Using the function kdf3 the attacker may obtain triple(hash2(hash2(hash1(Construction()),g()),c_1()),hash2(hash2(hash1(Construction()),g()),hash2(hash2(hash2(hash1(Construction()),g()),c_1()),c_2())),hash2(hash2(hash1(Construction()),g()),hash2(hash2(hash2(hash1(Construction()),g()),hash2(hash2(hash2(hash1(Construction()),g()),c_1()),c_2())),c_3()))).
+attacker:triple(hash2(hash2(hash1(Construction()),g()),c_1()),hash2(hash2(hash1(Construction()),g()),hash2(hash2(hash2(hash1(Construction()),g()),c_1()),c_2())),hash2(hash2(hash1(Construction()),g()),hash2(hash2(hash2(hash1(Construction()),g()),hash2(hash2(hash2(hash1(Construction()),g()),c_1()),c_2())),c_3()))).
+
+8. By 7, the attacker may know triple(hash2(hash2(hash1(Construction()),g()),c_1()),hash2(hash2(hash1(Construction()),g()),hash2(hash2(hash2(hash1(Construction()),g()),c_1()),c_2())),hash2(hash2(hash1(Construction()),g()),hash2(hash2(hash2(hash1(Construction()),g()),hash2(hash2(hash2(hash1(Construction()),g()),c_1()),c_2())),c_3()))).
+Using the function 1-proj-triple the attacker may obtain hash2(hash2(hash1(Construction()),g()),c_1()).
+attacker:hash2(hash2(hash1(Construction()),g()),c_1()).
+
+9. By 8, the attacker may know hash2(hash2(hash1(Construction()),g()),c_1()).
+By 4, the attacker may know expdh(g(),Spriv_r_1).
+Using the function kdf3 the attacker may obtain triple(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),c_2())),hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),c_2())),c_3()))).
+attacker:triple(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),c_2())),hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),c_2())),c_3()))).
+
+10. By 9, the attacker may know triple(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),c_2())),hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),c_2())),c_3()))).
+Using the function 1-proj-triple the attacker may obtain hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()).
+attacker:hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()).
+
+11. By 10, the attacker may know hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()).
+By 4, the attacker may know expdh(g(),Spriv_r_1).
+Using the function kdf3 the attacker may obtain triple(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),c_2())),hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),c_2())),c_3()))).
+attacker:triple(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),c_2())),hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),c_2())),c_3()))).
+
+12. By 11, the attacker may know triple(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),c_2())),hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),c_2())),c_3()))).
+Using the function 1-proj-triple the attacker may obtain hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()).
+attacker:hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()).
+
+13. By 12, the attacker may know hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()).
+By 3, the attacker may know Dec.
+By 2, the attacker may know a.
+Using the function AEAD the attacker may obtain AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),Dec,a).
+attacker:AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),Dec,a).
+
+14. The attacker has some term a_1.
+attacker:a_1.
+
+15. The attacker has some term Dec_1.
+attacker:Dec_1.
+
+16. By 10, the attacker may know hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()).
+By 15, the attacker may know Dec_1.
+By 14, the attacker may know a_1.
+Using the function AEAD the attacker may obtain AEAD(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),Dec_1,a_1).
+attacker:AEAD(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),Dec_1,a_1).
+
+17. By 1, the attacker may know g().
+By 16, the attacker may know AEAD(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),Dec_1,a_1).
+By 13, the attacker may know AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),Dec,a).
+Using the function triple the attacker may obtain triple(g(),AEAD(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),Dec_1,a_1),AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),Dec,a)).
+attacker:triple(g(),AEAD(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),Dec_1,a_1),AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),Dec,a)).
+
+18. The message g() that the attacker may have by 1 may be received at input {60}.
+The message triple(g(),AEAD(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),Dec_1,a_1),AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),Dec,a)) that the attacker may have by 17 may be received at input {65}.
+So event RespRecv(Init(),Resp(),g(),expdh(g(),Spriv_r_1)) may be executed at {79}.
+end:RespRecv(Init(),Resp(),g(),expdh(g(),Spriv_r_1)).
+
+19. By 18, end:RespRecv(Init(),Resp(),g(),expdh(g(),Spriv_r_1)).
+The goal is reached, represented in the following fact:
+end:RespRecv(Init(),Resp(),g(),expdh(g(),Spriv_r_1)).
+
+
+A more detailed output of the traces is available with
+  param traceDisplay = long.
+
+new Spriv_i creating Spriv_i_1 at {2} in copy a
+
+out(c_out, ~M) with ~M = expdh(g(),Spriv_i_1) at {4} in copy a
+
+new Spriv_r creating Spriv_r_1 at {6} in copy a, a_1
+
+out(c_out, ~M_1) with ~M_1 = expdh(g(),Spriv_r_1) at {8} in copy a, a_1
+
+in(c_in, g()) at {60} in copy a, a_1, a_2
+
+new sid_r_145 creating sid_r at {62} in copy a, a_1, a_2
+
+in(c_in, triple(g(),AEAD(1-proj-triple(kdf3(1-proj-triple(kdf3(hash1(Construction()),g())),~M_1)),a_3,a_4),AEAD(1-proj-triple(kdf3(1-proj-triple(kdf3(1-proj-triple(kdf3(hash1(Construction()),g())),~M_1)),~M_1)),a_5,a_6))) with AEAD(1-proj-triple(kdf3(1-proj-triple(kdf3(hash1(Construction()),g())),~M_1)),a_3,a_4) = AEAD(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),a_3,a_4), AEAD(1-proj-triple(kdf3(1-proj-triple(kdf3(1-proj-triple(kdf3(hash1(Construction()),g())),~M_1)),~M_1)),a_5,a_6) = AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),a_5,a_6) at {65} in copy a, a_1, a_2
+
+event RespRecv(Init(),Resp(),g(),expdh(g(),Spriv_r_1)) at {79} in copy a, a_1, a_2 (goal)
+
+The event RespRecv(Init(),Resp(),g(),expdh(g(),Spriv_r_1)) is executed at {79} in copy a, a_1, a_2.
+A trace has been found.
+RESULT not ev:RespRecv(Init(),Resp(),i,j) is false.
+-- Query not ev:RespAnsw(Init(),Resp(),i,j) in process 1.
+Translating the process into Horn clauses...
+Completing...
+200 rules inserted. Base: 200 rules (49 with conclusion selected). Queue: 1088 rules.
+400 rules inserted. Base: 400 rules (49 with conclusion selected). Queue: 1088 rules.
+600 rules inserted. Base: 600 rules (49 with conclusion selected). Queue: 1088 rules.
+800 rules inserted. Base: 800 rules (49 with conclusion selected). Queue: 1088 rules.
+1000 rules inserted. Base: 1000 rules (49 with conclusion selected). Queue: 1088 rules.
+1200 rules inserted. Base: 1200 rules (49 with conclusion selected). Queue: 1121 rules.
+1400 rules inserted. Base: 1400 rules (49 with conclusion selected). Queue: 1220 rules.
+1600 rules inserted. Base: 1600 rules (49 with conclusion selected). Queue: 1319 rules.
+1800 rules inserted. Base: 1800 rules (49 with conclusion selected). Queue: 1418 rules.
+2000 rules inserted. Base: 2000 rules (49 with conclusion selected). Queue: 1518 rules.
+2200 rules inserted. Base: 2200 rules (49 with conclusion selected). Queue: 1614 rules.
+2400 rules inserted. Base: 2398 rules (49 with conclusion selected). Queue: 1551 rules.
+2600 rules inserted. Base: 2596 rules (49 with conclusion selected). Queue: 1484 rules.
+2800 rules inserted. Base: 2794 rules (49 with conclusion selected). Queue: 1417 rules.
+3000 rules inserted. Base: 2992 rules (49 with conclusion selected). Queue: 1350 rules.
+3200 rules inserted. Base: 3190 rules (49 with conclusion selected). Queue: 1283 rules.
+3400 rules inserted. Base: 3388 rules (49 with conclusion selected). Queue: 1216 rules.
+3600 rules inserted. Base: 3586 rules (49 with conclusion selected). Queue: 1149 rules.
+3800 rules inserted. Base: 3784 rules (49 with conclusion selected). Queue: 1082 rules.
+4000 rules inserted. Base: 3984 rules (49 with conclusion selected). Queue: 1205 rules.
+4200 rules inserted. Base: 4184 rules (49 with conclusion selected). Queue: 1283 rules.
+4400 rules inserted. Base: 4384 rules (49 with conclusion selected). Queue: 1347 rules.
+4600 rules inserted. Base: 4584 rules (49 with conclusion selected). Queue: 1468 rules.
+4800 rules inserted. Base: 4784 rules (49 with conclusion selected). Queue: 1601 rules.
+5000 rules inserted. Base: 4946 rules (49 with conclusion selected). Queue: 1562 rules.
+5200 rules inserted. Base: 5043 rules (49 with conclusion selected). Queue: 1464 rules.
+5400 rules inserted. Base: 5081 rules (49 with conclusion selected). Queue: 1426 rules.
+5600 rules inserted. Base: 5177 rules (49 with conclusion selected). Queue: 1330 rules.
+5800 rules inserted. Base: 5215 rules (49 with conclusion selected). Queue: 1291 rules.
+6000 rules inserted. Base: 5311 rules (49 with conclusion selected). Queue: 1194 rules.
+6200 rules inserted. Base: 5350 rules (49 with conclusion selected). Queue: 1155 rules.
+6400 rules inserted. Base: 5445 rules (49 with conclusion selected). Queue: 1060 rules.
+6600 rules inserted. Base: 5498 rules (49 with conclusion selected). Queue: 1135 rules.
+6800 rules inserted. Base: 5698 rules (49 with conclusion selected). Queue: 1335 rules.
+7000 rules inserted. Base: 5898 rules (49 with conclusion selected). Queue: 1535 rules.
+7200 rules inserted. Base: 6098 rules (49 with conclusion selected). Queue: 1586 rules.
+7400 rules inserted. Base: 6298 rules (49 with conclusion selected). Queue: 1586 rules.
+7600 rules inserted. Base: 6488 rules (49 with conclusion selected). Queue: 1607 rules.
+7800 rules inserted. Base: 6588 rules (49 with conclusion selected). Queue: 1718 rules.
+8000 rules inserted. Base: 6688 rules (49 with conclusion selected). Queue: 1850 rules.
+8200 rules inserted. Base: 6788 rules (49 with conclusion selected). Queue: 1941 rules.
+8400 rules inserted. Base: 6888 rules (49 with conclusion selected). Queue: 2009 rules.
+8600 rules inserted. Base: 6988 rules (49 with conclusion selected). Queue: 2114 rules.
+8800 rules inserted. Base: 7007 rules (49 with conclusion selected). Queue: 2211 rules.
+9000 rules inserted. Base: 7007 rules (49 with conclusion selected). Queue: 2312 rules.
+9200 rules inserted. Base: 7042 rules (58 with conclusion selected). Queue: 2343 rules.
+9400 rules inserted. Base: 7242 rules (108 with conclusion selected). Queue: 2143 rules.
+9600 rules inserted. Base: 7442 rules (125 with conclusion selected). Queue: 1943 rules.
+9800 rules inserted. Base: 7642 rules (175 with conclusion selected). Queue: 1743 rules.
+10000 rules inserted. Base: 7842 rules (192 with conclusion selected). Queue: 1543 rules.
+10200 rules inserted. Base: 8042 rules (242 with conclusion selected). Queue: 1343 rules.
+10400 rules inserted. Base: 8242 rules (259 with conclusion selected). Queue: 1143 rules.
+10600 rules inserted. Base: 8442 rules (309 with conclusion selected). Queue: 943 rules.
+10800 rules inserted. Base: 8642 rules (314 with conclusion selected). Queue: 743 rules.
+11000 rules inserted. Base: 8842 rules (314 with conclusion selected). Queue: 543 rules.
+11200 rules inserted. Base: 9042 rules (314 with conclusion selected). Queue: 343 rules.
+11400 rules inserted. Base: 9242 rules (314 with conclusion selected). Queue: 143 rules.
+Starting query not ev:RespAnsw(Init(),Resp(),i,j)
+goal reachable: end:RespAnsw(Init(),Resp(),g(),expdh(g(),Spriv_r_1))
+Abbreviations:
+Spriv_r_1 = Spriv_r[!2 = @sid,!1 = @sid_1]
+
+Derivation:
+Abbreviations:
+Spriv_r_1 = Spriv_r[!2 = @sid,!1 = @sid_1]
+
+1. Using the function g the attacker may obtain g().
+attacker:g().
+
+2. The attacker has some term a.
+attacker:a.
+
+3. The attacker has some term Dec.
+attacker:Dec.
+
+4. The message expdh(g(),Spriv_r_1) may be sent to the attacker at output {8}.
+attacker:expdh(g(),Spriv_r_1).
+
+5. Using the function Construction the attacker may obtain Construction().
+attacker:Construction().
+
+6. By 5, the attacker may know Construction().
+Using the function hash1 the attacker may obtain hash1(Construction()).
+attacker:hash1(Construction()).
+
+7. By 6, the attacker may know hash1(Construction()).
+By 1, the attacker may know g().
+Using the function kdf3 the attacker may obtain triple(hash2(hash2(hash1(Construction()),g()),c_1()),hash2(hash2(hash1(Construction()),g()),hash2(hash2(hash2(hash1(Construction()),g()),c_1()),c_2())),hash2(hash2(hash1(Construction()),g()),hash2(hash2(hash2(hash1(Construction()),g()),hash2(hash2(hash2(hash1(Construction()),g()),c_1()),c_2())),c_3()))).
+attacker:triple(hash2(hash2(hash1(Construction()),g()),c_1()),hash2(hash2(hash1(Construction()),g()),hash2(hash2(hash2(hash1(Construction()),g()),c_1()),c_2())),hash2(hash2(hash1(Construction()),g()),hash2(hash2(hash2(hash1(Construction()),g()),hash2(hash2(hash2(hash1(Construction()),g()),c_1()),c_2())),c_3()))).
+
+8. By 7, the attacker may know triple(hash2(hash2(hash1(Construction()),g()),c_1()),hash2(hash2(hash1(Construction()),g()),hash2(hash2(hash2(hash1(Construction()),g()),c_1()),c_2())),hash2(hash2(hash1(Construction()),g()),hash2(hash2(hash2(hash1(Construction()),g()),hash2(hash2(hash2(hash1(Construction()),g()),c_1()),c_2())),c_3()))).
+Using the function 1-proj-triple the attacker may obtain hash2(hash2(hash1(Construction()),g()),c_1()).
+attacker:hash2(hash2(hash1(Construction()),g()),c_1()).
+
+9. By 8, the attacker may know hash2(hash2(hash1(Construction()),g()),c_1()).
+By 4, the attacker may know expdh(g(),Spriv_r_1).
+Using the function kdf3 the attacker may obtain triple(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),c_2())),hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),c_2())),c_3()))).
+attacker:triple(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),c_2())),hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),c_2())),c_3()))).
+
+10. By 9, the attacker may know triple(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),c_2())),hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),c_2())),c_3()))).
+Using the function 1-proj-triple the attacker may obtain hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()).
+attacker:hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()).
+
+11. By 10, the attacker may know hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()).
+By 4, the attacker may know expdh(g(),Spriv_r_1).
+Using the function kdf3 the attacker may obtain triple(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),c_2())),hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),c_2())),c_3()))).
+attacker:triple(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),c_2())),hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),c_2())),c_3()))).
+
+12. By 11, the attacker may know triple(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),c_2())),hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),c_2())),c_3()))).
+Using the function 1-proj-triple the attacker may obtain hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()).
+attacker:hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()).
+
+13. By 12, the attacker may know hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()).
+By 3, the attacker may know Dec.
+By 2, the attacker may know a.
+Using the function AEAD the attacker may obtain AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),Dec,a).
+attacker:AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),Dec,a).
+
+14. The attacker has some term a_1.
+attacker:a_1.
+
+15. The attacker has some term Dec_1.
+attacker:Dec_1.
+
+16. By 10, the attacker may know hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()).
+By 15, the attacker may know Dec_1.
+By 14, the attacker may know a_1.
+Using the function AEAD the attacker may obtain AEAD(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),Dec_1,a_1).
+attacker:AEAD(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),Dec_1,a_1).
+
+17. By 1, the attacker may know g().
+By 16, the attacker may know AEAD(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),Dec_1,a_1).
+By 13, the attacker may know AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),Dec,a).
+Using the function triple the attacker may obtain triple(g(),AEAD(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),Dec_1,a_1),AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),Dec,a)).
+attacker:triple(g(),AEAD(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),Dec_1,a_1),AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),Dec,a)).
+
+18. The message g() that the attacker may have by 1 may be received at input {60}.
+The message triple(g(),AEAD(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),Dec_1,a_1),AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),Dec,a)) that the attacker may have by 17 may be received at input {65}.
+So event RespAnsw(Init(),Resp(),g(),expdh(g(),Spriv_r_1)) may be executed at {97}.
+end:RespAnsw(Init(),Resp(),g(),expdh(g(),Spriv_r_1)).
+
+19. By 18, end:RespAnsw(Init(),Resp(),g(),expdh(g(),Spriv_r_1)).
+The goal is reached, represented in the following fact:
+end:RespAnsw(Init(),Resp(),g(),expdh(g(),Spriv_r_1)).
+
+
+A more detailed output of the traces is available with
+  param traceDisplay = long.
+
+new Spriv_i creating Spriv_i_1 at {2} in copy a
+
+out(c_out, ~M) with ~M = expdh(g(),Spriv_i_1) at {4} in copy a
+
+new Spriv_r creating Spriv_r_1 at {6} in copy a, a_1
+
+out(c_out, ~M_1) with ~M_1 = expdh(g(),Spriv_r_1) at {8} in copy a, a_1
+
+in(c_in, g()) at {60} in copy a, a_1, a_2
+
+new sid_r_145 creating sid_r at {62} in copy a, a_1, a_2
+
+in(c_in, triple(g(),AEAD(1-proj-triple(kdf3(1-proj-triple(kdf3(hash1(Construction()),g())),~M_1)),a_3,a_4),AEAD(1-proj-triple(kdf3(1-proj-triple(kdf3(1-proj-triple(kdf3(hash1(Construction()),g())),~M_1)),~M_1)),a_5,a_6))) with AEAD(1-proj-triple(kdf3(1-proj-triple(kdf3(hash1(Construction()),g())),~M_1)),a_3,a_4) = AEAD(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),a_3,a_4), AEAD(1-proj-triple(kdf3(1-proj-triple(kdf3(1-proj-triple(kdf3(hash1(Construction()),g())),~M_1)),~M_1)),a_5,a_6) = AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),a_5,a_6) at {65} in copy a, a_1, a_2
+
+event RespRecv(Init(),Resp(),g(),expdh(g(),Spriv_r_1)) at {79} in copy a, a_1, a_2
+
+new Epriv_r_561 creating Epriv_r at {80} in copy a, a_1, a_2
+
+out(c_out, pair(~M_2,~M_3)) with ~M_2 = expdh(g(),Epriv_r), ~M_3 = AEAD(hash2(hash2(kdf1(kdf1(kdf1(kdf1(kdf1(kdf1(hash1(Construction()),g()),DH(Spriv_r_1,g())),DH(Spriv_r_1,g())),expdh(g(),Epriv_r)),DH(Epriv_r,g())),DH(Epriv_r,g())),Q()),hash2(hash2(hash2(kdf1(kdf1(kdf1(kdf1(kdf1(kdf1(hash1(Construction()),g()),DH(Spriv_r_1,g())),DH(Spriv_r_1,g())),expdh(g(),Epriv_r)),DH(Epriv_r,g())),DH(Epriv_r,g())),Q()),hash2(hash2(hash2(kdf1(kdf1(kdf1(kdf1(kdf1(kdf1(hash1(Construction()),g()),DH(Spriv_r_1,g())),DH(Spriv_r_1,g())),expdh(g(),Epriv_r)),DH(Epriv_r,g())),DH(Epriv_r,g())),Q()),c_1()),c_2())),c_3())),epsilon_950(),hash2(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),sid_r),expdh(g(),Spriv_r_1)),g()),AEAD(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),a_3,a_4)),AEAD(hash2(hash2(hash2(hash2(hash2(hash2(hash1(Construction()),g()),c_1()),expdh(g(),Spriv_r_1)),c_1()),expdh(g(),Spriv_r_1)),c_1()),a_5,a_6)),expdh(g(),Epriv_r)),hash2(hash2(kdf1(kdf1(kdf1(kdf1(kdf1(kdf1(hash1(Construction()),g()),DH(Spriv_r_1,g())),DH(Spriv_r_1,g())),expdh(g(),Epriv_r)),DH(Epriv_r,g())),DH(Epriv_r,g())),Q()),hash2(hash2(hash2(kdf1(kdf1(kdf1(kdf1(kdf1(kdf1(hash1(Construction()),g()),DH(Spriv_r_1,g())),DH(Spriv_r_1,g())),expdh(g(),Epriv_r)),DH(Epriv_r,g())),DH(Epriv_r,g())),Q()),c_1()),c_2())))) at {96} in copy a, a_1, a_2
+
+event RespAnsw(Init(),Resp(),g(),expdh(g(),Spriv_r_1)) at {97} in copy a, a_1, a_2 (goal)
+
+The event RespAnsw(Init(),Resp(),g(),expdh(g(),Spriv_r_1)) is executed at {97} in copy a, a_1, a_2.
+A trace has been found.
+RESULT not ev:RespAnsw(Init(),Resp(),i,j) is false.

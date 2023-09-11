@@ -51,7 +51,7 @@ struct
  val symbs_sec_text = [
      "server",
      "fail",
-     "socket_listen",
+     "scket_listen",
      "__stack_chk_fail",
      "__libc_malloc",
      "EVP_sha1",
