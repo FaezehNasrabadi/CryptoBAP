@@ -1,0 +1,49 @@
+in c, a_88 
+let Ci_90 = hash1(Construction) in
+new sid_i_91 fixed_64 
+let HMAC_92 = hash2(Ci_90,sid_i_91) in
+let HMAC_95 = hash2(HMAC_92,a_88) in
+new Epriv_i_98 fixed_64 
+let Epub_i_100 = expdh(g,Epriv_i_98) in
+let Cii_152 = kdf1(Ci_90,Epub_i_100) in
+let HMAC_153 = hash2(HMAC_95,Epub_i_100) in
+let DH_157 = DH(Epriv_i_98,a_88) in
+let KDF_160 = kdf2(Cii_152,DH_157) in
+let pair(c_163,k_164) = KDF_160 in
+let Pars1_166 = pars12(KDF_160,c_32) in
+let Pars2_167 = pars22(KDF_160,c_32) in
+let Enc_220 = AEAD(Pars2_167,Spub_i,HMAC_153) in
+let HMAC_223 = hash2(HMAC_153,Enc_220) in
+let DH_228 = DH(Spriv_i,a_88) in
+let KDF_231 = kdf2(Pars1_166,DH_228) in
+let pair(c_234,k_235) = KDF_231 in
+let Pars1_237 = pars12(KDF_231,c_32) in
+let Pars2_238 = pars22(KDF_231,c_32) in
+let Enc_241 = AEAD(Pars2_238,ts_i,HMAC_223) in
+let HMAC_244 = hash2(HMAC_223,Enc_241) in
+out c, triple(Epub_i_100,Enc_220,Enc_241) 
+event InitStart Init Resp Spub_i a_88 
+in c, a_251 
+let Pars1_252 = pars12(a_251,c_32) in
+let Pars2_256 = pars22(a_251,c_32) in
+let Cii_724 = kdf1(Pars1_237,Pars1_252) in
+let HMAC_725 = hash2(HMAC_244,Pars1_252) in
+let DH_731 = DH(Epriv_i_98,Pars1_252) in
+let KDF_734 = kdf2(Cii_724,DH_731) in
+let pair(c_737,k_738) = KDF_734 in
+let Pars1_740 = pars12(KDF_734,c_32) in
+let Pars2_741 = pars22(KDF_734,c_32) in
+let DH_868 = DH(Spriv_i,Pars1_252) in
+let KDF_871 = kdf2(Pars1_740,DH_868) in
+let pair(c_874,k_875) = KDF_871 in
+let Pars1_877 = pars12(KDF_871,c_32) in
+let Pars2_878 = pars22(KDF_871,c_32) in
+let KDF_1006 = kdf3(Pars1_877,Q) in
+let triple(c_1009,tau_1010,k_1011) = KDF_1006 in
+let Pars1_1013 = pars13(KDF_1006,c_32) in
+let Pars2_1014 = pars23(KDF_1006,c_32) in
+let HMAC_1017 = hash2(HMAC_725,Pars2_1014) in
+let Pars3_1020 = pars33(KDF_1006,c_32) in
+let Dec_1027 = dec(Pars2_256,Pars3_1020) in
+let HMAC_1030 = hash2(HMAC_1017,Pars2_256) in
+event InitAccept Init Resp Spub_i a_88

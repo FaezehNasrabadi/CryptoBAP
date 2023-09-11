@@ -1,0 +1,43 @@
+param N.
+
+channel c_in.
+channel c_out.
+type skeyseed [large,fixed].
+type spkey [large,bounded].
+type G_t [bounded,large].
+fun expdh(G_t,skeyseed):spkey.
+type fixed_64 [fixed, large].
+const g: G_t.
+
+
+(********************************
+  <Query>
+*********************************)
+
+(*************************** 
+  <Model> 
+***************************)
+
+let client = 0 . 
+let server = 0 .
+
+(********************************
+  <Environment>
+*********************************)
+
+process 
+! N(
+	in(c_in,());
+	new Spriv_i: skeyseed;
+	let Spub_i = expdh(g,Spriv_i) in
+	out(c_out, Spub_i);
+	! N (
+		in(c_in,());
+		new Spriv_r: skeyseed;
+	   	let Spub_r = expdh(g,Spriv_r) in
+	   	out(c_out, Spub_r);
+		(! N (client)) | (! N (server))
+  )
+)
+
+
