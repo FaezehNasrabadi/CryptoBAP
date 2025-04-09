@@ -2,12 +2,17 @@ structure bir_symbexec_compLib =
 struct
 
 local
+  open HolKernel Parse boolLib bossLib;
+  open HolBACoreSimps;
+	 
   open bir_symbexec_stateLib;
 
   open bir_constpropLib;
   open bir_exp_helperLib;
   open bir_expSyntax;
-
+  open Hol_pp;
+  open Term;
+  open liteLib;
   val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_compLib"
   val wrap_exn = Feedback.wrap_exn   "bir_symbexec_compLib"
 in (* outermost local *)

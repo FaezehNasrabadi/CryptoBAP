@@ -1,0 +1,144 @@
+
+============================================================================================
+== Testing: src/tools/parallelcomposition/examples/Tinyssh/Combination-Tinyssh-server.exe ==
+============================================================================================
+found 17972 blocks in program
+=================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Tinyssh/Combination-Tinyssh-server.exe ==
+== Time so far:  30 sec.                                                                       ==
+=================================================================================================
+initial state created.
+
+current number of stopped states: 0
+enter loop BL_Address (Imm64 0x40412Cw)
+exit loop BL_Address (Imm64 0x404130w)
+current number of stopped states: 50
+enter loop BL_Address (Imm64 0x40412Cw)
+exit loop BL_Address (Imm64 0x404130w)
+current number of stopped states: 177
+enter loop BL_Address (Imm64 0x40412Cw)
+exit loop BL_Address (Imm64 0x404130w)
+current number of stopped states: 343
+enter loop BL_Address (Imm64 0x40412Cw)
+current number of stopped states: 470
+exit loop BL_Address (Imm64 0x404130w)
+=================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Tinyssh/Combination-Tinyssh-server.exe ==
+== Time so far:  60 sec.                                                                       ==
+=================================================================================================
+current number of stopped states: 606
+enter loop BL_Address (Imm64 0x40412Cw)
+exit loop BL_Address (Imm64 0x404130w)
+current number of stopped states: 646
+enter loop BL_Address (Imm64 0x40412Cw)
+exit loop BL_Address (Imm64 0x404130w)
+current number of stopped states: 773
+
+
+finished exploration of all paths.
+
+number of paths found: 906
+
+number of "no assert failed" paths found: 77
+
+number of "assert failed" paths found: 829
+
+current number of stopped states: 1
+enter loop BL_Address (Imm64 0x402AE8w)
+exit loop BL_Address (Imm64 0x402AECw)
+current number of stopped states: 65
+current number of stopped states: 162
+current number of stopped states: 271
+=================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Tinyssh/Combination-Tinyssh-server.exe ==
+== Time so far:  90 sec.                                                                       ==
+=================================================================================================
+
+
+finished exploration of all paths.
+
+number of paths found: 453
+
+number of "no assert failed" paths found: 59
+
+number of "assert failed" paths found: 394
+
+=================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Tinyssh/Combination-Tinyssh-server.exe ==
+== Time so far: 120 sec.                                                                       ==
+=================================================================================================
+=================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Tinyssh/Combination-Tinyssh-server.exe ==
+== Time so far: 150 sec.                                                                       ==
+=================================================================================================
+=================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Tinyssh/Combination-Tinyssh-server.exe ==
+== Time so far: 180 sec.                                                                       ==
+=================================================================================================
+=================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Tinyssh/Combination-Tinyssh-server.exe ==
+== Time so far: 210 sec.                                                                       ==
+=================================================================================================
+=================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Tinyssh/Combination-Tinyssh-server.exe ==
+== Time so far: 240 sec.                                                                       ==
+=================================================================================================
+=================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Tinyssh/Combination-Tinyssh-server.exe ==
+== Time so far: 270 sec.                                                                       ==
+=================================================================================================
+=================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Tinyssh/Combination-Tinyssh-server.exe ==
+== Time so far: 300 sec.                                                                       ==
+=================================================================================================
+=================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Tinyssh/Combination-Tinyssh-server.exe ==
+== Time so far: 330 sec.                                                                       ==
+=================================================================================================
+=================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Tinyssh/Combination-Tinyssh-server.exe ==
+== Time so far: 360 sec.                                                                       ==
+=================================================================================================
+=================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Tinyssh/Combination-Tinyssh-server.exe ==
+== Time so far: 390 sec.                                                                       ==
+=================================================================================================
+=================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Tinyssh/Combination-Tinyssh-server.exe ==
+== Time so far: 420 sec.                                                                       ==
+=================================================================================================
+=================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Tinyssh/Combination-Tinyssh-server.exe ==
+== Time so far: 450 sec.                                                                       ==
+=================================================================================================
+=================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Tinyssh/Combination-Tinyssh-server.exe ==
+== Time so far: 480 sec.                                                                       ==
+=================================================================================================
+=================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Tinyssh/Combination-Tinyssh-server.exe ==
+== Time so far: 510 sec.                                                                       ==
+=================================================================================================
+=================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Tinyssh/Combination-Tinyssh-server.exe ==
+== Time so far: 540 sec.                                                                       ==
+=================================================================================================
+Get refined predlists
+Get tree
+Get vals_list
+=================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Tinyssh/Combination-Tinyssh-server.exe ==
+== Time so far: 570 sec.                                                                       ==
+=================================================================================================
+Get sort_vals
+=================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Tinyssh/Combination-Tinyssh-server.exe ==
+== Time so far: 600 sec.                                                                       ==
+=================================================================================================
+built a symbolic tree with value
+built sapic_process
+wrote into file
+====================================================================================================
+== Test successful: src/tools/parallelcomposition/examples/Tinyssh/Combination-Tinyssh-server.exe ==
+== Elapsed time: 613 sec.                                                                         ==
+====================================================================================================

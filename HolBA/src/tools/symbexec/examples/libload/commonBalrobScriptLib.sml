@@ -4,6 +4,8 @@ struct
 local
   open bir_symbexec_stateLib;
   open bir_symbexec_coreLib;
+
+  val ERR      = Feedback.mk_HOL_ERR "commonBalrobScriptLib";
 in
   (* TODO: how much space do we actually have? we should "enforce" this with the linker... *)
   val mem_ram_start = 0x10000000;

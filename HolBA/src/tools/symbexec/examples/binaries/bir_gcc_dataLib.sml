@@ -1,8 +1,12 @@
 structure bir_gcc_dataLib =
 struct
 local
+    open HolKernel Parse boolLib pairLib;
 
-  open gcc_supportLib;
+
+    open gcc_supportLib;
+
+    val ERR      = Feedback.mk_HOL_ERR "bir_gcc_dataLib"
 
   fun find_single_SOME []             = NONE
     | find_single_SOME ( NONE   ::xs) = find_single_SOME xs

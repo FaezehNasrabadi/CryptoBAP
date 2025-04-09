@@ -23,17 +23,18 @@ local
     open bir_program_labelsSyntax;
     open bir_block_collectionLib;
     open Redblackmap;
+    open Term;
   val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_PreprocessLib"
 in
-
+    
 (* Find nodes with branch*)
 fun fun_address_dict (n:cfg_node) =
     let
         val lbl_tm   = #CFGN_lbl_tm n;
 	val descr  = (valOf o #CFGN_hc_descr) n;
 	val instrDes = (snd o (list_split_pred #" ") o explode) descr;
-	   (* val _ = print ((implode instrDes) ^ "\n");*)
-	val name_adr = if ((isPrefix "(bl " (implode instrDes)) orelse (isPrefix "(b " (implode instrDes)))
+	   (* val _ = print ((implode instrDes) ^ "\n"); *)
+	val name_adr = if (isPrefix "(bl " (implode instrDes))
 		       then let
 			       val fname = (implode o fst o (list_split_pred #">") o snd o (list_split_pred #"<")) instrDes;
 			   in
@@ -42,6 +43,16 @@ fun fun_address_dict (n:cfg_node) =
 		       else if (isPrefix "(blr " (implode instrDes))
 		       then let
 			       val fname = (implode o fst o (list_split_pred #")") o snd o (list_split_pred #" ")) instrDes;
+			   in
+			       (lbl_tm, fname)
+			   end
+		       else if (isPrefix "(b " (implode instrDes))
+		       then let
+			       val fname = if (isPrefix "(b <" (implode instrDes))
+					   then
+					       (implode o fst o (list_split_pred #">") o snd o (list_split_pred #"<")) instrDes
+					   else
+					       (implode o fst o (list_split_pred #")") o snd o (list_split_pred #" ")) instrDes
 			   in
 			       (lbl_tm, fname)
 			   end
@@ -67,4 +78,3 @@ fun fun_addresses_dict bl_dict prog_lbl_tms =
 end(*local*)
 
 end (* struct *)
-

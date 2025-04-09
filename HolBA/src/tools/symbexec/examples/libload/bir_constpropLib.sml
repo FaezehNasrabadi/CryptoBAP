@@ -1,6 +1,8 @@
 structure bir_constpropLib =
 struct
 local
+    open HolKernel Parse boolLib bossLib;
+    open HolBACoreSimps;
 
 val bir_exp_is_const_def = Define `
   (bir_exp_is_const (BExp_Const n) = T) /\

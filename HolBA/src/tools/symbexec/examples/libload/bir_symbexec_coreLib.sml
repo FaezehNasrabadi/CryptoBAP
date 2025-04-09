@@ -2,6 +2,9 @@ structure bir_symbexec_coreLib =
 struct
 
 local
+    open HolKernel Parse boolLib bossLib;
+    open HolBACoreSimps;
+	 
   open bir_symbexec_stateLib;
   open bir_expSyntax;
   open bir_constpropLib;
@@ -10,6 +13,8 @@ local
 
   val debugAssignments = false;
   val debugPaths = false;
+
+  val ERR = Feedback.mk_HOL_ERR "bir_symbexec_coreLib"
 in (* outermost local *)
 
 (* primitive for symbolic/abstract computation for expressions *)
@@ -100,7 +105,7 @@ local
       val _ = if not debugAssignments then () else
               (print "- replace minus :"; print_term imm_val);
 
-      (* TODO: use smt solver to prove equality under path predicate *)
+ 
     in
       replacewith_tm
     end
@@ -117,7 +122,7 @@ local
       val _ = if not debugAssignments then () else
               (print "- replace plus :"; print_term imm_val);
 
-      (* TODO: use smt solver to prove equality under path predicate *)
+
     in
       replacewith_tm
     end
@@ -131,7 +136,7 @@ local
       val _ = if not debugAssignments then () else
               (print "- replace r7 :");
 
-      (* TODO: use smt solver to prove equality under path predicate *)
+
     in
       replacewith_tm
     end
@@ -139,7 +144,6 @@ local
 
 in (* local *)
 
-  (* TODO: think if it makes sense to have this function available outside or if we want another interface for this part *)
   val compute_val_and_resolve_deps = compute_val_and_resolve_deps;
 
   fun compute_valbe be syst =
@@ -149,7 +153,6 @@ in (* local *)
       val preds = SYST_get_pred syst;
 
       val be_   = simplify_be be syst;
-      (* TODO: we may be left with an expression that fetches a single variable from the environment *)
 
       val be_vars = get_birexp_vars be_;
       val besubst_with_vars = List.foldr (subst_fun env vals) (be_, []) be_vars;
@@ -211,11 +214,37 @@ fun abstract_exp_in_loop exp =
       else
         raise (ERR "abstract_exp_in_loop" ("don't know BIR expression: \"" ^ (term_to_string exp) ^ "\""));	
 
-
 (* primitive to compute expression and store result using fresh variable *)
   fun state_insert_symbval_from_be bv_fr be syst =
       insert_symbval bv_fr (compute_valbe be syst) syst;
 
+      
+(* primitives for adding conjuncts to the path predicate *)
+  fun state_add_pred bv_str pred syst =
+    let
+      val bv = bir_envSyntax.mk_BVar_string (bv_str, bir_valuesSyntax.BType_Bool_tm);
+      val bv_fresh = get_bvar_fresh bv;
+    in
+      (SYST_update_pred ((bv_fresh)::(SYST_get_pred syst)) o
+       state_insert_symbval_from_be bv_fresh pred
+      ) syst
+    end;
+      
+(* primitives for adding conjuncts to the path predicate for assign *)
+  fun state_add_pred_fr use_expo_var bv_fr symbv syst =
+      if ((identical bir_valuesSyntax.BType_Bool_tm ((snd o bir_envSyntax.dest_BVar_string) bv_fr)) orelse use_expo_var)
+      then (SYST_update_pred ((bv_fr)::(SYST_get_pred syst)) syst)
+      else
+	  let
+	      val bv_str = (fst o bir_envSyntax.dest_BVar_string) bv_fr
+	      val bv = bir_envSyntax.mk_BVar_string (bv_str, bir_valuesSyntax.BType_Bool_tm);
+	  in
+	      ((SYST_update_pred ((bv)::(SYST_get_pred syst)) o
+		insert_symbval bv symbv
+	       ) syst)
+	  end;
+
+      
 (* primitive to carry out assignment *)
   fun state_assign_bv bv be syst =
     let
@@ -252,7 +281,9 @@ fun abstract_exp_in_loop exp =
       val _ = case symbv' of
                   SymbValBE (x, t) => (if ((is_state_inloop syst) andalso false) then print (term_to_string x ^ "\n\n") else ())
                 | _ => ();
-	  
+
+      val syst = state_add_pred_fr use_expo_var bv_fr symbv' syst;
+
     in
       (update_envvar bv bv_fr o
        (if use_expo_var then
@@ -295,14 +326,10 @@ fun abstract_exp_in_loop exp =
       val _ = if is_bvar_init bv_sp_val then () else
               raise ERR "state_make_mem" "can only make memory values from initial variables currently";
 
-      (* TODO: should/need we somehow add that bv_val is equal to the introduced memory abstraction? *)
-      (* val exp   = bir_expSyntax.mk_BExp_Den bv_val; *)
 
       (* constant memory (8-bit words) *)
       val mem_const = mem_const_fun;
 
-      (* global memory *)
-      (* TODO: add initial global memory, and a function to remove mappings (abstract again) *)
       val mem_globl = Redblackmap.mkDict Arbnum.compare;
 
       (* stack memory *)
@@ -319,16 +346,6 @@ fun abstract_exp_in_loop exp =
       ) syst
     end;
 
-(* primitives for adding conjuncts to the path predicate *)
-  fun state_add_pred bv_str pred syst =
-    let
-      val bv = bir_envSyntax.mk_BVar_string (bv_str, bir_valuesSyntax.BType_Bool_tm);
-      val bv_fresh = get_bvar_fresh bv;
-    in
-      (SYST_update_pred ((bv_fresh)::(SYST_get_pred syst)) o
-       state_insert_symbval_from_be bv_fresh pred
-      ) syst
-    end;
 
   fun state_add_preds bv_str preds syst =
     List.foldr (fn (pred, syst_) => state_add_pred bv_str pred syst_) syst preds;

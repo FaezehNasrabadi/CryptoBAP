@@ -1,0 +1,21 @@
+new ~3_k;
+let 2_Key=~3_k in 
+let 8_MEM=Store(sy_MEM,LowCast(2_Key,'32'),LittleEndian,Plus(sy_SP_EL0,'28')) in 
+let 9_R0='0' in 
+let 14_MEM=Store(8_MEM,'0',LittleEndian,Plus(sy_SP_EL0,'40')) in 
+let 17_R1=UnsignedCast(Load(14_MEM,'32',LittleEndian,Plus(sy_SP_EL0,'28')),'64') in 
+let 20_R0=Load(14_MEM,'64',LittleEndian,Plus(sy_SP_EL0,'40')) in 
+let 23_Enc=enc(22_msg,2_Key) in 
+out(23_Enc);
+let 31_MEM=Store(24_MEM,LowCast(25_R0,'32'),LittleEndian,Plus(sy_SP_EL0,'32')) in 
+let 34_R1=UnsignedCast(Load(31_MEM,'32',LittleEndian,Plus(sy_SP_EL0,'28')),'64') in 
+let 35_R0='57920' in 
+let 36_R0='123456' in 
+let 37_R0=UnsignedCast(Xor('123456',LowCast(34_R1,'32')),'64') in 
+let 42_MEM=Store(31_MEM,LowCast(37_R0,'32'),LittleEndian,Plus(sy_SP_EL0,'36')) in 
+let 45_R0=UnsignedCast(Load(42_MEM,'32',LittleEndian,Plus(sy_SP_EL0,'36')),'64') in 
+out(45_R0);
+out(sy_MEM);
+out(2_Key);
+out(23_Enc);
+out(sy_SP_EL0)

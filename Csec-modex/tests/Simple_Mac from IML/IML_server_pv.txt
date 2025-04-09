@@ -1,7 +1,0 @@
-in c, a_113 
-let Pars1_236 = pars1(a_113) in
-let Conc1_259 = conc1(Pars1_236) in
-let HMAC_263 = hash(Conc1_259,key) in
-let Pars2_274 = pars2(a_113) in
-if HMAC_263 = Pars2_274 then
-event server_recv Pars1_236

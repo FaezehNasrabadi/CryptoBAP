@@ -1,6 +1,6 @@
 # includes
 # ----------------------------------
-DEPENDENCIES   = 
+DEPENDENCIES   = $(HOLBA_DIR)/src/tools/exec
 
 
 # configuration
@@ -8,7 +8,7 @@ DEPENDENCIES   =
 HOLHEAP        = balrob/HolBATools_SymbExec_ExampleBinariesBalrob-heap
 NEWHOLHEAP     = HolBATools_SymbExec_ExampleBinaries-heap
 
-HEAPINC_EXTRA  = 
+HEAPINC_EXTRA  = $(HOLBA_DIR)/src/tools/exec/bir_execLib
 
 
 # included lines follow

@@ -2,8 +2,16 @@ structure bir_symbexec_sumLib =
 struct
 
 local
-  open bir_symbexec_stateLib;
-
+    open bir_symbexec_stateLib;
+    open bir_expSyntax;
+    open bir_programSyntax;
+    open bir_immSyntax;
+    open bir_envSyntax;
+    open Hol_pp;
+    open Term;
+    open liteLib;
+    open HolKernel Parse boolLib bossLib;
+    open HolBACoreSimps;
   val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_sumLib"
   val wrap_exn = Feedback.wrap_exn   "bir_symbexec_sumLib"
 in (* outermost local *)

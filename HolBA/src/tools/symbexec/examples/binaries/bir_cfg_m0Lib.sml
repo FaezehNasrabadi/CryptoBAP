@@ -8,9 +8,12 @@ local
   open optionSyntax;
   open wordsSyntax;
   open listSyntax;
-
+  open Hol_pp;
+  open Term;
   open bir_block_collectionLib;
   open bir_cfgLib;
+  open HolKernel Parse boolLib pairLib;
+  val ERR      = Feedback.mk_HOL_ERR "bir_cfg_m0Lib"
 
   (* simple helpers *)
   val BVarLR32_tm = ``BVar "LR" (BType_Imm Bit32)``;

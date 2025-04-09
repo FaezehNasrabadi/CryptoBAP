@@ -388,8 +388,15 @@ BExp_Cast BIExp_LowCast
 
       else if is_BExp_UnaryExp exp then
         let
-          val (uop, exp) = (dest_BExp_UnaryExp) exp;
-          val (conds1, vars1, (str, sty)) = bexp_to_smtlib conds vars exp;
+          val (uop, exp_) = (dest_BExp_UnaryExp) exp;
+
+          val (conds1, vars1, (str, sty)) = bexp_to_smtlib conds vars exp_;
+          val (str, sty) = if not (is_BIExp_Not uop) then (str, sty) else
+                         case sty of
+                           SMTTY_BV 1 => ("(= " ^ str ^ " (_ bv1 1))", SMTTY_Bool)
+                         | SMTTY_BV _ => problem exp "unsupported argument type: " ()
+                         | _ => (str, sty);
+
           val uopval = uop_to_smtlib uop (str, sty);
         in
           (conds1, vars1, uopval)
@@ -566,6 +573,8 @@ BExp_Store (BExp_Den (BVar "fr_269_MEM" (BType_Mem Bit32 Bit8)))
             problem exp "don't know BIR expression: "
         end
     end;
+
+(* TODO: add a model importer *)
 
 end (* local *)
 

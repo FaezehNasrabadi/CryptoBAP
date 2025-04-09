@@ -1,0 +1,59 @@
+
+===================================================================================================
+== Testing: src/tools/parallelcomposition/examples/Wireguard-resp/Combination-Wireguard-resp.exe ==
+===================================================================================================
+found 798 blocks in program
+initial state created.
+
+current number of stopped states: 0
+current number of stopped states: 90
+
+
+finished exploration of all paths.
+
+number of paths found: 162
+
+number of "no assert failed" paths found: 21
+
+number of "assert failed" paths found: 141
+
+current number of stopped states: 125
+current number of stopped states: 267
+current number of stopped states: 494
+current number of stopped states: 730
+========================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Wireguard-resp/Combination-Wireguard-resp.exe ==
+== Time so far:  30 sec.                                                                              ==
+========================================================================================================
+current number of stopped states: 919
+current number of stopped states: 1146
+current number of stopped states: 1383
+
+
+finished exploration of all paths.
+
+number of paths found: 1542
+
+number of "no assert failed" paths found: 153
+
+number of "assert failed" paths found: 1389
+
+========================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Wireguard-resp/Combination-Wireguard-resp.exe ==
+== Time so far:  60 sec.                                                                              ==
+========================================================================================================
+Get refined predlists
+Get tree
+Get vals_list
+Get sort_vals
+========================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Wireguard-resp/Combination-Wireguard-resp.exe ==
+== Time so far:  90 sec.                                                                              ==
+========================================================================================================
+built a symbolic tree with value
+built sapic_process
+wrote into file
+============================
+== Test successful: src/tools/parallelcomposition/examples/Wireguard-resp/Combination-Wireguard-resp.exe ==
+== Elapsed time: 110 sec. ==
+============================

@@ -9,6 +9,8 @@ open bir_auxiliaryLib;
 
 open bir_fileLib;
 
+val ERR      = Feedback.mk_HOL_ERR "binariesMemLib"
+
 
 (* helpers *)
               fun find_two _   _     _ []     = NONE

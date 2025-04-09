@@ -24,7 +24,7 @@ local
     open bitstringSyntax;
     open  bir_symbexec_funcLib;
     open stringSyntax;
-	 open bslSyntax;
+    open bslSyntax;
     val ERR = Feedback.mk_HOL_ERR "bir_symbexec_treeLib"
 
 in
