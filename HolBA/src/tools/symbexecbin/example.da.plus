@@ -1,0 +1,194 @@
+
+build/bin/example.o:     file format elf64-littleaarch64
+
+
+Disassembly of section .text:
+
+0000000000400480 <_start>:
+  400480:	d503201f 	nop
+  400484:	d280001d 	mov	x29, #0x0                   	// #0
+  400488:	d280001e 	mov	x30, #0x0                   	// #0
+  40048c:	aa0003e5 	mov	x5, x0
+  400490:	f94003e1 	ldr	x1, [sp]
+  400494:	910023e2 	add	x2, sp, #0x8
+  400498:	910003e6 	mov	x6, sp
+  40049c:	d2e00000 	movz	x0, #0x0, lsl #48
+  4004a0:	f2c00000 	movk	x0, #0x0, lsl #32
+  4004a4:	f2a00800 	movk	x0, #0x40, lsl #16
+  4004a8:	f280cc00 	movk	x0, #0x660
+  4004ac:	d2800003 	mov	x3, #0x0                   	// #0
+  4004b0:	d2800004 	mov	x4, #0x0                   	// #0
+  4004b4:	97ffffe3 	bl	400440 <__libc_start_main@plt>
+  4004b8:	97ffffea 	bl	400460 <abort@plt>
+
+00000000004004bc <call_weak_fn>:
+  4004bc:	90000080 	adrp	x0, 410000 <__FRAME_END__+0xf6f4>
+  4004c0:	f947f000 	ldr	x0, [x0, #4064]
+  4004c4:	b4000040 	cbz	x0, 4004cc <call_weak_fn+0x10>
+  4004c8:	17ffffe2 	b	400450 <__gmon_start__@plt>
+  4004cc:	d65f03c0 	ret
+
+00000000004004d0 <deregister_tm_clones>:
+  4004d0:	b0000080 	adrp	x0, 411000 <__libc_start_main@GLIBC_2.34>
+  4004d4:	9100a000 	add	x0, x0, #0x28
+  4004d8:	b0000081 	adrp	x1, 411000 <__libc_start_main@GLIBC_2.34>
+  4004dc:	9100a021 	add	x1, x1, #0x28
+  4004e0:	eb00003f 	cmp	x1, x0
+  4004e4:	540000c0 	b.eq	4004fc <deregister_tm_clones+0x2c>  // b.none
+  4004e8:	90000001 	adrp	x1, 400000 <__abi_tag-0x254>
+  4004ec:	f9436c21 	ldr	x1, [x1, #1752]
+  4004f0:	b4000061 	cbz	x1, 4004fc <deregister_tm_clones+0x2c>
+  4004f4:	aa0103f0 	mov	x16, x1
+  4004f8:	d61f0200 	br	x16
+  4004fc:	d65f03c0 	ret
+
+0000000000400500 <register_tm_clones>:
+  400500:	b0000080 	adrp	x0, 411000 <__libc_start_main@GLIBC_2.34>
+  400504:	9100a000 	add	x0, x0, #0x28
+  400508:	b0000081 	adrp	x1, 411000 <__libc_start_main@GLIBC_2.34>
+  40050c:	9100a021 	add	x1, x1, #0x28
+  400510:	cb000021 	sub	x1, x1, x0
+  400514:	d37ffc22 	lsr	x2, x1, #63
+  400518:	8b810c41 	add	x1, x2, x1, asr #3
+  40051c:	9341fc21 	asr	x1, x1, #1
+  400520:	b40000c1 	cbz	x1, 400538 <register_tm_clones+0x38>
+  400524:	90000002 	adrp	x2, 400000 <__abi_tag-0x254>
+  400528:	f9437042 	ldr	x2, [x2, #1760]
+  40052c:	b4000062 	cbz	x2, 400538 <register_tm_clones+0x38>
+  400530:	aa0203f0 	mov	x16, x2
+  400534:	d61f0200 	br	x16
+  400538:	d65f03c0 	ret
+  40053c:	d503201f 	nop
+
+0000000000400540 <__do_global_dtors_aux>:
+  400540:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+  400544:	910003fd 	mov	x29, sp
+  400548:	f9000bf3 	str	x19, [sp, #16]
+  40054c:	b0000093 	adrp	x19, 411000 <__libc_start_main@GLIBC_2.34>
+  400550:	3940a260 	ldrb	w0, [x19, #40]
+  400554:	35000080 	cbnz	w0, 400564 <__do_global_dtors_aux+0x24>
+  400558:	97ffffde 	bl	4004d0 <deregister_tm_clones>
+  40055c:	52800020 	mov	w0, #0x1                   	// #1
+  400560:	3900a260 	strb	w0, [x19, #40]
+  400564:	f9400bf3 	ldr	x19, [sp, #16]
+  400568:	a8c27bfd 	ldp	x29, x30, [sp], #32
+  40056c:	d65f03c0 	ret
+
+0000000000400570 <frame_dummy>:
+  400570:	17ffffe4 	b	400500 <register_tm_clones>
+
+0000000000400574 <share_key>:
+  400574:	52800000 	mov	w0, #0x0                   	// #0
+  400578:	d65f03c0 	ret
+
+000000000040057c <send_channel>:
+  40057c:	d10043ff 	sub	sp, sp, #0x10
+  400580:	39003fe0 	strb	w0, [sp, #15]
+  400584:	d503201f 	nop
+  400588:	910043ff 	add	sp, sp, #0x10
+  40058c:	d65f03c0 	ret
+
+0000000000400590 <Encrypt>:
+  400590:	d10043ff 	sub	sp, sp, #0x10
+  400594:	39003fe0 	strb	w0, [sp, #15]
+  400598:	b9000be1 	str	w1, [sp, #8]
+  40059c:	39403fe0 	ldrb	w0, [sp, #15]
+  4005a0:	910043ff 	add	sp, sp, #0x10
+  4005a4:	d65f03c0 	ret
+
+00000000004005a8 <Decrypt>:
+  4005a8:	d10043ff 	sub	sp, sp, #0x10
+  4005ac:	39003fe0 	strb	w0, [sp, #15]
+  4005b0:	b9000be1 	str	w1, [sp, #8]
+  4005b4:	39403fe0 	ldrb	w0, [sp, #15]
+  4005b8:	910043ff 	add	sp, sp, #0x10
+  4005bc:	d65f03c0 	ret
+
+00000000004005c0 <receive_channel>:
+  4005c0:	52800600 	mov	w0, #0x30                  	// #48
+  4005c4:	d65f03c0 	ret
+
+00000000004005c8 <event_send>:
+  4005c8:	d503201f 	nop
+  4005cc:	d65f03c0 	ret
+
+00000000004005d0 <event_receive>:
+  4005d0:	d503201f 	nop
+  4005d4:	d65f03c0 	ret
+
+00000000004005d8 <event_bad>:
+  4005d8:	d503201f 	nop
+  4005dc:	d65f03c0 	ret
+
+00000000004005e0 <client>:
+  4005e0:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+  4005e4:	910003fd 	mov	x29, sp
+  4005e8:	b9001fe0 	str	w0, [sp, #28]
+  4005ec:	b9401fe1 	ldr	w1, [sp, #28]
+  4005f0:	3940bfe0 	ldrb	w0, [sp, #47]
+  4005f4:	97ffffe7 	bl	400590 <Encrypt>
+  4005f8:	3900bbe0 	strb	w0, [sp, #46]
+  4005fc:	3940bbe0 	ldrb	w0, [sp, #46]
+  400600:	97ffffdf 	bl	40057c <send_channel>
+  400604:	97fffff1 	bl	4005c8 <event_send>
+  400608:	d503201f 	nop
+  40060c:	a8c37bfd 	ldp	x29, x30, [sp], #48
+  400610:	d65f03c0 	ret
+
+0000000000400614 <server>:
+  400614:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+  400618:	910003fd 	mov	x29, sp
+  40061c:	b9001fe0 	str	w0, [sp, #28]
+  400620:	97ffffe8 	bl	4005c0 <receive_channel>
+  400624:	3900bfe0 	strb	w0, [sp, #47]
+  400628:	b9401fe1 	ldr	w1, [sp, #28]
+  40062c:	3940bfe0 	ldrb	w0, [sp, #47]
+  400630:	97ffffde 	bl	4005a8 <Decrypt>
+  400634:	3900bbe0 	strb	w0, [sp, #46]
+  400638:	3940bbe0 	ldrb	w0, [sp, #46]
+  40063c:	7100c01f 	cmp	w0, #0x30
+  400640:	54000081 	b.ne	400650 <server+0x3c>  // b.any
+  400644:	97ffffe5 	bl	4005d8 <event_bad>
+  400648:	52800000 	mov	w0, #0x0                   	// #0
+  40064c:	14000003 	b	400658 <server+0x44>
+  400650:	97ffffe0 	bl	4005d0 <event_receive>
+  400654:	52800020 	mov	w0, #0x1                   	// #1
+  400658:	a8c37bfd 	ldp	x29, x30, [sp], #48
+  40065c:	d65f03c0 	ret
+
+0000000000400660 <main>:
+  400660:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+  400664:	910003fd 	mov	x29, sp
+  400668:	97ffffc3 	bl	400574 <share_key>
+  40066c:	b9001fe0 	str	w0, [sp, #28]
+  400670:	b9401fe0 	ldr	w0, [sp, #28]
+  400674:	97ffffdb 	bl	4005e0 <client>
+  400678:	7100001f 	cmp	w0, #0x0
+  40067c:	540000a1 	b.ne	400690 <main+0x30>  // b.any
+  400680:	b9401fe0 	ldr	w0, [sp, #28]
+  400684:	97ffffe4 	bl	400614 <server>
+  400688:	7100001f 	cmp	w0, #0x0
+  40068c:	54000060 	b.eq	400698 <main+0x38>  // b.none
+  400690:	52800020 	mov	w0, #0x1                   	// #1
+  400694:	14000002 	b	40069c <main+0x3c>
+  400698:	52800000 	mov	w0, #0x0                   	// #0
+  40069c:	7100001f 	cmp	w0, #0x0
+  4006a0:	54000061 	b.ne	4006ac <main+0x4c>  // b.any
+  4006a4:	52800000 	mov	w0, #0x0                   	// #0
+  4006a8:	14000002 	b	4006b0 <main+0x50>
+  4006ac:	52800020 	mov	w0, #0x1                   	// #1
+  4006b0:	a8c27bfd 	ldp	x29, x30, [sp], #32
+  4006b4:	d65f03c0 	ret
+
+Disassembly of section .data:
+
+0000000000411018 <__data_start>:
+	...
+
+0000000000411020 <__dso_handle>:
+	...
+
+Disassembly of section .bss:
+
+0000000000411028 <completed.0>:
+	...

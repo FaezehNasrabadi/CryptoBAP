@@ -1,6 +1,6 @@
 # includes
 # ----------------------------------
-DEPENDENCIES   = ../../theory/bir ../../theory/bir-support ../../theory/tools/backlifter
+DEPENDENCIES   = ../../theory/bir ../../theory/bir-support
 
 
 # configuration

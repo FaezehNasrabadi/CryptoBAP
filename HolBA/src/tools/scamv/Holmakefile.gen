@@ -1,6 +1,6 @@
 # includes
 # ----------------------------------
-DEPENDENCIES   = ../../theory/bir ../../theory/bir-support ../../shared ../lifter ./persistence
+DEPENDENCIES   = ../../theory/bir ../../theory/bir-support ../../shared ../lifter
 
 
 # configuration

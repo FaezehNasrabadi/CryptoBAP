@@ -1,0 +1,47 @@
+
+xor.o:     file format elf64-littleaarch64
+
+
+Disassembly of section .text:
+
+0000000000000000 <send>:
+   0:	d10043ff 	sub	sp, sp, #0x10
+   4:	b9000fe0 	str	w0, [sp, #12]
+   8:	d503201f 	nop
+   c:	910043ff 	add	sp, sp, #0x10
+  10:	d65f03c0 	ret
+
+0000000000000014 <senc>:
+  14:	d10043ff 	sub	sp, sp, #0x10
+  18:	f90007e0 	str	x0, [sp, #8]
+  1c:	b90007e1 	str	w1, [sp, #4]
+  20:	d503201f 	nop
+  24:	910043ff 	add	sp, sp, #0x10
+  28:	d65f03c0 	ret
+
+000000000000002c <new_key>:
+  2c:	d503201f 	nop
+  30:	d65f03c0 	ret
+
+0000000000000034 <main>:
+  34:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+  38:	910003fd 	mov	x29, sp
+  3c:	97fffffc 	bl	2c <new_key>
+  40:	b9001fe0 	str	w0, [sp, #28]
+  44:	90000000 	adrp	x0, 0 <send>
+  48:	91000000 	add	x0, x0, #0x0
+  4c:	f90017e0 	str	x0, [sp, #40]
+  50:	b9401fe1 	ldr	w1, [sp, #28]
+  54:	f94017e0 	ldr	x0, [sp, #40]
+  58:	97ffffef 	bl	14 <senc>
+  5c:	b90023e0 	str	w0, [sp, #32]
+  60:	b9401fe1 	ldr	w1, [sp, #28]
+  64:	529c4800 	mov	w0, #0xe240                	// #57920
+  68:	72a00020 	movk	w0, #0x1, lsl #16
+  6c:	4a000020 	eor	w0, w1, w0
+  70:	b90027e0 	str	w0, [sp, #36]
+  74:	b94027e0 	ldr	w0, [sp, #36]
+  78:	97ffffe2 	bl	0 <send>
+  7c:	d503201f 	nop
+  80:	a8c37bfd 	ldp	x29, x30, [sp], #48
+  84:	d65f03c0 	ret

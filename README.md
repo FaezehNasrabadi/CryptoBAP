@@ -1,160 +1,89 @@
-# CryptoBAP
+## Symbolic Parallel Composition for Verification of Multi-language Protocol Implementations
 
-This is an implementation of our CryptoBAP toolchain.
-This implementation includes 
-- The crypto-aware symbolic execution engine on top of the proof-producing platform named HolBA
-- The extension of HolBA with the syntax of intermediate model language (IML)
-- The translation of the symbolic tree into the IML
-- The modification of the Csec-modex toolchain for getting IML files as inputs
+This repository contains the implementation of our framework. It incorporates a diverse set of features. Here is a brief overview of the repository's contents: 
 
+- **Composition of Symbolic Labeled Transition Systems:**
+	- Developing the composition of symbolic labeled transition systems, incorporating it with several deduction combiners to handle diverse scenarios, and showing the correctness of our symbolic composition. Refer to <a href="https://github.com/Viktoria2525/SymbolicParallelComposition/tree/main/HolBA/src/tools/parallelcomposition/deduction">deduction</a> for the composition w.r.t. symbolic labeled transition's deduction relations, <a href="https://github.com/Viktoria2525/SymbolicParallelComposition/tree/main/HolBA/src/tools/parallelcomposition/combinededuction">combinededuction</a> for the composition involving several combined deduction relations in addition to symbolic labeled transition's deduction relations, and <a href="https://github.com/Viktoria2525/SymbolicParallelComposition/tree/main/HolBA/src/tools/parallelcomposition/generaldeduction">generaldeduction</a> for the composition containing a general combined deduction relation extra to symbolic labeled transition's deduction relations.
 
-Folders and organization
-========================
+- **CSP-Style Parallel Composition:**
+	- Enabling the parallel composition of concrete labeled transition systems using a CSP-style approach and proving theories surrounding it (see <a href="https://github.com/Viktoria2525/SymbolicParallelComposition/tree/main/HolBA/src/tools/parallelcomposition/concrete">concrete</a>).
 
-Our toolchain includes the following:
+- **Refinement:**
+	- Linking the analysis of symbolic system semantics to concrete system semantics using an additional theorem, set in <a href="https://github.com/Viktoria2525/SymbolicParallelComposition/blob/main/HolBA/src/tools/parallelcomposition/refinement">refinement</a>.
+   
+- **Sapic Model:**
 
-[HolBA/src/tools/symbexec/examples/binaries/balrob/](HolBA/src/tools/symbexec/examples/binaries/balrob)<br/>
-A directory contains the source code of the protocols we analysed: simple mac, simple xor, RPC, RPC-enc, NSL, CSur, TinySSH and WireGuard at ARMv8 binary code.<br/><br/>
-[HolBA/src/tools/symbexec/examples/PreProcess/]( HolBA/src/tools/symbexec/examples/PreProcess)<br/>
-A directory consists of the source codes for preprocessing the BIR program before executing by our symbolic execution, e.g., finding addresses of function calls, entry and exit to/from loops.<br/><br/>
-[HolBA/src/tools/symbexec/examples/IML/]( HolBA/src/tools/symbexec/examples/IML)<br/>
-A directory includes the intermediate model language (IML) syntax implemented on top of the theorem prover HOL4.<br/><br/>
-[HolBA/src/tools/symbexec/examples/libload/]( HolBA/src/tools/symbexec/examples/libload)<br/>
-A directory contains the source codes of our crypto-aware symbolic execution.<br/><br/>
-[HolBA/src/tools/symbexec/examples/Tests/]( HolBA/src/tools/symbexec/examples/Tests)<br/>
-A directory includes extracted IML models and the input files for each of our use-cases, such as :<br/>
-<ul>
-<li> The function names used in the protocol implementation</li>
-<li> The names of cryptographic functions used in the protocol implementation</li>
-<li> The name of functions used for network communications in the protocol implementation and we anoint them adversary function names</li>
-<li> The number of entries for cryptographic functions used in the protocol implementation</li>
-<li> The number of entries for adversary functions used in the protocol implementation</li>
-<li> The name of events we release during the execution of the protocol</li>
-</ul>
+	- Formalizing the syntax and semantics of an applied pi-calculus model, <a href="https://github.com/Viktoria2525/SymbolicParallelComposition/tree/main/HolBA/src/tools/parallelcomposition/sapic">Sapic</a>, which encompasses both the syntax and semantics of Dolev-Yao attacker and library models.	
+	
+- **Composition and Decomposition of Dolev-Yao Libraries:**
 
-[Csec-modex/src/symtrace/]( Csec-modex/src/symtrace)<br/>
-A directory contains the source code of the Csec-modex verification toolchain, which we modified to start the analysis from IML.<br/><br/>
-[Csec-modex/mk/]( Csec-modex/mk)<br/>
-A directory includes the make files of the Csec-modex verification toolchain, which we modified to start from IML.<br/><br/>
-[Csec-modex/tests/]( Csec-modex/tests)<br/>
-A directory includes subdirectories that start the analysis of our use cases from IML input files. These subdirectories contain CryptoVerif and ProVerif template files which include :<br/>
-<ul>
-<li> The cryptographic assumptions used by the protocol implementation</li>
-<li> The process which generates shared cryptographic material and breeds the protocol participants</li>
-<li> Queries for the property that the protocol implementation attempt to satisfy</li>
-</ul>
+	- Establishing theorems for composing and decomposing Dolev-Yao libraries, located in <a href="https://github.com/Viktoria2525/SymbolicParallelComposition/tree/main/HolBA/src/tools/parallelcomposition/DYLib">DYLib</a>. 
+	
+- **Framework Instantiation:**
 
-How to setup and compile
-========================
-## HolBA
-1. Set up HolBA framework using [HolBA/README.md](HolBA/README.md)<br/>
-2. Specify which binary file and which blocks inside it you want to transpile into the binary intermediate representation (BIR) in [HolBA/src/tools/symbexec/examples/binaries/balrob/binariesBalrobDefsLib.sml](HolBA/src/tools/symbexec/examples/binaries/balrob/binariesBalrobDefsLib.sml)<br/>
-3. In order to generate a BIR program of your specified binary file, execute the following lines :<br/>
-    - `source env.sh` when you are in [HolBA/]( HolBA) directory<br/>
-    - `Holmake` when you are in [HolBA/src/tools/symbexec/examples/]( HolBA/src/tools/symbexec/examples)<br/>
+	- Applying the framework to <a href="https://github.com/Viktoria2525/SymbolicParallelComposition/tree/main/HolBA/src/theory/bir">BIR</a> (binary intermediate representation of ARMv8 and RISC-V machine code) and Sapic. In the <a href="https://github.com/Viktoria2525/SymbolicParallelComposition/tree/main/HolBA/src/tools/parallelcomposition/instantiations">instantiations</a> folder, we demonstrate how the paper’s theorems combine to achieve an end-to-end correctness result. We have assigned specific files with descriptive names to their mechanized proofs in HOL4 for each trace equivalence and trace inclusion step we have proven.
+	
+- **Symbolic Execution:**
 
-You can find the BIR program stored in ***binariesTheory.sig*** file in [HolBA/src/tools/symbexec/examples/binaries/balrob/]( HolBA/src/tools/symbexec/examples/binaries/balrob) directory<br/>
+	- <a href="https://github.com/Viktoria2525/SymbolicParallelComposition/tree/main/HolBA/src/tools/symbexec/examples/PreProcess">PreProcess</a> comprises source codes responsible for finding addresses of function calls, entry and exit points for loops of the BIR program before symbolic execution. <a href="https://github.com/Viktoria2525/SymbolicParallelComposition/tree/main/HolBA/src/tools/symbexec/examples/libload">libload</a> encompasses the source codes of our symbolic execution, and <a href="https://github.com/Viktoria2525/SymbolicParallelComposition/tree/main/HolBA/src/tools/symbexecbin">symbexecbin</a> includes the binary of the analyzed protocols and files needed to generate their BIR programs. 
 
-4. Now you can go to [HolBA/]( HolBA) directory and verify your desired use-case with the following command :<br/>
-    - `make src/tools/symbexec/examples/Tests/subdirectory/your-desired-use-case.sml_run`
+- **Symbolic Execution Tree Translation:**
 
-5. You can find the IML result in ***IML_Translation.txt*** file in subdirectory of the [HolBA/src/tools/symbexec/examples/Tests/]( HolBA/src/tools/symbexec/examples/Tests) directory<br/>
+	- Demonstrating the translation of the symbolic execution tree of the BIR program into the Sapic model and proving this translation is correct, placed in <a href="https://github.com/Viktoria2525/SymbolicParallelComposition/tree/main/HolBA/src/tools/parallelcomposition/translateTosapic">translateTosapic</a>.
+
+- **Verification Examples:**
+
+	- Providing verification examples for ARMv8 machine code of TinySSH and WireGuard. The <a href="https://github.com/Viktoria2525/SymbolicParallelComposition/tree/main/HolBA/src/tools/parallelcomposition/examples">examples</a> include necessary files for extracting the Sapic model of each protocol party along with the results from executing the extracted model with Sapic toolchain.
+		
+## How to setup and compile
 
 
-## Csec-modex
-1. Set up Csec-modex verification toolchain using [Csec-modex/README.markdown](Csec-modex/README.markdown)<br/>
-2. Place your derived IML file in the related subdirectory in [Csec-modex/tests/]( Csec-modex/tests)<br/>
-3. Run verification via the following command : <br/>
-     - `make -f Makefile.csec` when you are in the related subdirectory in [Csec-modex/tests/]( Csec-modex/tests)<br/>
+1. Establish the HolBA framework using the guidelines provided in <a href="https://github.com/Viktoria2525/SymbolicParallelComposition/blob/main/HolBA/README.md">HolBA-README.md</a>. No need to clone HolBA separately; we have provided a version compatible with our framework in our repository.
 
-Running example
-==============
-Consider a client-side of the implementation of simple XOR as described in [1].<br/>
+2. To validate our claims, navigate to each directory mentioned above and execute the `Holmake` command. You should observe that each theory file is generated smoothly without any errors or cheats.
 
-The ***client_xor.da***, ***client_xor.da.plus***, and ***client_xor.mem*** are the implementation of client-side of simple XOR at ARMv8 binary in [HolBA/src/tools/symbexec/examples/binaries/balrob/]( HolBA/src/tools/symbexec/examples/binaries/balrob) directory.<br/>
+3. **(optional step)** Generate BIR programs for the analyzed protocol binaries by executing `Holmake` in the <a href="https://github.com/Viktoria2525/SymbolicParallelComposition/tree/main/HolBA/src/tools/symbexecbin">symbexecbin</a> directory (the BIR programs are stored in ***\*Theory.sig*** files in this directory), or they will be created automatically the first time you run an example.
 
-You need to configure these files as input files at ARMv8 binary in file [HolBA/src/tools/symbexec/examples/binaries/balrob/binariesBalrobDefsLib.sml](HolBA/src/tools/symbexec/examples/binaries/balrob/binariesBalrobDefsLib.sml) as follows:<br/>
+4. Execute the `make src/tools/parallelcomposition/examples/subdirectory/your-chosen-example.sml_run` command for your chosen example when you are in <a href="https://github.com/Viktoria2525/SymbolicParallelComposition/tree/main/HolBA">HolBA</a> directory. The extracted model will be stored in the ***Sapic_Translation.txt*** file in the corresponding example subdirectory. Make sure to specify the cryptographic primitives's assumptions and security properties in the extracted model before verifying it with the Sapic toolchain. For detailed guidance on this process and to view the results we obtained from the Sapic toolchain backends, refer to <a href="https://github.com/Viktoria2525/SymbolicParallelComposition/tree/main/HolBA/src/tools/parallelcomposition/examples/Sapic-Results">Sapic-Results</a>.
+
+
+## Running example
+
+The running example is ready for the execution and showcase our core functionality with predefined inputs, files, and expected outputs. We will now explain this example to serve as a guide for users who wish to establish their own examples based on the provided foundation. For this purpose, we contemplate the implementation of Example 4 as outlined in our paper.
+
+1. Begin by placing the binary implementation file (***xor.da***) for the Example 4 in the <a href="https://github.com/Viktoria2525/SymbolicParallelComposition/tree/main/HolBA/src/tools/symbexecbin">symbexecbin</a> directory.
+
+2. Configure the binary files and code fragments you want to transpile to BIR as inputs in the <a href="https://github.com/Viktoria2525/SymbolicParallelComposition/blob/main/HolBA/src/tools/symbexecbin/XORexampleScript.sml">script file</a> dedicated to the simple XOR example. If you want to lift the entire binary file to a BIR program, skip specifying code fragments and use `read_disassembly_file_regions` function instead of `read_disassembly_file_regions_filter` function.
+In our running example, we provided the binary file and code fragments as follows:
 
 ```
-val configs              = [ ("client", 
-                           ("client_xor.da", "balrob/client_xor.da.plus", "balrob/client_xor.mem"),
-                           "client_THM",
-                           ((Arbnum.fromInt 0x00000000, Arbnum.fromInt 0xffffffff),
-                            (Arbnum.fromInt 0x10000000, Arbnum.fromInt (0x00000018 + 0x30d)),
-                            (Arbnum.fromInt 0x10001000, Arbnum.fromInt 0x00000ff0))
-			     ) ];
-```
-
-And then, specify which code fragments you want to transpile to BIR, like below :<br/>
-
-```
+val dafilename = "xor.da";
 val symbs_sec_text = [
-    "__libc_malloc",
-    "memcpy",
-    "otp",
-    "xor",
-    "socket_connect",
-    "send",
-    "RAND_bytes",
-    "client",
-    "main"
-];
+     "new_key",
+     "senc",
+     "send",
+     "main"
+  ];
 ```
 
-You can find the BIR program in ***binariesTheory.sig*** file in [HolBA/src/tools/symbexec/examples/binaries/balrob/]( HolBA/src/tools/symbexec/examples/binaries/balrob) directory and it contains BIR blocks like as follow : <br/>
+3. Specify the entry and exit addresses of the program-under-verification in the <a href="https://github.com/Viktoria2525/SymbolicParallelComposition/tree/main/HolBA/src/tools/parallelcomposition/examples/XOR/Combination-XOR.sml">Combination-XOR</a> file, as outlined below:
 
 ```
-		...
-		bb_last_statement :=
-                  BStmt_Jmp (BLE_Label (BL_Address (Imm64 4203720w)))|>;
- <|bb_label :=
-                  BL_Address_HC (Imm64 4203720w)
-                    "9400014B (bl 4029f4 <xor>)";
-                  bb_statements :=
-                  [BStmt_Assign (BVar "R30" (BType_Imm Bit64))
-                     (BExp_Const (Imm64 4203724w))];
-                  bb_last_statement :=
-                  BStmt_Jmp (BLE_Label (BL_Address (Imm64 4205044w)))|>;
-<|bb_label :=
-                  BL_Address_HC (Imm64 4203724w)
-                    "F94017A0 (ldr x0, [x29,#40])";
-                    ...
-```                  
+val lbl_tm = ``BL_Address (Imm64 60w)``;
 
-Moreover, you require to set the entry and exit points of the derived BIR program in [HolBA/src/tools/symbexec/examples/Tests/XOR/Combination-XOR.sml](HolBA/src/tools/symbexec/examples/Tests/XOR/Combination-XOR.sml) as follows : <br/>
-
-```
-val lbl_tm = ``BL_Address (Imm64 4203632w)``;
-
-val stop_lbl_tms = [``BL_Address (Imm64 4203756w)``];
+val stop_lbl_tms = [``BL_Address (Imm64 132w)``]; 
 ```
 
-And then run the following command when you are in [HolBA/]( HolBA) directory : <br/>
-- `make src/tools/symbexec/examples/Tests/XOR/Combination-XOR.sml_run` <br/>
+4. And then, run the following command:
 
-The derived IML model can be found in ***IML_Translation.txt*** file in [HolBA/src/tools/symbexec/examples/Tests/XOR/]( HolBA/src/tools/symbexec/examples/Tests/XOR) directory and is presented below : <br/>
+	- `make src/tools/parallelcomposition/examples/XOR/Combination-XOR.sml_run`
 
-```
-new OTP_48 fixed_64 
-let Conc1_66 = conc1(OTP_48) in
-let XOR_70 = exclusive_or(Conc1_66,pad) in
-out c, XOR_70 
-```
+5. Subsequently, you can locate the extracted Sapic model in the ***Sapic_Translation.txt*** file within the <a href="https://github.com/Viktoria2525/SymbolicParallelComposition/tree/main/HolBA/src/tools/parallelcomposition/examples/XOR">XOR</a> directory.
 
-Considering that the IML model is associated with the client side of our running example, you need to place it within the ***IML_client.txt*** file located in subdirectory [Csec-modex/tests/Simple_Xor from IML](Csec-modex/tests/Simple_Xor%20from%20IML).
+## Parallels virtual machine
 
-Then, you require to perform all the aforementioned steps for the server-side implementation of the simple XOR and put the derived model into the ***IML_server.txt*** file in subdirectory [Csec-modex/tests/Simple_Xor from IML](Csec-modex/tests/Simple_Xor%20from%20IML).
+Additionally, we have configured a <a href="https://drive.google.com/file/d/1pfIMxeycFnpM4OOR26Eyu08p5VcJwVrt/view?usp=sharing">Parallels virtual machine</a> with preinstalled dependencies to facilitate the exploration of our framework. The virtual machine's password is ***symbparlcomp***, and our framework is located in the **/home/SymbolicParallelComposition** directory.
 
-While you are in subdirectory [Csec-modex/tests/Simple_Xor from IML](Csec-modex/tests/Simple_Xor%20from%20IML), execute the following command:<br/>
-- `make -f Makefile.csec` <br/>
+## Docker image
 
-You can see the result of the analysis with CryptoVerif ends with these two following lines:<br/>
-
-```
-RESULT Proved secrecy of OTP_48_0
-All queries proved.
-```
-
-## References
-<a id="1">[1]</a> 
-Aizatulin, Mihhail, Andrew D. Gordon, and Jan Jürjens. "Computational verification of C protocol implementations by symbolic execution." Proceedings of the 2012 ACM conference on Computer and communications security. 2012.
+Alternatively, we also provide a <a href="https://hub.docker.com/r/viktoria2525/holba">Docker image</a>.

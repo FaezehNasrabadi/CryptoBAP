@@ -5,7 +5,7 @@ DEPENDENCIES   =
 
 # configuration
 # ----------------------------------
-HOLHEAP        = ../wp/HolBATools_Wp-heap
+HOLHEAP        = ../symbexecbin/HolBATools_SymbExecBin-heap
 NEWHOLHEAP     = HolBATools_SymbExec-heap
 
 HEAPINC_EXTRA  = 

@@ -9,6 +9,7 @@ local
   open bir_cfg_m0Lib;
 
   open bir_block_collectionLib;
+  val ERR      = Feedback.mk_HOL_ERR "binariesCfgLib"
 
 in (* local *)
 

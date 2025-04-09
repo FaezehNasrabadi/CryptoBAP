@@ -17,6 +17,8 @@ open listSyntax;
 open wordsSyntax;
 open stringSyntax;
 
+open bir_inst_liftingHelpersLib;
+
 
 (* ad hoc helpers *)
   fun update_dict_gen err_src_str update_fun lbl_tms_in n_dict_in =

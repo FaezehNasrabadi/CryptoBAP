@@ -1,0 +1,1435 @@
+maude tool: 'maude'
+ checking version: 2.7.1. OK.
+ checking installation: OK.
+theory TinySSH begin
+
+// Function signature and definition of the equational theory E
+
+builtins: diffie-hellman
+functions: E/3, dec/2[destructor], enc/2, fst/1, getMessage/1, hash3/3,
+           kdfPtoS/2, kdfStoP/2, kgen/2, pair/2, pk/1, revealSign/2, revealVerify/3,
+           sdec/2, senc/2, sign/2, snd/1, true/0, verify/2[destructor]
+equations:
+    dec(enc(m, i), i) = m,
+    fst(<x.1, x.2>) = x.1,
+    getMessage(revealSign(x.1, x.2)) = x.1,
+    revealVerify(revealSign(x.1, x.2), x.1, pk(x.2)) = true,
+    sdec(senc(x.1, x.2), x.2) = x.1,
+    snd(<x.1, x.2>) = x.2,
+    verify(sign(x, y), pk(y)) = true
+
+
+
+heuristic: p
+
+
+
+
+
+
+
+
+
+
+
+
+
+lemma sanity_AcceptP [reuse]:
+  all-traces "¬(∃ pkS pkP #i. AcceptP( pkS, pkP ) @ #i)"
+/*
+guarded formula characterizing all counter-examples:
+"∃ pkS pkP #i. (AcceptP( pkS, pkP ) @ #i)"
+*/
+simplify
+solve( State_1111111111111111( ~a, ~skP, ~skS, B, opks, sig ) ▶₀ #i )
+  case ifverifysigpkskStrue_0_111111111111111
+  solve( (#vf < #t2.2)  ∥ (#vf = #t2.2)  ∥ (#vr.7 < #vf) )
+    case case_1
+    solve( (#vf.1 < #t2.2)  ∥ (#vf.1 = #t2.2)  ∥ (#vr.7 < #vf.1) )
+      case case_1
+      solve( (#t2.1 < #t2.2)  ∥ (#t2.1 = #t2.2)  ∥ (#vr.7 < #t2.1) )
+        case case_2
+        solve( (#vf.2 < #t2.1)  ∥ (#vf.2 = #t2.1) )
+          case case_1
+          solve( !KU( sign(x, ~skS) ) @ #vk.1 )
+            case eventAcceptSpkskSpkskP_0_111111121111
+            solve( (#vf < #t2.2)  ∥ (#vf = #t2.2)  ∥ (#vr.16 < #vf) )
+              case case_1
+              solve( (#vf.7 < #t2.2)  ∥ (#vf.7 = #t2.2) )
+                case case_1
+                solve( !KU( pk(~skS) ) @ #vk.1 )
+                  case p_1_
+                  SOLVED // trace found
+                qed
+              qed
+            qed
+          qed
+        qed
+      qed
+    qed
+  qed
+qed
+
+lemma sanity_AcceptS [reuse]:
+  all-traces "¬(∃ pkS pkP #i. AcceptS( pkS, pkP ) @ #i)"
+/*
+guarded formula characterizing all counter-examples:
+"∃ pkS pkP #i. (AcceptS( pkS, pkP ) @ #i)"
+*/
+simplify
+solve( State_111111121111( ~774_skey, ~skP, ~skS, 491_a ) ▶₀ #i )
+  case newskey_0_1111111211
+  solve( (#vf.1 < #t2)  ∥ (#vf.1 = #t2) )
+    case case_1
+    SOLVED // trace found
+  qed
+qed
+
+lemma injPS [reuse, use_induction]:
+  all-traces
+  "∀ pkS pkP #i.
+    (AcceptP( pkS, pkP ) @ #i) ⇒
+    (∃ pkP2 #j. (#j < #i) ∧ (AcceptS( pkS, pkP2 ) @ #j))"
+/*
+guarded formula characterizing all counter-examples:
+"∃ pkS pkP #i.
+  (AcceptP( pkS, pkP ) @ #i)
+ ∧
+  ∀ pkP2 #j. (AcceptS( pkS, pkP2 ) @ #j) ⇒ ¬(#j < #i)"
+*/
+induction
+  case empty_trace
+  by contradiction /* from formulas */
+next
+  case non_empty_trace
+  simplify
+  by contradiction /* from formulas */
+qed
+
+lemma sanity_AcceptP2 [reuse]:
+  all-traces "¬(∃ pkS pkP #i. AcceptP2( pkS, pkP ) @ #i)"
+/*
+guarded formula characterizing all counter-examples:
+"∃ pkS pkP #i. (AcceptP2( pkS, pkP ) @ #i)"
+*/
+simplify
+solve( State_11111111111111111111( ~a, ~skP, ~skS, B, opks, sig,
+                                   userauth_answer
+       ) ▶₀ #i )
+  case ifdecuserauthanswerkdfStoPBahashgaBpkskSuserauthok_0_1111111111111111111
+  by contradiction /* from formulas */
+qed
+
+lemma sanity_AcceptS2 [reuse]:
+  all-traces "¬(∃ pkS pkP #i. AcceptS2( pkS, pkP ) @ #i)"
+/*
+guarded formula characterizing all counter-examples:
+"∃ pkS pkP #i. (AcceptS2( pkS, pkP ) @ #i)"
+*/
+simplify
+solve( State_11111112111111111111( ~774_skey, ~skP, ~skS, 491_a, 7434_a,
+                                   7435_Dec, 803_a, 804_Dec
+       ) ▶₀ #i )
+  case ifverifyDecpkskPtrue_0_1111111211111111111
+  by contradiction /* from formulas */
+qed
+
+lemma injSP [reuse, use_induction]:
+  all-traces
+  "∀ pkS pkP #i.
+    (AcceptS2( pkS, pkP ) @ #i) ⇒
+    (∃ #j. (#j < #i) ∧ (AcceptP2( pkS, pkP ) @ #j))"
+/*
+guarded formula characterizing all counter-examples:
+"∃ pkS pkP #i.
+  (AcceptS2( pkS, pkP ) @ #i)
+ ∧
+  ∀ #j. (AcceptP2( pkS, pkP ) @ #j) ⇒ ¬(#j < #i)"
+*/
+induction
+  case empty_trace
+  by contradiction /* from formulas */
+next
+  case non_empty_trace
+  simplify
+  by contradiction /* from formulas */
+qed
+
+lemma key_secrecy [reuse]:
+  all-traces
+  "∀ skS skP pkS pkP #i #i2.
+    (((((AcceptS2( pkS, pkP ) @ #i) ∧ (AcceptP2( pkS, pkP ) @ #i2)) ∧
+       (#i2 < #i)) ∧
+      (pkS = pk(skS))) ∧
+     (pkP = pk(skP))) ⇒
+    ((((¬(∃ #j. K( skS ) @ #j)) ∧ (¬(∃ #j. K( skP ) @ #j))) ∨
+      ((∃ #j. K( skS ) @ #j) ∧ (¬(∃ #j. K( skP ) @ #j)))) ∨
+     ((∃ #j. K( skP ) @ #j) ∧ (¬(∃ #j. K( skS ) @ #j))))"
+/*
+guarded formula characterizing all counter-examples:
+"∃ skS skP pkS pkP #i #i2.
+  (AcceptS2( pkS, pkP ) @ #i) ∧
+  (AcceptP2( pkS, pkP ) @ #i2) ∧
+  (pkS = pk(skS)) ∧
+  (pkP = pk(skP))
+ ∧
+  (#i2 < #i) ∧
+  (((∃ #j. (K( skS ) @ #j)) ∨ (∃ #j. (K( skP ) @ #j)))) ∧
+  (((∀ #j. (K( skS ) @ #j) ⇒ ⊥) ∨ (∃ #j. (K( skP ) @ #j)))) ∧
+  (((∀ #j. (K( skP ) @ #j) ⇒ ⊥) ∨ (∃ #j. (K( skS ) @ #j))))"
+*/
+simplify
+by contradiction /* from formulas */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+rule (modulo E) Init[color=#ffffff, process="!"]:
+   [ ] --[ Init( ) ]-> [ !Semistate_1( ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) p_1_[color=#ffffff, process="!"]:
+   [ !Semistate_1( ), Fr( ~skS.1 ) ]
+  -->
+   [ !Semistate_1111( ~skS.1 ), Out( pk(~skS.1) ) ]
+
+  /*
+  rule (modulo AC) p_1_[color=#ffffff, process="!"]:
+     [ !Semistate_1( ), Fr( ~skS ) ]
+    -->
+     [ !Semistate_1111( ~skS ), Out( pk(~skS) ) ]
+  */
+
+rule (modulo E) p_1_111[color=#ffffff, process="!"]:
+   [ !Semistate_1111( ~skS.1 ), Fr( ~skP.1 ) ]
+  -->
+   [ !Semistate_1111111( ~skP.1, ~skS.1 ), Out( pk(~skP.1) ) ]
+
+  /*
+  rule (modulo AC) p_1_111[color=#ffffff, process="!"]:
+     [ !Semistate_1111( ~skS ), Fr( ~skP ) ]
+    -->
+     [ !Semistate_1111111( ~skP, ~skS ), Out( pk(~skP) ) ]
+  */
+
+rule (modulo E) newa_0_111111111[color=#408051, process="new ~a.1;"]:
+   [ State_111111111( ~skP.1, ~skS.1 ), Fr( ~a.1 ) ]
+  -->
+   [ State_11111111111( ~a.1, ~skP.1, ~skS.1 ), Out( 'g'^~a.1 ) ]
+
+  /*
+  rule (modulo AC) newa_0_111111111[color=#408051, process="new ~a.1;"]:
+     [ State_111111111( ~skP, ~skS ), Fr( ~a ) ]
+    -->
+     [ State_11111111111( ~a, ~skP, ~skS ), Out( 'g'^~a ) ]
+  */
+
+rule (modulo E) inB_0_11111111111[color=#408051, process="in(B.1);"]:
+   [ State_11111111111( ~a.1, ~skP.1, ~skS.1 ), In( x.2 ) ]
+  --[ ChannelIn( x.2 ) ]->
+   [ Let_111111111111( x.2, ~a.1, ~skP.1, ~skS.1 ) ]
+
+  /*
+  rule (modulo AC) inB_0_11111111111[color=#408051, process="in(B.1);"]:
+     [ State_11111111111( ~a, ~skP, ~skS ), In( x ) ]
+    --[ ChannelIn( x ) ]->
+     [ Let_111111111111( x, ~a, ~skP, ~skS ) ]
+  */
+
+rule (modulo E) inB_1_11111111111[color=#408051, process="in(B.1);"]:
+   [ Let_111111111111( B.1, ~a.1, ~skP.1, ~skS.1 ) ]
+  -->
+   [ State_111111111111( ~a.1, ~skP.1, ~skS.1, B.1 ) ]
+
+  /*
+  rule (modulo AC) inB_1_11111111111[color=#408051, process="in(B.1);"]:
+     [ Let_111111111111( B, ~a, ~skP, ~skS ) ]
+    -->
+     [ State_111111111111( ~a, ~skP, ~skS, B ) ]
+  */
+
+rule (modulo E) insig_0_111111111111[color=#408051,
+                                     process="in(sig.1);"]:
+   [ State_111111111111( ~a.1, ~skP.1, ~skS.1, B.1 ), In( x.2 ) ]
+  --[ ChannelIn( x.2 ) ]->
+   [ Let_1111111111111( x.2, ~a.1, ~skP.1, ~skS.1, B.1 ) ]
+
+  /*
+  rule (modulo AC) insig_0_111111111111[color=#408051,
+                                        process="in(sig.1);"]:
+     [ State_111111111111( ~a, ~skP, ~skS, B ), In( x ) ]
+    --[ ChannelIn( x ) ]->
+     [ Let_1111111111111( x, ~a, ~skP, ~skS, B ) ]
+  */
+
+rule (modulo E) insig_1_111111111111[color=#408051,
+                                     process="in(sig.1);"]:
+   [ Let_1111111111111( sig.1, ~a.1, ~skP.1, ~skS.1, B.1 ) ]
+  -->
+   [ State_1111111111111( ~a.1, ~skP.1, ~skS.1, B.1, sig.1 ) ]
+
+  /*
+  rule (modulo AC) insig_1_111111111111[color=#408051,
+                                        process="in(sig.1);"]:
+     [ Let_1111111111111( sig, ~a, ~skP, ~skS, B ) ]
+    -->
+     [ State_1111111111111( ~a, ~skP, ~skS, B, sig ) ]
+  */
+
+rule (modulo E) inopks_0_1111111111111[color=#408051,
+                                       process="in(opks.1);"]:
+   [ State_1111111111111( ~a.1, ~skP.1, ~skS.1, B.1, sig.1 ), In( x.2 ) ]
+  --[ ChannelIn( x.2 ) ]->
+   [ Let_11111111111111( x.2, ~a.1, ~skP.1, ~skS.1, B.1, sig.1 ) ]
+
+  /*
+  rule (modulo AC) inopks_0_1111111111111[color=#408051,
+                                          process="in(opks.1);"]:
+     [ State_1111111111111( ~a, ~skP, ~skS, B, sig ), In( x ) ]
+    --[ ChannelIn( x ) ]->
+     [ Let_11111111111111( x, ~a, ~skP, ~skS, B, sig ) ]
+  */
+
+rule (modulo E) inopks_1_1111111111111[color=#408051,
+                                       process="in(opks.1);"]:
+   [ Let_11111111111111( opks.1, ~a.1, ~skP.1, ~skS.1, B.1, sig.1 ) ]
+  -->
+   [ State_11111111111111( ~a.1, ~skP.1, ~skS.1, B.1, opks.1, sig.1 ) ]
+
+  /*
+  rule (modulo AC) inopks_1_1111111111111[color=#408051,
+                                          process="in(opks.1);"]:
+     [ Let_11111111111111( opks, ~a, ~skP, ~skS, B, sig ) ]
+    -->
+     [ State_11111111111111( ~a, ~skP, ~skS, B, opks, sig ) ]
+  */
+
+rule (modulo E) ifpkskSopks_0_11111111111111[color=#408051,
+                                             process="if pk(~skS.1)=opks.1"]:
+   [ State_11111111111111( ~a.1, ~skP.1, ~skS.1, B.1, opks.1, sig.1 ) ]
+  --[ Pred_Eq( pk(~skS.1), opks.1 ) ]->
+   [ State_111111111111111( ~a.1, ~skP.1, ~skS.1, B.1, opks.1, sig.1 ) ]
+
+  /*
+  rule (modulo AC) ifpkskSopks_0_11111111111111[color=#408051,
+                                                process="if pk(~skS.1)=opks.1"]:
+     [ State_11111111111111( ~a, ~skP, ~skS, B, opks, sig ) ]
+    --[ Pred_Eq( pk(~skS), opks ) ]->
+     [ State_111111111111111( ~a, ~skP, ~skS, B, opks, sig ) ]
+  */
+
+rule (modulo E) ifverifysigpkskStrue_0_111111111111111[color=#408051,
+                                                       process="if verify(sig.1, pk(~skS.1))=true"]:
+   [ State_111111111111111( ~a.1, ~skP.1, ~skS.1, B.1, opks.1, sig.1 ) ]
+  --[ Pred_Eq( verify(sig.1, pk(~skS.1)), true ) ]->
+   [ State_1111111111111111( ~a.1, ~skP.1, ~skS.1, B.1, opks.1, sig.1 ) ]
+
+  /*
+  rule (modulo AC) ifverifysigpkskStrue_0_111111111111111[color=#408051,
+                                                          process="if verify(sig.1, pk(~skS.1))=true"]:
+     [ State_111111111111111( ~a, ~skP, ~skS, B, opks, sig ) ]
+    --[ Pred_Eq( z, true ) ]->
+     [ State_1111111111111111( ~a, ~skP, ~skS, B, opks, sig ) ]
+    variants (modulo AC)
+    1. ~skS  = ~skS.9
+       sig   = sig.9
+       z     = verify(sig.9, pk(~skS.9))
+    
+    2. ~skS  = ~x.9
+       sig   = sign(x.12, ~x.9)
+       z     = true
+  */
+
+rule (modulo E) eventAcceptPpkskSpkskP_0_1111111111111111[color=#408051,
+                                                          process="event AcceptP( pk(~skS.1), pk(~skP.1) );"]:
+   [ State_1111111111111111( ~a.1, ~skP.1, ~skS.1, B.1, opks.1, sig.1 ) ]
+  --[ AcceptP( pk(~skS.1), pk(~skP.1) ), Event( ) ]->
+   [
+   State_111111111111111111( ~a.1, ~skP.1, ~skS.1, B.1, opks.1, sig.1 ),
+   Out( enc('user_auth',
+            kdfPtoS(B.1^~a.1, hash3('g'^~a.1, B.1, pk(~skS.1))))
+   )
+   ]
+
+  /*
+  rule (modulo AC) eventAcceptPpkskSpkskP_0_1111111111111111[color=#408051,
+                                                             process="event AcceptP( pk(~skS.1), pk(~skP.1) );"]:
+     [ State_1111111111111111( ~a, ~skP, ~skS, B, opks, sig ) ]
+    --[ AcceptP( pk(~skS), pk(~skP) ), Event( ) ]->
+     [
+     State_111111111111111111( ~a, ~skP, ~skS, B, opks, sig ),
+     Out( enc('user_auth', kdfPtoS(z, hash3('g'^~a, B, pk(~skS)))) )
+     ]
+    variants (modulo AC)
+    1. ~a    = ~a.14
+       B     = B.17
+       z     = B.17^~a.14
+    
+    2. ~a    = ~a.18
+       B     = z.25^inv(~a.18)
+       z     = z.25
+    
+    3. ~a    = ~a.58
+       B     = x.112^x.113
+       z     = x.112^(~a.58*x.113)
+    
+    4. ~a    = ~a.61
+       B     = x.118^inv((~a.61*x.119))
+       z     = x.118^inv(x.119)
+    
+    5. ~a    = ~a.61
+       B     = x.118^(x.119*inv(~a.61))
+       z     = x.118^x.119
+    
+    6. ~a    = ~a.62
+       B     = x.119^(x.120*inv((~a.62*x.121)))
+       z     = x.119^(x.120*inv(x.121))
+    
+    7. B     = DH_neutral
+       z     = DH_neutral
+  */
+
+rule (modulo E) inuserauthanswer_0_111111111111111111[color=#408051,
+                                                      process="in(userauth_answer.1);"]:
+   [
+   State_111111111111111111( ~a.1, ~skP.1, ~skS.1, B.1, opks.1, sig.1 ),
+   In( x.2 )
+   ]
+  --[ ChannelIn( x.2 ) ]->
+   [
+   Let_1111111111111111111( x.2, ~a.1, ~skP.1, ~skS.1, B.1, opks.1, sig.1 )
+   ]
+
+  /*
+  rule (modulo AC) inuserauthanswer_0_111111111111111111[color=#408051,
+                                                         process="in(userauth_answer.1);"]:
+     [ State_111111111111111111( ~a, ~skP, ~skS, B, opks, sig ), In( x ) ]
+    --[ ChannelIn( x ) ]->
+     [ Let_1111111111111111111( x, ~a, ~skP, ~skS, B, opks, sig ) ]
+  */
+
+rule (modulo E) inuserauthanswer_1_111111111111111111[color=#408051,
+                                                      process="in(userauth_answer.1);"]:
+   [
+   Let_1111111111111111111( userauth_answer.1, ~a.1, ~skP.1, ~skS.1, B.1,
+                            opks.1, sig.1
+   )
+   ]
+  -->
+   [
+   State_1111111111111111111( ~a.1, ~skP.1, ~skS.1, B.1, opks.1, sig.1,
+                              userauth_answer.1
+   )
+   ]
+
+  /*
+  rule (modulo AC) inuserauthanswer_1_111111111111111111[color=#408051,
+                                                         process="in(userauth_answer.1);"]:
+     [
+     Let_1111111111111111111( userauth_answer, ~a, ~skP, ~skS, B, opks, sig )
+     ]
+    -->
+     [
+     State_1111111111111111111( ~a, ~skP, ~skS, B, opks, sig, userauth_answer
+     )
+     ]
+  */
+
+rule (modulo E) ifdecuserauthanswerkdfStoPBahashgaBpkskSuserauthok_0_1111111111111111111[color=#408051,
+                                                                                         process="if dec(userauth_answer.1,
+    kdfStoP(B.1^~a.1, hash3('g'^~a.1, B.1, pk(~skS.1))))='userauth_ok'"]:
+   [
+   State_1111111111111111111( ~a.1, ~skP.1, ~skS.1, B.1, opks.1, sig.1,
+                              userauth_answer.1
+   )
+   ]
+  --[
+  Pred_Eq( dec(userauth_answer.1,
+               kdfStoP(B.1^~a.1, hash3('g'^~a.1, B.1, pk(~skS.1)))),
+           'userauth_ok'
+  )
+  ]->
+   [
+   State_11111111111111111111( ~a.1, ~skP.1, ~skS.1, B.1, opks.1, sig.1,
+                               userauth_answer.1
+   )
+   ]
+
+  /*
+  rule (modulo AC) ifdecuserauthanswerkdfStoPBahashgaBpkskSuserauthok_0_1111111111111111111[color=#408051,
+                                                                                            process="if dec(userauth_answer.1,
+    kdfStoP(B.1^~a.1, hash3('g'^~a.1, B.1, pk(~skS.1))))='userauth_ok'"]:
+     [
+     State_1111111111111111111( ~a, ~skP, ~skS, B, opks, sig, userauth_answer
+     )
+     ]
+    --[ Pred_Eq( z, 'userauth_ok' ) ]->
+     [
+     State_11111111111111111111( ~a, ~skP, ~skS, B, opks, sig, userauth_answer
+     )
+     ]
+    variants (modulo AC)
+     1. ~a    = ~a.11
+        ~skS  = ~skS.13
+        B     = B.14
+        userauth_answer
+              = userauth_answer.17
+        z     = dec(userauth_answer.17,
+                    kdfStoP(B.14^~a.11, hash3('g'^~a.11, B.14, pk(~skS.13))))
+    
+     2. ~a    = ~a.11
+        ~skS  = ~skS.13
+        B     = DH_neutral
+        userauth_answer
+              = userauth_answer.17
+        z     = dec(userauth_answer.17,
+                    kdfStoP(DH_neutral, hash3('g'^~a.11, DH_neutral, pk(~skS.13))))
+    
+     3. ~a    = ~a.13
+        ~skS  = ~skS.15
+        B     = x.21^x.22
+        userauth_answer
+              = userauth_answer.19
+        z     = dec(userauth_answer.19,
+                    kdfStoP(x.21^(~a.13*x.22), hash3('g'^~a.13, x.21^x.22, pk(~skS.15))))
+    
+     4. ~a    = ~a.15
+        ~skS  = ~skS.17
+        B     = x.26^inv(~a.15)
+        userauth_answer
+              = userauth_answer.21
+        z     = dec(userauth_answer.21,
+                    kdfStoP(x.26, hash3('g'^~a.15, x.26^inv(~a.15), pk(~skS.17))))
+    
+     5. ~a    = ~a.16
+        ~skS  = ~skS.18
+        B     = DH_neutral
+        userauth_answer
+              = enc(z.23,
+                    kdfStoP(DH_neutral, hash3('g'^~a.16, DH_neutral, pk(~skS.18))))
+        z     = z.23
+    
+     6. ~a    = ~a.16
+        ~skS  = ~skS.18
+        B     = x.27^inv((~a.16*x.28))
+        userauth_answer
+              = userauth_answer.22
+        z     = dec(userauth_answer.22,
+                    kdfStoP(x.27^inv(x.28),
+                            hash3('g'^~a.16, x.27^inv((~a.16*x.28)), pk(~skS.18))))
+    
+     7. ~a    = ~a.16
+        ~skS  = ~skS.18
+        B     = x.27^(x.28*inv(~a.16))
+        userauth_answer
+              = userauth_answer.22
+        z     = dec(userauth_answer.22,
+                    kdfStoP(x.27^x.28,
+                            hash3('g'^~a.16, x.27^(x.28*inv(~a.16)), pk(~skS.18))))
+    
+     8. ~a    = ~a.17
+        ~skS  = ~skS.19
+        B     = B.20
+        userauth_answer
+              = enc(z.24, kdfStoP(B.20^~a.17, hash3('g'^~a.17, B.20, pk(~skS.19))))
+        z     = z.24
+    
+     9. ~a    = ~a.17
+        ~skS  = ~skS.19
+        B     = x.28^inv(~a.17)
+        userauth_answer
+              = enc(z.24,
+                    kdfStoP(x.28, hash3('g'^~a.17, x.28^inv(~a.17), pk(~skS.19))))
+        z     = z.24
+    
+    10. ~a    = ~a.17
+        ~skS  = ~skS.19
+        B     = x.28^(x.29*inv((~a.17*x.30)))
+        userauth_answer
+              = userauth_answer.23
+        z     = dec(userauth_answer.23,
+                    kdfStoP(x.28^(x.29*inv(x.30)),
+                            hash3('g'^~a.17, x.28^(x.29*inv((~a.17*x.30))), pk(~skS.19))))
+    
+    11. ~a    = ~a.18
+        ~skS  = ~skS.20
+        B     = x.29^x.30
+        userauth_answer
+              = enc(z.25,
+                    kdfStoP(x.29^(~a.18*x.30), hash3('g'^~a.18, x.29^x.30, pk(~skS.20))))
+        z     = z.25
+    
+    12. ~a    = ~a.18
+        ~skS  = ~skS.20
+        B     = x.29^inv((~a.18*x.30))
+        userauth_answer
+              = enc(z.25,
+                    kdfStoP(x.29^inv(x.30),
+                            hash3('g'^~a.18, x.29^inv((~a.18*x.30)), pk(~skS.20))))
+        z     = z.25
+    
+    13. ~a    = ~a.18
+        ~skS  = ~skS.20
+        B     = x.29^(x.30*inv(~a.18))
+        userauth_answer
+              = enc(z.25,
+                    kdfStoP(x.29^x.30,
+                            hash3('g'^~a.18, x.29^(x.30*inv(~a.18)), pk(~skS.20))))
+        z     = z.25
+    
+    14. ~a    = ~a.19
+        ~skS  = ~skS.21
+        B     = x.30^(x.31*inv((~a.19*x.32)))
+        userauth_answer
+              = enc(z.26,
+                    kdfStoP(x.30^(x.31*inv(x.32)),
+                            hash3('g'^~a.19, x.30^(x.31*inv((~a.19*x.32))), pk(~skS.21))))
+        z     = z.26
+  */
+
+rule (modulo E) eventAcceptPpkskSpkskP_0_11111111111111111111[color=#408051,
+                                                              process="event AcceptP2( pk(~skS.1), pk(~skP.1) );"]:
+   [
+   State_11111111111111111111( ~a.1, ~skP.1, ~skS.1, B.1, opks.1, sig.1,
+                               userauth_answer.1
+   )
+   ]
+  --[ AcceptP2( pk(~skS.1), pk(~skP.1) ), Event( ) ]->
+   [
+   Out( enc(sign('user_answer', ~skP.1),
+            kdfPtoS(B.1^~a.1, hash3('g'^~a.1, B.1, pk(~skS.1))))
+   )
+   ]
+
+  /*
+  rule (modulo AC) eventAcceptPpkskSpkskP_0_11111111111111111111[color=#408051,
+                                                                 process="event AcceptP2( pk(~skS.1), pk(~skP.1) );"]:
+     [
+     State_11111111111111111111( ~a, ~skP, ~skS, B, opks, sig, userauth_answer
+     )
+     ]
+    --[ AcceptP2( pk(~skS), pk(~skP) ), Event( ) ]->
+     [
+     Out( enc(sign('user_answer', ~skP),
+              kdfPtoS(z, hash3('g'^~a, B, pk(~skS))))
+     )
+     ]
+    variants (modulo AC)
+    1. ~a    = ~a.15
+       B     = B.18
+       z     = B.18^~a.15
+    
+    2. ~a    = ~a.20
+       B     = z.28^inv(~a.20)
+       z     = z.28
+    
+    3. ~a    = ~a.63
+       B     = x.122^x.123
+       z     = x.122^(~a.63*x.123)
+    
+    4. ~a    = ~a.66
+       B     = x.128^inv((~a.66*x.129))
+       z     = x.128^inv(x.129)
+    
+    5. ~a    = ~a.66
+       B     = x.128^(x.129*inv(~a.66))
+       z     = x.128^x.129
+    
+    6. ~a    = ~a.67
+       B     = x.129^(x.130*inv((~a.67*x.131)))
+       z     = x.129^(x.130*inv(x.131))
+    
+    7. B     = DH_neutral
+       z     = DH_neutral
+  */
+
+rule (modulo E) ifdecuserauthanswerkdfStoPBahashgaBpkskSuserauthok_1_1111111111111111111[color=#408051,
+                                                                                         process="if dec(userauth_answer.1,
+    kdfStoP(B.1^~a.1, hash3('g'^~a.1, B.1, pk(~skS.1))))='userauth_ok'"]:
+   [
+   State_1111111111111111111( ~a.1, ~skP.1, ~skS.1, B.1, opks.1, sig.1,
+                              userauth_answer.1
+   )
+   ]
+  --[
+  Pred_Not_Eq( dec(userauth_answer.1,
+                   kdfStoP(B.1^~a.1, hash3('g'^~a.1, B.1, pk(~skS.1)))),
+               'userauth_ok'
+  )
+  ]->
+   [ ]
+
+  /*
+  rule (modulo AC) ifdecuserauthanswerkdfStoPBahashgaBpkskSuserauthok_1_1111111111111111111[color=#408051,
+                                                                                            process="if dec(userauth_answer.1,
+    kdfStoP(B.1^~a.1, hash3('g'^~a.1, B.1, pk(~skS.1))))='userauth_ok'"]:
+     [
+     State_1111111111111111111( ~a, ~skP, ~skS, B, opks, sig, userauth_answer
+     )
+     ]
+    --[ Pred_Not_Eq( z, 'userauth_ok' ) ]->
+     [ ]
+    variants (modulo AC)
+     1. ~a    = ~a.11
+        ~skS  = ~skS.13
+        B     = B.14
+        userauth_answer
+              = userauth_answer.17
+        z     = dec(userauth_answer.17,
+                    kdfStoP(B.14^~a.11, hash3('g'^~a.11, B.14, pk(~skS.13))))
+    
+     2. ~a    = ~a.11
+        ~skS  = ~skS.13
+        B     = DH_neutral
+        userauth_answer
+              = userauth_answer.17
+        z     = dec(userauth_answer.17,
+                    kdfStoP(DH_neutral, hash3('g'^~a.11, DH_neutral, pk(~skS.13))))
+    
+     3. ~a    = ~a.13
+        ~skS  = ~skS.15
+        B     = x.21^x.22
+        userauth_answer
+              = userauth_answer.19
+        z     = dec(userauth_answer.19,
+                    kdfStoP(x.21^(~a.13*x.22), hash3('g'^~a.13, x.21^x.22, pk(~skS.15))))
+    
+     4. ~a    = ~a.15
+        ~skS  = ~skS.17
+        B     = x.26^inv(~a.15)
+        userauth_answer
+              = userauth_answer.21
+        z     = dec(userauth_answer.21,
+                    kdfStoP(x.26, hash3('g'^~a.15, x.26^inv(~a.15), pk(~skS.17))))
+    
+     5. ~a    = ~a.16
+        ~skS  = ~skS.18
+        B     = DH_neutral
+        userauth_answer
+              = enc(z.23,
+                    kdfStoP(DH_neutral, hash3('g'^~a.16, DH_neutral, pk(~skS.18))))
+        z     = z.23
+    
+     6. ~a    = ~a.16
+        ~skS  = ~skS.18
+        B     = x.27^inv((~a.16*x.28))
+        userauth_answer
+              = userauth_answer.22
+        z     = dec(userauth_answer.22,
+                    kdfStoP(x.27^inv(x.28),
+                            hash3('g'^~a.16, x.27^inv((~a.16*x.28)), pk(~skS.18))))
+    
+     7. ~a    = ~a.16
+        ~skS  = ~skS.18
+        B     = x.27^(x.28*inv(~a.16))
+        userauth_answer
+              = userauth_answer.22
+        z     = dec(userauth_answer.22,
+                    kdfStoP(x.27^x.28,
+                            hash3('g'^~a.16, x.27^(x.28*inv(~a.16)), pk(~skS.18))))
+    
+     8. ~a    = ~a.17
+        ~skS  = ~skS.19
+        B     = B.20
+        userauth_answer
+              = enc(z.24, kdfStoP(B.20^~a.17, hash3('g'^~a.17, B.20, pk(~skS.19))))
+        z     = z.24
+    
+     9. ~a    = ~a.17
+        ~skS  = ~skS.19
+        B     = x.28^inv(~a.17)
+        userauth_answer
+              = enc(z.24,
+                    kdfStoP(x.28, hash3('g'^~a.17, x.28^inv(~a.17), pk(~skS.19))))
+        z     = z.24
+    
+    10. ~a    = ~a.17
+        ~skS  = ~skS.19
+        B     = x.28^(x.29*inv((~a.17*x.30)))
+        userauth_answer
+              = userauth_answer.23
+        z     = dec(userauth_answer.23,
+                    kdfStoP(x.28^(x.29*inv(x.30)),
+                            hash3('g'^~a.17, x.28^(x.29*inv((~a.17*x.30))), pk(~skS.19))))
+    
+    11. ~a    = ~a.18
+        ~skS  = ~skS.20
+        B     = x.29^x.30
+        userauth_answer
+              = enc(z.25,
+                    kdfStoP(x.29^(~a.18*x.30), hash3('g'^~a.18, x.29^x.30, pk(~skS.20))))
+        z     = z.25
+    
+    12. ~a    = ~a.18
+        ~skS  = ~skS.20
+        B     = x.29^inv((~a.18*x.30))
+        userauth_answer
+              = enc(z.25,
+                    kdfStoP(x.29^inv(x.30),
+                            hash3('g'^~a.18, x.29^inv((~a.18*x.30)), pk(~skS.20))))
+        z     = z.25
+    
+    13. ~a    = ~a.18
+        ~skS  = ~skS.20
+        B     = x.29^(x.30*inv(~a.18))
+        userauth_answer
+              = enc(z.25,
+                    kdfStoP(x.29^x.30,
+                            hash3('g'^~a.18, x.29^(x.30*inv(~a.18)), pk(~skS.20))))
+        z     = z.25
+    
+    14. ~a    = ~a.19
+        ~skS  = ~skS.21
+        B     = x.30^(x.31*inv((~a.19*x.32)))
+        userauth_answer
+              = enc(z.26,
+                    kdfStoP(x.30^(x.31*inv(x.32)),
+                            hash3('g'^~a.19, x.30^(x.31*inv((~a.19*x.32))), pk(~skS.21))))
+        z     = z.26
+  */
+
+rule (modulo E) ifverifysigpkskStrue_1_111111111111111[color=#408051,
+                                                       process="if verify(sig.1, pk(~skS.1))=true"]:
+   [ State_111111111111111( ~a.1, ~skP.1, ~skS.1, B.1, opks.1, sig.1 ) ]
+  --[ Pred_Not_Eq( verify(sig.1, pk(~skS.1)), true ) ]->
+   [ ]
+
+  /*
+  rule (modulo AC) ifverifysigpkskStrue_1_111111111111111[color=#408051,
+                                                          process="if verify(sig.1, pk(~skS.1))=true"]:
+     [ State_111111111111111( ~a, ~skP, ~skS, B, opks, sig ) ]
+    --[ Pred_Not_Eq( z, true ) ]->
+     [ ]
+    variants (modulo AC)
+    1. ~skS  = ~skS.9
+       sig   = sig.9
+       z     = verify(sig.9, pk(~skS.9))
+    
+    2. ~skS  = ~x.9
+       sig   = sign(x.12, ~x.9)
+       z     = true
+  */
+
+rule (modulo E) ifpkskSopks_1_11111111111111[color=#408051,
+                                             process="if pk(~skS.1)=opks.1"]:
+   [ State_11111111111111( ~a.1, ~skP.1, ~skS.1, B.1, opks.1, sig.1 ) ]
+  --[ Pred_Not_Eq( pk(~skS.1), opks.1 ) ]->
+   [ ]
+
+  /*
+  rule (modulo AC) ifpkskSopks_1_11111111111111[color=#408051,
+                                                process="if pk(~skS.1)=opks.1"]:
+     [ State_11111111111111( ~a, ~skP, ~skS, B, opks, sig ) ]
+    --[ Pred_Not_Eq( pk(~skS), opks ) ]->
+     [ ]
+  */
+
+rule (modulo E) p_1_111111[color=#ffffff, process="!"]:
+   [ !Semistate_1111111( ~skP.1, ~skS.1 ) ]
+  -->
+   [ State_111111121( ~skP.1, ~skS.1 ), State_111111111( ~skP.1, ~skS.1 ) ]
+
+  /*
+  rule (modulo AC) p_1_111111[color=#ffffff, process="!"]:
+     [ !Semistate_1111111( ~skP, ~skS ) ]
+    -->
+     [ State_111111121( ~skP, ~skS ), State_111111111( ~skP, ~skS ) ]
+  */
+
+rule (modulo E) ina_0_111111121[color=#408051, process="in(491_a.1);"]:
+   [ State_111111121( ~skP.1, ~skS.1 ), In( x.2 ) ]
+  --[ ChannelIn( x.2 ) ]->
+   [ Let_1111111211( x.2, ~skP.1, ~skS.1 ) ]
+
+  /*
+  rule (modulo AC) ina_0_111111121[color=#408051, process="in(491_a.1);"]:
+     [ State_111111121( ~skP, ~skS ), In( x ) ]
+    --[ ChannelIn( x ) ]->
+     [ Let_1111111211( x, ~skP, ~skS ) ]
+  */
+
+rule (modulo E) ina_1_111111121[color=#408051, process="in(491_a.1);"]:
+   [ Let_1111111211( 491_a.1, ~skP.1, ~skS.1 ) ]
+  -->
+   [ State_1111111211( ~skP.1, ~skS.1, 491_a.1 ) ]
+
+  /*
+  rule (modulo AC) ina_1_111111121[color=#408051, process="in(491_a.1);"]:
+     [ Let_1111111211( 491_a, ~skP, ~skS ) ]
+    -->
+     [ State_1111111211( ~skP, ~skS, 491_a ) ]
+  */
+
+rule (modulo E) newskey_0_1111111211[color=#408051,
+                                     process="new ~774_skey.1;"]:
+   [ State_1111111211( ~skP.1, ~skS.1, 491_a.1 ), Fr( ~774_skey.1 ) ]
+  -->
+   [
+   State_111111121111( ~774_skey.1, ~skP.1, ~skS.1, 491_a.1 ),
+   Out( 'g'^~774_skey.1 )
+   ]
+
+  /*
+  rule (modulo AC) newskey_0_1111111211[color=#408051,
+                                        process="new ~774_skey.1;"]:
+     [ State_1111111211( ~skP, ~skS, 491_a ), Fr( ~774_skey ) ]
+    -->
+     [
+     State_111111121111( ~774_skey, ~skP, ~skS, 491_a ), Out( 'g'^~774_skey )
+     ]
+  */
+
+rule (modulo E) eventAcceptSpkskSpkskP_0_111111121111[color=#408051,
+                                                      process="event AcceptS( pk(~skS.1), pk(~skP.1) );"]:
+   [ State_111111121111( ~774_skey.1, ~skP.1, ~skS.1, 491_a.1 ) ]
+  --[ AcceptS( pk(~skS.1), pk(~skP.1) ), Event( ) ]->
+   [
+   State_11111112111111( ~774_skey.1, ~skP.1, ~skS.1, 491_a.1 ),
+   Out( sign('inputs', ~skS.1) )
+   ]
+
+  /*
+  rule (modulo AC) eventAcceptSpkskSpkskP_0_111111121111[color=#408051,
+                                                         process="event AcceptS( pk(~skS.1), pk(~skP.1) );"]:
+     [ State_111111121111( ~774_skey, ~skP, ~skS, 491_a ) ]
+    --[ AcceptS( pk(~skS), pk(~skP) ), Event( ) ]->
+     [
+     State_11111112111111( ~774_skey, ~skP, ~skS, 491_a ),
+     Out( sign('inputs', ~skS) )
+     ]
+  */
+
+rule (modulo E) ina_0_11111112111111[color=#408051,
+                                     process="in(803_a.1);"]:
+   [ State_11111112111111( ~774_skey.1, ~skP.1, ~skS.1, 491_a.1 ), In( x.2 )
+   ]
+  --[ ChannelIn( x.2 ) ]->
+   [ Let_111111121111111( x.2, ~774_skey.1, ~skP.1, ~skS.1, 491_a.1 ) ]
+
+  /*
+  rule (modulo AC) ina_0_11111112111111[color=#408051,
+                                        process="in(803_a.1);"]:
+     [ State_11111112111111( ~774_skey, ~skP, ~skS, 491_a ), In( x ) ]
+    --[ ChannelIn( x ) ]->
+     [ Let_111111121111111( x, ~774_skey, ~skP, ~skS, 491_a ) ]
+  */
+
+rule (modulo E) ina_1_11111112111111[color=#408051,
+                                     process="in(803_a.1);"]:
+   [ Let_111111121111111( 803_a.1, ~774_skey.1, ~skP.1, ~skS.1, 491_a.1 ) ]
+  -->
+   [ State_111111121111111( ~774_skey.1, ~skP.1, ~skS.1, 491_a.1, 803_a.1 )
+   ]
+
+  /*
+  rule (modulo AC) ina_1_11111112111111[color=#408051,
+                                        process="in(803_a.1);"]:
+     [ Let_111111121111111( 803_a, ~774_skey, ~skP, ~skS, 491_a ) ]
+    -->
+     [ State_111111121111111( ~774_skey, ~skP, ~skS, 491_a, 803_a ) ]
+  */
+
+rule (modulo E) letDecdecakdfPtoSaskeyhashagskeypkskS_0_111111121111111[color=#ffffff,
+                                                                        process="let 804_Dec.1=dec(803_a.1,
+    kdfPtoS(491_a.1^~774_skey.1,
+            hash3(491_a.1, 'g'^~774_skey.1, pk(~skS.1))))"]:
+   [ State_111111121111111( ~774_skey.1, ~skP.1, ~skS.1, 491_a.1, 803_a.1 )
+   ]
+  -->
+   [
+   Let_1111111211111111( <803_a.1, 
+                          kdfPtoS(491_a.1^~774_skey.1, hash3(491_a.1, 'g'^~774_skey.1, pk(~skS.1)))
+                         >,
+                         ~774_skey.1, ~skP.1, ~skS.1, 491_a.1, 803_a.1
+   )
+   ]
+
+  /*
+  rule (modulo AC) letDecdecakdfPtoSaskeyhashagskeypkskS_0_111111121111111[color=#ffffff,
+                                                                           process="let 804_Dec.1=dec(803_a.1,
+    kdfPtoS(491_a.1^~774_skey.1,
+            hash3(491_a.1, 'g'^~774_skey.1, pk(~skS.1))))"]:
+     [ State_111111121111111( ~774_skey, ~skP, ~skS, 491_a, 803_a ) ]
+    -->
+     [
+     Let_1111111211111111( <803_a, 
+                            kdfPtoS(z, hash3(491_a, 'g'^~774_skey, pk(~skS)))>,
+                           ~774_skey, ~skP, ~skS, 491_a, 803_a
+     )
+     ]
+    variants (modulo AC)
+    1. ~774_skey
+             = ~774_skey.16
+       491_a = 491_a.19
+       z     = 491_a.19^~774_skey.16
+    
+    2. ~774_skey
+             = ~774_skey.18
+       491_a = z.23^inv(~774_skey.18)
+       z     = z.23
+    
+    3. ~774_skey
+             = ~774_skey.42
+       491_a = x.80^x.81
+       z     = x.80^(~774_skey.42*x.81)
+    
+    4. ~774_skey
+             = ~774_skey.45
+       491_a = x.86^inv((~774_skey.45*x.87))
+       z     = x.86^inv(x.87)
+    
+    5. ~774_skey
+             = ~774_skey.45
+       491_a = x.86^(x.87*inv(~774_skey.45))
+       z     = x.86^x.87
+    
+    6. ~774_skey
+             = ~774_skey.46
+       491_a = x.87^(x.88*inv((~774_skey.46*x.89)))
+       z     = x.87^(x.88*inv(x.89))
+    
+    7. 491_a = DH_neutral
+       z     = DH_neutral
+  */
+
+rule (modulo E) letDecdecakdfPtoSaskeyhashagskeypkskS_1_111111121111111[color=#ffffff,
+                                                                        process="let 804_Dec.1=dec(803_a.1,
+    kdfPtoS(491_a.1^~774_skey.1,
+            hash3(491_a.1, 'g'^~774_skey.1, pk(~skS.1))))"]:
+   [
+   Let_1111111211111111( <enc(804_Dec.1, i), i>, ~774_skey.1, ~skP.1,
+                         ~skS.1, 491_a.1, 803_a.1
+   )
+   ]
+  -->
+   [
+   State_1111111211111111( ~774_skey.1, ~skP.1, ~skS.1, 491_a.1, 803_a.1,
+                           804_Dec.1
+   )
+   ]
+
+  /*
+  rule (modulo AC) letDecdecakdfPtoSaskeyhashagskeypkskS_1_111111121111111[color=#ffffff,
+                                                                           process="let 804_Dec.1=dec(803_a.1,
+    kdfPtoS(491_a.1^~774_skey.1,
+            hash3(491_a.1, 'g'^~774_skey.1, pk(~skS.1))))"]:
+     [
+     Let_1111111211111111( <enc(804_Dec, i), i>, ~774_skey, ~skP, ~skS, 491_a,
+                           803_a
+     )
+     ]
+    -->
+     [ State_1111111211111111( ~774_skey, ~skP, ~skS, 491_a, 803_a, 804_Dec )
+     ]
+  */
+
+rule (modulo E) outencuserauthokkdfStoPaskeyhashagskeypkskS_0_1111111211111111[color=#408051,
+                                                                               process="out(enc('userauth_ok',
+    kdfStoP(491_a.1^~774_skey.1,
+            hash3(491_a.1, 'g'^~774_skey.1, pk(~skS.1)))));"]:
+   [
+   State_1111111211111111( ~774_skey.1, ~skP.1, ~skS.1, 491_a.1, 803_a.1,
+                           804_Dec.1
+   )
+   ]
+  -->
+   [
+   State_11111112111111111( ~774_skey.1, ~skP.1, ~skS.1, 491_a.1, 803_a.1,
+                            804_Dec.1
+   ),
+   Out( enc('userauth_ok',
+            kdfStoP(491_a.1^~774_skey.1,
+                    hash3(491_a.1, 'g'^~774_skey.1, pk(~skS.1))))
+   )
+   ]
+
+  /*
+  rule (modulo AC) outencuserauthokkdfStoPaskeyhashagskeypkskS_0_1111111211111111[color=#408051,
+                                                                                  process="out(enc('userauth_ok',
+    kdfStoP(491_a.1^~774_skey.1,
+            hash3(491_a.1, 'g'^~774_skey.1, pk(~skS.1)))));"]:
+     [ State_1111111211111111( ~774_skey, ~skP, ~skS, 491_a, 803_a, 804_Dec )
+     ]
+    -->
+     [
+     State_11111112111111111( ~774_skey, ~skP, ~skS, 491_a, 803_a, 804_Dec ),
+     Out( enc('userauth_ok',
+              kdfStoP(z, hash3(491_a, 'g'^~774_skey, pk(~skS))))
+     )
+     ]
+    variants (modulo AC)
+    1. ~774_skey
+             = ~774_skey.14
+       491_a = 491_a.17
+       z     = 491_a.17^~774_skey.14
+    
+    2. ~774_skey
+             = ~774_skey.18
+       491_a = z.25^inv(~774_skey.18)
+       z     = z.25
+    
+    3. ~774_skey
+             = ~774_skey.58
+       491_a = x.112^x.113
+       z     = x.112^(~774_skey.58*x.113)
+    
+    4. ~774_skey
+             = ~774_skey.61
+       491_a = x.118^inv((~774_skey.61*x.119))
+       z     = x.118^inv(x.119)
+    
+    5. ~774_skey
+             = ~774_skey.61
+       491_a = x.118^(x.119*inv(~774_skey.61))
+       z     = x.118^x.119
+    
+    6. ~774_skey
+             = ~774_skey.62
+       491_a = x.119^(x.120*inv((~774_skey.62*x.121)))
+       z     = x.119^(x.120*inv(x.121))
+    
+    7. 491_a = DH_neutral
+       z     = DH_neutral
+  */
+
+rule (modulo E) ina_0_11111112111111111[color=#408051,
+                                        process="in(7434_a.1);"]:
+   [
+   State_11111112111111111( ~774_skey.1, ~skP.1, ~skS.1, 491_a.1, 803_a.1,
+                            804_Dec.1
+   ),
+   In( x.2 )
+   ]
+  --[ ChannelIn( x.2 ) ]->
+   [
+   Let_111111121111111111( x.2, ~774_skey.1, ~skP.1, ~skS.1, 491_a.1,
+                           803_a.1, 804_Dec.1
+   )
+   ]
+
+  /*
+  rule (modulo AC) ina_0_11111112111111111[color=#408051,
+                                           process="in(7434_a.1);"]:
+     [
+     State_11111112111111111( ~774_skey, ~skP, ~skS, 491_a, 803_a, 804_Dec ),
+     In( x )
+     ]
+    --[ ChannelIn( x ) ]->
+     [
+     Let_111111121111111111( x, ~774_skey, ~skP, ~skS, 491_a, 803_a, 804_Dec )
+     ]
+  */
+
+rule (modulo E) ina_1_11111112111111111[color=#408051,
+                                        process="in(7434_a.1);"]:
+   [
+   Let_111111121111111111( 7434_a.1, ~774_skey.1, ~skP.1, ~skS.1, 491_a.1,
+                           803_a.1, 804_Dec.1
+   )
+   ]
+  -->
+   [
+   State_111111121111111111( ~774_skey.1, ~skP.1, ~skS.1, 491_a.1, 7434_a.1,
+                             803_a.1, 804_Dec.1
+   )
+   ]
+
+  /*
+  rule (modulo AC) ina_1_11111112111111111[color=#408051,
+                                           process="in(7434_a.1);"]:
+     [
+     Let_111111121111111111( 7434_a, ~774_skey, ~skP, ~skS, 491_a, 803_a,
+                             804_Dec
+     )
+     ]
+    -->
+     [
+     State_111111121111111111( ~774_skey, ~skP, ~skS, 491_a, 7434_a, 803_a,
+                               804_Dec
+     )
+     ]
+  */
+
+rule (modulo E) letDecdecakdfPtoSaskeyhashagskeypkskS_0_111111121111111111[color=#ffffff,
+                                                                           process="let 7435_Dec.1=dec(7434_a.1,
+    kdfPtoS(491_a.1^~774_skey.1,
+            hash3(491_a.1, 'g'^~774_skey.1, pk(~skS.1))))"]:
+   [
+   State_111111121111111111( ~774_skey.1, ~skP.1, ~skS.1, 491_a.1, 7434_a.1,
+                             803_a.1, 804_Dec.1
+   )
+   ]
+  -->
+   [
+   Let_1111111211111111111( <7434_a.1, 
+                             kdfPtoS(491_a.1^~774_skey.1, hash3(491_a.1, 'g'^~774_skey.1, pk(~skS.1)))
+                            >,
+                            ~774_skey.1, ~skP.1, ~skS.1, 491_a.1, 7434_a.1, 803_a.1, 804_Dec.1
+   )
+   ]
+
+  /*
+  rule (modulo AC) letDecdecakdfPtoSaskeyhashagskeypkskS_0_111111121111111111[color=#ffffff,
+                                                                              process="let 7435_Dec.1=dec(7434_a.1,
+    kdfPtoS(491_a.1^~774_skey.1,
+            hash3(491_a.1, 'g'^~774_skey.1, pk(~skS.1))))"]:
+     [
+     State_111111121111111111( ~774_skey, ~skP, ~skS, 491_a, 7434_a, 803_a,
+                               804_Dec
+     )
+     ]
+    -->
+     [
+     Let_1111111211111111111( <7434_a, 
+                               kdfPtoS(z, hash3(491_a, 'g'^~774_skey, pk(~skS)))>,
+                              ~774_skey, ~skP, ~skS, 491_a, 7434_a, 803_a, 804_Dec
+     )
+     ]
+    variants (modulo AC)
+    1. ~774_skey
+             = ~774_skey.18
+       491_a = 491_a.21
+       z     = 491_a.21^~774_skey.18
+    
+    2. ~774_skey
+             = ~774_skey.22
+       491_a = z.29^inv(~774_skey.22)
+       z     = z.29
+    
+    3. ~774_skey
+             = ~774_skey.50
+       491_a = x.96^x.97
+       z     = x.96^(~774_skey.50*x.97)
+    
+    4. ~774_skey
+             = ~774_skey.53
+       491_a = x.102^inv((~774_skey.53*x.103))
+       z     = x.102^inv(x.103)
+    
+    5. ~774_skey
+             = ~774_skey.53
+       491_a = x.102^(x.103*inv(~774_skey.53))
+       z     = x.102^x.103
+    
+    6. ~774_skey
+             = ~774_skey.54
+       491_a = x.103^(x.104*inv((~774_skey.54*x.105)))
+       z     = x.103^(x.104*inv(x.105))
+    
+    7. 491_a = DH_neutral
+       z     = DH_neutral
+  */
+
+rule (modulo E) letDecdecakdfPtoSaskeyhashagskeypkskS_1_111111121111111111[color=#ffffff,
+                                                                           process="let 7435_Dec.1=dec(7434_a.1,
+    kdfPtoS(491_a.1^~774_skey.1,
+            hash3(491_a.1, 'g'^~774_skey.1, pk(~skS.1))))"]:
+   [
+   Let_1111111211111111111( <enc(7435_Dec.1, i), i>, ~774_skey.1, ~skP.1,
+                            ~skS.1, 491_a.1, 7434_a.1, 803_a.1, 804_Dec.1
+   )
+   ]
+  -->
+   [
+   State_1111111211111111111( ~774_skey.1, ~skP.1, ~skS.1, 491_a.1,
+                              7434_a.1, 7435_Dec.1, 803_a.1, 804_Dec.1
+   )
+   ]
+
+  /*
+  rule (modulo AC) letDecdecakdfPtoSaskeyhashagskeypkskS_1_111111121111111111[color=#ffffff,
+                                                                              process="let 7435_Dec.1=dec(7434_a.1,
+    kdfPtoS(491_a.1^~774_skey.1,
+            hash3(491_a.1, 'g'^~774_skey.1, pk(~skS.1))))"]:
+     [
+     Let_1111111211111111111( <enc(7435_Dec, i), i>, ~774_skey, ~skP, ~skS,
+                              491_a, 7434_a, 803_a, 804_Dec
+     )
+     ]
+    -->
+     [
+     State_1111111211111111111( ~774_skey, ~skP, ~skS, 491_a, 7434_a,
+                                7435_Dec, 803_a, 804_Dec
+     )
+     ]
+  */
+
+rule (modulo E) ifverifyDecpkskPtrue_0_1111111211111111111[color=#408051,
+                                                           process="if verify(7435_Dec.1, pk(~skP.1))=true"]:
+   [
+   State_1111111211111111111( ~774_skey.1, ~skP.1, ~skS.1, 491_a.1,
+                              7434_a.1, 7435_Dec.1, 803_a.1, 804_Dec.1
+   )
+   ]
+  --[ Pred_Eq( verify(7435_Dec.1, pk(~skP.1)), true ) ]->
+   [
+   State_11111112111111111111( ~774_skey.1, ~skP.1, ~skS.1, 491_a.1,
+                               7434_a.1, 7435_Dec.1, 803_a.1, 804_Dec.1
+   )
+   ]
+
+  /*
+  rule (modulo AC) ifverifyDecpkskPtrue_0_1111111211111111111[color=#408051,
+                                                              process="if verify(7435_Dec.1, pk(~skP.1))=true"]:
+     [
+     State_1111111211111111111( ~774_skey, ~skP, ~skS, 491_a, 7434_a,
+                                7435_Dec, 803_a, 804_Dec
+     )
+     ]
+    --[ Pred_Eq( z, true ) ]->
+     [
+     State_11111112111111111111( ~774_skey, ~skP, ~skS, 491_a, 7434_a,
+                                 7435_Dec, 803_a, 804_Dec
+     )
+     ]
+    variants (modulo AC)
+    1. ~skP  = ~skP.11
+       7435_Dec
+             = 7435_Dec.11
+       z     = verify(7435_Dec.11, pk(~skP.11))
+    
+    2. ~skP  = ~x.11
+       7435_Dec
+             = sign(x.15, ~x.11)
+       z     = true
+  */
+
+rule (modulo E) eventAcceptSpkskSpkskP_0_11111112111111111111[color=#408051,
+                                                              process="event AcceptS2( pk(~skS.1), pk(~skP.1) );"]:
+   [
+   State_11111112111111111111( ~774_skey.1, ~skP.1, ~skS.1, 491_a.1,
+                               7434_a.1, 7435_Dec.1, 803_a.1, 804_Dec.1
+   )
+   ]
+  --[ AcceptS2( pk(~skS.1), pk(~skP.1) ), Event( ) ]->
+   [ ]
+
+  /*
+  rule (modulo AC) eventAcceptSpkskSpkskP_0_11111112111111111111[color=#408051,
+                                                                 process="event AcceptS2( pk(~skS.1), pk(~skP.1) );"]:
+     [
+     State_11111112111111111111( ~774_skey, ~skP, ~skS, 491_a, 7434_a,
+                                 7435_Dec, 803_a, 804_Dec
+     )
+     ]
+    --[ AcceptS2( pk(~skS), pk(~skP) ), Event( ) ]->
+     [ ]
+  */
+
+rule (modulo E) ifverifyDecpkskPtrue_1_1111111211111111111[color=#408051,
+                                                           process="if verify(7435_Dec.1, pk(~skP.1))=true"]:
+   [
+   State_1111111211111111111( ~774_skey.1, ~skP.1, ~skS.1, 491_a.1,
+                              7434_a.1, 7435_Dec.1, 803_a.1, 804_Dec.1
+   )
+   ]
+  --[ Pred_Not_Eq( verify(7435_Dec.1, pk(~skP.1)), true ) ]->
+   [ ]
+
+  /*
+  rule (modulo AC) ifverifyDecpkskPtrue_1_1111111211111111111[color=#408051,
+                                                              process="if verify(7435_Dec.1, pk(~skP.1))=true"]:
+     [
+     State_1111111211111111111( ~774_skey, ~skP, ~skS, 491_a, 7434_a,
+                                7435_Dec, 803_a, 804_Dec
+     )
+     ]
+    --[ Pred_Not_Eq( z, true ) ]->
+     [ ]
+    variants (modulo AC)
+    1. ~skP  = ~skP.11
+       7435_Dec
+             = 7435_Dec.11
+       z     = verify(7435_Dec.11, pk(~skP.11))
+    
+    2. ~skP  = ~x.11
+       7435_Dec
+             = sign(x.15, ~x.11)
+       z     = true
+  */
+
+restriction predicate_eq:
+  "∀ #i a b. (Pred_Eq( a, b ) @ #i) ⇒ (a = b)"
+  // safety formula
+
+restriction predicate_not_eq:
+  "∀ #i a b. (Pred_Not_Eq( a, b ) @ #i) ⇒ (¬(a = b))"
+  // safety formula
+
+restriction single_session:
+  "∀ #i #j. ((Init( ) @ #i) ∧ (Init( ) @ #j)) ⇒ (#i = #j)"
+  // safety formula
+
+restriction in_event:
+  "∀ x #t3.
+    (ChannelIn( x ) @ #t3) ⇒
+    (∃ #t2.
+      (((K( x ) @ #t2) ∧ (#t2 < #t3)) ∧
+       (∀ #t1. (Event( ) @ #t1) ⇒ ((#t1 < #t2) ∨ (#t3 < #t1)))) ∧
+      (∀ #t1 xp.
+        (K( xp ) @ #t1) ⇒ (((#t1 < #t2) ∨ (#t1 = #t2)) ∨ (#t3 < #t1))))"
+
+/* All wellformedness checks were successful. */
+
+/*
+Generated from:
+Tamarin version 1.8.0
+Maude version 2.7.1
+Git revision: UNKNOWN, branch: UNKNOWN
+Compiled at: 2023-08-30 19:02:12.455846 UTC
+*/
+
+end
+
+==============================================================================
+summary of summaries:
+
+analyzed: tinyssh.spthy
+
+  processing time: 7.32s
+  
+  sanity_AcceptP (all-traces): falsified - found trace (11 steps)
+  sanity_AcceptS (all-traces): falsified - found trace (4 steps)
+  injPS (all-traces): verified (4 steps)
+  sanity_AcceptP2 (all-traces): verified (3 steps)
+  sanity_AcceptS2 (all-traces): verified (3 steps)
+  injSP (all-traces): verified (4 steps)
+  key_secrecy (all-traces): verified (2 steps)
+
+==============================================================================

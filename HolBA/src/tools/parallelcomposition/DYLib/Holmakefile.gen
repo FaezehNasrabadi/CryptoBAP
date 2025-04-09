@@ -1,0 +1,18 @@
+# includes
+# ----------------------------------
+DEPENDENCIES   = 
+#../../../core ../../../theories
+
+
+# configuration
+# ----------------------------------
+HOLHEAP        = ../deduction/HolBATools_Deduction-heap
+NEWHOLHEAP     = HolBATools_DYLib-heap
+
+HEAPINC_EXTRA  = 
+
+
+
+# included lines follow
+# ----------------------------------
+include ../../../Holmakefile.inc

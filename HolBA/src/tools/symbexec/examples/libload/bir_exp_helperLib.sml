@@ -1,8 +1,14 @@
 structure bir_exp_helperLib =
 struct
 local
-
-  open pred_setTheory;
+    open HolKernel Parse;
+    open HolBACoreSimps;
+	 open HolBASimps;
+	 open boolSyntax;
+	 open pred_setTheory;
+	 open simpLib;
+	 open bossLib;
+	 open bir_exec_typingLib;
 
   val conv_to_varset = SIMP_CONV (std_ss++HolBACoreSimps.holBACore_ss)
                                  ([INSERT_UNION_EQ,UNION_EMPTY]@HolBASimps.common_exp_defs);
@@ -85,8 +91,8 @@ local
         BExp_ADD_WITH_CARRY_type_of,
         BExp_word_reverse_type_of,
         BExp_ror_exp_type_of
-      ]
-      val conv = SIMP_CONV (srw_ss()) type_of_bir_exp_thms
+      ];
+      val conv = SIMP_CONV (srw_ss()) type_of_bir_exp_thms;
     in
       conv term
     end

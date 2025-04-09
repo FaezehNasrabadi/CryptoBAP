@@ -4,7 +4,9 @@ struct
 local
 (*
   open bir_symbexec_stateLib;
-*)
+ *)
+    open HolKernel Parse boolLib bossLib;
+    open HolBACoreSimps;
   open bir_block_collectionLib;
   open bir_cfgLib;
 

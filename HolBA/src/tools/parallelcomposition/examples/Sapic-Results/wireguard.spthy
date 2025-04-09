@@ -1,0 +1,186 @@
+theory WireGuard
+
+begin
+
+builtins: hashing, diffie-hellman
+
+functions: AEAD/3, dec/2 [destructor], verify/3 [destructor], true/0, pars1/1 [destructor], hash1/1, hash2/2, kdf1/2, kdf2/2, kdf3/2, DH/2, expdh/2, pars12/2 [destructor], pars22/2 [destructor], pars13/2 [destructor], pars23/2 [destructor], pars33/2 [destructor], triple/3
+
+equations: dec(AEAD(k, p, a), k) = p, verify(AEAD(k, p, a), a, k)=true, pars1(x)=x, pars12(pair(x_1, x_2),c_32)=x_1, pars22(pair(x_1, x_2),c_32)=x_2, pars13(triple(x_1, x_2, x_3),c_32)=x_1, pars23(triple(x_1, x_2, x_3),c_32)=x_2, pars33(triple(x_1, x_2, x_3),c_32)=x_3
+
+
+heuristic: i
+
+
+//  Model 
+
+let client(~Spriv_i,Spub_i,Spub_r) = 
+in(88_a);
+let 90_Ci=hash1('Construction') in 
+new ~92_sid_i;
+let 91_sid_i=~92_sid_i in 
+let 93_HMAC=hash2(90_Ci,91_sid_i) in 
+let 96_HMAC=hash2(93_HMAC,88_a) in 
+new ~100_Epriv_i;
+let 99_Epriv_i=~100_Epriv_i in 
+let 02_Epub_i=exp('g',99_Epriv_i) in 
+let 54_Cii=kdf1(90_Ci,02_Epub_i) in  
+let 55_HMAC=hash2(96_HMAC,02_Epub_i) in 
+let 59_DH=DH(99_Epriv_i,88_a) in 
+let 62_KDF=kdf2(54_Cii,59_DH) in 
+let 68_Pars1=pars12(62_KDF,'32') in 
+let 69_Pars2=pars22(62_KDF,'32') in 
+let 222_Enc=AEAD(69_Pars2,Spub_i,55_HMAC) in 
+let 225_HMAC=hash2(55_HMAC,222_Enc) in 
+let 230_DH=DH(~Spriv_i,88_a) in 
+let 233_KDF=kdf2(68_Pars1,230_DH) in 
+let 239_Pars1=pars12(233_KDF,'32') in 
+let 240_Pars2=pars22(233_KDF,'32') in 
+let 243_Enc=AEAD(240_Pars2,'ts_i',225_HMAC) in 
+let 246_HMAC=hash2(225_HMAC,243_Enc) in 
+out(triple(02_Epub_i,222_Enc,243_Enc));
+event InitStart('Init','Resp',Spub_i,Spub_r,~Spriv_i);
+in(253_a);
+let 254_Pars1=pars12(253_a,'32') in 
+let 258_Pars2=pars22(253_a,'32') in 
+let 726_Cii=kdf1(239_Pars1,254_Pars1) in 
+let 727_HMAC=hash2(246_HMAC,254_Pars1) in 
+let 733_DH=DH(99_Epriv_i,254_Pars1) in 
+let 736_KDF=kdf2(726_Cii,733_DH) in 
+let 742_Pars1=pars12(736_KDF,'32') in 
+let 743_Pars2=pars22(736_KDF,'32') in 
+let 870_DH=DH(~Spriv_i,254_Pars1) in 
+let 873_KDF=kdf2(742_Pars1,870_DH) in 
+let 879_Pars1=pars12(873_KDF,'32') in 
+let 880_Pars2=pars22(873_KDF,'32') in 
+let 008_KDF=kdf3(879_Pars1,'Q') in  
+let 015_Pars1=pars13(008_KDF,'32') in 
+let 016_Pars2=pars23(008_KDF,'32') in 
+let 019_HMAC=hash2(727_HMAC,016_Pars2) in 
+let 2022_Pars3=pars33(008_KDF,'32') in 
+let 029_Dec=dec(258_Pars2,2022_Pars3) in 
+let 032_HMAC=hash2(019_HMAC,258_Pars2) in 
+event InitAccept('Init','Resp',Spub_i,Spub_r,~Spriv_i)
+
+let server(~Spriv_r,Spub_r,Spub_i) = 
+in(42_a);
+let 44_Cr=hash1('Construction') in 
+new ~46_sid_r;
+let 45_sid_r=~46_sid_r in 
+let 47_HMAC=hash2(44_Cr,45_sid_r) in 
+let 51_HMAC=hash2(47_HMAC,Spub_r) in 
+in(55_a);
+let 56_Pars1=pars13(55_a,'32') in 
+let 60_Pars2=pars23(55_a,'32') in 
+let 63_Pars3=pars33(55_a,'32') in 
+let 70_Crr=kdf1(44_Cr,56_Pars1) in 
+let 71_HMAC=hash2(51_HMAC,56_Pars1) in 
+let 77_DH=DH(~Spriv_r,56_Pars1) in 
+let 80_Crr=kdf1(70_Crr,77_DH) in 
+let 302_Dec=dec(60_Pars2,80_Crr) in 
+let 305_HMAC=hash2(71_HMAC,60_Pars2) in 
+let 308_DH=DH(~Spriv_r,42_a) in 
+let 311_Crr=kdf1(80_Crr,308_DH) in 
+let 555_Dec=dec(63_Pars3,311_Crr) in 
+let 558_HMAC=hash2(305_HMAC,63_Pars3) in 
+event RespRecv('Init','Resp',Spub_i,Spub_r,~Spriv_r);
+new ~563_Epriv_r;
+let 562_Epriv_r=~563_Epriv_r in 
+let 565_Epub_r=exp('g',562_Epriv_r) in 
+let 776_Crr=kdf1(311_Crr,565_Epub_r) in 
+let 777_HMAC=hash2(558_HMAC,565_Epub_r) in 
+let 856_DH=DH(562_Epriv_r,56_Pars1) in 
+let 859_Crr=kdf1(776_Crr,856_DH) in 
+let 931_KDF=kdf3(859_Crr,'Q') in 
+let 938_Pars1=pars13(931_KDF,'32') in 
+let 939_Pars2=pars23(931_KDF,'32') in 
+let 942_HMAC=hash2(777_HMAC,939_Pars2) in 
+let 945_Pars3=pars33(931_KDF,'32') in 
+let 953_Enc=AEAD(945_Pars3,'952_epsilon',942_HMAC) in 
+let 956_HMAC=hash2(942_HMAC,953_Enc) in 
+out(pair(565_Epub_r,953_Enc));
+event RespAnsw('Init','Resp',Spub_i,Spub_r,~Spriv_r)
+
+//  <Environment>
+
+process:
+ !(
+	new ~Spriv_i;
+	let Spub_i = exp('g',~Spriv_i) in
+	out(Spub_i);
+	!(
+	   new ~Spriv_r;
+	   let Spub_r = exp('g',~Spriv_r) in
+	   out(Spub_r);
+           ((!client(~Spriv_i,Spub_i,Spub_r)) | (!server(~Spriv_r,Spub_r,Spub_i)))
+	)
+  )
+
+
+
+lemma injIP[reuse]: 
+ "All Spub_i Spub_r Spriv_r #k. RespRecv('Init','Resp',Spub_i,Spub_r,Spriv_r)@k ==>
+    (Ex #j Spriv_i.
+#j<#k & 
+InitStart('Init','Resp',Spub_i,Spub_r,Spriv_i)@#j) | 
+(Ex #a. K(Spriv_r)@#a)"
+
+
+lemma injPI[reuse,use_induction]:
+ "All Spub_i Spub_r Spriv_i #k. InitAccept('Init','Resp',Spub_i,Spub_r,Spriv_i)@k ==>
+(Ex Spriv_r #j. 
+#j<#k & 
+RespAnsw('Init','Resp',Spub_i,Spub_r,Spriv_r)@#j) | 
+(Ex Spriv_i #a. K(Spriv_i)@#a)"
+
+lemma sanity_InitStart[reuse]: 
+"Ex Spub_i Spub_r Spriv_i #k. InitStart('Init','Resp',Spub_i,Spub_r,Spriv_i)@k"
+
+lemma sanity_InitAccept[reuse]: 
+"Ex Spub_i Spub_r Spriv_i #k. InitAccept('Init','Resp',Spub_i,Spub_r,Spriv_i)@k"
+
+lemma sanity_RespRecv[reuse]: 
+"Ex Spub_i Spub_r Spriv_r #k. RespRecv('Init','Resp',Spub_i,Spub_r,Spriv_r)@k"
+
+lemma sanity_RespAnsw[reuse]: 
+"Ex Spub_i Spub_r Spriv_r #k. RespAnsw('Init','Resp',Spub_i,Spub_r,Spriv_r)@k"
+
+lemma key_secrecy[reuse]:
+    "(All Spub_i Spub_r Spriv_r Spriv_i #i #i2.
+        /* If I and R agree on keys */
+        InitAccept('Init','Resp',Spub_i,Spub_r,Spriv_i) @ i & RespAnsw('Init','Resp',Spub_i,Spub_r,Spriv_r) @ i2
+    ==>
+        (/* No Compromised Keys */
+	not(Ex #j. K(Spub_i) @ j) & not(Ex #j. K(Spub_r) @ j) & not(Ex #j. K(Spriv_i) @ j) & not(Ex #j. K(Spriv_r) @ j))
+        |
+        (/* Compromised Static Keys */
+	(Ex #j. K(Spub_i) @ j) | (Ex #j. K(Spub_r) @ j) | (Ex #j #j2. K(Spub_i) @ j & K(Spub_r) @ j2))
+        |
+	(/* Compromised Ephemeral Keys */
+	(Ex #j. K(Spriv_i) @ j) | (Ex #j. K(Spriv_r) @ j) | (Ex #j #j2. K(Spriv_i) @ j & K(Spriv_r) @ j2))
+        |
+	(/* Compromised Static Key & Ephemeral Key */
+           (Ex #j #j2. K(Spub_i) @ j & K(Spriv_r) @ j2)
+         | (Ex #j #j2. K(Spub_r) @ j & K(Spriv_i) @ j2))
+	 |
+	(/* Forward Secrecy */
+          ((Ex #j. K(Spub_i) @ j) | (Ex #j. K(Spub_r) @ j) | (Ex #j #j2. K(Spub_i) @ j & K(Spub_r) @ j2))
+        & (not(Ex #j. K(Spriv_i) @ j) | not(Ex #j. K(Spriv_r) @ j)))
+)"
+
+
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+

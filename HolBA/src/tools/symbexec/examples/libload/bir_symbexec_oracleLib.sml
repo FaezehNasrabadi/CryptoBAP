@@ -12,6 +12,15 @@ local
     open bir_auxiliaryLib;
     open bir_cfgLib;
     open bir_cfg_m0Lib;
+    open bir_expSyntax;
+    open bir_programSyntax;
+    open bir_immSyntax;
+    open bir_envSyntax;
+    open Hol_pp;
+    open Term;
+    open liteLib;
+    open HolKernel Parse boolLib bossLib;
+    open HolBACoreSimps;
     val ERR      = Feedback.mk_HOL_ERR "bir_symbexec_oracleLib"
 in
 
@@ -131,22 +140,22 @@ fun readint_type filename =
 (* read function names from file *)
 fun read_fun_names filename =
     let
-	val fullfilename = Path.mkAbsolute{path = filename,
-                                        relativeTo = FileSys.getDir()};
+	val fullfilename = OS.Path.mkAbsolute{path = filename,
+                                        relativeTo = OS.FileSys.getDir()};
 
         val ins = TextIO.openIn fullfilename;
 	val _ = TextIO.inputLine ins;
 
     fun loop ins =
 
-        case TextIO.inputLine ins of
+        case (TextIO.inputLine ins) of
 
-    SOME name => (implode o fst o (bir_auxiliaryLib.list_split_pred #"\n") o explode) name :: loop ins
+    SOME name => ((implode o fst o (bir_auxiliaryLib.list_split_pred #"\n") o explode) name :: loop ins)
 
     | NONE => []
 
           in
- loop ins before TextIO.closeIn ins
+ (loop ins) before (TextIO.closeIn ins)
 
     end;
 

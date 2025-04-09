@@ -1,0 +1,198 @@
+const g:bitstring.
+free att:channel.
+free s32:bitstring.
+free s952_epsilon:bitstring.
+free sConstruction:bitstring.
+free sInit:bitstring.
+free sQ:bitstring.
+free sResp:bitstring.
+free sts_i:bitstring.
+fun AEAD(bitstring,bitstring,bitstring):bitstring.
+fun DH(bitstring,bitstring):bitstring.
+fun exp(bitstring,bitstring):bitstring.
+fun expdh(bitstring,bitstring):bitstring.
+fun fst(bitstring):bitstring.
+fun h(bitstring):bitstring.
+fun hash1(bitstring):bitstring.
+fun hash2(bitstring,bitstring):bitstring.
+fun kdf1(bitstring,bitstring):bitstring.
+fun kdf2(bitstring,bitstring):bitstring.
+fun kdf3(bitstring,bitstring):bitstring.
+fun okay():bitstring.
+fun pair(bitstring,bitstring):bitstring.
+fun snd(bitstring):bitstring.
+fun triple(bitstring,bitstring,bitstring):bitstring.
+event eInitAccept(bitstring,bitstring,bitstring,bitstring,bitstring).
+event eInitStart(bitstring,bitstring,bitstring,bitstring,bitstring).
+event eRespAnsw(bitstring,bitstring,bitstring,bitstring,bitstring).
+event eRespRecv(bitstring,bitstring,bitstring,bitstring,bitstring).
+equation forall x_1:bitstring, x_2:bitstring;   fst(pair(x_1, x_2)) = x_1.
+equation forall x_1:bitstring, x_2:bitstring;   snd(pair(x_1, x_2)) = x_2.
+reduc forall a:bitstring, k:bitstring, p:bitstring;   dec(AEAD(k, p, a), k) = p.
+reduc forall a:bitstring, k:bitstring, p:bitstring;   verify(AEAD(k, p, a), a, k) = okay.
+reduc forall c_32:bitstring, x_1:bitstring, x_2:bitstring, x_3:bitstring;   pars13(triple(x_1, x_2, x_3), c_32) = x_1.
+reduc forall c_32:bitstring, x_1:bitstring, x_2:bitstring, x_3:bitstring;   pars23(triple(x_1, x_2, x_3), c_32) = x_2.
+reduc forall c_32:bitstring, x_1:bitstring, x_2:bitstring, x_3:bitstring;   pars33(triple(x_1, x_2, x_3), c_32) = x_3.
+reduc forall c_32:bitstring, x_1:bitstring, x_2:bitstring;   pars12(pair(x_1, x_2), c_32) = x_1.
+reduc forall c_32:bitstring, x_1:bitstring, x_2:bitstring;   pars22(pair(x_1, x_2), c_32) = x_2.
+reduc forall x:bitstring;   pars1(x) = x.
+const c_1:bitstring.
+const c_2:bitstring.
+const c_3:bitstring.
+equation forall x:bitstring, y:bitstring; DH(x,y) = exp(y,x).
+
+equation forall key:bitstring, input:bitstring; kdf1(key,input) = hash2(hash2(key,input),c_1).
+
+equation forall key:bitstring, input:bitstring; kdf2(key,input) = pair(hash2(hash2(key,input),c_1),hash2(hash2(key,input),hash2(hash2(hash2(key,input),c_1),c_2))).
+
+equation forall key:bitstring, input:bitstring; kdf3(key,input) = triple(hash2(hash2(key,input),c_1),hash2(hash2(key,input),hash2(hash2(hash2(key,input),c_1),c_2)), hash2(hash2(key,input), hash2(hash2(hash2(key,input),hash2(hash2(hash2(key,input),c_1),c_2)),c_3))).
+
+
+
+(*injIP*)
+query i:bitstring, r:bitstring, j:time, k:time;
+ (event(eRespRecv( sInit, sResp, exp(g,i),exp(g,r), r ))@k) ==>
+ (((j < k) && (event(eInitStart( sInit, sResp, exp(g,i),exp(g,r), i ))@j)) || attacker(i) || attacker(r))
+.
+(*injPI*)
+query i:bitstring, r:bitstring, j:time, k:time;
+ (event(eInitAccept( sInit, sResp, exp(g,i),exp(g,r), i ))@k) ==>
+ (((j < k) && (event(eRespAnsw( sInit, sResp, exp(g,i),exp(g,r), r ))@j)) || attacker(i) || attacker(r))
+.
+query secret Spriv_i_1.
+query secret Spriv_r_1.
+query attacker(new Spriv_i_1).
+query attacker(new Spriv_r_1).
+
+(*sanity_InitStart*)
+query Spriv_i:bitstring, Spub_i:bitstring, Spub_r:bitstring, k:time;
+ event(eInitStart( sInit, sResp, Spub_i, Spub_r, Spriv_i ))@k
+.
+(*sanity_InitAccept*)
+query Spriv_i:bitstring, Spub_i:bitstring, Spub_r:bitstring, k:time;
+ event(eInitAccept( sInit, sResp, Spub_i, Spub_r, Spriv_i ))@k
+.
+(*sanity_RespRecv*)
+query Spriv_r:bitstring, Spub_i:bitstring, Spub_r:bitstring, k:time;
+ event(eRespRecv( sInit, sResp, Spub_i, Spub_r, Spriv_r ))@k
+.
+(*sanity_RespAnsw*)
+query Spriv_r:bitstring, Spub_i:bitstring, Spub_r:bitstring, k:time;
+ event(eRespAnsw( sInit, sResp, Spub_i, Spub_r, Spriv_r ))@k
+.
+(*key_secrecy*)
+query i:bitstring, r:bitstring, i1:time, i2:time, j:time, j2:time, j3:time, j4:time, j5:time, j6:time, j7:time, j8:time, j9:time, j10:time, j11:time, j12:time;
+   ( (inj-event(eInitAccept( sInit, sResp, exp(g,i),exp(g,r), i ))@i2) && (inj-event(eRespAnsw( sInit, sResp, exp(g,i),exp(g,r), r ))@i1)) ==>
+((i1 < i2)&&
+((((
+       ((( attacker( exp(g,i) ) @ j) || ( attacker( exp(g,r) ) @ j2)) ||
+        ( (attacker( exp(g,i) ) @ j3) && (attacker( exp(g,r) ) @ j4)))) ||
+      ((( attacker( i ) @ j5) || (attacker(r ) @ j6)) ||
+       ( (attacker(i ) @ j7) && (attacker( r ) @ j8)))) ||
+     (( (attacker( exp(g,i) ) @ j9) && (attacker( r ) @ j10)) ||
+      ( (attacker( exp(g,r) ) @ j11) && (attacker( i ) @ j12))))
+)
+)
+.
+
+let client(Spriv_i_1:bitstring, Spub_i_1:bitstring, Spub_r_1:bitstring)=
+    in(att,a88_a_1:bitstring);
+    let a90_Ci_1:bitstring=hash1(sConstruction) in
+    new a92_sid_i_1:bitstring;
+    let a91_sid_i_1:bitstring=a92_sid_i_1 in
+    let a93_HMAC_1:bitstring=hash2(a90_Ci_1, a91_sid_i_1) in
+    let a96_HMAC_1:bitstring=hash2(a93_HMAC_1, a88_a_1) in
+    new a100_Epriv_i_1:bitstring;
+    let a99_Epriv_i_1:bitstring=a100_Epriv_i_1 in
+    let a02_Epub_i_1:bitstring=exp(g, a99_Epriv_i_1) in
+    let a54_Cii_1:bitstring=kdf1(a90_Ci_1, a02_Epub_i_1) in
+    let a55_HMAC_1:bitstring=hash2(a96_HMAC_1, a02_Epub_i_1) in
+    let a59_DH_1:bitstring=DH(a99_Epriv_i_1, a88_a_1) in
+    let a62_KDF_1:bitstring=kdf2(a54_Cii_1, a59_DH_1) in
+    let a68_Pars1_1:bitstring=pars12(a62_KDF_1, s32) in
+    let a69_Pars2_1:bitstring=pars22(a62_KDF_1, s32) in
+    let a222_Enc_1:bitstring=AEAD(a69_Pars2_1, Spub_i_1,a55_HMAC_1) in
+    let a225_HMAC_1:bitstring=hash2(a55_HMAC_1, a222_Enc_1) in
+    let a230_DH_1:bitstring=DH(Spriv_i_1, a88_a_1) in
+    let a233_KDF_1:bitstring=kdf2(a68_Pars1_1, a230_DH_1) in
+    let a239_Pars1_1:bitstring=pars12(a233_KDF_1, s32) in
+    let a240_Pars2_1:bitstring=pars22(a233_KDF_1, s32) in
+    let a243_Enc_1:bitstring=AEAD(a240_Pars2_1, sts_i, a225_HMAC_1) in
+    let a246_HMAC_1:bitstring=hash2(a225_HMAC_1, a243_Enc_1) in
+    out(att,triple(a02_Epub_i_1,a222_Enc_1,a243_Enc_1));
+    event eInitStart( sInit, sResp, Spub_i_1, a88_a_1, Spriv_i_1);
+    in(att,a253_a_1:bitstring);
+    let a254_Pars1_1:bitstring=pars12(a253_a_1, s32) in
+    let a258_Pars2_1:bitstring=pars22(a253_a_1, s32) in
+    let a726_Cii_1:bitstring=kdf1(a239_Pars1_1, a254_Pars1_1) in
+    let a727_HMAC_1:bitstring=hash2(a246_HMAC_1, a254_Pars1_1) in
+    let a733_DH_1:bitstring=DH(a99_Epriv_i_1, a254_Pars1_1) in
+    let a736_KDF_1:bitstring=kdf2(a726_Cii_1, a733_DH_1) in
+    let a742_Pars1_1:bitstring=pars12(a736_KDF_1, s32) in
+    let a743_Pars2_1:bitstring=pars22(a736_KDF_1, s32) in
+    let a870_DH_1:bitstring=DH(Spriv_i_1, a254_Pars1_1) in
+    let a873_KDF_1:bitstring=kdf2(a742_Pars1_1, a870_DH_1) in
+    let a879_Pars1_1:bitstring=pars12(a873_KDF_1, s32) in
+    let a880_Pars2_1:bitstring=pars22(a873_KDF_1, s32) in
+    let a008_KDF_1:bitstring=kdf3(a879_Pars1_1, sQ) in
+    let a015_Pars1_1:bitstring=pars13(a008_KDF_1, s32) in
+    let a016_Pars2_1:bitstring=pars23(a008_KDF_1, s32) in
+    let a019_HMAC_1:bitstring=hash2(a727_HMAC_1, a016_Pars2_1) in
+    let a2022_Pars3_1:bitstring=pars33(a008_KDF_1, s32) in
+    let a029_Dec_1:bitstring=dec(a258_Pars2_1, a2022_Pars3_1) in
+    let a032_HMAC_1:bitstring=hash2(a019_HMAC_1, a258_Pars2_1) in
+    event eInitAccept( sInit, sResp, Spub_i_1, a88_a_1, Spriv_i_1 ).
+let server(Spriv_r_1:bitstring, Spub_r_1:bitstring, Spub_i_1:bitstring)=
+    in(att,a42_a_1:bitstring);
+    let a44_Cr_1:bitstring=hash1(sConstruction) in
+    new a46_sid_r_1:bitstring;
+    let a45_sid_r_1:bitstring=a46_sid_r_1 in
+    let a47_HMAC_1:bitstring=hash2(a44_Cr_1, a45_sid_r_1) in
+    let a51_HMAC_1:bitstring=hash2(a47_HMAC_1, Spub_r_1) in
+    in(att,a55_a_1:bitstring);
+    let a56_Pars1_1:bitstring=pars13(a55_a_1, s32) in
+    let a60_Pars2_1:bitstring=pars23(a55_a_1, s32) in
+    let a63_Pars3_1:bitstring=pars33(a55_a_1, s32) in
+    let a70_Crr_1:bitstring=kdf1(a44_Cr_1, a56_Pars1_1) in
+    let a71_HMAC_1:bitstring=hash2(a51_HMAC_1, a56_Pars1_1) in
+    let a77_DH_1:bitstring=DH(Spriv_r_1, a56_Pars1_1) in
+    let a80_Crr_1:bitstring=kdf1(a70_Crr_1, a77_DH_1) in
+    let a302_Dec_1:bitstring=dec(a60_Pars2_1, a80_Crr_1) in
+    let a305_HMAC_1:bitstring=hash2(a71_HMAC_1, a60_Pars2_1) in
+    let a308_DH_1:bitstring=DH(Spriv_r_1, a42_a_1) in
+    let a311_Crr_1:bitstring=kdf1(a80_Crr_1, a308_DH_1) in
+    let a555_Dec_1:bitstring=dec(a63_Pars3_1, a311_Crr_1) in
+    let a558_HMAC_1:bitstring=hash2(a305_HMAC_1, a63_Pars3_1) in
+    event eRespRecv( sInit, sResp, a42_a_1, Spub_r_1, Spriv_r_1 );
+    new a563_Epriv_r_1:bitstring;
+    let a562_Epriv_r_1:bitstring=a563_Epriv_r_1 in
+    let a565_Epub_r_1:bitstring=exp(g, a562_Epriv_r_1) in
+    let a776_Crr_1:bitstring=kdf1(a311_Crr_1, a565_Epub_r_1) in
+    let a777_HMAC_1:bitstring=hash2(a558_HMAC_1, a565_Epub_r_1) in
+    let a856_DH_1:bitstring=DH(a562_Epriv_r_1, a56_Pars1_1) in
+    let a859_Crr_1:bitstring=kdf1(a776_Crr_1, a856_DH_1) in
+    let a931_KDF_1:bitstring=kdf3(a859_Crr_1, sQ) in
+    let a938_Pars1_1:bitstring=pars13(a931_KDF_1, s32) in
+    let a939_Pars2_1:bitstring=pars23(a931_KDF_1, s32) in
+    let a942_HMAC_1:bitstring=hash2(a777_HMAC_1, a939_Pars2_1) in
+    let a945_Pars3_1:bitstring=pars33(a931_KDF_1, s32) in
+    let a953_Enc_1:bitstring=AEAD(a945_Pars3_1, s952_epsilon, a942_HMAC_1) in
+    let a956_HMAC_1:bitstring=hash2(a942_HMAC_1, a953_Enc_1) in
+    out(att,pair(a565_Epub_r_1,a953_Enc_1));
+    event eRespAnsw( sInit, sResp, a42_a_1, Spub_r_1, Spriv_r_1 ).
+
+
+process
+    !
+    (new Spriv_i_1:bitstring;
+     let Spub_i_1:bitstring=exp(g, Spriv_i_1) in
+     out(att,Spub_i_1);
+     !
+     (new Spriv_r_1:bitstring;
+      let Spub_r_1:bitstring=exp(g, Spriv_r_1) in
+      out(att,Spub_r_1);
+      ((!
+        (client(Spriv_i_1, Spub_i_1, Spub_r_1)))
+     | (!
+        (server(Spriv_r_1, Spub_r_1, Spub_i_1))))))
+

@@ -3,11 +3,13 @@ struct
 
 local
   open bir_miscLib;
-
+  open HolKernel Parse boolLib bossLib;
+  open HolBACoreSimps;
   open binariesLib;
   open binariesCfgLib;
   open binariesMemLib;
-
+  open Term;
+  open Hol_pp;
   open bir_symbexec_stateLib;
   open bir_symbexec_coreLib;
   open bir_symbexec_stepLib;

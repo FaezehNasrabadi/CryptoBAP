@@ -1,5 +1,0 @@
-version = "__VERSION__"
-description = "Yices SMT solver binding for OCaml"
-requires = "num"
-archive(byte) = "__BYTECODE__"
-archive(native) = "__NATIVE__"

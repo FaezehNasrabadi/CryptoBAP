@@ -136,10 +136,6 @@ def z3_ast_to_HolTerm(exp):
                 sz_arg = exp.domain().size()
                 sz_vlu = child.size()
                 return "(FUN_FMAP (K ({})) (UNIV) : {} word |-> {} word)".format(z3_ast_to_HolTerm(child), sz_arg, sz_vlu)
-            
-        if is_quantifier(exp):
-            if (is_lambda(exp)):
-                return "LAMBDA"
 
     raise NotImplementedError("Not handled: {} as {}".format(type(exp), exp))
 

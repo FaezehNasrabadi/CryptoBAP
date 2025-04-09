@@ -1,0 +1,66 @@
+
+===================================================================================================
+== Testing: src/tools/parallelcomposition/examples/Wireguard-init/Combination-Wireguard-init.exe ==
+===================================================================================================
+found 818 blocks in program
+initial state created.
+
+current number of stopped states: 0
+
+
+finished exploration of all paths.
+
+number of paths found: 60
+
+number of "no assert failed" paths found: 5
+
+number of "assert failed" paths found: 55
+
+current number of stopped states: 37
+current number of stopped states: 118
+current number of stopped states: 290
+current number of stopped states: 497
+current number of stopped states: 608
+========================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Wireguard-init/Combination-Wireguard-init.exe ==
+== Time so far:  30 sec.                                                                              ==
+========================================================================================================
+current number of stopped states: 838
+current number of stopped states: 987
+current number of stopped states: 1180
+current number of stopped states: 1292
+current number of stopped states: 1466
+
+
+finished exploration of all paths.
+
+number of paths found: 1550
+
+number of "no assert failed" paths found: 68
+
+number of "assert failed" paths found: 1482
+
+Get predlists
+========================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Wireguard-init/Combination-Wireguard-init.exe ==
+== Time so far:  60 sec.                                                                              ==
+========================================================================================================
+========================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Wireguard-init/Combination-Wireguard-init.exe ==
+== Time so far:  90 sec.                                                                              ==
+========================================================================================================
+Get refined predlists
+Get tree
+Get vals_list
+Get sort_vals
+========================================================================================================
+== Test running: src/tools/parallelcomposition/examples/Wireguard-init/Combination-Wireguard-init.exe ==
+== Time so far: 120 sec.                                                                              ==
+========================================================================================================
+built a symbolic tree with value
+built sapic_process
+wrote into file
+============================
+== Test successful: src/tools/parallelcomposition/examples/Wireguard-init/Combination-Wireguard-init.exe ==
+== Elapsed time: 127 sec. ==
+============================

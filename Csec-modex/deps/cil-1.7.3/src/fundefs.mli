@@ -1,2 +1,0 @@
-
-val feature : Cil.featureDescr
