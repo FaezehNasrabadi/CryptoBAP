@@ -1,4 +1,4 @@
-## Symbolic Parallel Composition for Verification of Multi-language Protocol Implementations
+## CryptoBAP: Symbolic Parallel Composition for Verification of Multi-language Protocol Implementations
 
 This repository contains the implementation of our framework. It incorporates a diverse set of features. Here is a brief overview of the repository's contents: 
 
