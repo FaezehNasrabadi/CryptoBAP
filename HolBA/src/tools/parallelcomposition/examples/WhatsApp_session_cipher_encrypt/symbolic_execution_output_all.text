@@ -1,0 +1,37 @@
+=========================================================================================================================
+== Testing: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_encrypt/WhatsApp_session_cipher_encrypt.exe ==
+=========================================================================================================================
+found 3041 blocks in program
+initial state created.
+
+current number of stopped states: 0
+current number of stopped states: 131
+current number of stopped states: 312
+
+
+finished exploration of all paths.
+
+number of stopped symbolic execution states: 524
+
+number of "assert failed" paths found: 368
+number of "no assert failed" paths found: 156
+Get predlists
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_encrypt/WhatsApp_session_cipher_encrypt.exe ==
+== Time so far:  30 sec. ==
+===========================
+Get refined predlists
+Get tree
+Get vals_list
+Get sort_vals
+built a symbolic tree with value
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_encrypt/WhatsApp_session_cipher_encrypt.exe ==
+== Time so far:  60 sec. ==
+===========================
+built sapic_process
+wrote into file
+============================
+== Test successful: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_encrypt/WhatsApp_session_cipher_encrypt.exe ==
+== Elapsed time:  71 sec. ==
+============================

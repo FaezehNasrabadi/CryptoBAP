@@ -18,6 +18,20 @@ local
 in
 
 (*
+val exp =  “BExp_Load
+              (BExp_Store
+                 (BExp_Den (BVar "sy_MEM" (BType_Mem Bit64 Bit8)))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_BinExp BIExp_Minus
+                       (BExp_Den (BVar "sy_SP_EL0" (BType_Imm Bit64)))
+                       (BExp_Const (Imm64 64w))) (BExp_Const (Imm64 32w)))
+                 BEnd_LittleEndian (BExp_Const (Imm64 21w)))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_BinExp BIExp_Minus
+                    (BExp_Den (BVar "sy_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 64w))) (BExp_Const (Imm64 32w)))
+              BEnd_LittleEndian Bit64”;
+
 val exp = ``
 BExp_UnaryExp BIExp_Not
           (BExp_BinExp BIExp_Or

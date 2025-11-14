@@ -229,7 +229,8 @@ fun bir_exp_to_sapic_term exp =
 		val thm4 = (SIMP_CONV (srw_ss()) [size_of_bir_immtype_def]) “(toString o size_of_bir_immtype) ^bir_val_ty”;
 		val ld_sz = (snd o dest_eq o concl) thm4; 
 		val ld_sz_st = mk_Con (mk_Name (PubName_tm, ld_sz)); 
-		val trm_list = (listSyntax.mk_list ([mem_st,base_addr_st,ld_endi_st,ld_sz_st],SapicTerm_t_ty));
+		val trm_list = (listSyntax.mk_list ([mem_st,base_addr_st],SapicTerm_t_ty));
+		    (* val trm_list = (listSyntax.mk_list ([mem_st,base_addr_st,ld_endi_st,ld_sz_st],SapicTerm_t_ty)); *)
 		val fun_sig = pairSyntax.list_mk_pair[“"Load"”,“(4:int)”,Public_tm, Constructor_tm];
 		val sp_fun = mk_FAPP (fun_sig,trm_list);
  		val to_st_thm =  CONJ (CONJ (CONJ thm1 thm2) thm3) thm4
@@ -256,7 +257,8 @@ fun bir_exp_to_sapic_term exp =
 		val thm4 = (SIMP_CONV (srw_ss()) [translate_Endian_to_string_def]) ``translate_Endian_to_string ^bir_endi``;
 		val st_endi = (snd o dest_eq o concl) thm4; 
 		val st_endi_st = mk_TVar (mk_Var (st_endi,(“0:int”)));
-		val trm_list = (listSyntax.mk_list ([ mem_st,base_addr_st,st_endi_st,val_st],SapicTerm_t_ty));
+		(* val trm_list = (listSyntax.mk_list ([ mem_st,base_addr_st,st_endi_st,val_st],SapicTerm_t_ty)); *)
+		val trm_list = (listSyntax.mk_list ([mem_st,base_addr_st,val_st],SapicTerm_t_ty));
 		val fun_sig = pairSyntax.list_mk_pair[“"Store"”,“(4:int)”,Public_tm, Destructor_tm]
 		val sp_fun = mk_FAPP (fun_sig,trm_list);
  		val to_st_thm =  CONJ (CONJ (CONJ thm1 thm2) thm3) thm4;
@@ -266,7 +268,7 @@ fun bir_exp_to_sapic_term exp =
             handle e => raise wrap_exn "bir_exp_to_sapic_term::mem_store" e
 	else if (identical exp “bir_exp_true”)
 	then
-		(mk_Con (mk_Name (PubName_tm, “"1"”)),(Thm.INST_TYPE [alpha |-> (type_of exp)] EQ_REFL))
+	    (mk_Con (mk_Name (PubName_tm, “"1"”)),(Thm.INST_TYPE [alpha |-> (type_of exp)] EQ_REFL))
 	else if (identical exp “bir_exp_false”)
 	then
 		(mk_Con (mk_Name (PubName_tm, “"0"”)),(Thm.INST_TYPE [alpha |-> (type_of exp)] EQ_REFL))
@@ -304,12 +306,31 @@ fun bir_exp_to_sapic_term exp =
 
 	  
 (*
+
+HOL_Interactive.toggle_quietdec(); 
+ open simpLib;
+HOL_Interactive.toggle_quietdec(); 
+
 Test:
 
 val exp = “dec (BVar "4709_a" (BType_Imm Bit64))
      (pars1 (BVar "4576_KDF" (BType_Imm Bit64)))”
 
 val exp = “conc1 (BVar "48_OTP" (BType_Imm Bit64))”
+
+val exp =  “BExp_Load
+              (BExp_Store
+                 (BExp_Den (BVar "sy_MEM" (BType_Mem Bit64 Bit8)))
+                 (BExp_BinExp BIExp_Plus
+                    (BExp_BinExp BIExp_Minus
+                       (BExp_Den (BVar "sy_SP_EL0" (BType_Imm Bit64)))
+                       (BExp_Const (Imm64 64w))) (BExp_Const (Imm64 32w)))
+                 BEnd_LittleEndian (BExp_Const (Imm64 21w)))
+              (BExp_BinExp BIExp_Plus
+                 (BExp_BinExp BIExp_Minus
+                    (BExp_Den (BVar "sy_SP_EL0" (BType_Imm Bit64)))
+                    (BExp_Const (Imm64 64w))) (BExp_Const (Imm64 32w)))
+              BEnd_LittleEndian Bit64”;
 
 val exp = “BExp_Store
             (BExp_Store

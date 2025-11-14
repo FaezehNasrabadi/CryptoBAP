@@ -1,5 +1,0 @@
-The event name is as follows:
-
-RespRecv(Init,Resp,Spub_i,Spub_r,Spriv_r)
-RespAnsw(Init,Resp,Spub_i,Spub_r,Spriv_r)
-

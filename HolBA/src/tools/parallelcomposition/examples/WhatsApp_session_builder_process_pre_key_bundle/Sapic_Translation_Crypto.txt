@@ -1,0 +1,33 @@
+let Ver_9=verify3(R0_3,R2_7,R1_4) in 
+if LowCast(Ver_9,'32')='0' then 
+out(att,'15622020')
+else out(att,'15621684');
+if R25_26='0' then 
+out(att,'15622032')
+else out(att,'15621692');
+let R0_53=Plus(SP_EL0_sy,'8') in 
+let Seri_55=serialize2(R25_26,R0_53) in 
+let tmp_R1_68=Plus(R26_65,'8') in 
+let R21_73=Plus(R21_46,'8') in 
+let Ver_76=verify5(R24_47,R4_72,R21_73,R2_69,tmp_R1_68) in 
+if LowCast(Ver_76,'32')='0' then 
+out(att,'15622068')
+else out(att,'15621756');
+let R1_101=Plus(SP_EL0_sy,'48') in 
+let SID_103=session(R0_99,R2_100,R1_101) in 
+let R1_114=Plus(SP_EL0_sy,'40') in 
+new ~KeyPair_117;
+let RAND_NUM_116=~KeyPair_117 in 
+if R23_43='0' then 
+out(att,'15621804');
+let R1_137=Plus(SP_EL0_sy,'32') in 
+let idPair_139=pair(R0_136,R1_137) in 
+let R0_153=Plus(SP_EL0_sy,'24') in 
+let MasterSecret_158=ecdh7(R0_153,R25_26,R23_43,R4_72,R21_73,R26_152,R21_143) in 
+out(X3DH,MasterSecret_158)
+else out(att,'15621796');
+let R1_174=Plus(SP_EL0_sy,'32') in 
+let idPair_176=pair(R0_173,R1_174) in 
+let R0_190=Plus(SP_EL0_sy,'24') in 
+let MasterSecret_195=ecdh7(R0_190,R25_26,R23_43,R4_72,R21_73,R26_189,R21_180) in 
+out(X3DH,MasterSecret_195)

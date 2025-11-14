@@ -1,0 +1,34 @@
+======================================================================================================================================
+== Testing: src/tools/parallelcomposition/examples/WhatsApp_decryptPreKeyCiphertextData/WhatsApp_decryptPreKeyCiphertextDataFor.exe ==
+======================================================================================================================================
+found 5803 blocks in program
+initial state created.
+
+current number of stopped states: 0
+current number of stopped states: 266
+
+
+finished exploration of all paths.
+
+number of stopped symbolic execution states: 519
+
+number of "assert failed" paths found: 413
+number of "no assert failed" paths found: 106
+Get predlists
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_decryptPreKeyCiphertextData/WhatsApp_decryptPreKeyCiphertextDataFor.exe ==
+== Time so far:  30 sec. ==
+===========================
+Get refined predlists
+Get tree
+Get vals_list
+Get sort_vals
+built a symbolic tree with value
+built a purged tree
+built sapic_process
+built a refined process with live variables
+wrote into file
+============================
+== Test successful: src/tools/parallelcomposition/examples/WhatsApp_decryptPreKeyCiphertextData/WhatsApp_decryptPreKeyCiphertextDataFor.exe ==
+== Elapsed time:  38 sec. ==
+============================

@@ -1,0 +1,15 @@
+The function names are as follows:
+get_challenge
+get_nonce
+send_nonce
+get_cipher
+get_mac
+strcmp
+compare_mac
+compare_nonces
+sdec
+senc
+mac
+send_cipher
+__stack_chk_fail
+send_mac

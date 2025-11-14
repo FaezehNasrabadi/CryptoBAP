@@ -1,0 +1,438 @@
+========================================================================================================================================================
+== Testing: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+========================================================================================================================================================
+found 4181 blocks in program
+initial state created.
+
+current number of stopped states: 0
+current number of stopped states: 121
+current number of stopped states: 298
+current number of stopped states: 487
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far:  30 sec. ==
+===========================
+current number of stopped states: 736
+current number of stopped states: 962
+current number of stopped states: 1036
+current number of stopped states: 1105
+current number of stopped states: 1210
+current number of stopped states: 1311
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far:  60 sec. ==
+===========================
+current number of stopped states: 1369
+current number of stopped states: 1467
+current number of stopped states: 1547
+current number of stopped states: 1650
+current number of stopped states: 1752
+current number of stopped states: 1825
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far:  90 sec. ==
+===========================
+current number of stopped states: 1906
+current number of stopped states: 2015
+current number of stopped states: 2089
+current number of stopped states: 2193
+current number of stopped states: 2294
+current number of stopped states: 2353
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 120 sec. ==
+===========================
+current number of stopped states: 2449
+current number of stopped states: 2531
+current number of stopped states: 2633
+current number of stopped states: 2730
+current number of stopped states: 2788
+current number of stopped states: 2860
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 150 sec. ==
+===========================
+current number of stopped states: 2962
+current number of stopped states: 3061
+current number of stopped states: 3149
+current number of stopped states: 3228
+current number of stopped states: 3338
+current number of stopped states: 3445
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 180 sec. ==
+===========================
+current number of stopped states: 3543
+current number of stopped states: 3628
+current number of stopped states: 3724
+current number of stopped states: 3827
+current number of stopped states: 3883
+current number of stopped states: 4056
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 210 sec. ==
+===========================
+current number of stopped states: 4275
+current number of stopped states: 4484
+current number of stopped states: 4590
+current number of stopped states: 4678
+current number of stopped states: 4812
+current number of stopped states: 4933
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 240 sec. ==
+===========================
+current number of stopped states: 5038
+current number of stopped states: 5143
+current number of stopped states: 5225
+current number of stopped states: 5304
+current number of stopped states: 5399
+current number of stopped states: 5475
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 270 sec. ==
+===========================
+current number of stopped states: 5580
+current number of stopped states: 5653
+current number of stopped states: 5732
+current number of stopped states: 5810
+current number of stopped states: 5916
+current number of stopped states: 6018
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 300 sec. ==
+===========================
+current number of stopped states: 6071
+current number of stopped states: 6172
+current number of stopped states: 6272
+current number of stopped states: 6351
+current number of stopped states: 6453
+current number of stopped states: 6535
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 330 sec. ==
+===========================
+current number of stopped states: 6610
+current number of stopped states: 6704
+current number of stopped states: 6788
+current number of stopped states: 6893
+current number of stopped states: 6963
+current number of stopped states: 7043
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 360 sec. ==
+===========================
+current number of stopped states: 7123
+current number of stopped states: 7223
+current number of stopped states: 7323
+current number of stopped states: 7378
+current number of stopped states: 7476
+current number of stopped states: 7554
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 390 sec. ==
+===========================
+current number of stopped states: 7654
+current number of stopped states: 7727
+current number of stopped states: 7808
+current number of stopped states: 7892
+current number of stopped states: 7989
+current number of stopped states: 8093
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 420 sec. ==
+===========================
+current number of stopped states: 8163
+current number of stopped states: 8246
+current number of stopped states: 8324
+current number of stopped states: 8422
+current number of stopped states: 8502
+current number of stopped states: 8583
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 450 sec. ==
+===========================
+current number of stopped states: 8678
+current number of stopped states: 8754
+current number of stopped states: 8862
+current number of stopped states: 8915
+current number of stopped states: 9014
+current number of stopped states: 9110
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 480 sec. ==
+===========================
+current number of stopped states: 9193
+current number of stopped states: 9295
+current number of stopped states: 9347
+current number of stopped states: 9447
+current number of stopped states: 9530
+current number of stopped states: 9625
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 511 sec. ==
+===========================
+current number of stopped states: 9706
+current number of stopped states: 9777
+current number of stopped states: 9876
+current number of stopped states: 9956
+current number of stopped states: 10060
+current number of stopped states: 10112
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 541 sec. ==
+===========================
+current number of stopped states: 10212
+current number of stopped states: 10291
+current number of stopped states: 10387
+current number of stopped states: 10468
+current number of stopped states: 10543
+current number of stopped states: 10620
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 571 sec. ==
+===========================
+current number of stopped states: 10719
+current number of stopped states: 10822
+current number of stopped states: 10880
+current number of stopped states: 10976
+current number of stopped states: 11051
+current number of stopped states: 11154
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 601 sec. ==
+===========================
+current number of stopped states: 11236
+current number of stopped states: 11313
+current number of stopped states: 11413
+current number of stopped states: 11516
+current number of stopped states: 11596
+current number of stopped states: 11701
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 631 sec. ==
+===========================
+current number of stopped states: 11808
+current number of stopped states: 11884
+current number of stopped states: 11966
+current number of stopped states: 12071
+current number of stopped states: 12154
+current number of stopped states: 12254
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 661 sec. ==
+===========================
+current number of stopped states: 12361
+current number of stopped states: 12470
+current number of stopped states: 12590
+current number of stopped states: 12800
+current number of stopped states: 12917
+current number of stopped states: 13085
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 691 sec. ==
+===========================
+current number of stopped states: 13312
+current number of stopped states: 13502
+current number of stopped states: 13718
+current number of stopped states: 13932
+current number of stopped states: 14151
+current number of stopped states: 14363
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 721 sec. ==
+===========================
+current number of stopped states: 14555
+current number of stopped states: 14768
+current number of stopped states: 14981
+current number of stopped states: 15198
+current number of stopped states: 15419
+current number of stopped states: 15635
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 751 sec. ==
+===========================
+current number of stopped states: 15854
+current number of stopped states: 16073
+current number of stopped states: 16289
+current number of stopped states: 16471
+current number of stopped states: 16660
+current number of stopped states: 16853
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 781 sec. ==
+===========================
+current number of stopped states: 17060
+current number of stopped states: 17246
+current number of stopped states: 17431
+current number of stopped states: 17636
+current number of stopped states: 17830
+current number of stopped states: 18042
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 811 sec. ==
+===========================
+current number of stopped states: 18219
+current number of stopped states: 18415
+current number of stopped states: 18600
+current number of stopped states: 18805
+current number of stopped states: 18966
+current number of stopped states: 19174
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 841 sec. ==
+===========================
+current number of stopped states: 19395
+current number of stopped states: 19573
+current number of stopped states: 19734
+current number of stopped states: 19930
+current number of stopped states: 20078
+current number of stopped states: 20158
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 871 sec. ==
+===========================
+current number of stopped states: 20217
+current number of stopped states: 20231
+current number of stopped states: 20306
+current number of stopped states: 20379
+current number of stopped states: 20448
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 901 sec. ==
+===========================
+current number of stopped states: 20526
+current number of stopped states: 20597
+current number of stopped states: 20675
+current number of stopped states: 20774
+current number of stopped states: 20827
+current number of stopped states: 20926
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 931 sec. ==
+===========================
+current number of stopped states: 21000
+current number of stopped states: 21101
+current number of stopped states: 21183
+current number of stopped states: 21254
+current number of stopped states: 21355
+current number of stopped states: 21433
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 961 sec. ==
+===========================
+current number of stopped states: 21511
+current number of stopped states: 21582
+current number of stopped states: 21663
+current number of stopped states: 21757
+current number of stopped states: 21826
+current number of stopped states: 21908
+===========================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 991 sec. ==
+===========================
+current number of stopped states: 21982
+current number of stopped states: 22082
+current number of stopped states: 22134
+current number of stopped states: 22226
+current number of stopped states: 22308
+current number of stopped states: 22386
+============================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 1021 sec. ==
+============================
+current number of stopped states: 22455
+current number of stopped states: 22533
+current number of stopped states: 22633
+current number of stopped states: 22686
+current number of stopped states: 22783
+current number of stopped states: 22863
+============================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 1052 sec. ==
+============================
+current number of stopped states: 22961
+current number of stopped states: 23032
+current number of stopped states: 23108
+current number of stopped states: 23182
+current number of stopped states: 23295
+current number of stopped states: 23394
+============================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 1082 sec. ==
+============================
+current number of stopped states: 23446
+current number of stopped states: 23538
+current number of stopped states: 23636
+current number of stopped states: 23717
+current number of stopped states: 23785
+current number of stopped states: 23858
+============================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 1112 sec. ==
+============================
+current number of stopped states: 23955
+current number of stopped states: 24007
+current number of stopped states: 24082
+current number of stopped states: 24178
+current number of stopped states: 24250
+current number of stopped states: 24330
+============================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 1142 sec. ==
+============================
+current number of stopped states: 24401
+current number of stopped states: 24499
+current number of stopped states: 24557
+current number of stopped states: 24631
+current number of stopped states: 24725
+current number of stopped states: 24794
+============================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 1172 sec. ==
+============================
+current number of stopped states: 24906
+current number of stopped states: 24986
+current number of stopped states: 25057
+current number of stopped states: 25156
+current number of stopped states: 25205
+current number of stopped states: 25285
+============================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 1202 sec. ==
+============================
+current number of stopped states: 25378
+current number of stopped states: 25431
+current number of stopped states: 25522
+current number of stopped states: 25642
+current number of stopped states: 25713
+current number of stopped states: 25811
+============================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 1232 sec. ==
+============================
+current number of stopped states: 25862
+current number of stopped states: 25979
+current number of stopped states: 26048
+current number of stopped states: 26157
+current number of stopped states: 26260
+current number of stopped states: 26402
+============================
+== Test running: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Time so far: 1262 sec. ==
+============================
+current number of stopped states: 26476
+
+
+finished exploration of all paths.
+
+number of stopped symbolic execution states: 26615
+
+number of "assert failed" paths found: 19322
+number of "no assert failed" paths found: 7293
+
+wrote into file
+==============================
+== Test successful: src/tools/parallelcomposition/examples/WhatsApp_session_cipher_decrypt_signal_message/WhatsApp__session_cipher_decrypt_signal_message.exe ==
+== Elapsed time: 25782 sec. ==
+==============================

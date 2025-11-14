@@ -1,6 +1,8 @@
 structure bir_symbexec_stepLib =
 struct
 
+val bir_symbexec_step_execstep_spec = ref true;
+    
 local
   open bir_symbexec_stateLib;
   open bir_symbexec_coreLib;
@@ -25,7 +27,7 @@ local
 
   val bv_countw = bir_envSyntax.mk_BVar_string ("countw", ``(BType_Imm Bit64)``);
   fun state_exec_assign (bv, be) syst =
-    if identical bv bv_countw andalso bir_expSyntax.is_BExp_IfThenElse be then
+    if (*identical bv bv_countw andalso*) bir_expSyntax.is_BExp_IfThenElse be then
       let
         val (cnd, be1, be2) = bir_expSyntax.dest_BExp_IfThenElse be;
       in
@@ -60,93 +62,131 @@ local
 
 
   fun state_exec_observe (id_tm, cnd_tm, exps_tm, ofun_tm) syst =
-    let
-      val _  = if numSyntax.is_numeral id_tm then () else
-               raise ERR "symb_exec_stmt_observe" "the observation id has to be a numeral.";
-      val id = numSyntax.dest_numeral id_tm;
+      let
+	  val _  = if numSyntax.is_numeral id_tm then () else
+		   raise ERR "symb_exec_stmt_observe" "the observation id has to be a numeral.";
+	  val id = numSyntax.dest_numeral id_tm;
 
-      val (exp_tms,_) = listSyntax.dest_list exps_tm;
+	  val (exp_tms,_) = listSyntax.dest_list exps_tm;
 
-      val cnd_bv = bir_envSyntax.mk_BVar_string ("observe_cnd", bir_valuesSyntax.BType_Bool_tm);
+	  val cnd_bv = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("observe_cnd", bir_valuesSyntax.BType_Bool_tm));
 
-      fun fold_exp (exp_tm, (exp_bvs, insert_fun)) =
-        let
-          val exp_ty = (optionSyntax.dest_some o bir_exp_helperLib.get_type_of_bir_exp) exp_tm
-                       handle e => raise wrap_exn "state_exec_observe::typpeofthm not as expected" e;
-          val exp_bv = bir_envSyntax.mk_BVar_string ("observe_exp", exp_ty);
-        in
-          (exp_bv::exp_bvs, (state_insert_symbval_from_be exp_bv exp_tm) o insert_fun)
-        end;
-      val (exp_bvs, insert_fun) = List.foldr fold_exp ([],I) exp_tms; 
+	  fun fold_exp (exp_tm, (exp_bvs, insert_fun)) =
+              let
+		  val exp_ty = (optionSyntax.dest_some o bir_exp_helperLib.get_type_of_bir_exp) exp_tm
+                      handle e => raise wrap_exn "state_exec_observe::typpeofthm not as expected" e;
+		  val exp_bv = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("observe_exp", exp_ty));
+              in
+		  (exp_bv::exp_bvs, (state_insert_symbval_from_be exp_bv exp_tm) o insert_fun)
+              end;
+	  val (exp_bvs, insert_fun) = List.foldr fold_exp ([],I) exp_tms; 
 
-      val obs = (id, cnd_bv, exp_bvs, ofun_tm);
-      val obss' = obs::(SYST_get_obss syst);
-    in
-      [(SYST_update_obss obss' o
-        insert_fun o
-        state_insert_symbval_from_be cnd_bv cnd_tm
-        ) syst]
-    end;
+	  val obs = (id, cnd_bv, exp_bvs, ofun_tm);
+	  val obss' = obs::(SYST_get_obss syst);
+	  val pred = (SYST_get_pred syst);
+	  val pred' = exp_bvs@pred;
+      in
+	  [(SYST_update_pred pred' o SYST_update_obss obss' o
+            insert_fun o
+            state_insert_symbval_from_be cnd_bv cnd_tm
+           ) syst]
+      end;
 
   open bir_programSyntax;
 in (* local *)
-  fun symb_exec_stmt (s, syst) =
+fun symb_exec_stmt (s, syst) =
     (* no update if state is not running or in loop *)
     if (not (state_is_running syst orelse is_state_inloop syst)) then
-      [syst]
+	[syst]
     (* assignment *)
     else if is_BStmt_Assign s then
-      state_exec_assign (dest_BStmt_Assign s) syst
+	state_exec_assign (dest_BStmt_Assign s) syst
     (* assert and assume *)
     else if is_BStmt_Assert s then
-      state_exec_assert (dest_BStmt_Assert s) syst
+	state_exec_assert (dest_BStmt_Assert s) syst
     else if is_BStmt_Assume s then
-      state_exec_assume (dest_BStmt_Assume s) syst
+	state_exec_assume (dest_BStmt_Assume s) syst
     (* observations *)
     else if is_BStmt_Observe s then
-      state_exec_observe (dest_BStmt_Observe s) syst
+	state_exec_observe (dest_BStmt_Observe s) syst
     else raise ERR "symb_exec_stmt" ("unknown statement type for: " ^ (term_to_string s));
 end (* local *)
 
 (* execution of an end statement *)
 local
     val jmp_label_match_tm = ``BStmt_Jmp (BLE_Label xyz)``;
-  fun state_exec_try_jmp_label est syst =
-    SOME (
-    let
-      val (vs, _) = hol88Lib.match jmp_label_match_tm est;
-      val tgt     = (fst o hd) vs;
-    in
-      [SYST_update_pc tgt syst]
-    end
-    )
-    handle HOL_ERR _ => NONE;
+    fun state_exec_try_jmp_label est syst =
+	SOME (
+	let
+	    val (vs, _) = hol88Lib.match jmp_label_match_tm est;
+	    val tgt     = (fst o hd) vs;
+	in
+	    [SYST_update_pc tgt syst]
+	end
+	)
+	handle HOL_ERR _ => NONE;
 
-  val cjmp_label_match_tm = ``BStmt_CJmp xyzc (BLE_Label xyz1) (BLE_Label xyz2)``;
-  exception state_exec_try_cjmp_exn;
-  fun state_exec_try_cjmp_label est syst =
-    SOME (
-    let
-	
-      val (vs, _) = hol88Lib.match cjmp_label_match_tm est;
-      val cnd     = fst (List.nth (vs, 0));
-      val tgt1    = fst (List.nth (vs, 1));
-      val tgt2    = fst (List.nth (vs, 2));
-      val be      = if (is_BExp_Den cnd) then (bir_symbexec_funcLib.symbval_bexp (bir_symbexec_stateLib.get_state_symbv "CJmp" (dest_BExp_Den cnd) syst)) else cnd;
+    val cjmp_label_match_tm = ``BStmt_CJmp xyzc (BLE_Label xyz1) (BLE_Label xyz2)``;
+    exception state_exec_try_cjmp_exn;
+    fun state_exec_try_cjmp_label est syst =
+	SOME (
+	if (!bir_symbexec_step_execstep_spec) then
+	    let
+		
+		val (vs, _) = hol88Lib.match cjmp_label_match_tm est;
+		val cnd     = fst (List.nth (vs, 0));
+		val tgt1    = fst (List.nth (vs, 1));
+		val tgt2    = fst (List.nth (vs, 2));
+		val be      = if (is_BExp_Den cnd) then (bir_symbexec_funcLib.symbval_bexp (bir_symbexec_stateLib.get_state_symbv "CJmp" (dest_BExp_Den cnd) syst)) else cnd;
 
-    in
-	if ((bir_bool_expSyntax.is_bir_exp_true cnd) orelse (bir_bool_expSyntax.is_bir_exp_true be)) then [SYST_update_pc tgt1 syst]
-	else if ((bir_bool_expSyntax.is_bir_exp_false cnd) orelse (bir_bool_expSyntax.is_bir_exp_false be)) then [SYST_update_pc tgt2 syst]
+		val cnd_observe = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("cnd_observe", bir_valuesSyntax.BType_Bool_tm));
+		    
+		val syst = ((state_insert_symbval_from_be cnd_observe be) o (state_add_pred "observe_cnd" be)) syst;
+			
+		val tgt1_exp = if (is_BL_Address tgt1)
+			       then ((bir_expSyntax.mk_BExp_Const o dest_BL_Address) tgt1)
+			       else if (is_BL_Label tgt1)
+			       then (bir_expSyntax.mk_BExp_Den (bir_envSyntax.mk_BVar ((dest_BL_Label tgt1), “BType_Imm Bit64”)))
+			       else raise ERR "couldn't get tgt1_exp" (term_to_string tgt1);
+		    
+		val tgt2_exp = if (is_BL_Address tgt2)
+			       then ((bir_expSyntax.mk_BExp_Const o dest_BL_Address) tgt2)
+			       else if (is_BL_Label tgt2)
+			       then (bir_expSyntax.mk_BExp_Den (bir_envSyntax.mk_BVar ((dest_BL_Label tgt2), “BType_Imm Bit64”)))
+			       else raise ERR "couldn't get tgt2_exp" (term_to_string tgt2);
+		    
+		val tgt_true = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("tgt_true", bir_valuesSyntax.BType_Bool_tm));
+		val tgt_false = get_bvar_fresh (bir_envSyntax.mk_BVar_string ("tgt_false", bir_valuesSyntax.BType_Bool_tm));
+	    in
+		    state_branch_simp
+			"cjmp"
+			cnd
+			((SYST_update_pc tgt1) o (state_insert_symbval_from_be tgt_true tgt1_exp) o (state_add_pred "tgt_true_cnd" tgt1_exp))
+			((SYST_update_pc tgt2) o (state_insert_symbval_from_be tgt_false tgt2_exp) o (state_add_pred "tgt_false_cnd" tgt2_exp))
+			syst
+	    end
 	else
-	    state_branch_simp
-		"cjmp"
-		cnd
-		(SYST_update_pc tgt1)
-		(SYST_update_pc tgt2)
-		syst
-    end
-    )
-      handle HOL_ERR _ => NONE;
+	    let
+		
+		val (vs, _) = hol88Lib.match cjmp_label_match_tm est;
+		val cnd     = fst (List.nth (vs, 0));
+		val tgt1    = fst (List.nth (vs, 1));
+		val tgt2    = fst (List.nth (vs, 2));
+		val be      = if (is_BExp_Den cnd) then (bir_symbexec_funcLib.symbval_bexp (bir_symbexec_stateLib.get_state_symbv "CJmp" (dest_BExp_Den cnd) syst)) else cnd;
+	    in
+		if ((bir_bool_expSyntax.is_bir_exp_true cnd) orelse (bir_bool_expSyntax.is_bir_exp_true be)) then [SYST_update_pc tgt1 syst]
+		else if ((bir_bool_expSyntax.is_bir_exp_false cnd) orelse (bir_bool_expSyntax.is_bir_exp_false be)) then [SYST_update_pc tgt2 syst]
+		else
+		    state_branch_simp
+			"cjmp"
+			cnd
+			(SYST_update_pc tgt1)
+			(SYST_update_pc tgt2)
+			syst
+	    end
+	) handle HOL_ERR _ => NONE;
+      (*handle state_exec_try_cjmp_exn => NONE
+           | e => raise wrap_exn ("state_exec_try_cjmp_label::") e;*)
 
   fun exist_in_prog tgts ex_tgts =
       let
@@ -171,6 +211,7 @@ fun add_tgt_equ tgt be =
     in
 	pred
     end;
+    
   val jmp_exp_var_match_tm = ``BStmt_Jmp (BLE_Exp x)``;
   exception state_exec_try_jmp_exp_var_exn;
   fun state_exec_try_jmp_exp_var n_dict lbl_tm est syst =
@@ -244,6 +285,7 @@ in (* local *)
    handle e =>
      raise wrap_exn (term_to_string lbl_tm) e;
 end (* local *)
+     
 
 local
     open bir_block_collectionLib;
@@ -310,8 +352,7 @@ fun symb_exec_library_block abpfun n_dict bl_dict adr_dict syst =
 		val _ = if true then () else
 			if (lib_type = "C_Lib") then () else
 			print ("Lib type: " ^ (lib_type) ^ "\n");
-
-(* For WireGuard case-study *)
+  
 		val systs = if (lib_type = "HMAC_send") then [bir_symbexec_funcLib.HMAC_Send syst]
 			    else if (lib_type = "HMAC_receive") then [bir_symbexec_funcLib.HMAC_Receive syst]
 			    else if (lib_type = "NewKey") then [bir_symbexec_funcLib.new_key syst]
@@ -336,33 +377,7 @@ fun symb_exec_library_block abpfun n_dict bl_dict adr_dict syst =
 			    else if (lib_type = "Fail") then [SYST_update_status BST_AssumptionViolated_tm syst]
 			    else if ((lib_type = "event1") orelse (lib_type = "event2") orelse (lib_type = "event3")) then (bir_symbexec_funcLib.Event lib_type syst)
 			    else [syst];
-(*
-(* For other case-studies *)
-		val systs = if (lib_type = "HMAC_send") then [bir_symbexec_funcLib.HMAC_Send syst]
-			    else if (lib_type = "HMAC_receive") then [bir_symbexec_funcLib.HMAC_Receive syst]
-			    else if (lib_type = "NewKey") then [bir_symbexec_funcLib.new_key syst]
-			    else if (lib_type = "SKey") then [bir_symbexec_funcLib.session_key syst]
-			    else if (lib_type = "Encryption") then [bir_symbexec_funcLib.Encryption syst]
-			    else if (lib_type = "Decryption") then [bir_symbexec_funcLib.Decryption syst]
-			    else if (lib_type = "Signature") then [bir_symbexec_funcLib.Signature syst]
-			    else if (lib_type = "Verify") then bir_symbexec_funcLib.Verify syst
-			    else if (lib_type = "MEMcpy") then [bir_symbexec_funcLib.New_memcpy syst]
-			    else if (lib_type = "LoadFile") then [bir_symbexec_funcLib.Load_file syst]
-			    else if (lib_type = "OTP") then [bir_symbexec_funcLib.One_Time_Pad syst]
-			    else if (lib_type = "RNG") then [bir_symbexec_funcLib.Random_Number syst]
-			    else if (lib_type = "XOR") then [bir_symbexec_funcLib.Xor syst]
-			    else if (lib_type = "kdfPtoS") then [bir_symbexec_funcLib.KDF syst]
-			    else if (lib_type = "kdfStoP") then [bir_symbexec_funcLib.KDF syst]
-			    else if (lib_type = "concat") then [bir_symbexec_funcLib.Concat syst]
-			    else if (lib_type = "Concat1") then [bir_symbexec_funcLib.Concat1 syst]
-			    else if (lib_type = "Concat2") then [bir_symbexec_funcLib.Concat2 syst]
-			    else if (lib_type = "Pars1") then [bir_symbexec_funcLib.Parse1 syst]
-			    else if (lib_type = "Pars2") then [bir_symbexec_funcLib.Parse2 syst]
-			    else if (lib_type = "compare") then (bir_symbexec_funcLib.Compare syst)
-			    else if (lib_type = "Fail") then [SYST_update_status BST_AssumptionViolated_tm syst]
-			    else if ((lib_type = "event1") orelse (lib_type = "event2") orelse (lib_type = "event3")) then (bir_symbexec_funcLib.Event lib_type syst)
-			    else [syst];
- *)
+		   
 		val systs = if ((not o List.null o fst o listSyntax.dest_list) bl_stmts)
 			    then
 				(List.map (fn x => bir_symbexec_funcLib.update_pc x) systs)(* update symb_state with new pc *)
@@ -410,8 +425,10 @@ fun symb_exec_normal_block abpfun n_dict bl_dict syst =
 			 if ((not o List.null o fst o listSyntax.dest_list) stmts)
 			 then
 			     let
-				 val s_tm_0 = List.nth (s_tms, 0);
-				 val (bv, be) = dest_BStmt_Assign s_tm_0;
+				 val s_tm = if (!bir_symbexec_step_execstep_spec)
+					    then List.nth (s_tms, 1)
+						 else List.nth (s_tms, 0);
+				 val (bv, be) = dest_BStmt_Assign s_tm;
 				 val indjmps = SYST_get_indjmp syst;   
 			     in
 				 SYST_update_indjmp (be::indjmps) syst
@@ -570,3 +587,4 @@ end (* local *)
 end (* outermost local *)
 
 end (* struct *)
+

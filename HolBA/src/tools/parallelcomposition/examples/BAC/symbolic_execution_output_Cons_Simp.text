@@ -1,0 +1,30 @@
+=============================================================================
+== Testing: src/tools/parallelcomposition/examples/BAC/Combination-BAC.exe ==
+=============================================================================
+found 176 blocks in program
+found 176 blocks in program
+initial state created.
+
+current number of stopped states: 0
+
+
+finished exploration of all paths.
+
+number of stopped symbolic execution states: 74
+
+number of "assert failed" paths found: 69
+number of "no assert failed" paths found: 5
+Get predlists
+Get refined lists
+Get tree
+Get vals_list
+Get sort_vals
+built a symbolic tree with value
+built a purged tree
+built sapic_process
+wrote into file
+./scripts/run-test.sh: line 57: printf: 7.94615912437439: invalid number
+=====================================================================================
+== Test successful: src/tools/parallelcomposition/examples/BAC/Combination-BAC.exe ==
+== Elapsed time:   7 sec.                                                          ==
+=====================================================================================

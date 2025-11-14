@@ -1,7 +1,7 @@
 # includes
 # ----------------------------------
 DEPENDENCIES   = 
-#../../../core ../../../theories ../deduction
+#../../../core ../../../theories
 
 
 # configuration

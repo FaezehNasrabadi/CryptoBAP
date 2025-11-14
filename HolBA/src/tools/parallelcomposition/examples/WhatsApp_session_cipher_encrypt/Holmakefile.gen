@@ -1,0 +1,16 @@
+# includes
+# ----------------------------------
+DEPENDENCIES   = ../../../symbexec/examples/PreProcess ../../tree ../../sapic ../../translateTosapic ../../prettyPrint ../../../scamv 
+
+
+# configuration
+# ----------------------------------
+HOLHEAP        = ../../../symbexec/examples/libload/HolBATools_SymbExec_ExampleLibload-heap
+NEWHOLHEAP     = 
+
+HEAPINC_EXTRA  = $(HOLDIR)/src/tools/scamv/persistence/embexp_logsLib
+
+
+# included lines follow
+# ----------------------------------
+include ../../../../Holmakefile.inc

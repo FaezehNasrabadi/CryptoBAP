@@ -1,0 +1,28 @@
+========================================================================================================================================================
+== Testing: src/tools/parallelcomposition/examples/WhatsApp_session_builder_process_pre_key_bundle/WhatsAppsession_builder_process_pre_key_bundle.exe ==
+========================================================================================================================================================
+found 6844 blocks in program
+initial state created.
+
+current number of stopped states: 0
+
+
+finished exploration of all paths.
+
+number of stopped symbolic execution states: 37
+
+number of "assert failed" paths found: 25
+number of "no assert failed" paths found: 12
+Get predlists
+Get refined predlists
+Get tree
+Get vals_list
+Get sort_vals
+built a purged tree
+built sapic_process
+built a refined process with live variables
+wrote into file
+============================
+== Test successful: src/tools/parallelcomposition/examples/WhatsApp_session_builder_process_pre_key_bundle/WhatsAppsession_builder_process_pre_key_bundle.exe ==
+== Elapsed time:  12 sec. ==
+============================

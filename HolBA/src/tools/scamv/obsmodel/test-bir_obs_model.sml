@@ -12,11 +12,22 @@ val mem_bounds =
         open wordsSyntax;
         val (mem_base, mem_len) = (Arbnum.fromHexString "0xFFCC0000",
                                    Arbnum.fromHexString  "0x10000");
-        val mem_end = (Arbnum.- (Arbnum.+ (mem_base, mem_len), Arbnum.fromInt 128));
+	val mem_max = Arbnum.+ (mem_base, mem_len);
+	val sp_len = Arbnum.fromHexString  "0x5000";
+        val mem_end = (Arbnum.- (Arbnum.- (mem_max, sp_len), Arbnum.fromInt 16));
+	val (sp_start, sp_end) = (Arbnum.- (mem_max,sp_len),
+				  Arbnum.- (mem_max, Arbnum.fromInt 16));
       in
-        pairSyntax.mk_pair
-            (mk_wordi (mem_base, 64),
-             mk_wordi (mem_end, 64))
+	if Arbnum.< (Arbnum.+ (mem_base,sp_len), Arbnum.- (mem_max,sp_len)) then
+          pairSyntax.mk_pair
+            (pairSyntax.mk_pair
+		 (mk_wordi (mem_base, 64),
+		  mk_wordi (mem_end, 64)),
+	     pairSyntax.mk_pair
+		 (mk_wordi (sp_start, 64),
+		  mk_wordi (sp_end, 64)))
+	else
+	  raise Fail "the experiment memory is not properly set"
       end;
 
 
@@ -34,31 +45,57 @@ val _ = QUse.use "testcases/prog_3.sml";
 val _ = QUse.use "testcases/prog_4.sml";
 val _ = QUse.use "testcases/prog_5.sml";
 val _ = QUse.use "testcases/prog_6.sml";
-
+val _ = QUse.use "testcases/prog_7.sml";
+val _ = QUse.use "testcases/prog_8.sml";
+val _ = QUse.use "testcases/prog_9.sml";
+val _ = QUse.use "testcases/prog_10.sml";
+val _ = QUse.use "testcases/prog_11.sml";
+val _ = QUse.use "testcases/prog_12.sml";
+val _ = QUse.use "testcases/prog_13.sml";
+val _ = QUse.use "testcases/prog_14.sml";
+val _ = QUse.use "testcases/prog_15.sml";
+val _ = QUse.use "testcases/prog_16.sml";
+val _ = QUse.use "testcases/prog_17.sml";
 
 
 (* =========================== test case list to process ============================ *)
 
 val test_cases =
   [prog_1_test,
-   prog_2_test,
+   (* prog_2_test, *)
    prog_3_test,
    prog_4_test,
-   prog_5_test,
-   prog_6_test]
-
+   (* prog_5_test, *)
+   (* prog_6_test, *)
+   prog_7_test,
+   (* prog_8_test, *)
+   (* prog_9_test, *)
+   (* prog_10_test, *)
+   (* prog_11_test, *)
+   (* prog_12_test, *)
+   (* prog_13_test, *)
+   prog_14_test,
+   prog_15_test,
+   prog_16_test,
+   prog_17_test]
 
 (* =========================== run and compare test cases ============================ *)
 
 val _ = print "\n\n";
 
+fun prog_obs_inst prog obs_type = proginst_fun_gen obs_type prog;
+
+val entry = Arbnum.fromInt 0;
 (*
 val (name, prog, expected) = hd test_cases;
+
+val (name, prog, expected) = prog_2_test;
 
 val (name, prog, expected) = prog_5_test;
 
 val m = "cache_speculation_first";
-(#add_obs (get_obs_model m)) mem_bounds prog
+val m = "mem_address_pc_lspc";
+(#add_obs (get_obs_model m)) mem_bounds (prog_obs_inst prog (#obs_hol_type (get_obs_model m))) entry
 *)
 fun run_test_case (name, prog, expected) =
   let
@@ -66,9 +103,10 @@ fun run_test_case (name, prog, expected) =
 
     fun fold_obs_add ((m, p), l) =
       if identical p ``F`` then (print ("!!! no expected output for '" ^ m ^ "' !!!\n"); l)
-      else (((#add_obs (get_obs_model m)) mem_bounds prog, p)::l);
+      else (((#add_obs (get_obs_model m)) mem_bounds (prog_obs_inst prog (#obs_hol_type (get_obs_model m))) entry, p)::l);
 
     val (expected_mem_address_pc,
+         expected_mem_address_pc_lspc,
          expected_cache_tag_index,
          expected_cache_tag_only,
          expected_cache_index_only,
@@ -79,6 +117,7 @@ fun run_test_case (name, prog, expected) =
 
     val progs_list_raw =
       [("mem_address_pc",            expected_mem_address_pc),
+       ("mem_address_pc_lspc",       expected_mem_address_pc_lspc),
        ("cache_tag_index",           expected_cache_tag_index),
        ("cache_tag_only",            expected_cache_tag_only),
        ("cache_index_only",          expected_cache_index_only),

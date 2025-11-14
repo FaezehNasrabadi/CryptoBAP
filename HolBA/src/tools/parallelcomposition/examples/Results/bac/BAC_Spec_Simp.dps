@@ -1,0 +1,589 @@
+free att.
+free s0x140_star.
+free s0x224_star.
+free s0x248_star.
+free s0x24C_star.
+free s1032.
+free s1064.
+free s1288.
+free s1544.
+free s16.
+free s1800.
+free s2056.
+free s2088.
+free s2312.
+free s24.
+free s2568.
+free s2600.
+free s2608.
+free s264.
+free s296.
+free s32.
+free s320.
+free s324.
+free s40.
+free s404.
+free s448.
+free s468.
+free s520.
+free s524.
+free s532.
+free s540.
+free s548.
+free s552.
+free s588.
+free s776.
+free s8.
+free s808.
+fun And/2.
+fun IfThenElse/3.
+fun LeftShift/2.
+fun LessOrEqual/2.
+fun Load/2.
+fun MEM_1014/0.
+fun MEM_1084/0.
+fun MEM_122/0.
+fun MEM_241/0.
+fun MEM_255/0.
+fun MEM_333/0.
+fun MEM_347/0.
+fun MEM_403/0.
+fun MEM_417/0.
+fun MEM_617/0.
+fun MEM_709/0.
+fun MEM_779/0.
+fun MEM_922/0.
+fun MEM_sy/0.
+fun Minus/2.
+fun Or/2.
+fun Plus/2.
+fun R0_1037/0.
+fun R0_145/0.
+fun R0_159/0.
+fun R0_169/0.
+fun R0_183/0.
+fun R0_185/0.
+fun R0_199/0.
+fun R0_217/0.
+fun R0_231/0.
+fun R0_356/0.
+fun R0_370/0.
+fun R0_521/0.
+fun R0_545/0.
+fun R0_561/0.
+fun R0_593/0.
+fun R0_732/0.
+fun R0_826/0.
+fun R0_850/0.
+fun R0_866/0.
+fun R0_898/0.
+fun R0_95/0.
+fun R0_sy/0.
+fun R1_sy/0.
+fun R29_sy/0.
+fun R30_sy/0.
+fun RightShift/2.
+fun SP_EL0_sy/0.
+fun SignedLessOrEqual/2.
+fun SignedLessThan/2.
+fun Store/3.
+fun UnsignedCast/2.
+fun challenge/0.
+fun conc3/3.
+fun enc/2.
+fun hash2/2.
+fun hkdf/2.
+fun mac/2.
+fun okay/0.
+fun pair/2.
+fun s0/0.
+fun s1/0.
+
+reduc   pars12((x_1, x_2)) = x_1.
+reduc   dec(enc(x_1, x_2), x_2) -> x_1.
+reduc   pars22((x_1, x_2)) = x_2.
+reduc   pars13((x_1, x_2, x_3)) = x_1.
+reduc   pars23((x_1, x_2, x_3)) = x_2.
+reduc   LowCast(x_1, x_2) = x_1.
+reduc   compare(x, x) = s0.
+reduc   compare_mac(x, x) = s0.
+reduc   compare_nonces(x, x) = s0.
+reduc   Equal(x, x) = s0.
+reduc   Not(s0) = s1.
+
+// Description of the reader role
+
+let reader(k_e,k_m) =
+  out(att,challenge);
+  in(att,xn_t);
+  new n_r;
+  new k_r;
+  let xm = enc((n_r,xn_t,k_r),k_e) in
+  out(att,(xm,mac(xm,k_m)));
+  in(att,y).
+
+// Extracted passport role
+
+let passport_cons(ke_1, km_1)=
+    let SP_EL0_5_1=Minus(SP_EL0_sy, s2608) in
+    let MEM_22_1=Store(Store(MEM_sy, R29_sy, SP_EL0_5_1), R30_sy,
+                       Plus(SP_EL0_5_1, s8)) in
+    let MEM_39_1=Store(MEM_22_1, R0_sy, Plus(SP_EL0_5_1, s24)) in
+    let MEM_52_1=Store(MEM_39_1, R1_sy, Plus(SP_EL0_5_1, s16)) in
+    let R0_55_1=s0 in
+    let R0_64_1=Load(MEM_52_1, s0) in
+    let R1_73_1=Load(MEM_52_1, R0_64_1) in
+    let MEM_86_1=Store(MEM_52_1, R1_73_1, Plus(SP_EL0_5_1, s2600)) in
+    let R1_89_1=s0 in
+    in(att,a_92_1);
+    let MEM_106_1=Store(MEM_86_1, LowCast(R0_95, s8),
+                        Plus(SP_EL0_5_1, s40)) in
+    let R2_111_1=Minus(SP_EL0_sy, s2568) in
+    let R0_114_1=s0 in
+    let R1_117_1=s0 in
+    let check_121_1=compare(a_92_1, challenge) in
+    let ProcState_Z_129_1=Equal(LowCast(check_121_1, s32), s0) in
+    out(att,Equal(LowCast(check_121_1, s32), s0));
+    if LowCast(check_121_1, s32)=s0 then
+        (out(att,s320);
+         new nonce_142_1;
+         let RAND_NUM_141_1=nonce_142_1 in
+         let MEM_156_1=Store(MEM_122, LowCast(R0_145, s8),
+                             Plus(SP_EL0_5_1, s296)) in
+         let R0_161_1=Minus(SP_EL0_sy, s2312) in
+         out(att,RAND_NUM_141_1);
+         in(att,a_166_1);
+         let MEM_180_1=Store(MEM_156_1, LowCast(R0_169, s8),
+                             Plus(SP_EL0_5_1, s552)) in
+         let pars12_182_1=pars12(a_166_1) in
+         let MEM_196_1=Store(MEM_180_1, LowCast(R0_185, s8),
+                             Plus(SP_EL0_5_1, s808)) in
+         let R0_201_1=Minus(SP_EL0_sy, s2056) in
+         let R1_212_1=Load(MEM_196_1, Plus(SP_EL0_5_1, s16)) in
+         let mac_214_1=mac(pars12_182_1, km_1) in
+         let MEM_228_1=Store(MEM_196_1, LowCast(R0_217, s8),
+                             Plus(SP_EL0_5_1, s1064)) in
+         let R1_233_1=Minus(SP_EL0_sy, s1800) in
+         let R0_238_1=Minus(SP_EL0_sy, s1544) in
+         let cmpmac_240_1=compare_mac(pars22(a_166_1), mac_214_1) in
+         let ProcState_Z_248_1=Equal(LowCast(cmpmac_240_1, s32), s0) in
+         out(att,Equal(LowCast(cmpmac_240_1, s32), s0));
+         if LowCast(cmpmac_240_1, s32)=s0 then
+             (out(att,s404);
+              let R3_263_1=Minus(SP_EL0_sy, s776) in
+              let R2_268_1=Minus(SP_EL0_sy, s1032) in
+              let R1_273_1=Minus(SP_EL0_sy, s1288) in
+              let R0_278_1=Minus(SP_EL0_sy, s2056) in
+              let R1_295_1=Load(MEM_241, Plus(SP_EL0_5_1, s24)) in
+              let Dec_297_1=dec(pars12_182_1, ke_1) in
+              let Pars13_300_1=pars13(Dec_297_1) in
+              let Pars23_301_1=pars23(Dec_297_1) in
+              let ProcState_Z_307_1=Equal(LowCast(Dec_297_1, s32), s0) in
+              out(att,Equal(LowCast(Dec_297_1, s32), s0));
+              if LowCast(Dec_297_1, s32)=s0 then
+                  (out(att,s532);
+                   let R0_320_1=s0 in
+                   0
+                   else out(att,s448);
+                        let R1_325_1=Minus(SP_EL0_sy, s2312) in
+                        let R0_330_1=Minus(SP_EL0_sy, s1032) in
+                        let cmpnonce_332_1=compare_nonces(Pars23_301_1, RAND_NUM_141_1) in
+                        let ProcState_Z_340_1=Equal(LowCast(cmpnonce_332_1, s32), s0) in
+                        out(att,Equal(LowCast(cmpnonce_332_1, s32), s0));
+                        if LowCast(cmpnonce_332_1, s32)=s0 then
+                            (out(att,s468);
+                             new nonce_353_1;
+                             let RAND_NUM_352_1=nonce_353_1 in
+                             let MEM_367_1=Store(MEM_333, LowCast(R0_356, s8),
+                                                 Plus(SP_EL0_5_1, s2088)) in
+                             let R3_372_1=Minus(SP_EL0_sy, s264) in
+                             let R2_377_1=Minus(SP_EL0_sy, s520) in
+                             let R1_382_1=Minus(SP_EL0_sy, s1288) in
+                             let R0_387_1=Minus(SP_EL0_sy, s2312) in
+                             let R3_400_1=Load(MEM_367_1, Plus(SP_EL0_5_1, s24)) in
+                             let Conc_402_1=conc3(Pars23_301_1, RAND_NUM_352_1, Pars13_300_1) in
+                             let Enc_405_1=enc(Conc_402_1, ke_1) in
+                             out(att,Enc_405_1);
+                             let R0_411_1=Minus(SP_EL0_sy, s264) in
+                             let R1_422_1=Load(MEM_403, Plus(SP_EL0_5_1, s16)) in
+                             let mac_424_1=mac(Enc_405_1, km_1) in
+                             out(att,mac_424_1)
+                             else out(att,s524);
+                                  let R0_428_1=s0 in
+                                  0
+                                  else out(att,s540);
+                                       let R0_431_1=s0 in
+                                       0
+                                       else out(att,s548))))).
+                                       
+let passport_spec(ke_1, km_1)=
+    let SP_EL0_5_1=Minus(SP_EL0_sy, s2608) in
+    let MEM_22_1=Store(Store(MEM_sy, R29_sy, SP_EL0_5_1), R30_sy,
+                       Plus(SP_EL0_5_1, s8)) in
+    let MEM_39_1=Store(MEM_22_1, R0_sy, Plus(SP_EL0_5_1, s24)) in
+    let MEM_52_1=Store(MEM_39_1, R1_sy, Plus(SP_EL0_5_1, s16)) in
+    let R0_55_1=s0 in
+    let R0_64_1=Load(MEM_52_1, s0) in
+    let R1_73_1=Load(MEM_52_1, R0_64_1) in
+    let MEM_86_1=Store(MEM_52_1, R1_73_1, Plus(SP_EL0_5_1, s2600)) in
+    let R1_89_1=s0 in
+    in(att,a_92_1);
+    let MEM_106_1=Store(MEM_86_1, LowCast(R0_95, s8),
+                        Plus(SP_EL0_5_1, s40)) in
+    let R2_111_1=Minus(SP_EL0_sy, s2568) in
+    let R0_114_1=s0 in
+    let R1_117_1=s0 in
+    let check_121_1=compare(a_92_1, challenge) in
+    let ProcState_Z_129_1=Equal(LowCast(check_121_1, s32), s0) in
+    let MEM_122=Store(MEM_106_1, check_121_1, Minus(SP_EL0_sy, s2608)) in
+    let R1_star_132_1=s0 in
+    let not1_1=Not(ProcState_Z_129_1) in
+    out(att,not1_1);
+    if not1_1=s1 then
+        (out(att,s0x140_star);
+         let R30_star_141_1=s324 in
+         out(att,Equal(LowCast(check_121_1, s32), s0));
+         if LowCast(check_121_1, s32)=s0 then 
+             (out(att,s320);
+              new nonce_156_1;
+              let RAND_NUM_155_1=nonce_156_1 in
+              let MEM_170_1=Store(MEM_122, LowCast(R0_159, s8),
+                                  Plus(SP_EL0_5_1, s296)) in
+              let R0_175_1=Minus(SP_EL0_sy, s2312) in
+              out(att,RAND_NUM_155_1);
+              in(att,a_180_1);
+              let MEM_194_1=Store(MEM_170_1, LowCast(R0_183, s8),
+                                  Plus(SP_EL0_5_1, s552)) in
+              let pars12_196_1=pars12(a_180_1) in
+              let MEM_210_1=Store(MEM_194_1, LowCast(R0_199, s8),
+                                  Plus(SP_EL0_5_1, s808)) in
+              let R0_215_1=Minus(SP_EL0_sy, s2056) in
+              let R1_226_1=Load(MEM_210_1, Plus(SP_EL0_5_1, s16)) in
+              let mac_228_1=mac(pars12_196_1, km_1) in
+              let MEM_242_1=Store(MEM_210_1, LowCast(R0_231, s8),
+                                  Plus(SP_EL0_5_1, s1064)) in
+              let R1_247_1=Minus(SP_EL0_sy, s1800) in
+              let R0_252_1=Minus(SP_EL0_sy, s1544) in
+              let cmpmac_254_1=compare_mac(pars22(a_180_1), mac_228_1) in
+              let ProcState_Z_262_1=Equal(LowCast(cmpmac_254_1, s32), s0) in
+              out(att,Equal(LowCast(cmpmac_254_1, s32), s0));
+              if LowCast(cmpmac_254_1, s32)=s0 then 
+                  (out(att,s404);
+                   let R3_277_1=Minus(SP_EL0_sy, s776) in
+                   let R2_282_1=Minus(SP_EL0_sy, s1032) in
+                   let R1_287_1=Minus(SP_EL0_sy, s1288) in
+                   let R0_292_1=Minus(SP_EL0_sy, s2056) in
+                   let R1_309_1=Load(MEM_255, Plus(SP_EL0_5_1, s24)) in
+                   let Dec_311_1=dec(pars12_196_1, ke_1) in
+                   let Pars13_314_1=pars13(Dec_311_1) in
+                   let Pars23_315_1=pars23(Dec_311_1) in
+                   let ProcState_Z_321_1=Equal(LowCast(Dec_311_1, s32), s0) in
+                   out(att,Equal(LowCast(Dec_311_1, s32), s0));
+                   if LowCast(Dec_311_1, s32)=s0 then 
+                       (out(att,s532);
+                        let R0_334_1=s0 in
+                        0
+                        else out(att,s448);
+                             let R1_339_1=Minus(SP_EL0_sy, s2312) in
+                             let R0_344_1=Minus(SP_EL0_sy, s1032) in
+                             let cmpnonce_346_1=compare_nonces(Pars23_315_1, RAND_NUM_155_1) in
+                             let ProcState_Z_354_1=Equal(LowCast(cmpnonce_346_1, s32), s0) in
+                             out(att,Equal(LowCast(cmpnonce_346_1, s32), s0));
+                             if LowCast(cmpnonce_346_1, s32)=s0 then 
+                                 (out(att,s468);
+                                  new nonce_367_1;
+                                  let RAND_NUM_366_1=nonce_367_1 in
+                                  let MEM_381_1=Store(MEM_347, LowCast(R0_370, s8),
+                                                      Plus(SP_EL0_5_1, s2088)) in
+                                  let R3_386_1=Minus(SP_EL0_sy, s264) in
+                                  let R2_391_1=Minus(SP_EL0_sy, s520) in
+                                  let R1_396_1=Minus(SP_EL0_sy, s1288) in
+                                  let R0_401_1=Minus(SP_EL0_sy, s2312) in
+                                  let R3_414_1=Load(MEM_381_1, Plus(SP_EL0_5_1, s24)) in
+                                  let Conc_416_1=conc3(Pars23_315_1, RAND_NUM_366_1, Pars13_314_1) in
+                                  let Enc_419_1=enc(Conc_416_1, ke_1) in
+                                  out(att,Enc_419_1);
+                                  let R0_425_1=Minus(SP_EL0_sy, s264) in
+                                  let R1_436_1=Load(MEM_417, Plus(SP_EL0_5_1, s16)) in
+                                  let mac_438_1=mac(Enc_419_1, km_1) in
+                                  out(att,mac_438_1)
+                                  else out(att,s524);
+                                       let R0_442_1=s0 in
+                                       0
+                                       else out(att,s540);
+                                            let R0_445_1=s0 in
+                                            0
+                                            else out(att,s548)
+                                  else out(att,s0x224_star);
+                                       let R0_star_446_1=s0 in
+                                       let R0_star_453_1=Load(MEM_122, s0) in
+                                       let R2_star_462_1=Load(MEM_122, Plus(SP_EL0_5_1, s2600)) in
+                                       let R3_star_469_1=Load(MEM_122, R0_star_453_1) in
+                                       let ProcState_Z_star_473_1=Equal(R2_star_462_1, R3_star_469_1) in
+                                       let R2_star_474_1=Minus(R2_star_462_1, R3_star_469_1) in
+                                       let R3_star_475_1=s0 in
+                                       let not2_1=Not(ProcState_Z_star_473_1) in
+                                       out(att,not2_1);
+                                       if not2_1=s1 then
+                                           (out(att,s0x24C_star);
+                                            let R0_star_484_1=s0 in
+                                            let R29_star_493_1=Load(MEM_122, SP_EL0_5_1) in
+                                            let R30_star_500_1=Load(MEM_122, Plus(SP_EL0_5_1, s8)) in
+                                            let SP_EL0_star_503_1=Plus(SP_EL0_sy, s0) in
+                                            out(att,Equal(LowCast(check_121_1, s32), s0));
+                                            if LowCast(check_121_1, s32)=s0 then 
+                                                (out(att,s320);
+                                                 new nonce_518_1;
+                                                 let RAND_NUM_517_1=nonce_518_1 in
+                                                 let MEM_532_1=Store(MEM_122, LowCast(R0_521, s8),
+                                                                     Plus(SP_EL0_5_1, s296)) in
+                                                 let R0_537_1=Minus(SP_EL0_sy, s2312) in
+                                                 out(att,RAND_NUM_517_1);
+                                                 in(att,a_542_1);
+                                                 let MEM_556_1=Store(MEM_532_1, LowCast(R0_545, s8),
+                                                                     Plus(SP_EL0_5_1, s552)) in
+                                                 let pars12_558_1=pars12(a_542_1) in
+                                                 let MEM_572_1=Store(MEM_556_1, LowCast(R0_561, s8),
+                                                                     Plus(SP_EL0_5_1, s808)) in
+                                                 let R0_577_1=Minus(SP_EL0_sy, s2056) in
+                                                 let R1_588_1=Load(MEM_572_1, Plus(SP_EL0_5_1, s16)) in
+                                                 let mac_590_1=mac(pars12_558_1, km_1) in
+                                                 let MEM_604_1=Store(MEM_572_1, LowCast(R0_593, s8),
+                                                                     Plus(SP_EL0_5_1, s1064)) in
+                                                 let R1_609_1=Minus(SP_EL0_sy, s1800) in
+                                                 let R0_614_1=Minus(SP_EL0_sy, s1544) in
+                                                 let cmpmac_616_1=compare_mac(pars22(a_542_1), mac_590_1) in
+                                                 let ProcState_Z_624_1=Equal(LowCast(cmpmac_616_1, s32),
+                                                                             s0) in
+                                                 out(att,Equal(LowCast(cmpmac_616_1, s32), s0));
+                                                 if LowCast(cmpmac_616_1, s32)=s0 then 
+                                                     (out(att,s404);
+                                                      let R3_639_1=Minus(SP_EL0_sy, s776) in
+                                                      let R2_644_1=Minus(SP_EL0_sy, s1032) in
+                                                      let R1_649_1=Minus(SP_EL0_sy, s1288) in
+                                                      let R0_654_1=Minus(SP_EL0_sy, s2056) in
+                                                      let R1_671_1=Load(MEM_617, Plus(SP_EL0_5_1, s24)) in
+                                                      let Dec_673_1=dec(pars12_558_1, ke_1) in
+                                                      let Pars13_676_1=pars13(Dec_673_1) in
+                                                      let Pars23_677_1=pars23(Dec_673_1) in
+                                                      let ProcState_Z_683_1=Equal(LowCast(Dec_673_1, s32),
+                                                                                  s0) in
+                                                      out(att,Equal(LowCast(Dec_673_1, s32), s0));
+                                                      if LowCast(Dec_673_1, s32)=s0 then 
+                                                          (out(att,s532);
+                                                           let R0_696_1=s0 in
+                                                           0
+                                                           else out(att,s448);
+                                                                let R1_701_1=Minus(SP_EL0_sy, s2312) in
+                                                                let R0_706_1=Minus(SP_EL0_sy, s1032) in
+                                                                let cmpnonce_708_1=compare_nonces(Pars23_677_1,
+                                                                                                  RAND_NUM_517_1) in
+                                                                let ProcState_Z_716_1=Equal(LowCast(cmpnonce_708_1,
+                                                                                                    s32),
+                                                                                            s0) in
+                                                                out(att,Equal(LowCast(cmpnonce_708_1, s32),
+                                                                              s0));
+                                                                if LowCast(cmpnonce_708_1, s32)=s0 then 
+                                                                    (out(att,s468);
+                                                                     new nonce_729_1;
+                                                                     let RAND_NUM_728_1=nonce_729_1 in
+                                                                     let MEM_743_1=Store(MEM_709,
+                                                                                         LowCast(R0_732, s8),
+                                                                                         Plus(SP_EL0_5_1,
+                                                                                              s2088)) in
+                                                                     let R3_748_1=Minus(SP_EL0_sy, s264) in
+                                                                     let R2_753_1=Minus(SP_EL0_sy, s520) in
+                                                                     let R1_758_1=Minus(SP_EL0_sy, s1288) in
+                                                                     let R0_763_1=Minus(SP_EL0_sy, s2312) in
+                                                                     let R3_776_1=Load(MEM_743_1,
+                                                                                       Plus(SP_EL0_5_1,
+                                                                                            s24)) in
+                                                                     let Conc_778_1=conc3(Pars23_677_1,
+                                                                                          RAND_NUM_728_1,
+                                                                                          Pars13_676_1) in
+                                                                     let Enc_781_1=enc(Conc_778_1, ke_1) in
+                                                                     out(att,Enc_781_1);
+                                                                     let R0_787_1=Minus(SP_EL0_sy, s264) in
+                                                                     let R1_798_1=Load(MEM_779,
+                                                                                       Plus(SP_EL0_5_1,
+                                                                                            s16)) in
+                                                                     let mac_800_1=mac(Enc_781_1, km_1) in
+                                                                     out(att,mac_800_1)
+                                                                     else out(att,s524);
+                                                                          let R0_804_1=s0 in
+                                                                          0
+                                                                          else out(att,s540);
+                                                                               let R0_807_1=s0 in
+                                                                               0
+                                                                               else out(att,s548)
+                                                                     else out(att,s0x248_star);
+                                                                          let R30_star_808_1=s588 in
+                                                                          out(att,Equal(LowCast(check_121_1,
+                                                                                                s32),
+                                                                                        s0));
+                                                                          if LowCast(check_121_1,
+                                                                                        s32)=s0 then 
+                                                                              (out(att,s320);
+                                                                               new nonce_823_1;
+                                                                               let RAND_NUM_822_1=nonce_823_1 in
+                                                                               let MEM_837_1=Store(MEM_122,
+                                                                                                   LowCast(R0_826,
+                                                                                                           s8),
+                                                                                                   Plus(SP_EL0_5_1,
+                                                                                                        s296)) in
+                                                                               let R0_842_1=Minus(SP_EL0_sy,
+                                                                                                  s2312) in
+                                                                               out(att,RAND_NUM_822_1);
+                                                                               in(att,a_847_1);
+                                                                               let MEM_861_1=Store(MEM_837_1,
+                                                                                                   LowCast(R0_850,
+                                                                                                           s8),
+                                                                                                   Plus(SP_EL0_5_1,
+                                                                                                        s552)) in
+                                                                               let pars12_863_1=pars12(a_847_1) in
+                                                                               let MEM_877_1=Store(MEM_861_1,
+                                                                                                   LowCast(R0_866,
+                                                                                                           s8),
+                                                                                                   Plus(SP_EL0_5_1,
+                                                                                                        s808)) in
+                                                                               let R0_882_1=Minus(SP_EL0_sy,
+                                                                                                  s2056) in
+                                                                               let R1_893_1=Load(MEM_877_1,
+                                                                                                 Plus(SP_EL0_5_1,
+                                                                                                      s16)) in
+                                                                               let mac_895_1=mac(pars12_863_1,
+                                                                                                 km_1) in
+                                                                               let MEM_909_1=Store(MEM_877_1,
+                                                                                                   LowCast(R0_898,
+                                                                                                           s8),
+                                                                                                   Plus(SP_EL0_5_1,
+                                                                                                        s1064)) in
+                                                                               let R1_914_1=Minus(SP_EL0_sy,
+                                                                                                  s1800) in
+                                                                               let R0_919_1=Minus(SP_EL0_sy,
+                                                                                                  s1544) in
+                                                                               let cmpmac_921_1=compare_mac(pars22(a_847_1),
+                                                                                                            mac_895_1) in
+                                                                               let ProcState_Z_929_1=Equal(LowCast(cmpmac_921_1,
+                                                                                                                   s32),
+                                                                                                           s0) in
+                                                                               out(att,Equal(LowCast(cmpmac_921_1,
+                                                                                                     s32),
+                                                                                             s0));
+                                                                               if LowCast(cmpmac_921_1,
+                                                                                             s32)=s0 then 
+                                                                                   (out(att,s404);
+                                                                                    let R3_944_1=Minus(SP_EL0_sy,
+                                                                                                       s776) in
+                                                                                    let R2_949_1=Minus(SP_EL0_sy,
+                                                                                                       s1032) in
+                                                                                    let R1_954_1=Minus(SP_EL0_sy,
+                                                                                                       s1288) in
+                                                                                    let R0_95=Minus(SP_EL0_sy,
+                                                                                                    s2056) in
+                                                                                    let R1_976_1=Load(MEM_922,
+                                                                                                      Plus(SP_EL0_5_1,
+                                                                                                           s24)) in
+                                                                                    let Dec_978_1=dec(pars12_863_1,
+                                                                                                      ke_1) in
+                                                                                    let Pars13_981_1=pars13(Dec_978_1) in
+                                                                                    let Pars23_982_1=pars23(Dec_978_1) in
+                                                                                    let ProcState_Z_988_1=Equal(LowCast(Dec_978_1,
+                                                                                                                        s32),
+                                                                                                                s0) in
+                                                                                    out(att,Equal(LowCast(Dec_978_1,
+                                                                                                          s32),
+                                                                                                  s0));
+                                                                                    if LowCast(Dec_978_1,
+                                                                                                  s32)=s0 then 
+                                                                                        (out(att,s532);
+                                                                                         let R0_1001_1=s0 in
+                                                                                         0
+                                                                                         else out(att,s448);
+                                                                                              let R1_1006_1=Minus(SP_EL0_sy,
+                                                                                                                  s2312) in
+                                                                                              let R0_1011_1=Minus(SP_EL0_sy,
+                                                                                                                  s1032) in
+                                                                                              let cmpnonce_1013_1=compare_nonces(Pars23_982_1,
+                                                                                                                                 RAND_NUM_822_1) in
+                                                                                              let ProcState_Z_1021_1=Equal(LowCast(cmpnonce_1013_1,
+                                                                                                                                   s32),
+                                                                                                                           s0) in
+                                                                                              out(att,Equal(LowCast(cmpnonce_1013_1,
+                                                                                                                    s32),
+                                                                                                            s0));
+                                                                                              if LowCast(cmpnonce_1013_1,
+                                                                                                            s32)=s0 then 
+                                                                                                  (out(att,s468);
+                                                                                                   new nonce_1034_1;
+                                                                                                   let RAND_NUM_1033_1=nonce_1034_1 in
+                                                                                                   let MEM_1048_1=Store(MEM_1014,
+                                                                                                                        LowCast(R0_1037,
+                                                                                                                                s8),
+                                                                                                                        Plus(SP_EL0_5_1,
+                                                                                                                             s2088)) in
+                                                                                                   let R3_1053_1=Minus(SP_EL0_sy,
+                                                                                                                       s264) in
+                                                                                                   let R2_1058_1=Minus(SP_EL0_sy,
+                                                                                                                       s520) in
+                                                                                                   let R1_1063_1=Minus(SP_EL0_sy,
+                                                                                                                       s1288) in
+                                                                                                   let R0_1068_1=Minus(SP_EL0_sy,
+                                                                                                                       s2312) in
+                                                                                                   let R3_1081_1=Load(MEM_1048_1,
+                                                                                                                      Plus(SP_EL0_5_1,
+                                                                                                                           s24)) in
+                                                                                                   let Conc_1083_1=conc3(Pars23_982_1,
+                                                                                                                         RAND_NUM_1033_1,
+                                                                                                                         Pars13_981_1) in
+                                                                                                   let Enc_1086_1=enc(Conc_1083_1,
+                                                                                                                      ke_1) in
+                                                                                                   out(att,Enc_1086_1);
+                                                                                                   let R0_1092_1=Minus(SP_EL0_sy,
+                                                                                                                       s264) in
+                                                                                                   let R1_1103_1=Load(MEM_1084,
+                                                                                                                      Plus(SP_EL0_5_1,
+                                                                                                                           s16)) in
+                                                                                                   let mac_1105_1=mac(Enc_1086_1,
+                                                                                                                      km_1) in
+                                                                                                   out(att,mac_1105_1)
+                                                                                                   else out(att,s524);
+                                                                                                        let R0_1109_1=s0 in
+                                                                                                        0
+                                                                                                        else out(att,s540);
+                                                                                                             let R0_1112_1=s0 in
+                                                                                                             0
+                                                                                                             else out(att,s548))))))))))))))).
+
+
+
+
+let system1 =
+ new k_e; new k_m;
+  (
+    passport_cons(k_e,k_m) | reader(k_e,k_m)
+  ).
+
+let system2 =
+  new k_e; new k_m;
+  (
+    passport_spec(k_e,k_m) | reader(k_e,k_m)
+  ).
+
+// Identify micro-architectural leakage by conditional noninterference
+
+query trace_equiv(system1,system2).
+
+
+// Check if unlinkability holds while micro-architectural leakage exists
+
+let system(k_e,k_m) =
+  passport_spec(k_e,k_m) | reader(k_e,k_m).
+
+let system3 =
+  !^2 new k_e; new k_m; system(k_e,k_m).
+
+let system4 =
+  new k_e; new k_m; !^2 system(k_e,k_m).
+
+query trace_equiv(system3,system4).

@@ -1,0 +1,242 @@
+let init_pred_0='1' in 
+out(att,'240');
+let assert_true_cnd_3=Equal(And(SP_EL0_sy,'15'),'0') in 
+let SP_EL0_5=Minus(SP_EL0_sy,'2608') in 
+out(att,'244');
+let assert_true_cnd_8=Equal(And(SP_EL0_5,'7'),'0') in 
+let assert_true_cnd_10=And(LessOrEqual(SP_EL0_5,'18446744073709551599'),And(Or(LessThan('0',SP_EL0_5),LessOrEqual(Plus('16',SP_EL0_5),'0')),Or(LessThan(SP_EL0_5,'0'),LessOrEqual('721',SP_EL0_5)))) in 
+let assert_true_cnd_12=And(LessOrEqual('721',Plus(SP_EL0_5,'8')),LessThan(Plus(SP_EL0_5,'8'),'705')) in 
+let assert_true_cnd_14=And(LessOrEqual('721',SP_EL0_5),LessThan(SP_EL0_5,'705')) in 
+out(att,Minus(SP_EL0_sy,'2600'));
+out(att,SP_EL0_5);
+let assert_true_cnd_20=Equal(And(SP_EL0_5,'15'),'0') in 
+let MEM_22=Store(Store(MEM_sy,R29_sy,SP_EL0_5),R30_sy,Plus(SP_EL0_5,'8')) in 
+out(att,'248');
+let assert_true_cnd_25=Equal(And(SP_EL0_5,'15'),'0') in 
+out(att,'252');
+let assert_true_cnd_29=Equal(And(SP_EL0_5,'7'),'0') in 
+let assert_true_cnd_31=And(LessOrEqual(Plus(SP_EL0_5,'24'),'18446744073709551607'),And(Or(LessThan('0',Plus(SP_EL0_5,'24')),LessOrEqual(Plus('8',Plus(SP_EL0_5,'24')),'0')),Or(LessThan(Plus(SP_EL0_5,'24'),'0'),LessOrEqual('721',Plus(SP_EL0_5,'24'))))) in 
+let assert_true_cnd_33=And(LessOrEqual('721',Plus(SP_EL0_5,'24')),LessThan(Plus(SP_EL0_5,'24'),'705')) in 
+out(att,Minus(SP_EL0_sy,'2584'));
+let assert_true_cnd_37=Equal(And(SP_EL0_5,'15'),'0') in 
+let MEM_39=Store(MEM_22,R0_sy,Plus(SP_EL0_5,'24')) in 
+out(att,'256');
+let assert_true_cnd_42=Equal(And(SP_EL0_5,'7'),'0') in 
+let assert_true_cnd_44=And(LessOrEqual(Plus(SP_EL0_5,'16'),'18446744073709551607'),And(Or(LessThan('0',Plus(SP_EL0_5,'16')),LessOrEqual(Plus('8',Plus(SP_EL0_5,'16')),'0')),Or(LessThan(Plus(SP_EL0_5,'16'),'0'),LessOrEqual('721',Plus(SP_EL0_5,'16'))))) in 
+let assert_true_cnd_46=And(LessOrEqual('721',Plus(SP_EL0_5,'16')),LessThan(Plus(SP_EL0_5,'16'),'705')) in 
+out(att,Minus(SP_EL0_sy,'2592'));
+let assert_true_cnd_50=Equal(And(SP_EL0_5,'15'),'0') in 
+let MEM_52=Store(MEM_39,R1_sy,Plus(SP_EL0_5,'16')) in 
+out(att,'260');
+let R0_55='0' in 
+out(att,'264');
+let assert_true_cnd_58='1' in 
+let assert_true_cnd_60='1' in 
+out(att,'0');
+let R0_64=Load(MEM_52,'0') in 
+out(att,'268');
+let assert_true_cnd_67=Equal(And(R0_64,'7'),'0') in 
+let assert_true_cnd_69=And(LessOrEqual('0',R0_64),LessThan(R0_64,'705')) in 
+out(att,R0_64);
+let R1_73=Load(MEM_52,R0_64) in 
+out(att,'272');
+let assert_true_cnd_76=Equal(And(SP_EL0_5,'7'),'0') in 
+let assert_true_cnd_78=And(LessOrEqual(Plus(SP_EL0_5,'2600'),'18446744073709551607'),And(Or(LessThan('0',Plus(SP_EL0_5,'2600')),LessOrEqual(Plus('8',Plus(SP_EL0_5,'2600')),'0')),Or(LessThan(Plus(SP_EL0_5,'2600'),'0'),LessOrEqual('721',Plus(SP_EL0_5,'2600'))))) in 
+let assert_true_cnd_80=And(LessOrEqual('721',Plus(SP_EL0_5,'2600')),LessThan(Plus(SP_EL0_5,'2600'),'705')) in 
+out(att,Minus(SP_EL0_sy,'8'));
+let assert_true_cnd_84=Equal(And(SP_EL0_5,'15'),'0') in 
+let MEM_86=Store(MEM_52,R1_73,Plus(SP_EL0_5,'2600')) in 
+out(att,'276');
+let R1_89='0' in 
+in(att,a_92);
+out(att,'284');
+out(att,'288');
+let assert_true_cnd_98=And(LessOrEqual(Plus(SP_EL0_5,'40'),'18446744073709551614'),And(Or(LessThan('0',Plus(SP_EL0_5,'40')),LessOrEqual(Plus('1',Plus(SP_EL0_5,'40')),'0')),Or(LessThan(Plus(SP_EL0_5,'40'),'0'),LessOrEqual('721',Plus(SP_EL0_5,'40'))))) in 
+let assert_true_cnd_100=And(LessOrEqual('721',Plus(SP_EL0_5,'40')),LessThan(Plus(SP_EL0_5,'40'),'705')) in 
+out(att,Minus(SP_EL0_sy,'2568'));
+let assert_true_cnd_104=Equal(And(SP_EL0_5,'15'),'0') in 
+let MEM_106=Store(MEM_86,LowCast(R0_95,'8'),Plus(SP_EL0_5,'40')) in 
+out(att,'292');
+let assert_true_cnd_109=Equal(And(SP_EL0_5,'15'),'0') in 
+let R2_111=Minus(SP_EL0_sy,'2568') in 
+out(att,'296');
+let R0_114='0' in 
+out(att,'300');
+let R1_117='0' in 
+out(att,'304');
+let check_121=compare(a_92,challenge) in 
+out(att,'312');
+let ProcState_C_126='1' in 
+let ProcState_N_127=SignedLessThan(LowCast(check_121,'32'),'0') in 
+let ProcState_V_128='0' in 
+let ProcState_Z_129=Equal(LowCast(check_121,'32'),'0') in 
+out(att,'316');
+out(att,Equal(LowCast(check_121,'32'),'0'));
+if LowCast(check_121,'32')='0' then 
+out(att,'320');
+new ~nonce_142;
+let RAND_NUM_141=~nonce_142 in 
+out(att,'324');
+out(att,'328');
+let assert_true_cnd_148=And(LessOrEqual(Plus(SP_EL0_5,'296'),'18446744073709551614'),And(Or(LessThan('0',Plus(SP_EL0_5,'296')),LessOrEqual(Plus('1',Plus(SP_EL0_5,'296')),'0')),Or(LessThan(Plus(SP_EL0_5,'296'),'0'),LessOrEqual('721',Plus(SP_EL0_5,'296'))))) in 
+let assert_true_cnd_150=And(LessOrEqual('721',Plus(SP_EL0_5,'296')),LessThan(Plus(SP_EL0_5,'296'),'705')) in 
+out(att,Minus(SP_EL0_sy,'2312'));
+let assert_true_cnd_154=Equal(And(SP_EL0_5,'15'),'0') in 
+let MEM_156=Store(MEM_122,LowCast(R0_145,'8'),Plus(SP_EL0_5,'296')) in 
+out(att,'332');
+let assert_true_cnd_159=Equal(And(SP_EL0_5,'15'),'0') in 
+let R0_161=Minus(SP_EL0_sy,'2312') in 
+out(att,RAND_NUM_141);
+in(att,a_166);
+out(att,'344');
+out(att,'348');
+let assert_true_cnd_172=And(LessOrEqual(Plus(SP_EL0_5,'552'),'18446744073709551614'),And(Or(LessThan('0',Plus(SP_EL0_5,'552')),LessOrEqual(Plus('1',Plus(SP_EL0_5,'552')),'0')),Or(LessThan(Plus(SP_EL0_5,'552'),'0'),LessOrEqual('721',Plus(SP_EL0_5,'552'))))) in 
+let assert_true_cnd_174=And(LessOrEqual('721',Plus(SP_EL0_5,'552')),LessThan(Plus(SP_EL0_5,'552'),'705')) in 
+out(att,Minus(SP_EL0_sy,'2056'));
+let assert_true_cnd_178=Equal(And(SP_EL0_5,'15'),'0') in 
+let MEM_180=Store(MEM_156,LowCast(R0_169,'8'),Plus(SP_EL0_5,'552')) in 
+let pars12_182=pars12(a_166) in 
+out(att,'356');
+out(att,'360');
+let assert_true_cnd_188=And(LessOrEqual(Plus(SP_EL0_5,'808'),'18446744073709551614'),And(Or(LessThan('0',Plus(SP_EL0_5,'808')),LessOrEqual(Plus('1',Plus(SP_EL0_5,'808')),'0')),Or(LessThan(Plus(SP_EL0_5,'808'),'0'),LessOrEqual('721',Plus(SP_EL0_5,'808'))))) in 
+let assert_true_cnd_190=And(LessOrEqual('721',Plus(SP_EL0_5,'808')),LessThan(Plus(SP_EL0_5,'808'),'705')) in 
+out(att,Minus(SP_EL0_sy,'1800'));
+let assert_true_cnd_194=Equal(And(SP_EL0_5,'15'),'0') in 
+let MEM_196=Store(MEM_180,LowCast(R0_185,'8'),Plus(SP_EL0_5,'808')) in 
+out(att,'364');
+let assert_true_cnd_199=Equal(And(SP_EL0_5,'15'),'0') in 
+let R0_201=Minus(SP_EL0_sy,'2056') in 
+out(att,'368');
+let assert_true_cnd_204=Equal(And(SP_EL0_5,'7'),'0') in 
+let assert_true_cnd_206=And(LessOrEqual('721',Plus(SP_EL0_5,'16')),LessThan(Plus(SP_EL0_5,'16'),'705')) in 
+out(att,Minus(SP_EL0_sy,'2592'));
+let assert_true_cnd_210=Equal(And(SP_EL0_5,'15'),'0') in 
+let R1_212=Load(MEM_196,Plus(SP_EL0_5,'16')) in 
+let mac_214=mac(pars12_182,km) in 
+out(att,'376');
+out(att,'380');
+let assert_true_cnd_220=And(LessOrEqual(Plus(SP_EL0_5,'1064'),'18446744073709551614'),And(Or(LessThan('0',Plus(SP_EL0_5,'1064')),LessOrEqual(Plus('1',Plus(SP_EL0_5,'1064')),'0')),Or(LessThan(Plus(SP_EL0_5,'1064'),'0'),LessOrEqual('721',Plus(SP_EL0_5,'1064'))))) in 
+let assert_true_cnd_222=And(LessOrEqual('721',Plus(SP_EL0_5,'1064')),LessThan(Plus(SP_EL0_5,'1064'),'705')) in 
+out(att,Minus(SP_EL0_sy,'1544'));
+let assert_true_cnd_226=Equal(And(SP_EL0_5,'15'),'0') in 
+let MEM_228=Store(MEM_196,LowCast(R0_217,'8'),Plus(SP_EL0_5,'1064')) in 
+out(att,'384');
+let assert_true_cnd_231=Equal(And(SP_EL0_5,'15'),'0') in 
+let R1_233=Minus(SP_EL0_sy,'1800') in 
+out(att,'388');
+let assert_true_cnd_236=Equal(And(SP_EL0_5,'15'),'0') in 
+let R0_238=Minus(SP_EL0_sy,'1544') in 
+let cmpmac_240=compare_mac(pars22(a_166),mac_214) in 
+out(att,'396');
+let ProcState_C_245='1' in 
+let ProcState_N_246=SignedLessThan(LowCast(cmpmac_240,'32'),'0') in 
+let ProcState_V_247='0' in 
+let ProcState_Z_248=Equal(LowCast(cmpmac_240,'32'),'0') in 
+out(att,'400');
+out(att,Equal(LowCast(cmpmac_240,'32'),'0'));
+if LowCast(cmpmac_240,'32')='0' then 
+out(att,'404');
+out(att,'404');
+let assert_true_cnd_261=Equal(And(SP_EL0_5,'15'),'0') in 
+let R3_263=Minus(SP_EL0_sy,'776') in 
+out(att,'408');
+let assert_true_cnd_266=Equal(And(SP_EL0_5,'15'),'0') in 
+let R2_268=Minus(SP_EL0_sy,'1032') in 
+out(att,'412');
+let assert_true_cnd_271=Equal(And(SP_EL0_5,'15'),'0') in 
+let R1_273=Minus(SP_EL0_sy,'1288') in 
+out(att,'416');
+let assert_true_cnd_276=Equal(And(SP_EL0_5,'15'),'0') in 
+let R0_278=Minus(SP_EL0_sy,'2056') in 
+out(att,'420');
+out(att,'424');
+out(att,'428');
+out(att,'432');
+let assert_true_cnd_287=Equal(And(SP_EL0_5,'7'),'0') in 
+let assert_true_cnd_289=And(LessOrEqual('721',Plus(SP_EL0_5,'24')),LessThan(Plus(SP_EL0_5,'24'),'705')) in 
+out(att,Minus(SP_EL0_sy,'2584'));
+let assert_true_cnd_293=Equal(And(SP_EL0_5,'15'),'0') in 
+let R1_295=Load(MEM_241,Plus(SP_EL0_5,'24')) in 
+let Dec_297=dec(pars12_182,ke) in 
+let Pars13_300=pars13(Dec_297) in 
+let Pars23_301=pars23(Dec_297) in 
+out(att,'440');
+let ProcState_C_304='1' in 
+let ProcState_N_305=SignedLessThan(LowCast(Dec_297,'32'),'0') in 
+let ProcState_V_306='0' in 
+let ProcState_Z_307=Equal(LowCast(Dec_297,'32'),'0') in 
+out(att,'444');
+out(att,Equal(LowCast(Dec_297,'32'),'0'));
+if LowCast(Dec_297,'32')='0' then 
+out(att,'532');
+out(att,'532');
+let R0_320='0' in 
+0
+else out(att,'448');
+out(att,'448');
+let assert_true_cnd_323=Equal(And(SP_EL0_5,'15'),'0') in 
+let R1_325=Minus(SP_EL0_sy,'2312') in 
+out(att,'452');
+let assert_true_cnd_328=Equal(And(SP_EL0_5,'15'),'0') in 
+let R0_330=Minus(SP_EL0_sy,'1032') in 
+let cmpnonce_332=compare_nonces(Pars23_301,RAND_NUM_141) in 
+out(att,'460');
+let ProcState_C_337='1' in 
+let ProcState_N_338=SignedLessThan(LowCast(cmpnonce_332,'32'),'0') in 
+let ProcState_V_339='0' in 
+let ProcState_Z_340=Equal(LowCast(cmpnonce_332,'32'),'0') in 
+out(att,'464');
+out(att,Equal(LowCast(cmpnonce_332,'32'),'0'));
+if LowCast(cmpnonce_332,'32')='0' then 
+out(att,'468');
+new ~nonce_353;
+let RAND_NUM_352=~nonce_353 in 
+out(att,'472');
+out(att,'476');
+let assert_true_cnd_359=And(LessOrEqual(Plus(SP_EL0_5,'2088'),'18446744073709551614'),And(Or(LessThan('0',Plus(SP_EL0_5,'2088')),LessOrEqual(Plus('1',Plus(SP_EL0_5,'2088')),'0')),Or(LessThan(Plus(SP_EL0_5,'2088'),'0'),LessOrEqual('721',Plus(SP_EL0_5,'2088'))))) in 
+let assert_true_cnd_361=And(LessOrEqual('721',Plus(SP_EL0_5,'2088')),LessThan(Plus(SP_EL0_5,'2088'),'705')) in 
+out(att,Minus(SP_EL0_sy,'520'));
+let assert_true_cnd_365=Equal(And(SP_EL0_5,'15'),'0') in 
+let MEM_367=Store(MEM_333,LowCast(R0_356,'8'),Plus(SP_EL0_5,'2088')) in 
+out(att,'480');
+let assert_true_cnd_370=Equal(And(SP_EL0_5,'15'),'0') in 
+let R3_372=Minus(SP_EL0_sy,'264') in 
+out(att,'484');
+let assert_true_cnd_375=Equal(And(SP_EL0_5,'15'),'0') in 
+let R2_377=Minus(SP_EL0_sy,'520') in 
+out(att,'488');
+let assert_true_cnd_380=Equal(And(SP_EL0_5,'15'),'0') in 
+let R1_382=Minus(SP_EL0_sy,'1288') in 
+out(att,'492');
+let assert_true_cnd_385=Equal(And(SP_EL0_5,'15'),'0') in 
+let R0_387=Minus(SP_EL0_sy,'2312') in 
+out(att,'496');
+out(att,'500');
+let assert_true_cnd_392=Equal(And(SP_EL0_5,'7'),'0') in 
+let assert_true_cnd_394=And(LessOrEqual('721',Plus(SP_EL0_5,'24')),LessThan(Plus(SP_EL0_5,'24'),'705')) in 
+out(att,Minus(SP_EL0_sy,'2584'));
+let assert_true_cnd_398=Equal(And(SP_EL0_5,'15'),'0') in 
+let R3_400=Load(MEM_367,Plus(SP_EL0_5,'24')) in 
+let Conc_402=conc3(Pars23_301,RAND_NUM_352,Pars13_300) in 
+let Enc_405=enc(Conc_402,ke) in 
+out(att,Enc_405);
+out(att,'508');
+let assert_true_cnd_409=Equal(And(SP_EL0_5,'15'),'0') in 
+let R0_411=Minus(SP_EL0_sy,'264') in 
+out(att,'512');
+let assert_true_cnd_414=Equal(And(SP_EL0_5,'7'),'0') in 
+let assert_true_cnd_416=And(LessOrEqual('721',Plus(SP_EL0_5,'16')),LessThan(Plus(SP_EL0_5,'16'),'705')) in 
+out(att,Minus(SP_EL0_sy,'2592'));
+let assert_true_cnd_420=Equal(And(SP_EL0_5,'15'),'0') in 
+let R1_422=Load(MEM_403,Plus(SP_EL0_5,'16')) in 
+let mac_424=mac(Enc_405,km) in 
+out(att,mac_424)
+else out(att,'524');
+out(att,'524');
+let R0_428='0' in 
+0
+else out(att,'540');
+out(att,'540');
+let R0_431='0' in 
+0
+else out(att,'548')

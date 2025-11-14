@@ -10,10 +10,12 @@ sig
   datatype logs_list = LogsList of (string * string option);
   datatype logs_run  = LogsRun  of (string * prog_list_handle * exp_list_handle);
   datatype logs_prog = LogsProg of (string * string);
-  datatype logs_exp  = LogsExp  of (prog_handle * string * string * Json.json);
+  datatype logs_exp  = LogsExp  of (prog_handle * string * string * Json.json * Arbnum.num * Json.json);
 
   eqtype meta_handle;
   datatype logs_meta = LogsMeta of (meta_handle * string option);
+
+  val embexp_logs_dir : unit -> string;
 
   (* operations on handles *)
   val prog_handle_compare : (prog_handle * prog_handle) -> order;
@@ -32,6 +34,10 @@ sig
   val mk_run_meta_handle  : (run_handle  * string option * string) -> meta_handle;
   val mk_prog_meta_handle : (prog_handle * string option * string) -> meta_handle;
   val mk_exp_meta_handle  : (exp_handle  * string option * string) -> meta_handle;
+  (* decompose metadata handles *)
+  val dest_run_meta_handle  : meta_handle -> (run_handle  * string option * string);
+  val dest_prog_meta_handle : meta_handle -> (prog_handle * string option * string);
+  val dest_exp_meta_handle  : meta_handle -> (exp_handle  * string option * string);
 
   (* creation of basic entries *)
   val create_prog_list : logs_list -> prog_list_handle;
@@ -62,12 +68,23 @@ sig
   val get_prog_list_entries : prog_list_handle -> (int * prog_handle) list;
   val get_exp_list_entries  : exp_list_handle  -> (int * exp_handle ) list;
 
-(*
+  (* retrieval of list of whole entries *)
+  val get_prog_list_entries_full : prog_list_handle -> (int * logs_prog) list;
+  val get_exp_list_entries_full  : exp_list_handle  -> (int * logs_exp ) list;
+
   (* retrieval of metdata *)
   val get_run_metadata    : run_handle  -> logs_meta list;
   val get_prog_metadata   : prog_handle -> logs_meta list;
   val get_exp_metadata    : exp_handle  -> logs_meta list;
-*)
+
+  (* retrieval of some data - temporary *)
+  val get_cexamples : string -> string -> string list option
+  val check_exp_result : (int * exp_handle) -> bool
+  val get_last_exp_list_id : unit -> exp_list_handle;
+  (* val filter_exp_list_executed : (int * exp_handle) list -> (int * exp_handle) list option *)
+  val check_exp_list_is_running : unit -> unit
+  val get_exps_outside : Arbnum.num list -> logs_exp list
+  val get_exps_as_string : exp_list_handle -> Arbnum.num list
 
   (* queries *)
   val query_all_prog_lists : unit -> prog_list_handle list;
@@ -87,8 +104,14 @@ sig
                            Json.json option) list
                           -> exp_handle  list;
 *)
-  (* TODO: generalize this ad-hoc query *)
-  val hack_get_prog_list_by_listname : string -> logs_prog list;
+
+  (*
+    most general query with raw input and raw output.
+    - ! it deliberately doesn't return handles so that links in the db cannot be messed up !
+    - the returned json values are of one of the following types: NULL, NUMBER, STRING
+  *)
+  val query_sql : string -> (string list * Json.json list list);
+
 
   (* function to enable the testing mode, i.e., uses the testing db *)
   val set_testing : unit -> unit;

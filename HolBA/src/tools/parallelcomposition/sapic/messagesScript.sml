@@ -42,7 +42,7 @@ val Var_ss = rewrites (type_rws ``:Var_t``);
 (* Function symbols *)
 
 val _ = Datatype `Privacy_t = Private | Public`;
-    
+
 val Privacy_ss = rewrites (type_rws ``:Privacy_t``);    
 
     
@@ -50,15 +50,12 @@ val _ = Datatype `Constructability_t = Constructor | Destructor`;
 
 val Constructability_ss = rewrites (type_rws ``:Constructability_t``);
 
-    
-val _ = Parse.type_abbrev("Sig_t", ``:(string # (int # Privacy_t # Constructability_t))``);
-
 (* Terms *)	      
 
 val _ = Datatype `SapicTerm_t =
 	      Con   Name_t
 	    | TVar  Var_t
-	    | FAPP  Sig_t (SapicTerm_t list)`;
+	    | FAPP  (string # (int # Privacy_t # Constructability_t)) (SapicTerm_t list)`;
 
 val SapicTerm_ss = rewrites (type_rws ``:SapicTerm_t``);
 

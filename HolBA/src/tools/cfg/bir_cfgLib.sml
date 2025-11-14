@@ -162,7 +162,14 @@ in
         let
           val n = case lookup_block_dict n_dict lbl_tm of
                      SOME x => x
-                   | NONE => raise ERR "cfg_collect_nodes" ("cannot find label " ^ (term_to_string lbl_tm));
+                   | NONE => (let
+				  val n = { CFGN_lbl_tm   =  lbl_tm,
+					    CFGN_hc_descr = SOME " ",
+					    CFGN_targets  = [],
+					    CFGN_type     = CFGNT_Halt
+					  } : cfg_node;
+			      in n end)
+		     (*raise ERR "cfg_collect_nodes" ("cannot find label " ^ (term_to_string lbl_tm));*)
           val targets = #CFGN_targets (n:cfg_node);
 
           val exclude_list = (lbl_tm::acc_ns)@acc_ex@todo;

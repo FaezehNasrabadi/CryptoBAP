@@ -1,0 +1,167 @@
+
+/*
+ * Protocol: WhatsApp
+*/
+
+
+
+theory WhatsApp
+
+begin
+
+builtins: dest-pairing, dest-symmetric-encryption
+
+
+functions: hash2/2, hkdf/2, pars1/1, pars2/1, hash/1, session/1
+
+heuristic: p
+
+
+let SessionCipherEncrypt(sidA,sidB,Alice) =
+in(sidA,CKs);
+let MKs=hash2(CKs,'1') in 
+new ~payload;
+let Enc=senc(~payload,MKs) in 
+out(Enc);
+event Send(sidA,sidB,MKs);
+(
+new ~Root_sy;
+new ~Ephemeral_sy;
+let CKsNew=pars1(hkdf(~Root_sy,~Ephemeral_sy)) in 
+let RKs=pars2(hkdf(~Root_sy,~Ephemeral_sy)) in
+out(sidA,CKsNew);
+out(sidB,CKsNew);
+event Heal(sidA,sidB))+(
+let CKsNext=hash2(CKs,'2') in 
+out(sidA,CKsNext)
+)
+
+
+
+
+let SessionCipherDecrypt(sidA,sidB,Bob) =
+(in(sidB,CKe);
+let MKe=hash2(CKe,'1') in 
+in(a);
+let Dec=sdec(a,MKe) in 
+event Receive(sidA,sidB,MKe);
+let CKeNext=hash2(CKe,'2') in 
+out(sidB,CKeNext))+(
+new ~Root_sy;
+new ~Ephemeral_sy;
+let CKe=pars1(hkdf(~Root_sy,~Ephemeral_sy)) in 
+let RKe=pars2(hkdf(~Root_sy,~Ephemeral_sy)) in
+out(sidA,CKe);
+out(sidB,CKe);
+event Heal(sidA,sidB);
+(
+let MKe=hash2(CKe,'1') in 
+in(a);
+let Dec=sdec(a,MKe) in 
+event Receive(sidA,sidB,MKe);
+let CKeNext=hash2(CKe,'2') in 
+out(sidB,CKeNext)
+)+(
+new ~ephemeral_secret;
+let CKeNew=pars1(hkdf(RKe,~ephemeral_secret)) in 
+let RKeNew=pars2(hkdf(RKe,~ephemeral_secret)) in
+out(sidA,CKeNew);
+out(sidB,CKeNew);
+event Heal(sidA,sidB);
+let MKe=hash2(CKeNew,'1') in 
+in(a);
+let Dec=sdec(a,MKe) in 
+event Receive(sidA,sidB,MKe);
+let CKeNext=hash2(CKeNew,'2') in 
+out(sidB,CKeNext)
+)
+)
+
+
+
+
+let CompromiseSession(sidA,sidB) =
+(
+in(sidA,CKa);
+in(sidB,CKb); 
+let MKa=hash2(CKa,'1') in
+let MKb=hash2(CKb,'1') in 
+out(MKa);
+out(MKb);
+event Compromise(sidA,sidB)
+)+(
+in(sidA,CKa);
+in(sidB,CKb);
+out(CKa);
+out(CKb);
+event Compromise(sidA,sidB)
+)
+
+
+
+
+let NewSession(sidA,sidB,P) =
+new ~Root_sy;
+new ~Ephemeral_sy;
+let CKn=pars1(hkdf(~Root_sy,~Ephemeral_sy)) in 
+out(sidA,CKn);
+out(sidB,CKn);
+event New_session(sidA,sidB,P)
+
+
+
+let MsgNewSession(sidA,sidB,P) =
+in(am);
+new ~Root_sy;
+new ~Ephemeral_sy;
+let CKm=pars1(hkdf(~Root_sy,~Ephemeral_sy)) in 
+out(sidA,CKm);
+out(sidB,CKm);
+event Msg_new_session(am,sidA,sidB,P)
+
+
+process:
+new ~Alice;
+new ~Bob;
+let sidAlice = session(~Alice) in
+let sidBob = session(~Bob) in
+new ~RootInit;
+new ~EphemeralInit;
+let CK=pars1(hkdf(~RootInit,~EphemeralInit)) in 
+out(sidAlice,CK);
+out(sidBob,CK);
+!(
+!(NewSession(sidAlice,sidBob,~Alice)) | 
+!(NewSession(sidAlice,sidBob,~Bob)) | 
+!(MsgNewSession(sidAlice,sidBob,~Alice)) | 
+!(MsgNewSession(sidAlice,sidBob,~Bob)) | 
+!(CompromiseSession(sidAlice,sidBob)) | 
+!(SessionCipherEncrypt(sidAlice,sidBob,~Alice)) | 
+!(SessionCipherEncrypt(sidBob,sidAlice,~Bob)) | 
+!(SessionCipherDecrypt(sidBob,sidAlice,~Alice)) |
+!(SessionCipherDecrypt(sidAlice,sidBob,~Bob)) |
+0
+)
+
+lemma forward_secrecy:
+"All sidA sidB mk #i #j.
+((Send(sidA, sidB, mk)@ #i) ∧ (!KU(mk)@ #j))
+==> (Ex #k. Compromise(sidA, sidB)@k ∧ k < i)
+   | (Ex #k. Compromise(sidB, sidA)@k)
+"
+
+lemma attack_pcs:
+  exists-trace
+  "∃ MK sidA sidB #i #j #k #l.
+    ((((((Send( sidA, sidB, MK ) @ #i) ∧ (!KU( MK ) @ #j)) ∧
+        (Compromise( sidA, sidB ) @ #k)) ∧
+       (Heal( sidA, sidB ) @ #l)) ∧
+      (#l < #i)) ∧
+     (#k < #l)) ∧
+    (∀ #x #y.
+      ((Compromise( sidA, sidB ) @ #x) ∧
+       (Compromise( sidA, sidB ) @ #y)) ⇒
+      (#x = #y))"
+
+
+end
