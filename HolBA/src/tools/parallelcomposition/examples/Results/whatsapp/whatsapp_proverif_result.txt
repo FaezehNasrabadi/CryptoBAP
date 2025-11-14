@@ -1,0 +1,545 @@
+Linear part: No equation.
+Convergent part:
+fst((x_1,x_2)) = x_1
+snd((x_1,x_2)) = x_2
+Completing equations...
+Completed equations:
+snd((x_1,x_2)) = x_2
+fst((x_1,x_2)) = x_1
+Process 0 (that is, the initial process):
+{1}new B_1: bitstring;
+{2}!
+{3}!
+(
+    {4}new Session_Id_1: bitstring;
+    {5}new StateChannel: channel;
+    {6}new CKn_1: bitstring;
+    (
+        {7}out(StateChannel, CKn_1)
+    ) | (
+        {8}event eNew_session(Session_Id_1,B_1);
+        {9}!
+        {10}!
+        (
+            {11}in(StateChannel, CK_1: bitstring);
+            {12}let MK_1: bitstring = hash2(CK_1,s1) in
+            {13}out(att, MK_1);
+            {14}event eCompromise(Session_Id_1,MK_1)
+        ) | (
+            {15}!
+            (
+                {16}new CKh_1: bitstring;
+                {17}let chain_1: bitstring = CKh_1 in
+                (
+                    {18}out(StateChannel, chain_1)
+                ) | (
+                    {19}let MK_2: bitstring = hash2(chain_1,s1) in
+                    {20}event eHeal(Session_Id_1,MK_2)
+                )
+            ) | (
+                {21}!
+                (
+                    {22}in(StateChannel, CKs_1: bitstring);
+                    {23}let MKs_1: bitstring = hash2(CKs_1,s1) in
+                    {24}in(att, a_1: bitstring);
+                    {25}let Enc_1: bitstring = enc(a_1,MKs_1) in
+                    (
+                        {26}out(att, Enc_1);
+                        {27}event eSend(Session_Id_1,MKs_1);
+                        {28}new Pre_Key_1: bitstring;
+                        {29}let RAND_NUM_1: bitstring = Pre_Key_1 in
+                        {30}let CKsNext_1: bitstring = hash2(RAND_NUM_1,s2) in
+                        (
+                            {31}out(StateChannel, CKsNext_1)
+                        ) | (
+                            0
+                        )
+                    ) | (
+                        {32}let CKsNext_2: bitstring = hash2(CKs_1,s2) in
+                        (
+                            {33}out(StateChannel, CKsNext_2)
+                        ) | (
+                            0
+                        )
+                    )
+                ) | (
+                    {34}!
+                    (
+                        {35}in(StateChannel, CKe_1: bitstring);
+                        {36}let MKe_1: bitstring = hash2(CKe_1,s1) in
+                        {37}in(att, a_2: bitstring);
+                        {38}let Dec_1: bitstring = dec(a_2,MKe_1) in
+                        {39}event eReceive(Session_Id_1,MKe_1);
+                        {40}let CKeNext_1: bitstring = hash2(CKe_1,s2) in
+                        (
+                            {41}out(StateChannel, CKeNext_1)
+                        ) | (
+                            0
+                        )
+                    ) | (
+                        {42}new Root_sy_1: bitstring;
+                        {43}new Ephemeral_sy_1: bitstring;
+                        {44}let CKe_2: bitstring = pars1(hkdf(Root_sy_1,Ephemeral_sy_1)) in
+                        {45}let RKe_1: bitstring = pars2(hkdf(Root_sy_1,Ephemeral_sy_1)) in
+                        (
+                            {46}let MKe_2: bitstring = hash2(CKe_2,s1) in
+                            {47}in(att, a_3: bitstring);
+                            {48}let Dec_2: bitstring = dec(a_3,MKe_2) in
+                            {49}event eReceive(Session_Id_1,MKe_2);
+                            {50}let CKeNext_2: bitstring = hash2(CKe_2,s2) in
+                            (
+                                {51}out(StateChannel, CKeNext_2)
+                            ) | (
+                                0
+                            )
+                        ) | (
+                            {52}new ephemeral_secret_1: bitstring;
+                            {53}let CKeNew_1: bitstring = pars1(hkdf(RKe_1,ephemeral_secret_1)) in
+                            {54}let RKeNew_1: bitstring = pars2(hkdf(RKe_1,ephemeral_secret_1)) in
+                            {55}let MKe_3: bitstring = hash2(CKeNew_1,s1) in
+                            {56}in(att, a_4: bitstring);
+                            {57}let Dec_3: bitstring = dec(a_4,MKe_3) in
+                            {58}event eReceive(Session_Id_1,MKe_3);
+                            {59}let CKeNext_3: bitstring = hash2(CKeNew_1,s2) in
+                            (
+                                {60}out(StateChannel, CKeNext_3)
+                            ) | (
+                                0
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+) | (
+    {61}!
+    {62}in(att, am_1: bitstring);
+    {63}new Session_Id_2: bitstring;
+    {64}new StateChannel_1: channel;
+    {65}new CKm_1: bitstring;
+    (
+        {66}out(StateChannel_1, CKm_1)
+    ) | (
+        {67}event eMsg_new_session(am_1,Session_Id_2,B_1);
+        {68}!
+        {69}!
+        (
+            {70}in(StateChannel_1, CK_2: bitstring);
+            {71}let MK_3: bitstring = hash2(CK_2,s1) in
+            {72}out(att, MK_3);
+            {73}event eCompromise(Session_Id_2,MK_3)
+        ) | (
+            {74}!
+            (
+                {75}new CKh_2: bitstring;
+                {76}let chain_2: bitstring = CKh_2 in
+                (
+                    {77}out(StateChannel_1, chain_2)
+                ) | (
+                    {78}let MK_4: bitstring = hash2(chain_2,s1) in
+                    {79}event eHeal(Session_Id_2,MK_4)
+                )
+            ) | (
+                {80}!
+                (
+                    {81}in(StateChannel_1, CKs_2: bitstring);
+                    {82}let MKs_2: bitstring = hash2(CKs_2,s1) in
+                    {83}in(att, a_5: bitstring);
+                    {84}let Enc_2: bitstring = enc(a_5,MKs_2) in
+                    (
+                        {85}out(att, Enc_2);
+                        {86}event eSend(Session_Id_2,MKs_2);
+                        {87}new Pre_Key_2: bitstring;
+                        {88}let RAND_NUM_2: bitstring = Pre_Key_2 in
+                        {89}let CKsNext_3: bitstring = hash2(RAND_NUM_2,s2) in
+                        (
+                            {90}out(StateChannel_1, CKsNext_3)
+                        ) | (
+                            0
+                        )
+                    ) | (
+                        {91}let CKsNext_4: bitstring = hash2(CKs_2,s2) in
+                        (
+                            {92}out(StateChannel_1, CKsNext_4)
+                        ) | (
+                            0
+                        )
+                    )
+                ) | (
+                    {93}!
+                    (
+                        {94}in(StateChannel_1, CKe_3: bitstring);
+                        {95}let MKe_4: bitstring = hash2(CKe_3,s1) in
+                        {96}in(att, a_6: bitstring);
+                        {97}let Dec_4: bitstring = dec(a_6,MKe_4) in
+                        {98}event eReceive(Session_Id_2,MKe_4);
+                        {99}let CKeNext_4: bitstring = hash2(CKe_3,s2) in
+                        (
+                            {100}out(StateChannel_1, CKeNext_4)
+                        ) | (
+                            0
+                        )
+                    ) | (
+                        {101}new Root_sy_2: bitstring;
+                        {102}new Ephemeral_sy_2: bitstring;
+                        {103}let CKe_4: bitstring = pars1(hkdf(Root_sy_2,Ephemeral_sy_2)) in
+                        {104}let RKe_2: bitstring = pars2(hkdf(Root_sy_2,Ephemeral_sy_2)) in
+                        (
+                            {105}let MKe_5: bitstring = hash2(CKe_4,s1) in
+                            {106}in(att, a_7: bitstring);
+                            {107}let Dec_5: bitstring = dec(a_7,MKe_5) in
+                            {108}event eReceive(Session_Id_2,MKe_5);
+                            {109}let CKeNext_5: bitstring = hash2(CKe_4,s2) in
+                            (
+                                {110}out(StateChannel_1, CKeNext_5)
+                            ) | (
+                                0
+                            )
+                        ) | (
+                            {111}new ephemeral_secret_2: bitstring;
+                            {112}let CKeNew_2: bitstring = pars1(hkdf(RKe_2,ephemeral_secret_2)) in
+                            {113}let RKeNew_2: bitstring = pars2(hkdf(RKe_2,ephemeral_secret_2)) in
+                            {114}let MKe_6: bitstring = hash2(CKeNew_2,s1) in
+                            {115}in(att, a_8: bitstring);
+                            {116}let Dec_6: bitstring = dec(a_8,MKe_6) in
+                            {117}event eReceive(Session_Id_2,MKe_6);
+                            {118}let CKeNext_6: bitstring = hash2(CKeNew_2,s2) in
+                            (
+                                {119}out(StateChannel_1, CKeNext_6)
+                            ) | (
+                                0
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
+
+--  Process 1 (that is, process 0, with let moved downwards):
+{1}new B_1: bitstring;
+{2}!
+{3}!
+(
+    {4}new Session_Id_1: bitstring;
+    {5}new StateChannel: channel;
+    {6}new CKn_1: bitstring;
+    (
+        {7}out(StateChannel, CKn_1)
+    ) | (
+        {8}event eNew_session(Session_Id_1,B_1);
+        {9}!
+        {10}!
+        (
+            {11}in(StateChannel, CK_1: bitstring);
+            {12}let MK_1: bitstring = hash2(CK_1,s1) in
+            {13}out(att, MK_1);
+            {14}event eCompromise(Session_Id_1,MK_1)
+        ) | (
+            {15}!
+            (
+                {16}new CKh_1: bitstring;
+                {17}let chain_1: bitstring = CKh_1 in
+                (
+                    {18}out(StateChannel, chain_1)
+                ) | (
+                    {19}let MK_2: bitstring = hash2(chain_1,s1) in
+                    {20}event eHeal(Session_Id_1,MK_2)
+                )
+            ) | (
+                {21}!
+                (
+                    {22}in(StateChannel, CKs_1: bitstring);
+                    {24}in(att, a_1: bitstring);
+                    (
+                        {23}let MKs_1: bitstring = hash2(CKs_1,s1) in
+                        {25}let Enc_1: bitstring = enc(a_1,MKs_1) in
+                        {26}out(att, Enc_1);
+                        {27}event eSend(Session_Id_1,MKs_1);
+                        {28}new Pre_Key_1: bitstring;
+                        (
+                            {29}let RAND_NUM_1: bitstring = Pre_Key_1 in
+                            {30}let CKsNext_1: bitstring = hash2(RAND_NUM_1,s2) in
+                            {31}out(StateChannel, CKsNext_1)
+                        ) | (
+                            0
+                        )
+                    ) | (
+                        {32}let CKsNext_2: bitstring = hash2(CKs_1,s2) in
+                        {33}out(StateChannel, CKsNext_2)
+                    ) | (
+                        0
+                    )
+                ) | (
+                    {34}!
+                    (
+                        {35}in(StateChannel, CKe_1: bitstring);
+                        {37}in(att, a_2: bitstring);
+                        {36}let MKe_1: bitstring = hash2(CKe_1,s1) in
+                        {38}let Dec_1: bitstring = dec(a_2,MKe_1) in
+                        {39}event eReceive(Session_Id_1,MKe_1);
+                        (
+                            {40}let CKeNext_1: bitstring = hash2(CKe_1,s2) in
+                            {41}out(StateChannel, CKeNext_1)
+                        ) | (
+                            0
+                        )
+                    ) | (
+                        {42}new Root_sy_1: bitstring;
+                        {43}new Ephemeral_sy_1: bitstring;
+                        (
+                            {47}in(att, a_3: bitstring);
+                            {44}let CKe_2: bitstring = pars1(hkdf(Root_sy_1,Ephemeral_sy_1)) in
+                            {46}let MKe_2: bitstring = hash2(CKe_2,s1) in
+                            {48}let Dec_2: bitstring = dec(a_3,MKe_2) in
+                            {49}event eReceive(Session_Id_1,MKe_2);
+                            (
+                                {50}let CKeNext_2: bitstring = hash2(CKe_2,s2) in
+                                {51}out(StateChannel, CKeNext_2)
+                            ) | (
+                                0
+                            )
+                        ) | (
+                            {52}new ephemeral_secret_1: bitstring;
+                            {56}in(att, a_4: bitstring);
+                            {45}let RKe_1: bitstring = pars2(hkdf(Root_sy_1,Ephemeral_sy_1)) in
+                            {53}let CKeNew_1: bitstring = pars1(hkdf(RKe_1,ephemeral_secret_1)) in
+                            {55}let MKe_3: bitstring = hash2(CKeNew_1,s1) in
+                            {57}let Dec_3: bitstring = dec(a_4,MKe_3) in
+                            {58}event eReceive(Session_Id_1,MKe_3);
+                            (
+                                {59}let CKeNext_3: bitstring = hash2(CKeNew_1,s2) in
+                                {60}out(StateChannel, CKeNext_3)
+                            ) | (
+                                0
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+) | (
+    {61}!
+    {62}in(att, am_1: bitstring);
+    {63}new Session_Id_2: bitstring;
+    {64}new StateChannel_1: channel;
+    {65}new CKm_1: bitstring;
+    (
+        {66}out(StateChannel_1, CKm_1)
+    ) | (
+        {67}event eMsg_new_session(am_1,Session_Id_2,B_1);
+        {68}!
+        {69}!
+        (
+            {70}in(StateChannel_1, CK_2: bitstring);
+            {71}let MK_3: bitstring = hash2(CK_2,s1) in
+            {72}out(att, MK_3);
+            {73}event eCompromise(Session_Id_2,MK_3)
+        ) | (
+            {74}!
+            (
+                {75}new CKh_2: bitstring;
+                {76}let chain_2: bitstring = CKh_2 in
+                (
+                    {77}out(StateChannel_1, chain_2)
+                ) | (
+                    {78}let MK_4: bitstring = hash2(chain_2,s1) in
+                    {79}event eHeal(Session_Id_2,MK_4)
+                )
+            ) | (
+                {80}!
+                (
+                    {81}in(StateChannel_1, CKs_2: bitstring);
+                    {83}in(att, a_5: bitstring);
+                    (
+                        {82}let MKs_2: bitstring = hash2(CKs_2,s1) in
+                        {84}let Enc_2: bitstring = enc(a_5,MKs_2) in
+                        {85}out(att, Enc_2);
+                        {86}event eSend(Session_Id_2,MKs_2);
+                        {87}new Pre_Key_2: bitstring;
+                        (
+                            {88}let RAND_NUM_2: bitstring = Pre_Key_2 in
+                            {89}let CKsNext_3: bitstring = hash2(RAND_NUM_2,s2) in
+                            {90}out(StateChannel_1, CKsNext_3)
+                        ) | (
+                            0
+                        )
+                    ) | (
+                        {91}let CKsNext_4: bitstring = hash2(CKs_2,s2) in
+                        {92}out(StateChannel_1, CKsNext_4)
+                    ) | (
+                        0
+                    )
+                ) | (
+                    {93}!
+                    (
+                        {94}in(StateChannel_1, CKe_3: bitstring);
+                        {96}in(att, a_6: bitstring);
+                        {95}let MKe_4: bitstring = hash2(CKe_3,s1) in
+                        {97}let Dec_4: bitstring = dec(a_6,MKe_4) in
+                        {98}event eReceive(Session_Id_2,MKe_4);
+                        (
+                            {99}let CKeNext_4: bitstring = hash2(CKe_3,s2) in
+                            {100}out(StateChannel_1, CKeNext_4)
+                        ) | (
+                            0
+                        )
+                    ) | (
+                        {101}new Root_sy_2: bitstring;
+                        {102}new Ephemeral_sy_2: bitstring;
+                        (
+                            {106}in(att, a_7: bitstring);
+                            {103}let CKe_4: bitstring = pars1(hkdf(Root_sy_2,Ephemeral_sy_2)) in
+                            {105}let MKe_5: bitstring = hash2(CKe_4,s1) in
+                            {107}let Dec_5: bitstring = dec(a_7,MKe_5) in
+                            {108}event eReceive(Session_Id_2,MKe_5);
+                            (
+                                {109}let CKeNext_5: bitstring = hash2(CKe_4,s2) in
+                                {110}out(StateChannel_1, CKeNext_5)
+                            ) | (
+                                0
+                            )
+                        ) | (
+                            {111}new ephemeral_secret_2: bitstring;
+                            {115}in(att, a_8: bitstring);
+                            {104}let RKe_2: bitstring = pars2(hkdf(Root_sy_2,Ephemeral_sy_2)) in
+                            {112}let CKeNew_2: bitstring = pars1(hkdf(RKe_2,ephemeral_secret_2)) in
+                            {114}let MKe_6: bitstring = hash2(CKeNew_2,s1) in
+                            {116}let Dec_6: bitstring = dec(a_8,MKe_6) in
+                            {117}event eReceive(Session_Id_2,MKe_6);
+                            (
+                                {118}let CKeNext_6: bitstring = hash2(CKeNew_2,s2) in
+                                {119}out(StateChannel_1, CKeNext_6)
+                            ) | (
+                                0
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
+
+-- Query event(eSend(sid,MK))@i && attacker(MK)@j && event(eHeal(sid,MK))@l && event(eCompromise(sid,MK))@k ==> i > l && l > k encoded as event(eSend(sid,MK))@i && attacker(MK) && event(v,eHeal(sid,MK))@i_1 && event(v_1,eCompromise(sid,MK)) ==> event(v,eHeal(sid,MK))@i_2 && i > i_2 && event(v_1,eCompromise(sid,MK))@i_3 && i_1 > i_3 in process 1.
+Translating the process into Horn clauses...
+select mess(StateChannel[!2 = *@sid,!1 = *@sid_1],CKs)/-5000
+select mess(StateChannel_1[am_1 = *am,!3 = *@sid,!2 = *@sid_1,!1 = *@sid_2],CKs)/-5000
+Completing...
+Starting query event(eSend(sid,MK))@i && attacker(MK)@j && event(eHeal(sid,MK))@l && event(eCompromise(sid,MK))@k ==> i > l && l > k
+goal reachable: attacker(am) -> end(eSend(Session_Id,hash2(CKh,s1[]))) && attacker(hash2(CKh,s1[])) && end(@occ79_1,eHeal(Session_Id,hash2(CKh,s1[]))) && end(@occ73_1,eCompromise(Session_Id,hash2(CKh,s1[])))
+The hypothesis occurs before the 1st conclusion.
+The hypothesis occurs before the 2nd conclusion.
+The hypothesis occurs before the 3rd conclusion.
+The hypothesis occurs before the 4th conclusion.
+Abbreviations:
+Session_Id = Session_Id_2[am_1 = am,!3 = @sid,!2 = @sid_1,!1 = @sid_2]
+CKh = CKh_2[!6 = @sid_3,!5 = @sid_4,!4 = @sid_5,am_1 = am,!3 = @sid,!2 = @sid_1,!1 = @sid_2]
+@occ79_1 = @occ79[!6 = @sid_3,!5 = @sid_4,!4 = @sid_5,am_1 = am,!3 = @sid,!2 = @sid_1,!1 = @sid_2]
+@occ73_1 = @occ73[CK_2 = CKh,!5 = @sid_6,!4 = @sid_7,am_1 = am,!3 = @sid,!2 = @sid_1,!1 = @sid_2]
+
+Derivation:
+Abbreviations:
+Session_Id = Session_Id_2[am_1 = am,!3 = @sid,!2 = @sid_1,!1 = @sid_2]
+CKh = CKh_2[!6 = @sid_3,!5 = @sid_4,!4 = @sid_5,am_1 = am,!3 = @sid,!2 = @sid_1,!1 = @sid_2]
+@occ79_1 = @occ79[!6 = @sid_3,!5 = @sid_4,!4 = @sid_5,am_1 = am,!3 = @sid,!2 = @sid_1,!1 = @sid_2]
+@occ73_1 = @occ73[CK_2 = CKh,!5 = @sid_6,!4 = @sid_7,am_1 = am,!3 = @sid,!2 = @sid_1,!1 = @sid_2]
+StateChannel_2 = StateChannel_1[am_1 = am,!3 = @sid,!2 = @sid_1,!1 = @sid_2]
+
+1. We assume as hypothesis that
+attacker(am).
+
+2. The message am that the attacker may have by 1 may be received at input {62}.
+So the message CKh may be sent on channel StateChannel_2 at output {77}.
+mess(StateChannel_2,CKh).
+
+3. The message am that the attacker may have by 1 may be received at input {62}.
+The message CKh that may be sent on channel StateChannel_2 by 2 may be received at input {70}.
+So event eCompromise(Session_Id,hash2(CKh,s1[])) may be executed at {73} in session @sid_6.
+end(@occ73_1,eCompromise(Session_Id,hash2(CKh,s1[]))).
+
+4. The message am that the attacker may have by 1 may be received at input {62}.
+So event eHeal(Session_Id,hash2(CKh,s1[])) may be executed at {79} in session @sid_3.
+end(@occ79_1,eHeal(Session_Id,hash2(CKh,s1[]))).
+
+5. The message am that the attacker may have by 1 may be received at input {62}.
+The message CKh that may be sent on channel StateChannel_2 by 2 may be received at input {70}.
+So the message hash2(CKh,s1[]) may be sent to the attacker at output {72}.
+attacker(hash2(CKh,s1[])).
+
+6. The attacker has some term a.
+attacker(a).
+
+7. The message am that the attacker may have by 1 may be received at input {62}.
+The message CKh that may be sent on channel StateChannel_2 by 2 may be received at input {81}.
+The message a that the attacker may have by 6 may be received at input {83}.
+So event eSend(Session_Id,hash2(CKh,s1[])) may be executed at {86}.
+end(eSend(Session_Id,hash2(CKh,s1[]))).
+
+8. By 7, end(eSend(Session_Id,hash2(CKh,s1[]))).
+By 5, attacker(hash2(CKh,s1[])).
+By 4, end(@occ79_1,eHeal(Session_Id,hash2(CKh,s1[]))).
+By 3, end(@occ73_1,eCompromise(Session_Id,hash2(CKh,s1[]))).
+The goals are reached, combined in the following fact:
+end(eSend(Session_Id,hash2(CKh,s1[]))) && attacker(hash2(CKh,s1[])) && end(@occ79_1,eHeal(Session_Id,hash2(CKh,s1[]))) && end(@occ73_1,eCompromise(Session_Id,hash2(CKh,s1[]))).
+
+
+Could not find a trace corresponding to this derivation.
+goal reachable: end(eSend(Session_Id,hash2(CKh,s1[]))) && attacker(hash2(CKh,s1[])) && end(@occ20_1,eHeal(Session_Id,hash2(CKh,s1[]))) && end(@occ14_1,eCompromise(Session_Id,hash2(CKh,s1[])))
+Abbreviations:
+Session_Id = Session_Id_1[!2 = @sid,!1 = @sid_1]
+CKh = CKh_1[!5 = @sid_2,!4 = @sid_3,!3 = @sid_4,!2 = @sid,!1 = @sid_1]
+@occ20_1 = @occ20[!5 = @sid_2,!4 = @sid_3,!3 = @sid_4,!2 = @sid,!1 = @sid_1]
+@occ14_1 = @occ14[CK_1 = CKh,!4 = @sid_5,!3 = @sid_6,!2 = @sid,!1 = @sid_1]
+
+Derivation:
+Abbreviations:
+Session_Id = Session_Id_1[!2 = @sid,!1 = @sid_1]
+CKh = CKh_1[!5 = @sid_2,!4 = @sid_3,!3 = @sid_4,!2 = @sid,!1 = @sid_1]
+@occ20_1 = @occ20[!5 = @sid_2,!4 = @sid_3,!3 = @sid_4,!2 = @sid,!1 = @sid_1]
+@occ14_1 = @occ14[CK_1 = CKh,!4 = @sid_5,!3 = @sid_6,!2 = @sid,!1 = @sid_1]
+StateChannel_2 = StateChannel[!2 = @sid,!1 = @sid_1]
+
+1. The message CKh may be sent on channel StateChannel_2 at output {18}.
+mess(StateChannel_2,CKh).
+
+2. The message CKh that may be sent on channel StateChannel_2 by 1 may be received at input {11}.
+So event eCompromise(Session_Id,hash2(CKh,s1[])) may be executed at {14} in session @sid_5.
+end(@occ14_1,eCompromise(Session_Id,hash2(CKh,s1[]))).
+
+3. Event eHeal(Session_Id,hash2(CKh,s1[])) may be executed at {20} in session @sid_2.
+end(@occ20_1,eHeal(Session_Id,hash2(CKh,s1[]))).
+
+4. The message CKh that may be sent on channel StateChannel_2 by 1 may be received at input {11}.
+So the message hash2(CKh,s1[]) may be sent to the attacker at output {13}.
+attacker(hash2(CKh,s1[])).
+
+5. The attacker has some term a.
+attacker(a).
+
+6. The message CKh that may be sent on channel StateChannel_2 by 1 may be received at input {22}.
+The message a that the attacker may have by 5 may be received at input {24}.
+So event eSend(Session_Id,hash2(CKh,s1[])) may be executed at {27}.
+end(eSend(Session_Id,hash2(CKh,s1[]))).
+
+7. By 6, end(eSend(Session_Id,hash2(CKh,s1[]))).
+By 4, attacker(hash2(CKh,s1[])).
+By 3, end(@occ20_1,eHeal(Session_Id,hash2(CKh,s1[]))).
+By 2, end(@occ14_1,eCompromise(Session_Id,hash2(CKh,s1[]))).
+The goals are reached, combined in the following fact:
+end(eSend(Session_Id,hash2(CKh,s1[]))) && attacker(hash2(CKh,s1[])) && end(@occ20_1,eHeal(Session_Id,hash2(CKh,s1[]))) && end(@occ14_1,eCompromise(Session_Id,hash2(CKh,s1[]))).
+
+
+Could not find a trace corresponding to this derivation.
+RESULT event(eSend(sid,MK))@i && attacker(MK)@j && event(eHeal(sid,MK))@l && event(eCompromise(sid,MK))@k ==> i > l && l > k cannot be proved.
+
+--------------------------------------------------------------
+Verification summary:
+
+Query event(eSend(sid,MK))@i && attacker(MK)@j && event(eHeal(sid,MK))@l && event(eCompromise(sid,MK))@k ==> i > l && l > k cannot be proved.
+
+--------------------------------------------------------------
+./proverif whatsapp_crypto_proverif.pv  0.02s user 0.01s system 48% cpu 0.057 total

@@ -25,8 +25,7 @@ val DYpred_ty = mk_type ("DYpred", []);
 
 val (K_tm, mk_K, dest_K, is_K) = syntax_fns1 "K";
 val (Fr_tm,   mk_Fr,   dest_Fr,   is_Fr)   = syntax_fns1 "Fr";
-val (DotEqu_tm, mk_DotEqu, dest_DotEqu, is_DotEqu) = syntax_fns1 "DotEqu";
-val (AliEqu_tm, mk_AliEqu, dest_AliEqu, is_AliEqu) = syntax_fns1 "AliEqu";
+val (Equ_tm, mk_Equ, dest_Equ, is_Equ) = syntax_fns1 "Equ";
 
     
 (* DYnsyc_event *)   

@@ -11,14 +11,10 @@ val Fr_tm : term
 val dest_Fr : term -> term
 val is_Fr : term -> bool
 val mk_Fr : term -> term
-val DotEqu_tm : term
-val dest_DotEqu : term -> term
-val is_DotEqu : term -> bool
-val mk_DotEqu : term -> term
-val AliEqu_tm : term
-val dest_AliEqu : term -> term
-val is_AliEqu : term -> bool
-val mk_AliEqu : term -> term
+val Equ_tm : term
+val dest_Equ : term -> term
+val is_Equ : term -> bool
+val mk_Equ : term -> term
 val DYnsyc_event_ty : hol_type
 val Alias_tm : term
 val dest_Alias : term -> term

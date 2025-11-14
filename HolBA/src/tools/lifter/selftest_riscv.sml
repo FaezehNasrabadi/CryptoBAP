@@ -1,5 +1,9 @@
 open HolKernel Parse
 open testutils
+
+(* FIXME: needed to avoid quse errors *)
+open m0_stepLib;
+
 open bir_inst_liftingLib;
 open PPBackEnd
 open riscv_assemblerLib;
@@ -17,7 +21,7 @@ val _ = Feedback.set_trace "Unicode" (if unicode then 1 else 0)
 (* TODO: Any other way to supply this to the functor? *)
 structure log_name =
 struct
-  val log_name = "riscv_selftest.log";
+  val log_name = "selftest_riscv.log";
 end;
 
 structure test_RISCV = test_bmr(structure MD = bmil_riscv; structure log_name_str = log_name);
@@ -27,6 +31,7 @@ structure test_RISCV = test_bmr(structure MD = bmil_riscv; structure log_name_st
 val mu_b = Arbnum.fromInt 0; (* Memory starts at address 0x0 *)
 val mu_e = Arbnum.fromInt 0x1000000; (* Memory ends at address 0x1000000 *)
 val pc =   Arbnum.fromInt 0x10030; (* Program counter is at address 0x10030 *)
+
 
 (******************************)
 (* Shorthands from test_RISCV *)
@@ -400,7 +405,7 @@ val _ = test_RISCV.close_log();
 
 (* check whether the result is different *)
 val _ =
-  if OS.Process.isSuccess (OS.Process.system ("git diff --exit-code riscv_selftest.log"))
+  if OS.Process.isSuccess (OS.Process.system ("git diff --exit-code selftest_riscv.log"))
   then ()
   else
-    raise ERR "holba/src/tools/lifter/selftest.sml" ("Output in riscv_selftest.log has diverged")
+    raise Fail ("selftest_riscv.sml::Output in selftest_riscv.log has diverged")

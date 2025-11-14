@@ -1,5 +1,0 @@
-The event name is as follows:
-
-InitStart(Init,Resp,Spub_i,Spub_r,Spriv_i)
-InitAccept(Init,Resp,Spub_i,Spub_r,Spriv_i)
-

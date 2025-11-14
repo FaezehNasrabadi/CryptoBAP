@@ -1,0 +1,209 @@
+
+example_bac.o:     file format elf64-littleaarch64
+
+
+Disassembly of section .text:
+
+0000000000000000 <send_nonce>:
+   0:	d10043ff 	sub	sp, sp, #0x10
+   4:	f90007e0 	str	x0, [sp, #8]
+   8:	d503201f 	nop
+   c:	910043ff 	add	sp, sp, #0x10
+  10:	d65f03c0 	ret
+
+0000000000000014 <get_challenge>:
+  14:	d503201f 	nop
+  18:	d65f03c0 	ret
+
+000000000000001c <send_mac>:
+  1c:	d10043ff 	sub	sp, sp, #0x10
+  20:	f90007e0 	str	x0, [sp, #8]
+  24:	f90003e1 	str	x1, [sp]
+  28:	d503201f 	nop
+  2c:	910043ff 	add	sp, sp, #0x10
+  30:	d65f03c0 	ret
+
+0000000000000034 <get_mac>:
+  34:	d503201f 	nop
+  38:	d65f03c0 	ret
+
+000000000000003c <send_cipher>:
+  3c:	d10043ff 	sub	sp, sp, #0x10
+  40:	f90007e0 	str	x0, [sp, #8]
+  44:	d503201f 	nop
+  48:	910043ff 	add	sp, sp, #0x10
+  4c:	d65f03c0 	ret
+
+0000000000000050 <get_cipher>:
+  50:	d503201f 	nop
+  54:	d65f03c0 	ret
+
+0000000000000058 <senc>:
+  58:	d100c3ff 	sub	sp, sp, #0x30
+  5c:	f90017e0 	str	x0, [sp, #40]
+  60:	f90013e1 	str	x1, [sp, #32]
+  64:	f9000fe2 	str	x2, [sp, #24]
+  68:	f9000be3 	str	x3, [sp, #16]
+  6c:	f90007e4 	str	x4, [sp, #8]
+  70:	d503201f 	nop
+  74:	9100c3ff 	add	sp, sp, #0x30
+  78:	d65f03c0 	ret
+
+000000000000007c <sdec>:
+  7c:	d100c3ff 	sub	sp, sp, #0x30
+  80:	f90017e0 	str	x0, [sp, #40]
+  84:	f90013e1 	str	x1, [sp, #32]
+  88:	f9000fe2 	str	x2, [sp, #24]
+  8c:	f9000be3 	str	x3, [sp, #16]
+  90:	f90007e4 	str	x4, [sp, #8]
+  94:	d503201f 	nop
+  98:	9100c3ff 	add	sp, sp, #0x30
+  9c:	d65f03c0 	ret
+
+00000000000000a0 <mac>:
+  a0:	d10043ff 	sub	sp, sp, #0x10
+  a4:	f90007e0 	str	x0, [sp, #8]
+  a8:	f90003e1 	str	x1, [sp]
+  ac:	d503201f 	nop
+  b0:	910043ff 	add	sp, sp, #0x10
+  b4:	d65f03c0 	ret
+
+00000000000000b8 <compare_mac>:
+  b8:	d10043ff 	sub	sp, sp, #0x10
+  bc:	f90007e0 	str	x0, [sp, #8]
+  c0:	f90003e1 	str	x1, [sp]
+  c4:	d503201f 	nop
+  c8:	910043ff 	add	sp, sp, #0x10
+  cc:	d65f03c0 	ret
+
+00000000000000d0 <compare_nonces>:
+  d0:	d10043ff 	sub	sp, sp, #0x10
+  d4:	f90007e0 	str	x0, [sp, #8]
+  d8:	f90003e1 	str	x1, [sp]
+  dc:	d503201f 	nop
+  e0:	910043ff 	add	sp, sp, #0x10
+  e4:	d65f03c0 	ret
+
+00000000000000e8 <get_nonce>:
+  e8:	d503201f 	nop
+  ec:	d65f03c0 	ret
+
+00000000000000f0 <passport>:
+  f0:	d128c3ff 	sub	sp, sp, #0xa30
+  f4:	a9007bfd 	stp	x29, x30, [sp]
+  f8:	910003fd 	mov	x29, sp
+  fc:	f9000fe0 	str	x0, [sp, #24]
+ 100:	f9000be1 	str	x1, [sp, #16]
+ 104:	90000000 	adrp	x0, 0 <__stack_chk_guard>
+ 108:	f9400000 	ldr	x0, [x0]
+ 10c:	f9400001 	ldr	x1, [x0]
+ 110:	f90517e1 	str	x1, [sp, #2600]
+ 114:	d2800001 	mov	x1, #0x0                   	// #0
+ 118:	97ffffbf 	bl	14 <get_challenge>
+ 11c:	12001c00 	and	w0, w0, #0xff
+ 120:	3900a3e0 	strb	w0, [sp, #40]
+ 124:	9100a3e2 	add	x2, sp, #0x28
+ 128:	90000000 	adrp	x0, 0 <send_nonce>
+ 12c:	91000001 	add	x1, x0, #0x0
+ 130:	aa0203e0 	mov	x0, x2
+ 134:	94000000 	bl	0 <strcmp>
+ 138:	7100001f 	cmp	w0, #0x0
+ 13c:	54000741 	b.ne	224 <passport+0x134>  // b.any
+ 140:	97ffffea 	bl	e8 <get_nonce>
+ 144:	12001c00 	and	w0, w0, #0xff
+ 148:	3904a3e0 	strb	w0, [sp, #296]
+ 14c:	9104a3e0 	add	x0, sp, #0x128
+ 150:	97ffffac 	bl	0 <send_nonce>
+ 154:	97ffffbf 	bl	50 <get_cipher>
+ 158:	12001c00 	and	w0, w0, #0xff
+ 15c:	3908a3e0 	strb	w0, [sp, #552]
+ 160:	97ffffb5 	bl	34 <get_mac>
+ 164:	12001c00 	and	w0, w0, #0xff
+ 168:	390ca3e0 	strb	w0, [sp, #808]
+ 16c:	9108a3e0 	add	x0, sp, #0x228
+ 170:	f9400be1 	ldr	x1, [sp, #16]
+ 174:	97ffffcb 	bl	a0 <mac>
+ 178:	12001c00 	and	w0, w0, #0xff
+ 17c:	3910a3e0 	strb	w0, [sp, #1064]
+ 180:	910ca3e1 	add	x1, sp, #0x328
+ 184:	9110a3e0 	add	x0, sp, #0x428
+ 188:	97ffffcc 	bl	b8 <compare_mac>
+ 18c:	7100001f 	cmp	w0, #0x0
+ 190:	54000461 	b.ne	21c <passport+0x12c>  // b.any
+ 194:	911ca3e3 	add	x3, sp, #0x728
+ 198:	9118a3e2 	add	x2, sp, #0x628
+ 19c:	9114a3e1 	add	x1, sp, #0x528
+ 1a0:	9108a3e0 	add	x0, sp, #0x228
+ 1a4:	aa0303e4 	mov	x4, x3
+ 1a8:	aa0203e3 	mov	x3, x2
+ 1ac:	aa0103e2 	mov	x2, x1
+ 1b0:	f9400fe1 	ldr	x1, [sp, #24]
+ 1b4:	97ffffb2 	bl	7c <sdec>
+ 1b8:	7100001f 	cmp	w0, #0x0
+ 1bc:	540002c0 	b.eq	214 <passport+0x124>  // b.none
+ 1c0:	9104a3e1 	add	x1, sp, #0x128
+ 1c4:	9118a3e0 	add	x0, sp, #0x628
+ 1c8:	97ffffc2 	bl	d0 <compare_nonces>
+ 1cc:	7100001f 	cmp	w0, #0x0
+ 1d0:	540001e1 	b.ne	20c <passport+0x11c>  // b.any
+ 1d4:	97ffffc5 	bl	e8 <get_nonce>
+ 1d8:	12001c00 	and	w0, w0, #0xff
+ 1dc:	3920a3e0 	strb	w0, [sp, #2088]
+ 1e0:	9124a3e3 	add	x3, sp, #0x928
+ 1e4:	9120a3e2 	add	x2, sp, #0x828
+ 1e8:	9114a3e1 	add	x1, sp, #0x528
+ 1ec:	9104a3e0 	add	x0, sp, #0x128
+ 1f0:	aa0303e4 	mov	x4, x3
+ 1f4:	f9400fe3 	ldr	x3, [sp, #24]
+ 1f8:	97ffff98 	bl	58 <senc>
+ 1fc:	9124a3e0 	add	x0, sp, #0x928
+ 200:	f9400be1 	ldr	x1, [sp, #16]
+ 204:	97ffff86 	bl	1c <send_mac>
+ 208:	14000007 	b	224 <passport+0x134>
+ 20c:	52800000 	mov	w0, #0x0                   	// #0
+ 210:	14000006 	b	228 <passport+0x138>
+ 214:	52800000 	mov	w0, #0x0                   	// #0
+ 218:	14000004 	b	228 <passport+0x138>
+ 21c:	52800000 	mov	w0, #0x0                   	// #0
+ 220:	14000002 	b	228 <passport+0x138>
+ 224:	14000002 	b	22c <passport+0x13c>
+ 228:	2a0003e1 	mov	w1, w0
+ 22c:	90000000 	adrp	x0, 0 <__stack_chk_guard>
+ 230:	f9400000 	ldr	x0, [x0]
+ 234:	f94517e2 	ldr	x2, [sp, #2600]
+ 238:	f9400003 	ldr	x3, [x0]
+ 23c:	eb030042 	subs	x2, x2, x3
+ 240:	d2800003 	mov	x3, #0x0                   	// #0
+ 244:	54000040 	b.eq	24c <passport+0x15c>  // b.none
+ 248:	94000000 	bl	0 <__stack_chk_fail>
+ 24c:	2a0103e0 	mov	w0, w1
+ 250:	a9407bfd 	ldp	x29, x30, [sp]
+ 254:	9128c3ff 	add	sp, sp, #0xa30
+ 258:	d65f03c0 	ret
+
+000000000000025c <main>:
+ 25c:	d10883ff 	sub	sp, sp, #0x220
+ 260:	a9007bfd 	stp	x29, x30, [sp]
+ 264:	910003fd 	mov	x29, sp
+ 268:	90000000 	adrp	x0, 0 <__stack_chk_guard>
+ 26c:	f9400000 	ldr	x0, [x0]
+ 270:	f9400001 	ldr	x1, [x0]
+ 274:	f9010fe1 	str	x1, [sp, #536]
+ 278:	d2800001 	mov	x1, #0x0                   	// #0
+ 27c:	910463e1 	add	x1, sp, #0x118
+ 280:	910063e0 	add	x0, sp, #0x18
+ 284:	94000000 	bl	f0 <passport>
+ 288:	52800000 	mov	w0, #0x0                   	// #0
+ 28c:	2a0003e1 	mov	w1, w0
+ 290:	90000000 	adrp	x0, 0 <__stack_chk_guard>
+ 294:	f9400000 	ldr	x0, [x0]
+ 298:	f9410fe2 	ldr	x2, [sp, #536]
+ 29c:	f9400003 	ldr	x3, [x0]
+ 2a0:	eb030042 	subs	x2, x2, x3
+ 2a4:	d2800003 	mov	x3, #0x0                   	// #0
+ 2a8:	54000040 	b.eq	2b0 <main+0x54>  // b.none
+ 2ac:	94000000 	bl	0 <__stack_chk_fail>
+ 2b0:	2a0103e0 	mov	w0, w1
+ 2b4:	a9407bfd 	ldp	x29, x30, [sp]
+ 2b8:	910883ff 	add	sp, sp, #0x220
+ 2bc:	d65f03c0 	ret

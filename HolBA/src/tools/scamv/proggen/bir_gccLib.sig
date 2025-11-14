@@ -6,5 +6,7 @@ signature bir_gccLib = sig
      and returns its path in the temporary directory.
    *)
   val bir_gcc_assembe_disassemble : string -> string
+  val bir_gcc_disassemble : string -> string
+  val bir_gcc_remove_data_section : string -> string
 
 end

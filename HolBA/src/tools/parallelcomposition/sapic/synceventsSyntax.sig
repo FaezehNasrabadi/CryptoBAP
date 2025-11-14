@@ -16,11 +16,6 @@ val mk_A2P : term -> term
 val Sync_Fr_tm : term
 val dest_Sync_Fr : term -> term
 val is_Sync_Fr : term -> bool
-val mk_Sync_Fr : term -> term
-val Crypto_tm : term
-val dest_Crypto : term -> term
-val is_Crypto : term -> bool
-val mk_Crypto :  term -> term
-			 
+val mk_Sync_Fr : term -> term			       
 
 end

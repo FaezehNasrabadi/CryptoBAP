@@ -3,7 +3,7 @@ open sumTheory;
 open pred_setTheory;
 open listTheory;
 open parallelcompositionconcreteTheory;
-open pairTheory wordsTheory;
+open pairTheory wordsTheory set_sepTheory;
 open quantHeuristicsTheory;
 
 val _ = new_theory "interleavingconcrete";
@@ -16,6 +16,33 @@ Define`
 Define`
       comptraces (CMTrn:((('cevent1+'ceventS) + ('cevent2 +'ceventS)), 'cstate1#'cstate2) mctrel) ((S1: 'cstate1),(S2: 'cstate2)) ((S1': 'cstate1),(S2': 'cstate2)) = {t| (CMTrn (S1,S2) t (S1',S2'))}
                                                                                                                                                            `;
+
+val TranRelNil = new_axiom ("TranRelNil",
+                            ``∀(MTrn:('cevent, 'cstate) mctrel) s. MTrn s [] s``);
+val TranRelConfigEq = new_axiom ("TranRelConfigEq",
+                            ``∀(MTrn:('cevent, 'cstate) mctrel) s s'. (MTrn s [] s') ⇒ ((s = s'))``);
+val TranRelSnoc = new_axiom ("TranRelSnoc",
+                             ``∀(MTrn:('cevent, 'cstate) mctrel) s s' s'' t e. ((MTrn s t s') ∧ (MTrn s' [e] s'')) ⇒ (MTrn s (e::t) s'')``);
+
+val IMAGEOUT = new_axiom ("IMAGEOUT",
+                          ``∀P P'. ((IMAGE OUTR P = IMAGE OUTR P') ∧ (IMAGE OUTL P = IMAGE OUTL P')) ⇒ (P = P')``);
+
+val TranRelSnocRevAsyncL =
+new_axiom ("TranRelSnocRevAsyncL",
+           ``∀(MTrn1:('cevent1 + 'ceventS, 'cstate1) mctrel) (MTrn2:('cevent2 + 'ceventS, 'cstate2) mctrel) S1 S2 S1' S2' t1 t2 e.
+                                                                        ((MTrn1 S1 (INL e::t1) S1') ∧ (MTrn2 S2 t2 S2')) ⇒ (∃S1''. (MTrn1 S1 t1 S1'') ∧ (MTrn1 S1'' [INL e] S1') ∧ (MTrn2 S2 t2 S2') ∧ (MTrn2 S2' [] S2'))``);                                   
+
+
+val TranRelSnocRevAsyncR =
+new_axiom ("TranRelSnocRevAsyncR",
+           ``∀(MTrn1:('cevent1 + 'ceventS, 'cstate1) mctrel) (MTrn2:('cevent2 + 'ceventS, 'cstate2) mctrel) S1 S2 S1' S2' t1 t2 e.
+                                                                        ((MTrn1 S1 t1 S1') ∧ (MTrn2 S2 (INL e::t2) S2')) ⇒ (∃S2''. (MTrn1 S1 t1 S1') ∧ (MTrn1 S1' [] S1') ∧ (MTrn2 S2 t2 S2'') ∧ (MTrn2 S2'' [INL e] S2'))``);
+
+val TranRelSnocRevSync =
+new_axiom ("TranRelSnocRevSync",
+           ``∀(MTrn1:('cevent1 + 'ceventS, 'cstate1) mctrel) (MTrn2:('cevent2 + 'ceventS, 'cstate2) mctrel) S1 S2 S1' S2' t1 t2 e.
+                                                                        ((MTrn1 S1 (INR e::t1) S1') ∧ (MTrn2 S2 (INR e::t2) S2')) ⇒ (∃S1'' S2''. (MTrn1 S1 t1 S1'') ∧ (MTrn1 S1'' [INR e] S1') ∧ (MTrn2 S2 t2 S2'') ∧ (MTrn2 S2'' [INR e] S2'))``);                                                                        
+
                     
 (* Binary interleaving of traces *)
 Inductive binterl:
@@ -40,10 +67,6 @@ Inductive binterl:
   ((binterl ((INR e)::(t1:('cevent1 + 'ceventS) list)) ((INR e)::(t2:('cevent2 + 'ceventS) list)) (INR (INR e)::t)) ==> (binterl (t1:('cevent1 + 'ceventS) list) (t2:('cevent2 + 'ceventS) list) (t:(('cevent1+'ceventS) + ('cevent2 +'ceventS)) list)))  
 End
 
-Definition binterleave_ts:
-  binterleave_ts (ts1:('cevent1 + 'ceventS) list set) (ts2:('cevent2 + 'ceventS) list set) = {t| ∃t1 t2. (t1 ∈ ts1) ∧ (t2 ∈ ts2) ∧ (binterl t1 t2 t)}
-End
-        
 val binterl_Empty = new_axiom ("binterl_Empty",
                                ``∀t1 t2. binterl t1 t2 [] ⇒ ((t1 = []) ∧(t2 = []))``);
 
@@ -65,37 +88,10 @@ val binterl_moveAR = new_axiom ("binterl_moveAR",
                                      binterl t1 t2 (INR (INL e2)::t) ⇒
                                   (∃t2'. (t2 = (INL e2)::t2'))``);                                  
   
-val TranRelNil = new_axiom ("TranRelNil",
-                            ``∀(MTrn:('cevent, 'cstate) mctrel) s. MTrn s [] s``);
-                            
-val TranRelConfigEq = new_axiom ("TranRelConfigEq",
-                                 ``∀(MTrn:('cevent, 'cstate) mctrel) s s'. (MTrn s [] s') ⇒ ((s = s'))``);
-                                 
-val TranRelSnoc = new_axiom ("TranRelSnoc",
-                             ``∀(MTrn:('cevent, 'cstate) mctrel) s s' s'' t e. ((MTrn s t s') ∧ (MTrn s' [e] s'')) ⇒ (MTrn s (e::t) s'')``);
 
-val TranRelSnocRev = new_axiom ("TranRelSnocRev",
-                             ``∀(MTrn:('cevent, 'cstate) mctrel) s s' s'' t e. (MTrn s (e::t) s'') ⇒ ((MTrn s t s') ∧ (MTrn s' [e] s''))``);                             
-
-val IMAGEOUT = new_axiom ("IMAGEOUT",
-                          ``∀P P'. ((IMAGE OUTR P = IMAGE OUTR P') ∧ (IMAGE OUTL P = IMAGE OUTL P')) ⇒ (P = P')``);
-
-val TranRelSnocRevAsyncL =
-new_axiom ("TranRelSnocRevAsyncL",
-           ``∀(MTrn1:('cevent1 + 'ceventS, 'cstate1) mctrel) (MTrn2:('cevent2 + 'ceventS, 'cstate2) mctrel) S1 S2 S1' S2' t1 t2 e.
-                                                                        ((MTrn1 S1 (INL e::t1) S1') ∧ (MTrn2 S2 t2 S2')) ⇒ (∃S1''. (MTrn1 S1 t1 S1'') ∧ (MTrn1 S1'' [INL e] S1') ∧ (MTrn2 S2 t2 S2') ∧ (MTrn2 S2' [] S2'))``);                                   
-
-
-val TranRelSnocRevAsyncR =
-new_axiom ("TranRelSnocRevAsyncR",
-           ``∀(MTrn1:('cevent1 + 'ceventS, 'cstate1) mctrel) (MTrn2:('cevent2 + 'ceventS, 'cstate2) mctrel) S1 S2 S1' S2' t1 t2 e.
-                                                                        ((MTrn1 S1 t1 S1') ∧ (MTrn2 S2 (INL e::t2) S2')) ⇒ (∃S2''. (MTrn1 S1 t1 S1') ∧ (MTrn1 S1' [] S1') ∧ (MTrn2 S2 t2 S2'') ∧ (MTrn2 S2'' [INL e] S2'))``);
-
-val TranRelSnocRevSync =
-new_axiom ("TranRelSnocRevSync",
-           ``∀(MTrn1:('cevent1 + 'ceventS, 'cstate1) mctrel) (MTrn2:('cevent2 + 'ceventS, 'cstate2) mctrel) S1 S2 S1' S2' t1 t2 e.
-                                                                        ((MTrn1 S1 (INR e::t1) S1') ∧ (MTrn2 S2 (INR e::t2) S2')) ⇒ (∃S1'' S2''. (MTrn1 S1 t1 S1'') ∧ (MTrn1 S1'' [INR e] S1') ∧ (MTrn2 S2 t2 S2'') ∧ (MTrn2 S2'' [INR e] S2'))``);                                                                        
-
+Definition binterleave_ts:
+  binterleave_ts (ts1:('cevent1 + 'ceventS) list set) (ts2:('cevent2 + 'ceventS) list set) = {t| ∃t1 t2. (t1 ∈ ts1) ∧ (t2 ∈ ts2) ∧ (binterl t1 t2 t)}
+End
 
 val binterleave_trace_comp_to_decomp_concrete_thm = store_thm(
   "binterleave_trace_comp_to_decomp_concrete",

@@ -1,0 +1,179 @@
+free att:channel.
+free s1:bitstring.
+free s2:bitstring.
+fun enc(bitstring,bitstring):bitstring.
+fun fst(bitstring):bitstring.
+fun hash2(bitstring,bitstring):bitstring.
+fun hkdf(bitstring,bitstring):bitstring.
+fun pair(bitstring,bitstring):bitstring.
+fun pars1(bitstring):bitstring.
+fun pars2(bitstring):bitstring.
+fun snd(bitstring):bitstring.
+event eCompromise(bitstring,bitstring).
+event eHeal(bitstring,bitstring).
+event eMsg_new_session(bitstring,bitstring,bitstring).
+event eNew_session(bitstring,bitstring).
+event eReceive(bitstring,bitstring).
+event eSend(bitstring,bitstring).
+equation forall x_1:bitstring, x_2:bitstring;   fst((x_1, x_2)) = x_1.
+equation forall x_1:bitstring, x_2:bitstring;   snd((x_1, x_2)) = x_2.
+reduc forall k:bitstring, m:bitstring;   dec(enc(m, k), k) = m.
+
+(*forward_secrecy*)
+query mk:bitstring, sid:bitstring, i:time, j:time,
+      k:time;
+ ((event(eSend(sid, mk))@i) && (attacker(mk)@j)) ==>
+ ((event(eCompromise(sid,mk))@k) && (k < i))
+.
+
+(*attack_pcs*)
+query MK:bitstring, sid:bitstring, i:time, j:time, l:time, k:time;
+   (
+   (event(eSend( sid, MK ))@i) &&
+   (attacker( MK ) @j) &&
+   (event(eHeal( sid, MK ))@ l) &&
+   (event(eCompromise( sid, MK ))@ k) 
+    ) ==> ((l < i) && (k < l)).
+
+
+process
+    new B_1:bitstring;
+    !
+    (!
+     (((new Session_Id_1:bitstring;
+        new StateChannel:channel;
+        new CKn_1:bitstring;
+        out(StateChannel, CKn_1) |
+        
+        event eNew_session( Session_Id_1, B_1 );
+        !
+        (!
+         (((
+            in(StateChannel, CK_1:bitstring);
+            let MK_1:bitstring=hash2(CK_1, s1) in
+            out(att,MK_1);
+            event eCompromise( Session_Id_1, MK_1 ))
+         | (!
+            (((new CKh_1:bitstring;
+               let chain_1:bitstring=CKh_1 in
+               out(StateChannel, chain_1) |
+               
+               let MK_2:bitstring=hash2(chain_1, s1) in
+               event eHeal( Session_Id_1, MK_2 ))
+            | (!
+               (((
+                  in(StateChannel, CKs_1:bitstring);
+                  let MKs_1:bitstring=hash2(CKs_1, s1) in
+                  in(att,a_1:bitstring);
+                  let Enc_1:bitstring=enc(a_1, MKs_1) in
+                      (out(att,Enc_1);
+                       event eSend( Session_Id_1, MKs_1 );
+                       new Pre_Key_1:bitstring;
+                       let RAND_NUM_1:bitstring=Pre_Key_1 in
+                       let CKsNext_1:bitstring=hash2(RAND_NUM_1, s2) in
+                       out(StateChannel, CKsNext_1) |
+                       0)
+                  |(let CKsNext_2:bitstring=hash2(CKs_1, s2) in
+                    out(StateChannel, CKsNext_2) |
+                    0))
+               | (!
+                  ((
+                    in(StateChannel, CKe_1:bitstring);
+                    let MKe_1:bitstring=hash2(CKe_1, s1) in
+                    in(att,a_2:bitstring);
+                    let Dec_1:bitstring=dec(a_2, MKe_1) in
+                    event eReceive( Session_Id_1, MKe_1 );
+                    let CKeNext_1:bitstring=hash2(CKe_1, s2) in
+                    out(StateChannel, CKeNext_1) |
+                    0)
+               |(new Root_sy_1:bitstring;
+                 new Ephemeral_sy_1:bitstring;
+                 let CKe_2:bitstring=pars1(hkdf(Root_sy_1, Ephemeral_sy_1)) in
+                 let RKe_1:bitstring=pars2(hkdf(Root_sy_1, Ephemeral_sy_1)) in
+                     (let MKe_2:bitstring=hash2(CKe_2, s1) in
+                      in(att,a_3:bitstring);
+                      let Dec_2:bitstring=dec(a_3, MKe_2) in
+                      event eReceive( Session_Id_1, MKe_2 );
+                      let CKeNext_2:bitstring=hash2(CKe_2, s2) in
+                      out(StateChannel, CKeNext_2) |
+                      0)
+                 |(new ephemeral_secret_1:bitstring;
+                   let CKeNew_1:bitstring=pars1(hkdf(RKe_1, ephemeral_secret_1)) in
+                   let RKeNew_1:bitstring=pars2(hkdf(RKe_1, ephemeral_secret_1)) in
+                   let MKe_3:bitstring=hash2(CKeNew_1, s1) in
+                   in(att,a_4:bitstring);
+                   let Dec_3:bitstring=dec(a_4, MKe_3) in
+                   event eReceive( Session_Id_1, MKe_3 );
+                   let CKeNext_3:bitstring=hash2(CKeNew_1, s2) in
+                   out(StateChannel, CKeNext_3) |
+                   0))))))))))))))
+     | (!
+        (in(att,am_1:bitstring);
+         new Session_Id_2:bitstring;
+         new StateChannel_1:channel;
+         new CKm_1:bitstring;
+         out(StateChannel_1, CKm_1) |
+         
+         event eMsg_new_session( am_1, Session_Id_2, B_1 );
+         !
+         (!
+          (((
+             in(StateChannel_1, CK_2:bitstring);
+             let MK_3:bitstring=hash2(CK_2, s1) in
+             out(att,MK_3);
+             event eCompromise( Session_Id_2, MK_3 ))
+          | (!
+             (((new CKh_2:bitstring;
+                let chain_2:bitstring=CKh_2 in
+                out(StateChannel_1, chain_2) |
+                
+                let MK_4:bitstring=hash2(chain_2, s1) in
+                event eHeal( Session_Id_2, MK_4 ))
+             | (!
+                (((
+                   in(StateChannel_1, CKs_2:bitstring);
+                   let MKs_2:bitstring=hash2(CKs_2, s1) in
+                   in(att,a_5:bitstring);
+                   let Enc_2:bitstring=enc(a_5, MKs_2) in
+                       (out(att,Enc_2);
+                        event eSend( Session_Id_2, MKs_2 );
+                        new Pre_Key_2:bitstring;
+                        let RAND_NUM_2:bitstring=Pre_Key_2 in
+                        let CKsNext_3:bitstring=hash2(RAND_NUM_2, s2) in
+                        out(StateChannel_1, CKsNext_3) |
+                        0)
+                   |(let CKsNext_4:bitstring=hash2(CKs_2, s2) in
+                     out(StateChannel_1, CKsNext_4) |
+                     0))
+                | (!
+                   ((
+                     in(StateChannel_1, CKe_3:bitstring);
+                     let MKe_4:bitstring=hash2(CKe_3, s1) in
+                     in(att,a_6:bitstring);
+                     let Dec_4:bitstring=dec(a_6, MKe_4) in
+                     event eReceive( Session_Id_2, MKe_4 );
+                     let CKeNext_4:bitstring=hash2(CKe_3, s2) in
+                     out(StateChannel_1, CKeNext_4) |
+                     0)
+                |(new Root_sy_2:bitstring;
+                  new Ephemeral_sy_2:bitstring;
+                  let CKe_4:bitstring=pars1(hkdf(Root_sy_2, Ephemeral_sy_2)) in
+                  let RKe_2:bitstring=pars2(hkdf(Root_sy_2, Ephemeral_sy_2)) in
+                      (let MKe_5:bitstring=hash2(CKe_4, s1) in
+                       in(att,a_7:bitstring);
+                       let Dec_5:bitstring=dec(a_7, MKe_5) in
+                       event eReceive( Session_Id_2, MKe_5 );
+                       let CKeNext_5:bitstring=hash2(CKe_4, s2) in
+                       out(StateChannel_1, CKeNext_5) |
+                       0)
+                  |(new ephemeral_secret_2:bitstring;
+                    let CKeNew_2:bitstring=pars1(hkdf(RKe_2, ephemeral_secret_2)) in
+                    let RKeNew_2:bitstring=pars2(hkdf(RKe_2, ephemeral_secret_2)) in
+                    let MKe_6:bitstring=hash2(CKeNew_2, s1) in
+                    in(att,a_8:bitstring);
+                    let Dec_6:bitstring=dec(a_8, MKe_6) in
+                    event eReceive( Session_Id_2, MKe_6 );
+                    let CKeNext_6:bitstring=hash2(CKeNew_2, s2) in
+                    out(StateChannel_1, CKeNext_6) |
+                    0))))))))))))))))))
+

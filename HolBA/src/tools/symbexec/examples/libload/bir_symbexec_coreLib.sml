@@ -23,11 +23,11 @@ local
 
   fun subst_fun env vals (bev, (e, vars)) =
     let
-      val bv_ofvals = find_bv_val "subst_fun" env bev;
+      val bv_ofvals = (find_bv_val "subst_fun" env bev) handle _ => bev;
 
       val (exp, vars') =
         let
-          val symbv = find_bv_val "subst_fun" vals bv_ofvals;
+          val symbv = (find_bv_val "subst_fun" vals bv_ofvals) handle _ => (SymbValBE (bv_ofvals,symbvalbe_dep_empty));
           val expo = case symbv of
                        SymbValBE (x, _) => SOME x
                      | _ => NONE;
@@ -105,7 +105,7 @@ local
       val _ = if not debugAssignments then () else
               (print "- replace minus :"; print_term imm_val);
 
- 
+      (* TODO: use smt solver to prove equality under path predicate *)
     in
       replacewith_tm
     end
@@ -122,7 +122,7 @@ local
       val _ = if not debugAssignments then () else
               (print "- replace plus :"; print_term imm_val);
 
-
+      (* TODO: use smt solver to prove equality under path predicate *)
     in
       replacewith_tm
     end
@@ -136,7 +136,7 @@ local
       val _ = if not debugAssignments then () else
               (print "- replace r7 :");
 
-
+      (* TODO: use smt solver to prove equality under path predicate *)
     in
       replacewith_tm
     end
@@ -144,6 +144,7 @@ local
 
 in (* local *)
 
+  (* TODO: think if it makes sense to have this function available outside or if we want another interface for this part *)
   val compute_val_and_resolve_deps = compute_val_and_resolve_deps;
 
   fun compute_valbe be syst =
@@ -153,6 +154,7 @@ in (* local *)
       val preds = SYST_get_pred syst;
 
       val be_   = simplify_be be syst;
+      (* TODO: we may be left with an expression that fetches a single variable from the environment *)
 
       val be_vars = get_birexp_vars be_;
       val besubst_with_vars = List.foldr (subst_fun env vals) (be_, []) be_vars;
@@ -326,10 +328,14 @@ fun abstract_exp_in_loop exp =
       val _ = if is_bvar_init bv_sp_val then () else
               raise ERR "state_make_mem" "can only make memory values from initial variables currently";
 
+      (* TODO: should/need we somehow add that bv_val is equal to the introduced memory abstraction? *)
+      (* val exp   = bir_expSyntax.mk_BExp_Den bv_val; *)
 
       (* constant memory (8-bit words) *)
       val mem_const = mem_const_fun;
 
+      (* global memory *)
+      (* TODO: add initial global memory, and a function to remove mappings (abstract again) *)
       val mem_globl = Redblackmap.mkDict Arbnum.compare;
 
       (* stack memory *)

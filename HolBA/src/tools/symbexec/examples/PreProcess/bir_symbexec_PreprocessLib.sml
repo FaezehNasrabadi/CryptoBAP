@@ -62,10 +62,8 @@ fun fun_address_dict (n:cfg_node) =
     end;
     
 (* Find address of nodes with branch*)     
-fun fun_addresses_dict bl_dict prog_lbl_tms =
-    let
-	val n_dict = bir_cfgLib.cfg_build_node_dict bl_dict prog_lbl_tms;
-	    
+fun fun_addresses_dict n_dict =
+    let   
 	val func_table = Redblackmap.mkDict Term.compare : (term, string) Redblackmap.dict;
 
 	val fun_adr = (List.map (fn x => (fun_address_dict x)) (List.map snd (Redblackmap.listItems n_dict)));
@@ -78,3 +76,4 @@ fun fun_addresses_dict bl_dict prog_lbl_tms =
 end(*local*)
 
 end (* struct *)
+

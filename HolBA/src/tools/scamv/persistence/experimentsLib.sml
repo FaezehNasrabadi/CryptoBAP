@@ -11,6 +11,15 @@ local
   val wrap_exn = Feedback.wrap_exn libname
 in
 
+  (* TODO: put this in a more general HolBA place... *)
+      fun term_to_string_wtypes t =
+        let
+          val trace_val = Feedback.get_tracefn "types" ();
+          val _ = Feedback.set_trace "types" 1;
+          val s = term_to_string t;
+          val _ = Feedback.set_trace "types" trace_val;
+        in s end;
+
   (* machine states *)
   (* ======================================== *)
   (* machine state definition from the signature *)
@@ -43,17 +52,25 @@ in
               raise ERR "gen_json_state" "word size has to be one byte";
 
       fun rkv_to_json (k,v) =
+        let val value = "0x" ^ (Arbnumcore.toHexString v); in
+        if k = "SP_EL0" then ("sp", STRING value) else
         let
-          (* TODO: Stack pointer needs to be handled *)
-          (* TODO: maybe want to check that we indeed get R0-R29 or whatever *) 
+        (* for ARMv8, we can handle R0-R30 & SP_EL0 *)
           val _ = if String.isPrefix "R" k then () else
-                    raise ERR "gen_json_state" "input not as exptected";
+                    raise ERR "rkv_to_json" "input not as exptected, not a general purpose register";
 
-          val regname = "x" ^ (String.extract(k, 1, NONE));
-          val value   = "0x" ^ (Arbnumcore.toHexString v);
+          val regnum_s = String.extract(k, 1, NONE);
+          val regnum = case Int.fromString regnum_s of
+                          SOME x => x
+                        | _ => raise ERR "rkv_to_json" "can't parse register number";
+
+          val _ = if 0 <= regnum andalso regnum <= 30 then () else
+                  raise ERR "rkv_to_json" "invalid register number";
+
+          val regname = "x" ^ regnum_s;
         in
           (regname, STRING value)
-        end;
+        end end;
 
       fun mentry_to_json (k,v) =
         let
@@ -104,18 +121,25 @@ in
           val v_s =
             case v of
                STRING s => s
-             | _        => raise ERR "Json_to_machstate" "format error, register value is not STRING";
-          val _ = if List.hd (String.explode k_s) = #"x" then () else
-                  raise ERR "Json_to_machstate" "format error, expect register name";
-          val regnum_s = (String.implode o List.tl o String.explode) k_s;
-          val regnum = case Int.fromString regnum_s of
-                          SOME x => x
-                        | _ => raise ERR "Json_to_machstate" "format error, cannot parse register number";
-
+             | _        => raise ERR "Json_to_machstate::parseReg" "format error, register value is not STRING";
           val value    = Arbnum.fromHexString v_s;
-          val regname  = "R" ^ (Int.toString regnum);
         in
-          (regname, value)
+          if k_s = "sp" then ("SP_EL0", value) else
+          let
+            val _ = if List.hd (String.explode k_s) = #"x" then () else
+                    raise ERR "Json_to_machstate::parseReg" "format error, expect register name";
+            val regnum_s = (String.implode o List.tl o String.explode) k_s;
+            val regnum = case Int.fromString regnum_s of
+                            SOME x => x
+                          | _ => raise ERR "Json_to_machstate::parseReg" "format error, cannot parse register number";
+
+            val _ = if 0 <= regnum andalso regnum <= 30 then () else
+                    raise ERR "Json_to_machstate::parseReg" "invalid register number";
+
+            val regname  = "R" ^ (Int.toString regnum);
+          in
+            (regname, value)
+          end
         end;
 
       fun parseMemVal v =
@@ -270,11 +294,24 @@ in
   (* embexp platform parameters *)
   (* ======================================== *)
   val embexp_params_code   = Arbnum.fromHexString    "0x2000";
-  val embexp_params_memory = (Arbnum.fromHexString "0x100000",
+  val embexp_params_memory = (Arbnum.fromHexString "0x200000",
                                   Arbnum.fromHexString  "0x40000");
+  val stack_pointer_portion = Arbnum.fromHexString "0x10000";
 
   fun embexp_params_cacheable x = Arbnum.+ (Arbnum.fromInt 0x80000000, x);
 
+  fun embexp_params_checkmemrange (MACHSTATE (_, (_, _, m))) =
+    let
+      val addrs = List.map fst (Redblackmap.listItems m);
+      val addr_min = embexp_params_cacheable (fst embexp_params_memory);
+      val addr_max = Arbnum.+ (addr_min, snd embexp_params_memory);
+
+      fun addr_in_range a =
+        Arbnum.<= (addr_min, a) andalso
+        Arbnum.<  (a, addr_max);
+    in
+      List.all addr_in_range addrs
+    end;
 
 end (* local *)
 end (* struct *)

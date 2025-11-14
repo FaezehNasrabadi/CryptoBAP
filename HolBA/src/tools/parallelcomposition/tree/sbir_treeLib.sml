@@ -55,11 +55,11 @@ fun prtion (lst: term list list) = case lst of
 				     | ([[]]: term list list) => ([], [])
 				     | ((h::_): term list list) => 
 				       let
-					   val head_val = ((hd h):term) 
+					   val head_val = ((hd h):term)  (* Get the head of the first non-empty sublist *)
 				       in
+					   (* Partition all sublists based on whether their head matches head_val *)
 					   List.partition (fn (ls: term list) => (identical (hd ls) head_val)) lst
-				       end
-				       
+				       end		   
 (* Main function to convert predicate lists to tree *)
 fun predlist_to_tree ([[]]: term list list) = Leaf
   | predlist_to_tree ([]: term list list) = Leaf
@@ -67,35 +67,42 @@ fun predlist_to_tree ([[]]: term list list) = Leaf
     if all_empty lsts then Leaf
     else
 	let
-           
+            (* Partition the lists into empty and non-empty *)
             val (empty, notempty) = List.partition null lsts
 
-	    val (head_eq, head_noteq) = prtion notempty;
+            (* Partition the non-empty lists by the head element *)
+            val (head_eq, head_noteq) = prtion notempty;
 	in    
 	    if null head_noteq then
 		Node (hd (hd head_eq), predlist_to_tree (List.map tl head_eq))
 	    else
-		
+		 (* Create a Branch using the equal head before head_eq and head_noteq split *)
 		    Branch (
-		    
+		    (* The head we branch on is the common head of head_eq and head_noteq *)
 		    hd (hd head_noteq),
-		  
+		    (* Left subtree for paths that match the head *)
 		    (predlist_to_tree (List.map (fn ls => (tl ls)) head_noteq))handle _ => raise ERR "predlist_to_tree" ("cannot do it "^(String.concat(List.map (fn ls => ("|n"^((int_to_string o List.length) ls))) head_eq))),
-		  
+		    (* Right subtree for paths that have a different head *)
 		    (predlist_to_tree (List.map (fn ls => (tl ls)) head_eq))handle _ => raise ERR "predlist_to_tree" ("cannot do it "^(String.concat(List.map (fn ls => ("|n"^((int_to_string o List.length) ls))) head_noteq)))
 		    )
 	end 
 
 	 
-
-
+(*
+tl [2]
+val P1 = [“"T"”, “"f4"”, “"f5"”];
+val P2 = [“"F"”, “"f7"”, “"f8"”];
+val P3 = [“"F"”, “"f7"”, “"f9"”];
+val lsts= [P1,P2,P3]	 
+	  
+*)	
 (*Find bir expression*)
 fun find_be_val vals_list bv =
     let
 	val find_val = List.find (fn (a,_) => Term.term_eq a bv) vals_list;
 	val (bv_str, _) = bir_envSyntax.dest_BVar_string bv;
 	val fr = get_bvar_fresh (bir_envSyntax.mk_BVar_string (bv_str, “BType_Bool”)); 
-	val symbv = ((snd o Option.valOf) find_val) handle _ => SymbValBE (fr, Redblackset.empty Term.compare) ;
+	val symbv = ((snd o Option.valOf) find_val);
 	val exp =
 	    case symbv of
 		SymbValBE (x, _) => x
@@ -112,7 +119,7 @@ datatype 'a valtree = VLeaf | VNode of ('a * 'a) * 'a valtree | VBranch of ('a *
 fun tree_with_value tr sort_vals =
     case tr of
 	Leaf => VLeaf
-      | Node (bv, subtr) => VNode ((bv,(find_be_val sort_vals bv)), (tree_with_value subtr sort_vals))
+      | Node (bv, subtr) => ((VNode ((bv,(find_be_val sort_vals bv)), (tree_with_value subtr sort_vals))) handle _ => (tree_with_value subtr sort_vals))
       | Branch (bv, subtr1, subtr2) => VBranch ((bv,(find_be_val sort_vals bv)), (tree_with_value subtr1 sort_vals), (tree_with_value subtr2 sort_vals))
 
 
@@ -176,15 +183,12 @@ fun purge_tree tr =
 	    then (purge_tree subtr)
 	    else VNode ((bv,be), (purge_tree subtr))
 	else VNode ((bv,be), (purge_tree subtr))
-      | VBranch ((bv,be), subtr1, subtr2) =>
-	if (identical be “BExp_Const (Imm1 1w)”)
-	then (purge_tree subtr1)
-	else if (identical be “BExp_Const (Imm1 0w)”)
-	then (purge_tree subtr2)
-	else VBranch ((bv,be), (purge_tree subtr1), (purge_tree subtr2))
+      | VBranch ((bv,be), subtr1, subtr2) => VBranch ((bv,be), (purge_tree subtr1), (purge_tree subtr2))
 	     
 
 
+
+					     
 end (* local *)
 
 end (* struct *)

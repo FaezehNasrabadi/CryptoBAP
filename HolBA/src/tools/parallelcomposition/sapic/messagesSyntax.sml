@@ -53,7 +53,6 @@ val Constructability_t_ty = mk_type ("Constructability_t", []);
 val (Constructor_tm,  is_Constructor)  = syntax_fns0 "Constructor";
 val (Destructor_tm,   is_Destructor)   = syntax_fns0 "Destructor";
 
- 
 (***************)
 (* SapicTerm_t *)
 (***************)

@@ -209,16 +209,22 @@ struct
      holba_run_id_create descr_o;
      ());
 
+  fun timer_stop_gen f NONE = raise ERR "timer_stop_gen" "this should not happen"
+    | timer_stop_gen f (SOME tm) = let
+       val d_time = Time.- (Time.now(), tm);
+       in f ((Time.toString d_time) ^ "s") end;
+  fun time_since_run_str () = timer_stop_gen (fn x => x) (!holba_run_timer_ref);
+
   (* storing to logs *)
   (* ========================================================================================= *)
-  fun run_create_prog arch prog run_metadata =
+  fun run_create_prog arch prog binfilename run_metadata =
     let
       val arch_id = exp_arch_to_string arch;
 
       val RunReferences (_, run_name, prog_l_id, _) = holba_run_id();
 
-      val asm_code = prog_to_asm_code prog;
-      val prog_v   = LogsProg (arch_id, asm_code);
+      val binary_str = bir_exec_wrapLib.get_exec_output ("python3 " ^ (embexp_logs_dir() ^ "/scripts/read_file_as_base64.py") ^ " " ^ binfilename);
+      val prog_v   = LogsProg (arch_id, binary_str);
       val prog_id  = create_prog prog_v;
 
       val meta_name_log = "gen." ^ run_name;
@@ -243,14 +249,16 @@ struct
       prog_id
     end;
 
-  fun run_create_exp prog_id exp_type exp_params state_list run_metadata =
+  fun run_create_exp prog_id exp_type exp_params state_list entry exits run_metadata =
     let
       val exp_type_s = exp_type_to_string exp_type;
 
       val RunReferences (_, run_name, _, exp_l_id) = holba_run_id();
+      val run_metadata_ = ("creationtime", time_since_run_str ())::run_metadata;
 
       val input_data = Json.OBJECT (List.map (fn (n, s) => ("input_" ^ n, machstate_to_Json s)) state_list);
-      val exp_v      = LogsExp (prog_id, exp_type_s, exp_params, input_data);
+      val exits      = Json.ARRAY (List.map Json.NUMBER exits);
+      val exp_v      = LogsExp (prog_id, exp_type_s, exp_params, input_data, entry, exits);
       val exp_id     = create_exp exp_v;
 
       val meta_name_log = "gen." ^ run_name;
@@ -269,7 +277,7 @@ struct
       (* add metadata *)
       val meta_name = meta_name_log ^ "." ^ (get_dotfree_time ());
       val _ = List.map (fn (m_n, m_v) => 
-        init_meta (mk_exp_meta_handle (exp_id, SOME m_n, meta_name)) (SOME m_v)) run_metadata;
+        init_meta (mk_exp_meta_handle (exp_id, SOME m_n, meta_name)) (SOME m_v)) run_metadata_;
     in
       exp_id
     end;
@@ -279,7 +287,6 @@ struct
   (* ========================================================================================= *)
   fun runlogs_load_progs listname =
     let
-      (*
       val prog_l_ids = query_all_prog_lists ();
       val prog_ls = get_prog_lists prog_l_ids;
 
@@ -289,15 +296,41 @@ struct
                     raise ERR "runlogs_load_progs" ("didn't find exactly one match for prog list " ^ listname);
       val prog_l_id = List.nth (prog_l_ids, i);
 
-      val prog_ids = List.map snd (get_prog_list_entries prog_l_id);
-
-      val progs_i = get_progs prog_ids;
-      *)
-      val progs_i = hack_get_prog_list_by_listname listname;
+      val progs_i = List.map snd (get_prog_list_entries_full prog_l_id);
 
       val progs = List.map (fn (LogsProg (_,code)) => prog_from_asm_code code) progs_i;
     in
       progs
+    end;
+
+  fun get_last_exp_list_name () =
+    let
+      fun get_last_exp_list () =
+        case (query_all_exp_lists ()) of
+          [] => raise ERR "get_last_exp_list" "no list of experiments in the database"
+        | (x::nil) => x
+        | (x::xs) => List.last xs
+
+      val exp_list_id: exp_list_handle = get_last_exp_list ();
+      val exp_list_name = (fn (LogsList (n,d)) => n) ((hd o get_exp_lists) [exp_list_id]);
+    in
+      exp_list_name
+    end;
+
+  fun run_exp_list listname bt =
+    let
+      val cmd_run_exp_list = ((embexp_logs_dir() ^ "/scripts/run_batch.py") ^
+			      " -bt " ^ bt ^ " -ln " ^  listname)
+    in
+      OS.Process.isSuccess (OS.Process.system cmd_run_exp_list)
+    end;
+
+  fun run_single_exp exp_id =
+    let
+      val run_exp = ((embexp_logs_dir() ^ "/scripts/run_experiment.py") ^ " -br scamv_rpi3_progload " ^  exp_id);
+      val output = bir_exec_wrapLib.get_exec_output run_exp;
+    in
+      (output)
     end;
 
 end

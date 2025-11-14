@@ -1,0 +1,92 @@
+let SP_EL0_1=Minus(SP_EL0_sy,'144') in 
+let MEM_6=Store(Store(MEM_sy,R24_sy,Plus(SP_EL0_1,'80')),R23_sy,Plus(SP_EL0_1,'88')) in 
+let MEM_11=Store(Store(MEM_6,R22_sy,Plus(SP_EL0_1,'96')),R21_sy,Plus(SP_EL0_1,'104')) in 
+let MEM_16=Store(Store(MEM_11,R20_sy,Plus(SP_EL0_1,'112')),R19_sy,Plus(SP_EL0_1,'120')) in 
+let MEM_21=Store(Store(MEM_16,R29_sy,Plus(SP_EL0_1,'128')),R30_sy,Plus(SP_EL0_1,'136')) in 
+let R29_22=Minus(SP_EL0_sy,'16') in 
+let R8_24='28270592' in 
+let R8_27=Load(MEM_21,'28273592') in 
+let R8_30=Load(MEM_21,R8_27) in 
+let MEM_35=Store(MEM_21,R8_30,Minus(R29_22,'56')) in 
+let MEM_41=Store(Store(MEM_35,'0',Plus(SP_EL0_1,'32')),'0',Plus(SP_EL0_1,'40')) in 
+let MEM_46=Store(MEM_41,'0',Plus(SP_EL0_1,'24')) in 
+let R0_53=Minus(SP_EL0_sy,'104') in 
+in(att,a_57);
+let SP_EL0_258=Minus(SP_EL0_sy,'240') in 
+let MEM_263=Store(Store(MEM_46,R0_sy,Plus(SP_EL0_258,'32')),R0_53,Plus(SP_EL0_258,'40')) in 
+let MEM_268=Store(Store(MEM_263,R0_sy,Plus(SP_EL0_258,'48')),R0_53,Plus(SP_EL0_258,'56')) in 
+let MEM_273=Store(Store(MEM_268,R0_sy,Plus(SP_EL0_258,'64')),R4_sy,Plus(SP_EL0_258,'72')) in 
+let MEM_278=Store(Store(MEM_273,R29_22,Plus(SP_EL0_258,'80')),'19298976',Plus(SP_EL0_258,'88')) in 
+let R29_279=Minus(SP_EL0_sy,'160') in 
+let R8_281='28270592' in 
+let R8_284=Load(MEM_278,'28273592') in 
+let R8_287=Load(MEM_278,R8_284) in 
+let MEM_293=Store(MEM_278,R8_287,Plus(SP_EL0_258,'24')) in 
+let MEM_298=Store(Store(MEM_293,'0',Plus(SP_EL0_258,'8')),'0',Plus(SP_EL0_258,'16')) in 
+let MEM_303=Store(MEM_298,'0',Plus(SP_EL0_258,'4')) in 
+let R9_307=Load(MEM_303,Plus(R0_53,'24')) in 
+let R8_310=Load(MEM_303,Plus(R9_307,'96')) in 
+if R8_310='0' then 
+let ProcState_Z_319=Equal(LowCast(R8_315,'32'),'1') in 
+if LowCast(R8_315,'32')='1' then 
+let R22_322='0' in 
+let R21_323='4294967274' in 
+let R0_325='0' in 
+let R0_330=Load(MEM_303,Plus(SP_EL0_258,'16')) in 
+let R16_334='28274688' in 
+let R16_337=Load(MEM_303,'28274752') in 
+let R9_341=Load(MEM_303,Plus(R0_53,'24')) in 
+let R8_344=Load(MEM_303,Plus(R9_341,'104')) in 
+if R8_344='0' then 
+let R8_349=Load(MEM_303,Plus(SP_EL0_258,'24')) in 
+let R9_350='28270592' in 
+let R9_353=Load(MEM_303,'28273592') in 
+let R9_356=Load(MEM_303,R9_353) in 
+let ProcState_Z_360=Equal(R9_356,R8_349) in 
+if R9_356=R8_349 then 
+0
+else let R0_372=Load(MEM_303,Plus(R9_341,'120')) in 
+let R8_375=Load(MEM_303,Plus(SP_EL0_258,'24')) in 
+let R9_376='28270592' in 
+let R9_379=Load(MEM_303,'28273592') in 
+let R9_382=Load(MEM_303,R9_379) in 
+let ProcState_Z_386=Equal(R9_382,R8_375) in 
+if R9_382=R8_375 then 
+0
+else let R0_735=Load(MEM_303,R0_53) in 
+let R2_736=Load(MEM_303,Plus(R0_53,'8')) in 
+let R1_737=Minus(SP_EL0_sy,'232') in 
+in(X3DH,MASTER_KEY_739);
+event Msg_new_session(a_57,MASTER_KEY_739,P)
+else let R0_1155=Load(MEM_303,Plus(R9_307,'120')) in 
+let ProcState_Z_1162=Equal(LowCast(R8_1158,'32'),'1') in 
+if LowCast(R8_1158,'32')='1' then 
+let R22_1165='0' in 
+let R21_1166='4294967274' in 
+let R0_1168='0' in 
+let R0_1173=Load(MEM_303,Plus(SP_EL0_258,'16')) in 
+let R16_1177='28274688' in 
+let R16_1180=Load(MEM_303,'28274752') in 
+let R9_1184=Load(MEM_303,Plus(R0_53,'24')) in 
+let R8_1187=Load(MEM_303,Plus(R9_1184,'104')) in 
+if R8_1187='0' then 
+let R8_1192=Load(MEM_303,Plus(SP_EL0_258,'24')) in 
+let R9_1193='28270592' in 
+let R9_1196=Load(MEM_303,'28273592') in 
+let R9_1199=Load(MEM_303,R9_1196) in 
+let ProcState_Z_1203=Equal(R9_1199,R8_1192) in 
+if R9_1199=R8_1192 then 
+0
+else let R0_1215=Load(MEM_303,Plus(R9_1184,'120')) in 
+let R8_1218=Load(MEM_303,Plus(SP_EL0_258,'24')) in 
+let R9_1219='28270592' in 
+let R9_1222=Load(MEM_303,'28273592') in 
+let R9_1225=Load(MEM_303,R9_1222) in 
+let ProcState_Z_1229=Equal(R9_1225,R8_1218) in 
+if R9_1225=R8_1218 then 
+0
+else let R0_1578=Load(MEM_303,R0_53) in 
+let R2_1579=Load(MEM_303,Plus(R0_53,'8')) in 
+let R1_1580=Minus(SP_EL0_sy,'232') in 
+in(X3DH,MASTER_KEY_1582);
+event Msg_new_session(a_57,MASTER_KEY_1582,P)

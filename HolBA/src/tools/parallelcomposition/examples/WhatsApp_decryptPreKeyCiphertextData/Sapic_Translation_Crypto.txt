@@ -1,0 +1,12 @@
+in(att,a_57);
+if R8_310='0' then 
+if LowCast(R8_315,'32')='1' then 
+if R8_344='0' then 
+0
+else in(X3DH,MASTER_KEY_739);
+event Msg_new_session(a_57,MASTER_KEY_739,P)
+else if LowCast(R8_1158,'32')='1' then 
+if R8_1187='0' then 
+0
+else in(X3DH,MASTER_KEY_1582);
+event Msg_new_session(a_57,MASTER_KEY_1582,P)

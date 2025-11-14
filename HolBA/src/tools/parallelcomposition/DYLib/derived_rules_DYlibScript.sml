@@ -21,12 +21,11 @@ val _ = Datatype `pred =
 Equal ('symb term) ('symb term)
       `;
 
-
 val same_function_signature_thm = store_thm(
   "same_function_signature_thm",
-  ``!Sym Sym' P P' S1 S1' S2 S2' (MTrn1:(('event + 'eventS), ('symb pred), 'state, 'symb) mtrel) (Ded1:('symb pred) tded) (MTrn2:(('event + 'eventS), ('symb pred), 'state, 'symb) mtrel) (Ded2:('symb pred) tded).
-     (comptraces (MTrn1,Ded1) (MTrn2,Ded2) (Sym,P,S1,S2) (Sym',P',S1',S2'))                           
-  = (binterleave_ts (traces (MTrn1,Ded1) (Sym,(IMAGE OUTL P),S1) (Sym',(IMAGE OUTL P'),S1')) (traces (MTrn2,Ded2) (Sym,(IMAGE OUTR P),S2) (Sym',(IMAGE OUTR P'),S2')))
+  ``!Sym Sym' P P' S1 S1' S2 S2' (MTrn:(('event + 'eventS), ('symb pred), 'state, 'symb) mtrel) (Ded:('symb pred) tded).
+     (comptraces (MTrn,Ded) (MTrn,Ded) (Sym,P,S1,S2) (Sym',P',S1',S2'))                           
+  = (binterleave_ts (traces (MTrn,Ded) (Sym,(IMAGE OUTL P),S1) (Sym',(IMAGE OUTL P'),S1')) (traces (MTrn,Ded) (Sym,(IMAGE OUTR P),S2) (Sym',(IMAGE OUTR P'),S2')))
     ``,
   rewrite_tac[binterleave_ts,traces_def,comptraces_def,EXTENSION] >>
   rw[] >>
@@ -36,7 +35,7 @@ val same_function_signature_thm = store_thm(
 
 
 (*DY library with distinct function signature *)
-     
+
 (* DY Lib One *)     
 val _ = Datatype `termOne =
 NameOne 'symb
@@ -56,8 +55,6 @@ NameTwo 'symb
 val _ = Datatype `predTwo =
 EqualTwo ('symb termTwo) ('symb termTwo)
          `;
-
-
 
 
 val distinct_function_signatures_thm = store_thm(

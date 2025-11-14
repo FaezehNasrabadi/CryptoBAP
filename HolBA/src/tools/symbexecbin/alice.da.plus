@@ -1,0 +1,33 @@
+
+alice:     file format elf64-littleaarch64
+
+
+Disassembly of section .text:
+
+0000000000000000 <example>:
+   0:	d10043ff 	sub	sp, sp, #0x10
+   4:	f90007e0 	str	x0, [sp, #8]
+   8:	f90003e1 	str	x1, [sp]
+   c:	f94007e1 	ldr	x1, [sp, #8]
+  10:	f94003e0 	ldr	x0, [sp]
+  14:	eb00003f 	cmp	x1, x0
+  18:	54000229 	b.ls	5c <example+0x5c>  // b.plast
+  1c:	f94003e1 	ldr	x1, [sp]
+  20:	aa0103e0 	mov	x0, x1
+  24:	d37ef400 	lsl	x0, x0, #2
+  28:	8b010000 	add	x0, x0, x1
+  2c:	d37ff800 	lsl	x0, x0, #1
+  30:	f90003e0 	str	x0, [sp]
+  34:	f94003e1 	ldr	x1, [sp]
+  38:	aa0103e0 	mov	x0, x1
+  3c:	d37ef400 	lsl	x0, x0, #2
+  40:	8b010000 	add	x0, x0, x1
+  44:	f90003e0 	str	x0, [sp]
+  48:	f94003e1 	ldr	x1, [sp]
+  4c:	f94007e0 	ldr	x0, [sp, #8]
+  50:	9b007c20 	mul	x0, x1, x0
+  54:	f90003e0 	str	x0, [sp]
+  58:	d503201f 	nop
+  5c:	d503201f 	nop
+  60:	910043ff 	add	sp, sp, #0x10
+  64:	d65f03c0 	ret

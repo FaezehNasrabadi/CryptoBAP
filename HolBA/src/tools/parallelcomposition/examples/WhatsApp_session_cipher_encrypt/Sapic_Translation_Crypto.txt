@@ -1,0 +1,165 @@
+if R23_12='0' then 
+0
+else if R24_19='0' then 
+0
+else in(X3DH,CKs_25);
+let MKs_28=hash2(CKs_25,0x01) in 
+if R8_34='0' then 
+0
+else if R27_41='0' then 
+0
+else if LessOrEqual('3',LowCast(R28_56,'32'))='1' then 
+if R26_99='0' then 
+0
+else if R8_105='0' then 
+0
+else new ~msg_139;
+let MSG_138=~msg_139 in 
+let Enc_140=enc(MSG_138,MKs_28) in 
+let R0_143=Enc_140 in 
+out(att,Enc_140);
+event Send(MSG_138,MKs_28);
+if LowCast(R8_150,'32')='1' then 
+if LowCast(R8_167,'32')='0' then 
+if R5_172='0' then 
+0
+else if LowCast(R8_167,'32')='0' then 
+new ~Master_Key_203;
+let MASTER_KEY_202=~Master_Key_203 in 
+out(X3DH,MASTER_KEY_202);
+if R27_189='0' then 
+let CKsNext_217=hash2(MASTER_KEY_202,0x02) in 
+if R8_232='0' then 
+0
+else if LessOrEqual('2',LowCast(R8_250,'32'))='1' then 
+let CKsNext_270=hash2(MASTER_KEY_202,0x02) in 
+if R8_285='0' then 
+0
+else let CKsNext_311=hash2(MASTER_KEY_202,0x02) in 
+if R8_326='0' then 
+0
+else new ~Master_Key_358;
+let MASTER_KEY_357=~Master_Key_358 in 
+out(X3DH,MASTER_KEY_357);
+if R27_344='0' then 
+let CKsNext_372=hash2(MASTER_KEY_357,0x02) in 
+if R8_387='0' then 
+0
+else if LessOrEqual('2',LowCast(R8_405,'32'))='1' then 
+let CKsNext_425=hash2(MASTER_KEY_357,0x02) in 
+if R8_440='0' then 
+0
+else let CKsNext_466=hash2(MASTER_KEY_357,0x02) in 
+if R8_481='0' then 
+0
+else if R5_507='0' then 
+0
+else if LowCast(R8_167,'32')='0' then 
+new ~Master_Key_538;
+let MASTER_KEY_537=~Master_Key_538 in 
+out(X3DH,MASTER_KEY_537);
+if R27_524='0' then 
+let CKsNext_552=hash2(MASTER_KEY_537,0x02) in 
+if R8_567='0' then 
+0
+else if LessOrEqual('2',LowCast(R8_585,'32'))='1' then 
+let CKsNext_605=hash2(MASTER_KEY_537,0x02) in 
+if R8_620='0' then 
+0
+else let CKsNext_646=hash2(MASTER_KEY_537,0x02) in 
+if R8_661='0' then 
+0
+else new ~Master_Key_693;
+let MASTER_KEY_692=~Master_Key_693 in 
+out(X3DH,MASTER_KEY_692);
+if R27_679='0' then 
+let CKsNext_707=hash2(MASTER_KEY_692,0x02) in 
+if R8_722='0' then 
+0
+else if LessOrEqual('2',LowCast(R8_740,'32'))='1' then 
+let CKsNext_760=hash2(MASTER_KEY_692,0x02) in 
+if R8_775='0' then 
+0
+else let CKsNext_801=hash2(MASTER_KEY_692,0x02) in 
+if R8_816='0' then 
+0
+else let CKsNext_834=hash2(CKs_25,0x02) in 
+if R8_849='0' then 
+0
+else if R26_914='0' then 
+0
+else if R8_920='0' then 
+0
+else new ~msg_954;
+let MSG_953=~msg_954 in 
+let Enc_955=enc(MSG_953,MKs_28) in 
+let R0_958=Enc_955 in 
+out(att,Enc_955);
+event Send(MSG_953,MKs_28);
+if LowCast(R8_965,'32')='1' then 
+if LowCast(R8_982,'32')='0' then 
+if R5_987='0' then 
+0
+else if LowCast(R8_982,'32')='0' then 
+new ~Master_Key_1018;
+let MASTER_KEY_1017=~Master_Key_1018 in 
+out(X3DH,MASTER_KEY_1017);
+if R27_1004='0' then 
+let CKsNext_1032=hash2(MASTER_KEY_1017,0x02) in 
+if R8_1047='0' then 
+0
+else if LessOrEqual('2',LowCast(R8_1065,'32'))='1' then 
+let CKsNext_1085=hash2(MASTER_KEY_1017,0x02) in 
+if R8_1100='0' then 
+0
+else let CKsNext_1126=hash2(MASTER_KEY_1017,0x02) in 
+if R8_1141='0' then 
+0
+else new ~Master_Key_1173;
+let MASTER_KEY_1172=~Master_Key_1173 in 
+out(X3DH,MASTER_KEY_1172);
+if R27_1159='0' then 
+let CKsNext_1187=hash2(MASTER_KEY_1172,0x02) in 
+if R8_1202='0' then 
+0
+else if LessOrEqual('2',LowCast(R8_1220,'32'))='1' then 
+let CKsNext_1240=hash2(MASTER_KEY_1172,0x02) in 
+if R8_1255='0' then 
+0
+else let CKsNext_1281=hash2(MASTER_KEY_1172,0x02) in 
+if R8_1296='0' then 
+0
+else if R5_1322='0' then 
+0
+else if LowCast(R8_982,'32')='0' then 
+new ~Master_Key_1353;
+let MASTER_KEY_1352=~Master_Key_1353 in 
+out(X3DH,MASTER_KEY_1352);
+if R27_1339='0' then 
+let CKsNext_1367=hash2(MASTER_KEY_1352,0x02) in 
+if R8_1382='0' then 
+0
+else if LessOrEqual('2',LowCast(R8_1400,'32'))='1' then 
+let CKsNext_1420=hash2(MASTER_KEY_1352,0x02) in 
+if R8_1435='0' then 
+0
+else let CKsNext_1461=hash2(MASTER_KEY_1352,0x02) in 
+if R8_1476='0' then 
+0
+else new ~Master_Key_1508;
+let MASTER_KEY_1507=~Master_Key_1508 in 
+out(X3DH,MASTER_KEY_1507);
+if R27_1494='0' then 
+let CKsNext_1522=hash2(MASTER_KEY_1507,0x02) in 
+if R8_1537='0' then 
+0
+else if LessOrEqual('2',LowCast(R8_1555,'32'))='1' then 
+let CKsNext_1575=hash2(MASTER_KEY_1507,0x02) in 
+if R8_1590='0' then 
+0
+else let CKsNext_1616=hash2(MASTER_KEY_1507,0x02) in 
+if R8_1631='0' then 
+0
+else let CKsNext_1649=hash2(CKs_25,0x02) in 
+if R8_1664='0' then 
+0

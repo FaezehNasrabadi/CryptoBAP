@@ -114,10 +114,7 @@ Notice that this sequence is just an example, and it is possible to selectively 
       ├─ lifter: Transpiler from binary to BIR
       ├─ pass: Passification utility
       ├─ scamv: Abstract side channel model validation framework
-      ├─ wp: Weakest precondition propagation
-      ├─ symbexec: Symbolic Execution for Binary Code Verification
-      ├─ symbexecbin: BIR program generation files
-      └─ parallelcomposition: Symbolic Parallel Composition for Verification of Multi-language Implementations
+      └─ wp: Weakest precondition propagation
 ```
 
 ### Tools status:
