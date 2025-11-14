@@ -1,4 +1,4 @@
-## CryptoBAP: Automated Side-Channel Analysis of Cryptographic Protocols Implementations via Binary Verification
+## CryptoBAP: Automated Side-Channel Analysis of Cryptographic Protocols Implementations
 
 This repository consists of two main components: the first is our framework, which is implemented based on the CryptoBap framework, extending the HolBA framework; the second is a proof-of-concept attack implementation built upon Flush+Flush framework, modified to operate on macOS. We explain each component in detail separately.
 
