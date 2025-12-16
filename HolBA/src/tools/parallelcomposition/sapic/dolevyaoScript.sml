@@ -26,8 +26,6 @@ Inductive eqE:
 (∀(t1:SapicTerm_t) (t2:SapicTerm_t) (t3:SapicTerm_t). ((eqE t1 t2)  /\ (eqE t2 t3) )==> (eqE t1 t3)) 
 End        
     
-val eqE_not = new_axiom ("eqE_not",
-                               ``(∀(t1:SapicTerm_t) (t2:SapicTerm_t). (t1 ≠ t2) ==> (¬(eqE t1 t2)))``);
 
 (* Dolev-Yao deduction relation *)
 val (DYdeduction_rules, DYdeduction_ind, DYdeduction_cases)

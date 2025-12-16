@@ -6,7 +6,7 @@ DEPENDENCIES   =
 
 # configuration
 # ----------------------------------
-HOLHEAP        = ../translateTosapic/HolBATools_TranslateToSapic-heap
+HOLHEAP        = ../generaldeduction/HolBATools_GeneralDeduction-heap
 NEWHOLHEAP     = HolBATools_CombineDeduction-heap
 
 HEAPINC_EXTRA  = 

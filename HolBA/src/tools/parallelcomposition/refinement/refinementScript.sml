@@ -36,9 +36,6 @@ val _ = Theory.new_constant("RevInterpretEvTwoSyn", ``:('cevent2 + 'ceventS) lis
     
 val _ = Theory.new_constant("InterpretEvComp", ``:(('event1+'eventS) + ('event2 +'eventS)) option list -> (('cevent1+'ceventS) + ('cevent2 +'ceventS)) list``);
 
-
-val applyfunStOne = new_axiom ("applyfunStOne",
-                                  ``∀(t:'state1). (RevInterpretStOne:'cstate1 -> 'state1) ((InterpretStOne:'state1 -> 'cstate1) t) = t``);
                                   
 val applyfunEvOneSyn = new_axiom ("applyfunEvOneSyn",
                                   ``∀t (InterpretEvOneSyn:('event1 + 'eventS) option list -> ('cevent1 + 'ceventS) list) (RevInterpretEvOneSyn:('cevent1 + 'ceventS) list -> ('event1 + 'eventS) option list). (InterpretEvOneSyn:('event1 + 'eventS) option list -> ('cevent1 + 'ceventS) list) ((RevInterpretEvOneSyn:('cevent1 + 'ceventS) list -> ('event1 + 'eventS) option list) t) = t``);
@@ -69,10 +66,10 @@ val compose_vs_modules_conc_symb_thm = store_thm(
      (((TransEnable Ded3 (MTrn1,Ded1) (MTrn2,Ded2)) /\
      (subset_one
       (traces ((InterpretRelOne:(( 'event1 + 'eventS, 'pred1, 'state1, 'symb) mtrel # ('pred1) tded) -> ('cevent1 + 'ceventS, 'cstate1) mctrel) (MTrn1,Ded1)) ((InterpretStOne:'state1 -> 'cstate1) S1) ((InterpretStOne:'state1 -> 'cstate1) S1'))
-      (traces (MTrn1,Ded1) (Sym,(IMAGE OUTL P),S1) (Sym',(IMAGE OUTL P'),S1'))) ∧
+      (traces (MTrn1,Ded1) (Sym,(PREIMAGE INL P),S1) (Sym',(PREIMAGE INL P'),S1'))) ∧
      (subset_two
       (traces ((InterpretRelTwo:(( 'event2 + 'eventS, 'pred2, 'state2, 'symb) mtrel # ('pred2) tded) -> ( 'cevent2 + 'ceventS, 'cstate2) mctrel) (MTrn2,Ded2)) ((InterpretStTwo:'state2 -> 'cstate2) S2) ((InterpretStTwo:'state2 -> 'cstate2) S2'))
-      (traces (MTrn2,Ded2) (Sym,(IMAGE OUTR P),S2) (Sym',(IMAGE OUTR P'),S2')))
+      (traces (MTrn2,Ded2) (Sym,(PREIMAGE INR P),S2) (Sym',(PREIMAGE INR P'),S2')))
 ) ==>
 (subset_comp
    (comptraces (composeMuRe ((InterpretRelOne:(( 'event1 + 'eventS, 'pred1, 'state1, 'symb) mtrel # ('pred1) tded) -> ('cevent1 + 'ceventS, 'cstate1) mctrel) (MTrn1,Ded1)) ((InterpretRelTwo:(( 'event2 + 'eventS, 'pred2, 'state2, 'symb) mtrel # ('pred2) tded) -> ( 'cevent2 + 'ceventS, 'cstate2) mctrel) (MTrn2,Ded2))) (((InterpretStOne:'state1 -> 'cstate1) S1),((InterpretStTwo:'state2 -> 'cstate2) S2)) (((InterpretStOne:'state1 -> 'cstate1) S1'),((InterpretStTwo:'state2 -> 'cstate2) S2')))

@@ -73,10 +73,10 @@ val compose_bir_attacker_vs_sbir_DY_thm = store_thm(
     (TransEnable composeDedOverApprox (symbolic_tree_multi_transitions_with_symb,sbir_Ded) (DYmultranrel,DYdeduction)) /\
      (subset_one
       (bir_traces (((bir_mrel (birprog:'observation_type bir_program_t)): bir_state_t -> ('cevent + 'ceventS) list -> bir_state_t -> bool)) ((InterpretStOne:(sbir_event, real,(bir_var_t, bir_exp_t) symb_interpret_t) stree -> bir_state_t) T0) ((InterpretStOne:(sbir_event, real,(bir_var_t, bir_exp_t) symb_interpret_t) stree -> bir_state_t) Tre))
-      (sbir_traces (symbolic_tree_multi_transitions_with_symb,sbir_Ded) (Sym,(IMAGE OUTL P),T0) (Sym',(IMAGE OUTL P'),Tre))) ∧
+      (sbir_traces (symbolic_tree_multi_transitions_with_symb,sbir_Ded) (Sym,(PREIMAGE INL P),T0) (Sym',(PREIMAGE INL P'),Tre))) ∧
      (subset_two
       (att_traces AMTrn ((InterpretStTwo:DYstate -> 'cstate) ESt) ((InterpretStTwo:DYstate -> 'cstate) ESt))
-      (DY_traces (DYmultranrel,DYdeduction) (Sym,(IMAGE OUTR P),ESt) (Sym',(IMAGE OUTR P'),ESt)))
+      (DY_traces (DYmultranrel,DYdeduction) (Sym,(PREIMAGE INR P),ESt) (Sym',(PREIMAGE INR P'),ESt)))
 ) ==>
 (subset_comp
    (bir_att_comptraces (composeMuRe (((bir_mrel (birprog:'observation_type bir_program_t)): bir_state_t -> ('cevent + 'ceventS) list -> bir_state_t -> bool)) AMTrn) (((InterpretStOne:(sbir_event, real,(bir_var_t, bir_exp_t) symb_interpret_t) stree -> bir_state_t) T0),((InterpretStTwo:DYstate -> 'cstate) ESt)) (((InterpretStOne:(sbir_event, real,(bir_var_t, bir_exp_t) symb_interpret_t) stree -> bir_state_t) Tre),((InterpretStTwo:DYstate -> 'cstate) ESt)))
@@ -118,10 +118,10 @@ val compose_birexample_attacker_vs_sbir_DY_thm = store_thm(
         ((TransEnable composeDedOverApprox (symbolic_tree_multi_transitions_with_symb,sbir_Ded) (DYmultranrel,DYdeduction)) /\
      (subset_one
       (bir_traces (((bir_mrel (birprog:'observation_type bir_program_t)): bir_state_t -> ('cevent + 'ceventS) list -> bir_state_t -> bool)) ((InterpretStOne:(sbir_event, real,(bir_var_t, bir_exp_t) symb_interpret_t) stree -> bir_state_t) T0) ((InterpretStOne:(sbir_event, real,(bir_var_t, bir_exp_t) symb_interpret_t) stree -> bir_state_t) Tre))
-      (sbir_traces (symbolic_tree_multi_transitions_with_symb,sbir_Ded) (Sym,(IMAGE OUTL P),T0) (Sym',(IMAGE OUTL P'),Tre))) ∧
+      (sbir_traces (symbolic_tree_multi_transitions_with_symb,sbir_Ded) (Sym,(PREIMAGE INL P),T0) (Sym',(PREIMAGE INL P'),Tre))) ∧
      (subset_two
       (att_traces AMTrn ((InterpretStTwo:DYstate -> 'cstate) ESt) ((InterpretStTwo:DYstate -> 'cstate) ESt))
-      (DY_traces (DYmultranrel,DYdeduction) (Sym,(IMAGE OUTR P),ESt) (Sym',(IMAGE OUTR P'),ESt)))
+      (DY_traces (DYmultranrel,DYdeduction) (Sym,(PREIMAGE INR P),ESt) (Sym',(PREIMAGE INR P'),ESt)))
 ) ==>
 (subset_comp
    (bir_att_comptraces (composeMuRe (((bir_mrel (birprog:'observation_type bir_program_t)): bir_state_t -> ('cevent + 'ceventS) list -> bir_state_t -> bool)) AMTrn) (((InterpretStOne:(sbir_event, real,(bir_var_t, bir_exp_t) symb_interpret_t) stree -> bir_state_t) T0),((InterpretStTwo:DYstate -> 'cstate) ESt)) (((InterpretStOne:(sbir_event, real,(bir_var_t, bir_exp_t) symb_interpret_t) stree -> bir_state_t) Tre),((InterpretStTwo:DYstate -> 'cstate) ESt)))

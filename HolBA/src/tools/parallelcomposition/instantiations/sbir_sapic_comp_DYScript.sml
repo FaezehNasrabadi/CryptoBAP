@@ -123,7 +123,7 @@ val compose_sbir_sapic_vs_DY_thm = store_thm(
   "compose_sbir_sapic_vs_DY_thm",
   ``∀T0 Re0 NRe0 i Re NRe Tre (Sym:(Var_t -> bool)) (Sym':(Var_t -> bool)) (P:(bir_exp_t + DYpred -> bool)) (P':(bir_exp_t + DYpred -> bool)) (DedTr:(bir_exp_t) tded).
 (
-((IMAGE (MAP sbirEvent_vs_Sync_to_sapicFact_vs_Sync) (traces_of_tree_with_symb (Sym,IMAGE OUTL P,T0) (Sym',IMAGE OUTL P',Tre))) ⊆ (traces_of_sapic_with_symb (Sym,IMAGE OUTL (IMAGE (SUM_MAP translate_BinPred_to_SPpred I) P),(Pconfig ((symbtree_to_sapic T0),0,Re0,NRe0))) (Sym',IMAGE OUTL (IMAGE (SUM_MAP translate_BinPred_to_SPpred I) P'),(Pconfig ((symbtree_to_sapic Tre),i,Re,NRe))))) ∧
+((IMAGE (MAP sbirEvent_vs_Sync_to_sapicFact_vs_Sync) (traces_of_tree_with_symb (Sym,PREIMAGE INL P,T0) (Sym',PREIMAGE INL P',Tre))) ⊆ (traces_of_sapic_with_symb (Sym,PREIMAGE INL (IMAGE (SUM_MAP translate_BinPred_to_SPpred I) P),(Pconfig ((symbtree_to_sapic T0),0,Re0,NRe0))) (Sym',PREIMAGE INL (IMAGE (SUM_MAP translate_BinPred_to_SPpred I) P'),(Pconfig ((symbtree_to_sapic Tre),i,Re,NRe))))) ∧
         (TransDisable composeDedOverApprox (symbolic_tree_multi_transitions_with_symb,DedTr) (DYmultranrel,DYdeduction)) ∧
       (TransEnable composeDedOverApproxSapic (sapic_position_multi_transitions_with_symb,SPdeduction) (DYmultranrel,DYdeduction))
     ) ==> (

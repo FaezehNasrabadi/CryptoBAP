@@ -20,8 +20,8 @@ val composeDedOverApprox_def =
 Define`
       composeDedOverApprox (P:(bir_exp_t + DYpred -> bool)) ((INR ((K (z:SapicTerm_t)):DYpred)):(bir_exp_t + DYpred)) =
 (∃(x :bir_exp_t) (y :bir_exp_t) (v:bir_var_t).
-   (((K ((translate_birexp_to_sapicterm x):SapicTerm_t)):DYpred) ∈ (IMAGE OUTR P)) ∧
-   (((BExp_BinPred BIExp_Equal x y):bir_exp_t) ∈ (IMAGE OUTL P)) ∧
+   (((K ((translate_birexp_to_sapicterm x):SapicTerm_t)):DYpred) ∈ (PREIMAGE INR P)) ∧
+   (((BExp_BinPred BIExp_Equal x y):bir_exp_t) ∈ (PREIMAGE INL P)) ∧
    (v ∈ (bir_vars_of_exp y)) ∧
    (z = (translate_birexp_to_sapicterm (BExp_Den v)))
 )
@@ -32,8 +32,8 @@ val composeDedOverApproxSapic_def =
 Define`
       composeDedOverApproxSapic (P:(SPpred + DYpred -> bool)) ((INR ((K (z:SapicTerm_t)):DYpred)):(SPpred + DYpred)) =
 (∃(x :SapicTerm_t) (y :SapicTerm_t) (v:Var_t).
-   (((K (x)):DYpred) ∈ (IMAGE OUTR P)) ∧
-   ((SP_Equ(x,y)) ∈ (IMAGE OUTL P)) ∧
+   (((K (x)):DYpred) ∈ (PREIMAGE INR P)) ∧
+   ((SP_Equ(x,y)) ∈ (PREIMAGE INL P)) ∧
    (v ∈ (fv y)) ∧
    (z = (TVar v))
 )
