@@ -6,14 +6,25 @@
   </picture>
 </h1>
 
-[![Build Status][workflow-badge]][workflow-link] 
+<h2 align="center">CryptoBAP</h3>
 
-[workflow-badge]: https://github.com/FaezehNasrabadi/CryptoBAP/actions/workflows/build.yaml/badge.svg?branch=main
-[workflow-link]: https://github.com/FaezehNasrabadi/CryptoBAP/actions/workflows/build.yaml
+<p align="center">
+  A Binary Analysis Platform for Cryptographic Protocols
+</p>
+
+<p align="center">
+  <a href="https://github.com/FaezehNasrabadi/CryptoBAP/issues">
+    <img src="https://img.shields.io/github/issues/FaezehNasrabadi/CryptoBAP" alt="Issues">
+  </a>
+  
+  <a href="https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/LICENSE">
+    <img src="https://img.shields.io/github/license/FaezehNasrabadi/CryptoBAP" alt="License">
+  </a>
+</p>
 
 ---
 
-## CryptoBAP: Automated Side-Channel Analysis of Cryptographic Protocols Implementations
+## Automated Side-Channel Analysis of Cryptographic Protocols Implementations
 
 This repository consists of two main components: the first is our framework, which is implemented based on the CryptoBap framework, extending the HolBA framework; the second is a proof-of-concept attack implementation built upon Flush+Flush framework, modified to operate on macOS. We explain each component in detail separately.
 
