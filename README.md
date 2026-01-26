@@ -26,27 +26,40 @@
 
 ## Automated Side-Channel Analysis of Cryptographic Protocols Implementations
 
-This repository consists of two main components: the first is our framework, which is implemented based on the CryptoBap framework, extending the HolBA framework; the second is a proof-of-concept attack implementation built upon Flush+Flush framework, modified to operate on macOS. We explain each component in detail separately.
+This repository contains the implementation of CryptoBAP framework. It incorporates a diverse set of features. Here is a brief overview of the repository's contents:
 
----
+- **Composition of Symbolic Labeled Transition Systems:**
+    - Developing the composition of symbolic labeled transition systems, incorporating it with several deduction combiners to handle diverse scenarios, and showing the correctness of our symbolic composition. Refer to <a href="HolBA/src/tools/parallelcomposition/deduction">deduction</a> for the composition w.r.t. symbolic labeled transition's deduction relations, <a href="HolBA/src/tools/parallelcomposition/combinededuction">combinededuction</a> for the composition involving several combined deduction relations in addition to symbolic labeled transition's deduction relations, and <a href="HolBA/src/tools/parallelcomposition/generaldeduction">generaldeduction</a> for the composition containing a general combined deduction relation extra to symbolic labeled transition's deduction relations.
 
-## HolBA
+- **CSP-Style Parallel Composition:**
+    - Enabling the parallel composition of concrete labeled transition systems using a CSP-style approach and proving theories surrounding it (see <a href="HolBA/src/tools/parallelcomposition/concrete">concrete</a>).
 
-Our toolchain integrates four key components:
+- **Refinement:**
+    - Linking the analysis of symbolic system semantics to concrete system semantics using an additional theorem, set in <a href="HolBA/src/tools/parallelcomposition/refinement">refinement</a>.
+   
+- **Sapic Model:**
 
+    - Formalizing the syntax and semantics of an applied pi-calculus model, <a href="HolBA/src/tools/parallelcomposition/sapic">Sapic</a>, which encompasses both the syntax and semantics of Dolev-Yao attacker and library models.    
+    
+- **Composition and Decomposition of Dolev-Yao Libraries:**
+
+    - Establishing theorems for composing and decomposing Dolev-Yao libraries, located in <a href="HolBA/src/tools/parallelcomposition/DYLib">DYLib</a>. 
+    
+- **Framework Instantiation:**
+
+    - Applying the framework to <a href="HolBA/src/theory/bir">BIR</a> (binary intermediate representation of ARMv8 and RISC-V machine code) and Sapic. In the <a href="HolBA/src/tools/parallelcomposition/instantiations">instantiations</a> folder, we demonstrate how the paper’s theorems combine to achieve an end-to-end correctness result. We have assigned specific files with descriptive names to their mechanized proofs in HOL4 for each trace equivalence and trace inclusion step we have proven.
+    
 - **Symbolic Execution:**
 
-    - Improving CryptoBap’s crypto-aware symbolic execution to handle observations during the symbolic execution, placed in [libload](HolBA/src/tools/symbexec/examples/libload).
-
+    - <a href="HolBA/src/tools/symbexec/examples/PreProcess">PreProcess</a> comprises source codes responsible for finding addresses of function calls, entry and exit points for loops of the BIR program before symbolic execution. <a href="HolBA/src/tools/symbexec/examples/libload">libload</a> encompasses the source codes of our symbolic execution, managing observations during the process, and <a href="HolBA/src/tools/symbexecbin">symbexecbin</a> includes the binary of the analyzed protocols and files needed to generate their BIR programs. 
 
 - **Symbolic Execution Tree Translation:**
 
-    - Refining the symbolic execution tree translation of the BIR program to the Sapic model, located in [tree_to_process](HolBA/src/tools/parallelcomposition/prettyPrint/tree_to_processLib.sml#L147).
+    - Demonstrating the translation of the symbolic execution tree of the BIR program into the Sapic model and proving this translation is correct, placed in <a href="HolBA/src/tools/parallelcomposition/translateTosapic">translateTosapic</a>.
 
 - **Simplification rules combined with live variable analysis:**
 
-	- Reducing model complexity with simplification rules applied at levels <a href="HolBA/src/tools/parallelcomposition/tree/sbir_treeLib.sml#L180">SBIR</a>, <a href="HolBA/src/tools/parallelcomposition/prettyPrint/sapic_to_fileLib.sml#L313">Sapic refinement</a>, and <a href="HolBA/src/tools/parallelcomposition/prettyPrint/sapic_to_fileLib.sml#L348">Sapic with live variable</a>.
-	
+    - Reducing model complexity with simplification rules applied at levels <a href="HolBA/src/tools/parallelcomposition/tree/sbir_treeLib.sml#L180">SBIR</a>, <a href="HolBA/src/tools/parallelcomposition/prettyPrint/sapic_to_fileLib.sml#L313">Sapic refinement</a>, and <a href="HolBA/src/tools/parallelcomposition/prettyPrint/sapic_to_fileLib.sml#L348">Sapic with live variable</a>.
 
 - **Analysis Examples:**
 
@@ -85,70 +98,6 @@ The example is set for execution and demonstrates our core functionality using p
 	- `make src/tools/parallelcomposition/examples/BAC/Combination-BAC.sml_run`
 
 6. You can later access the extracted Sapic model in the ***Sapic_Translation.txt*** file within the <a href="HolBA/src/tools/parallelcomposition/examples/BAC">BAC</a> directory.
-
----
-
-## Flush + Flush
-
-For the proof-of-concept attack implementation targeting the WhatsApp Desktop application, we modified the Prime+Probe attack technique, originally provided by Flush+Flush, to function effectively on macOS. 
-Our experiments were conducted on a 2019 MacBook Pro equipped with an Intel Core i7-9750H processor (6 cores, 2.6 GHz) and 16 GB of RAM, running macOS Sonoma Version 14.1.2.
-We adjusted the Prime+Probe attack in the <a href="flush_flush/sc/pp">sc/pp</a> directory to monitor the function that generates a new secure session from a shared library named `session_builder_process_pre_key_bundle`.
-The code is expected to know the appropriate addresses: one for starting a secure session (session_builder) and another for the instruction triggered when using a one-time pre-key to create the master secret key for that session (OTPK_exists).
-
-
-### Attack description
-
-The code works for **Prime+Probe Cache Timing Attack** as follows:
-
-1. **Primes:** The attacker accesses specific addresses (session_builder, OTPK_exists) repeatedly, populating those cache sets.
-2. **Waits** briefly (via usleep()).
-3. **Probes:** The attacker re-accesses the same addresses and measures the response time.
-    - If **slow**, they were evicted (i.e., the victim accessed an overlapping set).
-    - If **fast**, the cache lines are untouched.
-
-For example, for the following output:
-
-```
-[session_builder] Δt =    244: 
-[OTPK_exists]     Δt =     98: 
-
-[session_builder] Δt =    345: #
-[OTPK_exists]     Δt =    151: 
-
-[session_builder] Δt =    385: #
-[OTPK_exists]     Δt =    146: 
-
-[session_builder] Δt =    247: 
-[OTPK_exists]     Δt =  21626: ##################################################
-```
-
-The OTPK_exists suddenly takes much longer, which suggests that it got evicted, and the victim accessed memory mapping to the same cache set as OTPK_exists.
-
-The steps the attacker performs are as follows:
-
-1. Attacker `mmaps` the application with shared libraries.
-2. Chooses addresses that map to known cache sets, in our case `session_builder_process_pre_key_bundle` (session_builder), and the specific branch (OTPK_exists) we are interested in.
-3. Fills those sets via repeated access (prime).
-4. Waits for the victim to potentially run.
-5. Re-measures access latency (probe).
-6. Logs and interprets results.
-
-
-### How to run
-
-Run the <a href="flush_flush/sc/pp/spy.c">spy script</a> like this:
-
-```
-cd sc/pp
-make
-./spy /Applications/WhatsApp.app/Contents/MacOS/WhatsApp 0x1ddeb4b 0x1ddec64 # Adjust with suitable addresses
-```
-
-This script exports timing data to a CSV file (timing_log.csv).
- You can then use the Python script <a href="flush_flush/sc/pp/show_result.py">show_result.py</a> to generate a plotted chart with:
-- **x-axis**: Time (in microseconds)
-- **y-axis**: Measured access latency (Δt)
-
 
 ---
 
