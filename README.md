@@ -103,4 +103,8 @@ The example is set for execution and demonstrates our core functionality using p
 
 ## License
 
-This project is licensed under the GNU Affero General Public License (AGPL) 3.0. Refer to the [LICENSE](LICENSE) file for more information.
+CryptoBAP Core is licensed under the GNU Affero General Public License v3.0. Refer to the [LICENSE](LICENSE) file for more information.
+
+The copyright holder offers alternative commercial licenses for organizations that wish to use CryptoBAP without AGPL obligations.
+
+Contact: Faezeh Nasrabadi at <nasrabadi.faezeh@gmail.com>
