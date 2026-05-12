@@ -38,14 +38,21 @@ POLY_DIR_SRC=${HOLBA_OPT_DIR}/polyml_${POLY_VERSION}_src
 
 
 # if the output directory exists, we already have a polyml in the cache
-if [[ -d "${POLY_DIR}" ]]; then
+if [[ -d "${POLY_DIR}" && -x "${POLY_DIR}/bin/poly" ]]; then
   echo "polyml is already available in the cache, exiting."
   exit 0
-else
-  echo "polyml is not in the cache, downloading it now."
+elif [[ -d "${POLY_DIR}" ]]; then
+  echo "cached polyml is incomplete, removing stale directory"
+  rm -rf "${POLY_DIR}" "${POLY_DIR_SRC}"
 fi
 
+echo "polyml is not in the cache, downloading it now."
+
 # prepare directories
+if [[ -d "${POLY_DIR_SRC}" ]]; then
+  echo "removing stale PolyML source directory: ${POLY_DIR_SRC}"
+  rm -rf "${POLY_DIR_SRC}"
+fi
 mkdir "${POLY_DIR_SRC}"
 mkdir "${POLY_DIR}"
 

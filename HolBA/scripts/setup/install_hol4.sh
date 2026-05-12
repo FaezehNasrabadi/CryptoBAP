@@ -39,9 +39,12 @@ HOL4_DIR=${HOLBA_OPT_DIR}/hol_k14
 ##################################################################
 
 
-# if HOL does exist, check if it is up-to-date and remove it in case it is not
+# if HOL does exist, check if it is complete and remove it in case it is not
 if [[ -d "${HOL4_DIR}" ]]; then
-  if [[ ! -z "${GIT_IS_TAG}" ]]; then
+  if [[ ! -f "${HOL4_DIR}/bin/Holmake" ]]; then
+    echo "the cached HOL4 build is incomplete, deleting it now"
+    rm -rf "${HOL4_DIR}"
+  elif [[ ! -z "${GIT_IS_TAG}" ]]; then
     echo "the cached HOL4 version is based on a tag, keeping it"
   else
     cd "${HOL4_DIR}"
