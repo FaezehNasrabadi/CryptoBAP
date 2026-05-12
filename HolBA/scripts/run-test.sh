@@ -2,7 +2,7 @@
 
 set -e
 TEST_PATH=$1
-declare -g WATCH_PID=''
+WATCH_PID=''
 
 function enclose {
     declare MAX_LEN=$(for s in "$@"; do printf "$s" | wc -c; done | sort -r | head -n1)
@@ -24,7 +24,7 @@ function start_watcher {
         declare DURATION=$(python3 -c "print($END_TIME - $WATCHER_START_TIME)")
         enclose "Test running: $TEST_PATH" "$(printf 'Time so far: %3g sec.\n' "$DURATION")"
     done &
-    declare -g WATCH_PID=$!
+    WATCH_PID=$!
 }
 
 function stop_watcher {
@@ -44,7 +44,7 @@ function test_script_file {
 
     enclose "Testing: $1"
 
-    declare -g START_TIME=$(date +%s.%N)
+    START_TIME=$(date +%s.%N)
     trap test_failed_trap EXIT
 
     cd $DIR && ./$FILENAME
