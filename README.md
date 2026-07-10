@@ -17,7 +17,7 @@
     <img src="https://img.shields.io/github/issues/FaezehNasrabadi/CryptoBAP" alt="Issues">
   </a>
   
-  <a href="https://github.com/FaezehNasrabadi/CryptoBAP/tree/main/LICENSE">
+  <a href="LICENSE">
     <img src="https://img.shields.io/github/license/FaezehNasrabadi/CryptoBAP" alt="License">
   </a>
 </p>
