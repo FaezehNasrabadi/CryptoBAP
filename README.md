@@ -25,7 +25,7 @@ This repository contains the implementation of our framework. It incorporates a 
 	
 - **Symbolic Execution:**
 
-	- [PreProcess](HolBA/src/tools/symbexec/examples/PreProcess) comprises source codes responsible for finding addresses of function calls, entry and exit points for loops of the BIR program before symbolic execution. [](HolBA/src/tools/symbexec/examples/libload">libload</a> encompasses the source codes of our symbolic execution, and [symbexecbin](HolBA/src/tools/symbexecbin) includes the binary of the analyzed protocols and files needed to generate their BIR programs. 
+	- [PreProcess](HolBA/src/tools/symbexec/examples/PreProcess) comprises source codes responsible for finding addresses of function calls, entry and exit points for loops of the BIR program before symbolic execution. [libload](HolBA/src/tools/symbexec/examples/libload) encompasses the source codes of our symbolic execution, and [symbexecbin](HolBA/src/tools/symbexecbin) includes the binary of the analyzed protocols and files needed to generate their BIR programs. 
 
 - **Symbolic Execution Tree Translation:**
 
