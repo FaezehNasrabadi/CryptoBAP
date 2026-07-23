@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CryptoBAP</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="logo">
+      <img src="../CryptoBAP_Logo.png" alt="CryptoBAP logo" width="64" height="64" />
+    </div>
+    <h1>CryptoBAP</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="technical.html">Technical Details</a>
+      <a href="papers.html">Papers & Artifacts</a>
+      <a href="demo.html">Demo</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h2>Automated binary analysis for cryptographic code</h2>
+      <p>CryptoBAP extracts protocol-relevant models from real binaries and analyzes them under explicit leakage
+      contracts for constant-time and Spectre-style speculative observations. The pipeline lifts machine code to a
+      verified intermediate representation, instruments it with attacker-observations, symbolically executes it to obtain
+      observation traces, and translates those traces into Sapic+ models for automated analysis.</p>
+      <p class="cta"><a class="btn" href="demo.html">See the demo</a></p>
+    </section>
+
+    <section class="features">
+      <h3>Key capabilities</h3>
+      <ul>
+        <li>Verified lifting of binaries using HolBA framework</li>
+        <li>Observation instrumentation (constant-time and speculative models) using Scam-V platform</li>
+        <li>Crypto-aware symbolic execution of program-under-analysis</li>
+        <li>Automatic Sapic+ model extraction for DeepSec/Tamarin/ProVerif analysis</li>
+        <li>Concrete case studies on real, closed-source software (WhatsApp Desktop, WireGuard, Tinyssh, BAC, RPC-enc, RPC, NSL, CSur, simple Hash, and simple XOR)</li>
+      </ul>
+    </section>
+
+  </main>
+
+</body>
+</html>
