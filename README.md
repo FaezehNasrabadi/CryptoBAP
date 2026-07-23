@@ -1,8 +1,8 @@
 <h1 align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="CryptoBAP_Logo.png">
-    <source media="(prefers-color-scheme: light)" srcset="CryptoBAP_Logo.png">
-    <img alt="CryptoBAP" src="CryptoBAP_Logo.png" width="160" height="160">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/CryptoBAP_Logo.png">
+    <source media="(prefers-color-scheme: light)" srcset="docs/CryptoBAP_Logo.png">
+    <img alt="CryptoBAP" src="docs/CryptoBAP_Logo.png" width="160" height="160">
   </picture>
 </h1>
 
