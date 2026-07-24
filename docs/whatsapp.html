@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CryptoBAP — WhatsApp Analysis</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="logo">
+      <img src="CryptoBAP_Logo.png" alt="CryptoBAP logo" width="64" height="64" />
+    </div>
+    <h1>CryptoBAP — WhatsApp Analysis</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="technical.html">Technical Details</a>
+      <a href="papers.html">Papers & Artifacts</a>
+      <a href="whatsapp.html">WhatsApp Analysis</a>
+      <a href="demo.html">Demo</a>
+    </nav>
+  </header>
+
+<main class="container">
+  <section class="hero">
+    <h2>WhatsApp Security Analysis: Reverse Engineering E2E Session Setup</h2>
+    <p>This page details a technical analysis of how the WhatsApp Desktop application manages End-to-End Encryption (E2E) session initialization and key bundle retrieval on macOS. Using the <strong>LLDB debugger</strong>, we trace the application's internal cryptographic logic to verify communication states and session triggers.</p>
+  </section>
+
+  <section class="example">
+    <h3>Video 1: Technical Flow Analysis & Debugging Logic</h3>
+    <p><strong>Purpose:</strong> This video provides a step-by-step technical methodology for using LLDB to observe the execution flow of cryptographic functions. It focuses on the specific triggers that occur during UI interactions, such as starting a new chat with "Bob" or creating a group named "Test".</p>
+    In this video, we
+    <ul>
+        <li>Hook the WhatsApp process via Terminal and set a breakpoint on <code>session_builder_process_pre_key_bundle</code>.</li>
+        <li>Identify specific memory addresses, such as <code>0x10cfc2296</code>, to detect when no existing conversation exists with a recipient.</li>
+        <li>Demonstrate how to obtain a <strong>backtrace</strong> to map the call stack of the Signal Protocol implementation.</li>
+    </ul>
+    <iframe
+      width="100%"
+      height="500"
+      src="https://www.youtube.com/embed/CDuQIf1oPjA?si=s6AZRQXFs9ph4tAa"
+      title="Debugging WhatsApp Session Initialization with LLDB on macOS"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen>
+    </iframe>
+  </section>
+
+  <section class="example">
+    <h3>Video 2: E2E Lifecycle & Security Analysis</h3>
+    <p><strong>Purpose:</strong> This video moves beyond logical tracing to conduct a security-centric audit of the E2E session lifecycle. It explores the security boundaries involved in account-level events and how communication states are managed across device transitions.</p>
+    This video
+    <ul>
+        <li>Analyzes the full lifecycle from user registration and account setup to conversation deletion.</li>
+        <li>Investigates the security implications of <strong>attacker re-registration</strong> and the linking of the desktop application to a new account.</li>
+        <li>Verifies how the application retrieves key bundles and maintains secure states between multiple contacts.</li>
+    </ul>
+    <iframe
+      width="100%"
+      height="500"
+      src="https://www.youtube.com/embed/feWSc6SY4Mw?si=dKvamS4T07uRHIxL"
+      title="WhatsApp Security Analysis: Reverse Engineering E2E Session Setup"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen>
+    </iframe>
+  </section>
+</main>
+
+</body>
+</html>
