@@ -1,0 +1,18 @@
+/* Minimal styles for the CryptoBAP prototype site */
+:root{
+  --bg:#ffffff; --accent:#0b74de; --muted:#6b7280; --card:#ffffff; --panel-bg:#eaf4fb;
+}
+*{box-sizing:border-box}
+body{font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0; background:var(--bg); color:#111}
+.site-header{display:flex;align-items:center;gap:12px;padding:18px 24px;background:#ffffff;} 
+.site-header h1{margin:0;font-size:20px}
+.site-header nav{margin-left:auto}
+.site-header nav a{margin-left:12px;color:var(--accent);text-decoration:none}
+.container{max-width:980px;margin:28px auto;padding:0 18px}
+.hero{background:var(--panel-bg);padding:28px;border-radius:8px;box-shadow:0 6px 18px rgba(16,24,40,0.06)}
+.hero h2{margin:0 0 8px}
+.features, .example{margin-top:18px;background:var(--panel-bg);padding:18px;border-radius:8px}
+.features ul{margin:8px 0 0;padding-left:20px}
+.btn{display:inline-block;padding:10px 14px;background:var(--accent);color:white;border-radius:6px;text-decoration:none}
+pre{background:#0b1220;color:#e6eef8;padding:12px;border-radius:6px;overflow:auto}
+footer{max-width:980px;margin:20px auto;color:var(--muted);padding:0 18px}

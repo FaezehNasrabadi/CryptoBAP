@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://faezehnasrabadi.github.io/CryptoBAP/sitemap-index.xml
