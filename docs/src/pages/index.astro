@@ -1,0 +1,445 @@
+---
+import Base from '../layouts/Base.astro';
+import '../styles/home.css';
+import { u } from '../i18n';
+---
+
+<Base
+  lang="en"
+  page="home"
+  title={'CryptoBAP — Binary analysis for cryptographic protocols'}
+  description={
+    'CryptoBAP extracts protocol-relevant models from real binaries and analyses them under explicit leakage contracts for constant-time and Spectre-style speculative observations.'
+  }
+>
+  <!-- ── Hero ─────────────────────────────────────────────── -->
+  <section class="hero grain">
+    <div class="container hero__inner">
+      <div class="hero__copy">
+        <p class="eyebrow">Binary analysis platform</p>
+        <h1 class="display hero__title">Verify the binary, not just the specification.</h1>
+        <p class="lead hero__lead">
+          Formal verification of cryptographic protocols usually stops at the symbolic model —
+          abstracting away compiled code and the microarchitecture it runs on. CryptoBAP closes that
+          gap: it extracts protocol-relevant models directly from real binaries and analyses them
+          under explicit leakage contracts.
+        </p>
+        <div class="hero__actions">
+          <a class="btn" href={u('demo/')}>
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true">
+              <path d="M8 5.5v13a1 1 0 0 0 1.53.85l10.2-6.5a1 1 0 0 0 0-1.7L9.53 4.65A1 1 0 0 0 8 5.5Z"></path>
+            </svg>
+            Watch the demo
+          </a>
+          <a class="btn btn--ghost" href={u('technical/')}>
+            How it works
+          </a>
+        </div>
+        <p class="hero__note">Peer-reviewed at ACM CCS and IEEE CSF. Open source under AGPL-3.0.</p>
+      </div>
+      <div class="hero__visual">
+        <div class="hv" aria-hidden="true">
+          <span class="hv__glow"></span>
+          <div class="hv__stack">
+            <div class="hv__panel" style="--i:0">
+              <div class="hv__bar">
+                <span class="hv__label">Reverse-engineer</span>
+                <span class="hv__chip">ARMv8 / RISC-V</span>
+              </div>
+              <pre class="hv__code"><span class="hv__line"><span class="c-a">4011a0</span><span class="c-p">  </span><span class="c-k">ldr</span><span class="c-p">  x1, [x0, #16]</span></span><span class="hv__line"><span class="c-a">4011a4</span><span class="c-p">  </span><span class="c-k">cmp</span><span class="c-p">  w2, #0</span></span><span class="hv__line"><span class="c-a">4011a8</span><span class="c-p">  </span><span class="c-k">b.eq</span><span class="c-p"> 0x4011d4</span></span><span class="hv__line"><span class="c-a">4011ac</span><span class="c-p">  </span><span class="c-k">bl</span><span class="c-p">   get_message</span></span></pre>
+           </div>
+            <div class="hv__panel" style="--i:1">
+              <div class="hv__bar">
+                <span class="hv__label">Instrument</span>
+                <span class="hv__chip">BIR + contract</span>
+              </div>
+             <pre class="hv__code"><span class="hv__line"><span class="c-k">assign</span><span class="c-p"> x1 ← </span><span class="c-f">Load</span><span class="c-p">(MEM, x0+16)</span></span><span class="hv__line"><span class="c-o">observe</span><span class="c-p"> ⟨<span class="c-f">addr</span>, x0+16⟩</span></span><span class="hv__line"><span class="c-o">observe</span><span class="c-p"> ⟨<span class="c-f">branch</span>, x2 = 0⟩</span></span><span class="hv__line"><span class="c-k">cjmp</span><span class="c-p"> (x2 = 0) → <span class="c-a">4011d4</span></span></span></pre>
+             </div>
+            <div class="hv__panel" style="--i:2">
+              <div class="hv__bar">
+                <span class="hv__label">Extract the model</span>
+                <span class="hv__chip">Sapic+</span>
+              </div>
+              <pre class="hv__code"><span class="hv__line"><span class="c-k">let</span><span class="c-p"> x1 = </span><span class="c-f">Load</span><span class="c-p">(MEM, x0+16)</span><span class="c-k"> in</span></span><span class="hv__line"><span class="c-k">out</span><span class="c-p">(</span><span class="c-f">addr</span><span class="c-p">(x0+16));</span></span><span class="hv__line"><span class="c-k">out</span><span class="c-p">(</span><span class="c-f">branch</span><span class="c-p">(x2 = 0));</span></span><span class="hv__line"><span class="c-k">in</span><span class="c-p">(x0);</span></span></pre>
+            </div>        
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="venues">
+        <span class="venues__label">Published at</span>
+        <ul class="venues__list">
+          <li>
+            <a
+              class="venues__item"
+              href="https://arxiv.org/abs/2511.11385"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="venues__name">CCS 2026</span>
+              <span class="venues__ext" aria-hidden="true">
+                ↗
+              </span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="venues__item"
+              href="https://ieeexplore.ieee.org/document/11097842"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="venues__name">CSF 2025</span>
+              <span class="venues__ext" aria-hidden="true">
+                ↗
+              </span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="venues__item"
+              href="https://doi.org/10.1145/3576915.3623090"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="venues__name">CCS 2023</span>
+              <span class="venues__ext" aria-hidden="true">
+                ↗
+              </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <!-- ── The problem ──────────────────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <div class="split">
+        <div class="section-head" data-reveal>
+          <p class="eyebrow">The problem</p>
+          <h2>A verified protocol can still leak.</h2>
+        </div>
+        <p class="prose split__body" data-reveal style="--reveal-delay:90ms">
+          Symbolic models describe what a protocol is supposed to do. Deployed executables do
+          something more: they branch on secrets, index memory with them, and speculate past their
+          own bounds. Those behaviours never appear in the specification, so a proof about the
+          specification says nothing about them.
+        </p>
+      </div>
+      <div class="grid grid--3 gap-top">
+        <article class="card card--hover" data-reveal style="--reveal-delay:0ms">
+          <span class="card__num mono">01</span>
+          <h3 class="card__title">The specification is not the artefact</h3>
+          <p>
+            Compilers, hand-written assembly and closed-source vendors all stand between a verified
+            design and the code that actually ships.
+          </p>
+        </article>
+        <article class="card card--hover" data-reveal style="--reveal-delay:90ms">
+          <span class="card__num mono">02</span>
+          <h3 class="card__title">Microarchitecture is an attacker surface</h3>
+          <p>
+            Cache state and speculative execution turn secret-dependent control flow into observable
+            signal, entirely outside the symbolic model.
+          </p>
+        </article>
+        <article class="card card--hover" data-reveal style="--reveal-delay:180ms">
+          <span class="card__num mono">03</span>
+          <h3 class="card__title">Manual auditing does not scale</h3>
+          <p>
+            Real protocol stacks span thousands of instructions across many languages. Finding
+            leakage by hand is neither exhaustive nor repeatable.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+  <!-- ── Pipeline ─────────────────────────────────────────── -->
+  <section class="section band">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">The approach</p>
+        <h2>From machine code to a machine-checked proof.</h2>
+        <p class="prose">
+          Starting from a selected binary region, CryptoBAP runs a six-stage toolchain that ends in
+          an off-the-shelf protocol verifier — with no manual model written at any point.
+        </p>
+      </div>
+      <div class="strip" role="list" aria-label="Pipeline">
+        <div class="strip__item" role="listitem" data-reveal style="--reveal-delay:0ms">
+          <div class="strip__node">
+            <span class="strip__n">01</span>
+            <svg
+              class="strip__arrow"
+              viewBox="0 0 40 8"
+              aria-hidden="true"
+              preserveAspectRatio="none"
+            >
+              <path
+                d="M0 4h32"
+                stroke="currentColor"
+                stroke-width="1"
+                stroke-dasharray="2 3"
+              ></path>
+              <path d="M31 1.2 35.5 4 31 6.8Z" fill="currentColor"></path>
+            </svg>
+          </div>
+          <h3 class="strip__name">Reverse-engineer</h3>
+          <p class="strip__tool">Ghidra</p>
+        </div>
+        <div class="strip__item" role="listitem" data-reveal style="--reveal-delay:70ms">
+          <div class="strip__node">
+            <span class="strip__n">02</span>
+            <svg
+              class="strip__arrow"
+              viewBox="0 0 40 8"
+              aria-hidden="true"
+              preserveAspectRatio="none"
+            >
+              <path
+                d="M0 4h32"
+                stroke="currentColor"
+                stroke-width="1"
+                stroke-dasharray="2 3"
+              ></path>
+              <path d="M31 1.2 35.5 4 31 6.8Z" fill="currentColor"></path>
+            </svg>
+          </div>
+          <h3 class="strip__name">Transpile to BIR</h3>
+          <p class="strip__tool">HolBA</p>
+        </div>
+        <div class="strip__item" role="listitem" data-reveal style="--reveal-delay:140ms">
+          <div class="strip__node">
+            <span class="strip__n">03</span>
+            <svg
+              class="strip__arrow"
+              viewBox="0 0 40 8"
+              aria-hidden="true"
+              preserveAspectRatio="none"
+            >
+              <path
+                d="M0 4h32"
+                stroke="currentColor"
+                stroke-width="1"
+                stroke-dasharray="2 3"
+              ></path>
+              <path d="M31 1.2 35.5 4 31 6.8Z" fill="currentColor"></path>
+            </svg>
+          </div>
+          <h3 class="strip__name">Instrument</h3>
+          <p class="strip__tool">Scam-V</p>
+        </div>
+        <div class="strip__item" role="listitem" data-reveal style="--reveal-delay:210ms">
+          <div class="strip__node">
+            <span class="strip__n">04</span>
+            <svg
+              class="strip__arrow"
+              viewBox="0 0 40 8"
+              aria-hidden="true"
+              preserveAspectRatio="none"
+            >
+              <path
+                d="M0 4h32"
+                stroke="currentColor"
+                stroke-width="1"
+                stroke-dasharray="2 3"
+              ></path>
+              <path d="M31 1.2 35.5 4 31 6.8Z" fill="currentColor"></path>
+            </svg>
+          </div>
+          <h3 class="strip__name">Symbolically execute</h3>
+          <p class="strip__tool">Crypto-aware engine</p>
+        </div>
+        <div class="strip__item" role="listitem" data-reveal style="--reveal-delay:280ms">
+          <div class="strip__node">
+            <span class="strip__n">05</span>
+            <svg
+              class="strip__arrow"
+              viewBox="0 0 40 8"
+              aria-hidden="true"
+              preserveAspectRatio="none"
+            >
+              <path
+                d="M0 4h32"
+                stroke="currentColor"
+                stroke-width="1"
+                stroke-dasharray="2 3"
+              ></path>
+              <path d="M31 1.2 35.5 4 31 6.8Z" fill="currentColor"></path>
+            </svg>
+          </div>
+          <h3 class="strip__name">Extract the model</h3>
+          <p class="strip__tool">Sapic+</p>
+        </div>
+        <div class="strip__item" role="listitem" data-reveal style="--reveal-delay:350ms">
+          <div class="strip__node">
+            <span class="strip__n">06</span>
+          </div>
+          <h3 class="strip__name">Verify</h3>
+          <p class="strip__tool">Tamarin · ProVerif · DeepSec</p>
+        </div>
+      </div>
+      <a class="arrow-link" href={u('technical/')} data-reveal>
+        See the full architecture
+        <svg
+          viewBox="0 0 24 24"
+          width="15"
+          height="15"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M5 12h13M13 6l6 6-6 6"></path>
+        </svg>
+      </a>
+    </div>
+  </section>
+  <!-- ── Capabilities ─────────────────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Capabilities</p>
+        <h2>What the platform gives you.</h2>
+      </div>
+      <div class="grid grid--3 gap-top">
+        <article class="cap" data-reveal style="--reveal-delay:0ms">
+          <h3 class="cap__title">Verified lifting</h3>
+          <p class="cap__body">
+            Machine code is transpiled into BIR, a verified binary intermediate representation,
+            using the HolBA framework built on HOL4.
+          </p>
+        </article>
+        <article class="cap" data-reveal style="--reveal-delay:80ms">
+          <h3 class="cap__title">Leakage contracts</h3>
+          <p class="cap__body">
+            Programs are instrumented with explicit attacker-observation models — constant-time and
+            Spectre-PHT-style speculation — via the Scam-V platform.
+          </p>
+        </article>
+        <article class="cap" data-reveal style="--reveal-delay:160ms">
+          <h3 class="cap__title">Crypto-aware symbolic execution</h3>
+          <p class="cap__body">
+            Execution resolves indirect jumps and handles bounded loops through automated loop
+            summarisation, covering every path of the region under analysis.
+          </p>
+        </article>
+        <article class="cap" data-reveal style="--reveal-delay:0ms">
+          <h3 class="cap__title">Automatic model extraction</h3>
+          <p class="cap__body">
+            Event and observation traces are translated into Sapic+, ready for analysis without a
+            hand-written protocol model.
+          </p>
+        </article>
+        <article class="cap" data-reveal style="--reveal-delay:80ms">
+          <h3 class="cap__title">Three back-end provers</h3>
+          <p class="cap__body">
+            The extracted model feeds Tamarin, ProVerif and DeepSec, so trace properties and
+            equivalence properties are both in reach.
+          </p>
+        </article>
+        <article class="cap" data-reveal style="--reveal-delay:160ms">
+          <h3 class="cap__title">Proven sound</h3>
+          <p class="cap__body">
+            The translation from binary to symbolic model is accompanied by a soundness argument, so
+            verdicts on the model carry back to the code.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+  <!-- ── Findings ─────────────────────────────────────────── -->
+  <section class="section band">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Results</p>
+        <h2>Findings in software people actually run.</h2>
+        <p class="prose">
+          The toolchain has been applied to closed-source desktop software, modern VPN and SSH
+          implementations, and standardised e-passport protocols.
+        </p>
+      </div>
+      <div class="findings gap-top">
+        <article class="finding" data-reveal style="--reveal-delay:0ms">
+          <p class="finding__kicker mono">WhatsApp Desktop</p>
+          <h3 class="finding__title">
+            An instruction-cache side channel enabling social-graph inference
+          </h3>
+          <p class="finding__body">
+            Models of the session-management and double-ratchet components were extracted straight
+            from the binary. Under the observation model, instruction-cache behaviour distinguishes
+            whether a conversation with a given contact already exists.
+          </p>
+        </article>
+        <article class="finding" data-reveal style="--reveal-delay:90ms">
+          <p class="finding__kicker mono">BAC · e-passports</p>
+          <h3 class="finding__title">
+            Known unlinkability issues reproduced under microarchitectural observations
+          </h3>
+          <p class="finding__body">
+            The Basic Access Control protocol was analysed with leakage contracts enabled,
+            reproducing unlinkability failures that a purely symbolic analysis of the specification
+            does not surface.
+          </p>
+        </article>
+        <article class="finding" data-reveal style="--reveal-delay:180ms">
+          <p class="finding__kicker mono">Protocol properties</p>
+          <h3 class="finding__title">Forward secrecy verified, a clone attack recovered</h3>
+          <p class="finding__body">
+            Using the extracted models, forward secrecy was verified and a known clone attack on
+            post-compromise security was identified under a state-cloning compromise.
+          </p>
+        </article>
+      </div>
+      <div class="cases" data-reveal>
+        <div class="cases__head">
+          <span class="eyebrow eyebrow--plain">Case studies</span>
+          <p class="cases__lead">Verified or analysed with CryptoBAP:</p>
+        </div>
+        <ul class="cases__list">
+          <li class="tag">WhatsApp Desktop</li>
+          <li class="tag">WireGuard</li>
+          <li class="tag">TinySSH</li>
+          <li class="tag">BAC (e-passport)</li>
+          <li class="tag">RPC-enc</li>
+          <li class="tag">RPC</li>
+          <li class="tag">NSL</li>
+          <li class="tag">CSur</li>
+          <li class="tag">Simple Hash</li>
+          <li class="tag">Simple XOR</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <!-- ── CTA ──────────────────────────────────────────────── -->
+  <section class="section--tight">
+    <div class="container">
+      <div class="cta grain" data-reveal>
+        <div class="cta__copy">
+          <h2 class="cta__title">See it run end to end.</h2>
+          <p class="cta__body">
+            A guided walkthrough analyses the Basic Access Control protocol, from binary region to
+            verifier verdict.
+          </p>
+        </div>
+        <div class="cta__actions">
+          <a class="btn cta__btn" href={u('demo/')}>
+            Watch the demo
+          </a>
+          <a
+            class="btn btn--ghost cta__ghost"
+            href="https://arxiv.org/abs/2511.11385"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Read the paper
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

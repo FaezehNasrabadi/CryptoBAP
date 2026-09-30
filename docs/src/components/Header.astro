@@ -1,0 +1,130 @@
+---
+import { t, u, routes, navOrder, langNames, GITHUB, type Lang, type PageKey } from '../i18n';
+interface Props {
+  lang: Lang;
+  page?: PageKey;
+}
+const { lang, page } = Astro.props;
+const s = t[lang];
+const langs: Lang[] = ['en', 'de'];
+---
+
+<header class="hdr" data-header>
+  <div class="hdr__inner container">
+    <a class="brand" href={u(routes.home[lang])} aria-label="CryptoBAP">
+      <span class="logo-mark brand__mark" aria-hidden="true"></span>
+      <span class="brand__text">
+        <span class="brand__name">CryptoBAP</span>
+        <span class="brand__tag">{s.tagline}</span>
+      </span>
+    </a>
+    <nav class="nav" aria-label={s.menu}>
+      <ul class="nav__list">
+        {navOrder.map((k) => (
+          <li>
+            <a
+              class:list={['nav__link', { 'is-active': k === page }]}
+              href={u(routes[k][lang])}
+              aria-current={k === page ? 'page' : undefined}
+            >
+              {s.nav[k]}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <div class="hdr__tools">
+      <a
+        class="hdr__gh"
+        href={GITHUB}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={s.github}
+        title={s.github}
+      >
+        <svg viewBox="0 0 16 16" width="17" height="17" fill="currentColor" aria-hidden="true">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"></path>
+        </svg>
+      </a>
+      <div class="lang" role="group" aria-label={s.changeLang}>
+        {langs.map((l) => (
+          <a
+            class:list={['lang__opt', { 'is-active': l === lang }]}
+            href={u(routes[page ?? 'home'][l])}
+            hreflang={l}
+            lang={l}
+            aria-current={l === lang ? 'true' : undefined}
+            title={langNames[l]}
+          >
+            {l.toUpperCase()}
+            <span class="visually-hidden">{langNames[l]}</span>
+          </a>
+        ))}
+      </div>
+      <button
+        class="theme-toggle"
+        type="button"
+        aria-label={s.theme}
+        title={s.theme}
+        data-theme-toggle
+      >
+        <span class="theme-toggle__track" aria-hidden="true">
+          <span class="theme-toggle__thumb"></span>
+          <svg
+            class="theme-toggle__icon theme-toggle__icon--sun"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+          >
+            <circle cx="12" cy="12" r="4.2"></circle>
+            <path d="M12 2.6v2.2M12 19.2v2.2M21.4 12h-2.2M4.8 12H2.6M18.6 5.4l-1.6 1.6M7 17l-1.6 1.6M18.6 18.6L17 17M7 7L5.4 5.4"></path>
+          </svg>
+          <svg
+            class="theme-toggle__icon theme-toggle__icon--moon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M20.5 14.6A8.6 8.6 0 1 1 9.4 3.5a7 7 0 0 0 11.1 11.1Z"></path>
+          </svg>
+        </span>
+      </button>
+      <button
+        class="hdr__burger"
+        type="button"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        aria-label={s.menu}
+        data-burger
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+  <div class="mnav" id="mobile-nav" hidden data-mobile-nav>
+    <ul class="mnav__list container">
+      {navOrder.map((k) => (
+        <li>
+          <a
+            class:list={['mnav__link', { 'is-active': k === page }]}
+            href={u(routes[k][lang])}
+            aria-current={k === page ? 'page' : undefined}
+          >
+            {s.nav[k]}
+          </a>
+        </li>
+      ))}
+      <li>
+        <a class="mnav__link" href={GITHUB} target="_blank" rel="noopener noreferrer">
+          GitHub ↗
+        </a>
+      </li>
+    </ul>
+  </div>
+</header>

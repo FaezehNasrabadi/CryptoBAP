@@ -1,0 +1,78 @@
+---
+import { t, u, routes, navOrder, GITHUB, type Lang } from '../i18n';
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const s = t[lang];
+const research = [
+  ['CCS 2026', 'https://arxiv.org/abs/2511.11385'],
+  ['CSF 2025', 'https://ieeexplore.ieee.org/document/11097842'],
+  ['CCS 2023', 'https://doi.org/10.1145/3576915.3623090'],
+];
+const project = [
+  ['GitHub', GITHUB],
+  [s.ftr.artifact, `${GITHUB}#readme`],
+  ['AGPL-3.0', `${GITHUB}/blob/main/LICENSE`],
+];
+---
+
+<footer class="ftr">
+  <div class="container">
+    <div class="ftr__grid">
+      <div class="ftr__brand">
+        <div class="ftr__id">
+          <span class="logo-mark" style="--logo-size:44px" aria-hidden="true"></span>
+          <span class="ftr__name">CryptoBAP</span>
+        </div>
+        <p class="ftr__blurb">{s.ftr.blurb}</p>
+        <p class="ftr__authors">
+          <span class="ftr__authors-label">{s.ftr.researchBy}</span>
+          <span>Faezeh Nasrabadi · Robert Künnemann · Hamed Nemati</span>
+        </p>
+      </div>
+      <nav class="ftr__col" aria-label={s.ftr.explore}>
+        <h2 class="ftr__head">{s.ftr.explore}</h2>
+        <ul>
+          {navOrder.map((k) => (
+            <li>
+              <a href={u(routes[k][lang])}>{s.nav[k]}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <nav class="ftr__col" aria-label={s.ftr.research}>
+        <h2 class="ftr__head">{s.ftr.research}</h2>
+        <ul>
+          {research.map(([label, href]) => (
+            <li>
+              <a href={href} target="_blank" rel="noopener noreferrer">
+                {label} <span aria-hidden="true">↗</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <nav class="ftr__col" aria-label={s.ftr.project}>
+        <h2 class="ftr__head">{s.ftr.project}</h2>
+        <ul>
+          {project.map(([label, href]) => (
+            <li>
+              <a href={href} target="_blank" rel="noopener noreferrer">
+                {label} <span aria-hidden="true">↗</span>
+              </a>
+            </li>
+          ))}
+          <li>
+            <a href="mailto:nasrabadi.faezeh@gmail.com">{s.ftr.contact}</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <hr class="rule ftr__rule" />
+    <div class="ftr__base">
+      <p>{s.ftr.base}</p>
+      <p class="mono ftr__lic">AGPL-3.0</p>
+    </div>
+  </div>
+</footer>

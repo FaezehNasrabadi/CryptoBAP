@@ -1,0 +1,244 @@
+---
+import Base from '../../layouts/Base.astro';
+import { u } from '../../i18n';
+---
+
+<Base
+  lang="de"
+  page="demo"
+  title={'Ein geführter Durchlauf mit Basic Access Control · CryptoBAP'}
+  description={
+    'Basic Access Control ist das Protokoll, mit dem ein elektronischer Reisepass ein Lesegerät authentifiziert, bevor er Daten freigibt. Es ist klein genug, um es vollständig nachzuvollziehen, und interessant genug, um bekannte Datenschutzprobleme aufzuweisen. Diese Demonstration lässt CryptoBAP darüber laufen — vom Bereich der Binärdatei bis zum Urteil des Verifizierers.'
+  }
+>
+  <section class="phero grain">
+    <div class="container">
+      <p class="eyebrow">Demo</p>
+      <h1 class="phero__title">Ein geführter Durchlauf mit Basic Access Control</h1>
+      <p class="lead phero__lead">
+        Basic Access Control ist das Protokoll, mit dem ein elektronischer Reisepass ein Lesegerät
+        authentifiziert, bevor er Daten freigibt. Es ist klein genug, um es vollständig
+        nachzuvollziehen, und interessant genug, um bekannte Datenschutzprobleme aufzuweisen. Diese
+        Demonstration lässt CryptoBAP darüber laufen — vom Bereich der Binärdatei bis zum Urteil des
+        Verifizierers.
+      </p>
+    </div>
+  </section>
+  <!-- ── The recording ────────────────────────────────────── -->
+  <section class="section">
+    <div class="container container--narrow">
+      <div data-reveal>
+        <figure class="vid">
+          <div
+            class="vid__frame"
+            data-video
+            data-src="https://www.youtube-nocookie.com/embed/_KxPCCBp3s0?si=Jq_RW9pPNcLv5U1s&amp;autoplay=1&amp;rel=0"
+            data-title="CryptoBAP-Demo — Analyse des Protokolls Basic Access Control"
+          >
+            <button
+              class="vid__btn"
+              type="button"
+              aria-label="Video abspielen: CryptoBAP-Demo — Analyse des Protokolls Basic Access Control"
+            >
+              <picture>
+                <source srcset={u('media/thumb-_KxPCCBp3s0.webp')} type="image/webp" />
+                <img
+                  src={u('media/thumb-_KxPCCBp3s0.jpg')}
+                  alt=""
+                  width="1280"
+                  height="720"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+              <span class="vid__scrim" aria-hidden="true"></span>
+              <span class="vid__play" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5.5v13a1 1 0 0 0 1.53.85l10.2-6.5a1 1 0 0 0 0-1.7L9.53 4.65A1 1 0 0 0 8 5.5Z"></path>
+                </svg>
+              </span>
+              <span class="vid__meta" aria-hidden="true">
+                <span class="vid__label">Aufzeichnung der Demo</span>
+                <span class="vid__title">
+                  CryptoBAP-Demo — Analyse des Protokolls Basic Access Control
+                </span>
+              </span>
+            </button>
+          </div>
+          <figcaption class="vid__cap">
+            <span class="vid__privacy">
+              <svg
+                viewBox="0 0 24 24"
+                width="13"
+                height="13"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                aria-hidden="true"
+              >
+                <rect x="4" y="10.5" width="16" height="10" rx="2.2"></rect>
+                <path d="M8 10.5V7.4a4 4 0 1 1 8 0v3.1"></path>
+              </svg>
+              <span>Beim Abspielen wird eine Verbindung zu YouTube hergestellt.</span>
+            </span>
+            <a
+              class="vid__direct"
+              href="https://www.youtube.com/watch?v=_KxPCCBp3s0"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Auf YouTube ansehen <span aria-hidden="true">↗</span>
+            </a>
+          </figcaption>
+        </figure>
+        <script type="module">
+          document.querySelectorAll(`[data-video]`).forEach((e) => {
+            e.querySelector(`button`)?.addEventListener(`click`, () => {
+              let t = document.createElement(`iframe`);
+              ((t.src = e.dataset.src ?? ``),
+                (t.title = e.dataset.title ?? ``),
+                (t.allow = `accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share`),
+                (t.referrerPolicy = `strict-origin-when-cross-origin`),
+                (t.allowFullscreen = !0),
+                e.replaceChildren(t),
+                t.focus());
+            });
+          });
+        </script>
+      </div>
+    </div>
+  </section>
+  <!-- ── Walkthrough ──────────────────────────────────────── -->
+  <section class="section band">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Was Sie sehen werden</p>
+        <h2>Dem Durchlauf folgen</h2>
+      </div>
+      <div class="steps gap-top">
+        <article class="step" data-reveal style="--reveal-delay:0ms">
+          <span class="step__n mono">01</span>
+          <h3 class="step__title">Auswahl des Bereichs</h3>
+          <p class="step__body">
+            Die Analyse beginnt bei einem gewählten Bereich der Binärdatei — dem Code, der die
+            untersuchte Protokollrolle implementiert.
+          </p>
+        </article>
+        <article class="step" data-reveal style="--reveal-delay:80ms">
+          <span class="step__n mono">02</span>
+          <h3 class="step__title">Heben und Instrumentieren</h3>
+          <p class="step__body">
+            Der Bereich wird nach BIR übersetzt und mit einem Leakage-Contract instrumentiert. Die
+            Beobachtungen des Angreifers werden so Teil der Programmsemantik.
+          </p>
+        </article>
+        <article class="step" data-reveal style="--reveal-delay:160ms">
+          <span class="step__n mono">03</span>
+          <h3 class="step__title">Spuren sammeln</h3>
+          <p class="step__body">
+            Die symbolische Ausführung durchläuft jeden Pfad des Bereichs und zeichnet die dabei
+            erzeugten Ereignisse und Beobachtungen auf.
+          </p>
+        </article>
+        <article class="step" data-reveal style="--reveal-delay:240ms">
+          <span class="step__n mono">04</span>
+          <h3 class="step__title">Das Urteil lesen</h3>
+          <p class="step__body">
+            Das extrahierte Sapic+-Modell geht an DeepSec, das über Spuräquivalenz entscheidet —
+            jene Eigenschaft, auf der Unverkettbarkeit beruht.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+  <!-- ── Next ─────────────────────────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Weiter</p>
+        <h2>Tiefer einsteigen</h2>
+      </div>
+      <div class="grid grid--3 gap-top">
+        <a
+          class="next card card--hover"
+          href={u('de/technik/')}
+          data-reveal
+          style="--reveal-delay:0ms"
+        >
+          <h3 class="next__title">
+            Die Methodik lesen
+            <svg
+              viewBox="0 0 24 24"
+              width="16"
+              height="16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 12h13M13 6l6 6-6 6"></path>
+            </svg>
+          </h3>
+          <p>
+            Die vollständige Architektur, die Leakage-Contracts und der Korrektheitsbeweis dahinter.
+          </p>
+        </a>
+        <a
+          class="next card card--hover"
+          href="https://github.com/FaezehNasrabadi/CryptoBAP/tree/ccs2026"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-reveal
+          style="--reveal-delay:80ms"
+        >
+          <h3 class="next__title">
+            Ergebnisse reproduzieren
+            <svg
+              viewBox="0 0 24 24"
+              width="16"
+              height="16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 12h13M13 6l6 6-6 6"></path>
+            </svg>
+          </h3>
+          <p>
+            Zu jedem Paper gehört ein Artefakt-Branch mit den in der Evaluation verwendeten
+            Beispielen.
+          </p>
+        </a>
+        <a
+          class="next card card--hover"
+          href={u('de/whatsapp/')}
+          data-reveal
+          style="--reveal-delay:160ms"
+        >
+          <h3 class="next__title">
+            Ein reales Ziel ansehen
+            <svg
+              viewBox="0 0 24 24"
+              width="16"
+              height="16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 12h13M13 6l6 6-6 6"></path>
+            </svg>
+          </h3>
+          <p>Dieselbe Pipeline, angewendet auf eine Closed-Source-Desktopanwendung.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+import { u } from '../i18n';
+---
+
+<Base
+  lang="en"
+  page="home"
+  title={'Page not found · CryptoBAP'}
+  description={'That page does not exist — it may have moved when the site was rebuilt.'}
+>
+  <section class="nf">
+    <div class="container">
+      <span class="logo-mark nf__mark" style="--logo-size:72px" aria-hidden="true"></span>
+      <p class="eyebrow eyebrow--plain mono">404</p>
+      <h1 class="nf__title">Page not found</h1>
+      <p class="lead nf__body">
+        That page does not exist — it may have moved when the site was rebuilt.
+      </p>
+      <p class="nf__de" lang="de">
+        Diese Seite existiert nicht — möglicherweise wurde sie beim Neuaufbau der Website
+        verschoben.
+      </p>
+      <div class="nf__actions">
+        <a class="btn" href={u('')}>
+          Back to the overview
+        </a>
+        <a class="btn btn--ghost" href={u('de/')} lang="de">
+          Zurück zum Überblick
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

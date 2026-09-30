@@ -1,0 +1,335 @@
+---
+import Base from '../../layouts/Base.astro';
+import '../../styles/technical.css';
+import { u } from '../../i18n';
+---
+
+<Base
+  lang="de"
+  page="technical"
+  title={'Architektur · CryptoBAP'}
+  description={
+    'CryptoBAP ist eine durchgängige Werkzeugkette. Sie hebt Maschinencode in eine Zwischendarstellung, instrumentiert ihn mit Leakage-Contracts, führt ihn symbolisch aus, um Ereignis- und Beobachtungsspuren zu gewinnen, und übersetzt diese Spuren nach Sapic+ zur Analyse mit Tamarin, ProVerif und DeepSec.'
+  }
+>
+  <section class="phero grain">
+    <div class="container">
+      <p class="eyebrow">Funktionsweise</p>
+      <h1 class="phero__title">Architektur</h1>
+      <p class="lead phero__lead">
+        CryptoBAP ist eine durchgängige Werkzeugkette. Sie hebt Maschinencode in eine
+        Zwischendarstellung, instrumentiert ihn mit Leakage-Contracts, führt ihn symbolisch aus, um
+        Ereignis- und Beobachtungsspuren zu gewinnen, und übersetzt diese Spuren nach Sapic+ zur
+        Analyse mit Tamarin, ProVerif und DeepSec.
+      </p>
+    </div>
+  </section>
+  <!-- ── Pipeline ─────────────────────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Pipeline</p>
+        <h2>Sechs Stufen, vollständig automatisiert</h2>
+        <p class="prose">
+          Jede Stufe hat definierte Ein- und Ausgaben. Die Kette lässt sich daher an jeder Stelle
+          prüfen — oder auf ein anderes Ziel umstellen.
+        </p>
+      </div>
+      <div class="tl-wrap">
+        <ol class="tl">
+          <li class="tl__step" data-reveal style="--reveal-delay:0ms">
+            <div class="tl__rail" aria-hidden="true">
+              <span class="tl__dot">
+                <span class="tl__n">01</span>
+              </span>
+              <span class="tl__line"></span>
+            </div>
+            <div class="tl__body">
+              <div class="tl__head">
+                <h3 class="tl__name">Reverse Engineering</h3>
+                <span class="tag tag--accent tl__tool">Ghidra</span>
+              </div>
+              <p class="tl__text">
+                Der ausgewählte Bereich der Zielbinärdatei wird disassembliert und als Assemblercode
+                rekonstruiert — auch bei Closed-Source-Programmen.
+              </p>
+            </div>
+          </li>
+          <li class="tl__step" data-reveal style="--reveal-delay:60ms">
+            <div class="tl__rail" aria-hidden="true">
+              <span class="tl__dot">
+                <span class="tl__n">02</span>
+              </span>
+              <span class="tl__line"></span>
+            </div>
+            <div class="tl__body">
+              <div class="tl__head">
+                <h3 class="tl__name">Übersetzung nach BIR</h3>
+                <span class="tag tag--accent tl__tool">HolBA</span>
+              </div>
+              <p class="tl__text">
+                Der Assemblercode wird nach BIR gehoben, einer verifizierten binären
+                Zwischendarstellung. Damit erhält der untersuchte Code eine maschinengeprüfte
+                Semantik.
+              </p>
+            </div>
+          </li>
+          <li class="tl__step" data-reveal style="--reveal-delay:120ms">
+            <div class="tl__rail" aria-hidden="true">
+              <span class="tl__dot">
+                <span class="tl__n">03</span>
+              </span>
+              <span class="tl__line"></span>
+            </div>
+            <div class="tl__body">
+              <div class="tl__head">
+                <h3 class="tl__name">Instrumentierung</h3>
+                <span class="tag tag--accent tl__tool">Scam-V</span>
+              </div>
+              <p class="tl__text">
+                Das BIR-Programm wird mit einem Leakage-Contract instrumentiert, der die
+                Beobachtungen des Angreifers explizit macht — Constant-Time oder Spekulation nach
+                Spectre-PHT.
+              </p>
+            </div>
+          </li>
+          <li class="tl__step" data-reveal style="--reveal-delay:180ms">
+            <div class="tl__rail" aria-hidden="true">
+              <span class="tl__dot">
+                <span class="tl__n">04</span>
+              </span>
+              <span class="tl__line"></span>
+            </div>
+            <div class="tl__body">
+              <div class="tl__head">
+                <h3 class="tl__name">Symbolische Ausführung</h3>
+                <span class="tag tag--accent tl__tool">Krypto-bewusste Engine</span>
+              </div>
+              <p class="tl__text">
+                Das instrumentierte Programm wird symbolisch ausgeführt, um Ereignis- und
+                Beobachtungsspuren zu sammeln. Indirekte Sprünge werden aufgelöst, beschränkte
+                Schleifen zusammengefasst.
+              </p>
+            </div>
+          </li>
+          <li class="tl__step" data-reveal style="--reveal-delay:240ms">
+            <div class="tl__rail" aria-hidden="true">
+              <span class="tl__dot">
+                <span class="tl__n">05</span>
+              </span>
+              <span class="tl__line"></span>
+            </div>
+            <div class="tl__body">
+              <div class="tl__head">
+                <h3 class="tl__name">Modellextraktion</h3>
+                <span class="tag tag--accent tl__tool">Sapic+</span>
+              </div>
+              <p class="tl__text">
+                Die Spuren werden mittels Lebendigkeitsanalyse vereinfacht und in einen
+                Sapic+-Prozess übersetzt — ein Modell sämtlicher Ausführungspfade des Bereichs.
+              </p>
+            </div>
+          </li>
+          <li class="tl__step" data-reveal style="--reveal-delay:300ms">
+            <div class="tl__rail" aria-hidden="true">
+              <span class="tl__dot">
+                <span class="tl__n">06</span>
+              </span>
+            </div>
+            <div class="tl__body">
+              <div class="tl__head">
+                <h3 class="tl__name">Verifikation</h3>
+                <span class="tag tag--accent tl__tool">Tamarin · ProVerif · DeepSec</span>
+              </div>
+              <p class="tl__text">
+                Das entstandene Modell wird an etablierte Protokollverifizierer übergeben, die
+                Spureigenschaften ebenso abdecken wie beobachtbare Äquivalenz.
+              </p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+  <!-- ── Leakage contracts ────────────────────────────────── -->
+  <section class="section band">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Leakage-Contracts</p>
+        <h2>Die Sicht des Angreifers explizit machen</h2>
+        <p class="prose">
+          Ein Leakage-Contract legt genau fest, was ein Angreifer während der Programmausführung
+          beobachtet. Ein Wechsel des Contracts verändert das Bedrohungsmodell, ohne die Binärdatei
+          oder das Protokollmodell anzutasten.
+        </p>
+      </div>
+      <div class="grid grid--2 gap-top">
+        <article class="contract" data-reveal style="--reveal-delay:0ms">
+          <div class="contract__head">
+            <h3 class="contract__name">Constant-Time</h3>
+            <span class="tag">Architektural</span>
+          </div>
+          <p class="contract__body">
+            Der Angreifer beobachtet die Folge der Kontrollflussentscheidungen sowie die Adressen
+            der Speicherzugriffe. Damit sind klassische Cache- und Branch-Timing-Kanäle erfasst:
+            Jede geheimnisabhängige Verzweigung und jede aus einem Geheimnis abgeleitete Adresse
+            wird sichtbar.
+          </p>
+        </article>
+        <article class="contract" data-reveal style="--reveal-delay:100ms">
+          <div class="contract__head">
+            <h3 class="contract__name">Spectre-PHT</h3>
+            <span class="tag">Spekulativ</span>
+          </div>
+          <p class="contract__body">
+            Zusätzlich beobachtet der Angreifer die Ausführung entlang fehlspekulierter bedingter
+            Sprünge. Damit ist spekulative Leckage erfasst, bei der der transiente Pfad Daten
+            berührt, die der architekturale Pfad nie anfassen würde.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+  <!-- ── Back ends ────────────────────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Backends</p>
+        <h2>Drei Verifizierer, zwei Klassen von Eigenschaften</h2>
+      </div>
+      <div class="grid grid--3 gap-top">
+        <article class="card card--hover" data-reveal style="--reveal-delay:0ms">
+          <h3 class="backend__name">Tamarin</h3>
+          <p>
+            Unbeschränkte Verifikation von Spureigenschaften, mit Unterstützung für
+            zustandsbehaftete Protokolle und Gleichungstheorien.
+          </p>
+        </article>
+        <article class="card card--hover" data-reveal style="--reveal-delay:90ms">
+          <h3 class="backend__name">ProVerif</h3>
+          <p>
+            Automatisierte Analyse im angewandten Pi-Kalkül für Geheimhaltung, Authentifizierung und
+            beobachtbare Äquivalenz.
+          </p>
+        </article>
+        <article class="card card--hover" data-reveal style="--reveal-delay:180ms">
+          <h3 class="backend__name">DeepSec</h3>
+          <p>
+            Entscheidung der Spuräquivalenz für eine beschränkte Anzahl von Sitzungen — das Werkzeug
+            der Wahl für Unverkettbarkeit und Privatsphäre.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+  <!-- ── Foundations ──────────────────────────────────────── -->
+  <section class="section band">
+    <div class="container">
+      <div class="found">
+        <div data-reveal>
+          <p class="eyebrow">Grundlagen</p>
+          <h2 class="found__title">Komposition über Sprachgrenzen hinweg</h2>
+          <p class="prose found__body">
+            Reale Protokollstacks sind nicht in einer einzigen Sprache geschrieben. CryptoBAP baut
+            auf einer symbolischen Ausführungssemantik auf, die die Parallelkomposition
+            beschrifteter Transitionssysteme über verschiedene atomare Typen hinweg erlaubt. Indem
+            das Dolev-Yao-Modell selbst als symbolische Abstraktion behandelt wird, entfällt die
+            Übersetzung zwischen Bitstrings und Dolev-Yao-Termen an jeder Sprachgrenze.
+          </p>
+        </div>
+        <ul class="list-check found__list" data-reveal style="--reveal-delay:90ms">
+          <li>
+            Komposition symbolischer beschrifteter Transitionssysteme mit Deduktions-Kombinatoren
+          </li>
+          <li>Parallelkomposition konkreter Transitionssysteme im CSP-Stil</li>
+          <li>Eine Verfeinerung, die symbolische mit konkreter Semantik verbindet</li>
+          <li>Instanziierung des Frameworks für BIR und Sapic, mit Korrektheitsbeweisen in HOL4</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <!-- ── Evaluation ───────────────────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Evaluation</p>
+        <h2>Was die Fallstudien gezeigt haben</h2>
+      </div>
+      <ol class="eval gap-top">
+        <li class="eval__item" data-reveal style="--reveal-delay:0ms">
+          <span class="eval__n mono">01</span>
+          <p>
+            Ein Instruktions-Cache-Seitenkanal in WhatsApp Desktop, der Rückschlüsse auf den
+            Sozialgraphen ermöglicht.
+          </p>
+        </li>
+        <li class="eval__item" data-reveal style="--reveal-delay:70ms">
+          <span class="eval__n mono">02</span>
+          <p>
+            Unter mikroarchitektureller Beobachtung reproduzierte Unverkettbarkeitsprobleme im
+            Reisepass-Protokoll BAC.
+          </p>
+        </li>
+        <li class="eval__item" data-reveal style="--reveal-delay:140ms">
+          <span class="eval__n mono">03</span>
+          <p>
+            Verifizierte Forward Secrecy sowie ein identifizierter bekannter Klon-Angriff auf die
+            Post-Compromise Security — auf Basis von Modellen, die aus der Binärdatei extrahiert
+            wurden.
+          </p>
+        </li>
+        <li class="eval__item" data-reveal style="--reveal-delay:210ms">
+          <span class="eval__n mono">04</span>
+          <p>
+            Verifizierte Sicherheitseigenschaften für WireGuard, TinySSH, RPC-enc, RPC, NSL, CSur,
+            Simple Hash und Simple XOR.
+          </p>
+        </li>
+      </ol>
+      <p class="eval__note" data-reveal>
+        Die Plattform aus CCS 2023 adressiert ARMv8- und RISC-V-Maschinencode und verifiziert
+        schwache Geheimhaltung und Authentifizierung; die Arbeit für CCS 2026 ergänzt
+        Leakage-Contracts und Seitenkanalanalyse.
+      </p>
+      <div class="next-links" data-reveal>
+        <a class="arrow-link" href={u('de/publikationen/')}>
+          Publikationen
+          <svg
+            viewBox="0 0 24 24"
+            width="15"
+            height="15"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 12h13M13 6l6 6-6 6"></path>
+          </svg>
+        </a>
+        <a
+          class="arrow-link"
+          href="https://arxiv.org/abs/2511.11385"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Paper lesen — CCS 2026
+          <svg
+            viewBox="0 0 24 24"
+            width="15"
+            height="15"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 12h13M13 6l6 6-6 6"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

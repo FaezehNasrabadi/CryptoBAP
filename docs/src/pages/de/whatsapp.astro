@@ -1,0 +1,307 @@
+---
+import Base from '../../layouts/Base.astro';
+import { u } from '../../i18n';
+---
+
+<Base
+  lang="de"
+  page="whatsapp"
+  title={'Im Inneren des Sitzungsaufbaus von WhatsApp Desktop · CryptoBAP'}
+  description={
+    'Wie initialisiert eine Closed-Source-Desktopanwendung eine Ende-zu-Ende-verschlüsselte Sitzung — und was verrät dieser Vorgang einem Beobachter? Die folgenden Aufzeichnungen verfolgen die kryptografische Logik von WhatsApp Desktop unter macOS mit dem Debugger LLDB und prüfen Kommunikationszustände sowie die Auslöser eines Sitzungsaufbaus.'
+  }
+>
+  <section class="phero grain">
+    <div class="container">
+      <p class="eyebrow">Fallstudie</p>
+      <h1 class="phero__title">Im Inneren des Sitzungsaufbaus von WhatsApp Desktop</h1>
+      <p class="lead phero__lead">
+        Wie initialisiert eine Closed-Source-Desktopanwendung eine Ende-zu-Ende-verschlüsselte
+        Sitzung — und was verrät dieser Vorgang einem Beobachter? Die folgenden Aufzeichnungen
+        verfolgen die kryptografische Logik von WhatsApp Desktop unter macOS mit dem Debugger LLDB
+        und prüfen Kommunikationszustände sowie die Auslöser eines Sitzungsaufbaus.
+      </p>
+    </div>
+  </section>
+  <!-- ── Headline finding ─────────────────────────────────── -->
+  <section class="section--tight">
+    <div class="container">
+      <aside class="wa-finding" data-reveal>
+        <div class="wa-finding__mark" aria-hidden="true">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M12 3 3.5 7.2v5.1c0 4.6 3.5 8.3 8.5 9.4 5-1.1 8.5-4.8 8.5-9.4V7.2Z"></path>
+            <path d="M12 8.6v4.2M12 16.2h.01"></path>
+          </svg>
+        </div>
+        <div>
+          <p class="wa-finding__label">Zentraler Befund</p>
+          <p class="wa-finding__body">
+            Unter dem Constant-Time-Beobachtungsmodell unterscheidet das Verhalten des
+            Instruktions-Caches beim Sitzungsaufbau, ob bereits eine Konversation mit einem
+            bestimmten Empfänger besteht — genug, um Teile des Sozialgraphen eines Nutzers
+            abzuleiten.
+          </p>
+          <p class="wa-finding__cite">
+            Automated Side-Channel Analysis of Cryptographic Protocol Implementations, CCS 2026
+          </p>
+        </div>
+      </aside>
+    </div>
+  </section>
+  <!-- ── Videos ───────────────────────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <div class="vsplit">
+        <div class="vsplit__copy" data-reveal>
+          <p class="eyebrow">Aufzeichnung 01</p>
+          <h2 class="vsplit__title">Analyse des technischen Ablaufs &amp; Debugging-Logik</h2>
+          <p class="prose vsplit__purpose">
+            Eine schrittweise Methodik, um mit LLDB den Ausführungsfluss kryptografischer Funktionen
+            zu beobachten — mit Fokus auf die Auslöser bei Interaktionen in der Oberfläche, etwa dem
+            Start eines neuen Chats oder dem Anlegen einer Gruppe.
+          </p>
+          <ul class="list-check vsplit__points">
+            <li>
+              <span>
+                Den WhatsApp-Prozess anbinden und einen Breakpoint auf{' '}
+                <code>session_builder_process_pre_key_bundle</code> setzen.
+              </span>
+            </li>
+            <li>
+              <span>
+                Diejenigen Speicheradressen bestimmen, die anzeigen, dass noch keine Konversation
+                mit einem Empfänger besteht.
+              </span>
+            </li>
+            <li>
+              <span>
+                Einen Backtrace erzeugen, um den Aufrufstapel der Signal-Protokoll-Implementierung
+                abzubilden.
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div class="vsplit__video" data-reveal style="--reveal-delay:90ms">
+          <figure class="vid">
+            <div
+              class="vid__frame"
+              data-video
+              data-src="https://www.youtube-nocookie.com/embed/CDuQIf1oPjA?si=s6AZRQXFs9ph4tAa&amp;autoplay=1&amp;rel=0"
+              data-title="Debugging WhatsApp Session Initialization with LLDB on macOS"
+            >
+              <button
+                class="vid__btn"
+                type="button"
+                aria-label="Video abspielen: Debugging WhatsApp Session Initialization with LLDB on macOS"
+              >
+                <picture>
+                  <source srcset={u('media/thumb-CDuQIf1oPjA.webp')} type="image/webp" />
+                  <img
+                    src={u('media/thumb-CDuQIf1oPjA.jpg')}
+                    alt=""
+                    width="1280"
+                    height="720"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+                <span class="vid__scrim" aria-hidden="true"></span>
+                <span class="vid__play" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5.5v13a1 1 0 0 0 1.53.85l10.2-6.5a1 1 0 0 0 0-1.7L9.53 4.65A1 1 0 0 0 8 5.5Z"></path>
+                  </svg>
+                </span>
+                <span class="vid__meta" aria-hidden="true">
+                  <span class="vid__label">01</span>
+                  <span class="vid__title">
+                    Debugging WhatsApp Session Initialization with LLDB on macOS
+                  </span>
+                </span>
+              </button>
+            </div>
+            <figcaption class="vid__cap">
+              <span class="vid__privacy">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="13"
+                  height="13"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  aria-hidden="true"
+                >
+                  <rect x="4" y="10.5" width="16" height="10" rx="2.2"></rect>
+                  <path d="M8 10.5V7.4a4 4 0 1 1 8 0v3.1"></path>
+                </svg>
+                <span>Beim Abspielen wird eine Verbindung zu YouTube hergestellt.</span>
+              </span>
+              <a
+                class="vid__direct"
+                href="https://www.youtube.com/watch?v=CDuQIf1oPjA"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Auf YouTube ansehen <span aria-hidden="true">↗</span>
+              </a>
+            </figcaption>
+          </figure>
+          <script type="module">
+            document.querySelectorAll(`[data-video]`).forEach((e) => {
+              e.querySelector(`button`)?.addEventListener(`click`, () => {
+                let t = document.createElement(`iframe`);
+                ((t.src = e.dataset.src ?? ``),
+                  (t.title = e.dataset.title ?? ``),
+                  (t.allow = `accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share`),
+                  (t.referrerPolicy = `strict-origin-when-cross-origin`),
+                  (t.allowFullscreen = !0),
+                  e.replaceChildren(t),
+                  t.focus());
+              });
+            });
+          </script>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section band">
+    <div class="container">
+      <div class="vsplit">
+        <div class="vsplit__copy" data-reveal>
+          <p class="eyebrow">Aufzeichnung 02</p>
+          <h2 class="vsplit__title">
+            Lebenszyklus der Ende-zu-Ende-Sitzung &amp; Sicherheitsanalyse
+          </h2>
+          <p class="prose vsplit__purpose">
+            Über das reine Nachvollziehen der Logik hinaus: ein sicherheitszentriertes Audit des
+            E2E-Sitzungslebenszyklus — die Grenzen rund um kontobezogene Ereignisse und die
+            Verwaltung von Kommunikationszuständen über Gerätewechsel hinweg.
+          </p>
+          <ul class="list-check vsplit__points">
+            <li>
+              <span>
+                Der vollständige Lebenszyklus, von Registrierung und Kontoeinrichtung bis zum
+                Löschen einer Konversation.
+              </span>
+            </li>
+            <li>
+              <span>
+                Die Sicherheitsimplikationen einer erneuten Registrierung durch einen Angreifer und
+                der Verknüpfung der Desktop-Anwendung mit einem neuen Konto.
+              </span>
+            </li>
+            <li>
+              <span>
+                Wie die Anwendung Key-Bundles abruft und sichere Zustände über mehrere Kontakte
+                hinweg aufrechterhält.
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div class="vsplit__video" data-reveal style="--reveal-delay:90ms">
+          <figure class="vid">
+            <div
+              class="vid__frame"
+              data-video
+              data-src="https://www.youtube-nocookie.com/embed/feWSc6SY4Mw?si=dKvamS4T07uRHIxL&amp;autoplay=1&amp;rel=0"
+              data-title="WhatsApp Security Analysis: Reverse Engineering E2E Session Setup"
+            >
+              <button
+                class="vid__btn"
+                type="button"
+                aria-label="Video abspielen: WhatsApp Security Analysis: Reverse Engineering E2E Session Setup"
+              >
+                <picture>
+                  <source srcset={u('media/thumb-feWSc6SY4Mw.webp')} type="image/webp" />
+                  <img
+                    src={u('media/thumb-feWSc6SY4Mw.jpg')}
+                    alt=""
+                    width="1280"
+                    height="720"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+                <span class="vid__scrim" aria-hidden="true"></span>
+                <span class="vid__play" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5.5v13a1 1 0 0 0 1.53.85l10.2-6.5a1 1 0 0 0 0-1.7L9.53 4.65A1 1 0 0 0 8 5.5Z"></path>
+                  </svg>
+                </span>
+                <span class="vid__meta" aria-hidden="true">
+                  <span class="vid__label">02</span>
+                  <span class="vid__title">
+                    WhatsApp Security Analysis: Reverse Engineering E2E Session Setup
+                  </span>
+                </span>
+              </button>
+            </div>
+            <figcaption class="vid__cap">
+              <span class="vid__privacy">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="13"
+                  height="13"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  aria-hidden="true"
+                >
+                  <rect x="4" y="10.5" width="16" height="10" rx="2.2"></rect>
+                  <path d="M8 10.5V7.4a4 4 0 1 1 8 0v3.1"></path>
+                </svg>
+                <span>Beim Abspielen wird eine Verbindung zu YouTube hergestellt.</span>
+              </span>
+              <a
+                class="vid__direct"
+                href="https://www.youtube.com/watch?v=feWSc6SY4Mw"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Auf YouTube ansehen <span aria-hidden="true">↗</span>
+              </a>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ── Method ───────────────────────────────────────────── -->
+  <section class="section--tight method-wrap">
+    <div class="container">
+      <div class="method" data-reveal>
+        <div>
+          <h2 class="method__title">Methodik</h2>
+          <p class="method__body">
+            Die dynamische Analyse mit LLDB zeigt, an welcher Stelle der Binärdatei die relevante
+            kryptografische Arbeit stattfindet. Dieser Bereich wird anschließend an die
+            CryptoBAP-Pipeline übergeben, die ihn hebt, mit einem Leakage-Contract instrumentiert
+            und ein Modell für die Verifizierer extrahiert.
+          </p>
+        </div>
+        <a class="btn btn--ghost" href={u('de/technik/')}>
+          So funktioniert die Pipeline
+          <svg
+            viewBox="0 0 24 24"
+            width="15"
+            height="15"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 12h13M13 6l6 6-6 6"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,696 @@
+---
+import Base from '../layouts/Base.astro';
+import '../styles/papers.css';
+import { u } from '../i18n';
+---
+
+<Base
+  lang="en"
+  page="papers"
+  title={'Papers & artifacts · CryptoBAP'}
+  description={
+    'CryptoBAP is developed in the open. Every paper below ships with a reproducible artifact branch in the repository.'
+  }
+>
+  <section class="phero grain">
+    <div class="container">
+      <p class="eyebrow">Publications</p>
+      <h1 class="phero__title">Papers &amp; artifacts</h1>
+      <p class="lead phero__lead">
+        CryptoBAP is developed in the open. Every paper below ships with a reproducible artifact
+        branch in the repository.
+      </p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="papers">
+        <article class="paper paper--featured" data-reveal>
+          <div class="paper__meta">
+            <span class="tag tag--accent">CCS 2026</span>
+            <span class="paper__year mono">2026</span>
+          </div>
+          <h3 class="paper__title">
+            Automated Side-Channel Analysis of Cryptographic Protocol Implementations
+          </h3>
+          <p class="paper__venue">ACM CCS 2026</p>
+          <p class="paper__authors">Faezeh Nasrabadi · Robert Künnemann · Hamed Nemati</p>
+          <details class="paper__details">
+            <summary class="paper__summary">
+              <span class="paper__summary-show">Read abstract</span>
+              <span class="paper__summary-hide">Hide abstract</span>
+              <svg
+                viewBox="0 0 24 24"
+                width="14"
+                height="14"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
+            </summary>
+            <div class="paper__abstract">
+              <p>
+                Formal verification of cryptographic protocols typically relies on symbolic models
+                that abstract away compiled code and microarchitectural side channels, leaving a gap
+                between verified specifications and deployed executables. We present a toolchain
+                that extracts protocol-relevant models from real binaries and analyzes them under
+                explicit leakage contracts for constant-time and Spectre-PHT-style speculative
+                observations. Starting from a selected binary region, we lift machine code to an
+                intermediate representation, instrument it with leakage contracts, symbolically
+                execute it to obtain event/observation traces, and translate these traces into
+                Sapic+ for analysis with Tamarin, ProVerif, and DeepSec. As case studies, we extract
+                models of WhatsApp Desktop’s session-management and double-ratchet components from
+                its binary and analyze forward secrecy and post-compromise security under a
+                state-cloning compromise. For side-channel analysis, we study the Basic Access
+                Control (BAC) protocol used in e-passports and WhatsApp’s session establishment.
+                Under our observation models, we identify an instruction-cache side channel in
+                WhatsApp Desktop enabling social-graph inference, and we reproduce known
+                unlinkability issues in BAC under microarchitectural observations.
+              </p>
+              <div class="cite">
+                <div class="cite__bar">
+                  <span class="cite__label">BibTeX</span>
+                  <button
+                    class="cite__copy"
+                    type="button"
+                    data-copy="ccs2026"
+                    data-label-copy="Copy"
+                    data-label-done="Copied"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="13"
+                      height="13"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.7"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <rect x="9" y="9" width="11" height="11" rx="2.2"></rect>
+                      <path d="M5 15V5.8A1.8 1.8 0 0 1 6.8 4H15"></path>
+                    </svg>
+                    <span data-copy-text>Copy</span>
+                  </button>
+                </div>
+                <pre class="cite__pre" id="bib-ccs2026"><code>@misc&#123;nasrabadi2026sidechannel,
+  title        = &#123;Automated Side-Channel Analysis of Cryptographic
+                  Protocol Implementations&#125;,
+  author       = &#123;Nasrabadi, Faezeh and K&#123;\&quot;u&#125;nnemann, Robert and Nemati, Hamed&#125;,
+  year         = &#123;2026&#125;,
+  eprint       = &#123;2511.11385&#125;,
+  archivePrefix= &#123;arXiv&#125;,
+  primaryClass = &#123;cs.CR&#125;,
+  url          = &#123;https://arxiv.org/abs/2511.11385&#125;
+&#125;</code></pre>
+              </div>
+              <script type="module">
+                document.querySelectorAll(`[data-copy]`).forEach((e) => {
+                  e.addEventListener(`click`, async () => {
+                    let t = document.getElementById(`bib-${e.dataset.copy}`),
+                      n = e.querySelector(`[data-copy-text]`);
+                    if (!(!t || !n))
+                      try {
+                        (await navigator.clipboard.writeText(t.textContent ?? ``),
+                          (n.textContent = e.dataset.labelDone ?? `Copied`),
+                          e.setAttribute(`data-done`, ``),
+                          setTimeout(() => {
+                            ((n.textContent = e.dataset.labelCopy ?? `Copy`),
+                              e.removeAttribute(`data-done`));
+                          }, 2e3));
+                      } catch {
+                        let e = document.createRange();
+                        e.selectNodeContents(t);
+                        let n = window.getSelection();
+                        (n?.removeAllRanges(), n?.addRange(e));
+                      }
+                  });
+                });
+              </script>
+            </div>
+          </details>
+          <ul class="paper__links">
+            <li>
+              <a
+                class="paper__link"
+                href="https://arxiv.org/abs/2511.11385"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M4 5h16M4 12h16M4 19h10"></path>
+                </svg>
+                <span>arXiv:2511.11385</span>
+                <span class="paper__ext" aria-hidden="true">
+                  ↗
+                </span>
+                <span class="visually-hidden">opens in a new tab</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="paper__link"
+                href="https://github.com/FaezehNasrabadi/CryptoBAP/tree/ccs2026"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="m9 8-5 4 5 4M15 8l5 4-5 4"></path>
+                </svg>
+                <span>Artifact</span>
+                <span class="paper__ext" aria-hidden="true">
+                  ↗
+                </span>
+                <span class="visually-hidden">opens in a new tab</span>
+              </a>
+            </li>
+          </ul>
+        </article>
+        <article class="paper" data-reveal>
+          <div class="paper__meta">
+            <span class="tag tag--accent">CSF 2025</span>
+            <span class="paper__year mono">2025</span>
+          </div>
+          <h3 class="paper__title">
+            Symbolic Parallel Composition for Multi-language Protocol Verification
+          </h3>
+          <p class="paper__venue">38th IEEE Computer Security Foundations Symposium</p>
+          <p class="paper__authors">Faezeh Nasrabadi · Robert Künnemann · Hamed Nemati</p>
+          <details class="paper__details">
+            <summary class="paper__summary">
+              <span class="paper__summary-show">Read abstract</span>
+              <span class="paper__summary-hide">Hide abstract</span>
+              <svg
+                viewBox="0 0 24 24"
+                width="14"
+                height="14"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
+            </summary>
+            <div class="paper__abstract">
+              <p>
+                The implementation of security protocols often combines different languages, which
+                poses a challenge to traditional verification techniques that typically assume a
+                single-language environment and are insufficient to handle challenges presented by
+                the interplay of different languages. We establish principles for combining multiple
+                programming languages operating on different atomic types using a symbolic execution
+                semantics, which facilitates the parallel composition of labelled transition systems
+                and improves the analysis of complex systems by streamlining communication between
+                diverse programming languages. By treating the Dolev–Yao model as a symbolic
+                abstraction, our approach eliminates the need for translation between different base
+                types, such as bitstrings and Dolev–Yao terms, and provides a foundation for
+                securing interactions in multi-language environments.
+              </p>
+              <div class="cite">
+                <div class="cite__bar">
+                  <span class="cite__label">BibTeX</span>
+                  <button
+                    class="cite__copy"
+                    type="button"
+                    data-copy="csf2025"
+                    data-label-copy="Copy"
+                    data-label-done="Copied"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="13"
+                      height="13"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.7"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <rect x="9" y="9" width="11" height="11" rx="2.2"></rect>
+                      <path d="M5 15V5.8A1.8 1.8 0 0 1 6.8 4H15"></path>
+                    </svg>
+                    <span data-copy-text>Copy</span>
+                  </button>
+                </div>
+                <pre
+                  class="cite__pre"
+                  id="bib-csf2025"
+                ><code>@inproceedings&#123;nasrabadi2025symbolic,
+  title     = &#123;Symbolic Parallel Composition for Multi-language
+               Protocol Verification&#125;,
+  author    = &#123;Nasrabadi, Faezeh and K&#123;\&quot;u&#125;nnemann, Robert and Nemati, Hamed&#125;,
+  booktitle = &#123;2025 IEEE 38th Computer Security Foundations Symposium (CSF)&#125;,
+  pages     = &#123;378--393&#125;,
+  year      = &#123;2025&#125;,
+  publisher = &#123;IEEE&#125;
+&#125;</code></pre>
+              </div>
+            </div>
+          </details>
+          <ul class="paper__links">
+            <li>
+              <a
+                class="paper__link"
+                href="https://ieeexplore.ieee.org/document/11097842"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M4 5h16v14H4Z"></path>
+                </svg>
+                <span>IEEE Xplore</span>
+                <span class="paper__ext" aria-hidden="true">
+                  ↗
+                </span>
+                <span class="visually-hidden">opens in a new tab</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="paper__link"
+                href="https://arxiv.org/abs/2504.06833"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M4 5h16M4 12h16M4 19h10"></path>
+                </svg>
+                <span>arXiv:2504.06833</span>
+                <span class="paper__ext" aria-hidden="true">
+                  ↗
+                </span>
+                <span class="visually-hidden">opens in a new tab</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="paper__link"
+                href="https://github.com/FaezehNasrabadi/CryptoBAP/tree/csf2025"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="m9 8-5 4 5 4M15 8l5 4-5 4"></path>
+                </svg>
+                <span>Artifact</span>
+                <span class="paper__ext" aria-hidden="true">
+                  ↗
+                </span>
+                <span class="visually-hidden">opens in a new tab</span>
+              </a>
+            </li>
+          </ul>
+        </article>
+        <article class="paper" data-reveal>
+          <div class="paper__meta">
+            <span class="tag tag--accent">CCS 2023</span>
+            <span class="paper__year mono">2023</span>
+          </div>
+          <h3 class="paper__title">
+            CryptoBap: A Binary Analysis Platform for Cryptographic Protocols
+          </h3>
+          <p class="paper__venue">ACM SIGSAC Conference on Computer and Communications Security</p>
+          <p class="paper__authors">Faezeh Nasrabadi · Robert Künnemann · Hamed Nemati</p>
+          <details class="paper__details">
+            <summary class="paper__summary">
+              <span class="paper__summary-show">Read abstract</span>
+              <span class="paper__summary-hide">Hide abstract</span>
+              <svg
+                viewBox="0 0 24 24"
+                width="14"
+                height="14"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
+            </summary>
+            <div class="paper__abstract">
+              <p>
+                CryptoBap is a platform to verify weak secrecy and authentication for the (ARMv8 and
+                RISC-V) machine code of cryptographic protocols. It works by transpiling the binary
+                of protocols into an intermediate representation and then performing a crypto-aware
+                symbolic execution to automatically extract a model of the protocol that represents
+                all its execution paths. The symbolic execution resolves indirect jumps and supports
+                bounded loops using the loop-summarization technique, which is fully automated. The
+                extracted model is then translated into models amenable to automated verification
+                via ProVerif and CryptoVerif using a third-party toolchain. We prove the soundness
+                of the proposed approach and use CryptoBap to verify multiple case studies ranging
+                from toy examples to real-world protocols, TinySSH, an implementation of SSH, and
+                WireGuard, a modern VPN protocol.
+              </p>
+              <div class="cite">
+                <div class="cite__bar">
+                  <span class="cite__label">BibTeX</span>
+                  <button
+                    class="cite__copy"
+                    type="button"
+                    data-copy="ccs2023"
+                    data-label-copy="Copy"
+                    data-label-done="Copied"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="13"
+                      height="13"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.7"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <rect x="9" y="9" width="11" height="11" rx="2.2"></rect>
+                      <path d="M5 15V5.8A1.8 1.8 0 0 1 6.8 4H15"></path>
+                    </svg>
+                    <span data-copy-text>Copy</span>
+                  </button>
+                </div>
+                <pre
+                  class="cite__pre"
+                  id="bib-ccs2023"
+                ><code>@inproceedings&#123;nasrabadi2023cryptobap,
+  title     = &#123;CryptoBap: A Binary Analysis Platform for Cryptographic
+               Protocols&#125;,
+  author    = &#123;Nasrabadi, Faezeh and K&#123;\&quot;u&#125;nnemann, Robert and Nemati, Hamed&#125;,
+  booktitle = &#123;Proceedings of the 2023 ACM SIGSAC Conference on Computer
+               and Communications Security (CCS &#39;23)&#125;,
+  year      = &#123;2023&#125;,
+  publisher = &#123;ACM&#125;,
+  doi       = &#123;10.1145/3576915.3623090&#125;
+&#125;</code></pre>
+              </div>
+            </div>
+          </details>
+          <ul class="paper__links">
+            <li>
+              <a
+                class="paper__link"
+                href="https://doi.org/10.1145/3576915.3623090"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M12 2 3 7v10l9 5 9-5V7Z"></path>
+                </svg>
+                <span>10.1145/3576915.3623090</span>
+                <span class="paper__ext" aria-hidden="true">
+                  ↗
+                </span>
+                <span class="visually-hidden">opens in a new tab</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="paper__link"
+                href="https://arxiv.org/abs/2308.14450"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M4 5h16M4 12h16M4 19h10"></path>
+                </svg>
+                <span>arXiv:2308.14450</span>
+                <span class="paper__ext" aria-hidden="true">
+                  ↗
+                </span>
+                <span class="visually-hidden">opens in a new tab</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="paper__link"
+                href="https://github.com/FaezehNasrabadi/CryptoBAP/tree/ccs2023"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="m9 8-5 4 5 4M15 8l5 4-5 4"></path>
+                </svg>
+                <span>Artifact</span>
+                <span class="paper__ext" aria-hidden="true">
+                  ↗
+                </span>
+                <span class="visually-hidden">opens in a new tab</span>
+              </a>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+  <section class="section band">
+    <div class="container">
+      <div class="repo">
+        <div data-reveal>
+          <p class="eyebrow">Source</p>
+          <h2 class="repo__title">The repository</h2>
+          <p class="prose repo__body">
+            The main branch carries the current platform; each publication has its own artifact
+            branch pinned to the state used for evaluation. A compatible version of HolBA is
+            included, so the framework can be built and the bundled examples reproduced.
+          </p>
+          <a
+            class="btn repo__cta"
+            href="https://github.com/FaezehNasrabadi/CryptoBAP"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg viewBox="0 0 16 16" width="15" height="15" fill="currentColor" aria-hidden="true">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"></path>
+            </svg>
+            Source on GitHub
+          </a>
+        </div>
+        <div class="repo__side" data-reveal style="--reveal-delay:90ms">
+          <div class="panel">
+            <h3 class="panel__head">Artifact branches</h3>
+            <ul class="branches">
+              <li>
+                <a
+                  class="branch"
+                  href="https://github.com/FaezehNasrabadi/CryptoBAP"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <svg
+                    viewBox="0 0 16 16"
+                    width="13"
+                    height="13"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    aria-hidden="true"
+                  >
+                    <circle cx="4" cy="3.5" r="1.6"></circle>
+                    <circle cx="4" cy="12.5" r="1.6"></circle>
+                    <circle cx="12" cy="8" r="1.6"></circle>
+                    <path d="M4 5.1v5.8M5.6 3.5h3A3.4 3.4 0 0 1 12 6.9v-.5"></path>
+                  </svg>
+                  <code>main</code>
+                  <span class="branch__label">The repository</span>
+                  <span class="branch__ext" aria-hidden="true">
+                    ↗
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="branch"
+                  href="https://github.com/FaezehNasrabadi/CryptoBAP/tree/ccs2026"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <svg
+                    viewBox="0 0 16 16"
+                    width="13"
+                    height="13"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    aria-hidden="true"
+                  >
+                    <circle cx="4" cy="3.5" r="1.6"></circle>
+                    <circle cx="4" cy="12.5" r="1.6"></circle>
+                    <circle cx="12" cy="8" r="1.6"></circle>
+                    <path d="M4 5.1v5.8M5.6 3.5h3A3.4 3.4 0 0 1 12 6.9v-.5"></path>
+                  </svg>
+                  <code>ccs2026</code>
+                  <span class="branch__label">CCS 2026</span>
+                  <span class="branch__ext" aria-hidden="true">
+                    ↗
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="branch"
+                  href="https://github.com/FaezehNasrabadi/CryptoBAP/tree/csf2025"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <svg
+                    viewBox="0 0 16 16"
+                    width="13"
+                    height="13"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    aria-hidden="true"
+                  >
+                    <circle cx="4" cy="3.5" r="1.6"></circle>
+                    <circle cx="4" cy="12.5" r="1.6"></circle>
+                    <circle cx="12" cy="8" r="1.6"></circle>
+                    <path d="M4 5.1v5.8M5.6 3.5h3A3.4 3.4 0 0 1 12 6.9v-.5"></path>
+                  </svg>
+                  <code>csf2025</code>
+                  <span class="branch__label">CSF 2025</span>
+                  <span class="branch__ext" aria-hidden="true">
+                    ↗
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="branch"
+                  href="https://github.com/FaezehNasrabadi/CryptoBAP/tree/ccs2023"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <svg
+                    viewBox="0 0 16 16"
+                    width="13"
+                    height="13"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    aria-hidden="true"
+                  >
+                    <circle cx="4" cy="3.5" r="1.6"></circle>
+                    <circle cx="4" cy="12.5" r="1.6"></circle>
+                    <circle cx="12" cy="8" r="1.6"></circle>
+                    <path d="M4 5.1v5.8M5.6 3.5h3A3.4 3.4 0 0 1 12 6.9v-.5"></path>
+                  </svg>
+                  <code>ccs2023</code>
+                  <span class="branch__label">CCS 2023</span>
+                  <span class="branch__ext" aria-hidden="true">
+                    ↗
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3 class="panel__head">Licence</h3>
+            <p class="panel__body">
+              Released under the GNU Affero General Public License v3.0. Commercial licences are
+              available on request.
+            </p>
+            <p class="panel__meta">
+              <span class="tag tag--accent">AGPL-3.0</span>
+            </p>
+          </div>
+          <div class="panel">
+            <h3 class="panel__head">Contact</h3>
+            <a class="panel__mail" href="mailto:nasrabadi.faezeh@gmail.com">
+              nasrabadi.faezeh@gmail.com
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
