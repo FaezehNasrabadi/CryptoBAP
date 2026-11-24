@@ -1,10 +1,9 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// Deployed to GitHub Pages at https://faezehnasrabadi.github.io/CryptoBAP/
+// Deployed to GitHub Pages at https://cryptobap.org
 export default defineConfig({
-  site: 'https://faezehnasrabadi.github.io',
-  base: '/CryptoBAP',
+  site: 'https://cryptobap.org',
   trailingSlash: 'always',
   integrations: [
     sitemap({
